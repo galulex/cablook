@@ -11,5 +11,9 @@ module Users
     def all
       users.to_a
     end
+
+    def by_email(email)
+      users.where(email: email).one
+    end
   end
 end
