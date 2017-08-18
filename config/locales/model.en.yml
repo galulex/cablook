@@ -1,0 +1,8 @@
+en:
+  activemodel:
+    errors:
+      models:
+        users/validator:
+          attributes:
+            email:
+              taken: User with this email already exist
