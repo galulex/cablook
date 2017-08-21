@@ -30,13 +30,12 @@ jobs:
           - vendor/bundle
 
       # Database setup
-      - run: bundle exec rake db:setup
+      - run: bundle exec rake db:setup && bundle exec rake db:migrate
 
       # Run rspec in parallel
       - type: shell
         command: |
           bundle exec rspec --profile 10 \
-                            --format RspecJunitFormatter \
                             --out /tmp/test-results/rspec.xml \
                             --format progress \
                             $(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)

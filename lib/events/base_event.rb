@@ -11,28 +11,27 @@ module Events
     end
 
     def call
-      invalid!(params_validation.messages) unless valid?
+      validate_params!
       run
     end
+
+    def run
+      raise NotImplementedError, "#run method is not overridden in #{self.class.name}"
+    end
+
+    private
 
     def schema
       Dry::Validation.Schema {}
     end
 
-    def valid?
-      params_validation.success?
-    end
-
-    def params_validation
-      @params_validation ||= schema.call(data)
+    def validate_params!
+      validation = schema.call(data)
+      invalid!(validation.messages) if validation.failure?
     end
 
     def invalid!(errors)
       raise InvalidParamsError, errors.to_json
-    end
-
-    def run
-      raise NotImplementedError, "#run method is not overridden in #{self.class.name}"
     end
   end
 end

@@ -55,8 +55,10 @@ GEM
     coercible (1.0.0)
       descendants_tracker (~> 0.0.1)
     concurrent-ruby (1.0.5)
+    database_cleaner (1.5.3)
     descendants_tracker (0.0.4)
       thread_safe (~> 0.3, >= 0.3.1)
+    diff-lcs (1.3)
     dry-configurable (0.7.0)
       concurrent-ruby (~> 1.0)
     dry-container (0.6.0)
@@ -76,7 +78,7 @@ GEM
       dry-equalizer (~> 0.2)
       dry-types (~> 0.9, >= 0.9.0)
       ice_nine (~> 0.11)
-    dry-types (0.11.0)
+    dry-types (0.11.1)
       concurrent-ruby (~> 1.0)
       dry-configurable (~> 0.1)
       dry-container (~> 0.3)
@@ -93,6 +95,8 @@ GEM
       dry-types (~> 0.11.0)
     equalizer (0.0.11)
     erubi (1.6.1)
+    faker (1.8.4)
+      i18n (~> 0.5)
     ffi (1.9.18)
     globalid (0.4.0)
       activesupport (>= 4.2.0)
@@ -172,6 +176,11 @@ GEM
       dry-initializer (~> 1.3)
       dry-types (~> 0.9, >= 0.9.4)
       rom-mapper (~> 0.5, >= 0.5.1)
+    rom-factory (0.4.0)
+      dry-configurable (~> 0.1)
+      dry-core (~> 0.2)
+      dry-struct (~> 0.2)
+      faker (~> 1.7)
     rom-mapper (0.5.1)
       dry-core (~> 0.2, >= 0.2.3)
       dry-equalizer (~> 0.2)
@@ -202,6 +211,23 @@ GEM
       dry-types (~> 0.10, >= 0.10.2)
       rom (~> 3.2, >= 3.2.2)
       sequel (~> 4.43)
+    rspec-core (3.5.4)
+      rspec-support (~> 3.5.0)
+    rspec-expectations (3.5.0)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.5.0)
+    rspec-mocks (3.5.0)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.5.0)
+    rspec-rails (3.5.2)
+      actionpack (>= 3.0)
+      activesupport (>= 3.0)
+      railties (>= 3.0)
+      rspec-core (~> 3.5.0)
+      rspec-expectations (~> 3.5.0)
+      rspec-mocks (~> 3.5.0)
+      rspec-support (~> 3.5.0)
+    rspec-support (3.5.0)
     rubocop (0.49.1)
       parallel (~> 1.10)
       parser (>= 2.3.3.1, < 3.0)
@@ -225,7 +251,7 @@ GEM
       actionpack (>= 4.0)
       activesupport (>= 4.0)
       sprockets (>= 3.0.0)
-    thor (0.19.4)
+    thor (0.20.0)
     thread_safe (0.3.6)
     transproc (1.0.2)
     tzinfo (1.2.3)
@@ -245,6 +271,7 @@ PLATFORMS
 
 DEPENDENCIES
   bcrypt (~> 3.1.7)
+  database_cleaner
   dry-validation
   listen (>= 3.0.5, < 3.2)
   pg (~> 0.18)
@@ -252,9 +279,11 @@ DEPENDENCIES
   puma (~> 3.7)
   rails (~> 5.1.3)
   reek
+  rom-factory
   rom-rails
   rom-repository
   rom-sql
+  rspec-rails
   rubocop
   spring
   spring-watcher-listen (~> 2.0.0)

@@ -11,7 +11,11 @@ namespace :db do
   task :setup do
     db_owner = Rails.application.secrets.db_owner
     db_name = Rails.application.secrets.db_name
-    conn = PG.connect(dbname: db_name)
-    conn.exec("CREATE DATABASE #{db_owner}")
+    conn = PG.connect(dbname: db_owner)
+    begin
+      conn.exec("CREATE DATABASE #{db_name}")
+    rescue PG::DuplicateDatabase
+      puts "Database #{db_name} already exists"
+    end
   end
 end

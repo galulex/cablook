@@ -1,5 +1,3 @@
-require_relative 'base_event'
-
 module Events
   class Authorization < BaseEvent
     EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]+\z/i
