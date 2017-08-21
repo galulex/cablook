@@ -11,13 +11,19 @@ module Events
 
     def run
       validate!
-      auth_token = SecureRandom.base58(24)
-      Users::Repository.new.create(data.merge(auth_token: auth_token))
+      create_user
     end
+
+    private
 
     def validate!
       validator = Users::Validator.new(data)
       invalid!(validator.errors.messages) unless validator.validate
+    end
+
+    def create_user
+      auth_token = SecureRandom.base58(24)
+      Users::Repository.new.create(data.merge(auth_token: auth_token))
     end
   end
 end
