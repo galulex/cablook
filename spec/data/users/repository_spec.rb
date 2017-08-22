@@ -4,12 +4,26 @@ describe Users::Repository do
     let!(:user) { Factory[:user] }
     let(:email) { user.email }
 
-    it { expect(instance.email).to eq(user.email) }
+    it { expect(instance.email).to eq(email) }
 
     context 'when user do not found' do
       let(:email) { user.email + 'test' }
 
       it { expect(instance).to be nil }
+    end
+  end
+
+  describe '#by_token' do
+    let(:instance) { described_class.new.by_token!(auth_token) }
+    let(:user) { Factory[:user] }
+    let(:auth_token) { user.auth_token }
+
+    it { expect(instance.auth_token).to eq(auth_token) }
+
+    context 'when user do not found' do
+      let(:auth_token) { user.auth_token + 'test' }
+
+      it { expect { instance }.to raise_error(ROM::TupleCountMismatchError) }
     end
   end
 end
