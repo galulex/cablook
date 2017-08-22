@@ -2,7 +2,7 @@ ROM::SQL.migration do
   change do
     create_table(:trips) do
       primary_key :id
-      column :status, Integer
+      column :status, Integer, default: 0
       column :path, String
       column :cost, BigDecimal
 

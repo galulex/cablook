@@ -18,7 +18,7 @@ module Events
 
     def validate!
       validator = Users::Validator.new(data)
-      invalid!(validator.errors.messages) unless validator.validate
+      invalid!(validator.errors.messages) if validator.invalid?
     end
 
     def create_user
