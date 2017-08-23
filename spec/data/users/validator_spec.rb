@@ -2,8 +2,7 @@ describe Users::Validator do
   describe 'email must be unique' do
     subject { described_class.new(data).validate }
 
-    let(:user_attrs) { Factory.structs[:user] }
-    let(:data) { user_attrs }
+    let(:data) { Factory.structs[:user] }
 
     it { is_expected.to be true }
 

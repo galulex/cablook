@@ -30,7 +30,7 @@ jobs:
           - vendor/bundle
 
       # Database setup
-      - run: bundle exec rake db:setup && bundle exec rake db:migrate
+      - run: bundle exec rake db:reset
 
       # Run rspec in parallel
       - type: shell
