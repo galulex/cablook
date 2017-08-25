@@ -2,5 +2,7 @@ Rails.application.routes.draw do
   post 'sign_up', to: 'registrations#create'
   post 'sign_in', to: 'authorizations#create'
 
-  resources :trips, only: :create
+  resources :trips, only: :create do
+    resources :feedbacks
+  end
 end

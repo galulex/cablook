@@ -3,6 +3,7 @@ ROM::SQL.migration do
     create_table(:feedbacks) do
       primary_key :id
       column :rate, Integer
+      column :description, String
 
       foreign_key :trip_id, :trips
       foreign_key :user_id, :users
