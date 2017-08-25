@@ -14,7 +14,7 @@ module Events
     end
 
     def create_feedback
-      Feedbacks::Repository.new.create(data)
+      Repositories::Feedback.new.create(data.to_h)
     end
   end
 end

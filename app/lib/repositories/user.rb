@@ -1,5 +1,5 @@
-module Users
-  class Repository < ROM::Repository[:users]
+module Repositories
+  class User < ROM::Repository[:users]
     relations :users
 
     commands :create, update: :by_pk, delete: :by_pk
@@ -17,8 +17,8 @@ module Users
     end
 
     # TODO: Add index to DB
-    def by_token!(auth_token)
-      users.where(auth_token: auth_token).one!
+    def by_token(auth_token)
+      users.where(auth_token: auth_token).one
     end
   end
 end

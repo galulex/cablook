@@ -1,4 +1,4 @@
-describe Users::Validator do
+describe Validators::User do
   describe 'email must be unique' do
     subject { described_class.new(data).validate }
 

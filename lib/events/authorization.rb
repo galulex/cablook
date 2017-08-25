@@ -10,7 +10,7 @@ module Events
     end
 
     def run
-      user = Users::Repository.new.by_email(data[:email])
+      user = Repositories::User.new.by_email(data[:email])
       if user
         password = BCrypt::Password.new(user.encrypted_password)
         return user if password == data[:password]

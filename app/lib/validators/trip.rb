@@ -1,5 +1,5 @@
-module Trips
-  class Validator
+module Validators
+  class Trip
     include ROM::Model::Validator
 
     relation :trips

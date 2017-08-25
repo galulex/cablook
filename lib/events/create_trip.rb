@@ -16,12 +16,12 @@ module Events
     private
 
     def validate!
-      validator = Trips::Validator.new(data)
+      validator = Validators::Trip.new(data)
       invalid!(validator.errors.messages) if validator.invalid?
     end
 
     def create_trip
-      Trips::Repository.new.create(data.to_h)
+      Repositories::Trip.new.create(data.to_h)
     end
   end
 end

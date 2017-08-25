@@ -1,4 +1,4 @@
-describe Users::Repository do
+describe Repositories::User do
   describe '#by_email' do
     let(:instance) { described_class.new.by_email(email) }
     let!(:user) { Factory[:user] }
@@ -14,7 +14,7 @@ describe Users::Repository do
   end
 
   describe '#by_token' do
-    let(:instance) { described_class.new.by_token!(auth_token) }
+    let(:instance) { described_class.new.by_token(auth_token) }
     let(:user) { Factory[:user] }
     let(:auth_token) { user.auth_token }
 
@@ -23,7 +23,7 @@ describe Users::Repository do
     context 'when user do not found' do
       let(:auth_token) { user.auth_token + 'test' }
 
-      it { expect { instance }.to raise_error(ROM::TupleCountMismatchError) }
+      it { expect(instance).to be nil }
     end
   end
 end

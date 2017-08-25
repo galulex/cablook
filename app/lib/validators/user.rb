@@ -1,5 +1,5 @@
-module Users
-  class Validator
+module Validators
+  class User
     include ROM::Model::Validator
     relation :users
 

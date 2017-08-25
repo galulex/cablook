@@ -1,5 +1,5 @@
 class TripsController < ApplicationController
-  before_action :current_user
+  before_action :authorize!
 
   def create
     trip = Events::CreateTrip.(trip_params)
