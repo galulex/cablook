@@ -1,4 +1,4 @@
-describe Trips::Validator do
+describe Validators::Trip do
   describe '#validate' do
     subject { described_class.new(data).validate }
 
