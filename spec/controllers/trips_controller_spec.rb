@@ -17,4 +17,25 @@ describe TripsController, type: :controller do
       it { is_expected.to have_http_status(:bad_request) }
     end
   end
+
+  describe '#index' do
+    subject { response }
+
+    let(:params) { { auth_token: user.auth_token } }
+
+    before { get :index, params: params, as: :json }
+
+    it { is_expected.to have_http_status(:success) }
+  end
+
+  describe '#show' do
+    subject { response }
+
+    let(:params) { { id: trip.id, auth_token: user.auth_token } }
+    let(:trip) { Factory[:trip] }
+
+    before { get :index, params: params, as: :json }
+
+    it { is_expected.to have_http_status(:success) }
+  end
 end
