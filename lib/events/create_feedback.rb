@@ -2,7 +2,7 @@ module Events
   class CreateFeedback < BaseEvent
     def schema
       Dry::Validation.Schema do
-        required(:rate).filled(:int?)
+        required(:rate) { int? & gt?(0) & lteq?(5) }
         optional(:description).filled(:str?)
         required(:trip_id).filled(:int?)
         required(:user_id).filled(:int?)

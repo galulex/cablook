@@ -18,5 +18,11 @@ describe Events::CreateFeedback do
 
       it { is_expected.to raise_error(Events::InvalidParamsError) }
     end
+
+    context 'when rate is greater than 5' do
+      let(:data) { Factory.structs[:feedback].to_h.merge(rate: 10) }
+
+      it { is_expected.to raise_error(Events::InvalidParamsError) }
+    end
   end
 end

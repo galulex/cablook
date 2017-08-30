@@ -12,4 +12,19 @@ describe Repositories::Trip do
       it { is_expected.not_to be_empty }
     end
   end
+
+  describe '#by_pk_with_feedbacks' do
+    let(:instance) { described_class.new.by_pk_with_feedbacks(trip.id) }
+    let(:trip) { Factory[:trip, user_id: user.id] }
+    let(:user) { Factory[:user] }
+
+    it { expect(instance.id).to eq(trip.id) }
+    it { expect(instance.feedbacks).to be_empty }
+
+    context 'when trip has feedbacks' do
+      let!(:feedback) { Factory[:feedback, trip_id: trip.id] }
+
+      it { expect(instance.feedbacks).not_to be_empty }
+    end
+  end
 end
