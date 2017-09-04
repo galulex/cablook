@@ -2,7 +2,11 @@ en:
   activemodel:
     errors:
       models:
-        users/validator:
+        validators/user:
           attributes:
             email:
               taken: User with this email already exist
+              invalid: Email must be like example@example.com
+            phone_number:
+              taken: User with this email already exist
+              wrong_length: Phone number must be 12 digits like 380XXXXXXX

@@ -1,11 +1,11 @@
 module Events
   class CreateUser < BaseEvent
-    EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]+\z/i
-
     def schema
       Dry::Validation.Schema do
-        required(:email).filled(format?: EMAIL_REGEX)
+        required(:phone_number).value(size?: 12)
         required(:encrypted_password).filled(:str?)
+
+        optional(:email).maybe(format?: Constants::Regex::EMAIL)
       end
     end
 

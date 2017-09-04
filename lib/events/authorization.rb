@@ -1,21 +1,19 @@
 module Events
   class Authorization < BaseEvent
-    EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]+\z/i
-
     def schema
       Dry::Validation.Schema do
-        required(:email).filled(format?: EMAIL_REGEX)
+        required(:phone_number).value(size?: 12)
         required(:password).filled(:str?)
       end
     end
 
     def run
-      user = Repositories::User.new.by_email(data[:email])
+      user = Repositories::User.new.by_phone_number(data[:phone_number])
       if user
         password = BCrypt::Password.new(user.encrypted_password)
         return user if password == data[:password]
       end
-      invalid!(user: ['Email or password is invalid'])
+      invalid!(user: ['Phone number or password is invalid'])
     end
   end
 end
