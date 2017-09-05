@@ -1,4 +1,7 @@
 Rails.application.configure do
+  config.action_cable.url = 'ws://cablook.herokuapp.com/cable'
+  config.action_cable.allowed_request_origins = ['https://cablook.herokuapp.com', 'http://cablook.herokuapp.com']
+
   config.cache_classes = true
 
   config.eager_load = true
