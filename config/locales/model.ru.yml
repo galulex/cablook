@@ -1,0 +1,12 @@
+ru:
+  activemodel:
+    errors:
+      models:
+        validators/user:
+          attributes:
+            email:
+              taken: Пользователь с таким емейлом уже существует
+              invalid: 'Емейл некорректен. Например: example@example.com'
+            phone_number:
+              taken: Пользователь с таким номером телефона уже существует
+              wrong_length: 'Номер телефона должен быть 12 символов. Например: 380XXXXXXX'

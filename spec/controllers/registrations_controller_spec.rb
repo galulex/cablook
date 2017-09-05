@@ -4,7 +4,7 @@ describe RegistrationsController, type: :controller do
 
     let(:params) do
       { user: {
-        email: Faker::Internet.email,
+        phone_number: Faker::Number.number(12),
         password: Faker::Internet.password
       } }
     end
@@ -16,7 +16,7 @@ describe RegistrationsController, type: :controller do
     context 'when something went wrong' do
       let(:params) do
         { user: {
-          email: Faker::Name.name,
+          phone_number: Faker::Name.name,
           password: Faker::Internet.password
         } }
       end

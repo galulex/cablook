@@ -5,7 +5,7 @@ describe AuthorizationsController, type: :controller do
     let!(:user) { Factory[:user] }
     let(:params) do
       { user: {
-        email: user.email,
+        phone_number: user.phone_number,
         password: '12341234'
       } }
     end
@@ -17,7 +17,7 @@ describe AuthorizationsController, type: :controller do
     context 'when something went wrong' do
       let(:params) do
         { user: {
-          email: Faker::Name.name,
+          phone_number: Faker::Number.number(10),
           password: Faker::Internet.password
         } }
       end

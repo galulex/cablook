@@ -7,6 +7,6 @@ class AuthorizationsController < ApplicationController
   private
 
   def sign_in_params
-    params.require(:user).permit(:email, :password)
+    params.require(:user).permit(:phone_number, :password)
   end
 end
