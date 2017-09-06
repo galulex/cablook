@@ -10,7 +10,7 @@ describe RegistrationsController, type: :controller do
     end
 
     before do
-      allow(Events::Verifications::SendNumberVerification).to receive(:call) { 1111 }
+      allow_any_instance_of(Events::Verifications::SendNumberVerification).to receive(:send_verification_code)
       post :create, params: params
     end
 

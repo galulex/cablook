@@ -11,8 +11,9 @@ module Events
 
     def run
       validate!
-      token = send_number_verification
-      create_user(token)
+      user = create_user
+      send_number_verification # TODO: Do this staff in background
+      user
     end
 
     private
@@ -22,9 +23,8 @@ module Events
       invalid!(validator.errors.messages) if validator.invalid?
     end
 
-    def create_user(verification_token)
-      Repositories::User.new.create(data.merge(auth_token: SecureRandom.base58(24),
-                                               verification_token: verification_token))
+    def create_user
+      Repositories::User.new.create(data.merge(auth_token: SecureRandom.base58(24)))
     end
 
     def send_number_verification

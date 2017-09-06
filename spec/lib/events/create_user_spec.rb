@@ -19,13 +19,5 @@ describe Events::CreateUser do
 
       it { is_expected.to raise_error(Events::InvalidParamsError) }
     end
-
-    context 'and user is not verified' do
-      subject { instance.verification_token }
-      let(:instance) { described_class.call(data) }
-
-      it { is_expected.not_to be nil }
-      it { is_expected.to eq('1111') }
-    end
   end
 end

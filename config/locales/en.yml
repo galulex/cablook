@@ -4,6 +4,6 @@ en:
       send_token_message: "Code verification: %{code}. https://cablook.taxi"
 
     errors:
-      invlalid_or_expired: Verification token is invalid or expired. Try again.
+      invalid_or_expired: Verification token is invalid or expired. Try again.
       number:
         does_not_exist: A user with this phone number does not exist
