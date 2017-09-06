@@ -1,2 +1,9 @@
 en:
-  hello: Привет мир
+  verifications:
+    number:
+      send_token_message: "Код верификации: %{code}. https://cablook.taxi"
+
+    errors:
+      invlalid_or_expired: Код не верен или время верификации истекло. Попробуйте еще раз.
+      number:
+        does_not_exist: Пользователя с таким номером телефона не существует
