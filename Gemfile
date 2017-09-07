@@ -15,7 +15,7 @@ gem 'rom-repository'
 gem 'rom-sql'
 gem 'dry-validation'
 gem 'bcrypt', '~> 3.1.7'
-# gem 'capistrano-rails', group: :development
+gem 'twilio-ruby', '~> 5.2.1'
 
 group :development, :test do
   gem 'rom-factory'

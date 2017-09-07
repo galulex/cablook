@@ -4,6 +4,8 @@ describe Events::CreateUser do
 
     let(:data) { Factory.structs[:user].to_h.except(:id) }
 
+    before { allow(Events::Verifications::SendNumberVerification).to receive(:call) { '1111' } }
+
     it { is_expected.to change { users_repository.all.count }.by(+1) }
 
     context 'when email is invalid' do

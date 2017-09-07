@@ -4,12 +4,15 @@ describe RegistrationsController, type: :controller do
 
     let(:params) do
       { user: {
-        phone_number: Faker::Number.number(12),
+        phone_number: "+#{Faker::Number.number(12)}",
         password: Faker::Internet.password
       } }
     end
 
-    before { post :create, params: params }
+    before do
+      allow_any_instance_of(Events::Verifications::SendNumberVerification).to receive(:send_verification_code)
+      post :create, params: params
+    end
 
     it { is_expected.to have_http_status(:success) }
 

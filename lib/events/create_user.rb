@@ -2,7 +2,7 @@ module Events
   class CreateUser < BaseEvent
     def schema
       Dry::Validation.Schema do
-        required(:phone_number).value(size?: 12)
+        required(:phone_number).value(format?: Constants::Regex::PHONE_NUMBER)
         required(:encrypted_password).filled(:str?)
 
         optional(:email).maybe(format?: Constants::Regex::EMAIL)
@@ -11,7 +11,9 @@ module Events
 
     def run
       validate!
-      create_user
+      user = create_user
+      send_number_verification # TODO: Do this staff in background
+      user
     end
 
     private
@@ -22,8 +24,11 @@ module Events
     end
 
     def create_user
-      auth_token = SecureRandom.base58(24)
-      Repositories::User.new.create(data.merge(auth_token: auth_token))
+      Repositories::User.new.create(data.merge(auth_token: SecureRandom.base58(24)))
+    end
+
+    def send_number_verification
+      Events::Verifications::SendNumberVerification.(number: data[:phone_number])
     end
   end
 end
