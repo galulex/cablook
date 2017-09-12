@@ -9,18 +9,21 @@ Rails.application.load_tasks
 
 namespace :db do
   task :setup do
-    puts 'Setting up the database...'
-    unless Rails.env.production?
-      db_owner = Rails.application.secrets.db_owner
-      db_name = Rails.application.secrets.db_name
-      conn = PG.connect(dbname: db_owner)
-      begin
-        conn.exec_params("CREATE DATABASE #{db_name}")
-        puts "Database #{db_name} created."
-      rescue PG::DuplicateDatabase
-        puts "Database #{db_name} already exists."
-      end
-    end
-    puts 'Database successfuly set up.'
+    # TODO: create a valid script for create database
+    #       Currently you must create a database in postgres console
+    #
+    # puts 'Setting up the database...'
+    # unless Rails.env.production?
+    #   db_owner = Rails.application.secrets.db_owner
+    #   db_name = Rails.application.secrets.db_name
+    #   conn = PG.connect(dbname: db_owner)
+    #   begin
+    #     conn.exec_params("CREATE DATABASE #{db_name}")
+    #     puts "Database #{db_name} created."
+    #   rescue PG::DuplicateDatabase
+    #     puts "Database #{db_name} already exists."
+    #   end
+    # end
+    # puts 'Database successfuly set up.'
   end
 end
