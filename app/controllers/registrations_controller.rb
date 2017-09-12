@@ -10,7 +10,7 @@ class RegistrationsController < ApplicationController
     {
       phone_number: user_params[:phone_number],
       email: user_params[:email],
-      encrypted_password: BCrypt::Password.create([:password])
+      encrypted_password: BCrypt::Password.create(user_params[:password])
     }
   end
 
