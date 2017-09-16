@@ -3,6 +3,7 @@ module Events
     def schema
       Dry::Validation.Schema do
         required(:name).filled(:str?)
+        optional(:car_id).filled(:int?)
       end
     end
 
