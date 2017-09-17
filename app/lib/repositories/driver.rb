@@ -15,5 +15,9 @@ module Repositories
     def by_name(name)
       drivers.where(name: name).one
     end
+
+    def by_token(auth_token)
+      drivers.where(auth_token: auth_token).one
+    end
   end
 end
