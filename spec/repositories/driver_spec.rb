@@ -6,7 +6,7 @@ describe Repositories::Driver do
 
     it { expect(instance.name).to eq(name) }
 
-    context 'when driver do not found' do
+    context 'when driver did not found' do
       let(:name) { driver.name + 'test' }
 
       it { expect(instance).to be nil }
@@ -20,7 +20,7 @@ describe Repositories::Driver do
 
     it { expect(instance.auth_token).to eq(auth_token) }
 
-    context 'when driver do not found' do
+    context 'when driver did not found' do
       let(:auth_token) { driver.auth_token + 'test' }
 
       it { expect(instance).to be nil }

@@ -6,7 +6,7 @@ describe Repositories::Trip do
 
     it { is_expected.to be_empty }
 
-    context 'when user has a trips' do
+    context 'when user has trips' do
       let!(:trip) { Factory[:trip, user_id: user.id] }
 
       it { is_expected.not_to be_empty }
