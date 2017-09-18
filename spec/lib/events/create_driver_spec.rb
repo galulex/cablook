@@ -2,7 +2,7 @@ describe Events::CreateDriver do
   describe '.call' do
     subject { -> { described_class.call(data) } }
 
-    let(:data) { Factory.structs[:driver].to_h.merge(car_id: 1) }
+    let(:data) { Factory.structs[:driver].to_h }
 
     it { is_expected.to change { drivers_repository.all.count }.by(+1) }
 
