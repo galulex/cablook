@@ -28,7 +28,7 @@ module Events
       end
 
       def check_user!
-        invalid!(I18n.t('verifications.errors.number.does_not_exist')) unless user
+        invalid!([I18n.t('verifications.errors.number.does_not_exist')]) unless user
       end
 
       def users_repository
