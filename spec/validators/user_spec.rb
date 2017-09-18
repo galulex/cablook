@@ -6,7 +6,7 @@ describe Validators::User do
 
     it { is_expected.to be true }
 
-    context 'when user with this email already exist' do
+    context 'when user with this email already exists' do
       let!(:user) { Factory[:user] }
       let(:data) { { email: user.email } }
 

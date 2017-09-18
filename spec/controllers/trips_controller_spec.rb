@@ -11,7 +11,7 @@ describe TripsController, type: :controller do
 
     it { is_expected.to have_http_status(:success) }
 
-    context 'when params is invalid' do
+    context 'when params are invalid' do
       let(:trip_params) { Factory[:trip].to_h.except(:id, :path) }
 
       it { is_expected.to have_http_status(:bad_request) }

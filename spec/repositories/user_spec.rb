@@ -6,7 +6,7 @@ describe Repositories::User do
 
     it { expect(instance.email).to eq(email) }
 
-    context 'when user do not found' do
+    context 'when user did not found' do
       let(:email) { user.email + 'test' }
 
       it { expect(instance).to be nil }
@@ -20,7 +20,7 @@ describe Repositories::User do
 
     it { expect(instance.auth_token).to eq(auth_token) }
 
-    context 'when user do not found' do
+    context 'when user did not found' do
       let(:auth_token) { user.auth_token + 'test' }
 
       it { expect(instance).to be nil }

@@ -13,7 +13,7 @@ describe Verifications::PhoneNumbersController, type: :controller do
 
     it { is_expected.to have_http_status(:success) }
 
-    context 'when params is invalid' do
+    context 'when params are invalid' do
       let(:phone_number) { "+#{Faker::Number.number(12)}" }
 
       it { is_expected.to have_http_status(:bad_request) }
