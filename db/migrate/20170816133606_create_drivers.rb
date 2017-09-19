@@ -5,7 +5,7 @@ ROM::SQL.migration do
       column :name, String, unique: true
       column :auth_token, String
 
-      foreign_key :car_id
+      foreign_key :car_id, :cars
 
       index :auth_token
     end
