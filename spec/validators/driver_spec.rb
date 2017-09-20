@@ -7,12 +7,12 @@ describe Validators::Driver do
     it { is_expected.to be true }
 
     context 'when data does not have name' do
-      let(:data) { { name: '' } }
+      let(:data) { Factory.structs[:driver].to_h.except(:name) }
 
       it { is_expected.to be false }
     end
 
-    context 'when driver with this name already exist' do
+    context 'when driver with this name already exists' do
       let!(:driver) { Factory[:driver] }
       let(:data) { { name: driver.name } }
 

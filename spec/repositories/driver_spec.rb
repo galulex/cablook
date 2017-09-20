@@ -7,7 +7,7 @@ describe Repositories::Driver do
     it { expect(instance.name).to eq(name) }
 
     context 'when driver did not found' do
-      let(:name) { driver.name + 'test' }
+      let(:name) { 'test' }
 
       it { expect(instance).to be nil }
     end

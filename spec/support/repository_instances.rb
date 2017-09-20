@@ -1,6 +1,6 @@
 module RepositoryInstances
-  def users_repository
-    @users_repository ||= Repositories::User.new
+  def cars_repository
+    @cars_repository ||= Repositories::Car.new
   end
 
   def drivers_repository
@@ -9,6 +9,10 @@ module RepositoryInstances
 
   def trips_repository
     @trips_repository ||= Repositories::Trip.new
+  end
+
+  def users_repository
+    @users_repository ||= Repositories::User.new
   end
 end
 
