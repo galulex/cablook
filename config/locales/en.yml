@@ -7,3 +7,7 @@ en:
       invalid_or_expired: Verification token is invalid or expired. Try again.
       number:
         does_not_exist: A user with this phone number does not exist
+  assignings:
+    errors:
+      messages:
+        has_already_been_taken: This car has already been taken by another driver

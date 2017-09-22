@@ -7,6 +7,10 @@ module RepositoryInstances
     @drivers_repository ||= Repositories::Driver.new
   end
 
+  def feedbacks_repository
+    @feedbacks_repository ||= Repositories::Feedback.new
+  end
+
   def trips_repository
     @trips_repository ||= Repositories::Trip.new
   end

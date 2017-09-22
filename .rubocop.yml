@@ -1,14 +1,26 @@
 AllCops:
   Exclude:
-    - 'db/**/*'
-    - 'script/**/*'
     - 'bin/**/*'
-    - 'vendor/**/*'
+    - 'db/**/*'
     - 'log/**/*'
+    - 'script/**/*'
     - 'spec/support/**/*'
+    - 'vendor/**/*'
+
+Metrics/ClassLength:
+  Enabled: false
+
 Metrics/LineLength:
   Enabled: false
+
+Metrics/ModuleLength:
+  Enabled: false
+
 Style/Documentation:
   Enabled: false
+
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
 Style/LambdaCall:
   Enabled: false

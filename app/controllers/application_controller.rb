@@ -1,7 +1,7 @@
 class ApplicationController < ActionController::API
   UnauthorizedError = Class.new(StandardError)
 
-  rescue_from UnauthorizedError do |errors|
+  rescue_from UnauthorizedError do |_errors|
     render json: { errors: ['User unauthorized'] }, status: 401
   end
 

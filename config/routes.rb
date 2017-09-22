@@ -8,6 +8,10 @@ Rails.application.routes.draw do
     resources :feedbacks, only: :create
   end
 
+  namespace :drivers do
+    patch 'assign_car'
+  end
+
   namespace :verifications do
     get 'phone_numbers/send_verification', to: 'phone_numbers#send_verification'
     post 'phone_numbers/verify', to: 'phone_numbers#verify'
