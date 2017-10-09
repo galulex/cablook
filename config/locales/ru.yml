@@ -7,3 +7,7 @@ en:
       invalid_or_expired: Код не верен или время верификации истекло. Попробуйте еще раз.
       number:
         does_not_exist: Пользователя с таким номером телефона не существует
+  assignings:
+    errors:
+      messages:
+        has_already_been_taken: Эта машина уже занята другим водителем

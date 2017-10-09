@@ -23,7 +23,7 @@ describe Verifications::PhoneNumbersController, type: :controller do
   describe '#verify' do
     subject { response }
 
-    let(:params) { { phone_number: phone_number, token: token} }
+    let(:params) { { phone_number: phone_number, token: token } }
     let(:user) { Factory[:user, verification_token: token] }
     let(:phone_number) { user.phone_number }
     let(:token) { '1111' }

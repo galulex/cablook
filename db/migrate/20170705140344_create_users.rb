@@ -6,7 +6,7 @@ ROM::SQL.migration do
       column :email, String, unique: true
       column :phone_number, String, unique: true, null: false
       column :encrypted_password, String
-      column :auth_token, String
+      column :auth_token, String, unique: true
       column :verification_token, String
 
       index :auth_token

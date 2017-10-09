@@ -10,7 +10,15 @@ module Events
     end
 
     def run
+      validate!
       create_feedback
+    end
+
+    private
+
+    def validate!
+      validator = Validators::Feedback.new(data)
+      invalid!(validator.errors.messages) if validator.invalid?
     end
 
     def create_feedback

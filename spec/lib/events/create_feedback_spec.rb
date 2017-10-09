@@ -3,18 +3,33 @@ describe Events::CreateFeedback do
     subject { -> { described_class.call(data) } }
 
     let(:data) do
-      Factory.structs[:feedback].to_h.merge(
-        user_id: user.id,
-        trip_id: trip.id
-      )
+      Factory.structs[:feedback, user_id: user.id, trip_id: trip.id].to_h
     end
     let(:user) { Factory[:user] }
     let(:trip) { Factory[:trip] }
 
-    it { is_expected.to change { users_repository.all.count }.by(+1) }
+    it { is_expected.to change { feedbacks_repository.feedbacks.count }.by(+1) }
 
-    context 'when data is invalid' do
-      let(:data) { Factory.structs[:feedback].to_h.except(:id) }
+    context 'when rate is empty' do
+      let(:data) { Factory.structs[:feedback].to_h.except(:rate) }
+
+      it { is_expected.to raise_error(Events::InvalidParamsError) }
+    end
+
+    context 'when description is empty' do
+      let(:data) { Factory.structs[:feedback].to_h.except(:description) }
+
+      it { is_expected.to raise_error(Events::InvalidParamsError) }
+    end
+
+    context 'when trip_id is empty' do
+      let(:data) { Factory.structs[:feedback].to_h.except(:trip_id) }
+
+      it { is_expected.to raise_error(Events::InvalidParamsError) }
+    end
+
+    context 'when user_id is empty' do
+      let(:data) { Factory.structs[:feedback].to_h.except(:user_id) }
 
       it { is_expected.to raise_error(Events::InvalidParamsError) }
     end

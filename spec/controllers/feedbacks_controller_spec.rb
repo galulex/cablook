@@ -4,9 +4,10 @@ describe FeedbacksController, type: :controller do
   describe '#create' do
     subject { response }
 
-    let(:params) { { trip_id: trip.id, feedback: feedback_params, auth_token: user.auth_token } }
+    let(:params) { { trip_id: trip.id, user_id: user.id, feedback: feedback_params, auth_token: user.auth_token } }
     let(:feedback_params) { Factory.structs[:feedback].to_h.except(:id) }
     let(:trip) { Factory[:trip] }
+    let(:user) { Factory[:user] }
 
     before { post :create, params: params, as: :json }
 

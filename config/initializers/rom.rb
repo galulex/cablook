@@ -6,7 +6,7 @@ ROM::Rails::Railtie.configure do |config|
 
   config.gateways[:default] = [
     :sql,
-    ENV["DATABASE_URL"] || "postgres://#{db_user}:#{db_password}@#{db_hostname}/#{db_name}",
+    ENV['DATABASE_URL'] || "postgres://#{db_user}:#{db_password}@#{db_hostname}/#{db_name}",
     extensions: [:pg_hstore],
     not_inferrable_relations: [:schema_migrations]
   ]
