@@ -1,4 +1,16 @@
 describe Repositories::Driver do
+  describe '#all' do
+    let(:instance) { described_class.new.all }
+
+    it { expect(instance).to be_empty }
+
+    context 'when drivers are found' do
+      let!(:driver) { Factory[:driver] }
+
+      it { expect(instance).not_to be_empty }
+    end
+  end
+
   describe '#by_name' do
     let(:instance) { described_class.new.by_name(name) }
     let!(:driver) { Factory[:driver] }
