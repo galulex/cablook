@@ -1,4 +1,16 @@
 describe Repositories::User do
+  describe '#all' do
+    let(:instance) { described_class.new.all }
+
+    it { expect(instance).to be_empty }
+
+    context 'when users are found' do
+      let!(:user) { Factory[:user] }
+
+      it { expect(instance).not_to be_empty }
+    end
+  end
+
   describe '#by_email' do
     let(:instance) { described_class.new.by_email(email) }
     let!(:user) { Factory[:user] }

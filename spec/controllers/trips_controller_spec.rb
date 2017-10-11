@@ -1,8 +1,13 @@
 describe TripsController, type: :controller do
   let(:user) { Factory[:user] }
+  let(:auth_token) { user.auth_token }
+
+  before { request.headers['Auth-Token'] = auth_token }
 
   describe '#create' do
     subject { response }
+
+    it_behaves_like 'authorization_required'
 
     let(:params) { { trip: trip_params, auth_token: user.auth_token } }
     let(:trip_params) { Factory.structs[:trip].to_h.except(:id) }

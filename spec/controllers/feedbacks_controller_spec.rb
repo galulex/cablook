@@ -1,8 +1,13 @@
 describe FeedbacksController, type: :controller do
   let(:user) { Factory[:user] }
+  let(:auth_token) { user.auth_token }
+
+  before { request.headers['Auth-Token'] = auth_token }
 
   describe '#create' do
     subject { response }
+
+    it_behaves_like 'authorization_required'
 
     let(:params) { { trip_id: trip.id, user_id: user.id, feedback: feedback_params, auth_token: user.auth_token } }
     let(:feedback_params) { Factory.structs[:feedback].to_h.except(:id) }

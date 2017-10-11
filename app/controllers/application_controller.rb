@@ -10,12 +10,16 @@ class ApplicationController < ActionController::API
   end
 
   def current_user
-    @current_user ||= Repositories::User.new.by_token(params[:auth_token])
+    @current_user ||= Repositories::User.new.by_token(auth_token)
   end
 
   private
 
+  def auth_token
+    @auth_token ||= request.headers['Auth-Token']
+  end
+
   def authorize!
-    raise UnauthorizedError unless params[:auth_token] && current_user
+    raise UnauthorizedError unless auth_token && current_user
   end
 end

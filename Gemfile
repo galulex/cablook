@@ -27,6 +27,7 @@ end
 group :test do
   gem 'database_cleaner'
   gem 'rspec-rails'
+  gem 'simplecov', require: false
 end
 
 group :development do
