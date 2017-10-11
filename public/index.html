@@ -20,8 +20,12 @@
 
     body {
       text-align: center;
+      background: #171C18;
       color: white;
-      overflow: hidden;
+      overflow-x: hidden;
+      overflow-y: auto;
+      font-family: Gilroy, Helvetica, Arial, sans-serif;
+      font-weight: 400;
     }
 
     main {
@@ -33,11 +37,15 @@
       position: relative;
       z-index: 10;
       color: white;
+      margin: 0;
+    }
+
+    span {
+      font-weight: 100;
     }
 
     svg {
       max-width: 100%;
-      max-height: 50vh;
     }
 
 
@@ -69,6 +77,7 @@
       border-radius: 3px;
       padding: 0;
       vertical-align: middle;
+      cursor: pointer;
     }
 
     input {
@@ -77,21 +86,53 @@
       padding: 10px;
       background: transparent;
       color: #5AAE62;
+      font-family: Gilroy;
+      font-weight: 100;
       box-shadow: inset 1px 1px 3px black;
       border-top-left-radius: 5px;
       border-bottom-left-radius: 5px;
-      width: 50vw;
+      width: 75vw;
       max-width: 450px;
       vertical-align: middle;
+    }
+
+    ::-webkit-input-placeholder { color: #5AAE62; }
+    ::-moz-placeholder { color: #5AAE62; }
+    :-ms-input-placeholder { color: #5AAE62; }
+    :-moz-placeholder { color: #5AAE62; }
+
+    .city {
+      position: relative;
+    }
+
+    .car {
+      position: absolute;
+      top: 25%;
+      width: 40%;
+      left: 28.5%;
+    }
+
+    .sr0{ fill:#FFFFFF; }
+    .sr1{ fill:#5AAE62; }
+    .sr2{ font-weight: 700; }
+    .sr3{ font-size: 24.9661px; }
+    .sr4{ font-weight: 100; }
+
+    @keyframes dash {
+      to {
+        stroke-dashoffset: -48;
+      }
+    }
+
+    ellipse[stroke-dasharray] {
+      stroke-dashoffset: 0;
+      animation: dash .3s linear infinite;
     }
   </style>
   <body>
     <main role="main">
 
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 224.6 185" class="logo">
-        <style>
-          .sr0{fill:#FFFFFF;} .sr1{fill:#5AAE62;} .sr2{font-family:&apos;Gilroy-ExtraBold&apos;;} .sr3{font-size:24.9661px;} .sr4{font-family:&apos;Gilroy-Light&apos;;}
-        </style>
         <path id="XMLID_407_" d="M176.3 94.2l-.2-.1-24.8-12.8-1.6 2.1c-.4.3-2.9 2.3-9.5 3.6-5.1 1-13.6-.6-27.7-26.4-3.9-7.1-8.1-13-12.1-17.8.4 3.2.4 6.7.1 10.1-.6 5.9-3.1 14.4-6.4 23.3 1.7 1.7 3.7 4 5.9 7.3 4.1 5.9 7.8 12.9 10.3 17.4l.7 1.3c2.5 4.6 6.6 7.6 12 8.6 1.6.3 3.1.4 4.3.4 1.4 0 2.4-.1 2.8-.2l47.4-3.9.8-.6c1.7-1.3 1.9-3.8 1.9-5.5 0-4-3.5-6.5-3.9-6.8z" class="sr0"/>
         <path id="XMLID_408_" d="M92.9 39.3c-1.3-3.5-5.6-13.3-18-13.3s-16.7 9.8-18 13.3-2.1 9.6-1.6 15.4c1.4 15.8 19.6 54.4 19.6 54.4s18.2-38.6 19.6-54.4c.5-5.8-.3-11.9-1.6-15.4z" class="sr1"/>
         <g id="XMLID_409_">
@@ -118,7 +159,6 @@
       </svg>
 
       <h2>зустрічай найкраще таксі міста</h2>
-      <h1></h1>
       <div>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="-334 127.5 289.8 307.7" class="icon">
           <path d="M-320.6 149.9c-.7 2.4-1.2 5.1-1.2 8v246.4c0 3 .5 5.5 1.1 7.9l138.3-131-138.2-131.3zM-128.4 230.1l-161.4-89.8c-6.4-3.9-12.8-4.9-18.1-3.5L-169 268.7l40.6-38.6zM-68.9 263.2l-43.1-24-44.1 41.8 45 42.7 41.9-23c20.5-11.6 13-30.3.3-37.5zM-308.4 425.3c5.4 1.5 11.9.6 18.5-3.4L-128 333l-41.4-39.4c.1 0-139 131.7-139 131.7z"/>
@@ -130,8 +170,8 @@
         </svg>
       </div>
       <br />
-      <form action="subscribe" method="post" accept-charset="utf-8">
-        <input type="email" placeholder="Твій email (ми повідомимо про старт)"/><!--
+      <form action="/" method="get" accept-charset="utf-8">
+        <input type="email" required placeholder="Твій email (ми повідомимо про старт)"/><!--
         --><button type="submit">
 
           <svg xmlns="http://www.w3.org/2000/svg" id="Слой_7" viewBox="0 0 107.6 107.6">
@@ -147,17 +187,45 @@
 
       <h1>дешево · комфортно · екологічно · індивідуально</h1>
 
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 200.3">
-        <style>
-          .sc0{fill:none;stroke:url(#XMLID_2_);stroke-width:3;stroke-linecap:round;stroke-miterlimit:10;}
-        </style>
-        <linearGradient id="XMLID_2_" x1="640.15" x2="640.15" y1="174.81" y2="19" gradientUnits="userSpaceOnUse">
-          <stop offset="0" stop-color="#4E9654"/>
-          <stop offset="1" stop-color="#447C4E"/>
-        </linearGradient>
-        <path id="XMLID_111_" d="M380 173.3H151.5V36.5h28v46L201 61l20.5 20.5H245v-21h22.5v12h11V41H304V20.5h22.3v25.8L341.5 31l15 15v43.5h33.7v-17h24.9V38h28v23.6l21-21.1L485.6 62h23.2V20.5h21.5V38h28v17.2h36V35.3l14-14L625 38v34.5h18.8V51H679v30.5l19-9 17.5 9V25h16.2v34h38.8v48.2h30.7V39.5l13.3-10 13 10.5v32.5h12v14.8H870V46h21.5V28.5h26v44l19.7-19.7 21 21V45H978v53.9h23v38.4l21.7-21.7 23.1 23.2V79h46V45.5h13.6v-25h23.4v152.8H847.5" class="sc0"/>
-      </svg>
+      <div class='city'>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 200.3">
+          <style>
+            .sc0{fill:none;stroke:url(#XMLID_2_);stroke-width:3;stroke-linecap:round;stroke-miterlimit:10;}
+          </style>
+          <linearGradient id="XMLID_2_" x1="640.15" x2="640.15" y1="174.81" y2="19" gradientUnits="userSpaceOnUse">
+            <stop offset="0" stop-color="#4E9654"/>
+            <stop offset="1" stop-color="#447C4E"/>
+          </linearGradient>
+          <path id="XMLID_111_" d="M380 173.3H151.5V36.5h28v46L201 61l20.5 20.5H245v-21h22.5v12h11V41H304V20.5h22.3v25.8L341.5 31l15 15v43.5h33.7v-17h24.9V38h28v23.6l21-21.1L485.6 62h23.2V20.5h21.5V38h28v17.2h36V35.3l14-14L625 38v34.5h18.8V51H679v30.5l19-9 17.5 9V25h16.2v34h38.8v48.2h30.7V39.5l13.3-10 13 10.5v32.5h12v14.8H870V46h21.5V28.5h26v44l19.7-19.7 21 21V45H978v53.9h23v38.4l21.7-21.7 23.1 23.2V79h46V45.5h13.6v-25h23.4v152.8H847.5" class="sc0"/>
+        </svg>
 
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="-709 434 500 213" class="car">
+          <path fill="none" stroke="#FFF" stroke-width="3" stroke-miterlimit="10" d="M-425.2 529.1l14 2.2" stroke-linecap="round" stroke-dasharray="12,13"/>
+          <path fill="none" stroke="#FFF" stroke-width="3" stroke-miterlimit="10" d="M-506.7 579.4c52.9 2.8 81.2 4.6 143 6.3M-311.6 587.9c48.6 1.3 57.7-.4 57.7-4.2 0-11.5-1.1-26.4-15-35.5-11.9-7.8-51.9-24.4-80.4-39.9-28.5-15.5-64.2-40.9-102.7-41-10.5 0-91.3-1.9-100 6.9-8.6 8.7-6.7 25.2-27.8 31.3-12.7 3.7-25.9 42-22.1 62.1 1.4 5 4.1 8 13.5 7.5 2.2-.1-2.1-.3 29.6 1.3"/>
+          <path fill="none" stroke="#FFF" stroke-width="3" stroke-miterlimit="10" d="M-532.6 481s.4 13.7 6.9 20.2l2.3 2.1c1.7 1.6 5.2 2.3 7.5 2.8 22.4 3.9 134.4 20.6 140.7 21.5 6.8 1 21.7-2.3 21-4.3-.7-2-47.7-29.4-60-35.8-21.8-11.3-54.1-10.9-68.5-11.3-23.1-.6-49.9 4.8-49.9 4.8z"/>
+          <path fill="none" stroke="#FFF" stroke-width="3" stroke-miterlimit="10" d="M-539.9 470.2c-.6 6-17.3 20.8-23 23.4l5.5-10.8s2.5-5.5 4.9-8c2-2.6 12.6-4.6 12.6-4.6z" stroke-linejoin="round"/>
+          <path fill="none" stroke="#FFF" stroke-width="3" stroke-miterlimit="10" d="M-263.8 552.2c-9.5-5.2-9.6-6.2-23.1-9.9-11.6-3.1-18.2-4.8-26.1-5.6-8.5-.8-18.1 2.1-20.2-20.2 0 0 62.1 30 63 30.7 3.9 2.9 6.4 5 6.4 5z" stroke-linecap="round" stroke-linejoin="round"/>
+          <ellipse cx="-532.9" cy="579.4" fill="none" stroke="#FFF" stroke-width="3" stroke-miterlimit="10" rx="26.1" ry="26.8"/>
+          <ellipse cx="-337.7" cy="587.1" fill="none" stroke="#FFF" stroke-width="3" stroke-miterlimit="10" rx="26.1" ry="26.8"/>
+          <path fill="none" stroke="#FFF" stroke-width="3" stroke-miterlimit="10" d="M-674.8 497.3s62.7 3.4 60.8 61.6c0 0-31.2 17.9-54.8-3-14.3-12.7-18-42-6-58.6zM-600.8 570.4c-12.6 6-13.1-5.5-13.1-11.5M-674.8 497.3c0 34 27.2 61.6 60.8 61.6"/>
+          <ellipse cx="-337.7" cy="587.1" fill="none" stroke="#FFF" stroke-width="3" stroke-miterlimit="10" stroke-linecap="round" stroke-dasharray="11.4665,12.422" rx="18.8" ry="19.2"/>
+          <ellipse cx="-532.9" cy="579.6" fill="none" stroke="#FFF" stroke-width="3" stroke-miterlimit="10" stroke-linecap="round" stroke-dasharray="11.4665,12.422" rx="18.8" ry="19.2"/>
+          <path fill="none" stroke="#FFF" stroke-width="3" stroke-miterlimit="10" d="M-524 515.7l11.6 1.7M-623.9 558.1l6.9-21.8M-634.3 554.3l10.8-30.7" stroke-linecap="round" stroke-dasharray="12,13"/>
+          <path fill="none" stroke="#FFF" stroke-width="3" stroke-miterlimit="10" d="M-645.6 549.9l13.2-36.1" stroke-linecap="round" stroke-dasharray="25,8"/>
+          <path fill="none" stroke="#FFF" stroke-width="3" stroke-miterlimit="10" d="M-656.5 541.4l13.1-35" stroke-linecap="round" stroke-dasharray="9,8"/>
+          <path fill="none" stroke="#FFF" stroke-width="3" stroke-miterlimit="10" d="M-665.2 529.2l11-27.4" stroke-linecap="round" stroke-dasharray="4,9,14"/>
+          <path fill="none" stroke="#FFF" stroke-width="3" stroke-miterlimit="10" d="M-672.4 514.3l6.3-15.7" stroke-linecap="round" stroke-dasharray="12,13"/>
+          <path fill="none" stroke="#FFF" stroke-width="3" stroke-miterlimit="10" d="M-534.7 606.1h-55.6M-339.7 613.8h-77" stroke-linecap="round" stroke-dasharray="4,9,14"/>
+          <path fill="none" stroke="#FFF" stroke-width="3" stroke-miterlimit="10" d="M-532.9 613.8h-96" stroke-linecap="round" stroke-dasharray="7,25,14"/>
+          <path fill="none" stroke="#FFF" stroke-width="3" stroke-miterlimit="10" d="M-592.5 484.3s4.6 35.8-28.5 40.8c0 0-13.4-15.8-4-31.3 5.7-9.5 21.9-14.6 32.5-9.5zM-592.5 484.3c-19.2 3.5-32 21.8-28.5 40.8"/>
+          <path fill="none" stroke="#FFF" stroke-width="3" stroke-miterlimit="10" d="M-620.6 511.9l18.5 3" stroke-linecap="round" stroke-dasharray="12,13"/>
+          <path fill="none" stroke="#FFF" stroke-width="3" stroke-miterlimit="10" d="M-618.3 504.5l21.8 3.7" stroke-linecap="round" stroke-dasharray="25,8"/>
+          <path fill="none" stroke="#FFF" stroke-width="3" stroke-miterlimit="10" d="M-613.6 496.8l19.3 3.4" stroke-linecap="round" stroke-dasharray="9,8"/>
+          <path fill="none" stroke="#FFF" stroke-width="3" stroke-miterlimit="10" d="M-603.4 489.3l9.6 2" stroke-linecap="round" stroke-dasharray="12,13"/>
+        </svg>
+
+      </div>
     </main>
+    <link rel="stylesheet" href="fonts.css" type="text/css" media="screen" charset="utf-8"/>
   </body>
 </html>
