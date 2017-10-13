@@ -1,0 +1,227 @@
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <title>CabLook</title>
+  </head>
+  <style type="text/css" media="screen">
+    body::before, body::after {
+      content: '';
+      position: fixed;
+      top: 0;
+      bottom: 0;
+      right: 0;
+      left: 0;
+      background: url(https://i.imgur.com/cK8S0IY.jpg) repeat #243429;
+    }
+
+    body::after {
+      background: linear-gradient(to bottom, rgba(57, 51, 89, 0.8), 60%, rgba(90, 174, 98, 0.8));
+    }
+
+    body {
+      text-align: center;
+      background: #171C18;
+      color: white;
+      margin: 0;
+      padding: 0;
+      padding-bottom: 20px;
+      overflow-x: hidden;
+      overflow-y: auto;
+      font-family: Gilroy, Helvetica, Arial, sans-serif;
+      font-weight: 400;
+    }
+
+    main {
+      position: relative;
+      z-index: 10;
+    }
+
+    h1 {
+      position: relative;
+      z-index: 10;
+      color: white;
+      margin: 0;
+    }
+
+    span {
+      font-weight: 100;
+    }
+
+    svg {
+      max-width: 100%;
+    }
+
+    svg.icon {
+      max-width: 50px;
+      max-height: 50px;
+    }
+
+    span {
+      display: inline-block;
+      vertical-align: top;
+    }
+
+    .logo {
+      max-width: 250px;
+    }
+
+    button {
+      background: #5AAE62;
+      border: none;
+      width: 50px;
+      height: 50px;
+      border-radius: 3px;
+      padding: 0;
+      vertical-align: middle;
+      cursor: pointer;
+    }
+
+    input {
+      border: none;
+      font-size: 1.4rem;
+      padding: 10px;
+      background: transparent;
+      color: #5AAE62;
+      font-family: Gilroy;
+      font-weight: 100;
+      box-shadow: inset 1px 1px 3px black;
+      border-top-left-radius: 5px;
+      border-bottom-left-radius: 5px;
+      width: 75vw;
+      max-width: 450px;
+      vertical-align: middle;
+    }
+
+    ::-webkit-input-placeholder { color: #5AAE62; }
+    ::-moz-placeholder { color: #5AAE62; }
+    :-ms-input-placeholder { color: #5AAE62; }
+    :-moz-placeholder { color: #5AAE62; }
+
+    .city {
+      position: relative;
+      padding: 0 2%;
+    }
+
+    .car {
+      position: absolute;
+      top: 45%;
+      width: 40%;
+      left: 27%;
+    }
+
+    .sr0{ fill:#FFFFFF; }
+    .sr1{ fill:#5AAE62; }
+    .sr2{ font-weight: 700; }
+    .sr3{ font-size: 24.9661px; }
+    .sr4{ font-weight: 100; }
+
+    @keyframes dash {
+      to {
+        stroke-dashoffset: -48;
+      }
+    }
+
+    ellipse[stroke-dasharray] {
+      stroke-dashoffset: 0;
+      animation: dash .3s linear infinite;
+    }
+  </style>
+  <body>
+    <main role="main">
+
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 224.6 185" class="logo">
+        <path d="M176.3 94.2l-.2-.1-24.8-12.8-1.6 2.1c-.4.3-2.9 2.3-9.5 3.6-5.1 1-13.6-.6-27.7-26.4-3.9-7.1-8.1-13-12.1-17.8.4 3.2.4 6.7.1 10.1-.6 5.9-3.1 14.4-6.4 23.3 1.7 1.7 3.7 4 5.9 7.3 4.1 5.9 7.8 12.9 10.3 17.4l.7 1.3c2.5 4.6 6.6 7.6 12 8.6 1.6.3 3.1.4 4.3.4 1.4 0 2.4-.1 2.8-.2l47.4-3.9.8-.6c1.7-1.3 1.9-3.8 1.9-5.5 0-4-3.5-6.5-3.9-6.8z" class="sr0"/>
+        <path d="M92.9 39.3c-1.3-3.5-5.6-13.3-18-13.3s-16.7 9.8-18 13.3-2.1 9.6-1.6 15.4c1.4 15.8 19.6 54.4 19.6 54.4s18.2-38.6 19.6-54.4c.5-5.8-.3-11.9-1.6-15.4z" class="sr1"/>
+        <path d="M62.5 106.4h1.9c2.5 5.4 4.6 10 6 12.8l-32-5.9 2-6.8c0-.1.1-.1.2-.1h21.9m40.2 0c.1.1.2.3.3.4.3.3.6.7 1 1.1l6 5.8c.1.1.1.2.1.2s0 .2-.1.2l-12.2 10.1-19.5-3.6c1.3-2.6 3.7-7.7 6.6-14.1h1.7l16.1-.1m.4-3l-16.5.2H83c-4.6 10.2-8.3 17.6-8.3 17.6s-3.7-7.5-8.3-17.7H40.6c-1.4 0-2.7.9-3.1 2.3l-2.9 10 63.9 11.7 13.3-11c1.5-1.3 1.6-3.6.2-4.9l-6-5.8c-1-1.2-1.5-2.4-2.9-2.4z" class="sr0"/>
+        <path d="M120.6 119.1c.6 0 1.1.2 1.4.7l17.8 21.4H93.7l25.7-21.6c.5-.4.9-.5 1.2-.5m0-3c-1.1 0-2.2.4-3.1 1.1l-32 26.9h60.8l-21.9-26.3c-1-1.1-2.4-1.7-3.8-1.7z" class="sr0"/>
+        <path d="M35.6 123.5l4.6.8v16.8h-9.4c-.1 0-.1 0-.1-.1v-.2l4.9-17.3m-2.2-3.5l-5.7 20.1c-.3 1-.1 2 .5 2.8.6.8 1.5 1.3 2.5 1.3h12.4v-22.3l-9.7-1.9z" class="sr0"/>
+        <path d="M50.6 126.2l36.8 6.7-9.8 8.2h-27v-14.9m-3-3.6v21.5h31.1l15.5-13-46.6-8.5z" class="sr0"/>
+        <text transform="translate(51.968 172.66)">
+          <tspan x="0" y="0" class="sr0 sr2 sr3">CAB</tspan><tspan x="49.9" y="0" class="sr0 sr4 sr3">LOOK</tspan>
+        </text>
+        <path d="M160.5 117l-19.4 6.9-4.6-5.2 24-1.7m17.2-4.2l-47.4 3.3 9.8 11.3 37.7-13.5c.8-.2.6-1.1-.1-1.1z" class="sr0"/>
+        <path d="M178.7 121l9.4 20.1h-34.3l-6.2-7.8 31.1-12.3m1.5-3.8L142.6 132l9.7 12.1h38.8c.8 0 1.3-.8 1-1.5l-11.9-25.4z" class="sr0"/>
+      </svg>
+
+      <h2>зустрічай найкраще таксі міста</h2>
+      <div>
+
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 4.5 77.5 84" class="icon">
+          <g fill="none" stroke="#FFF" stroke-width="3" stroke-miterlimit="10">
+            <path d="M2.1,9.9c-0.2,0.6-0.4,1.5-0.4,2.3 v68.8c0,0.8,0.2,1.5,0.3,2.2l38.7-36.6L2.1,9.9z"/>
+            <path d="M55.8,32.3l-45.1-25 c-1.8-1.1-3.5-1.4-5.1-1l38.8,36.8L55.8,32.3z"/>
+            <path d="M72.4,41.6l-12-6.7L48,46.6 l12.6,11.9L72.3,52C78,48.8,75.9,43.6,72.4,41.6z"/>
+            <path d="M5.4,86.9c1.5,0.5,3.4,0.2,5.2-0.9 l45.2-24.8L44.3,50L5.4,86.9z"/>
+          </g>
+        </svg>
+
+        <span>скоро</span>
+
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="-273.7 527 66.7 84" class="icon">
+          <g>
+            <path fill="none" stroke="#FFF" stroke-width="3" stroke-miterlimit="10" d="M-228.7,540.8 c3.1-3.2,5.1-7.7,4.6-12.3c-4.4,0.2-9.8,2.6-12.9,5.9c-2.8,2.9-5.3,7.5-4.7,12C-236.8,546.6-231.7,544.1-228.7,540.8z M-219.3,572.1c-0.1-10.2,8-15,8.4-15.2c-4.6-6.9-11.7-7.8-14.2-7.9c-6-0.6-11.8,3.7-14.9,3.7c-3.1,0-7.7-3.6-12.8-3.5 c-6.7,0.1-12.7,4-16.1,10c-6.8,12.3-1.7,30.4,5,40.4c3.2,4.9,7.1,10.3,12.3,10.1c5-0.2,6.8-3.2,12.7-3.2s7.7,3.2,12.9,3.2 c5.3-0.1,8.6-5,11.9-9.8c3.8-5.7,5.3-11.1,5.4-11.4C-209,588.2-219.2,584.2-219.3,572.1z"/>
+          </g>
+        </svg>
+
+      </div>
+      <br />
+      <form action="/" method="get" accept-charset="utf-8">
+        <input type="email" required placeholder="Твій email (ми повідомимо про старт)"/><!--
+        --><button type="submit">
+
+          <svg xmlns="http://www.w3.org/2000/svg" id="Слой_7" viewBox="0 0 107.6 107.6">
+            <style>
+              .sb0{fill:#5AAE62;} .sb1{fill:#FFFFFE;} .sb2{fill:#FFFFFF;}
+            </style>
+            <path id="XMLID_423_" d="M94 67.8l-.1-.1-15.4-7.9-1 1.3c-.2.2-1.8 1.4-5.9 2.2-3.2.6-8.4-.4-17.2-16.4-2.5-4.6-5.2-8.3-7.8-11.3.3 2.2.4 4.7.2 7.2-.3 3.5-1.8 8.6-3.8 14 1 1 2.2 2.5 3.6 4.5 2.6 3.7 4.9 8 6.4 10.8l.4.8c1.5 2.9 4.1 4.7 7.5 5.4 1 .2 1.9.3 2.6.3.9 0 1.5-.1 1.8-.1l29.4-2.4.5-.4c1-.8 1.2-2.3 1.2-3.4 0-2.8-2.2-4.4-2.4-4.5z" class="sb1"/>
+            <path id="XMLID_424_" d="M40.2 34.7c-.8-2.1-3.5-7.8-11.2-7.8s-10.4 5.7-11.2 7.8c-.8 2.1-1.3 5.6-1 9C17.8 53 29 75.6 29 75.6S40.3 53 41.2 43.7c.3-3.4-.2-6.9-1-9z" fill="#FFF"/>
+          </svg>
+
+        </button>
+      </form>
+
+      <h1>дешево · комфортно · екологічно · індивідуально</h1>
+
+      <div class='city'>
+
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="631 -28.8 982 165">
+          <linearGradient id="a" x1="1122.15" x2="1122.15" y1="-36.45" y2="119.35" gradientUnits="userSpaceOnUse" gradientTransform="matrix(1 0 0 -1 0 99.4)">
+            <stop offset="0" stop-color="#4E9654"/>
+            <stop offset="1" stop-color="#447C4E"/>
+          </linearGradient>
+          <path fill="none" stroke="url(#a)" stroke-width="3" stroke-miterlimit="10" d="M862 134.4H633.5V-2.5h28v46L683 22l20.5 20.5H727v-21h22.5v12h11V2H786v-20.5h22.3V7.3L823.5-8l15 15v43.5h33.7v-17h24.9V-1h28v23.6l21-21.1L967.6 23h23.2v-41.5h21.5V-1h28v17.2h36V-3.7l14-14L1107-1v34.5h18.8V12h35.2v30.5l19-9 17.5 9V-14h16.2v34h38.8v48.2h30.7V.5l13.3-10 13 10.5v32.5h12v14.8h30.5V7h21.5v-17.5h26v44l19.7-19.7 21 21V6h19.8v53.9h23v38.4l21.7-21.7 23.1 23.2V40h46V6.5h13.6v-25h23.4v152.9h-281.3" stroke-linecap="round"/>
+        </svg>
+
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="240.4 -24.4 431.2 149.7" class="car">
+          <g fill="none" stroke="#FFF" stroke-width="3" stroke-miterlimit="10">
+            <path d="M498.7 39.1l14 2.2" stroke-linecap="round" stroke-dasharray="12,13"/>
+            <path d="M417.2 89.4c52.9 2.8 81.2 4.6 143 6.3M612.3 97.9c48.6 1.3 57.7-.4 57.7-4.2 0-11.5-1.1-26.4-15-35.5-11.9-7.8-51.9-24.4-80.4-39.9-28.5-15.5-64.2-40.9-102.7-41-10.5 0-91.3-1.9-100 6.9-8.6 8.7-6.7 25.2-27.8 31.3-12.7 3.7-25.9 42-22.1 62.1 1.4 5 4.1 8 13.5 7.5 2.2-.1-2.1-.3 29.6 1.3"/>
+            <path d="M391.3-9s.4 13.7 6.9 20.2l2.3 2.1c1.7 1.6 5.2 2.3 7.5 2.8 22.4 3.9 134.4 20.6 140.7 21.5 6.8 1 21.7-2.3 21-4.3S522 3.9 509.7-2.5c-21.8-11.3-54.1-10.9-68.5-11.3-23.1-.6-49.9 4.8-49.9 4.8z"/>
+            <path d="M384-19.8c-.6 6-17.3 20.8-23 23.4l5.5-10.8s2.5-5.5 4.9-8c2-2.6 12.6-4.6 12.6-4.6z" stroke-linejoin="round"/>
+            <path d="M660.1 62.2c-9.5-5.2-9.6-6.2-23.1-9.9-11.6-3.1-18.2-4.8-26.1-5.6-8.5-.8-18.1 2.1-20.2-20.2 0 0 62.1 30 63 30.7 3.9 2.9 6.4 5 6.4 5z" stroke-linecap="round" stroke-linejoin="round"/>
+            <ellipse cx="391" cy="89.4" rx="26.1" ry="26.8"/>
+            <ellipse cx="586.2" cy="97.1" rx="26.1" ry="26.8"/>
+            <path d="M249.1 7.3s62.7 3.4 60.8 61.6c0 0-31.2 17.9-54.8-3-14.3-12.7-18-42-6-58.6zM323.1 80.4c-12.6 6-13.1-5.5-13.1-11.5M249.1 7.3c0 34 27.2 61.6 60.8 61.6"/>
+            <ellipse cx="586.2" cy="97.1" stroke-linecap="round" stroke-dasharray="11.4665,12.422" rx="18.8" ry="19.2"/>
+            <ellipse cx="391" cy="89.6" stroke-linecap="round" stroke-dasharray="11.4665,12.422" rx="18.8" ry="19.2"/>
+            <path d="M399.9 25.7l11.6 1.7M300 68.1l6.9-21.8M289.6 64.3l10.8-30.7" stroke-linecap="round" stroke-dasharray="12,13"/>
+            <path d="M278.3 59.9l13.2-36.1" stroke-linecap="round" stroke-dasharray="25,8"/>
+            <path d="M267.4 51.4l13.1-35" stroke-linecap="round" stroke-dasharray="9,8"/>
+            <path d="M258.7 39.2l11-27.4" stroke-linecap="round" stroke-dasharray="4,9,14"/>
+            <path d="M251.5 24.3l6.3-15.7" stroke-linecap="round" stroke-dasharray="12,13"/>
+            <path d="M389.2 116.1h-55.6M584.2 123.8h-77" stroke-linecap="round" stroke-dasharray="4,9,14"/>
+            <path d="M391 123.8h-96" stroke-linecap="round" stroke-dasharray="7,25,14"/>
+            <path d="M331.4-5.7s4.6 35.8-28.5 40.8c0 0-13.4-15.8-4-31.3 5.7-9.5 21.9-14.6 32.5-9.5zM331.4-5.7c-19.2 3.5-32 21.8-28.5 40.8"/>
+            <path d="M303.3 21.9l18.5 3" stroke-linecap="round" stroke-dasharray="12,13"/>
+            <path d="M305.6 14.5l21.8 3.7" stroke-linecap="round" stroke-dasharray="25,8"/>
+            <path d="M310.3 6.8l19.3 3.4" stroke-linecap="round" stroke-dasharray="9,8"/>
+            <path d="M320.5-.7l9.6 2" stroke-linecap="round" stroke-dasharray="12,13"/>
+          <g/>
+        </svg>
+
+      </div>
+    </main>
+    <link rel="stylesheet" href="fonts.css" type="text/css" media="screen" charset="utf-8"/>
+  </body>
+</html>
