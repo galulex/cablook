@@ -3,7 +3,7 @@ class FeedbacksController < ApplicationController
 
   def create
     feedback = Events::CreateFeedback.(feedback_params)
-    render json: { feedback: feedback }
+    Presenters::Feedbacks::Single.new(feedback).to_json
   end
 
   private

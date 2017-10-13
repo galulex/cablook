@@ -1,7 +1,7 @@
 class RegistrationsController < ApplicationController
   def create
     user = Events::CreateUser.(user_attrs)
-    render json: { user: user }
+    Presenters::Users::SinglePrivate.new(user).to_json
   end
 
   private
