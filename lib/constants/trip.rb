@@ -6,10 +6,10 @@ module Constants
     FINISHED   = 'finished'.freeze
 
     STATUSES = {
-      0 => PENDING,
-      1 => ON_THE_WAY,
-      2 => CANCELLED,
-      3 => FINISHED
+      PENDING => 0,
+      ON_THE_WAY => 1,
+      CANCELLED => 2,
+      FINISHED => 3
     }.freeze
   end
 end

@@ -5,10 +5,14 @@ module Events
         required(:path).filled(:str?)
         required(:cost).filled(:float?)
         required(:user_id).filled(:int?)
+
+        required(:departure) { array? & size?(2) }
+        required(:destination) { array? & size?(2) }
       end
     end
 
     def run
+      convert_location_to_pg_array
       validate!
       create_trip
     end
@@ -22,6 +26,11 @@ module Events
 
     def create_trip
       Repositories::Trip.new.create(data.to_h)
+    end
+
+    def convert_location_to_pg_array
+      data[:departure] = Sequel.pg_array(data[:departure])
+      data[:destination] = Sequel.pg_array(data[:destination])
     end
   end
 end
