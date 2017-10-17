@@ -7,19 +7,19 @@ describe Events::CreateTrip do
 
     it { is_expected.to change { trips_repository.trips.count }.by(+1) }
 
-    context 'when path is invalid' do
+    context 'when path is empty' do
       let(:data) { Factory.structs[:trip].to_h.except(:path) }
 
       it { is_expected.to raise_error(Events::InvalidParamsError) }
     end
 
-    context 'when cost is invalid' do
+    context 'when cost is empty' do
       let(:data) { Factory.structs[:trip].to_h.except(:cost) }
 
       it { is_expected.to raise_error(Events::InvalidParamsError) }
     end
 
-    context 'when user_id is invalid' do
+    context 'when user_id is empty' do
       let(:data) { Factory.structs[:trip].to_h.except(:user_id) }
 
       it { is_expected.to raise_error(Events::InvalidParamsError) }

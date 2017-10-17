@@ -4,6 +4,6 @@ module Validators
 
     relation :trips
 
-    validates :path, :user_id, :cost, presence: true
+    validates :path, :cost, :user_id, presence: true
   end
 end

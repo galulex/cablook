@@ -15,8 +15,7 @@ describe Repositories::Trip do
 
   describe '#by_pk_with_feedbacks' do
     let(:instance) { described_class.new.by_pk_with_feedbacks(trip.id) }
-    let(:trip) { Factory[:trip, user_id: user.id] }
-    let(:user) { Factory[:user] }
+    let(:trip) { Factory[:trip] }
 
     it { expect(instance.id).to eq(trip.id) }
     it { expect(instance.feedbacks).to be_empty }
