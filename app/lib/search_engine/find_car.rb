@@ -25,8 +25,6 @@ module SearchEngine
 
     private
 
-    # TODO: Implement logic to take nearest car.
-    # It will take car by car_ids where status is `free` and nearest to trip
     def nearest_free_car
       # car_ids = [1, 2]
       car_ids = car_repository.free_cars.map(&:id)
