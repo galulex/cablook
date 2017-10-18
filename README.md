@@ -1,24 +1,101 @@
-# README
+#  CabLook-backend
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Requirements:
 
-Things you may want to cover:
+* Ruby 2.4.0: https://www.ruby-lang.org/en/documentation/
 
-* Ruby version
+* Ruby on Rails 5.1.3: http://guides.rubyonrails.org/
 
-* System dependencies
+* PostgreSQL 9.5: https://www.postgresql.org/docs/
 
-* Configuration
+Architecture:
 
-* Database creation
+* Sequel 5.1.0: http://sequel.jeremyevans.net/documentation.html
 
-* Database initialization
+* Ruby Object Mapper (ROM) 4.0: https://rom-rb.org/4.0/learn/
 
-* How to run the test suite
+* dry-validation: http://dry-rb.org/gems/dry-validation/
 
-* Services (job queues, cache servers, search engines, etc.)
+## :arrow_up: How to Setup Repository
 
-* Deployment instructions
+**Step 1:** Clone this repo with:
+```
+HTTPS:
+git clone https://github.com/activebridge/CabLook-backend.git
+```
+```
+SSH:
+git clone git@github.com:activebridge/CabLook-backend.git
+```
 
-* ...
+**Step 2:** Type `cd CabLook-backend` in terminal to enter cloned folder in the current directory.
+
+**Step 3:** Run `bundle exec bundle install` to install dependencies.
+
+## :arrow_up: How to Setup Database
+
+**Step 1:** Change database configurations in config/secrets.rb:
+```
+development:
+db_user: //postgres_database_user
+db_password: //postgres_database_password
+```
+```
+test:
+db_user: //postgres_database_user
+db_password: //postgres_database_password
+```
+**Step 2:** Run `sudo -u postgres psql` to enter postgres console. Then enter password to get an access.
+
+**Step 3:** Run
+```
+create database cablook_development; create database cablook_test;
+```
+to create required postgres databases. You can check it's success with `\list`.
+
+**Step 4:** Exit console with `\quit`. Run
+```
+bundle exec rails db:migrate && bundle exec rails db:migrate RAILS_ENV=test
+```
+to migrate relations in databases.
+
+## :arrow_right: How to Run Application
+
+Run `rails s` and open `http://localhost:3000/`.
+
+## :arrow_up: How to Contribute
+
+**Step 1:** Install gem Github Workflow:
+```
+gem install github_workflow
+```
+
+**Step 2:** Click Generate new token on GitHub: https://github.com/settings/tokens. Choose only `repo` checkbox. Copy newly generated token.
+
+**Step 3:** Create file in application root:
+```
+.github.rb
+```
+
+**Step 4:** Open created file and save generated token:
+```
+{
+ "oauth_token": "TOKEN",
+ "user_and_repo": "activebridge/cablook-backend"
+}
+```
+
+**Step 5:** Create and start issue:
+```
+github_workflow create_and_start -m, --name=NAME
+```
+
+**Step 6:** Create branch named with issue number and issue title:
+```
+github_workflow start -i, --issue-id=ISSUE_ID
+```
+
+**Step 7:** Push branch to origin and convert Issue to Pull Request:
+```
+github_workflow push_and_pr
+```
