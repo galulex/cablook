@@ -28,6 +28,20 @@ Rails.application.configure do
   # config.active_job.queue_name_prefix = "cablook_#{Rails.env}"
   config.action_mailer.perform_caching = false
 
+  # Mailer configuration for mailgun smtp
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.perform_deliveries = true
+  config.action_mailer.raise_delivery_errors = true
+  config.action_mailer.smtp_settings = {
+    authentication:       :plain,
+    address:              'smtp.mailgun.org',
+    port:                 587,
+    domain:               'cablook.taxi',
+    user_name:            ENV['MAILGUN_EMAIL'],
+    password:             ENV['MAILGUN_PASSWORD'],
+    enable_starttls_auto: true
+  }
+
   config.i18n.fallbacks = true
 
   # Send deprecation notices to registered listeners.
