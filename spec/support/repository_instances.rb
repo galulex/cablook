@@ -11,6 +11,10 @@ module RepositoryInstances
     @feedbacks_repository ||= Repositories::Feedback.new
   end
 
+  def subscriptions_repository
+    @subscriptions_repository ||= Repositories::Subscription.new
+  end
+
   def trips_repository
     @trips_repository ||= Repositories::Trip.new
   end
