@@ -14,7 +14,9 @@ module Events
     def run
       convert_location_to_pg_array
       validate!
-      create_trip
+      trip = create_trip
+      SearchCarForTripJob.perform_later(trip.id)
+      trip
     end
 
     private

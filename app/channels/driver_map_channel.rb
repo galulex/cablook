@@ -1,9 +1,9 @@
 class DriverMapChannel < ApplicationCable::Channel
   def subscribed
-    stream_from Constants::DRIVER_MAP_CHANNEL
+    stream_from Constants::Channels::DRIVER_MAP
   end
 
   def receive(data)
-    ActionCable.server.broadcast Constants::DRIVER_MAP_CHANNEL, data
+    ActionCable.server.broadcast Constants::Channels::DRIVER_MAP, data
   end
 end

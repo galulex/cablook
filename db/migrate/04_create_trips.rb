@@ -13,6 +13,7 @@ ROM::SQL.migration do
 
       foreign_key :user_id, :users
       foreign_key :driver_id, :drivers
+      foreign_key :car_id, :cars
     end
   end
 end

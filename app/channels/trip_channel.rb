@@ -10,7 +10,7 @@ class TripChannel < ApplicationCable::Channel
   private
 
   def trip_channel
-    "#{Constants::TRIP_CHANNEL}_#{trip_id}"
+    "#{Constants::Channels::TRIP}_#{trip_id}"
   end
 
   def trip_id

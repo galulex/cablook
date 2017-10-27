@@ -11,6 +11,7 @@ class Trips < ROM::Relation[:sql]
     attribute :estimated_end_time, Types::Time
 
     attribute :user_id, Types::ForeignKey(:users)
+    attribute :car_id, Types::ForeignKey(:cars)
     attribute :driver_id, Types::ForeignKey(:drivers)
 
     associations do
@@ -21,11 +22,14 @@ class Trips < ROM::Relation[:sql]
   end
 
   def active
-    where(status: 0)
+    where(status: Constants::Trip::DRIVING)
   end
 
   def estimated_end_in_timeframe(from, till)
-    # where { estimated_end_time.in(from..to) }
-    where('estimated_end_time BETWEEN :from AND :till', from: from, till: till)
+    where(Sequel.lit('estimated_end_time BETWEEN :from AND :till', from: from, till: till))
+  end
+
+  def with_driver
+    select_append(:drivers__car_id).inner_join(:drivers, id: :trips__driver_id)
   end
 end

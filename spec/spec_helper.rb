@@ -6,7 +6,10 @@ require 'rom-rails'
 require 'rom-factory'
 require 'simplecov'
 require 'bcrypt'
-Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
+Dir[
+  Rails.root.join('spec/support/**/*.rb'),
+  Rails.root.join('lib/constants/**/*.rb')
+].each { |f| require f }
 
 SimpleCov.start
 

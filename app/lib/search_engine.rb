@@ -5,10 +5,9 @@ module SearchEngine
   def self.call(trip_id:)
     car = FindCar.(trip_id: trip_id)
     if car
-      AssignAndBroadcast.(car.merge(trip_id))
+      AssignAndBroadcast.(car.merge(trip_id: trip_id))
     else
-      # TODO: repeat job in 5 minutes
-      SearchJob.set(wait: 5.min).perform_later(trip_id)
+      SearchCarForTripJob.set(wait: 1.minute).perform_later(trip_id)
     end
   end
 end
