@@ -16,10 +16,10 @@ describe RegistrationsController, type: :controller do
 
     it { is_expected.to have_http_status(:success) }
 
-    context 'when something went wrong' do
+    context 'when phone_number is blank' do
       let(:params) do
         { user: {
-          phone_number: Faker::Name.name,
+          phone_number: '',
           password: Faker::Internet.password
         } }
       end

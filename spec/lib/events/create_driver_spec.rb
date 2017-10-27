@@ -11,5 +11,11 @@ describe Events::CreateDriver do
 
       it { is_expected.to raise_error(Events::InvalidParamsError) }
     end
+
+    context 'when username is empty' do
+      let(:data) { Factory.structs[:driver].to_h.except(:username) }
+
+      it { is_expected.to raise_error(Events::InvalidParamsError) }
+    end
   end
 end

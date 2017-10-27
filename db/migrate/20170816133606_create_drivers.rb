@@ -2,7 +2,10 @@ ROM::SQL.migration do
   change do
     create_table(:drivers) do
       primary_key :id
-      column :name, String, unique: true
+
+      column :name, String
+      column :username, String, unique: true
+      column :encrypted_password, String
       column :auth_token, String, unique: true
 
       foreign_key :car_id
