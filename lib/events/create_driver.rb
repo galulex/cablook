@@ -3,6 +3,8 @@ module Events
     def schema
       Dry::Validation.Schema do
         required(:name).filled(:str?)
+        required(:username).filled(:str?)
+        required(:encrypted_password).filled(:str?)
       end
     end
 

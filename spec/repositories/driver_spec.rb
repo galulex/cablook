@@ -11,15 +11,15 @@ describe Repositories::Driver do
     end
   end
 
-  describe '#by_name' do
-    let(:instance) { described_class.new.by_name(name) }
+  describe '#by_username' do
+    let(:instance) { described_class.new.by_username(username) }
     let!(:driver) { Factory[:driver] }
-    let(:name) { driver.name }
+    let(:username) { driver.username }
 
-    it { expect(instance.name).to eq(name) }
+    it { expect(instance.username).to eq(username) }
 
     context 'when driver did not found' do
-      let(:name) { 'test' }
+      let(:username) { 'test' }
 
       it { expect(instance).to be nil }
     end
@@ -35,6 +35,20 @@ describe Repositories::Driver do
 
     context 'when driver did not found' do
       let(:car_id) { 0 }
+
+      it { expect(instance).to be nil }
+    end
+  end
+
+  describe '#by_token' do
+    let(:instance) { described_class.new.by_token(auth_token) }
+    let(:driver) { Factory[:driver] }
+    let(:auth_token) { driver.auth_token }
+
+    it { expect(instance.auth_token).to eq(auth_token) }
+
+    context 'when driver did not found' do
+      let(:auth_token) { driver.auth_token + 'test' }
 
       it { expect(instance).to be nil }
     end

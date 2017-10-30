@@ -1,4 +1,9 @@
 en:
+  authorizations:
+    errors:
+      invalid_username: Имя пользователя введен неверно
+      invalid_password: Пароль введен неверно
+      invalid_phone_number: Номер телефона введен неверно
   verifications:
     email:
       send_confirmation_token: "Ссылка на подтверждение: %{token}. https://cablook.taxi"

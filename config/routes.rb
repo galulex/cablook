@@ -10,6 +10,8 @@ Rails.application.routes.draw do
 
   namespace :drivers do
     patch 'assign_car'
+    post 'sign_up', to: 'registrations#create'
+    post 'sign_in', to: 'authentications#create'
   end
 
   namespace :verifications do

@@ -4,6 +4,7 @@ module Validators
 
     relation :drivers
 
-    validates :name, presence: true, uniqueness: true
+    validates :username, presence: true, uniqueness: true
+    validates :name, :encrypted_password, presence: true
   end
 end
