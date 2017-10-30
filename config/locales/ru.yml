@@ -1,10 +1,16 @@
 en:
   verifications:
+    email:
+      send_confirmation_token: "Ссылка на подтверждение: %{token}. https://cablook.taxi"
+      confirmation_subject: Подтверждение электронного адреса
+      already_confirmed: Этот электронный адрес уже был подтверждён
     number:
-      send_token_message: "Код верификации: %{code}. https://cablook.taxi"
+      send_verification_token: "Код для верификации: %{token}. https://cablook.taxi"
 
     errors:
       invalid_or_expired: Код не верен или время верификации истекло. Попробуйте еще раз.
+      email:
+        does_not_exist: Пользователя с таким электронным адресом не существует
       number:
         does_not_exist: Пользователя с таким номером телефона не существует
   assignings:

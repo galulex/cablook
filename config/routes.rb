@@ -15,5 +15,7 @@ Rails.application.routes.draw do
   namespace :verifications do
     get 'phone_numbers/send_verification', to: 'phone_numbers#send_verification'
     post 'phone_numbers/verify', to: 'phone_numbers#verify'
+    get 'emails/send_verification', to: 'emails#send_verification'
+    post 'emails/verify', to: 'emails#verify'
   end
 end

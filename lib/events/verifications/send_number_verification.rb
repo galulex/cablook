@@ -24,7 +24,7 @@ module Events
         Twilio::REST::Client.new.api.account.messages.create(
           from: Rails.application.secrets.twilio_number,
           to: data[:number],
-          body: I18n.t('verifications.number.send_token_message', code: token)
+          body: I18n.t('verifications.number.send_verification_token', token: token)
         )
       end
 
