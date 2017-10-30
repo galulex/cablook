@@ -1,4 +1,9 @@
 en:
+  authorizations:
+    errors:
+      invalid_username: Username is invalid
+      invalid_password: Password is invalid
+      invalid_phone_number: Phone number is invalid
   verifications:
     email:
       send_confirmation_token: "Confirmation link: %{token}. https://cablook.taxi"

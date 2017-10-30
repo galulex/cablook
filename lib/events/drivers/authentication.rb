@@ -8,12 +8,27 @@ module Events
     end
 
     def run
-      driver = Repositories::Driver.new.by_username(data[:username])
-      if driver
-        password = BCrypt::Password.new(driver.encrypted_password)
-        return driver if password == data[:password]
-      end
-      invalid!(driver: ['Username or password is invalid'])
+      check_username!
+      check_password!
+      driver
+    end
+
+    private
+
+    def driver
+      @driver ||= Repositories::Driver.new.by_username(data[:username])
+    end
+
+    def encrypted_password
+      @encrypted_password ||= BCrypt::Password.new(driver.encrypted_password)
+    end
+
+    def check_username!
+      invalid!([I18n.t('authorizations.errors.invalid_username')]) unless driver
+    end
+
+    def check_password!
+      invalid!([I18n.t('authorizations.errors.invalid_password')]) unless encrypted_password == data[:password]
     end
   end
 end

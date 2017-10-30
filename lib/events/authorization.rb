@@ -8,12 +8,27 @@ module Events
     end
 
     def run
-      user = Repositories::User.new.by_phone_number(data[:phone_number])
-      if user
-        password = BCrypt::Password.new(user.encrypted_password)
-        return user if password == data[:password]
-      end
-      invalid!(user: ['Phone number or password is invalid'])
+      check_phone_number!
+      check_password!
+      user
+    end
+
+    private
+
+    def user
+      @user ||= Repositories::User.new.by_phone_number(data[:phone_number])
+    end
+
+    def encrypted_password
+      @encrypted_password ||= BCrypt::Password.new(user.encrypted_password)
+    end
+
+    def check_phone_number!
+      invalid!([I18n.t('authorizations.errors.invalid_phone_number')]) unless user
+    end
+
+    def check_password!
+      invalid!([I18n.t('authorizations.errors.invalid_password')]) unless encrypted_password == data[:password]
     end
   end
 end
