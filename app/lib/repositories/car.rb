@@ -15,5 +15,10 @@ module Repositories
     def by_number(number)
       cars.where(number: number).one
     end
+
+    def free_cars
+      # TODO: Move 0 to constants
+      cars.where(status: 0).to_a
+    end
   end
 end

@@ -1,5 +1,5 @@
 module Events
-  class AssignCar < BaseEvent
+  class Drivers::AssignCar < BaseEvent
     def schema
       Dry::Validation.Schema do
         required(:driver_id).filled(:int?)
@@ -15,6 +15,7 @@ module Events
     private
 
     def assign_car
+      # TODO: Add method to set car status
       Repositories::Driver.new.update(data[:driver_id], car_id: data[:car_id])
     end
 

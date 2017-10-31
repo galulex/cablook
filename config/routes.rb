@@ -9,7 +9,8 @@ Rails.application.routes.draw do
   end
 
   namespace :drivers do
-    patch 'assign_car'
+    resources :cars, only: :index
+    patch 'assign_car', to: 'assign_car#update'
     post 'sign_up', to: 'registrations#create'
     post 'sign_in', to: 'authentications#create'
   end

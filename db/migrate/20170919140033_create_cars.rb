@@ -3,7 +3,7 @@ ROM::SQL.migration do
     create_table(:cars) do
       primary_key :id
       column :number, String, unique: true
-      column :status, Integer
+      column :status, Integer, default: 0
     end
   end
 end
