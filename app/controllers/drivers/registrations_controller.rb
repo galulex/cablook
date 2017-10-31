@@ -1,7 +1,7 @@
 class Drivers::RegistrationsController < ApplicationController
   def create
     driver = Events::CreateDriver.(driver_attrs)
-    Presenters::Drivers::SinglePrivate.new(driver).to_json
+    render json: Presenters::Drivers::SinglePrivate.new(driver).to_json, status: 201
   end
 
   private
