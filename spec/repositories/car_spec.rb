@@ -24,4 +24,20 @@ describe Repositories::Car do
       it { expect(instance).to be nil }
     end
   end
+
+  describe '#free_cars' do
+    subject { described_class.new.free_cars }
+
+    context 'when there are free cars' do
+      let!(:car) { Factory[:car, status: 0] }
+
+      it { is_expected.not_to be_empty }
+    end
+
+    context 'when there are no free cars' do
+      let!(:car) { Factory[:car, status: 1] }
+
+      it { is_expected.to be_empty }
+    end
+  end
 end

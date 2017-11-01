@@ -1,8 +1,8 @@
-class DriversController < ApplicationController
+class Drivers::AssignCarController < ApplicationController
   before_action :authorize!
 
-  def assign_car
-    driver = Events::AssignCar.(driver_params)
+  def update
+    driver = Events::Drivers::AssignCar.(driver_params)
     render json: { driver: driver }
   end
 
