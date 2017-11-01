@@ -15,6 +15,8 @@ Rails.application.routes.draw do
     post 'sign_in', to: 'authentications#create'
   end
 
+  resources :subscriptions, only: %i[create]
+
   namespace :verifications do
     get 'phone_numbers/send_verification', to: 'phone_numbers#send_verification'
     post 'phone_numbers/verify', to: 'phone_numbers#verify'
