@@ -1,4 +1,4 @@
-describe Drivers::AuthenticationsController, type: :controller do
+describe DriversApp::AuthenticationsController, type: :controller do
   describe '#create' do
     subject { response }
 

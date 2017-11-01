@@ -8,7 +8,7 @@ Rails.application.routes.draw do
     resources :feedbacks, only: :create
   end
 
-  namespace :drivers do
+  namespace :drivers_app do
     resources :cars, only: :index
     patch 'assign_car', to: 'assign_car#update'
     post 'sign_up', to: 'registrations#create'

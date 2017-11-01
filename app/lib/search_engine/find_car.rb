@@ -3,7 +3,7 @@ module SearchEngine
   module FindCar
     extend self
 
-    def call(trip_id: trip_id)
+    def call(trip_id:)
       busies = SearchEngine::FindCar::Busies.(trip_id: trip_id)
       free_car = SearchEngine::FindCar::Free.(trip_id: trip_id)
       if free_car && busies
