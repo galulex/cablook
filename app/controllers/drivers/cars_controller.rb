@@ -3,6 +3,6 @@ class Drivers::CarsController < ApplicationController
 
   def index
     cars = Repositories::Car.new.free_cars
-    Presenters::Cars::Collection.new(cars).to_json
+    render json: Presenters::Cars::Collection.new(cars).to_json, status: 200
   end
 end
