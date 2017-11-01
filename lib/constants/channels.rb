@@ -1,6 +1,6 @@
 module Constants
   module Channels
-    DRIVER_MAP = 'driver_map_channel'.freeze
-    TRIP       = 'trip_channel'.freeze
+    DRIVER_MAP = 'DriverMapChannel'.freeze
+    TRIP       = 'TripChannel'.freeze
   end
 end
