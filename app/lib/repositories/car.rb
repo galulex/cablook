@@ -1,8 +1,6 @@
 module Repositories
   class Car < ROM::Repository[:cars]
-    relations :cars
-
-    commands :create
+    commands :create, update: :by_pk
 
     def initialize
       super(ROM.env)
@@ -10,6 +8,10 @@ module Repositories
 
     def all
       cars.to_a
+    end
+
+    def by_id(id)
+      cars.by_pk(id).one
     end
 
     def by_number(number)

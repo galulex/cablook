@@ -1,9 +1,18 @@
 class DriverMapChannel < ApplicationCable::Channel
   def subscribed
-    stream_from Constants::DRIVER_MAP_CHANNEL
+    stream_from Constants::Channels::DRIVER_MAP
   end
 
-  def receive(data)
-    ActionCable.server.broadcast Constants::DRIVER_MAP_CHANNEL, data
+  def send_location(data)
+    body = JSON.parse(data['body'])
+    location = [body.fetch('latitude'), body.fetch('longitude')]
+    car_id = body.fetch('car_id')
+    redis.set("car_#{car_id}", location)
+  end
+
+  private
+
+  def redis
+    @redis ||= Redis.new
   end
 end
