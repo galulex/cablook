@@ -1,7 +1,7 @@
 class AuthorizationsController < ApplicationController
   def create
     user = Events::Authorization.(sign_in_params)
-    Presenters::Users::SinglePrivate.new(user).to_json
+    render json: Presenters::Users::SinglePrivate.new(user).to_json, status: 201
   end
 
   private

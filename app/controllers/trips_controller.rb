@@ -3,17 +3,17 @@ class TripsController < ApplicationController
 
   def index
     trips = Repositories::Trip.new.by_user(current_user.id)
-    Presenters::Trips::Collection.new(trips).to_json
+    render json: Presenters::Trips::Collection.new(trips).to_json, status: 200
   end
 
   def show
     trip = Repositories::Trip.new.by_pk_with_feedbacks(params[:id])
-    Presenters::Trips::Single.new(trip).to_json
+    render json: Presenters::Trips::Single.new(trip).to_json, status: 200
   end
 
   def create
     trip = Events::CreateTrip.(trip_params)
-    Presenters::Trips::Single.new(trip).to_json
+    render json: Presenters::Trips::Single.new(trip).to_json, status: 201
   end
 
   private

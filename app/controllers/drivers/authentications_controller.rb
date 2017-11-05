@@ -1,7 +1,7 @@
 class Drivers::AuthenticationsController < ApplicationController
   def create
     driver = Events::Drivers::Authentication.(sign_in_params)
-    Presenters::Drivers::SinglePrivate.new(driver).to_json
+    render json: Presenters::Drivers::SinglePrivate.new(driver).to_json, status: 201
   end
 
   private
