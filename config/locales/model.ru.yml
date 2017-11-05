@@ -10,3 +10,7 @@ ru:
             phone_number:
               taken: Пользователь с таким номером телефона уже существует
               invalid: "Номер телефона должен быть 12 символов. Например: 380XXXXXXX"
+        validators/subscription:
+          attributes:
+            email:
+              taken: Пользователь с таким емейлом уже существует

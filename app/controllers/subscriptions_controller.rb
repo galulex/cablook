@@ -1,11 +1,17 @@
 class SubscriptionsController < ApplicationController
   def create
-    Events::CreateSubscription.(subscription_params)
+    validator = Validators::Subscription.new(subscription_params)
+    if validator.valid?
+      Repositories::Subscription.new(ROM.env).create(subscription_params)
+      redirect_to '/?submit=true'
+    else
+      redirect_to '/'
+    end
   end
 
   private
 
   def subscription_params
-    params.fetch(:subscription, {}).permit(:email)
+    params.require(:subscription).permit(:email).merge(created_at: Time.now).to_h
   end
 end

@@ -166,8 +166,8 @@
 
       </div>
       <br />
-      <form action="/" method="get" accept-charset="utf-8">
-        <input type="email" required placeholder="Твій email (ми повідомимо про старт)"/><!--
+      <form action="/subscriptions" method="post" accept-charset="utf-8">
+        <input id="email" type="email" name="subscription[email]" required placeholder="Твій email (ми повідомимо про старт)"> <!--
         --><button type="submit">
 
           <svg xmlns="http://www.w3.org/2000/svg" id="Слой_7" viewBox="0 0 107.6 107.6">
@@ -224,4 +224,10 @@
     </main>
     <link rel="stylesheet" href="fonts.css" type="text/css" media="screen" charset="utf-8"/>
   </body>
+  <script type="text/javascript" language="javascript" charset="utf-8">
+    isSubmit = window.location.href.match("submit");
+    if (isSubmit) {
+      document.querySelector('#email').placeholder = "CabLook не змусить Вас чекати довго";
+    }
+  </script>
 </html>
