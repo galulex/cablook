@@ -17,16 +17,16 @@ describe SearchEngine::AssignAndBroadcast do
     context 'and broadcasts to channel' do
       let(:trip_channel) { "#{Constants::Channels::TRIP}_#{trip.id}" }
       let(:trip_channel_params) do
-        { action: 'TripAssigned',
+        { action: Constants::BroadcastActions::TRIP_ASSIGNED,
           car_id: car.id,
           duration: duration }
       end
       let(:driver_map_channel) { Constants::Channels::DRIVER_MAP }
       let(:driver_map_channel_params) do
-        { action: 'TripAssigned',
+        { action: Constants::BroadcastActions::TRIP_ASSIGNED,
           car_id: car.id,
           driver_id: driver.id,
-          trip_id: trip.id }
+          trip: trips_repository.by_id_with_user(trip.id).to_json }
       end
 
       before { allow(ActionCable.server).to receive(:broadcast) }

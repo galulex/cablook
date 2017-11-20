@@ -21,7 +21,7 @@ module Events
     end
 
     def create_driver
-      Repositories::Driver.new.create(data.merge(auth_token: SecureRandom.base58(24)))
+      Repositories::Driver.new(ROM.env).create(data.merge(auth_token: SecureRandom.base58(24)))
     end
   end
 end

@@ -16,7 +16,7 @@ module Events
     private
 
     def driver
-      @driver ||= Repositories::Driver.new.by_username(data[:username])
+      @driver ||= Repositories::Driver.new(ROM.env).by_username(data[:username])
     end
 
     def encrypted_password

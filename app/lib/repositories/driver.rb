@@ -1,12 +1,6 @@
 module Repositories
   class Driver < ROM::Repository[:drivers]
-    relations :drivers
-
     commands :create, update: :by_pk
-
-    def initialize
-      super(ROM.env)
-    end
 
     def all
       drivers.to_a

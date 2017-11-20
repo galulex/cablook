@@ -14,6 +14,13 @@ describe SearchEngine do
       it { expect(SearchEngine::AssignAndBroadcast).to receive(:call).with(car_id: car.id, trip_id: trip.id) }
     end
 
+    context 'when trip propose is broadcasted' do
+      let(:car_params) { [{ car_id: car.id, trip_id: trip.id }] }
+
+      after { subject.call }
+
+      it { expect(SearchEngine::BroadcastPropose).to receive(:call).with(cars: car_params, trip_id: trip.id) }
+    end
 
     context 'when car found' do
       let(:car_params) { nil }

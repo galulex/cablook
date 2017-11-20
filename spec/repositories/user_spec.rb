@@ -1,6 +1,6 @@
 describe Repositories::User do
   describe '#all' do
-    let(:instance) { described_class.new.all }
+    let(:instance) { users_repository.all }
 
     it { expect(instance).to be_empty }
 
@@ -12,7 +12,7 @@ describe Repositories::User do
   end
 
   describe '#by_email' do
-    let(:instance) { described_class.new.by_email(email) }
+    let(:instance) { users_repository.by_email(email) }
     let!(:user) { Factory[:user] }
     let(:email) { user.email }
 
@@ -26,7 +26,7 @@ describe Repositories::User do
   end
 
   describe '#by_token' do
-    let(:instance) { described_class.new.by_token(auth_token) }
+    let(:instance) { users_repository.by_token(auth_token) }
     let(:user) { Factory[:user] }
     let(:auth_token) { user.auth_token }
 

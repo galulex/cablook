@@ -19,7 +19,7 @@ module Events
     end
 
     def create_subscription
-      Repositories::Subscription.new.create(data.to_h.merge(created_at: Time.now))
+      Repositories::Subscription.new(ROM.env).create(data.to_h.merge(created_at: Time.now))
     end
   end
 end

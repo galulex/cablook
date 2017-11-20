@@ -10,7 +10,7 @@ class ApplicationController < ActionController::API
   end
 
   def current_user
-    @current_user ||= Repositories::User.new.by_token(auth_token)
+    @current_user ||= Repositories::User.new(ROM.env).by_token(auth_token)
   end
 
   private

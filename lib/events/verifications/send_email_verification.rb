@@ -17,7 +17,7 @@ module Events
       private
 
       def update_user_confirmation_token
-        Repositories::User.new.update(user.id, confirmation_token: token)
+        Repositories::User.new(ROM.env).update(user.id, confirmation_token: token)
       end
 
       def send_confirmation_link
@@ -37,7 +37,7 @@ module Events
       end
 
       def user
-        @user ||= Repositories::User.new.by_email(data[:email])
+        @user ||= Repositories::User.new(ROM.env).by_email(data[:email])
       end
 
       def token

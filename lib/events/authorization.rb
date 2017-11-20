@@ -16,7 +16,7 @@ module Events
     private
 
     def user
-      @user ||= Repositories::User.new.by_phone_number(data[:phone_number])
+      @user ||= Repositories::User.new(ROM.env).by_phone_number(data[:phone_number])
     end
 
     def encrypted_password

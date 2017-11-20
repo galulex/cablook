@@ -2,10 +2,6 @@ module Repositories
   class Car < ROM::Repository[:cars]
     commands :create, update: :by_pk
 
-    def initialize
-      super(ROM.env)
-    end
-
     def all
       cars.to_a
     end

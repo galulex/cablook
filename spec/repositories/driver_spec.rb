@@ -1,6 +1,6 @@
 describe Repositories::Driver do
   describe '#all' do
-    let(:instance) { described_class.new.all }
+    let(:instance) { drivers_repository.all }
 
     it { expect(instance).to be_empty }
 
@@ -12,7 +12,7 @@ describe Repositories::Driver do
   end
 
   describe '#by_username' do
-    let(:instance) { described_class.new.by_username(username) }
+    let(:instance) { drivers_repository.by_username(username) }
     let!(:driver) { Factory[:driver] }
     let(:username) { driver.username }
 
@@ -26,7 +26,7 @@ describe Repositories::Driver do
   end
 
   describe '#by_car_id' do
-    let(:instance) { described_class.new.by_car_id(car_id) }
+    let(:instance) { drivers_repository.by_car_id(car_id) }
     let!(:driver) { Factory[:driver, car_id: car.id] }
     let(:car) { Factory[:car] }
     let(:car_id) { driver.car_id }
@@ -41,7 +41,7 @@ describe Repositories::Driver do
   end
 
   describe '#by_token' do
-    let(:instance) { described_class.new.by_token(auth_token) }
+    let(:instance) { drivers_repository.by_token(auth_token) }
     let(:driver) { Factory[:driver] }
     let(:auth_token) { driver.auth_token }
 

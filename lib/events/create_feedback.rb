@@ -22,7 +22,7 @@ module Events
     end
 
     def create_feedback
-      Repositories::Feedback.new.create(data.to_h)
+      Repositories::Feedback.new(ROM.env).create(data.to_h)
     end
   end
 end

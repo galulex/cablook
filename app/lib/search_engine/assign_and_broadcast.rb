@@ -4,7 +4,7 @@ module SearchEngine
       new(attr).call
     end
 
-    def initialize(car_id:, trip_id:, duration:)
+    def initialize(trip_id:, car_id:, duration:)
       @car_id = car_id
       @trip_id = trip_id
       @duration = duration
@@ -22,7 +22,7 @@ module SearchEngine
     private
 
     def assign_car_and_driver_to_trip
-      Repositories::Trip.new.update(
+      Repositories::Trip.new(ROM.env).update(
         trip_id,
         car_id: car_id,
         driver_id: driver.id
@@ -30,7 +30,7 @@ module SearchEngine
     end
 
     def update_car_status_to_driving
-      Repositories::Car.new.update(
+      Repositories::Car.new(ROM.env).update(
         car_id,
         status: Constants::Trip::DRIVING
       )
@@ -39,24 +39,28 @@ module SearchEngine
     def broadcast_to_trip_channel
       ActionCable.server.broadcast(
         "#{Constants::Channels::TRIP}_#{trip_id}",
-        action: 'TripAssigned',
+        action: Constants::BroadcastActions::TRIP_ASSIGNED,
         car_id: car_id,
-        duration: duration,
+        duration: duration
       )
     end
 
     def broadcast_to_drivers_channel
       ActionCable.server.broadcast(
         Constants::Channels::DRIVER_MAP,
-        action: 'TripAssigned',
+        action: Constants::BroadcastActions::TRIP_ASSIGNED,
         car_id: car_id,
         driver_id: driver.id,
-        trip_id: trip_id
+        trip: trip.to_json
       )
     end
 
     def driver
-      @driver ||= Repositories::Driver.new.by_car_id(car_id)
+      @driver ||= Repositories::Driver.new(ROM.env).by_car_id(car_id)
+    end
+
+    def trip
+      @trip ||= Repositories::Trip.new(ROM.env).by_id_with_user(trip_id)
     end
   end
 end
