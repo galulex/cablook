@@ -1,26 +1,55 @@
 describe DriverMapChannel do
   let(:channel) { described_class.new(connection, {}) }
-
   let(:connection) { TestConnection.new }
 
-  let(:car_id) { 0 }
-  let(:latitude) { Faker::Address.latitude }
-  let(:latitude) { Faker::Address.longitude }
-  let(:longitude) { 14.88 }
-  let(:data) do
-    {
-      'action' => 'send_location',
-      'body' => {
-        'latitude': latitude,
-        'longitude': longitude,
-        'car_id': car_id
-      }.to_json
-    }
+  context '#send_location' do
+    let(:car_id) { 0 }
+    let(:latitude) { Faker::Address.latitude }
+    let(:latitude) { Faker::Address.longitude }
+    let(:longitude) { 14.88 }
+    let(:data) do
+      {
+        'action' => 'send_location',
+        'body' => {
+          'latitude': latitude,
+          'longitude': longitude,
+          'car_id': car_id
+        }.to_json
+      }
+    end
+
+    let(:redis_car_location) { Redis.new.get("car_#{car_id}") }
+
+    before { channel.perform_action(data) }
+
+    it { expect(redis_car_location).to eq([latitude, longitude].to_s) }
   end
 
-  let(:redis_car_location) { Redis.new.get("car_#{car_id}") }
+  context '#accept_trip' do
+    let(:driver) { Factory[:driver, car_id: Factory[:car].id] }
+    let(:trip) { Factory[:trip] }
+    let(:data) do
+      {
+        'action' => 'accept_trip',
+        'body' => {
+          'car_id': driver.car_id,
+          'driver_id': driver.id,
+          'trip_id': trip.id
+        }.to_json
+      }
+    end
 
-  before { channel.perform_action(data) }
+    after { channel.perform_action(data) }
 
-  it { expect(redis_car_location).to eq([latitude, longitude].to_s) }
+    it { expect(Events::Trips::Accept).to receive(:call).once }
+    # it { expect(ActionCable.server).to receive(:broadcast).with(driver_map_channel, driver_map_channel_params).once }
+
+    context 'when trip was accepted' do
+      let(:trip) { Factory[:trip, status: Constants::Trip::ON_THE_WAY] }
+    end
+
+    context 'when data is invalid' do
+      let(:data) { {} }
+    end
+  end
 end
