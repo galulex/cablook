@@ -1,6 +1,6 @@
 class Trips < ROM::Relation[:sql]
   schema do
-    attribute :id, Types::Int.meta(primary_key: true)
+    attribute :id, Types::Int
     attribute :status, Types::Int
     attribute :path, Types::String
     attribute :cost, Types::Float

@@ -18,7 +18,6 @@ module SearchEngine
           { car_id: car_id, location: location } if location
         end.compact
         return if cars.empty?
-        # destination = [49.440971, 32.065474]
         locations = cars.map { |car| car[:location] }
         trip = trip_repository.by_id(trip_id)
         nearest = NearestPoint.call(origins_location: locations, destination: trip.departure)
