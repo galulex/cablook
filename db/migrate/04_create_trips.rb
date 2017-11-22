@@ -4,7 +4,7 @@ ROM::SQL.migration do
       primary_key :id
       column :status, Integer, default: 0
       column :path, String
-      column :cost, BigDecimal
+      column :cost, Integer
 
       column :departure, 'text[]', null: false
       column :destination, 'text[]', null: false

@@ -3,7 +3,7 @@ module Events
     def schema
       Dry::Validation.Schema do
         required(:path).filled(:str?)
-        required(:cost).filled(:float?)
+        required(:cost).filled(:int?)
         required(:user_id).filled(:int?)
 
         required(:departure) { array? & size?(2) }

@@ -3,7 +3,7 @@ class Trips < ROM::Relation[:sql]
     attribute :id, Types::Int
     attribute :status, Types::Int
     attribute :path, Types::String
-    attribute :cost, Types::Float
+    attribute :cost, Types::Int
 
     attribute :departure, Types::PG::Array
     attribute :destination, Types::PG::Array
