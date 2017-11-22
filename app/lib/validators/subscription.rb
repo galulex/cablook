@@ -4,6 +4,6 @@ module Validators
 
     relation :subscriptions
 
-    validates :email, presence: true
+    validates :email, presence: true, uniqueness: true
   end
 end

@@ -2,19 +2,17 @@ describe SubscriptionsController, type: :controller do
   let(:subscription) { Factory[:subscription] }
 
   describe '#create' do
-    subject { response }
+    subject { post :create, params: params }
 
     let(:params) { { subscription: subscription_params } }
     let(:subscription_params) { Factory.structs[:subscription].to_h.except(:id) }
 
-    before { post :create, params: params, as: :json }
-
-    it { is_expected.to have_http_status(:success) }
+    it { is_expected.to redirect_to('/?submit=true') }
 
     context 'when params are invalid' do
       let(:subscription_params) { Factory[:subscription].to_h.except(:id, :email) }
 
-      it { is_expected.to have_http_status(:bad_request) }
+      it { is_expected.to redirect_to('/') }
     end
   end
 end
