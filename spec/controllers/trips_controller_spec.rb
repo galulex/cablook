@@ -9,7 +9,7 @@ describe TripsController, type: :controller do
 
     it_behaves_like 'authorization_required'
 
-    let(:params) { { trip: trip_params, auth_token: user.auth_token } }
+    let(:params) { { trip: trip_params } }
     let(:trip_params) { Factory.structs[:trip].to_h.except(:id) }
 
     before { post :create, params: params, as: :json }
