@@ -4,10 +4,17 @@ class DriverMapChannel < ApplicationCable::Channel
   end
 
   def send_location(data)
-    body = JSON.parse(data['body'])
+    body = JSON.parse(data.fetch('body'))
     location = [body.fetch('latitude'), body.fetch('longitude')]
     car_id = body.fetch('car_id')
     redis.set("car_#{car_id}", location)
+  end
+
+  def accept_trip(data)
+    body = JSON.parse(data.fetch('body'))
+    Events::Trips::Accept.(body)
+  rescue Events::InvalidParamsError
+    # Bad parameters
   end
 
   private

@@ -1,6 +1,6 @@
 describe Repositories::Trip do
   describe '#by_user' do
-    subject { described_class.new.by_user(user.id) }
+    subject { trips_repository.by_user(user.id) }
 
     let(:user) { Factory[:user] }
 
@@ -15,7 +15,7 @@ describe Repositories::Trip do
 
   describe '#by_pk_with_feedbacks' do
     let(:trip) { Factory[:trip] }
-    let(:result) { described_class.new.by_pk_with_feedbacks(trip.id) }
+    let(:result) { trips_repository.by_pk_with_feedbacks(trip.id) }
 
     it { expect(result.id).to eq(trip.id) }
     it { expect(result.feedbacks).to be_empty }
@@ -33,9 +33,34 @@ describe Repositories::Trip do
     let!(:trip_old) { Factory[:trip, estimated_end_time: time - 1.day] }
     let(:time) { Time.new(2017, 0o1, 0o2, 0o3, 0o4, 0o5) }
 
-    let(:result) { described_class.new.active_and_estimated_end_in_timeframe(from: time, till: time + 15.minutes) }
+    let(:result) { trips_repository.active_and_estimated_end_in_timeframe(from: time, till: time + 15.minutes) }
 
     it { expect(result.count).to eq(1) }
     it { expect(result.first[:id]).to eq(trip_new_active.id) }
+  end
+
+  describe '#by_id_with_user' do
+    let!(:trip_with_user) { Factory[:trip, user_id: user.id] }
+    let!(:trip) { Factory[:trip, user_id: nil] }
+    let(:user) { Factory[:user] }
+
+    context 'when trip found' do
+      let(:result) { trips_repository.by_id_with_user(trip_with_user.id) }
+
+      it { expect(result).not_to be nil }
+      it { expect(result.id).to eq(trip_with_user.id) }
+    end
+
+    context 'when trip without user' do
+      let(:result) { trips_repository.by_id_with_user(trip.id) }
+
+      it { expect(result).to be nil }
+    end
+
+    context 'when trip not found' do
+      let(:result) { trips_repository.by_id_with_user(9999) }
+
+      it { expect(result).to be nil }
+    end
   end
 end

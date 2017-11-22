@@ -1,9 +1,9 @@
 module Constants
   module Car
-    # TODO: Think up a dictionary of statuses. DDD Erick Evans
-
-    FREE           = 0
-    DURING_IN_TRIP = 1
-    CHARGE         = 2
+    OFFLINE        = 0
+    FREE           = 1
+    DURING_IN_TRIP = 2
+    WITH_NEXT_TRIP = 3
+    CHARGE         = 4
   end
 end

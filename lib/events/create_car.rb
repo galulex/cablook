@@ -19,7 +19,7 @@ module Events
     end
 
     def create_car
-      Repositories::Car.new.create(data.to_h)
+      Repositories::Car.new(ROM.env).create(data.to_h)
     end
   end
 end

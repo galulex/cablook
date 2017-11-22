@@ -22,3 +22,5 @@ en:
     errors:
       messages:
         has_already_been_taken: Эта машина уже занята другим водителем
+  trips:
+    assigned_or_canceled: Поездка отменена или взята другим водителем

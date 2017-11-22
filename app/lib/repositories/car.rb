@@ -2,10 +2,6 @@ module Repositories
   class Car < ROM::Repository[:cars]
     commands :create, update: :by_pk
 
-    def initialize
-      super(ROM.env)
-    end
-
     def all
       cars.to_a
     end
@@ -19,8 +15,7 @@ module Repositories
     end
 
     def free_cars
-      # TODO: Move 0 to constants
-      cars.where(status: 0).to_a
+      cars.where(status: Constants::Car::FREE).to_a
     end
   end
 end

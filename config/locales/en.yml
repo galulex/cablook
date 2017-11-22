@@ -22,3 +22,5 @@ en:
     errors:
       messages:
         has_already_been_taken: This car has already been taken by another driver
+  trips:
+    assigned_or_canceled: Trip is taken already by another driver or canceled

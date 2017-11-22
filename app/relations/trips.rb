@@ -16,6 +16,9 @@ class Trips < ROM::Relation[:sql]
 
     associations do
       has_many :feedbacks
+      has_one :cars
+      has_one :users
+      has_one :drivers
     end
 
     primary_key :id
@@ -29,7 +32,15 @@ class Trips < ROM::Relation[:sql]
     where(Sequel.lit('estimated_end_time BETWEEN :from AND :till', from: from, till: till))
   end
 
-  def with_driver
-    select_append(:drivers__car_id).inner_join(:drivers, id: :trips__driver_id)
+  def with_car
+    select_append(
+      cars[:status].as(:car_status),
+      cars[:number].as(:car_number)
+    ).inner_join(:cars, id: Sequel[:trips][:car_id])
+  end
+
+  def with_user
+    select_append(users[:phone_number].as(:user_number))
+      .inner_join(:users, id: Sequel[:trips][:user_id])
   end
 end

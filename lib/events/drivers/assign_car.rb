@@ -16,11 +16,15 @@ module Events
 
     def assign_car
       # TODO: Add method to set car status
-      Repositories::Driver.new.update(data[:driver_id], car_id: data[:car_id])
+      driver_repository.update(data[:driver_id], car_id: data[:car_id])
     end
 
     def validate!
-      invalid!([I18n.t('assignings.errors.messages.has_already_been_taken')]) if Repositories::Driver.new.by_car_id(data[:car_id])
+      invalid!([I18n.t('assignings.errors.messages.has_already_been_taken')]) if driver_repository.by_car_id(data[:car_id])
+    end
+
+    def driver_repository
+      @driver_repository ||= Repositories::Driver.new(ROM.env)
     end
   end
 end

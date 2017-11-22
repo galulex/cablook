@@ -1,6 +1,6 @@
 describe Repositories::Car do
   describe '#all' do
-    let(:instance) { described_class.new.all }
+    let(:instance) { cars_repository.all }
 
     it { expect(instance).to be_empty }
 
@@ -12,7 +12,7 @@ describe Repositories::Car do
   end
 
   describe '#by_number' do
-    let(:instance) { described_class.new.by_number(number) }
+    let(:instance) { cars_repository.by_number(number) }
     let!(:car) { Factory[:car] }
     let(:number) { car.number }
 
@@ -26,16 +26,16 @@ describe Repositories::Car do
   end
 
   describe '#free_cars' do
-    subject { described_class.new.free_cars }
+    subject { cars_repository.free_cars }
 
     context 'when there are free cars' do
-      let!(:car) { Factory[:car, status: 0] }
+      let!(:car) { Factory[:car, status: Constants::Car::FREE] }
 
       it { is_expected.not_to be_empty }
     end
 
     context 'when there are no free cars' do
-      let!(:car) { Factory[:car, status: 1] }
+      let!(:car) { Factory[:car, status: Constants::Car::OFFLINE] }
 
       it { is_expected.to be_empty }
     end

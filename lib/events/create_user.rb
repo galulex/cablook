@@ -24,7 +24,7 @@ module Events
     end
 
     def create_user
-      Repositories::User.new.create(data.merge(auth_token: SecureRandom.base58(24)))
+      Repositories::User.new(ROM.env).create(data.merge(auth_token: SecureRandom.base58(24)))
     end
 
     def send_number_verification

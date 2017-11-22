@@ -32,7 +32,7 @@ module Events
       end
 
       def users_repository
-        @users_repository ||= Repositories::User.new
+        @users_repository ||= Repositories::User.new(ROM.env)
       end
     end
   end

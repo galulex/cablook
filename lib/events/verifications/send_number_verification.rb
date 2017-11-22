@@ -17,7 +17,7 @@ module Events
       private
 
       def update_user_verification_token
-        Repositories::User.new.update(user.id, verification_token: token)
+        Repositories::User.new(ROM.env).update(user.id, verification_token: token)
       end
 
       def send_verification_code
@@ -29,7 +29,7 @@ module Events
       end
 
       def user
-        @user ||= Repositories::User.new.by_phone_number(data[:number])
+        @user ||= Repositories::User.new(ROM.env).by_phone_number(data[:number])
       end
 
       def check_user!

@@ -27,7 +27,7 @@ module Events
     end
 
     def create_trip
-      Repositories::Trip.new.create(data.to_h)
+      Repositories::Trip.new(ROM.env).create(data.to_h)
     end
 
     def convert_location_to_pg_array
