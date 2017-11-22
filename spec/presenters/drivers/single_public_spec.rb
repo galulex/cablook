@@ -1,4 +1,4 @@
-describe Presenters::Drivers::SinglePublic do
+describe Presenters::DriversApp::SinglePublic do
   let(:car) { Factory[:car] }
   let(:driver) { Factory[:driver, car_id: car.id] }
 

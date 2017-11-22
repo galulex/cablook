@@ -1,4 +1,4 @@
-describe Events::Drivers::Authentication do
+describe Events::DriversApp::Authentication do
   describe '.call' do
     subject { -> { result } }
 

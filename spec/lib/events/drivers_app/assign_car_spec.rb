@@ -1,4 +1,4 @@
-describe Events::Drivers::AssignCar do
+describe Events::DriversApp::AssignCar do
   describe '.call' do
     subject { -> { described_class.call(data) } }
 
