@@ -51,13 +51,14 @@ puts "=============================\n"
 puts 'Creating trips...'
 location_1 = Sequel.pg_array([49.426334, 32.054184])
 location_2 = Sequel.pg_array([49.446263, 32.055930])
+address = "TestAddress"
 
 trip_data = [
-  { status: 0, path: 'test_path', cost: 35.33, departure: location_1, destination: location_2, user_id: 1 },
-  { status: 1, path: 'test_path', cost: 14.88, departure: location_1, destination: location_2, user_id: 2 },
-  { status: 3, path: 'test_path', cost: 51.51, departure: location_1, destination: location_2, user_id: 3, car_id: 1, driver_id: 1 },
-  { status: 4, path: 'test_path', cost: 13.37, departure: location_1, destination: location_2, user_id: 4, car_id: 2, driver_id: 2 },
-  { status: 5, path: 'test_path', cost: 22.22, departure: location_1, destination: location_2, user_id: 5 }
+  { status: 0, path: 'test_path', cost: 35.33, departure: location_1, destination: location_2, user_id: 1, departure_address: address, destination_address: address },
+  { status: 1, path: 'test_path', cost: 14.88, departure: location_1, destination: location_2, user_id: 2, departure_address: address, destination_address: address },
+  { status: 2, path: 'test_path', cost: 51.51, departure: location_1, destination: location_2, user_id: 3, car_id: 1, driver_id: 1, departure_address: address, destination_address: address },
+  { status: 3, path: 'test_path', cost: 13.37, departure: location_1, destination: location_2, user_id: 4, car_id: 2, driver_id: 2, departure_address: address, destination_address: address },
+  { status: 4, path: 'test_path', cost: 22.22, departure: location_1, destination: location_2, user_id: 5, departure_address: address, destination_address: address }
 ]
 trip_data.each { |data| Repositories::Trip.new(ROM.env).create(data) }
 

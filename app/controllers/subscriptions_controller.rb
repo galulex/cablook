@@ -12,6 +12,6 @@ class SubscriptionsController < ApplicationController
   private
 
   def subscription_params
-    params.require(:subscription).permit(:email).merge(created_at: Time.now).to_h
+    params.require(:subscription).permit(:email).to_h
   end
 end

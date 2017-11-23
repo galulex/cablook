@@ -8,8 +8,11 @@ ROM::SQL.migration do
 
       column :departure, 'text[]', null: false
       column :destination, 'text[]', null: false
+      column :departure_address, String
+      column :destination_address, String
 
       column :estimated_end_time, DateTime
+      column :created_at, DateTime, default: Sequel::CURRENT_TIMESTAMP
 
       foreign_key :user_id, :users
       foreign_key :driver_id, :drivers

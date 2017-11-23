@@ -7,8 +7,11 @@ class Trips < ROM::Relation[:sql]
 
     attribute :departure, Types::PG::Array
     attribute :destination, Types::PG::Array
+    attribute :departure_address, Types::String
+    attribute :destination_address, Types::String
 
     attribute :estimated_end_time, Types::Time
+    attribute :created_at, Types::Time
 
     attribute :user_id, Types::ForeignKey(:users)
     attribute :car_id, Types::ForeignKey(:cars)

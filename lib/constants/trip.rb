@@ -2,9 +2,9 @@ module Constants
   module Trip
     PENDING    = 0
     ON_THE_WAY = 1
-    DRIVING    = 3
-    FINISHED   = 4
-    CANCELLED  = 5
+    DRIVING    = 2
+    FINISHED   = 3
+    CANCELLED  = 4
 
     STATUSES = {
       PENDING     => 'pending'.freeze,
