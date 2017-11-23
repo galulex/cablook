@@ -8,6 +8,8 @@ module Events
 
         required(:departure) { array? & size?(2) }
         required(:destination) { array? & size?(2) }
+        required(:departure_address).filled(:str?)
+        required(:destination_address).filled(:str?)
       end
     end
 

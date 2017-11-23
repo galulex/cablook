@@ -20,7 +20,7 @@ class TripsController < ApplicationController
 
   def trip_params
     params.require(:trip)
-          .permit(:path, :cost, departure: [], destination: [])
+          .permit(:path, :cost, :departure_address, :destination_address, departure: [], destination: [])
           .merge(user_id: current_user.id)
   end
 end
