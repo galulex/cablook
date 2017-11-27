@@ -9,7 +9,7 @@ module SearchEngine
     elsif event.is_a?(Array)
       BroadcastPropose.(cars: event, trip_id: trip_id)
     else
-      SearchCarForTripJob.set(wait: 1.minute).perform_later(trip_id)
+      Workers::SearchCarForTrip.perform_in(1.minute, trip_id)
     end
   end
 end

@@ -17,7 +17,7 @@ module Events
       convert_location_to_pg_array
       validate!
       trip = create_trip
-      SearchCarForTripJob.perform_later(trip.id)
+      Workers::SearchCarForTrip.perform_async(trip.id)
       trip
     end
 

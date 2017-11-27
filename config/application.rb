@@ -16,5 +16,7 @@ module CabLook
     config.api_only = true
 
     config.autoload_paths << Rails.root.join('lib')
+
+    config.active_job.queue_adapter = :sidekiq
   end
 end
