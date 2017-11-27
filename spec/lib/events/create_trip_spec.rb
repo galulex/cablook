@@ -6,7 +6,7 @@ describe Events::CreateTrip do
     let(:user) { Factory[:user] }
 
     it { is_expected.to change { trips_repository.trips.count }.by(+1) }
-    it { is_expected.to change(Workers::SearchCarForTrip.jobs, :size).by(1) }
+    it { is_expected.to have_enqueued_job(Jobs::SearchCarForTrip).with(data[:id]) }
 
     context 'when path is empty' do
       let(:data) { Factory.structs[:trip].to_h.except(:path) }

@@ -34,16 +34,9 @@ git clone git@github.com:activebridge/CabLook-backend.git
 
 ## :arrow_up: How to Setup Database
 
-**Step 1:** Change database configurations in config/secrets.rb:
+**Step 1:** Copy `config/secrets.yml.example` to `config/secrets.yml` and change database configurations:
 ```
-development:
-db_user: //postgres_database_user
-db_password: //postgres_database_password
-```
-```
-test:
-db_user: //postgres_database_user
-db_password: //postgres_database_password
+database_url: postgres://user:password@host/database_name
 ```
 **Step 2:** Run `sudo -u postgres psql` to enter postgres console. Then enter password to get an access.
 

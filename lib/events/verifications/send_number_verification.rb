@@ -22,7 +22,7 @@ module Events
 
       def send_verification_code
         Twilio::REST::Client.new.api.account.messages.create(
-          from: Rails.application.secrets.twilio_number,
+          from: ENV['TWILIO_NUMBER'],
           to: data[:number],
           body: I18n.t('verifications.number.send_verification_token', token: token)
         )

@@ -31,6 +31,9 @@ jobs:
         paths:
           - vendor/bundle
 
+      # Secrets setup
+      - run: cp config/secrets.yml.example config/secrets.yml
+
       # Database setup
       - run: bundle exec rake db:create_db
       - run: bundle exec rake db:reset
