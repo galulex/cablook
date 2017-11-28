@@ -68,6 +68,7 @@ GEM
     coercible (1.0.0)
       descendants_tracker (~> 0.0.1)
     concurrent-ruby (1.0.5)
+    connection_pool (2.2.1)
     crass (1.0.3)
     database_cleaner (1.6.2)
     declarative (0.0.10)
@@ -170,6 +171,8 @@ GEM
     public_suffix (3.0.1)
     puma (3.10.0)
     rack (2.0.3)
+    rack-protection (2.0.0)
+      rack
     rack-test (0.8.0)
       rack (>= 1.0, < 3)
     rails (5.1.4)
@@ -290,6 +293,11 @@ GEM
     ruby-progressbar (1.9.0)
     ruby_dep (1.5.0)
     sequel (5.2.0)
+    sidekiq (5.0.5)
+      concurrent-ruby (~> 1.0)
+      connection_pool (~> 2.2, >= 2.2.0)
+      rack-protection (>= 1.5.0)
+      redis (>= 3.3.4, < 5)
     simplecov (0.15.1)
       docile (~> 1.1.0)
       json (>= 1.8, < 3)
@@ -359,6 +367,7 @@ DEPENDENCIES
   rom-sql
   rspec-rails
   rubocop
+  sidekiq
   simplecov
   spring
   spring-watcher-listen (~> 2.0.0)

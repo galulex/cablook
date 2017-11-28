@@ -19,6 +19,7 @@ gem 'rom-model'
 gem 'rom-rails'
 gem 'rom-repository'
 gem 'rom-sql'
+gem 'sidekiq'
 gem 'twilio-ruby', '~> 5.2.1'
 
 group :development, :test do

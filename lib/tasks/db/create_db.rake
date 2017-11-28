@@ -1,7 +1,7 @@
 namespace :db do
   task :create_db do
     if Rails.env.test?
-      db_name = Rails.application.secrets.db_name
+      db_name = 'cablook_test'
       conn = PG.connect(dbname: 'postgres')
       begin
         conn.exec_params("CREATE DATABASE #{db_name}")

@@ -1,5 +1,8 @@
+require 'sidekiq/web'
+
 Rails.application.routes.draw do
   mount ActionCable.server => '/cable'
+  mount Sidekiq::Web => '/sidekiq'
 
   post 'sign_up', to: 'registrations#create'
   post 'sign_in', to: 'authorizations#create'

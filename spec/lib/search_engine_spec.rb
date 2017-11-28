@@ -25,9 +25,7 @@ describe SearchEngine do
     context 'when car found' do
       let(:car_params) { nil }
 
-      before { ActiveJob::Base.queue_adapter = :test }
-
-      it { is_expected.to have_enqueued_job(SearchCarForTripJob).with(trip.id) }
+      it { is_expected.to have_enqueued_job(Jobs::SearchCarForTrip).with(trip.id) }
     end
   end
 end

@@ -4,6 +4,7 @@ require 'rspec/rails'
 
 require 'rom-rails'
 require 'rom-factory'
+require 'sidekiq/testing'
 require 'simplecov'
 require 'bcrypt'
 Dir[
@@ -44,4 +45,6 @@ RSpec.configure do |config|
     config.rom = ROM.env
   end
   Dir[Rails.root.join('spec/factories/**/*.rb')].each { |f| require f }
+  Sidekiq::Testing.fake!
+  ActiveJob::Base.queue_adapter = :test
 end

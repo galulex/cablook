@@ -41,7 +41,7 @@ module SearchEngine
       @matrix = GoogleDistanceMatrix::Matrix.new
 
       @matrix.configure do |config|
-        config.google_api_key = Rails.application.secrets.google_api_key
+        config.google_api_key = ENV['GOOGLE_API_KEY']
         config.mode = 'driving'
         config.departure_time = departure
       end
