@@ -19,8 +19,10 @@ module CabLook
 
     config.active_job.queue_adapter = :sidekiq
 
-    YAML.safe_load(File.read('config/secrets.yml'))[Rails.env].each do |key, value|
-      ENV[key.upcase] = value unless ENV[key.upcase]
+    if File.exist?('config/secrets.yml')
+      YAML.safe_load(File.read('config/secrets.yml'))[Rails.env].each do |key, value|
+        ENV[key.upcase] = value unless ENV[key.upcase]
+      end
     end
   end
 end
