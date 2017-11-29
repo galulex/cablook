@@ -2,6 +2,8 @@ Rails.application.configure do
   config.action_cable.url = 'ws://cablook.herokuapp.com/cable'
   config.action_cable.allowed_request_origins = ['https://cablook.herokuapp.com', 'http://cablook.herokuapp.com']
 
+  config.secret_key_base = ENV['SECRET_KEY_BASE'] unless config.secret_key_base
+
   config.cache_classes = true
 
   config.eager_load = true
