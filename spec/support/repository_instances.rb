@@ -3,6 +3,10 @@ module RepositoryInstances
     @cars_repository ||= Repositories::Car.new(ROM.env)
   end
 
+  def cards_repository
+    @cards_repository ||= Repositories::Card.new(ROM.env)
+  end
+
   def drivers_repository
     @drivers_repository ||= Repositories::Driver.new(ROM.env)
   end

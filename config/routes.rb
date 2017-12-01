@@ -4,9 +4,12 @@ Rails.application.routes.draw do
   mount ActionCable.server => '/cable'
   mount Sidekiq::Web => '/sidekiq'
 
+  post 'card_callback', to: 'card_callbacks#create'
   post 'sign_up', to: 'registrations#create'
   post 'sign_in', to: 'authorizations#create'
 
+  resources :cards, only: :index
+  resources :subscriptions, only: %i[create]
   resources :trips, only: %i[index show create] do
     resources :feedbacks, only: :create
   end
@@ -17,8 +20,6 @@ Rails.application.routes.draw do
     post 'sign_up', to: 'registrations#create'
     post 'sign_in', to: 'authentications#create'
   end
-
-  resources :subscriptions, only: %i[create]
 
   namespace :verifications do
     get 'phone_numbers/send_verification', to: 'phone_numbers#send_verification'
