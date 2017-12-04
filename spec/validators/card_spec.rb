@@ -6,12 +6,20 @@ describe Validators::Card do
 
   it { is_expected.to be true }
 
-  describe 'token must be unique' do
-
+  describe 'token must be unique by user' do
     let(:data) { card_attrs.merge(token: card.token) }
     let(:card) { Factory[:card] }
 
-    it { is_expected.to be false }
+    it { is_expected.to be true }
+
+    context 'when user add one card 2 times' do
+      let(:user) { Factory[:user] }
+      let(:card) { Factory[:card, user_id: user.id] }
+
+      let(:data) { card_attrs.merge(token: card.token, user_id: user.id) }
+
+      it { is_expected.to be false }
+    end
   end
 
   describe 'token must be presence' do

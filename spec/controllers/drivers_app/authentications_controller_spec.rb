@@ -12,7 +12,7 @@ describe DriversApp::AuthenticationsController, type: :controller do
     context 'when username is blank' do
       let(:params) { { driver: { username: '', password: Faker::Internet.password } } }
 
-      it { is_expected.to have_http_status(:bad_request) }
+      it { is_expected.to have_http_status(:unprocessable_entity) }
     end
   end
 end

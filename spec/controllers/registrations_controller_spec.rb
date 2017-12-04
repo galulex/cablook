@@ -24,7 +24,7 @@ describe RegistrationsController, type: :controller do
         } }
       end
 
-      it { is_expected.to have_http_status(:bad_request) }
+      it { is_expected.to have_http_status(:unprocessable_entity) }
     end
   end
 end

@@ -4,7 +4,7 @@ module Validators
 
     relation :cards
 
-    validates :token, presence: true, uniqueness: true
-    validates :pan, :user_id, presence: true
+    validates :token, :pan, :user_id, presence: true
+    validates :token, uniqueness: { scope: :user_id }
   end
 end

@@ -4,11 +4,10 @@ Rails.application.routes.draw do
   mount ActionCable.server => '/cable'
   mount Sidekiq::Web => '/sidekiq'
 
-  post 'card_callback', to: 'card_callbacks#create'
   post 'sign_up', to: 'registrations#create'
   post 'sign_in', to: 'authorizations#create'
 
-  resources :cards, only: :index
+  resources :cards, only: [:index, :create]
   resources :subscriptions, only: %i[create]
   resources :trips, only: %i[index show create] do
     resources :feedbacks, only: :create

@@ -16,7 +16,7 @@ describe Verifications::PhoneNumbersController, type: :controller do
     context 'when params are invalid' do
       let(:phone_number) { "+#{Faker::Number.number(12)}" }
 
-      it { is_expected.to have_http_status(:bad_request) }
+      it { is_expected.to have_http_status(:unprocessable_entity) }
     end
   end
 
@@ -35,13 +35,13 @@ describe Verifications::PhoneNumbersController, type: :controller do
     context 'when phone_number is invalid' do
       let(:phone_number) { "+#{Faker::Number.number(12)}" }
 
-      it { is_expected.to have_http_status(:bad_request) }
+      it { is_expected.to have_http_status(:unprocessable_entity) }
     end
 
     context 'when token is invalid' do
       let(:params) { { phone_number: phone_number, token: '0000' } }
 
-      it { is_expected.to have_http_status(:bad_request) }
+      it { is_expected.to have_http_status(:unprocessable_entity) }
     end
   end
 end

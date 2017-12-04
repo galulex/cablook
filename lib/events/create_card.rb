@@ -2,15 +2,13 @@ module Events
   class CreateCard < BaseEvent
     def schema
       Dry::Validation.Schema do
-        required(:phone).filled(:str?)
         required(:cardPan).filled(:str?)
         required(:recToken).filled(:str?)
-        required(:transactionStatus).filled(:str?)
+        required(:user_id).filled(:int?)
       end
     end
 
     def run
-      validate_transaction_status
       find_user!
       validate_card!
       create_card
@@ -18,18 +16,13 @@ module Events
 
     private
 
-    def validate_transaction_status
-      return if data[:transactionStatus] == Constants::Card::APPROVED
-      invalid!([I18n.t('cards.something_went_wrong')])
-    end
-
     def find_user!
       invalid!([I18n.t('cards.user_not_found')]) unless user
     end
 
     def validate_card!
       validator = Validators::Card.new(card_params)
-      invalid!(validator.errors.messages) if validator.invalid?
+      invalid!(validator.errors.full_messages) if validator.invalid?
     end
 
     def create_card
@@ -40,16 +33,12 @@ module Events
       {
         token: data[:recToken],
         pan: data[:cardPan],
-        user_id: user.id
+        user_id: data[:user_id]
       }
     end
 
     def user
-      @user ||= Repositories::User.new(ROM.env).by_phone_number(phone_number)
-    end
-
-    def phone_number
-      data[:phone].include?('+') ? data[:phone] : "+#{data[:phone]}"
+      @user ||= Repositories::User.new(ROM.env).by_id(data[:user_id])
     end
   end
 end

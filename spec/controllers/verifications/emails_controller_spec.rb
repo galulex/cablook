@@ -16,7 +16,7 @@ describe Verifications::EmailsController, type: :controller do
     context 'when params are invalid' do
       let(:email) { "+#{Faker::Internet.email}" }
 
-      it { is_expected.to have_http_status(:bad_request) }
+      it { is_expected.to have_http_status(:unprocessable_entity) }
     end
   end
 
@@ -35,13 +35,13 @@ describe Verifications::EmailsController, type: :controller do
     context 'when email is invalid' do
       let(:email) { "+#{Faker::Internet.email}" }
 
-      it { is_expected.to have_http_status(:bad_request) }
+      it { is_expected.to have_http_status(:unprocessable_entity) }
     end
 
     context 'when token is invalid' do
       let(:params) { { email: email, token: '0000' } }
 
-      it { is_expected.to have_http_status(:bad_request) }
+      it { is_expected.to have_http_status(:unprocessable_entity) }
     end
   end
 end
