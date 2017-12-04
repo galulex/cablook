@@ -20,11 +20,11 @@ module Events
 
     def validate_transaction_status
       return if data[:transactionStatus] == Constants::Card::APPROVED
-      invalid!([I18n.t('en.cards.something_went_wrong')])
+      invalid!([I18n.t('cards.something_went_wrong')])
     end
 
     def find_user!
-      invalid!([I18n.t('en.cards.user_not_found')]) unless user
+      invalid!([I18n.t('cards.user_not_found')]) unless user
     end
 
     def validate_card!
@@ -45,7 +45,11 @@ module Events
     end
 
     def user
-      @user ||= Repositories::User.new(ROM.env).by_phone_number(data[:phone])
+      @user ||= Repositories::User.new(ROM.env).by_phone_number(phone_number)
+    end
+
+    def phone_number
+      data[:phone].include?('+') ? data[:phone] : "+#{data[:phone]}"
     end
   end
 end

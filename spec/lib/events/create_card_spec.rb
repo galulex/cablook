@@ -5,7 +5,7 @@ describe Events::CreateCard do
     let(:data) { JSON.parse(File.read('spec/fixtures/card_callback.json')).symbolize_keys }
 
     context 'when card is created successfully' do
-      before { Factory[:user, phone_number: data[:phone]] }
+      before { Factory[:user, phone_number: "+#{data[:phone]}"] }
 
       it { is_expected.to change { cards_repository.cards.count }.by(+1) }
     end
