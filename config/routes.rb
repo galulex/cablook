@@ -7,7 +7,7 @@ Rails.application.routes.draw do
   post 'sign_up', to: 'registrations#create'
   post 'sign_in', to: 'authorizations#create'
 
-  resources :cards, only: [:index, :create]
+  resources :cards, only: [:index, :create, :destroy]
   resources :subscriptions, only: %i[create]
   resources :trips, only: %i[index show create] do
     resources :feedbacks, only: :create

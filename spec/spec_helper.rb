@@ -9,6 +9,7 @@ require 'simplecov'
 require 'bcrypt'
 Dir[
   Rails.root.join('spec/support/**/*.rb'),
+  Rails.root.join('lib/constants.rb'),
   Rails.root.join('lib/constants/**/*.rb')
 ].each { |f| require f }
 

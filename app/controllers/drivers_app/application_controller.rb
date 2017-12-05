@@ -1,8 +1,6 @@
 module DriversApp
   class ApplicationController < ActionController::API
-    UnauthorizedError = Class.new(StandardError)
-
-    rescue_from UnauthorizedError do |_errors|
+    rescue_from ::Constants::UnauthorizedError do |_errors|
       render json: { errors: ['User unauthorized'] }, status: 401
     end
 
@@ -21,7 +19,7 @@ module DriversApp
     end
 
     def authorize!
-      raise UnauthorizedError unless auth_token && current_driver
+      raise Constants::UnauthorizedError unless auth_token && current_driver
     end
   end
 end
