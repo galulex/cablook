@@ -5,11 +5,11 @@ en:
         validators/car:
           attributes:
             number:
-              taken: "%{value} already exists"
+              taken: "Number %{value} already exists"
         validators/card:
           attributes:
             token:
-              taken: "%{value} already exists"
+              taken: This card is already exists
         validators/subscription:
           attributes:
             email:

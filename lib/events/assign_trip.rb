@@ -2,6 +2,8 @@ module Events
   class AssignTrip < BaseEvent
     def schema
       Dry::Validation.Schema do
+        configure { config.messages = :i18n }
+
         required(:trip_id).filled(:int?)
         required(:car_id).filled(:int?)
         required(:duration).filled(:int?)

@@ -1,0 +1,13 @@
+ua:
+  errors:
+    key?: "не знайдений"
+    filled?: "повинен бути заповнений"
+    str?: "повинен бути рядком символів"
+    int?: "повинен бути цілим цислом"
+    format?: "не вірний формат"
+
+    gt?: "must be greater than %{num}"
+    gteq?: "must be greater than or equal to %{num}"
+
+    lt?: "must be less than %{num}"
+    lteq?: "must be less than or equal to %{num}"

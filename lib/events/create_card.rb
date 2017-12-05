@@ -2,6 +2,8 @@ module Events
   class CreateCard < BaseEvent
     def schema
       Dry::Validation.Schema do
+        configure { config.messages = :i18n }
+
         required(:cardPan).filled(:str?)
         required(:recToken).filled(:str?)
         required(:user_id).filled(:int?)
@@ -22,7 +24,7 @@ module Events
 
     def validate_card!
       validator = Validators::Card.new(card_params)
-      invalid!(validator.errors.full_messages) if validator.invalid?
+      invalid!(validator.errors.values.flatten) if validator.invalid?
     end
 
     def create_card

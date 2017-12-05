@@ -3,6 +3,8 @@ module Events
     class Accept < Events::BaseEvent
       def schema
         Dry::Validation.Schema do
+          configure { config.messages = :i18n }
+
           required(:trip_id).filled(:int?)
           required(:driver_id).filled(:int?)
           required(:car_id).filled(:int?)

@@ -3,6 +3,8 @@ module Events
     class AssignCar < BaseEvent
       def schema
         Dry::Validation.Schema do
+          configure { config.messages = :i18n }
+
           required(:driver_id).filled(:int?)
           required(:car_id).filled(:int?)
         end

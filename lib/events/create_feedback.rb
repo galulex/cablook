@@ -2,6 +2,8 @@ module Events
   class CreateFeedback < BaseEvent
     def schema
       Dry::Validation.Schema do
+        configure { config.messages = :i18n }
+
         required(:rate) { int? & gt?(0) & lteq?(5) }
         optional(:description).filled(:str?)
         required(:trip_id).filled(:int?)
@@ -18,7 +20,7 @@ module Events
 
     def validate!
       validator = Validators::Feedback.new(data)
-      invalid!(validator.errors.messages) if validator.invalid?
+      invalid!(validator.errors.values.flatten) if validator.invalid?
     end
 
     def create_feedback

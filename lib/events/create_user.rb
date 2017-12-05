@@ -2,6 +2,8 @@ module Events
   class CreateUser < BaseEvent
     def schema
       Dry::Validation.Schema do
+        configure { config.messages = :i18n }
+
         required(:phone_number).value(format?: Constants::Regex::PHONE_NUMBER)
         required(:encrypted_password).filled(:str?)
 
@@ -20,7 +22,7 @@ module Events
 
     def validate!
       validator = Validators::User.new(data)
-      invalid!(validator.errors.messages) if validator.invalid?
+      invalid!(validator.errors.values.flatten) if validator.invalid?
     end
 
     def create_user

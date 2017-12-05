@@ -10,5 +10,6 @@ class CardsController < ApplicationController
   # params: spec/fixtures/card_callback.json
   def create
     Events::CreateCard.(params.merge(user_id: current_user.id))
+    head :no_content
   end
 end

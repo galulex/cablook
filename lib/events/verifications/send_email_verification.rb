@@ -3,6 +3,8 @@ module Events
     class SendEmailVerification < BaseEvent
       def schema
         Dry::Validation.Schema do
+          configure { config.messages = :i18n }
+
           required(:email).value(format?: Constants::Regex::EMAIL)
         end
       end

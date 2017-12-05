@@ -27,7 +27,7 @@ module Events
 
     def validate_params!
       validation = schema.call(data)
-      invalid!(validation.messages) if validation.failure?
+      invalid!(validation.messages(full: true, locale: I18n.locale).values.flatten) if validation.failure?
     end
 
     def invalid!(errors)
