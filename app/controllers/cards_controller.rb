@@ -12,4 +12,10 @@ class CardsController < ApplicationController
     Events::CreateCard.(params.merge(user_id: current_user.id))
     head :no_content
   end
+
+  def destroy
+    event = Events::DeleteCard.(card_id: params[:id].to_i, user_id: current_user.id)
+    raise Constants::NotFoundError unless event
+    head :ok
+  end
 end

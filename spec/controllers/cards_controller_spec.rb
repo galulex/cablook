@@ -29,4 +29,21 @@ describe CardsController, type: :controller do
       it { is_expected.to have_http_status(:unprocessable_entity) }
     end
   end
+
+  describe '#delete' do
+    subject { response }
+
+    let(:params) { { id: card.id } }
+    let(:card) { Factory[:card, user_id: user.id] }
+
+    before { delete :destroy, params: params }
+
+    it { is_expected.to have_http_status(:success) }
+
+    context 'when something went wrong' do
+      let(:params) { { id: 999 } }
+
+      it { is_expected.to have_http_status(:not_found) }
+    end
+  end
 end
