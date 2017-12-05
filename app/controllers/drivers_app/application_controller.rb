@@ -7,7 +7,7 @@ module DriversApp
     end
 
     rescue_from Events::InvalidParamsError do |errors|
-      render json: { errors: JSON.parse(errors.message) }, status: 400
+      render json: { errors: JSON.parse(errors.message) }, status: 422
     end
 
     def current_driver

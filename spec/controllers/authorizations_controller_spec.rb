@@ -12,7 +12,7 @@ describe AuthorizationsController, type: :controller do
     context 'when phone_number is blank' do
       let(:params) { { user: { phone_number: '', password: Faker::Internet.password } } }
 
-      it { is_expected.to have_http_status(:bad_request) }
+      it { is_expected.to have_http_status(:unprocessable_entity) }
     end
   end
 end

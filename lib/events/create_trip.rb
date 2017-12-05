@@ -2,6 +2,8 @@ module Events
   class CreateTrip < BaseEvent
     def schema
       Dry::Validation.Schema do
+        configure { config.messages = :i18n }
+
         required(:path).filled(:str?)
         required(:cost).filled(:int?)
         required(:user_id).filled(:int?)
@@ -25,7 +27,7 @@ module Events
 
     def validate!
       validator = Validators::Trip.new(data)
-      invalid!(validator.errors.messages) if validator.invalid?
+      invalid!(validator.errors.values.flatten) if validator.invalid?
     end
 
     def create_trip

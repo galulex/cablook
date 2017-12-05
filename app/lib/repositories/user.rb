@@ -6,6 +6,10 @@ module Repositories
       users.to_a
     end
 
+    def by_id(user_id)
+      users.by_pk(user_id).one
+    end
+
     def by_email(email)
       users.where(email: email).one
     end

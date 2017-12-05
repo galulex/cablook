@@ -2,6 +2,8 @@ module Events
   class CreateCar < BaseEvent
     def schema
       Dry::Validation.Schema do
+        configure { config.messages = :i18n }
+
         required(:number).filled(:str?)
       end
     end
@@ -15,7 +17,7 @@ module Events
 
     def validate!
       validator = Validators::Car.new(data)
-      invalid!(validator.errors.messages) if validator.invalid?
+      invalid!(validator.errors.values.flatten) if validator.invalid?
     end
 
     def create_car

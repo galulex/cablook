@@ -2,6 +2,18 @@ en:
   activemodel:
     errors:
       models:
+        validators/car:
+          attributes:
+            number:
+              taken: "Number %{value} already exists"
+        validators/card:
+          attributes:
+            token:
+              taken: This card is already exists
+        validators/subscription:
+          attributes:
+            email:
+              taken: User with this email already exists
         validators/user:
           attributes:
             email:
@@ -10,7 +22,3 @@ en:
             phone_number:
               taken: User with this phone number already exist
               invalid: Phone number must be 12 digits like 380XXXXXXX
-        validators/subscription:
-          attributes:
-            email:
-              taken: Пользователь с таким емейлом уже существует

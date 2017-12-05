@@ -1,0 +1,22 @@
+{
+  "merchantAccount": "test_merch_n1",
+  "merchantSignature": "d5a36ac525ba4964e473eb422f9ee089",
+  "orderReference": "USER_CONFIRMATION_6_136",
+  "amount": "1",
+  "currency": "UAH",
+  "authCode": "",
+  "email": "e.domotenko@gmail.com",
+  "phone": "380636150812",
+  "createdDate": "1511964569",
+  "processingDate": "1511964582",
+  "issuerBankCountry": "Unknown bank country.",
+  "issuerBankName": "Unknown bank name.",
+  "transactionStatus": "InProcessing",
+  "reason": "Transaction in processing",
+  "reasonCode": "1131",
+  "fee": "0",
+  "paymentSystem": "btc",
+  "cardPan": "1234 **** 1234",
+  "recToken": "testToken",
+  "transactionStatus": "Approved"
+}

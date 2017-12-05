@@ -3,6 +3,8 @@ module Events
     class Authentication < BaseEvent
       def schema
         Dry::Validation.Schema do
+          configure { config.messages = :i18n }
+
           required(:username).filled(:str?)
           required(:password).filled(:str?)
         end

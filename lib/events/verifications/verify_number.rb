@@ -3,6 +3,8 @@ module Events
     class VerifyNumber < BaseEvent
       def schema
         Dry::Validation.Schema do
+          configure { config.messages = :i18n }
+
           required(:number).value(format?: Constants::Regex::PHONE_NUMBER)
           required(:token).filled(:str?)
         end
