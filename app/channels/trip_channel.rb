@@ -10,10 +10,6 @@ class TripChannel < ApplicationCable::Channel
   private
 
   def trip_channel
-    "#{Constants::Channels::TRIP}_#{trip['id']}"
-  end
-
-  def trip
-    params.fetch('data').fetch('trip')
+    "#{Constants::Channels::TRIP}_#{params[:trip_id]}"
   end
 end
