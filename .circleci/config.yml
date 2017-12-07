@@ -14,30 +14,23 @@ jobs:
           POSTGRES_USER: postgres
           POSTGRES_DB: cablook_test
       - image: redis:2.8.19
-
     steps:
       - checkout
-
       # Restore bundle cache
       - type: cache-restore
         key: rails-demo-{{ checksum "Gemfile.lock" }}
-
       # Bundle install dependencies
       - run: bundle install --path vendor/bundle
-
       # Store bundle cache
       - type: cache-save
         key: rails-demo-{{ checksum "Gemfile.lock" }}
         paths:
           - vendor/bundle
-
       # Secrets setup
       - run: cp config/secrets.yml.example config/secrets.yml
-
       # Database setup
       - run: bundle exec rake db:create_db
       - run: bundle exec rake db:reset
-
       # Run test
       - run:
           command: |
@@ -46,10 +39,24 @@ jobs:
                             --out /tmp/test-results/rspec.xml \
                             --format progress \
                             $(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
-
       # collect reports
       - store_test_results:
           path: /tmp/test-results
       - store_artifacts:
           path: /tmp/test-results
           destination: test-results
+
+      - run:
+          name: Run setup script
+          command: bash .circleci/setup_staging.sh
+      - add_ssh_keys:
+          fingerprints:
+            - "e3:71:39:d6:ff:75:b9:91:13:f7:d0:63:bb:93:1a:a2"
+      - deploy:
+          name: Deploy Master to Heroku
+          command: |
+            if [ "${CIRCLE_BRANCH}" == "master" ]; then
+              git push --force git@heroku.com:$HEROKU_APP_NAME.git HEAD:refs/heads/master
+              heroku run bundle exec rake db:migrate
+              heroku restart
+            fi
