@@ -38,14 +38,18 @@ jobs:
       - run: bundle exec rake db:create_db
       - run: bundle exec rake db:reset
 
-      # Run rspec in parallel
-      - type: shell
-        command: |
-          bundle exec rspec --profile 10 \
+      # Run test
+      - run:
+          command: |
+            mkdir /tmp/test-results
+            bundle exec rspec --profile 10 \
                             --out /tmp/test-results/rspec.xml \
                             --format progress \
                             $(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
 
-      # Save artifacts
-      - type: store_test_results
-        path: /tmp/test-results
+      # collect reports
+      - store_test_results:
+          path: /tmp/test-results
+      - store_artifacts:
+          path: /tmp/test-results
+          destination: test-results

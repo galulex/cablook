@@ -25,7 +25,7 @@ describe SearchEngine do
     context 'when car found' do
       let(:car_params) { nil }
 
-      it { is_expected.to have_enqueued_job(Jobs::SearchCarForTrip).with(trip.id) }
+      it { is_expected.to raise_error(SearchEngine::NotFoundCarError) }
     end
   end
 end
