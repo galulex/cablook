@@ -3,6 +3,8 @@ describe SearchEngine::FindCar::Free do
   let(:pending_trip_departure) { Sequel.pg_array([49.441655, 32.065358]) }
   let(:result) { described_class.(trip_id: trip.id) }
 
+  before { stub_request(:any, /maps.googleapis.com/).to_return body: recorded_request_for(:success_with_in_traffic) }
+
   describe '.call' do
     it { expect(result).to be nil}
 

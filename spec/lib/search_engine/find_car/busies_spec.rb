@@ -4,6 +4,8 @@ describe SearchEngine::FindCar::Busies do
   let(:car) { Factory[:car] }
   let(:result) { described_class.(trip_id: trip.id) }
 
+  before { stub_request(:any, /maps.googleapis.com/).to_return body: recorded_request_for(:success_with_in_traffic) }
+
   describe '.call' do
     it { expect(result).to be nil }
 
