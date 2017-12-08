@@ -1,0 +1,43 @@
+version: 1
+machine:
+  ruby:
+    version: 2.4.0
+
+dependencies:
+  pre:
+    - >
+      cd ~ && if [ ! -d "redis-3.2.5" ]; then
+        wget http://download.redis.io/releases/redis-3.2.5.tar.gz
+        tar xzf redis-3.2.5.tar.gz
+        cd redis-3.2.5 && make;
+      fi
+    - cd ~/redis-3.2.5 && sudo make install
+    - sudo sed -i 's/bin/local\/bin/g' /etc/init/redis-server.conf
+    - sudo service redis-server start
+  cache_directories:
+    - ~/redis-3.2.5
+
+database:
+  override:
+    - cp config/secrets.yml.example config/secrets.yml
+    - bundle exec rake db:create
+    - bundle exec rake db:migrate
+
+deployment:
+  production:
+    branch: master
+    commands:
+      - |
+        cat >~/.netrc <<EOF
+        machine api.heroku.com
+          login $HEROKU_EMAIL
+          password $HEROKU_API_KEY
+        machine git.heroku.com
+          login $HEROKU_EMAIL
+          password $HEROKU_API_KEY
+        EOF
+      - chmod 600 ~/.netrc # Heroku cli complains about permissions without this
+      - "[[ ! -s \"$(git rev-parse --git-dir)/shallow\" ]] || git fetch --unshallow"
+      - git push --force git@heroku.com:$HEROKU_APP_NAME.git HEAD:refs/heads/master
+      - heroku run bundle exec rake db:migrate --app cablook
+      - heroku restart --app cablook
