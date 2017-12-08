@@ -9,6 +9,7 @@ machine api.heroku.com
   login $HEROKU_LOGIN
   password $HEROKU_API_KEY
 EOF
+chmod 600 ~/.netrc
 
 cat >> ~/.ssh/config << EOF
 VerifyHostKeyDNS yes
