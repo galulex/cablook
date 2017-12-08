@@ -57,6 +57,6 @@ jobs:
           command: |
             if [ "${CIRCLE_BRANCH}" == "master" ]; then
               git push --force git@heroku.com:$HEROKU_APP_NAME.git HEAD:refs/heads/master
-              heroku run bundle exec rake db:migrate
+              heroku run bundle exec rake db:migrate -a cabloook
               heroku restart
             fi
