@@ -1,5 +1,5 @@
 namespace :db do
-  task :create_db do
+  task :create do
     if Rails.env.test?
       db_name = 'cablook_test'
       conn = PG.connect(dbname: 'postgres')
