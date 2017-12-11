@@ -6,4 +6,5 @@ describe Presenters::Cards::Single do
   it { is_expected.to have_key(:id).with_value(card.id) }
   it { is_expected.to have_key(:token).with_value(card.token) }
   it { is_expected.to have_key(:pan).with_value(card.pan) }
+  it { is_expected.to have_key(:type).with_value(card.type) }
 end

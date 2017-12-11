@@ -17,6 +17,7 @@
   "fee": "0",
   "paymentSystem": "btc",
   "cardPan": "1234 **** 1234",
+  "cardType": "Visa",
   "recToken": "testToken",
   "transactionStatus": "Approved"
 }
