@@ -16,6 +16,11 @@ class TripsController < ApplicationController
     render json: Presenters::Trips::Single.new(trip).to_json, status: 201
   end
 
+  def cancel
+    Events::Trips::Cancel.(trip_id: params[:trip_id].to_i)
+    render json: [I18n.t('trips.canceled')], status: 200
+  end
+
   private
 
   def trip_params
