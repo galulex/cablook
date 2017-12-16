@@ -21,5 +21,9 @@ module Repositories
     def by_token(auth_token)
       users.where(auth_token: auth_token).one
     end
+
+    def for_verification(number, token)
+      users.where(phone_number: number, verification_token: token).one
+    end
   end
 end
