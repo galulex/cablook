@@ -1,9 +1,8 @@
-require 'capistrano-db-tasks'
 # config valid only for current version of Capistrano
-lock '3.9.1'
+lock '3.10.0'
 
 set :application, 'cablook'
-set :repo_url, 'git@github.com:activebridge/Cablook-backend.git'
+set :repo_url, 'git@bitbucket.org:activebridge/cablook-backend.git'
 
 set :deploy_to, '/home/deploy/'
 
