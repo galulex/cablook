@@ -75,6 +75,8 @@ bundle exec rails db:clean
 
 Run `rails s` and open `http://localhost:3000/`.
 
+Run `sidekiq`
+
 ## :arrow_up: How to Contribute
 
 **Step 1:** Install gem Github Workflow:
