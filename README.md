@@ -21,20 +21,24 @@ Architecture:
 **Step 1:** Clone this repo with:
 ```
 HTTPS:
-git clone https://github.com/activebridge/CabLook-backend.git
+git clone https://bitbucket.org/activebridge/cablook-backend.git
 ```
 ```
 SSH:
-git clone git@github.com:activebridge/CabLook-backend.git
+git clone git@bitbucket.org:activebridge/cablook-backend.git
 ```
 
-**Step 2:** Type `cd CabLook-backend` in terminal to enter cloned folder in the current directory.
+**Step 2:** Type `cd cablook-backend` in terminal to enter cloned folder in the current directory.
 
 **Step 3:** Run `bundle exec bundle install` to install dependencies.
 
 ## :arrow_up: How to Setup Database
 
-**Step 1:** Copy `config/secrets.yml.example` to `config/secrets.yml` and change database configurations:
+**Step 1:** Copy `config/secrets.yml.example` to `config/secrets.yml`
+```
+cp config/secrets.yml.example config/secrets.yml
+```
+and change database configurations:
 ```
 database_url: postgres://user:password@host/database_name
 ```
@@ -51,6 +55,21 @@ to create required postgres databases. You can check it's success with `\list`.
 bundle exec rails db:migrate && bundle exec rails db:migrate RAILS_ENV=test
 ```
 to migrate relations in databases.
+
+**Additional configuration**
+To load seeds run console `rails c` and call:
+```
+load 'db/seeds.rb'
+```
+
+To clean database:
+```
+bundle exec rails db:reset
+```
+or
+```
+bundle exec rails db:clean
+```
 
 ## :arrow_right: How to Run Application
 
