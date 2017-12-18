@@ -4,8 +4,8 @@ Rails.application.routes.draw do
   mount ActionCable.server => '/cable'
   mount Sidekiq::Web => '/sidekiq'
 
-  resource :session, only: %w[create update]
-  resources :cards, only: %w[index create destroy]
+  resource :session, only: %i[create update]
+  resources :cards, only: %i[index create destroy]
   resources :subscriptions, only: %i[create]
   resources :trips, only: %i[index show create] do
     resources :feedbacks, only: :create
