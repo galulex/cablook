@@ -19,7 +19,8 @@ module Events
       convert_location_to_pg_array
       validate!
       trip = create_trip
-      Jobs::SearchCarForTrip.perform_later(trip.id)
+      job = Jobs::SearchCarForTrip.perform_later(trip.id)
+      create_trip_job(job, trip.id)
       trip
     end
 
@@ -32,6 +33,14 @@ module Events
 
     def create_trip
       Repositories::Trip.new(ROM.env).create(data.to_h)
+    end
+
+    def create_trip_job(job, trip_id)
+      Repositories::TripJob.new(ROM.env).create(
+        activejob_id: job.provider_job_id,
+        sidekiq_id: job.job_id,
+        trip_id: trip_id
+      )
     end
 
     def convert_location_to_pg_array

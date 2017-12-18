@@ -28,7 +28,11 @@ module Events
       end
 
       def delete_from_jobs
-        # TODO
+        trip_job = Repositories::TripJob.new(ROM.env).by_trip_id(data[:trip_id])
+        if trip_job
+          job = Sidekiq::ScheduledSet.new.find_job([trip_job.activejob_id])
+          job.delete
+        end
       end
 
       def trip
