@@ -26,9 +26,7 @@ describe TripsController, type: :controller do
   describe '#index' do
     subject { response }
 
-    let(:params) { { auth_token: user.auth_token } }
-
-    before { get :index, params: params, as: :json }
+    before { get :index, as: :json }
 
     it { is_expected.to have_http_status(:success) }
   end
@@ -36,11 +34,28 @@ describe TripsController, type: :controller do
   describe '#show' do
     subject { response }
 
-    let(:params) { { id: trip.id, auth_token: user.auth_token } }
+    let(:params) { { id: trip.id } }
     let(:trip) { Factory[:trip] }
 
     before { get :index, params: params, as: :json }
 
     it { is_expected.to have_http_status(:success) }
+  end
+
+  describe '#cancel' do
+    subject { response }
+
+    let(:params) { { trip_id: trip.id } }
+    let(:trip) { Factory[:trip] }
+
+    before { patch :cancel, params: params, as: :json }
+
+    it { is_expected.to have_http_status(:success) }
+
+    context 'when trip is finished' do
+      let(:trip) { Factory[:trip, status: Constants::Trip::FINISHED] }
+
+      it { is_expected.to have_http_status(:unprocessable_entity) }
+    end
   end
 end

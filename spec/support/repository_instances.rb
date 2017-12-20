@@ -23,6 +23,10 @@ module RepositoryInstances
     @trips_repository ||= Repositories::Trip.new(ROM.env)
   end
 
+  def trip_jobs_repository
+    @trip_jobs_repository ||= Repositories::TripJob.new(ROM.env)
+  end
+
   def users_repository
     @users_repository ||= Repositories::User.new(ROM.env)
   end
