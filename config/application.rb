@@ -15,9 +15,9 @@ module CabLook
 
     config.api_only = true
 
-    config.autoload_paths << "#{Rails.root}/lib"
-    config.autoload_paths << "#{Rails.root}/app/channels"
-    # config.eager_load_paths = "#{Rails.root}/lib/constants"
+    config.autoload_paths << "#{config.root}/lib"
+    config.autoload_paths << "#{config.root}/app/channels"
+    config.eager_load_paths << "#{Rails.root}/lib"
 
     config.active_job.queue_adapter = :sidekiq
 
