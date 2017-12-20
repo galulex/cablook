@@ -8,6 +8,15 @@ describe Events::Trips::Cancel do
 
     it { is_expected.to change { trips_repository.by_id(trip.id).status }.to(Constants::Trip::CANCELED) }
 
+    context 'and job deleted' do
+      before do
+        job = Jobs::SearchCarForTrip.perform_later(trip.id)
+        Factory[:trip_job, trip_id: trip.id, activejob_id: job.job_id, sidekiq_id: job.provider_job_id]
+      end
+
+      it { is_expected.to change{ ActiveJob::Base.queue_adapter.enqueued_jobs.size }.by(-1) }
+    end
+
     context 'when trip is on the way' do
       let(:trip) { Factory[:trip, status: Constants::Trip::ON_THE_WAY] }
 

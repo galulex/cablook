@@ -7,6 +7,7 @@ end
 
 gem 'rails', '~> 5.1.3'
 
+gem 'activejob-cancel'
 gem 'bcrypt', '~> 3.1.7'
 gem 'dry-validation'
 gem 'google_distance_matrix'

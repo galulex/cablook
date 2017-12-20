@@ -47,6 +47,5 @@ RSpec.configure do |config|
     config.rom = ROM.env
   end
   Dir[Rails.root.join('spec/factories/**/*.rb')].each { |f| require f }
-  Sidekiq::Testing.fake!
   ActiveJob::Base.queue_adapter = :test
 end
