@@ -37,8 +37,8 @@ module Events
 
     def create_trip_job(job, trip_id)
       Repositories::TripJob.new(ROM.env).create(
-        activejob_id: job.provider_job_id,
-        sidekiq_id: job.job_id,
+        activejob_id: job.job_id,
+        sidekiq_id: job.provider_job_id,
         trip_id: trip_id
       )
     end
