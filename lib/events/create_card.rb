@@ -8,6 +8,7 @@ module Events
         required(:recToken).filled(:str?)
         required(:user_id).filled(:int?)
         optional(:cardType).filled(:str?)
+        optional(:currency).filled(:str?)
       end
     end
 
@@ -37,7 +38,8 @@ module Events
         token: data[:recToken],
         pan: data[:cardPan],
         user_id: data[:user_id],
-        type: data[:cardType]
+        type: data[:cardType],
+        currency: data[:currency]
       }
     end
 

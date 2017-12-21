@@ -4,6 +4,7 @@ class Cards < ROM::Relation[:sql]
     attribute :token, Types::String
     attribute :pan, Types::String
     attribute :type, Types::String
+    attribute :currency, Types::String
 
     attribute :user_id, Types::ForeignKey(:users)
 
