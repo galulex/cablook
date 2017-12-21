@@ -1,8 +1,6 @@
 module Jobs
   class SearchCarForTrip < ActiveJob::Base
-    rescue_from(SearchEngine::NotFoundCarError) do
-      retry_job wait: 1.minutes
-    end
+    retry_on SearchEngine::NotFoundCarError, wait: 40.seconds, attempts: 10
 
     def perform(trip_id)
       SearchEngine.call(trip_id: trip_id)
