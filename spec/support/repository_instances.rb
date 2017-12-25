@@ -15,6 +15,10 @@ module RepositoryInstances
     @feedbacks_repository ||= Repositories::Feedback.new(ROM.env)
   end
 
+  def payments_repository
+    @payments_repository ||= Repositories::Payment.new(ROM.env)
+  end
+
   def subscriptions_repository
     @subscriptions_repository ||= Repositories::Subscription.new(ROM.env)
   end

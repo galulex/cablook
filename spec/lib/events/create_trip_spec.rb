@@ -12,7 +12,11 @@ describe Events::CreateTrip do
     end
 
     context 'and trip_job is created' do
-      it { is_expected.to change { trip_jobs_repository.trips.count }.by(+1) }
+      it { is_expected.to change { trip_jobs_repository.trip_jobs.count }.by(+1) }
+    end
+
+    context 'and payment is created' do
+      it { is_expected.to change { payments_repository.payments.count }.by(+1) }
     end
 
     context 'when path is empty' do
