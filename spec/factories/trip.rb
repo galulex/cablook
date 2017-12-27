@@ -1,7 +1,7 @@
 Factory.define(:trip) do |f|
   f.status 0
   f.path { fake(:internet, :password) }
-  f.cost { fake(:number, :between, 10, 99) }
+  f.cost { fake(:number, :decimal, 2).to_f }
 
   f.estimated_end_time { fake(:time, :between, Time.now, Date.today) }
 
