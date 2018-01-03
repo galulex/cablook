@@ -18,7 +18,7 @@ module Events
       private
 
       def user
-        @user ||= users_repository.by_email(data[:email])
+        @user ||= user_repository.by_email(data[:email])
       end
 
       def check_user!
@@ -34,11 +34,11 @@ module Events
       end
 
       def set_confirmation_to_nil
-        users_repository.update(user.id, confirmation_token: nil)
+        user_repository.update(user.id, confirmation_token: nil)
       end
 
-      def users_repository
-        @users_repository ||= Repositories::User.new(ROM.env)
+      def user_repository
+        @user_repository ||= Repositories::User.new(ROM.env)
       end
     end
   end

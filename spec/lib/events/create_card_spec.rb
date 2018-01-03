@@ -7,10 +7,14 @@ describe Events::CreateCard do
           .symbolize_keys
           .merge(user_id: user.id)
     end
-    let(:user) { Factory[:user] }
+    let!(:user) { Factory[:user] }
 
     context 'when card is created successfully' do
-      it { is_expected.to change { cards_repository.cards.count }.by(+1) }
+      it { is_expected.to change { card_repository.cards.count }.by(+1) }
+    end
+
+    context 'and user email is updated' do
+      it { is_expected.to change { user_repository.by_id(user.id).email }.to(data[:email]) }
     end
 
     context 'when user with data number not found' do

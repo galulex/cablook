@@ -11,7 +11,7 @@ describe Events::DriversApp::AssignCar do
     let(:driver) { Factory[:driver] }
     let(:car) { Factory[:car] }
 
-    it { is_expected.to change { drivers_repository.drivers.first } }
+    it { is_expected.to change { driver_repository.drivers.first } }
 
     context 'when driver_id is empty' do
       let(:data) { Factory.structs[:driver].to_h.except(:driver_id) }

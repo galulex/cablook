@@ -6,7 +6,7 @@ describe Events::Trips::Cancel do
 
     subject { -> { described_class.call(data) } }
 
-    it { is_expected.to change { trips_repository.by_id(trip.id).status }.to(Constants::Trip::CANCELED) }
+    it { is_expected.to change { trip_repository.by_id(trip.id).status }.to(Constants::Trip::CANCELED) }
 
     context 'and job deleted' do
       before do
@@ -20,7 +20,7 @@ describe Events::Trips::Cancel do
     context 'when trip is on the way' do
       let(:trip) { Factory[:trip, status: Constants::Trip::ON_THE_WAY] }
 
-      it { is_expected.to change { trips_repository.by_id(trip.id).status }.to(Constants::Trip::CANCELED) }
+      it { is_expected.to change { trip_repository.by_id(trip.id).status }.to(Constants::Trip::CANCELED) }
     end
 
     context 'when trip is finished' do

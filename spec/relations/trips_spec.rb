@@ -1,5 +1,5 @@
 describe Trips do
-  let(:relation) { trips_repository.trips }
+  let(:relation) { trip_repository.trips }
 
   describe '#active' do
     let!(:trip_pending) { Factory[:trip, status: Constants::Trip::PENDING] }

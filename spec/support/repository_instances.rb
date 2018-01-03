@@ -1,38 +1,38 @@
 module RepositoryInstances
-  def cars_repository
-    @cars_repository ||= Repositories::Car.new(ROM.env)
+  def car_repository
+    @car_repository ||= Repositories::Car.new(ROM.env)
   end
 
-  def cards_repository
-    @cards_repository ||= Repositories::Card.new(ROM.env)
+  def card_repository
+    @card_repository ||= Repositories::Card.new(ROM.env)
   end
 
-  def drivers_repository
-    @drivers_repository ||= Repositories::Driver.new(ROM.env)
+  def driver_repository
+    @driver_repository ||= Repositories::Driver.new(ROM.env)
   end
 
-  def feedbacks_repository
-    @feedbacks_repository ||= Repositories::Feedback.new(ROM.env)
+  def feedback_repository
+    @feedback_repository ||= Repositories::Feedback.new(ROM.env)
   end
 
-  def payments_repository
-    @payments_repository ||= Repositories::Payment.new(ROM.env)
+  def payment_repository
+    @payment_repository ||= Repositories::Payment.new(ROM.env)
   end
 
-  def subscriptions_repository
-    @subscriptions_repository ||= Repositories::Subscription.new(ROM.env)
+  def subscription_repository
+    @subscription_repository ||= Repositories::Subscription.new(ROM.env)
   end
 
-  def trips_repository
-    @trips_repository ||= Repositories::Trip.new(ROM.env)
+  def trip_repository
+    @trip_repository ||= Repositories::Trip.new(ROM.env)
   end
 
-  def trip_jobs_repository
-    @trip_jobs_repository ||= Repositories::TripJob.new(ROM.env)
+  def trip_job_repository
+    @trip_job_repository ||= Repositories::TripJob.new(ROM.env)
   end
 
-  def users_repository
-    @users_repository ||= Repositories::User.new(ROM.env)
+  def user_repository
+    @user_repository ||= Repositories::User.new(ROM.env)
   end
 end
 

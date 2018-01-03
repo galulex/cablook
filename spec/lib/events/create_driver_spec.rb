@@ -4,7 +4,7 @@ describe Events::CreateDriver do
 
     let(:data) { Factory.structs[:driver].to_h }
 
-    it { is_expected.to change { drivers_repository.all.count }.by(+1) }
+    it { is_expected.to change { driver_repository.all.count }.by(+1) }
 
     context 'when name is empty' do
       let(:data) { Factory.structs[:driver].to_h.except(:name) }

@@ -1,6 +1,6 @@
 describe Repositories::Card do
   describe '#by_user_id' do
-    subject { cards_repository.by_user(user.id) }
+    subject { card_repository.by_user(user.id) }
 
     let(:user) { Factory[:user] }
 
