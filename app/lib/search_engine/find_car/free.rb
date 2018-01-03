@@ -12,20 +12,23 @@ module SearchEngine
       attr_reader :trip_id
 
       def call
-        car_ids = car_repository.free_cars.map(&:id)
-        cars = car_ids.map do |car_id|
-          location = redis.get("car_#{car_id}").try(:split, ',')
-          { car_id: car_id, location: location } if location
-        end.compact
-        return if cars.empty?
-        locations = cars.map { |car| car[:location] }
-        trip = trip_repository.by_id(trip_id)
-        nearest = NearestPoint.call(origins_location: locations, destination: trip.departure)
-        car = cars.detect { |car| car[:location] == [nearest.origin.lat, nearest.origin.lng] }
-        { car_id: car[:car_id], duration: nearest.duration_in_traffic_in_seconds }
+        return if redis_cars_location.empty?
+        nearest = NearestPoint.call(
+          origins_location: redis_cars_location.map { |car| car[:location] },
+          destination: trip_repository.by_id(trip_id).departure
+        )
+        location = redis_cars_location.detect { |car| car[:location] == [nearest.origin.lat, nearest.origin.lng] }
+        { car_id: location[:car_id], duration: nearest.duration_in_traffic_in_seconds }
       end
 
       private
+
+      def redis_cars_location
+        @cars ||= car_repository.free_cars.map(&:id).map do |car_id|
+          location = redis.get("car_#{car_id}").try(:split, ',')
+          { car_id: car_id, location: location } if location
+        end.compact
+      end
 
       def car_repository
         @car_repository ||= Repositories::Car.new(ROM.env)
