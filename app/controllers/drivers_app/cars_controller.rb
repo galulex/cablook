@@ -3,7 +3,7 @@ module DriversApp
     before_action :authorize!
 
     def index
-      cars = Repositories::Car.new(ROM.env).free_cars
+      cars = Repositories::Car.new(ROM.env).offline
       render json: Presenters::Cars::Collection.new(cars).to_json, status: 200
     end
   end
