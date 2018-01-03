@@ -5,18 +5,18 @@ describe Events::CreateTrip do
     let(:data) { Factory.structs[:trip, user_id: user.id].to_h }
     let(:user) { Factory[:user] }
 
-    it { is_expected.to change { trips_repository.trips.count }.by(+1) }
+    it { is_expected.to change { trip_repository.trips.count }.by(+1) }
 
     context 'and active job is created' do
       it { is_expected.to have_enqueued_job(Jobs::SearchCarForTrip).with(data[:id]) }
     end
 
     context 'and trip_job is created' do
-      it { is_expected.to change { trip_jobs_repository.trip_jobs.count }.by(+1) }
+      it { is_expected.to change { trip_job_repository.trip_jobs.count }.by(+1) }
     end
 
     context 'and payment is created' do
-      it { is_expected.to change { payments_repository.payments.count }.by(+1) }
+      it { is_expected.to change { payment_repository.payments.count }.by(+1) }
     end
 
     context 'when path is empty' do

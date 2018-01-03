@@ -8,7 +8,7 @@ describe Events::Verifications::SendEmailVerification do
 
     before { allow_any_instance_of(described_class).to receive(:send_confirmation_link) }
 
-    it { is_expected.to change { users_repository.by_email(user.email).confirmation_token }.from(token) }
+    it { is_expected.to change { user_repository.by_email(user.email).confirmation_token }.from(token) }
 
     context 'when user does not exist' do
       let(:email) { "+#{Faker::Internet.email}" }

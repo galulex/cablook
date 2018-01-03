@@ -6,12 +6,12 @@ describe Events::DeleteCard do
     let(:card) { Factory[:card, user_id: user.id] }
     let(:user) { Factory[:user] }
 
-    it { is_expected.to change { cards_repository.cards.count }.by(-1) }
+    it { is_expected.to change { card_repository.cards.count }.by(-1) }
 
     context 'when card not found' do
       let(:card) { Factory[:card] }
 
-      it { is_expected.not_to change { cards_repository.cards.count } }
+      it { is_expected.not_to change { card_repository.cards.count } }
     end
   end
 end

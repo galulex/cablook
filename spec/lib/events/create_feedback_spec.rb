@@ -8,7 +8,7 @@ describe Events::CreateFeedback do
     let(:user) { Factory[:user] }
     let(:trip) { Factory[:trip] }
 
-    it { is_expected.to change { feedbacks_repository.feedbacks.count }.by(+1) }
+    it { is_expected.to change { feedback_repository.feedbacks.count }.by(+1) }
 
     context 'when rate is empty' do
       let(:data) { Factory.structs[:feedback].to_h.except(:rate) }

@@ -1,6 +1,6 @@
 describe Repositories::Feedback do
   describe '#by_trip' do
-    subject { feedbacks_repository.by_trip(trip.id) }
+    subject { feedback_repository.by_trip(trip.id) }
 
     let(:trip) { Factory[:trip] }
 

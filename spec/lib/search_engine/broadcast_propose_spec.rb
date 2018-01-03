@@ -11,7 +11,7 @@ describe SearchEngine::BroadcastPropose do
     let(:driver_map_channel_params) do
       { action: Constants::BroadcastActions::TRIP_PROPOSE,
         cars: cars,
-        trip: trips_repository.by_id_with_user(trip.id).to_json }
+        trip: trip_repository.by_id_with_user(trip.id).to_json }
     end
   end
 end

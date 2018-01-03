@@ -1,6 +1,6 @@
 describe Repositories::Car do
   describe '#all' do
-    let(:instance) { cars_repository.all }
+    let(:instance) { car_repository.all }
 
     it { expect(instance).to be_empty }
 
@@ -12,7 +12,7 @@ describe Repositories::Car do
   end
 
   describe '#by_number' do
-    let(:instance) { cars_repository.by_number(number) }
+    let(:instance) { car_repository.by_number(number) }
     let!(:car) { Factory[:car] }
     let(:number) { car.number }
 
@@ -26,7 +26,7 @@ describe Repositories::Car do
   end
 
   describe '#free_cars' do
-    subject { cars_repository.free_cars }
+    subject { car_repository.free_cars }
 
     context 'when there are free cars' do
       let!(:car) { Factory[:car, status: Constants::Car::FREE] }

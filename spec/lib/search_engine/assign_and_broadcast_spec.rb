@@ -7,9 +7,9 @@ describe SearchEngine::AssignAndBroadcast do
     let(:trip) { Factory[:trip] }
     let(:duration) { 600 }
 
-    it { is_expected.to change { trips_repository.by_id(trip.id).car_id }.from(nil).to(car.id) }
+    it { is_expected.to change { trip_repository.by_id(trip.id).car_id }.from(nil).to(car.id) }
     it do
-      is_expected.to change { cars_repository.by_id(car.id).status }
+      is_expected.to change { car_repository.by_id(car.id).status }
         .from(0)
         .to(Constants::Trip::DRIVING)
     end
@@ -26,7 +26,7 @@ describe SearchEngine::AssignAndBroadcast do
         { action: Constants::BroadcastActions::TRIP_ASSIGNED,
           car_id: car.id,
           driver_id: driver.id,
-          trip: trips_repository.by_id_with_user(trip.id).to_json }
+          trip: trip_repository.by_id_with_user(trip.id).to_json }
       end
 
       before { allow(ActionCable.server).to receive(:broadcast) }

@@ -4,7 +4,7 @@ describe Events::CreateCar do
 
     let(:data) { Factory.structs[:car].to_h }
 
-    it { is_expected.to change { cars_repository.all.count }.by(+1) }
+    it { is_expected.to change { car_repository.all.count }.by(+1) }
 
     context 'when number is empty' do
       let(:data) { Factory.structs[:car].to_h.except(:number) }

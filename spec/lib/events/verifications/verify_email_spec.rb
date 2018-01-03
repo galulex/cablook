@@ -6,7 +6,7 @@ describe Events::Verifications::VerifyEmail do
     let!(:user) { Factory[:user, confirmation_token: token] }
     let(:token) { '1111' }
 
-    it { is_expected.to change { users_repository.by_email(user.email).confirmation_token }.from(token).to(nil) }
+    it { is_expected.to change { user_repository.by_email(user.email).confirmation_token }.from(token).to(nil) }
 
     context 'when user does not exist' do
       let(:data) { { email: "+#{Faker::Internet.email}", token: token } }
