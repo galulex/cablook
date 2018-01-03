@@ -15,7 +15,7 @@ describe TripChannel do
 
     subject { -> { channel.perform_action(data) } }
 
-    it { is_expected.to change { trips_repository.by_id(trip.id).status }.to(Constants::Trip::DRIVING) }
+    it { is_expected.to change { trip_repository.by_id(trip.id).status }.to(Constants::Trip::DRIVING) }
   end
 
   context '#finish_trip' do
@@ -23,6 +23,6 @@ describe TripChannel do
 
     subject { -> { channel.perform_action(data) } }
 
-    it { is_expected.to change { trips_repository.by_id(trip.id).status }.to(Constants::Trip::FINISHED) }
+    it { is_expected.to change { trip_repository.by_id(trip.id).status }.to(Constants::Trip::FINISHED) }
   end
 end
