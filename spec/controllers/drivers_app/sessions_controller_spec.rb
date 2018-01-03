@@ -1,8 +1,10 @@
-describe DriversApp::AuthenticationsController, type: :controller do
-  describe '#create' do
-    subject { response }
+describe DriversApp::SessionsController , type: :controller do
+  let!(:driver) { Factory[:driver] }
 
-    let!(:driver) { Factory[:driver] }
+  subject { response }
+
+  describe '#create' do
+
     let(:params) { { driver: { username: driver.username, password: '12341234' } } }
 
     before { post :create, params: params }
@@ -14,5 +16,14 @@ describe DriversApp::AuthenticationsController, type: :controller do
 
       it { is_expected.to have_http_status(:unprocessable_entity) }
     end
+  end
+
+  describe '#destroy' do
+    before do
+      request.headers['Auth-Token'] = driver.auth_token
+      delete :destroy
+    end
+
+    it { is_expected.to have_http_status(:success) }
   end
 end
