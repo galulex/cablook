@@ -17,14 +17,15 @@ module Events
       def update_car_status_to_offline
         Repositories::Car.new(ROM.env).update(
           driver.car_id,
-          status: Constants::Car::OFFLINE
+          status: Constants::Car::OFFLINE,
         )
       end
 
       def regenerate_auth_token_for_driver
         driver_repository.update(
           driver.id,
-          auth_token: SecureRandom.base58(24)
+          auth_token: SecureRandom.base58(24),
+          car_id: nil
         )
       end
 
