@@ -6,6 +6,10 @@ module Repositories
       drivers.to_a
     end
 
+    def by_id(id)
+      drivers.by_pk(id).one
+    end
+
     def by_username(username)
       drivers.where(username: username).one
     end

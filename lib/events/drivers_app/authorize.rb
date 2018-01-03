@@ -1,6 +1,6 @@
 module Events
   module DriversApp
-    class Authentication < BaseEvent
+    class Authorize < BaseEvent
       def schema
         Dry::Validation.Schema do
           configure { config.messages = :i18n }

@@ -16,7 +16,9 @@ Rails.application.routes.draw do
     resources :cars, only: :index
     patch 'assign_car', to: 'assign_car#update'
     post 'sign_up', to: 'registrations#create'
-    post 'sign_in', to: 'authentications#create'
+    resources :sessions, only: :create do
+      delete :destroy, on: :collection
+    end
   end
 
   namespace :verifications do
