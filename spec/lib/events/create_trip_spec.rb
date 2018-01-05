@@ -2,7 +2,8 @@ describe Events::CreateTrip do
   describe '.call' do
     subject { -> { described_class.call(data) } }
 
-    let(:data) { Factory.structs[:trip, user_id: user.id].to_h }
+    let(:trip_params) { Factory.structs[:trip, user_id: user.id].to_h }
+    let(:data) { trip_params }
     let(:user) { Factory[:user] }
 
     it { is_expected.to change { trip_repository.trips.count }.by(+1) }
@@ -20,19 +21,27 @@ describe Events::CreateTrip do
     end
 
     context 'when path is empty' do
-      let(:data) { Factory.structs[:trip].to_h.except(:path) }
+      let(:data) { trip_params.except(:path) }
 
       it { is_expected.to raise_error(Events::InvalidParamsError) }
     end
 
     context 'when cost is empty' do
-      let(:data) { Factory.structs[:trip].to_h.except(:cost) }
+      let(:data) { trip_params.except(:cost) }
 
       it { is_expected.to raise_error(Events::InvalidParamsError) }
     end
 
+    context 'when cost is int' do
+      let(:data) { trip_params.except(:cost) }
+
+      before { data[:cost] = data[:cost].to_i }
+
+      it { is_expected.to change { trip_repository.trips.count }.by(+1) }
+    end
+
     context 'when user_id is empty' do
-      let(:data) { Factory.structs[:trip].to_h.except(:user_id) }
+      let(:data) { trip_params.except(:user_id) }
 
       it { is_expected.to raise_error(Events::InvalidParamsError) }
     end

@@ -5,7 +5,7 @@ module Events
         configure { config.messages = :i18n }
 
         required(:path).filled(:str?)
-        required(:cost).filled(:float?)
+        required(:cost) { float? | int? }
         required(:user_id).filled(:int?)
 
         required(:departure) { array? & size?(2) }
