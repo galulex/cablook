@@ -20,14 +20,29 @@ describe DriverMapChannel do
 
     let(:redis_car_location) { Redis.new.get("car_#{car_id}") }
 
-    before { channel.perform_action(data) }
+    context 'that redis save location' do
+      before { channel.perform_action(data) }
 
-    it { expect(redis_car_location).to eq([latitude, longitude].to_s) }
+      it { expect(redis_car_location).to eq([latitude, longitude].to_s) }
+    end
+
+    context 'and broadcast car location to this channel' do
+      after { channel.perform_action(data) }
+
+      it do
+        expect(ActionCable.server).to receive(:broadcast).with(
+          Constants::Channels::DRIVER_MAP,
+          action: Constants::BroadcastActions::SEND_LOCATION,
+          car_id: car_id,
+          location: [latitude, longitude]
+        ).once
+      end
+    end
   end
 
   context '#accept_trip' do
     let(:driver) { Factory[:driver, car_id: Factory[:car].id] }
-    let(:trip) { Factory[:trip] }
+    let(:trip) { Factory[:trip, status: 0] }
     let(:data) do
       {
         'action' => 'accept_trip',
@@ -42,7 +57,13 @@ describe DriverMapChannel do
     after { channel.perform_action(data) }
 
     it { expect(Events::Trips::Accept).to receive(:call).once }
-    # it { expect(ActionCable.server).to receive(:broadcast).with(driver_map_channel, driver_map_channel_params).once }
+    it do
+      expect(ActionCable.server).to receive(:broadcast).with(
+        Constants::Channels::DRIVER_MAP,
+        action: Constants::BroadcastActions::TRIP_ACCEPTED,
+        trip_id: trip.id
+      ).once
+    end
 
     context 'when trip was accepted' do
       let(:trip) { Factory[:trip, status: Constants::Trip::ON_THE_WAY] }
