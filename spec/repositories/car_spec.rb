@@ -40,4 +40,20 @@ describe Repositories::Car do
       it { is_expected.to be_empty }
     end
   end
+
+  describe '#offline' do
+    subject { car_repository.offline }
+
+    context 'when there are free cars' do
+      let!(:car) { Factory[:car, status: Constants::Car::OFFLINE] }
+
+      it { is_expected.not_to be_empty }
+    end
+
+    context 'when there are no free cars' do
+      let!(:car) { Factory[:car, status: Constants::Car::FREE] }
+
+      it { is_expected.to be_empty }
+    end
+  end
 end
