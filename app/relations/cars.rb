@@ -4,6 +4,14 @@ class Cars < ROM::Relation[:sql]
     attribute :number, Types::String
     attribute :status, Types::Int
 
+    associations do
+      has_one :driver
+    end
+
     primary_key :id
+  end
+
+  def with_driver
+    select_append(drivers[:id].as(:driver_id)).inner_join(:drivers)
   end
 end

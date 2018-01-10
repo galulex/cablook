@@ -15,7 +15,7 @@ module Repositories
     end
 
     def free_cars
-      cars.where(status: Constants::Car::FREE).to_a
+      cars.with_driver.where(status: Constants::Car::FREE).to_a
     end
 
     def offline
