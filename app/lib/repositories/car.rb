@@ -1,6 +1,6 @@
 module Repositories
   class Car < ROM::Repository[:cars]
-    commands :create, update: :by_pk
+    commands :create, update: :by_pk, delete: :by_pk
 
     def all
       cars.to_a

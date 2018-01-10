@@ -7,6 +7,9 @@ en:
       name: Name
       username: Username
       password: Password
+    car:
+      number: Number
+      status: Status
 
 ru:
   structs:
@@ -16,6 +19,9 @@ ru:
     driver:
       name: Ім'я
       username: Нікнейм
+    car:
+      number: Номер
+      status: Статус
 
 ua:
   structs:
@@ -25,3 +31,6 @@ ua:
     driver:
       name: Имя
       username: Никнейм
+    car:
+      number: Номер
+      status: Статус
