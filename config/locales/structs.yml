@@ -1,18 +1,27 @@
 en:
   structs:
     user:
-      email: email
-      phone_number: phone_number
+      email: Email
+      phone_number: Phone_number
+    driver:
+      name: Name
+      username: Username
+      password: Password
 
 ru:
   structs:
     user:
       email: Е-мейл
       phone_number: Номер телефона
-
+    driver:
+      name: Ім'я
+      username: Нікнейм
 
 ua:
   structs:
     user:
       email: Е-мейл
       phone_number: Номер телефону
+    driver:
+      name: Имя
+      username: Никнейм

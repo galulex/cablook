@@ -1,6 +1,6 @@
 module Repositories
   class Driver < ROM::Repository[:drivers]
-    commands :create, update: :by_pk
+    commands :create, update: :by_pk, delete: :by_pk
 
     def all
       drivers.to_a

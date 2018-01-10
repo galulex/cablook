@@ -28,6 +28,7 @@ Rails.application.routes.draw do
 
   namespace :admin do
     resources :cars, except: %i[show]
+    resources :drivers, except: %i[show]
     resources :users, except: %i[show]
   end
 end

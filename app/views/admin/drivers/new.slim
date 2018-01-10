@@ -1,0 +1,15 @@
+h1 Add Driver
+= form_for :driver, url: admin_drivers_path, method: :post do |f|
+  div
+    = f.label t('structs.driver.name')
+    = f.text_field :name
+  div
+    = f.label t('structs.driver.username')
+    = f.text_field :username
+  div
+    = f.label t('structs.driver.password')
+    = f.password_field :password
+
+  div
+    = f.submit "Add"
+    = link_to "Back", admin_drivers_path
