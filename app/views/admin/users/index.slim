@@ -1,0 +1,16 @@
+h1 Users
+
+div
+  p = link_to "Add new user", new_admin_user_path
+
+table
+  tr
+    th = t('structs.user.id')
+    th = t('structs.user.email')
+    th = t('structs.user.phone_number')
+  - @users.each do |user|
+    tr
+      td= user.id
+      td= user.email
+      td= user.phone_number
+      td= button_to "Delete", admin_user_path(user.id), method: :delete

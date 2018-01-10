@@ -1,0 +1,11 @@
+h1 Add User
+= form_for :user, url: admin_users_path, method: :post do |f|
+  div
+    = f.label t('structs.user.email')
+    = f.text_field :email
+  div
+    = f.label t('structs.user.phone_number')
+    = f.text_field :phone_number
+
+  div
+    = f.submit "Add"

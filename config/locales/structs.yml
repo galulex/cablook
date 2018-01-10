@@ -1,0 +1,18 @@
+en:
+  structs:
+    user:
+      email: email
+      phone_number: phone_number
+
+ru:
+  structs:
+    user:
+      email: Е-мейл
+      phone_number: Номер телефона
+
+
+ua:
+  structs:
+    user:
+      email: Е-мейл
+      phone_number: Номер телефону

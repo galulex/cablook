@@ -13,8 +13,6 @@ module CabLook
   class Application < Rails::Application
     config.load_defaults 5.1
 
-    config.api_only = true
-
     config.autoload_paths << "#{config.root}/lib"
     config.autoload_paths << "#{config.root}/app/channels"
     config.eager_load_paths << "#{Rails.root}/lib"
