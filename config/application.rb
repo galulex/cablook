@@ -19,7 +19,7 @@ module CabLook
     config.autoload_paths << "#{config.root}/app/channels"
     config.eager_load_paths << "#{Rails.root}/lib"
 
-    config.active_job.queue_adapter = :async
+    config.active_job.queue_adapter = :sidekiq
 
     if File.exist?('config/secrets.yml')
       YAML.safe_load(File.read('config/secrets.yml'))[Rails.env].each do |key, value|

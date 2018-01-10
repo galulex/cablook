@@ -18,7 +18,7 @@ describe DriverMapChannel do
       }
     end
 
-    let(:redis_car_location) { Redis.new.get("car_#{car_id}") }
+    let(:redis_car_location) { Redis.current.get("car_#{car_id}") }
 
     context 'that redis save location' do
       before { channel.perform_action(data) }

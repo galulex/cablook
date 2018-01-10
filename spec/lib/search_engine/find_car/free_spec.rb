@@ -12,7 +12,7 @@ describe SearchEngine::FindCar::Free do
       let!(:car_1) { Factory[:car, status: Constants::Car::FREE] }
       let!(:car_2) { Factory[:car, status: Constants::Car::FREE] }
       let!(:driver) { Factory[:driver, car_id: car_1.id] }
-      let(:redis) { Redis.new }
+      let(:redis) { Redis.current }
 
       before do
         redis.set("car_#{car_1.id}", '49.461655, 32.165358')

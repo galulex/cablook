@@ -26,6 +26,6 @@ class DriverMapChannel < ApplicationCable::Channel
   private
 
   def redis
-    @redis ||= Redis.new
+    @redis ||= Redis.current
   end
 end

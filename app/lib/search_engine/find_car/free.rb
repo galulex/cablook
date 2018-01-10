@@ -39,7 +39,7 @@ module SearchEngine
       end
 
       def redis
-        @redis = Redis.new
+        @redis ||= Redis.current
       end
     end
   end

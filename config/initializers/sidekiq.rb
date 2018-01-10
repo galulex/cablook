@@ -1,13 +1,14 @@
 require 'sidekiq/web'
 
 if Rails.env.production?
-  Sidekiq.configure_server do |config|
-    config.redis = { url: ENV['REDISTOGO_URL'] }
+  Sidekiq.configure_client do |config|
+    config.redis = { url: ENV['REDIS_URL'], size: 1 }
   end
 
-  Sidekiq.configure_client do |config|
-    config.redis = { url: ENV['REDISTOGO_URL'] }
+  Sidekiq.configure_server do |config|
+    config.redis = { url: ENV['REDIS_URL'], size: 7 }
   end
+
 end
 
 Sidekiq::Web.set :session_secret, ENV['SECRET_KEY_BASE']
