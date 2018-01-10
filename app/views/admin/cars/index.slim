@@ -1,0 +1,12 @@
+h1 Cars
+
+table
+  tr
+    th ID
+    th Number
+    th Status
+  - @cars.each do |car|
+    tr
+      th= car.id
+      th= car.number
+      th= car.status
