@@ -28,10 +28,17 @@ describe Repositories::Car do
   describe '#free_cars' do
     subject { car_repository.free_cars }
 
-    context 'when there are free cars' do
-      let!(:car) { Factory[:car, status: Constants::Car::FREE] }
+    context 'when free car with driver' do
+      let(:car) { Factory[:car, status: Constants::Car::FREE] }
+      let!(:driver) { Factory[:driver, car_id: car.id] }
 
       it { is_expected.not_to be_empty }
+    end
+
+    context 'when free car without driver' do
+      let!(:car) { Factory[:car, status: Constants::Car::FREE] }
+
+      it { is_expected.to be_empty }
     end
 
     context 'when there are no free cars' do

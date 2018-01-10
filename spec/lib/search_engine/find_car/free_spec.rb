@@ -11,6 +11,7 @@ describe SearchEngine::FindCar::Free do
     context 'when nearest car was found' do
       let!(:car_1) { Factory[:car, status: Constants::Car::FREE] }
       let!(:car_2) { Factory[:car, status: Constants::Car::FREE] }
+      let!(:driver) { Factory[:driver, car_id: car_1.id] }
       let(:redis) { Redis.new }
 
       before do
