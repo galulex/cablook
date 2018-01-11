@@ -24,6 +24,7 @@ module Events
       job = Jobs::SearchCarForTrip.perform_later(trip.id)
       create_trip_job(job, trip.id)
       create_trip_payment(trip.id)
+      hold_payment
       trip
     end
 
@@ -58,6 +59,15 @@ module Events
         trip_id: trip_id
       )
       # TODO: WayForPayAPI.call
+    end
+
+    def hold_payment
+      card = Repositories::Card.new(ROM.env).by_id(data[:card_id])
+      Wayforpay::Payments.hold(
+        recToken: card.token,
+        amount: data[:cost],
+        currency: 'UAH'
+      )
     end
   end
 end

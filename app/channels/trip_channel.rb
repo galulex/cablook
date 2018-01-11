@@ -21,6 +21,11 @@ class TripChannel < ApplicationCable::Channel
       status: Constants::Trip::FINISHED
     )
     # TODO: Wayforpay API call
+    Wayforpay::Payments.settle(
+      orderReference: trip_payment.order_reference,
+      amount: trip.cost,
+      currency: 'UAH'
+    )
   end
 
   private

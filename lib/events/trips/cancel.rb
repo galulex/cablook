@@ -13,6 +13,7 @@ module Events
         if trip.status.in?([Constants::Trip::PENDING, Constants::Trip::ON_THE_WAY])
           update_trip
           delete_from_jobs
+          refund_payment
         else
           invalid!([I18n.t('trips.cancel_impossible')])
         end
@@ -30,6 +31,14 @@ module Events
       def delete_from_jobs
         trip_job = Repositories::TripJob.new(ROM.env).by_trip_id(data[:trip_id])
         Jobs::SearchCarForTrip.cancel(trip_job.activejob_id) if trip_job
+      end
+
+      def refund_payment
+        Wayforpay::Payments.refund(
+          orderReference: trip_payment.order_reference,
+          amount: trip.cost,
+          currency: 'UAH'
+        )
       end
 
       def trip
