@@ -3,29 +3,16 @@ describe SearchEngine do
     subject { -> { described_class.call(trip_id: trip.id) } }
 
     let(:trip) { Factory[:trip] }
-    let(:car) { Factory[:car] }
-    let(:car_params) { { car_id: car.id, trip_id: trip.id } }
-
-    before { allow(SearchEngine::FindCar).to receive(:call) { car_params } }
-
-    context 'when car will assign and broadcar to channel' do
-      after { subject.call }
-
-      it { expect(SearchEngine::AssignAndBroadcast).to receive(:call).with(car_id: car.id, trip_id: trip.id) }
-    end
 
     context 'when trip propose is broadcasted' do
-      let(:car_params) { [{ car_id: car.id, trip_id: trip.id }] }
+      let!(:car) { Factory[:car, status: Constants::Car::OFFLINE] }
+      let!(:car_online) { Factory[:car, status: Constants::Car::FREE] }
+      let!(:car_in_trip) { Factory[:car, status: Constants::Car::DURING_IN_TRIP] }
+      let(:car_ids) { [car_online.id, car_in_trip.id] }
 
       after { subject.call }
 
-      it { expect(SearchEngine::BroadcastPropose).to receive(:call).with(cars: car_params, trip_id: trip.id) }
-    end
-
-    context 'when car found' do
-      let(:car_params) { nil }
-
-      it { is_expected.to raise_error(SearchEngine::NotFoundCarError) }
+      it { expect(Operations::BroadcastTripProposal).to receive(:call).with(cars: car_ids, trip_id: trip.id) }
     end
   end
 end

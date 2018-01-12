@@ -1,4 +1,5 @@
 # Must have refactoring and separete logic for free and busy car.
+# car varialbe looks like -> # { car_id: 1, duration: 600 }
 module SearchEngine
   module FindCar
     extend self

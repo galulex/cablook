@@ -1,5 +1,5 @@
-module SearchEngine
-  class BroadcastPropose
+module Operations
+  class BroadcastTripProposal
     def self.call(attr = {})
       new(attr).call
     end

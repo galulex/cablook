@@ -35,7 +35,7 @@ module Events
       def update_car_status
         Repositories::Car.new(ROM.env).update(
           data[:car_id],
-          status: Constants::Car::WITH_NEXT_TRIP
+          status: Constants::Car::DURING_IN_TRIP
         )
       end
 

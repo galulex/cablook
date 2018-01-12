@@ -21,5 +21,9 @@ module Repositories
     def offline
       cars.where(status: Constants::Car::OFFLINE).to_a
     end
+
+    def online
+      cars.exclude(status: Constants::Car::OFFLINE).to_a
+    end
   end
 end
