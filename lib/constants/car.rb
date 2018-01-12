@@ -3,7 +3,6 @@ module Constants
     OFFLINE        = 0
     FREE           = 1
     DURING_IN_TRIP = 2
-    WITH_NEXT_TRIP = 3
-    CHARGE         = 4
+    CHARGE         = 3
   end
 end

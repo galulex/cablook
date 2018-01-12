@@ -63,4 +63,44 @@ describe Repositories::Car do
       it { is_expected.to be_empty }
     end
   end
+
+  describe '#online' do
+    subject { car_repository.online.count }
+
+    context 'when only offline cars' do
+      before do
+        Factory[:car, status: Constants::Car::OFFLINE]
+        Factory[:car, status: Constants::Car::OFFLINE]
+      end
+
+      it { is_expected.to eq(0) }
+    end
+
+    context 'when there are free cars' do
+      before do
+        Factory[:car, status: Constants::Car::OFFLINE]
+        Factory[:car, status: Constants::Car::FREE]
+      end
+
+      it { is_expected.to eq(1) }
+    end
+
+    context 'and during in a trip cars consist' do
+      before do
+        Factory[:car, status: Constants::Car::FREE]
+        Factory[:car, status: Constants::Car::DURING_IN_TRIP]
+      end
+
+      it { is_expected.to eq(2) }
+    end
+
+    context 'and cars in charging consist' do
+      before do
+        Factory[:car, status: Constants::Car::FREE]
+        Factory[:car, status: Constants::Car::CHARGE]
+      end
+
+      it { is_expected.to eq(2) }
+    end
+  end
 end
