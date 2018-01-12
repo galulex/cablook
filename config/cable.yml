@@ -1,6 +1,6 @@
 redis: &redis
   adapter: redis
-  url: redis://localhost:6379/1
+  url: <%= ENV['REDIS_URL'] %>
 
 development:
   *redis
@@ -9,5 +9,4 @@ test:
   *redis
 
 production:
-  adapter: redis
-  url: redis://redistogo:0cdd7dcf9a873f0f3fc2738882a492fe@chubb.redistogo.com:9923/
+  *redis
