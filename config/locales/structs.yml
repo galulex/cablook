@@ -10,6 +10,14 @@ en:
     car:
       number: Number
       status: Status
+    trip:
+      path: Path
+      cost: Cost
+      departure_address: Departure address
+      destination_address: Destination address
+      departure: Departure
+      destination: Destination
+      user: User
 
 ru:
   structs:
@@ -22,6 +30,14 @@ ru:
     car:
       number: Номер
       status: Статус
+    trip:
+      path: Путь
+      cost: Стоимость
+      departure_address: Адрес отправления
+      destination_address: Адрес назначения
+      departure: Место отправления
+      destination: Место назначения
+      user: Пользователь
 
 ua:
   structs:
@@ -34,3 +50,11 @@ ua:
     car:
       number: Номер
       status: Статус
+    trip:
+      path: Шлях
+      cost: Вартість
+      departure_address: Адреса відправлення
+      destination_address: Адреса призначення
+      departure: Відправлення
+      destination: Призначення
+      user: Користувач

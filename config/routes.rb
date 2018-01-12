@@ -30,5 +30,6 @@ Rails.application.routes.draw do
     resources :cars, except: %i[show]
     resources :drivers, except: %i[show]
     resources :users, except: %i[show]
+    resources :trips, except: %i[show]
   end
 end

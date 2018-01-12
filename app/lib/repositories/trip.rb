@@ -1,6 +1,10 @@
 module Repositories
   class Trip < ROM::Repository[:trips]
-    commands :create, update: :by_pk
+    commands :create, update: :by_pk, delete: :by_pk
+
+    def all
+      trips.to_a
+    end
 
     def by_id(trip_id)
       trips.by_pk(trip_id).one

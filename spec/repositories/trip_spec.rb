@@ -1,4 +1,16 @@
 describe Repositories::Trip do
+  describe '#all' do
+    let(:instance) { trip_repository.all }
+
+    it { expect(instance).to be_empty }
+
+    context 'when trips are found' do
+      let!(:trip) { Factory[:trip] }
+
+      it { expect(instance).not_to be_empty }
+    end
+  end
+
   describe '#by_user' do
     subject { trip_repository.by_user(user.id) }
 
