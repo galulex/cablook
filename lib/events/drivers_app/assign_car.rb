@@ -18,8 +18,8 @@ module Events
       private
 
       def assign_car
-        # TODO: Add method to set car status
         driver_repository.update(data[:driver_id], car_id: data[:car_id])
+        Repositories::Car.new(ROM.env).update(data[:car_id], status: Constants::Car::FREE)
       end
 
       def validate!
