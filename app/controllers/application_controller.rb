@@ -1,4 +1,4 @@
-class ApplicationController < ActionController::API
+class ApplicationController < ActionController::Base
   rescue_from Constants::UnauthorizedError do |_errors|
     render json: { errors: ['User unauthorized'] }, status: 401
   end

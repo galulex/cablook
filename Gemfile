@@ -7,6 +7,7 @@ end
 
 gem 'rails', '~> 5.1.3'
 
+gem 'activeadmin'
 gem 'activejob-cancel'
 gem 'bcrypt', '~> 3.1.7'
 gem 'dry-validation'
@@ -22,6 +23,7 @@ gem 'rom-repository'
 gem 'rom-sql'
 gem 'sidekiq'
 gem 'slim'
+gem 'turbolinks'
 gem 'twilio-ruby', '~> 5.2.1'
 
 group :development, :test do

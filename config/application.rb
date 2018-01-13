@@ -6,6 +6,9 @@ require 'active_job/railtie'
 require 'action_controller/railtie'
 require 'action_mailer/railtie'
 require 'action_cable/engine'
+require 'active_record/railtie'
+require 'active_model/railtie'
+require 'sprockets/railtie'
 
 Bundler.require(*Rails.groups)
 
@@ -14,6 +17,7 @@ module CabLook
     config.load_defaults 5.1
 
     config.autoload_paths << "#{config.root}/lib"
+    config.autoload_paths << "#{config.root}/app/models"
     config.autoload_paths << "#{config.root}/app/channels"
     config.eager_load_paths << "#{Rails.root}/lib"
 

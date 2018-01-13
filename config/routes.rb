@@ -1,6 +1,7 @@
 require 'sidekiq/web'
 
 Rails.application.routes.draw do
+  ActiveAdmin.routes(self)
   mount ActionCable.server => '/cable'
   mount Sidekiq::Web => '/sidekiq'
 
@@ -24,12 +25,5 @@ Rails.application.routes.draw do
   namespace :verifications do
     get 'emails/send_verification', to: 'emails#send_verification'
     post 'emails/verify', to: 'emails#verify'
-  end
-
-  namespace :admin do
-    resources :cars, except: %i[show]
-    resources :drivers, except: %i[show]
-    resources :users, except: %i[show]
-    resources :trips, except: %i[show]
   end
 end
