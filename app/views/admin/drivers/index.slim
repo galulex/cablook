@@ -1,0 +1,16 @@
+h1 Drivers
+
+div
+  p = link_to "Add new driver", new_admin_driver_path
+
+table
+  tr
+    th = t('structs.driver.id')
+    th = t('structs.driver.name')
+    th = t('structs.driver.username')
+  - @users.each do |driver|
+    tr
+      td= driver.id
+      td= driver.name
+      td= driver.username
+      td= button_to "Delete", admin_driver_path(driver.id), method: :delete

@@ -1,0 +1,9 @@
+h1 Add Car
+
+= form_for :car, url: admin_cars_path, method: :post do |f|
+  div
+    = f.label t('structs.car.number')
+    = f.text_field :number
+  div
+    = f.submit 'Add'
+    = link_to 'Back', admin_users_path
