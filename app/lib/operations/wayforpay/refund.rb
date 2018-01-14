@@ -8,8 +8,8 @@ module Operations
       attr_reader :trip_id
 
       def call
-        refund_payment
-        update_payment_status
+        refund_response = JSON.parse(refund_payment.body)
+        update_payment_status if refund_response['reasonCode'] == '1100'
       end
 
       private

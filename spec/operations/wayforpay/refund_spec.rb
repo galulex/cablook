@@ -1,5 +1,8 @@
 describe Operations::Wayforpay::Refund do
   let(:instance) { described_class.new(trip.id) }
+  let(:wayforpay_body) { { reasonCode: '1100' }.to_json }
+
+  before { allow(Wayforpay::Payments).to receive(:refund) { OpenStruct.new(body: wayforpay_body) } }
 
   describe '#call' do
     subject { -> { instance.call } }
@@ -16,6 +19,10 @@ describe Operations::Wayforpay::Refund do
     end
 
     context 'when smth went wrong' do
+      let(:wayforpay_body) { { reasonCode: '1111' }.to_json }
+
+      before { subject.call }
+
       it { expect(payment_repository.payments.to_a.last.status).to eq(Constants::Payments::PENDING) }
     end
   end

@@ -32,7 +32,7 @@ module Operations
         Repositories::Payment.new(ROM.env).create(
           status: status,
           amount: trip.cost,
-          card_id: trip.card_id,
+          card_id: card_id,
           trip_id: trip_id,
           order_reference: order_reference
         )

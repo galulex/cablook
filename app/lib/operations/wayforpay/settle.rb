@@ -9,8 +9,8 @@ module Operations
 
       # TODO: Impement logic when the price changed
       def call
-        settle_payment
-        update_payment_status
+        wayforpay_response = JSON.parse(settle_payment.body)
+        update_payment_status if wayforpay_response['reasonCode'] == '1100'
       end
 
       private
