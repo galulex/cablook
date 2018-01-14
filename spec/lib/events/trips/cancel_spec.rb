@@ -14,7 +14,11 @@ describe Events::Trips::Cancel do
         Factory[:trip_job, trip_id: trip.id, activejob_id: job.job_id, sidekiq_id: job.provider_job_id]
       end
 
-      it { is_expected.to change{ ActiveJob::Base.queue_adapter.enqueued_jobs.size }.by(-1) }
+      it { is_expected.not_to have_enqueued_job(Jobs::SearchCarForTrip).with(trip.id) }
+    end
+
+    context 'and refund payment job is running' do
+      it { is_expected.to have_enqueued_job(Jobs::PaymentRefund).with(trip.id) }
     end
 
     context 'when trip is on the way' do

@@ -8,6 +8,11 @@ class Users < ROM::Relation[:sql]
     attribute :confirmation_token, Types::String
     attribute :verification_token, Types::String
 
+    associations do
+      has_many :trips
+      has_many :cards
+    end
+
     primary_key :id
   end
 end

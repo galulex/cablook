@@ -5,6 +5,7 @@ describe Events::CreateTrip do
     let(:trip_params) { Factory.structs[:trip, user_id: user.id].to_h }
     let(:data) { trip_params }
     let(:user) { Factory[:user] }
+    let!(:card) { Factory[:card, user_id: user.id] }
 
     it { is_expected.to change { trip_repository.trips.count }.by(+1) }
 
@@ -16,8 +17,14 @@ describe Events::CreateTrip do
       it { is_expected.to change { trip_job_repository.trip_jobs.count }.by(+1) }
     end
 
-    context 'and payment is created' do
-      it { is_expected.to change { payment_repository.payments.count }.by(+1) }
+    context 'and payment job is running' do
+      it { is_expected.to have_enqueued_job(Jobs::PaymentHold).with(data[:id], card.id) }
+
+      context 'when user without card' do
+        before { card_repository.delete(card.id) }
+
+        it { is_expected.to raise_error(Events::InvalidParamsError) }
+      end
     end
 
     context 'when path is empty' do

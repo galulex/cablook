@@ -25,6 +25,7 @@ gem 'sidekiq'
 gem 'slim'
 gem 'turbolinks'
 gem 'twilio-ruby', '~> 5.2.1'
+gem 'wayforpay'
 
 group :development, :test do
   gem 'github_workflow'

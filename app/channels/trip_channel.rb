@@ -20,7 +20,8 @@ class TripChannel < ApplicationCable::Channel
       params[:trip_id],
       status: Constants::Trip::FINISHED
     )
-    # TODO: Wayforpay API call
+    # TODO: Impement logic when the price changed
+    Jobs::PaymentSettle.perform_later(params[:trip_id])
   end
 
   private
