@@ -3,6 +3,7 @@ class Payments < ROM::Relation[:sql]
     attribute :id, Types::Int
     attribute :amount, Types::Float
     attribute :status, Types::Int
+    attribute :order_reference, Types::String
 
     attribute :card_id, Types::ForeignKey(:cards)
     attribute :trip_id, Types::ForeignKey(:trips)
