@@ -21,10 +21,8 @@ module Events
       convert_location_to_pg_array
       validate!
       trip = create_trip
-      job = Jobs::SearchCarForTrip.perform_later(trip.id)
-      create_trip_job(job, trip.id)
-      create_trip_payment(trip.id)
-      hold_payment
+      create_trip_job(trip.id, data[:card_id])
+      Jobs::HoldPayment.perform_later(trip.id, card_id)
       trip
     end
 
@@ -39,7 +37,8 @@ module Events
       Repositories::Trip.new(ROM.env).create(data.to_h)
     end
 
-    def create_trip_job(job, trip_id)
+    def create_trip_job(trip_id)
+      job = Jobs::SearchCarForTrip.perform_later(trip.id)
       Repositories::TripJob.new(ROM.env).create(
         activejob_id: job.job_id,
         sidekiq_id: job.provider_job_id,
@@ -52,22 +51,8 @@ module Events
       data[:destination] = Sequel.pg_array(data[:destination])
     end
 
-    def create_trip_payment(trip_id)
-      Repositories::Payment.new(ROM.env).create(
-        amount: data[:cost],
-        card_id: data[:card_id],
-        trip_id: trip_id
-      )
-      # TODO: WayForPayAPI.call
-    end
-
-    def hold_payment
-      card = Repositories::Card.new(ROM.env).by_id(data[:card_id])
-      Wayforpay::Payments.hold(
-        recToken: card.token,
-        amount: data[:cost],
-        currency: 'UAH'
-      )
+    def card_id
+      data[:card_id] || Repositories::Card.new(ROM.env).by_user_id(data[:user_id]).first.id
     end
   end
 end

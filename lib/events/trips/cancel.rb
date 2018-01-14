@@ -34,11 +34,7 @@ module Events
       end
 
       def refund_payment
-        Wayforpay::Payments.refund(
-          orderReference: trip_payment.order_reference,
-          amount: trip.cost,
-          currency: 'UAH'
-        )
+        Jobs::PaymentRefund.perform_later(data[:trip_id])
       end
 
       def trip

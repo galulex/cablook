@@ -20,12 +20,8 @@ class TripChannel < ApplicationCable::Channel
       params[:trip_id],
       status: Constants::Trip::FINISHED
     )
-    # TODO: Wayforpay API call
-    Wayforpay::Payments.settle(
-      orderReference: trip_payment.order_reference,
-      amount: trip.cost,
-      currency: 'UAH'
-    )
+    # TODO: Impement logic when the price changed
+    Jobs::PaymentSettle.perform_later(params[:trip_id])
   end
 
   private
