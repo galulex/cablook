@@ -1,5 +1,6 @@
 describe TripsController, type: :controller do
   let(:user) { Factory[:user] }
+  let!(:card) { Factory[:card, user_id: user.id] }
   let(:auth_token) { user.auth_token }
 
   before { request.headers['Auth-Token'] = auth_token }
