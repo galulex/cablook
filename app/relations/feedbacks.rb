@@ -1,3 +1,4 @@
 class Feedbacks < ROM::Relation[:sql]
-  schema(infer: true)
+  schema do
+  end
 end
