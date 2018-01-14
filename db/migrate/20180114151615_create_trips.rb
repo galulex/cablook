@@ -9,6 +9,12 @@ class CreateTrips < ActiveRecord::Migration[5.1]
       t.string :departure_address
       t.string :destination_address
       t.datetime :estimated_end_time
+
+      t.references :car, foreign_key: true
+      t.references :driver, foreign_key: true
+      t.references :user, foreign_key: true
+
+      t.datetime :created_at, default: -> { 'CURRENT_TIMESTAMP' }
     end
   end
 end

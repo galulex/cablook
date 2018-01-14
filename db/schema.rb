@@ -31,7 +31,7 @@ ActiveRecord::Schema.define(version: 20180114152232) do
 
   create_table "drivers", force: :cascade do |t|
     t.string "name"
-    t.string "useraname"
+    t.string "username"
     t.string "encrypted_password"
     t.string "auth_token"
     t.bigint "car_id"
@@ -60,6 +60,7 @@ ActiveRecord::Schema.define(version: 20180114152232) do
 
   create_table "subscriptions", force: :cascade do |t|
     t.string "email"
+    t.datetime "created_at", default: -> { "now()" }
   end
 
   create_table "trip_jobs", force: :cascade do |t|
@@ -78,6 +79,13 @@ ActiveRecord::Schema.define(version: 20180114152232) do
     t.string "departure_address"
     t.string "destination_address"
     t.datetime "estimated_end_time"
+    t.bigint "car_id"
+    t.bigint "driver_id"
+    t.bigint "user_id"
+    t.datetime "created_at", default: -> { "now()" }
+    t.index ["car_id"], name: "index_trips_on_car_id"
+    t.index ["driver_id"], name: "index_trips_on_driver_id"
+    t.index ["user_id"], name: "index_trips_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -97,4 +105,7 @@ ActiveRecord::Schema.define(version: 20180114152232) do
   add_foreign_key "payments", "drivers"
   add_foreign_key "payments", "trips"
   add_foreign_key "trip_jobs", "trips"
+  add_foreign_key "trips", "cars"
+  add_foreign_key "trips", "drivers"
+  add_foreign_key "trips", "users"
 end
