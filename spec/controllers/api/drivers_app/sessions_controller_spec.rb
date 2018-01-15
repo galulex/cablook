@@ -1,4 +1,4 @@
-describe DriversApp::SessionsController , type: :controller do
+describe Api::DriversApp::SessionsController , type: :controller do
   let!(:driver) { Factory[:driver] }
 
   subject { response }

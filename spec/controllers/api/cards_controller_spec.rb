@@ -1,4 +1,4 @@
-describe CardsController, type: :controller do
+describe Api::CardsController, type: :controller do
   let(:user) { Factory[:user] }
   let(:auth_token) { user.auth_token }
 

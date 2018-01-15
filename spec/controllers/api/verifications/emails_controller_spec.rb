@@ -1,4 +1,4 @@
-describe Verifications::EmailsController, type: :controller do
+describe Api::Verifications::EmailsController, type: :controller do
   describe '#send_verification' do
     subject { response }
 

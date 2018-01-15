@@ -1,4 +1,4 @@
-describe FeedbacksController, type: :controller do
+describe Api::FeedbacksController, type: :controller do
   let(:user) { Factory[:user] }
   let(:auth_token) { user.auth_token }
 
