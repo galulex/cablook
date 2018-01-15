@@ -1,4 +1,4 @@
-describe SubscriptionsController, type: :controller do
+describe Api::SubscriptionsController, type: :controller do
   let(:subscription) { Factory[:subscription] }
 
   describe '#create' do

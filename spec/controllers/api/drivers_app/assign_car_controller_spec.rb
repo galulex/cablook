@@ -1,4 +1,4 @@
-describe DriversApp::AssignCarController, type: :controller do
+describe Api::DriversApp::AssignCarController, type: :controller do
   let(:driver) { Factory[:driver] }
   let(:auth_token) { driver.auth_token }
 

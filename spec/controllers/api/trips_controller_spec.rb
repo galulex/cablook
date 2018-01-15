@@ -1,4 +1,4 @@
-describe TripsController, type: :controller do
+describe Api::TripsController, type: :controller do
   let(:user) { Factory[:user] }
   let!(:card) { Factory[:card, user_id: user.id] }
   let(:auth_token) { user.auth_token }

@@ -1,4 +1,4 @@
-describe SessionsController, type: :controller do
+describe Api::SessionsController, type: :controller do
   describe '#create' do
     subject { response }
 
