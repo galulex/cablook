@@ -40,11 +40,12 @@ module Events
       end
 
       def broadcast_accepted_trip
-        # TODO: trip_data
         ActionCable.server.broadcast(
           Constants::Channels::DRIVER_MAP,
           action: Constants::BroadcastActions::TRIP_ACCEPTED,
-          trip_id: trip.id
+          trip_id: trip.id,
+          driver_id: data[:driver_id],
+          car_id: data[:car_id]
         )
       end
 

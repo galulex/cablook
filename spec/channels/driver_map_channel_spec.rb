@@ -61,7 +61,9 @@ describe DriverMapChannel do
       expect(ActionCable.server).to receive(:broadcast).with(
         Constants::Channels::DRIVER_MAP,
         action: Constants::BroadcastActions::TRIP_ACCEPTED,
-        trip_id: trip.id
+        trip_id: trip.id,
+        driver_id: driver.id,
+        car_id: driver.car_id
       ).once
     end
 
