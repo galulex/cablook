@@ -1,5 +1,5 @@
 module Api
-  class TripsController < ApplicationController
+  class TripsController < ApiApplicationController
     before_action :authorize!
 
     def index

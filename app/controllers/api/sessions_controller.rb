@@ -1,5 +1,5 @@
 module Api
-  class SessionsController < ApplicationController
+  class SessionsController < ApiApplicationController
     def create
       user = Events::AuthorizeUser.(phone_number: params[:phone_number])
       render json: Presenters::Users::SinglePrivate.new(user).to_json, status: 201

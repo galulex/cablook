@@ -1,5 +1,5 @@
 module Api
-  class CardsController < ApplicationController
+  class CardsController < ApiApplicationController
     before_action :authorize!
 
     def index

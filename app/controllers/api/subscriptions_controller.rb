@@ -1,5 +1,5 @@
 module Api
-  class SubscriptionsController < ApplicationController
+  class SubscriptionsController < ApiApplicationController
     def create
       validator = Validators::Subscription.new(subscription_params)
       if validator.valid?

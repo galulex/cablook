@@ -1,6 +1,6 @@
 module Api
   module Verifications
-    class PhoneNumbersController < ApplicationController
+    class PhoneNumbersController < ApiApplicationController
       def send_verification
         Events::Verifications::SendNumberVerification.call(number: phone_number)
         render json: { messages: ['Message has been sent'] }

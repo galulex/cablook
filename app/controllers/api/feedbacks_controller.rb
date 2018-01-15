@@ -1,5 +1,5 @@
 module Api
-  class FeedbacksController < ApplicationController
+  class FeedbacksController < ApiApplicationController
     before_action :authorize!
 
     def create

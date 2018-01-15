@@ -1,6 +1,6 @@
 module Api
   module Verifications
-    class EmailsController < ApplicationController
+    class EmailsController < ApiApplicationController
       def send_verification
         Events::Verifications::SendEmailVerification.call(email: email)
         render json: { messages: ['Message has been sent'] }
