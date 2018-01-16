@@ -57,15 +57,6 @@ describe DriverMapChannel do
     after { channel.perform_action(data) }
 
     it { expect(Events::Trips::Accept).to receive(:call).once }
-    it do
-      expect(ActionCable.server).to receive(:broadcast).with(
-        Constants::Channels::DRIVER_MAP,
-        action: Constants::BroadcastActions::TRIP_ACCEPTED,
-        trip_id: trip.id,
-        driver_id: driver.id,
-        car_id: driver.car_id
-      ).once
-    end
 
     context 'when trip was accepted' do
       let(:trip) { Factory[:trip, status: Constants::Trip::ON_THE_WAY] }

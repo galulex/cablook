@@ -16,6 +16,7 @@ module Events
           update_trip
           update_car_status
           broadcast_accepted_trip
+          broadcast_accepted_trip_to_trip_channel
         else
           broadcast_with_error
         end
@@ -49,10 +50,19 @@ module Events
         )
       end
 
+      def broadcast_accepted_trip_to_trip_channel
+        ActionCable.server.broadcast(
+          "#{Constants::Channels::TRIP}_#{data[:trip_id]}",
+          action: Constants::BroadcastActions::TRIP_ACCEPTED,
+          driver_id: data[:driver_id],
+          car_id: data[:car_id]
+        )
+      end
+
       def broadcast_with_error
         ActionCable.server.broadcast(
           Constants::Channels::DRIVER_MAP,
-          action: Constants::BroadcastActions::TRIP_UNACCEPTED,
+          action: Constants::BroadcastActions::TRIP_UNAVAILABLE,
           errors: [I18n.t('trips.assigned_or_canceled')],
           driver_id: data[:driver_id],
           trip_id: data[:trip_id]
