@@ -28,4 +28,6 @@ Rails.application.routes.draw do
       post 'emails/verify', to: 'emails#verify'
     end
   end
+
+  get 'welcome' => 'welcome#index'
 end

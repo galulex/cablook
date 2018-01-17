@@ -1,0 +1,13 @@
+.content#welcome
+  .header
+    = inline_svg 'logo.svg', class: 'header__logo'
+    h3.header__title
+      p= t('welcome.title')
+      p= t('welcome.why')
+  ul.welcome-section
+    - I18n.t('welcome.logos').each do |key, value|
+      li.welcome-section__item.col-6
+        = inline_svg "welcome/#{key}", class: "welcome-section__image"
+        h3 class="welcome-section__title--#{key}"
+          = value[:title]
+        .welcome-section__description= value[:description]

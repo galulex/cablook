@@ -1,0 +1,172 @@
+@import 'welcome';
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background: #F4F4F4;
+  font-family: Gilroy, Helvetica, Arial, sans-serif;
+  font-weight: 100;
+  overflow-x: hidden;
+  margin: 0;
+}
+
+nav {
+  position: fixed;
+  width: 20%;
+  background: #5da661;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  transition: left .3s .1s;
+  z-index: 4;
+}
+
+nav a {
+  color: white;
+  font-weight: 400;
+  display: block;
+  padding: 10%;
+  position: relative;
+  text-decoration: none;
+}
+
+nav a:after {
+  content: '';
+  border-bottom: 2px solid white;
+  width: 80%;
+  position: absolute;
+  bottom: 0;
+  left: 10%;
+}
+
+main {
+  margin-left: 20%;
+  width: 80%;
+  text-align: center;
+  transition: margin-left .3s;
+}
+
+h1 {
+  font-weight: 100;
+}
+
+label[for='menu'] {
+  position: fixed;
+  left: 2%;
+  transition: left .3s;
+  cursor: pointer;
+  z-index: 3;
+}
+
+label[for='menu']:before {
+  content: '☰';
+  transition: all .3s;
+  padding: 10px;
+  color: #5da661;
+  font-weight: 700;
+  font-size: 2rem;
+}
+
+input#menu {
+  opacity: 0;
+  z-index: -1;
+  position: absolute;
+}
+
+input#menu:checked ~ nav {
+  left: 0;
+  transition: left .3s;
+}
+
+input#menu:checked ~ main {
+  margin-left: 42%;
+}
+
+input#menu:checked + label {
+  left: 42%;
+  transition: left .3s .1s;
+}
+
+input#menu:checked + label:before {
+  content: '×';
+  font-size: 3rem;
+}
+
+.city-line {
+  position: fixed;
+  bottom: 0;
+  left: 20%;
+  transition: left .3s .1s;
+}
+
+.top-left, .top-right, .bottom-right, .bottom-left {
+  position: fixed;
+  z-index: 1;
+  opacity: 0.3;
+}
+
+.top-left {
+  width: 19%;
+  left: 20%;
+  max-width: 300px;
+}
+
+.top-right {
+  width: 30%;
+  right: 0;
+  max-width: 385px;
+}
+
+.bottom-right {
+  width: 25%;
+  bottom: 0;
+  right: 0;
+  max-width: 350px;
+}
+
+.bottom-left {
+  width: 35%;
+  bottom: 0;
+  left: 20%;
+  max-width: 520px;
+}
+
+@media only screen and (max-width: 768px) {
+  main {
+    margin-left: 0;
+    width: 100%;
+
+    [class*="col-"] {
+      width: 100%;
+    }
+
+    .city-line {
+      left: 0;
+    }
+
+    .top-left, .bottom-left {
+      left: 0;
+    }
+  }
+
+  nav {
+    width: 40%;
+    left: -40%;
+  }
+}
+
+/* For desktop: */
+.col-1 { width: 8.33%; }
+.col-2 { width: 16.66%; }
+.col-3 { width: 25%; }
+.col-4 { width: 33.33%; }
+.col-5 { width: 41.66%; }
+.col-6 { width: 50%; }
+.col-7 { width: 58.33%; }
+.col-8 { width: 66.66%; }
+.col-9 { width: 75%; }
+.col-10 { width: 83.33%; }
+.col-11 { width: 91.66%; }
+.col-12 { width: 100%; }

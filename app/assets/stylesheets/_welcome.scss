@@ -1,0 +1,54 @@
+.content {
+  position: relative;
+  z-index: 2;
+}
+
+.header {
+  &__logo {
+    max-width: 250px;
+    width: 80%;
+  }
+}
+
+.welcome-section {
+  display: block;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  &__item {
+    z-index: 1;
+    display: inline-block;
+    text-align: center;
+    padding: 5px;
+    padding: 10px 40px;
+    vertical-align: top;
+  }
+
+  &__image {
+    width: 20%;
+  }
+
+  &__title {
+    &--economy {
+      color: #a925ad;
+    }
+
+    &--eco {
+      color: #00b05d;
+    }
+
+    &--comfort {
+      color: #efcc3a;
+    }
+
+    &--individual {
+      color: #322960;
+    }
+  }
+
+  &__description {
+    text-align: left;
+    line-height: 1.4em;
+  }
+}

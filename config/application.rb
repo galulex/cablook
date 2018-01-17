@@ -28,5 +28,9 @@ module CabLook
         ENV[key.upcase] = value unless ENV[key.upcase]
       end
     end
+
+    config.i18n.default_locale = :ua
+    config.i18n.fallbacks = true
+    config.i18n.fallbacks = [:en]
   end
 end
