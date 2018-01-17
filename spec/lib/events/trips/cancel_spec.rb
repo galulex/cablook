@@ -21,6 +21,12 @@ describe Events::Trips::Cancel do
       it { is_expected.to have_enqueued_job(Jobs::PaymentRefund).with(trip.id) }
     end
 
+    context 'and broadcast to channel' do
+      after { subject.call }
+
+      it { expect(ActionCable.server).to receive(:broadcast).once }
+    end
+
     context 'when trip is on the way' do
       let(:trip) { Factory[:trip, status: Constants::Trip::ON_THE_WAY] }
 

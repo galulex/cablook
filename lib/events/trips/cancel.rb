@@ -14,6 +14,7 @@ module Events
           update_trip
           delete_from_jobs
           refund_payment
+          broadcast_trip_unavailable
         else
           invalid!([I18n.t('trips.cancel_impossible')])
         end
@@ -31,6 +32,16 @@ module Events
       def delete_from_jobs
         trip_job = Repositories::TripJob.new(ROM.env).by_trip_id(data[:trip_id])
         Jobs::SearchCarForTrip.cancel(trip_job.activejob_id) if trip_job
+      end
+
+      def broadcast_trip_unavailable
+        ActionCable.server.broadcast(
+          Constants::Channels::DRIVER_MAP,
+          action: Constants::BroadcastActions::TRIP_UNAVAILABLE,
+          errors: [I18n.t('trips.assigned_or_canceled')],
+          driver_id: data[:driver_id],
+          trip_id: data[:trip_id]
+        )
       end
 
       def refund_payment

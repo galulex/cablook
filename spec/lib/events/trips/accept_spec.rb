@@ -16,12 +16,24 @@ describe Events::Trips::Accept do
       let(:trip) { Factory[:trip, status: Constants::Trip::ON_THE_WAY] }
 
       it { is_expected.not_to change { trip_repository.by_id(trip.id).status } }
+
+      context 'and broadcast to channel' do
+        after { subject.call }
+
+        it { expect(ActionCable.server).to receive(:broadcast).once }
+      end
     end
 
     context 'when data is invalid' do
       let(:data) { {} }
 
       it { is_expected.to raise_error(Events::InvalidParamsError) }
+    end
+
+    context 'and broadcast to channel' do
+      after { subject.call }
+
+      it { expect(ActionCable.server).to receive(:broadcast).twice }
     end
   end
 end
