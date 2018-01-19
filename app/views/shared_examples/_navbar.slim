@@ -4,5 +4,21 @@ nav
   .top-menu
   .bottom-menu
     = link_to t('nav_bar.be_driver'), welcome_path
+    form
+      fieldset
+        | +380
+        input#number type=:number min=100_000_000 max=999_999_999 required=true placeholder=123456789 onkeydown='app.signIn(event)'
+      fieldset disabled=true
+        input#verification type=:number min=1_000 max=9_999 required=true pattern='.{4}' placeholder=1234 onkeydown='app.verify(event)' data-message='Wrong Code'
+        br
+        label for=:verification Type the code from SMS
+        br
+        button type=:button  onclick='app.signOut()' Change number
+      fieldset disabled=true
+        button type=:button onclick='app.signOut()' Sign Out
+        div#account
+        input#from type=:text required=true placeholder='From'
+        input type=:text required=true placeholder='To'
+      / input type=:submit value=:GO
     = link_to t('nav_bar.about_us'), welcome_path
     = link_to t('nav_bar.contacts'), welcome_path

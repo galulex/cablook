@@ -6,8 +6,6 @@ html
     title= t('head.title')
     meta name='description' content= t('head.description')
     = csrf_meta_tags
-    = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload'
-    = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
     = render 'shared_examples/favicon_links'
   body
     = render 'shared_examples/navbar'
@@ -15,5 +13,20 @@ html
       = render 'corner_images'
       = yield
       = inline_svg 'city_line', class: 'city-line'
-    link rel='stylesheet' href='fonts.scss' type='text/css' media='screen' charset='utf-8'
+    = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload'
+    = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
+    = stylesheet_link_tag    'fonts', media: 'all', 'data-turbolinks-track': 'reload'
   = render 'shared_examples/schema_org'
+  script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDlGdVGbkeO_30Yn7tPCpe61AgdrsXMbQ0&libraries=places&callback=initAutocomplete" async=true defer=true
+
+  javascript:
+    function initAutocomplete() {
+        // Create the autocomplete object, restricting the search to geographical
+        // location types.
+        autocomplete = new google.maps.places.Autocomplete(
+            /** @type {!HTMLInputElement} */(document.getElementById('from')),
+            {componentRestrictions: {country: "ua"}, types: ['geocode']});
+
+        // When the user selects an address from the dropdown, populate the address
+        // fields in the form.
+    }

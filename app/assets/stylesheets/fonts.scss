@@ -1,6 +1,6 @@
 @font-face {
   font-family: Gilroy;
-  src: url(landing/Gilroy-Bold.woff2);
+  src: font-url('Gilroy-Bold.woff2');
   font-weight: 400;
   font-display: swap;
 }
@@ -9,12 +9,12 @@
   font-family: Gilroy;
   font-display: swap;
   font-weight: 700;
-  src: url(landing/Gilroy-ExtraBold.woff2);
+  src: font-url('Gilroy-ExtraBold.woff2');
 }
 
 @font-face {
   font-family: Gilroy;
-  src: url(landing/Gilroy-Light.woff2);
+  src: font-url('Gilroy-Light.woff2');
   font-weight: 100;
   font-display: swap;
 }

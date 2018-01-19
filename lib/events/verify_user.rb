@@ -12,6 +12,7 @@ module Events
     def run
       check_user
       verify!
+      user
     end
 
     private

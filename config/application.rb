@@ -9,6 +9,8 @@ require 'action_cable/engine'
 require 'active_record/railtie'
 require 'active_model/railtie'
 require 'sprockets/railtie'
+require 'sprockets/es6'
+
 
 Bundler.require(*Rails.groups)
 
@@ -22,6 +24,7 @@ module CabLook
     config.eager_load_paths << "#{Rails.root}/lib"
 
     config.active_job.queue_adapter = :sidekiq
+    config.assets.precompile += %w( fonts.css )
 
     if File.exist?('config/secrets.yml')
       YAML.safe_load(File.read('config/secrets.yml'))[Rails.env].each do |key, value|
