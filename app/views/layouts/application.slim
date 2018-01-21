@@ -18,15 +18,54 @@ html
     = stylesheet_link_tag    'fonts', media: 'all', 'data-turbolinks-track': 'reload'
   = render 'shared_examples/schema_org'
   script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDlGdVGbkeO_30Yn7tPCpe61AgdrsXMbQ0&libraries=places&callback=initAutocomplete" async=true defer=true
+  script id="widget-wfp-script" language="javascript" type="text/javascript" src="https://secure.wayforpay.com/server/pay-widget.js"
 
   javascript:
     function initAutocomplete() {
-        // Create the autocomplete object, restricting the search to geographical
-        // location types.
-        autocomplete = new google.maps.places.Autocomplete(
-            /** @type {!HTMLInputElement} */(document.getElementById('from')),
-            {componentRestrictions: {country: "ua"}, types: ['geocode']});
+      from = new google.maps.places.Autocomplete(document.getElementById('from'), {
+        componentRestrictions: {country: 'ua'}
+      });
+      from.addListener('place_changed', function(){
+        var location = this.getPlace().geometry.location
+        trip.departure = [location.lat(),location.lng()]
+      });
 
-        // When the user selects an address from the dropdown, populate the address
-        // fields in the form.
+      to = new google.maps.places.Autocomplete(document.getElementById('to'), {
+        componentRestrictions: {country: 'ua'}
+      });
+      to.addListener('place_changed', function(){
+        var location = this.getPlace().geometry.location
+        trip.destination = [location.lat(),location.lng()]
+        app.createTrip()
+      });
+    }
+
+    wayforpay = new Wayforpay();
+    var pay = function () {
+      wayforpay.run({
+        requestType: "VERIFY",
+        straightWidget: true,
+        merchantAccount : "test_merch_n1",
+        merchantDomainName : "cablook.taxi",
+        authorizationType : "SimpleSignature",
+        merchantSignature : "b95932786cbe243a76b014846b63fe92",
+        orderReference : "DH783023",
+        orderDate : Date.now(),
+        amount : "40.00",
+        currency : "UAH",
+        productName : "trip",
+        productPrice : "1000",
+        productCount : "1",
+        clientPhone: "380631234567"
+      },
+        function (response) {
+            // on approved             
+        },
+        function (response) {
+            // on declined
+        },
+        function (response) {
+            // on pending or in processing
+        }
+      );
     }

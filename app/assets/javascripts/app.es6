@@ -1,13 +1,22 @@
 class App {
   constructor() {
-    if (!localStorage.token) return false
-    this.fieldsets[0].disabled = true
-    this.fieldsets[2].disabled = false
     document.getElementById('account').innerHTML = localStorage.number
+    if (localStorage.trip) {
+      UI.step(3)
+      trip = this.cable.subscriptions.create(
+        { channel: 'TripChannel', trip_id: localStorage.trip },
+        { received: function(data){
+          console.log(data)
+        }}
+      )
+      return false
+    }
+    if (!localStorage.token) return false
+    UI.step(2)
   }
 
-  get fieldsets() {
-    return document.querySelectorAll('fieldset')
+  get cable() {
+    return ActionCable.createConsumer();
   }
 
   signIn(event) {
@@ -16,10 +25,11 @@ class App {
     let val = "+380" + input.value
     ajax('session', 'POST', {phone_number: val}).then(res => {
       if (res.ok) {
-        localStorage.number = val
-        this.nextStep(input)
+        document.getElementById('account').innerHTML = val
+        this.phone = val
+        UI.step(1)
       } else {
-        this.validate(input)
+        UI.validate(input)
       }
     })
   }
@@ -27,40 +37,23 @@ class App {
   verify(event) {
     if (!this.isValid(event)) return false
     let input = event.target
-    ajax('session', 'PATCH', {phone_number: localStorage.number, token: input.value}).then(res => {
+    ajax('session', 'PATCH', {phone_number: this.phone, token: input.value}).then(res => {
       if (res.ok) {
         res.json().then(data => {
           localStorage.token = data['auth_token']
-          document.getElementById('account').innerHTML = localStorage.number
+          localStorage.number = data['phone_number']
         })
-        this.nextStep(input)
+        UI.step(2)
       } else {
-        this.validate(input)
+        UI.validate(input)
       }
     })
   }
 
   signOut() {
     localStorage.removeItem('token')
-    this.fieldsets[0].disabled = false
-    this.fieldsets[1].disabled = true
-    this.fieldsets[2].disabled = true
-  }
-
-  nextStep(input) {
-    input.disabled = false
-    input.value = ''
-    input.parentElement.disabled = true
-    input.parentElement.nextSibling.disabled = false
-    input.parentElement.nextSibling.querySelector('input').focus()
-  }
-
-  validate(input) {
-    input.disabled = false
-    input.focus()
-    input.setCustomValidity(input.dataset.message)
-    input.checkValidity()
-    input.reportValidity()
+    localStorage.removeItem('number')
+    UI.step(0)
   }
 
   isValid(event) {
@@ -71,10 +64,39 @@ class App {
     return input.checkValidity()
   }
 
+  createTrip() {
+    ajax('trips', 'POST', {trip: trip}).then(res => {
+      if (res.ok) {
+        res.json().then(data => {
+          localStorage.trip = data['id']
+          trip = this.cable.subscriptions.create(
+            { channel: 'TripChannel', trip_id: data['id'] },
+            { received: function(data){
+              console.log(data)
+            }}
+          )
+        })
+        UI.step(3)
+      } else {
+        UI.validate(input)
+      }
+    })
+  }
+
+  cancelTrip() {
+    ajax('trips/' + localStorage.trip + '/cancel', 'PATCH', {trip_id: 1}).then(res => {
+      if (res.ok) {
+        localStorage.removeItem('trip')
+        UI.step(2)
+      } else {
+        UI.validate(input)
+      }
+    })
+  }
 }
 
 let ajax = (path, method, attrs) => {
-  return fetch(path, { method: method, headers: { 'Content-Type': 'application/json'}, body: JSON.stringify(attrs) })
+  return fetch(path, { method: method, headers: { 'Content-Type': 'application/json', 'Auth-Token': localStorage.token }, body: JSON.stringify(attrs) })
 }
 
 var app = new App
