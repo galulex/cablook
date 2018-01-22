@@ -1,0 +1,188 @@
+nav {
+  position: fixed;
+  width: 20%;
+  background: $dark-green;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  transition: left .3s .1s;
+  z-index: 4;
+}
+
+nav a {
+  color: $white;
+  font-weight: 400;
+  display: block;
+  padding: 10%;
+  position: relative;
+  text-decoration: none;
+}
+
+nav a:after {
+  content: '';
+  border-bottom: 2px solid $white;
+  width: 80%;
+  position: absolute;
+  bottom: 0;
+  left: 10%;
+}
+
+nav input {
+  border: 2px solid $white;
+  border-radius: 10px;
+  background: none;
+  padding: 10px;
+  font-size: 0.9em;
+  color: $white;
+  width: 100%;
+  transition: border-color .3s;
+}
+
+nav input:focus {
+  outline: none;
+  border-color: $light-green;
+}
+
+nav label {
+  display: block;
+  margin: 10px 0;
+  text-align: center;
+  color: $white;
+}
+
+nav button {
+  width: 100%;
+  border: 2px solid $white;
+  background: none;
+  border-radius: 10px;
+  color: $white;
+  font-size: 0.9em;
+  padding: 10px;
+  cursor: pointer;
+  transition: color .3s, border-color .3s;
+}
+
+nav button:hover {
+  color: $light-green;
+  border-color: $light-green;
+}
+
+::placeholder {
+  color: $white;
+  opacity: .5;
+}
+
+.main-menu {
+  &__header {
+    display: flex;
+    color: $white;
+    font-weight: 400;
+    padding: 10%;
+    position: relative;
+    align-items: center;
+
+    &:before {
+      content: '▼';
+      padding-top: 2%;
+      position: absolute;
+      right: 10%;
+    }
+
+    &:after {
+      content: '';
+      border-bottom: 2px solid $green;
+      width: 80%;
+      position: absolute;
+      bottom: 0;
+      left: 10%;
+    }
+  }
+
+  &__logo {
+    width: 15%;
+    max-width: 30px;
+    height: 3%;
+    max-height: 20px;
+    margin-right: 10px;
+  }
+
+  &__title {
+    padding-top: 4px;
+  }
+
+  .form {
+    margin: 0;
+    padding: 10%;
+    position: relative;
+
+    &__fieldset {
+      border: none;
+      margin: 0;
+      padding: 0;
+
+      &--short {
+        padding-left: 40px;
+      }
+    }
+
+    &__number-label {
+      position: absolute;
+      color: $white;
+      margin-top: 13px;
+      left: 10%;
+    }
+
+    &__number {
+      padding: 10px 5px;
+    }
+
+    &__user-number {
+      color: $white;
+      margin-top: 10px;
+      letter-spacing: 1px;
+      text-align: center;
+    }
+
+    &__location-field {
+      margin-top: 10px;
+      border: none;
+      background: $olive;
+      box-shadow: inset -3px 3px 7px -3px rgba(15, 14, 15, 0.40);
+      font-weight: inherit;
+    }
+
+    &:after {
+      content: '';
+      border-bottom: 2px solid $green;
+      width: 80%;
+      position: absolute;
+      bottom: 0;
+      left: 10%;
+    }
+  }
+}
+
+.bottom-menu {
+  position: fixed;
+  bottom: 0;
+  width: 20%;
+
+  &__languages {
+    display: block;
+    text-align: center;
+    padding: 15px 0;
+    font-weight: bold;
+    color: $white;
+  }
+
+  &__locale {
+    display: inline-block;
+    font-weight: bold;
+    color: $green;
+    margin: 0 5px;
+
+    &--link:after {
+      border-bottom: none;
+    }
+  }
+}

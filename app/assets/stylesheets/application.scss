@@ -1,3 +1,5 @@
+@import 'variables';
+@import 'navbar';
 @import 'welcome';
 @import 'form';
 
@@ -6,40 +8,11 @@
 }
 
 body {
-  background: #F4F4F4;
+  background: $light-grey;
   font-family: Gilroy, Helvetica, Arial, sans-serif;
   font-weight: 100;
   overflow-x: hidden;
   margin: 0;
-}
-
-nav {
-  position: fixed;
-  width: 20%;
-  background: #5da661;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  transition: left .3s .1s;
-  z-index: 4;
-}
-
-nav a {
-  color: white;
-  font-weight: 400;
-  display: block;
-  padding: 10%;
-  position: relative;
-  text-decoration: none;
-}
-
-nav a:after {
-  content: '';
-  border-bottom: 2px solid white;
-  width: 80%;
-  position: absolute;
-  bottom: 0;
-  left: 10%;
 }
 
 main {
@@ -65,7 +38,7 @@ label[for='menu']:before {
   content: '☰';
   transition: all .3s;
   padding: 10px;
-  color: #5da661;
+  color: $dark-green;
   font-weight: 700;
   font-size: 2rem;
 }
@@ -135,6 +108,23 @@ input#menu:checked + label:before {
 }
 
 @media only screen and (max-width: 768px) {
+  input#menu:checked ~ main {
+    margin-left: 80%;
+  }
+
+  input#menu:checked + label {
+    left: 46%;
+  }
+
+  nav {
+    width: 44%;
+    left: -60%;
+  }
+
+  .bottom-menu {
+    width: 44%;
+  }
+
   main {
     margin-left: 0;
     width: 100%;
@@ -144,17 +134,17 @@ input#menu:checked + label:before {
     }
 
     .city-line {
+      width: 100%;
       left: 0;
     }
 
     .top-left, .bottom-left {
       left: 0;
     }
-  }
 
-  nav {
-    width: 40%;
-    left: -40%;
+    .welcome-section__description {
+      text-align: justify;
+    }
   }
 }
 

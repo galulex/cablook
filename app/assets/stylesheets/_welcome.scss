@@ -8,6 +8,10 @@
     max-width: 250px;
     width: 80%;
   }
+
+  &__title {
+    padding: 0 15px;
+  }
 }
 
 .welcome-section {
@@ -31,19 +35,19 @@
 
   &__title {
     &--economy {
-      color: #a925ad;
+      color: $purple;
     }
 
     &--eco {
-      color: #00b05d;
+      color: $lime;
     }
 
     &--comfort {
-      color: #efcc3a;
+      color: $yellow;
     }
 
     &--individual {
-      color: #322960;
+      color: $dark-blue;
     }
   }
 

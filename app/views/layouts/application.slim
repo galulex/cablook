@@ -6,9 +6,9 @@ html
     title= t('head.title')
     meta name='description' content= t('head.description')
     = csrf_meta_tags
-    = render 'shared_examples/favicon_links'
+    = render 'shared/favicon_links'
   body
-    = render 'shared_examples/navbar'
+    = render 'shared/navbar'
     main role='main'
       = render 'corner_images'
       = yield
@@ -16,7 +16,7 @@ html
     = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload'
     = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
     = stylesheet_link_tag    'fonts', media: 'all', 'data-turbolinks-track': 'reload'
-  = render 'shared_examples/schema_org'
+  = render 'shared/schema_org'
   script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDlGdVGbkeO_30Yn7tPCpe61AgdrsXMbQ0&libraries=places&callback=initAutocomplete" async=true defer=true
   script id="widget-wfp-script" language="javascript" type="text/javascript" src="https://secure.wayforpay.com/server/pay-widget.js"
 

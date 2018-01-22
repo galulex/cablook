@@ -29,5 +29,7 @@ Rails.application.routes.draw do
     end
   end
 
-  get 'welcome' => 'welcome#index'
+  scope '(:locale)', locale: /(ru)/, defaults: { locale: :ua } do
+    get 'welcome' => 'welcome#index'
+  end
 end
