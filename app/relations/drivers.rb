@@ -8,6 +8,14 @@ class Drivers < ROM::Relation[:sql]
 
     attribute :car_id, Types::ForeignKey(:cars)
 
+    associations do
+      belongs_to :car
+    end
+
     primary_key :id
+  end
+
+  def with_car
+    join(:cars).select_append(cars[:number])
   end
 end
