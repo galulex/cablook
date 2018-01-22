@@ -108,21 +108,21 @@ input#menu:checked + label:before {
 }
 
 @media only screen and (max-width: 768px) {
-  input#menu:checked ~ main {
-    margin-left: 80%;
+  input#menu:checked + label {
+    left: 51%;
   }
 
-  input#menu:checked + label {
-    left: 46%;
+  input#menu:checked ~ main {
+    margin-left: 0;
   }
 
   nav {
-    width: 44%;
-    left: -60%;
+    width: 50%;
+    left: -100%;
   }
 
   .bottom-menu {
-    width: 44%;
+    width: 50%;
   }
 
   main {
@@ -145,6 +145,21 @@ input#menu:checked + label:before {
     .welcome-section__description {
       text-align: justify;
     }
+  }
+}
+
+@media only screen and (max-width: 480px) {
+  input#menu:checked + label {
+    left: 86.5%;
+  }
+
+  nav {
+    width: 85%;
+    left: -100%;
+  }
+
+  .bottom-menu {
+    width: 85%;
   }
 }
 
