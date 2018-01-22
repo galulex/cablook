@@ -7,6 +7,14 @@ class TripChannel < ApplicationCable::Channel
     ActionCable.server.broadcast trip_channel, data
   end
 
+  def waiting_client(data)
+    Repositories::Trip.new(ROM.env).update(
+      params[:trip_id],
+      status: Constants::Trip::WAITING_CLIENT
+    )
+    ActionCable.server.broadcast trip_channel, data
+  end
+
   def start_trip(data)
     Repositories::Trip.new(ROM.env).update(
       params[:trip_id],
