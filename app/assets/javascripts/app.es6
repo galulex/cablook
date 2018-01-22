@@ -83,7 +83,7 @@ class App {
 }
 
 let ajax = (path, method, attrs, onSuccess) => {
-  fetch(path, {
+  fetch('api/' + path, {
     method: method,
     headers: { 'Content-Type': 'application/json', 'Auth-Token': localStorage.token },
     body: JSON.stringify(attrs)
