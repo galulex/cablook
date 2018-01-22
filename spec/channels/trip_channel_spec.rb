@@ -25,4 +25,12 @@ describe TripChannel do
 
     it { is_expected.to change { trip_repository.by_id(trip.id).status }.to(Constants::Trip::FINISHED) }
   end
+
+  context '#waiting_client' do
+    let(:data) { { 'action' => 'waiting_client' } }
+
+    subject { -> { channel.perform_action(data) } }
+
+    it { is_expected.to change { trip_repository.by_id(trip.id).status }.to(Constants::Trip::WAITING_CLIENT) }
+  end
 end
