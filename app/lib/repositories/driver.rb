@@ -21,5 +21,9 @@ module Repositories
     def by_token(auth_token)
       drivers.where(auth_token: auth_token).one
     end
+
+    def by_id_with_car(id)
+      drivers.select(:id, :username, :car_id).combine(:cars).by_pk(id).one
+    end
   end
 end

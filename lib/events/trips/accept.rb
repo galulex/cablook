@@ -54,8 +54,7 @@ module Events
         ActionCable.server.broadcast(
           "#{Constants::Channels::TRIP}_#{data[:trip_id]}",
           action: Constants::BroadcastActions::TRIP_ACCEPTED,
-          driver_id: data[:driver_id],
-          car_id: data[:car_id]
+          driver: driver
         )
       end
 
@@ -71,6 +70,10 @@ module Events
 
       def trip
         @trip ||= Repositories::Trip.new(ROM.env).by_id(data[:trip_id])
+      end
+
+      def driver
+        @driver ||= Repositories::Driver.new(ROM.env).by_id_with_car(data[:driver_id])
       end
     end
   end
