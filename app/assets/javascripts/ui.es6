@@ -1,4 +1,8 @@
 UI = {
+  set number(val) {
+    document.getElementById('account').innerHTML = val
+  },
+
   get fieldsets() {
     return document.querySelectorAll('fieldset')
   },
@@ -11,6 +15,7 @@ UI = {
     this.fieldsets.forEach(e => e.disabled = true)
     this.inputs.forEach(e => e.value = '')
     this.fieldsets[index].disabled = false
+    this.fieldsets[index].querySelector('input').focus()
   },
 
   validate(input) {

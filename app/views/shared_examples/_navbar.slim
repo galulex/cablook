@@ -8,7 +8,7 @@ nav
       div#account
       fieldset
         | +380
-        input#number type=:number min=100_000_000 max=999_999_999 required=true placeholder=123456789 onkeydown='app.signIn(event)'
+        input#number type=:number min=100_000_000 max=999_999_999 required=true placeholder=123456789 onkeydown='app.signIn(event)' autofocus=true
       fieldset disabled=true
         input#verification type=:number min=1_000 max=9_999 required=true pattern='.{4}' placeholder=1234 onkeydown='app.verify(event)' data-message='Wrong Code'
         br
