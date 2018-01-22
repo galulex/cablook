@@ -28,14 +28,16 @@ html
       from.addListener('place_changed', function(){
         var location = this.getPlace().geometry.location
         trip.departure = [location.lat(),location.lng()]
+        document.getElementById('to').focus()
       });
 
       to = new google.maps.places.Autocomplete(document.getElementById('to'), {
         componentRestrictions: {country: 'ua'}
       });
       to.addListener('place_changed', function(){
-        var location = this.getPlace().geometry.location
-        trip.destination = [location.lat(),location.lng()]
+        var geo = this.getPlace().geometry
+        if (!geo) return true
+        trip.destination = [geo.location.lat(), geo.location.lng()]
         app.createTrip()
       });
     }
@@ -51,12 +53,12 @@ html
         merchantSignature : "b95932786cbe243a76b014846b63fe92",
         orderReference : "DH783023",
         orderDate : Date.now(),
-        amount : "40.00",
-        currency : "UAH",
-        productName : "trip",
-        productPrice : "1000",
-        productCount : "1",
-        clientPhone: "380631234567"
+        amount : '1',
+        currency : 'UAH',
+        productName : 'trip',
+        productPrice : '1',
+        productCount : '1',
+        clientPhone: localStorage.number
       },
         function (response) {
             // on approved             

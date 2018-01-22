@@ -31,7 +31,8 @@ class App {
     ajax('session', 'PATCH', {phone_number: this.phone, token: input.value}, data => {
       localStorage.token = data['auth_token']
       localStorage.number = data['phone_number']
-      if (data['ready']) localStorage.ready = data['ready']
+      //if (data['ready']) localStorage.ready = data['ready']
+      localStorage.ready = data['ready']
       UI.step(2)
     })
   }

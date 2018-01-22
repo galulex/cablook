@@ -1,5 +1,6 @@
 nav {
   position: fixed;
+  backface-visibility: hidden;
   width: 20%;
   background: $dark-green;
   top: 0;
@@ -28,7 +29,8 @@ nav a:after {
 }
 
 nav input {
-  border: 2px solid $white;
+  border: 2px solid $light-green;
+  outline: none;
   border-radius: 10px;
   background: none;
   padding: 10px;
@@ -36,11 +38,16 @@ nav input {
   color: $white;
   width: 100%;
   transition: border-color .3s;
-}
+  font-family: Gilroy, Helvetica, Arial, sans-serif;
+  font-weight: 100;
+  font-size: 1rem;
+  &:invalid {
+    border-color: #d75a5a;
+  }
 
-nav input:focus {
-  outline: none;
-  border-color: $light-green;
+  &:placeholder-shown {
+    border-color: $light-green;
+  }
 }
 
 nav label {

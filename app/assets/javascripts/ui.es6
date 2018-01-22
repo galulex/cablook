@@ -15,7 +15,8 @@ UI = {
     this.fieldsets.forEach(e => e.disabled = true)
     this.inputs.forEach(e => e.value = '')
     this.fieldsets[index].disabled = false
-    this.fieldsets[index].querySelector('input').focus()
+    var input = this.fieldsets[index].querySelector('input')
+    if (input) input.focus()
   },
 
   validate(input) {

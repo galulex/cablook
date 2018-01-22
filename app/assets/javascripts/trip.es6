@@ -13,4 +13,3 @@ trip = {
     return document.getElementById('to').value
   }
 }
-
