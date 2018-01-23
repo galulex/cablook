@@ -31,8 +31,8 @@ class App {
     ajax('session', 'PATCH', {phone_number: this.phone, token: input.value}, data => {
       localStorage.token = data['auth_token']
       localStorage.number = data['phone_number']
-      //if (data['ready']) localStorage.ready = data['ready']
-      localStorage.ready = data['ready']
+      if (data['ready']) localStorage.ready = data['ready']
+      // localStorage.ready = data['ready']
       UI.step(2)
     })
   }
@@ -61,7 +61,9 @@ class App {
         this.subscribe()
       })
     } else {
-      pay()
+      alert('TEST DATA')
+      this.createCard(testDATA)
+      // pay()
     }
   }
 
@@ -79,6 +81,21 @@ class App {
         console.log(data)
       }}
     )
+  }
+
+  createCard(attrs) {
+    ajax('cards', 'POST', attrs, data => {
+      localStorage.ready = true
+      this.createTrip()
+    })
+  }
+
+  tripAccepted() {
+    //TODO
+  }
+
+  tripDeclined() {
+    //TODO
   }
 }
 
