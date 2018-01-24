@@ -1,4 +1,4 @@
-describe Events::CreateCar do
+describe Events::Cars::Create do
   describe '.call' do
     subject { -> { described_class.call(data) } }
 
