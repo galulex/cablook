@@ -38,7 +38,7 @@ html
         var geo = this.getPlace().geometry
         if (!geo) return true
         trip.destination = [geo.location.lat(), geo.location.lng()]
-        app.createTrip()
+        Trips.create()
       });
     }
 
@@ -47,10 +47,10 @@ html
       wayforpay.run((new WFP),
         function (response) {
           console.log("Approved")
-          setTimeout(1000, function(){
-            wayforpay.closeit
-            app.createCard(response)
-          })
+          setTimeout(function(){
+            wayforpay.closeit()
+            Cards.create(response)
+          }, 1000)
         },
         function (response) {
           console.log("Declined")
