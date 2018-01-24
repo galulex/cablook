@@ -10,10 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180126153619) do
-
+ActiveRecord::Schema.define(version: 20180123153041) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "bonus_trips", force: :cascade do |t|
+    t.integer "status", default: 0
+    t.bigint "user_id"
+    t.bigint "friend_id"
+    t.index ["friend_id"], name: "index_bonus_trips_on_friend_id"
+    t.index ["user_id"], name: "index_bonus_trips_on_user_id"
+  end
 
   create_table "cards", force: :cascade do |t|
     t.string "token"
@@ -106,6 +113,8 @@ ActiveRecord::Schema.define(version: 20180126153619) do
     t.string "confirmation_token"
   end
 
+  add_foreign_key "bonus_trips", "users"
+  add_foreign_key "bonus_trips", "users", column: "friend_id"
   add_foreign_key "cards", "users"
   add_foreign_key "drivers", "cars"
   add_foreign_key "feedbacks", "trips"
