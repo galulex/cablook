@@ -456,7 +456,6 @@ DEPENDENCIES
   capistrano
   capistrano-passenger
   capistrano-rails
-  coffee-rails
   database_cleaner
   dry-validation
   github_workflow
