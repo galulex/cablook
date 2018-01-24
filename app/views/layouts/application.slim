@@ -7,6 +7,9 @@ html
     meta name='description' content= t('head.description')
     = csrf_meta_tags
     = render 'shared/favicon_links'
+    javascript:
+      window._TOKEN = "#{ENV['WAYFORPAY_SECRET']}"
+      window._MERCHANT = "#{ENV['WAYFORPAY_MERCHANT']}"
   body
     = render 'shared/navbar'
     main role='main'
