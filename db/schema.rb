@@ -73,7 +73,7 @@ ActiveRecord::Schema.define(version: 20180123091620) do
   end
 
   create_table "trips", force: :cascade do |t|
-    t.integer "status"
+    t.integer "status", default: 0
     t.string "path"
     t.decimal "cost", precision: 10, scale: 2
     t.text "departure", default: [], array: true

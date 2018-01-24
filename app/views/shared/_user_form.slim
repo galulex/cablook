@@ -1,0 +1,20 @@
+form.form
+  fieldset.form__fieldset.form__fieldset--short
+    label.form__number-label for=:number
+      = t('nav_bar.number')
+    input.form__number#number type=:number min=100_000_000 max=999_999_999 required=true placeholder=123456789 onkeydown='Sessions.create(event)'
+  fieldset.form__fieldset disabled=true
+    input#verification type=:number min=1_000 max=9_999 required=true pattern='.{4}' placeholder=1234 onkeydown='Sessions.update(event)' data-message= t('nav_bar.wrong_code')
+    label for=:verification
+      = t('nav_bar.sms')
+    button type=:button  onclick='Sessions.destroy()'
+      = t('nav_bar.change_number')
+  fieldset.form__fieldset disabled=true
+    button type=:button onclick='Sessions.destroy()'
+      = t('nav_bar.sign_out')
+    div.form__user-number#account
+    input.form__location-field#from type=:text required=true placeholder= t('nav_bar.from')
+    input.form__location-field#to type=:text required=true placeholder= t('nav_bar.to')
+  fieldset.form__fieldset disabled=true
+    div Одну хвилину підбираємо водія
+    button type=:button onclick='Trips.cancel()' Cancel

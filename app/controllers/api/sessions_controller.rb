@@ -6,8 +6,8 @@ module Api
     end
 
     def update
-      Events::VerifyUser.(params)
-      render json: { messages: ['verified'] }
+      user = Events::VerifyUser.(params)
+      render json: Presenters::Users::SinglePrivate.new(user).to_json
     end
   end
 end

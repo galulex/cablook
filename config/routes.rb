@@ -28,4 +28,8 @@ Rails.application.routes.draw do
       post 'emails/verify', to: 'emails#verify'
     end
   end
+
+  scope '(:locale)', locale: /(ru)/, defaults: { locale: :ua } do
+    get 'welcome' => 'welcome#index'
+  end
 end

@@ -1,7 +1,7 @@
 class CreateTrips < ActiveRecord::Migration[5.1]
   def change
     create_table :trips do |t|
-      t.integer :status
+      t.integer :status, default: 0
       t.string :path
       t.decimal :cost, precision: 10, scale: 2
       t.text :departure, array: true, default: []

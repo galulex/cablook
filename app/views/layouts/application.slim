@@ -1,0 +1,69 @@
+html
+  head
+    script async src='https://www.googletagmanager.com/gtag/js?id=UA-111386040-1'
+    meta http-equiv='Content-type' content='text/html; charset=utf-8'
+    meta name='viewport' content='initial-scale=1, maximum-scale=1'
+    title= t('head.title')
+    meta name='description' content= t('head.description')
+    = csrf_meta_tags
+    = render 'shared/favicon_links'
+    javascript:
+      window._TOKEN = "#{ENV['WAYFORPAY_SECRET']}"
+      window._MERCHANT = "#{ENV['WAYFORPAY_MERCHANT']}"
+  body
+    = render 'shared/navbar'
+    main role='main'
+      = render 'corner_images'
+      = yield
+      = inline_svg 'city_line', class: 'city-line'
+    = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload'
+    = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
+    = stylesheet_link_tag    'fonts', media: 'all', 'data-turbolinks-track': 'reload'
+  = render 'shared/schema_org'
+  script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDlGdVGbkeO_30Yn7tPCpe61AgdrsXMbQ0&libraries=places&callback=initAutocomplete" async=true defer=true
+  script id="widget-wfp-script" language="javascript" type="text/javascript" src="https://secure.wayforpay.com/server/pay-widget.js"
+
+  javascript:
+    function initAutocomplete() {
+      from = new google.maps.places.Autocomplete(document.getElementById('from'), {
+        componentRestrictions: {country: 'ua'}
+      });
+      from.addListener('place_changed', function(){
+        var location = this.getPlace().geometry.location
+        trip.departure = [location.lat(),location.lng()]
+        document.getElementById('to').focus()
+      });
+
+      to = new google.maps.places.Autocomplete(document.getElementById('to'), {
+        componentRestrictions: {country: 'ua'}
+      });
+      to.addListener('place_changed', function(){
+        var geo = this.getPlace().geometry
+        if (!geo) return true
+        trip.destination = [geo.location.lat(), geo.location.lng()]
+        Trips.create()
+      });
+    }
+
+    wayforpay = new Wayforpay();
+    var pay = function () {
+      wayforpay.run((new WFP),
+        function (response) {
+          console.log("Approved")
+          setTimeout(function(){
+            wayforpay.closeit()
+            Cards.create(response)
+          }, 1000)
+        },
+        function (response) {
+          console.log("Declined")
+          console.log(response)
+            // on declined
+        },
+        function (response) {
+          console.log("Processing")
+          console.log(response)
+            // on pending or in processing
+        }
+      );
+    }
