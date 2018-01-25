@@ -6,7 +6,7 @@ module Events
           configure { config.messages = :i18n }
 
           required(:user_id).filled(:int?)
-          required(:friend_id).filled(:int?)
+          optional(:friend_id).filled(:int?)
         end
       end
 
@@ -22,7 +22,7 @@ module Events
       end
 
       def create_bonus_trip
-        Repositories::BonusTrip.new(ROM.env).create(data.to_h)
+        Repositories::BonusTrip.new(ROM.env).create(data.to_h.merge(code: SecureRandom.base58(24)))
       end
     end
   end

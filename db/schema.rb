@@ -10,7 +10,8 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180123153041) do
+ActiveRecord::Schema.define(version: 20180124074843) do
+
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -18,6 +19,7 @@ ActiveRecord::Schema.define(version: 20180123153041) do
     t.integer "status", default: 0
     t.bigint "user_id"
     t.bigint "friend_id"
+    t.string "code"
     t.index ["friend_id"], name: "index_bonus_trips_on_friend_id"
     t.index ["user_id"], name: "index_bonus_trips_on_user_id"
   end
@@ -69,7 +71,7 @@ ActiveRecord::Schema.define(version: 20180123153041) do
 
   create_table "subscriptions", force: :cascade do |t|
     t.string "email"
-    t.datetime "created_at", default: -> { "now()" }
+    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }
   end
 
   create_table "trip_jobs", force: :cascade do |t|
@@ -91,6 +93,7 @@ ActiveRecord::Schema.define(version: 20180123153041) do
     t.bigint "car_id"
     t.bigint "driver_id"
     t.bigint "user_id"
+<<<<<<< HEAD
     t.datetime "created_at", default: -> { "now()" }
     t.integer "distance"
     t.integer "duration"
@@ -99,6 +102,9 @@ ActiveRecord::Schema.define(version: 20180123153041) do
     t.datetime "started_at"
     t.datetime "finished_at"
     t.datetime "arrived_at"
+=======
+    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }
+>>>>>>> Ability to set refferer
     t.index ["car_id"], name: "index_trips_on_car_id"
     t.index ["driver_id"], name: "index_trips_on_driver_id"
     t.index ["user_id"], name: "index_trips_on_user_id"
@@ -111,6 +117,7 @@ ActiveRecord::Schema.define(version: 20180123153041) do
     t.string "auth_token"
     t.string "verification_token"
     t.string "confirmation_token"
+    t.string "referral_code"
   end
 
   add_foreign_key "bonus_trips", "users"

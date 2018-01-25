@@ -32,3 +32,4 @@ en:
     add_card: Please add a card before creating a trip
   bonus_trips:
     disable_for_yourself: Can't create bonus trip for yourself
+    already_have_referrer: You already have referrer

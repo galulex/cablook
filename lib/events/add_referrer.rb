@@ -1,0 +1,31 @@
+module Events
+  class AddReferrer < BaseEvent
+    def schema
+      Dry::Validation.Schema do
+        required(:referral_code).filled(:str?)
+        required(:referral_id).filled(:int?)
+      end
+    end
+
+    def run
+      check_for_referrer
+      validate
+      Events::BonusTrips::Create.(user_id: referrer.id, friend_id: data[:referral_id])
+    end
+
+    private
+
+    def validate
+      bonuses = Repositories::BonusTrip.new(ROM.env).by_friend(data[:referral_id])
+      invalid!([I18n.t('bonus_trips.already_have_referrer')]) if bonuses.any?
+    end
+
+    def check_for_referrer
+      raise Constants::NotFoundError unless referrer
+    end
+
+    def referrer
+      @referrer ||= Repositories::User.new(ROM.env).by_referral_code(data[:referral_code])
+    end
+  end
+end

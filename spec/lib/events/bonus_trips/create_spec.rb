@@ -13,8 +13,8 @@ describe Events::BonusTrips::Create do
       it { is_expected.to raise_error(Events::InvalidParamsError) }
     end
 
-    context 'when invalid parameters' do
-      let(:data) { super().except(:friend_id) }
+    context 'when user_id is missing' do
+      let(:data) { super().except(:user_id) }
 
       it { is_expected.to raise_error(Events::InvalidParamsError) }
     end
