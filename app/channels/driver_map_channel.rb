@@ -7,7 +7,7 @@ class DriverMapChannel < ApplicationCable::Channel
     body = JSON.parse(data.fetch('body'))
     location = [body.fetch('latitude'), body.fetch('longitude')]
     car_id = body.fetch('car_id')
-    redis.set("car_#{car_id}", location)
+    redis.set("car_#{car_id}", location.join(','))
     ActionCable.server.broadcast(
       Constants::Channels::DRIVER_MAP,
       action: Constants::BroadcastActions::SEND_LOCATION,
