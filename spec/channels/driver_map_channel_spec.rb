@@ -23,7 +23,7 @@ describe DriverMapChannel do
     context 'that redis save location' do
       before { channel.perform_action(data) }
 
-      it { expect(redis_car_location).to eq([latitude, longitude].to_s) }
+      it { expect(redis_car_location).to eq("#{latitude},#{longitude}") }
     end
 
     context 'and broadcast car location to this channel' do
