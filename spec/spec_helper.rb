@@ -31,6 +31,7 @@ RSpec.configure do |config|
   config.shared_context_metadata_behavior = :apply_to_host_groups
 
   config.before(:suite) do
+
     conn = ROM.env.gateways[:default].connection
 
     DatabaseCleaner[:sequel, connection: conn].strategy = :transaction
@@ -41,6 +42,10 @@ RSpec.configure do |config|
     conn = ROM.env.gateways[:default].connection
 
     DatabaseCleaner[:sequel, connection: conn].cleaning { example.run }
+  end
+
+  config.before(:each) do
+    WebMock.stub_request(:any, /maps.googleapis.com/).to_return body: File.read('spec/fixtures/maps/success')
   end
 
   Factory = ROM::Factory.configure do |config|

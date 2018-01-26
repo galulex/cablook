@@ -5,7 +5,6 @@ module Events
         configure { config.messages = :i18n }
 
         required(:path).filled(:str?)
-        required(:cost) { float? | int? }
         required(:user_id).filled(:int?)
 
         required(:departure) { array? & size?(2) }
@@ -49,6 +48,17 @@ module Events
     def convert_location_to_pg_array
       data[:departure] = Sequel.pg_array(data[:departure])
       data[:destination] = Sequel.pg_array(data[:destination])
+      data[:distance] = matrix.distance
+      data[:cost] = cost
+    end
+
+    def matrix
+      @matrix ||= SearchEngine::Matrix.new(data[:departure], data[:destination])
+    end
+
+    def cost
+      cost = matrix.distance * Constants::Trip::CENTS_PER_METER + Constants::Trip::LANDING
+      ((cost + cost * Constants::Trip::FEE) / 100).ceil
     end
 
     def card_id

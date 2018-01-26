@@ -25,11 +25,12 @@ module Events
       private
 
       def update_trip
-        Repositories::Trip.new(ROM.env).update(
+        @trip = Repositories::Trip.new(ROM.env).update(
           data[:trip_id],
           status: Constants::Trip::ON_THE_WAY,
           car_id: data[:car_id],
-          driver_id: data[:driver_id]
+          driver_id: data[:driver_id],
+          start_at: matrix.duration.seconds.since
         )
       end
 
@@ -45,8 +46,8 @@ module Events
           Constants::Channels::DRIVER_MAP,
           action: Constants::BroadcastActions::TRIP_ACCEPTED,
           trip_id: trip.id,
-          driver_id: data[:driver_id],
-          car_id: data[:car_id]
+          driver_id: trip.driver_id,
+          car_id: trip.car_id
         )
       end
 
@@ -66,6 +67,10 @@ module Events
           driver_id: data[:driver_id],
           trip_id: data[:trip_id]
         )
+      end
+
+      def matrix
+        @matrix ||= SearchEngine::Matrix.new(Redis.current.get("car_#{data[:car_id]}")&.split(','), trip.departure, trip.destination)
       end
 
       def trip
