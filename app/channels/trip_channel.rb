@@ -10,7 +10,8 @@ class TripChannel < ApplicationCable::Channel
   def waiting_client(data)
     Repositories::Trip.new(ROM.env).update(
       params[:trip_id],
-      status: Constants::Trip::WAITING_CLIENT
+      status: Constants::Trip::WAITING_CLIENT,
+      arrived_at: Time.now
     )
     ActionCable.server.broadcast trip_channel, data
   end
@@ -19,14 +20,16 @@ class TripChannel < ApplicationCable::Channel
     Repositories::Trip.new(ROM.env).update(
       params[:trip_id],
       status: Constants::Trip::DRIVING,
-      estimated_end_time: data[:estimated_end_time]
+      estimated_end_time: data[:estimated_end_time],
+      started_at: Time.now
     )
   end
 
   def finish_trip(data)
     Repositories::Trip.new(ROM.env).update(
       params[:trip_id],
-      status: Constants::Trip::FINISHED
+      status: Constants::Trip::FINISHED,
+      finished_at: Time.now
     )
     # TODO: Impement logic when the price changed
     Jobs::PaymentSettle.perform_later(params[:trip_id])

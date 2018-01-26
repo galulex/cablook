@@ -49,6 +49,7 @@ module Events
       data[:departure] = Sequel.pg_array(data[:departure])
       data[:destination] = Sequel.pg_array(data[:destination])
       data[:distance] = matrix.distance
+      data[:duration] = matrix.duration
       data[:cost] = cost
     end
 
