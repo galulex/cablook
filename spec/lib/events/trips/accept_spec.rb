@@ -6,6 +6,10 @@ describe Events::Trips::Accept do
     let(:trip) { Factory[:trip] }
     let(:data) { { trip_id: trip.id, driver_id: driver.id, car_id: driver.car_id } }
 
+    before do
+      Redis.current.set("car_#{driver.car_id}", '49.461655,32.165358')
+    end
+
     it { is_expected.to change { trip_repository.by_id(trip.id).status }.to(Constants::Trip::ON_THE_WAY) }
     it { is_expected.to change { trip_repository.by_id(trip.id).car_id }.to(driver.car_id) }
     it { is_expected.to change { trip_repository.by_id(trip.id).driver_id}.to(driver.id) }

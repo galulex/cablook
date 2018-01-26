@@ -33,12 +33,6 @@ describe Events::CreateTrip do
       it { is_expected.to raise_error(Events::InvalidParamsError) }
     end
 
-    context 'when cost is empty' do
-      let(:data) { trip_params.except(:cost) }
-
-      it { is_expected.to raise_error(Events::InvalidParamsError) }
-    end
-
     context 'when cost is int' do
       let(:data) { trip_params.except(:cost) }
 

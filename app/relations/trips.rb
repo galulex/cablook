@@ -17,6 +17,13 @@ class Trips < ROM::Relation[:sql]
     attribute :car_id, Types::ForeignKey(:cars)
     attribute :driver_id, Types::ForeignKey(:drivers)
 
+    attribute :start_at, Types::Time
+    attribute :finish_at, Types::Time
+    attribute :started_at, Types::Time
+    attribute :finished_at, Types::Time
+    attribute :arrived_at, Types::Time
+    attribute :duration, Types::Int
+
     associations do
       has_many :feedbacks
       has_one :cars

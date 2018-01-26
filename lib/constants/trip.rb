@@ -7,6 +7,10 @@ module Constants
     FINISHED       = 4
     CANCELED       = 5
 
+    CENTS_PER_METER = 0.56
+    FEE = 0.025
+    LANDING = 1_000
+
     STATUSES = {
       PENDING        => 'pending'.freeze,
       ON_THE_WAY     => 'on_the_way'.freeze,

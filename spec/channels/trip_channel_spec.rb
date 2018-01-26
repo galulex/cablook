@@ -16,6 +16,7 @@ describe TripChannel do
     subject { -> { channel.perform_action(data) } }
 
     it { is_expected.to change { trip_repository.by_id(trip.id).status }.to(Constants::Trip::DRIVING) }
+    it { is_expected.to change { trip_repository.by_id(trip.id).started_at }.from(nil) }
   end
 
   context '#finish_trip' do
@@ -24,6 +25,7 @@ describe TripChannel do
     subject { -> { channel.perform_action(data) } }
 
     it { is_expected.to change { trip_repository.by_id(trip.id).status }.to(Constants::Trip::FINISHED) }
+    it { is_expected.to change { trip_repository.by_id(trip.id).finished_at }.from(nil) }
   end
 
   context '#waiting_client' do
@@ -32,5 +34,6 @@ describe TripChannel do
     subject { -> { channel.perform_action(data) } }
 
     it { is_expected.to change { trip_repository.by_id(trip.id).status }.to(Constants::Trip::WAITING_CLIENT) }
+    it { is_expected.to change { trip_repository.by_id(trip.id).arrived_at }.from(nil) }
   end
 end

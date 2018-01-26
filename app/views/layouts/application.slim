@@ -10,15 +10,21 @@ html
     javascript:
       window._TOKEN = "#{ENV['WAYFORPAY_SECRET']}"
       window._MERCHANT = "#{ENV['WAYFORPAY_MERCHANT']}"
+    css:
+      fieldset[disabled] { display: none; }
+      body {
+        background: #f4f4f4;
+      }
+
   body
     = render 'shared/navbar'
     main role='main'
       = render 'corner_images'
       = yield
       = inline_svg 'city_line', class: 'city-line'
-    = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload'
-    = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
-    = stylesheet_link_tag    'fonts', media: 'all', 'data-turbolinks-track': 'reload'
+    = stylesheet_link_tag    'application', media: 'all'
+    = javascript_include_tag 'application', async: true
+    = stylesheet_link_tag    'fonts', media: 'all'
   = render 'shared/schema_org'
   script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDlGdVGbkeO_30Yn7tPCpe61AgdrsXMbQ0&libraries=places&callback=initAutocomplete" async=true defer=true
   script id="widget-wfp-script" language="javascript" type="text/javascript" src="https://secure.wayforpay.com/server/pay-widget.js"
