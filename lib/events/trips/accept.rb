@@ -75,7 +75,7 @@ module Events
       end
 
       def car_trip
-        @car_trip ||= Repositories::Trip.new(ROM.env).trips.where(car_id: 1, status: Constants::Trip::DRIVING).one
+        @car_trip ||= Repositories::Trip.new(ROM.env).trips.where(car_id: trip.car_id, status: Constants::Trip::DRIVING).one
       end
 
       def trip
