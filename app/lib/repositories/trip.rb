@@ -10,7 +10,7 @@ module Repositories
       trips.by_pk(trip_id).one
     end
 
-    def by_user(user_id, page = nil, per = 5)
+    def by_user(user_id, page: nil, per: 5)
       trips.where(user_id: user_id).offset(page&.send(:*, per)).limit(page.nil? ? nil : per).to_a
     end
 

@@ -33,7 +33,7 @@ describe Api::TripsController, type: :controller do
     it { is_expected.to have_http_status(:success) }
 
     context 'with pagination' do
-      let(:params) { {page: 1, per: 1} }
+      let(:params) { { page: 1, per: 1 } }
 
       it { is_expected.to have_http_status(:success) }
     end
