@@ -7,7 +7,7 @@ Trips = {
         app.subscribe()
       })
     } else {
-      // alert('TEST DATA')
+      alert('На даний момент CabLook підтримує лише безготівковий спосіб оплати. \n Щоб продовжити додайте свою платіжну картку')
       // this.createCard(testDATA)
       pay()
     }

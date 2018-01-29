@@ -22,6 +22,7 @@ class Trips < ROM::Relation[:sql]
     attribute :started_at, Types::Time
     attribute :finished_at, Types::Time
     attribute :arrived_at, Types::Time
+    attribute :distance, Types::Int
     attribute :duration, Types::Int
 
     associations do

@@ -6,10 +6,13 @@ module Constants
     DRIVING        = 3
     FINISHED       = 4
     CANCELED       = 5
+    DECLINED       = 6
 
-    CENTS_PER_METER = 0.56
+    CENTS_PER_KM = 560
     FEE = 0.025
     LANDING = 1_000
+
+    EXPIRES_IN = 1.minute.freeze
 
     STATUSES = {
       PENDING        => 'pending'.freeze,
@@ -17,7 +20,8 @@ module Constants
       WAITING_CLIENT => 'waiting_client'.freeze,
       DRIVING        => 'driving'.freeze,
       FINISHED       => 'finished'.freeze,
-      CANCELED       => 'canceled'.freeze
+      CANCELED       => 'canceled'.freeze,
+      DECLINED       => 'declined'.freeze
     }.freeze
   end
 end

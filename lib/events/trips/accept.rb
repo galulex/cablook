@@ -56,7 +56,7 @@ module Events
           "#{Constants::Channels::TRIP}_#{data[:trip_id]}",
           action: Constants::BroadcastActions::TRIP_ACCEPTED,
           driver: driver,
-          trip: { start_at: trip.start_at }
+          trip: trip
         )
       end
 

@@ -17,6 +17,7 @@ Bundler.require(*Rails.groups)
 module CabLook
   class Application < Rails::Application
     config.load_defaults 5.1
+    config.time_zone = 'Kyiv'
 
     config.autoload_paths << "#{config.root}/lib"
     config.autoload_paths << "#{config.root}/app/models"

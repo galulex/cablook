@@ -37,6 +37,7 @@ module Events
     end
 
     def create_trip_job(trip_id)
+      Jobs::DeclineTrip.set(wait: Constants::Trip::EXPIRES_IN).perform_later(trip_id)
       job = Jobs::SearchCarForTrip.perform_later(trip_id)
       Repositories::TripJob.new(ROM.env).create(
         activejob_id: job.job_id,
@@ -58,7 +59,7 @@ module Events
     end
 
     def cost
-      cost = matrix.distance * Constants::Trip::CENTS_PER_METER + Constants::Trip::LANDING
+      cost = (matrix.distance / 1000.0).ceil(1) * Constants::Trip::CENTS_PER_KM + Constants::Trip::LANDING
       ((cost + cost * Constants::Trip::FEE) / 100).ceil
     end
 

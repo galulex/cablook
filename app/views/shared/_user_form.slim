@@ -16,5 +16,5 @@ form.form
     input.form__location-field#from type=:text required=true placeholder= t('nav_bar.from')
     input.form__location-field#to type=:text required=true placeholder= t('nav_bar.to')
   fieldset.form__fieldset disabled=true
-    div Одну хвилину підбираємо водія
-    button type=:button onclick='Trips.cancel()' Cancel
+    div#state Одну хвилину підбираємо водія
+    button#cancel type=:button onclick='Trips.cancel()' Cancel
