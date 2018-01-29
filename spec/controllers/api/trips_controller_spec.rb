@@ -27,9 +27,16 @@ describe Api::TripsController, type: :controller do
   describe '#index' do
     subject { response }
 
-    before { get :index, as: :json }
+    before { get :index, as: :json, params: params }
+    let(:params) { {} }
 
     it { is_expected.to have_http_status(:success) }
+
+    context 'with pagination' do
+      let(:params) { {page: 1, per: 1} }
+
+      it { is_expected.to have_http_status(:success) }
+    end
   end
 
   describe '#show' do

@@ -3,7 +3,7 @@ module Api
     before_action :authorize!
 
     def index
-      trips = Repositories::Trip.new(ROM.env).by_user(current_user.id)
+      trips = Repositories::Trip.new(ROM.env).by_user(current_user.id, params[:page]&.to_i, params[:per]&.to_i)
       render json: Presenters::Trips::Collection.new(trips).to_json, status: 200
     end
 

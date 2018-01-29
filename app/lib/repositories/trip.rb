@@ -10,8 +10,8 @@ module Repositories
       trips.by_pk(trip_id).one
     end
 
-    def by_user(user_id)
-      trips.where(user_id: user_id).to_a
+    def by_user(user_id, page = nil, per = 5)
+      trips.where(user_id: user_id).offset(page&.send(:*, per)).limit(page.nil? ? nil : per).to_a
     end
 
     def by_pk_with_feedbacks(trip_id)
