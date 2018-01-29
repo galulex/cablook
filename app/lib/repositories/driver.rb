@@ -23,7 +23,7 @@ module Repositories
     end
 
     def by_id_with_car(id)
-      drivers.select(:id, :username, :car_id).combine(:cars).by_pk(id).one
+      drivers.select(:id, :name, :car_id).combine(:cars).by_pk(id).one
     end
   end
 end
