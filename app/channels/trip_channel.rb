@@ -13,7 +13,7 @@ class TripChannel < ApplicationCable::Channel
       status: Constants::Trip::WAITING_CLIENT,
       arrived_at: Time.now
     )
-    ActionCable.server.broadcast trip_channel, data
+    ActionCable.server.broadcast trip_channel, data.to_json
   end
 
   def start_trip(data)
@@ -23,6 +23,7 @@ class TripChannel < ApplicationCable::Channel
       estimated_end_time: data[:estimated_end_time],
       started_at: Time.now
     )
+    ActionCable.server.broadcast trip_channel, data.to_json
   end
 
   def finish_trip(data)
@@ -33,6 +34,7 @@ class TripChannel < ApplicationCable::Channel
     )
     # TODO: Impement logic when the price changed
     Jobs::PaymentSettle.perform_later(params[:trip_id])
+    ActionCable.server.broadcast trip_channel, data.to_json
   end
 
   private
