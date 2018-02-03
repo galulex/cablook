@@ -10,27 +10,15 @@ module Events
     end
 
     def run
-      check_user
-      verify!
+      invalid!(errors: [I18n.t('verifications.errors.invalid_or_expired')]) unless user
+      user.update(verification_token: nil)
       user
     end
 
     private
 
-    def check_user
-      invalid!(errors: [I18n.t('verifications.errors.invalid_or_expired')]) unless user
-    end
-
-    def verify!
-      users_repo.update(user.id, verification_token: nil)
-    end
-
     def user
-      @user ||= users_repo.for_verification(data[:phone_number], data[:token])
-    end
-
-    def users_repo
-      @users_repo ||= Repositories::User.new(ROM.env)
+      @user ||= User.for_verification(data[:phone_number], data[:token]).first
     end
   end
 end
