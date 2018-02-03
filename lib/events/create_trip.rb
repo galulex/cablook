@@ -29,7 +29,7 @@ module Events
 
     def hold!
       res = Operations::Wayforpay.hold(@trip.id, card_id)
-      invalid!(I18n.t("wayforpay.#{res['reasonCode']}")) if res['reasonCode'] != '1110'
+      invalid!(I18n.t("wayforpay.#{res['reasonCode']}")) if res['reasonCode'] != '1100'
     end
 
     def validate!

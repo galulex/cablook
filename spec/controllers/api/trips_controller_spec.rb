@@ -2,8 +2,12 @@ describe Api::TripsController, type: :controller do
   let(:user) { Factory[:user] }
   let!(:card) { Factory[:card, user_id: user.id] }
   let(:auth_token) { user.auth_token }
+  let(:wayforpay_body) { { reasonCode: '1100' }.to_json }
 
-  before { request.headers['Auth-Token'] = auth_token }
+  before do
+    request.headers['Auth-Token'] = auth_token
+    allow(Wayforpay::Payments).to receive(:hold) { OpenStruct.new(body: wayforpay_body) }
+  end
 
   describe '#create' do
     subject { response }
