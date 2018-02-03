@@ -8,7 +8,7 @@ module Constants
     CANCELED       = 5
     DECLINED       = 6
 
-    CENTS_PER_KM = 560
+    CENTS_PER_KM = 600
     FEE = 0.025
     LANDING = 1_000
 
