@@ -10,7 +10,7 @@ module Events
     end
 
     def run
-      invalid!(errors: [I18n.t('verifications.errors.invalid_or_expired')]) unless user
+      invalid!(I18n.t('verifications.errors.invalid_or_expired')) unless user
       user.update(verification_token: nil)
       user
     end

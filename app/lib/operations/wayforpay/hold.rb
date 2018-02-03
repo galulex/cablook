@@ -9,8 +9,11 @@ module Operations
       attr_reader :trip_id, :card_id
 
       def call
-        status = hold_payment['reasonCode'] == '1100' ? Constants::Payments::HOLD : Constants::Payments::PENDING
-        create_trip_payment(status)
+        response = hold_payment
+        if response['reasonCode'] == '1100'
+          create_trip_payment(Constants::Payments::HOLD)
+        end
+        response
       end
 
       def hold_payment

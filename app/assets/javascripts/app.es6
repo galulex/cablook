@@ -4,6 +4,10 @@ class App {
     if (localStorage.trip) {
       this.subscribe()
       ajax('trips/' + localStorage.trip, 'GET', null, trip => {
+        if (trip.status == 0) {
+          UI.step(3)
+          return false
+        }
         if (trip.status < 3) {
           UI.showTrip(trip)
           UI.step(3)
@@ -62,7 +66,7 @@ let ajax = (path, method, attrs, onSuccess) => {
     if (res.ok) {
       res.json().then(data => onSuccess(data))
     } else {
-      UI.validate(input)
+      res.json().then(data => alert(data['errors']))
     }
   })
 }

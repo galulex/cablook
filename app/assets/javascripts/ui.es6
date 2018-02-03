@@ -27,13 +27,5 @@ UI = {
       Прибуття: <b>${trip.finish_at}</b>
     `
     document.getElementById('cancel').remove()
-  },
-
-  validate(input) {
-    input.disabled = false
-    input.focus()
-    input.setCustomValidity(input.dataset.message)
-    input.checkValidity()
-    input.reportValidity()
   }
 }

@@ -20,12 +20,17 @@ module Events
       convert_location_to_pg_array
       validate!
       trip = create_trip
+      hold!
       create_trip_job(trip.id)
-      Jobs::PaymentHold.perform_later(trip.id, card_id)
       trip
     end
 
     private
+
+    def hold!
+      res = Operations::Wayforpay.hold(@trip.id, card_id)
+      invalid!(I18n.t("wayforpay.#{res['reasonCode']}")) if res['reasonCode'] != '1110'
+    end
 
     def validate!
       validator = Validators::Trip.new(data)
@@ -33,7 +38,7 @@ module Events
     end
 
     def create_trip
-      Repositories::Trip.new(ROM.env).create(data.to_h)
+      @trip = Repositories::Trip.new(ROM.env).create(data.to_h)
     end
 
     def create_trip_job(trip_id)
