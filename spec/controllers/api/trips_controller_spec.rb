@@ -2,7 +2,7 @@ describe Api::TripsController, type: :controller do
   let(:user) { Factory[:user] }
   let!(:card) { Factory[:card, user_id: user.id] }
   let(:auth_token) { user.auth_token }
-  let(:wayforpay_body) { { reasonCode: '1100' }.to_json }
+  let(:wayforpay_body) { { reasonCode: 1100 }.to_json }
 
   before do
     request.headers['Auth-Token'] = auth_token
