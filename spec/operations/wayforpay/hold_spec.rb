@@ -25,7 +25,7 @@ describe Operations::Wayforpay::Hold do
 
       before { subject.call }
 
-      it { expect(payment_repository.payments.to_a).to be_empty }
+      it { expect(payment_repository.payments.to_a.last.status).to eq(Constants::Payments::PENDING) }
     end
   end
 end

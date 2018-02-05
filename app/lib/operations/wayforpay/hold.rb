@@ -10,9 +10,8 @@ module Operations
 
       def call
         response = hold_payment
-        if response['reasonCode'] == '1100'
-          create_trip_payment(Constants::Payments::HOLD)
-        end
+        status = hold_payment['reasonCode'] == '1100' ? Constants::Payments::HOLD : Constants::Payments::PENDING
+        create_trip_payment(status)
         response
       end
 
