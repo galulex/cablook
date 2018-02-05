@@ -6,6 +6,10 @@ module Repositories
       bonus_trips.by_pk(id).one
     end
 
+    def by_user(user_id)
+      bonus_trips.where(user_id: user_id).to_a
+    end
+
     def available_by_user(user_id)
       bonus_trips.where(user_id: user_id, status: Constants::BonusTrip::NEW).to_a
     end

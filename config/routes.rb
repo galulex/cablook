@@ -7,6 +7,7 @@ Rails.application.routes.draw do
 
   namespace :api do
     resource :session, only: %i[create update]
+    resources :bonus_trips, only: %i[index]
     resources :cards, only: %i[index create destroy]
     resources :referrals, only: %i[create]
     resources :subscriptions, only: %i[create]
