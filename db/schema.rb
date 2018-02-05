@@ -19,8 +19,10 @@ ActiveRecord::Schema.define(version: 20180126153619) do
     t.integer "status", default: 0
     t.bigint "user_id"
     t.bigint "friend_id"
+    t.bigint "trip_id"
     t.string "code"
     t.index ["friend_id"], name: "index_bonus_trips_on_friend_id"
+    t.index ["trip_id"], name: "index_bonus_trips_on_trip_id"
     t.index ["user_id"], name: "index_bonus_trips_on_user_id"
   end
 
@@ -116,6 +118,7 @@ ActiveRecord::Schema.define(version: 20180126153619) do
     t.string "referral_code"
   end
 
+  add_foreign_key "bonus_trips", "trips"
   add_foreign_key "bonus_trips", "users"
   add_foreign_key "bonus_trips", "users", column: "friend_id"
   add_foreign_key "cards", "users"

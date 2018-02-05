@@ -13,7 +13,7 @@ module Api
     end
 
     def create
-      trip = Events::CreateTrip.(trip_params)
+      trip = Events::Trips::Create.(trip_params)
       render json: Presenters::Trips::Single.new(trip).to_json, status: 201
     end
 
