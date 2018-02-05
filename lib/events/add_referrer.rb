@@ -2,6 +2,8 @@ module Events
   class AddReferrer < BaseEvent
     def schema
       Dry::Validation.Schema do
+        configure { config.messages = :i18n }
+
         required(:referral_code).filled(:str?)
         required(:referral_id).filled(:int?)
       end

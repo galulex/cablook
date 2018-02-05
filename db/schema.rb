@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180124074843) do
+ActiveRecord::Schema.define(version: 20180126153619) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -93,8 +93,7 @@ ActiveRecord::Schema.define(version: 20180124074843) do
     t.bigint "car_id"
     t.bigint "driver_id"
     t.bigint "user_id"
-<<<<<<< HEAD
-    t.datetime "created_at", default: -> { "now()" }
+    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }
     t.integer "distance"
     t.integer "duration"
     t.datetime "start_at"
@@ -102,9 +101,6 @@ ActiveRecord::Schema.define(version: 20180124074843) do
     t.datetime "started_at"
     t.datetime "finished_at"
     t.datetime "arrived_at"
-=======
-    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }
->>>>>>> Ability to set refferer
     t.index ["car_id"], name: "index_trips_on_car_id"
     t.index ["driver_id"], name: "index_trips_on_driver_id"
     t.index ["user_id"], name: "index_trips_on_user_id"
