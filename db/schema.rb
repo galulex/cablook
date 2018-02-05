@@ -15,6 +15,17 @@ ActiveRecord::Schema.define(version: 20180126153619) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
+  create_table "bonus_trips", force: :cascade do |t|
+    t.integer "status", default: 0
+    t.bigint "user_id"
+    t.bigint "friend_id"
+    t.bigint "trip_id"
+    t.string "code"
+    t.index ["friend_id"], name: "index_bonus_trips_on_friend_id"
+    t.index ["trip_id"], name: "index_bonus_trips_on_trip_id"
+    t.index ["user_id"], name: "index_bonus_trips_on_user_id"
+  end
+
   create_table "cards", force: :cascade do |t|
     t.string "token"
     t.string "pan"
@@ -62,7 +73,7 @@ ActiveRecord::Schema.define(version: 20180126153619) do
 
   create_table "subscriptions", force: :cascade do |t|
     t.string "email"
-    t.datetime "created_at", default: -> { "now()" }
+    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }
   end
 
   create_table "trip_jobs", force: :cascade do |t|
@@ -84,7 +95,7 @@ ActiveRecord::Schema.define(version: 20180126153619) do
     t.bigint "car_id"
     t.bigint "driver_id"
     t.bigint "user_id"
-    t.datetime "created_at", default: -> { "now()" }
+    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }
     t.integer "distance"
     t.integer "duration"
     t.datetime "start_at"
@@ -104,8 +115,12 @@ ActiveRecord::Schema.define(version: 20180126153619) do
     t.string "auth_token"
     t.string "verification_token"
     t.string "confirmation_token"
+    t.string "referral_code"
   end
 
+  add_foreign_key "bonus_trips", "trips"
+  add_foreign_key "bonus_trips", "users"
+  add_foreign_key "bonus_trips", "users", column: "friend_id"
   add_foreign_key "cards", "users"
   add_foreign_key "drivers", "cars"
   add_foreign_key "feedbacks", "trips"

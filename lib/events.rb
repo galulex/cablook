@@ -6,7 +6,6 @@ module Events
   require_relative 'events/verify_user'
   require_relative 'events/create_driver'
   require_relative 'events/create_feedback'
-  require_relative 'events/create_trip'
   require_relative 'events/cars/create'
   require_relative 'events/cars/update'
 

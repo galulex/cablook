@@ -7,6 +7,7 @@ class Users < ROM::Relation[:sql]
     attribute :auth_token, Types::String
     attribute :confirmation_token, Types::String
     attribute :verification_token, Types::String
+    attribute :referral_code, Types::String
 
     associations do
       has_many :trips

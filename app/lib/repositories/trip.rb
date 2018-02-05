@@ -29,5 +29,9 @@ module Repositories
     def by_id_with_user(trip_id)
       trips.by_pk(trip_id).with_user.one
     end
+
+    def count_of_finished_for_user(user_id)
+      trips.where(user_id: user_id, status: Constants::Trip::FINISHED).count
+    end
   end
 end

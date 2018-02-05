@@ -1,4 +1,4 @@
-describe Events::CreateTrip do
+describe Events::Trips::Create do
   describe '.call' do
     subject { -> { described_class.call(data) } }
 
@@ -45,6 +45,14 @@ describe Events::CreateTrip do
       let(:data) { trip_params.except(:user_id) }
 
       it { is_expected.to raise_error(Events::InvalidParamsError) }
+    end
+
+    context 'when payment by bonus' do
+      let!(:bonus_trip) { Factory[:bonus_trip, user_id: user.id, status: Constants::BonusTrip::NEW] }
+      let(:data) { trip_params.merge(bonus: true) }
+
+      it { is_expected.to change { payment_repository.payments.count }.by(+1) }
+      it { is_expected.to change { bonus_trip_repository.by_id(bonus_trip.id).status }.to(Constants::BonusTrip::USED) }
     end
   end
 end

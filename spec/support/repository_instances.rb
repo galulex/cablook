@@ -1,4 +1,8 @@
 module RepositoryInstances
+  def bonus_trip_repository
+    @bonus_trip_repository ||= Repositories::BonusTrip.new(ROM.env)
+  end
+
   def car_repository
     @car_repository ||= Repositories::Car.new(ROM.env)
   end

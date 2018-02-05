@@ -25,5 +25,9 @@ module Repositories
     def for_verification(number, token)
       users.where(phone_number: number, verification_token: token).one
     end
+
+    def by_referral_code(referral_code)
+      users.where(referral_code: referral_code).one
+    end
   end
 end
