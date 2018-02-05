@@ -25,13 +25,14 @@ module Events
       private
 
       def update_trip
-        @trip = Repositories::Trip.new(ROM.env).update(
+        Repositories::Trip.new(ROM.env).update(
           data[:trip_id],
           status: Constants::Trip::ON_THE_WAY,
           car_id: data[:car_id],
           driver_id: data[:driver_id],
           start_at: matrix.duration.seconds.since
         )
+        @trip = Repositories::Trip.new(ROM.env).detailed(data[:trip_id])
       end
 
       def update_car_status
@@ -56,7 +57,7 @@ module Events
           "#{Constants::Channels::TRIP}_#{data[:trip_id]}",
           action: Constants::BroadcastActions::TRIP_ACCEPTED,
           driver: driver,
-          trip: trip
+          trip: Presenters::Trips::Detailed.new(trip)
         )
       end
 
@@ -79,7 +80,7 @@ module Events
       end
 
       def trip
-        @trip ||= Repositories::Trip.new(ROM.env).by_id(data[:trip_id])
+        @trip ||= Repositories::Trip.new(ROM.env).detailed(data[:trip_id])
       end
 
       def driver

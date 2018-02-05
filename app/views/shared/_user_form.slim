@@ -13,8 +13,12 @@ form.form
     button type=:button onclick='Sessions.destroy()'
       = t('nav_bar.sign_out')
     div.form__user-number#account
-    input.form__location-field#from type=:text required=true placeholder= t('nav_bar.from')
-    input.form__location-field#to type=:text required=true placeholder= t('nav_bar.to')
+    .form__location
+      input.form__location-field#from type=:text required=true placeholder= t('nav_bar.from') value="Marshala Krasovs'koho Street 8, Cherkasy, Cherkas'ka oblast, Ukraine"
+      ul.form__location-list data-list=true
+    input.form__location-field#to type=:text required=true placeholder= t('nav_bar.to') oninput='app.autocomplete(this)' value='haharina 55 cherkasy'
   fieldset.form__fieldset disabled=true
-    div#state Одну хвилину підбираємо водія
+    div#state
+      .loader
+      | Одну хвилину підбираємо водія
     button#cancel type=:button onclick='Trips.cancel()' Cancel

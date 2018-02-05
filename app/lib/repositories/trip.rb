@@ -6,6 +6,10 @@ module Repositories
       trips.to_a
     end
 
+    def detailed(trip_id)
+      trips.detailed.by_pk(trip_id).one
+    end
+
     def by_id(trip_id)
       trips.by_pk(trip_id).one
     end

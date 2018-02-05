@@ -8,8 +8,8 @@ module Api
     end
 
     def show
-      trip = Repositories::Trip.new(ROM.env).by_pk_with_feedbacks(params[:id])
-      render json: Presenters::Trips::Single.new(trip).to_json, status: 200
+      trip = Repositories::Trip.new(ROM.env).detailed(params[:id])
+      render json: Presenters::Trips::Detailed.new(trip).to_json, status: 200
     end
 
     def create

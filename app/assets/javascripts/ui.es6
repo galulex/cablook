@@ -20,11 +20,12 @@ UI = {
   },
 
   showTrip(trip) {
+    console.log(trip)
     document.getElementById('state').innerHTML = `
       Вартість: <b>${trip.cost}грн</b></br>
-      Відстань: <b>${trip.distance}km</b></br>
-      Віправлення: <b>${trip.start_at}</b></br>
-      Прибуття: <b>${trip.finish_at}</b>
+      Відстань: <b>${(trip.distance/1000).toFixed(1)}КМ</b></br>
+      Віправлення: <b>${trip.start_time}</b></br>
+      Прибуття: <b>${trip.finish_time}</b>
     `
     document.getElementById('cancel').remove()
   }

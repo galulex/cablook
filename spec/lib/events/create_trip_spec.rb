@@ -5,10 +5,7 @@ describe Events::CreateTrip do
     let(:trip_params) { Factory.structs[:trip, user_id: user.id].to_h }
     let(:data) { trip_params }
     let(:user) { Factory[:user] }
-    let(:wayforpay_body) { { reasonCode: 1100 }.to_json }
     let!(:card) { Factory[:card, user_id: user.id] }
-
-    before { allow(Wayforpay::Payments).to receive(:hold) { OpenStruct.new(body: wayforpay_body) } }
 
     it { is_expected.to change { trip_repository.trips.count }.by(+1) }
 
@@ -21,6 +18,8 @@ describe Events::CreateTrip do
     end
 
     context 'and payment job is running' do
+      it { is_expected.to have_enqueued_job(Jobs::PaymentHold).with(data[:id], card.id) }
+
       context 'when user without card' do
         before { card_repository.delete(card.id) }
 

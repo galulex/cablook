@@ -45,7 +45,7 @@ module Events
       end
 
       def refund_payment
-        Jobs::PaymentRefund.perform_later(data[:trip_id])
+        Jobs::PaymentRefund.set(wait: 1.minute).perform_later(data[:trip_id])
       end
 
       def trip

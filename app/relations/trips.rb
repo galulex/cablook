@@ -35,6 +35,12 @@ class Trips < ROM::Relation[:sql]
     primary_key :id
   end
 
+  def detailed
+    select_append(cars[:number].as(:car_number), drivers[:name].as(:driver_name))
+      .left_join(:cars, id: Sequel[:trips][:car_id])
+      .left_join(:drivers, id: Sequel[:trips][:driver_id])
+  end
+
   def active
     where(status: Constants::Trip::DRIVING)
   end
