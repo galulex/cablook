@@ -1,29 +1,38 @@
 ua:
   authorizations:
     errors:
-      invalid_username: Имя пользователя введен неверно
-      invalid_password: Пароль введен неверно
-      invalid_phone_number: Номер телефона введен неверно
+      invalid_username: Ім'я користувача введено невірно
+      invalid_password: Пароль введено невірно
+      invalid_phone_number: Номер телефона введено невірно
   verifications:
     email:
-      send_confirmation_token: "Ссылка на подтверждение: %{token}. https://cablook.taxi"
-      confirmation_subject: Подтверждение электронного адреса
-      already_confirmed: Этот электронный адрес уже был подтверждён
+      send_confirmation_token: "Посилання на підтверждення: %{token}. https://cablook.taxi"
+      confirmation_subject: Підтверждення email
+      already_confirmed: Email підтвержденно
     number:
       send_verification_token: "Код для верификации: %{token}. https://cablook.taxi"
-
     errors:
-      invalid_or_expired: Код не верен или время верификации истекло. Попробуйте еще раз.
+      invalid_or_expired: Код не вірний або час на верифікацію скінчився. Спробуйте ще раз.
       email:
         does_not_exist: Пользователя с таким электронным адресом не существует
+        does_not_exist: Користувача з таким email не існує
       number:
-        does_not_exist: Пользователя с таким номером телефона не существует
+        does_not_exist: Користувача з таким номером телефона не існує
   assignings:
     errors:
       messages:
-        has_already_been_taken: Эта машина уже занята другим водителем
+        has_already_been_taken: Автомобіль вже зайнятий іншим водієм
+  bonus_trips:
+    disable_for_yourself: Операція для себе неможлива
+    already_have_referrer: Ви вже маєте батьківського реферала
+  cards:
+    user_not_found: Користувач з цим номером телефона не знайдений
+    something_went_wrong: Щось пішло не так
+    add_card: Будь-ласка, додайте карту до створення поїздки
   trips:
-    assigned_or_canceled: Поездка отменена или взята другим водителем
+    assigned_or_canceled: Поїздка відмінена чи була взята іншим водієм
+    canceled: Поїздка успішно відмінена
+    cancel_impossible: Не можливо відмінити закінчину або відмінену поїздк
   wayforpay:
     '1100': Операція успішна
     '1101': Не вдалося провести оплату. Свяжіться з вашим банком або скористайтеся іншою карткою
