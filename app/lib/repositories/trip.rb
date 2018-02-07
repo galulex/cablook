@@ -15,7 +15,7 @@ module Repositories
     end
 
     def by_user(user_id, page: nil, per: 5)
-      trips.where(user_id: user_id).order(Sequel.desc(:id)).offset(page&.send(:*, per)).limit(page.nil? ? nil : per).to_a
+      trips.combine(:feedbacks).where(user_id: user_id).order(Sequel.desc(:id)).offset(page&.send(:*, per)).limit(page.nil? ? nil : per).to_a
     end
 
     def by_pk_with_feedbacks(trip_id)

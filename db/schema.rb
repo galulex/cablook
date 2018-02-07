@@ -73,7 +73,7 @@ ActiveRecord::Schema.define(version: 20180126153619) do
 
   create_table "subscriptions", force: :cascade do |t|
     t.string "email"
-    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }
+    t.datetime "created_at", default: -> { "now()" }
   end
 
   create_table "trip_jobs", force: :cascade do |t|
@@ -95,7 +95,7 @@ ActiveRecord::Schema.define(version: 20180126153619) do
     t.bigint "car_id"
     t.bigint "driver_id"
     t.bigint "user_id"
-    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }
+    t.datetime "created_at", default: -> { "now()" }
     t.integer "distance"
     t.integer "duration"
     t.datetime "start_at"
