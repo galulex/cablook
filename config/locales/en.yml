@@ -26,6 +26,7 @@ en:
     assigned_or_canceled: Trip is taken already by another driver or canceled
     canceled: Trip successfully canceled
     cancel_impossible: Impossible to cancel finished/canceled trip
+    pay_off_debt: Pay off debt for previous trips, please
   cards:
     user_not_found: User with this phone number not found in database
     something_went_wrong: Something went wrong

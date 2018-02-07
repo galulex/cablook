@@ -20,7 +20,7 @@ module Events
 
       def run
         convert_location_to_pg_array
-        validate!
+        validate_unpaid_trips!
         create_trip
         hold_or_bonus!
         create_trip_job(@trip.id)
@@ -29,23 +29,24 @@ module Events
 
       private
 
+      def validate_unpaid_trips!
+        pending_payments = Repositories::Payment.new(ROM.env).pending_by_user(data[:user_id])
+        invalid!([I18n.t('trips.pay_off_debt')]) if pending_payments.any?
+      end
+
       def hold_or_bonus!
         bonus_trips = Repositories::BonusTrip.new(ROM.env).available_by_user(data[:user_id])
         if data[:bonus] && bonus_trips.any?
           Repositories::Payment.new(ROM.env).create(
             status: Constants::Payments::BONUS,
             amount: 0,
-            trip_id: @trip.id
+            trip_id: @trip.id,
+            user_id: data[:user_id]
           )
           Repositories::BonusTrip.new(ROM.env).update(bonus_trips.first.id, status: Constants::BonusTrip::USED, trip_id: @trip.id)
         else
           Jobs::PaymentHold.perform_later(@trip.id, card_id)
         end
-      end
-
-      def validate!
-        validator = Validators::Trip.new(data)
-        invalid!(validator.errors.values.flatten) if validator.invalid?
       end
 
       def create_trip

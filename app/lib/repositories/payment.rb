@@ -9,5 +9,9 @@ module Repositories
     def by_trip(trip_id)
       payments.where(trip_id: trip_id).one
     end
+
+    def pending_by_user(user_id)
+      payments.where(status: Constants::Payments::PENDING, user_id: user_id).to_a
+    end
   end
 end

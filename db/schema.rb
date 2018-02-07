@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180126153619) do
+ActiveRecord::Schema.define(version: 20180206152114) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -66,9 +66,11 @@ ActiveRecord::Schema.define(version: 20180126153619) do
     t.bigint "trip_id"
     t.bigint "driver_id"
     t.string "order_reference"
+    t.bigint "user_id"
     t.index ["card_id"], name: "index_payments_on_card_id"
     t.index ["driver_id"], name: "index_payments_on_driver_id"
     t.index ["trip_id"], name: "index_payments_on_trip_id"
+    t.index ["user_id"], name: "index_payments_on_user_id"
   end
 
   create_table "subscriptions", force: :cascade do |t|
