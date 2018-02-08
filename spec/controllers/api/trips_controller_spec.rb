@@ -31,8 +31,13 @@ describe Api::TripsController, type: :controller do
   describe '#index' do
     subject { response }
 
-    before { get :index, as: :json, params: params }
     let(:params) { {} }
+
+    before do
+      trip = Factory[:trip, user_id: user.id]
+      Factory[:feedback, trip_id: trip.id]
+      get :index, as: :json, params: params
+    end
 
     it { is_expected.to have_http_status(:success) }
 
@@ -49,7 +54,7 @@ describe Api::TripsController, type: :controller do
     let(:params) { { id: trip.id } }
     let(:trip) { Factory[:trip] }
 
-    before { get :index, params: params, as: :json }
+    before { get :show, params: params, as: :json }
 
     it { is_expected.to have_http_status(:success) }
   end
