@@ -4,7 +4,7 @@ module Api
 
     def index
       trips = Repositories::Trip.new(ROM.env).by_user(current_user.id, index_params)
-      render json: Presenters::Trips::Collection.new(trips).to_json, status: 200
+      render json: Presenters::Trips::Collection.new(trips).to_json(user_options: { with_feedbacks: true}), status: 200
     end
 
     def show

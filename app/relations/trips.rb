@@ -60,4 +60,8 @@ class Trips < ROM::Relation[:sql]
     select_append(users[:phone_number].as(:user_number))
       .inner_join(:users, id: Sequel[:trips][:user_id])
   end
+
+  def with_feedbacks
+    combine(:feedbacks)
+  end
 end
