@@ -6,6 +6,7 @@ class Payments < ROM::Relation[:sql]
     attribute :order_reference, Types::String
 
     attribute :card_id, Types::ForeignKey(:cards)
+    attribute :user_id, Types::ForeignKey(:users)
     attribute :trip_id, Types::ForeignKey(:trips)
     attribute :driver_id, Types::ForeignKey(:drivers)
 

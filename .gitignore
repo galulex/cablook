@@ -18,5 +18,6 @@
 .github
 
 .byebug_history
+.ruby-version
 
 tags

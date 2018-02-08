@@ -54,5 +54,11 @@ describe Events::Trips::Create do
       it { is_expected.to change { payment_repository.payments.count }.by(+1) }
       it { is_expected.to change { bonus_trip_repository.by_id(bonus_trip.id).status }.to(Constants::BonusTrip::USED) }
     end
+
+    context 'when user have pending payments' do
+      let!(:payment) { Factory[:payment, user_id: user.id, status: Constants::Payments::PENDING] }
+
+      it { is_expected.to raise_error(Events::InvalidParamsError) }
+    end
   end
 end

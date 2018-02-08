@@ -12,4 +12,18 @@ describe Repositories::Payment do
       it { expect(instance.id).to eq(payment.id) }
     end
   end
+
+  describe '#pending_by_user' do
+    let(:instance) { payment_repository.pending_by_user(user.id) }
+    let!(:payment) { Factory[:payment, user_id: user.id, status: Constants::Payments::HOLD] }
+    let(:user) { Factory[:user] }
+
+    it { expect(instance).to be_empty }
+
+    context 'when payment is found' do
+      let!(:payment) { Factory[:payment, status: Constants::Payments::PENDING, user_id: user.id] }
+
+      it { expect(instance).not_to be_empty }
+    end
+  end
 end
