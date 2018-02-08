@@ -1,3 +1,3 @@
-class Presenters::Users::SinglePrivate < Presenters::BaseSingle
-  properties :id, :email, :phone_number, :auth_token
+class Presenters::Users::SinglePrivate < Presenters::Users::SinglePublic
+  property :auth_token
 end
