@@ -1,6 +1,7 @@
 @import 'variables';
+@import 'icons';
 @import 'navbar';
-@import 'welcome';
+@import 'about';
 @import 'form';
 @import 'loader';
 
@@ -9,7 +10,7 @@
 }
 
 body {
-  background: $light-grey;
+  background: $grey;
   font-family: Gilroy, Helvetica, Arial, sans-serif;
   font-weight: 100;
   overflow-x: hidden;
@@ -41,7 +42,7 @@ label[for='menu']:before {
   content: '☰';
   transition: all .3s;
   padding: 10px;
-  color: $dark-green;
+  color: $green;
   font-weight: 700;
   font-size: 2rem;
 }

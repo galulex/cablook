@@ -39,7 +39,7 @@
     }
 
     &--eco {
-      color: $lime;
+      color: $green;
     }
 
     &--comfort {
@@ -55,4 +55,10 @@
     text-align: left;
     line-height: 1.4em;
   }
+}
+
+.icon {
+  vertical-align: middle;
+  max-width: 40px;
+  max-height: 40px;
 }

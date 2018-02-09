@@ -2,21 +2,31 @@ nav {
   position: fixed;
   backface-visibility: hidden;
   width: 20%;
-  background: $dark-green;
+  background: $green;
   top: 0;
   bottom: 0;
   left: 0;
   transition: left .3s .1s;
   z-index: 4;
+  overflow-y: auto;
 }
 
 nav a {
   color: $white;
   font-weight: 400;
   display: block;
-  padding: 10%;
+  padding: 5% 10%;
   position: relative;
   text-decoration: none;
+}
+
+nav a:before {
+  content: '›';
+  position: absolute;
+  right: 15%;
+  font-size: 2rem;
+  top: 50%;
+  transform: translateY(-50%);
 }
 
 nav a:after {
@@ -31,7 +41,7 @@ nav a:after {
 nav input {
   border: 2px solid $light-green;
   outline: none;
-  border-radius: 10px;
+  border-radius: 7px;
   background: none;
   padding: 10px;
   font-size: 0.9em;
@@ -42,7 +52,7 @@ nav input {
   font-weight: 100;
   font-size: 1rem;
   &:invalid {
-    border-color: #d75a5a;
+    border-color: $yellow;
   }
 
   &:placeholder-shown {
@@ -61,7 +71,7 @@ nav button {
   width: 100%;
   border: 2px solid $white;
   background: none;
-  border-radius: 10px;
+  border-radius: 7px;
   color: $white;
   font-size: 0.9em;
   padding: 10px;
@@ -84,7 +94,7 @@ nav button:hover {
     display: flex;
     color: $white;
     font-weight: 400;
-    padding: 10%;
+    padding: 5% 10%;
     position: relative;
     align-items: center;
 
@@ -93,15 +103,6 @@ nav button:hover {
       padding-top: 2%;
       position: absolute;
       right: 10%;
-    }
-
-    &:after {
-      content: '';
-      border-bottom: 2px solid $green;
-      width: 80%;
-      position: absolute;
-      bottom: 0;
-      left: 10%;
     }
   }
 
@@ -119,13 +120,15 @@ nav button:hover {
 
   .form {
     margin: 0;
-    padding: 10%;
+    padding: 0 10%;
     position: relative;
 
     &__fieldset {
       border: none;
       margin: 0;
-      padding: 0;
+      padding: 10% 0;
+      border-top: 2px solid darken($green, 5%);
+      border-bottom: 2px solid darken($green, 5%);
 
       &--short {
         padding-left: 40px;
@@ -153,18 +156,9 @@ nav button:hover {
     &__location-field {
       margin-top: 10px;
       border: none;
-      background: $olive;
+      background: darken($green, 5%);
       box-shadow: inset -3px 3px 7px -3px rgba(15, 14, 15, 0.40);
       font-weight: inherit;
-    }
-
-    &:after {
-      content: '';
-      border-bottom: 2px solid $green;
-      width: 80%;
-      position: absolute;
-      bottom: 0;
-      left: 10%;
     }
   }
 }

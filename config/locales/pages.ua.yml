@@ -2,19 +2,23 @@ ua:
   head:
     title: 'CabLook таксі: заказ таксі онлайн у місті Черкаси'
     description: 'CabLook таксі - це сучасний підхід до послуг таксі міста Черкаси, що грунтується на клієнто-орієнтованій політиці низьких цін та захисті навколишнього середовища.'
-  nav_bar:
-    order: 'Замовити'
-    number: '+380'
-    change_number: 'Змiнити номер'
-    sms: 'Введiть код із SMS'
-    wrong_code: 'Неправильний код'
-    from: 'Звідки'
-    to: 'Куди'
-    sign_out: 'Вийти'
-    be_driver: 'Стати Водієм'
-    about_us: 'Про нас'
-    contacts: 'Контакти'
+  shared:
+    navbar:
+      order: Замовити
+      about_us: Про нас
+      contacts: Контакти
+      be_driver: Стати Водієм
+      why: Чому CabLook?
+    user_form:
+      change_number: Змiнити номер
+      sms: Введiть код із SMS
+      wrong_code: Неправильний код
+      from: Звідки
+      to: Куди
+      sign_out: Вийти
   welcome:
+    about:
+      title: CabLook Taxi - це екологічна альтернатива послугам таксі у місті Черкаси.
     index:
       title: CabLook Taxi - це екологічна альтернатива послугам таксі у місті Черкаси.
       logos:

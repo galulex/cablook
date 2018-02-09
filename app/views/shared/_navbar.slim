@@ -3,16 +3,25 @@ label for='menu'
 nav
   .main-menu
     .main-menu__header
-      = inline_svg 'white_logo', class: 'main-menu__logo'
-      .main-menu__title= t('nav_bar.order')
+      = inline_svg 'cablook', class: 'main-menu__logo'
+      .main-menu__title= t('.order')
     = render 'shared/user_form'
-    = link_to t('nav_bar.be_driver'), welcome_path
-    = link_to t('nav_bar.about_us'), welcome_path
+    = link_to page_path(:about) do
+      => inline_svg 'leaf', class: :icon
+      = t('.about_us')
+    = link_to page_path(:about) do
+      => inline_svg 'pin', class: :icon
+      = t('.why')
+    = link_to page_path(:about) do
+      => inline_svg 'faq', class: :icon
+      ' FAQ
+    = link_to page_path(:about) do
+      => inline_svg 'car', class: :icon
+      = t('.be_driver')
   .bottom-menu
-    = link_to t('nav_bar.contacts'), welcome_path
     .bottom-menu__languages
       .bottom-menu__locale
-        = link_to_unless_current 'UA', welcome_path(nil), class: 'bottom-menu__locale--link'
-      | /
-      .bottom-menu__locale
-        = link_to_unless_current 'RU', welcome_path(:ru), class: 'bottom-menu__locale--link'
+        / = link_to_unless_current 'UA', welcome_path(nil), class: 'bottom-menu__locale--link'
+      / | /
+      / .bottom-menu__locale
+        / = link_to_unless_current 'RU', welcome_path(:ru), class: 'bottom-menu__locale--link'

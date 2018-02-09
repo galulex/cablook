@@ -31,7 +31,9 @@ Rails.application.routes.draw do
     end
   end
 
-  scope '(:locale)', locale: /(ru)/, defaults: { locale: :ua } do
-    get 'welcome' => 'welcome#index'
-  end
+  # scope '(:locale)', locale: /(ru)/, defaults: { locale: :ua } do
+  get ':page' => 'welcome#index', constraints: { page: /(about|faq)/ }, defaults: { page: 'index' }, as: :page
+  # end
+
+  root to: 'welcome#index'
 end
