@@ -6,13 +6,13 @@ end
 password = BCrypt::Password.create('12341234')
 
 user_data = [
-  { phone_number: '+380990000001', encrypted_password: password, auth_token: token },
+  { phone_number: '+380990000001', encrypted_password: password, auth_token: token,},
   { phone_number: '+380990000002', encrypted_password: password, auth_token: token },
   { phone_number: '+380990000003', encrypted_password: password, auth_token: token },
   { phone_number: '+380990000004', encrypted_password: password, auth_token: token },
   { phone_number: '+380990000005', encrypted_password: password, auth_token: token },
 ]
-user_data.each { |data| Repositories::User.new(ROM.env).create(data) }
+user_data.each { |data, index| Repositories::User.new(ROM.env).create(data.merge(referal_code: "rf_#{i}")) }
 
 puts '============================='
 puts 'Users created'
@@ -76,3 +76,14 @@ feedbacks_data.each { |data| Repositories::Feedback.new(ROM.env).create(data) }
 puts '============================='
 puts 'Feedbacks created'
 puts "=============================\n"
+
+
+puts 'Creating bonus trips...'
+
+bonus_trip_data = [
+  { status: 1, user_id: 2, friend_id: 3, trip_id: 3, code: 'test_new_1' },
+  { status: 1, user_id: 3, friend_id: 4, trip_id: 4, code: 'test_new_2' },
+  { status: 1, user_id: 4, friend_id: 5, trip_id: 5, code: 'test_new_3' },
+  { status: 0, user_id: 1, friend_id: 1, code: 'test_frozen' }
+]
+bonus_trip_data.each { |data| Repositories::BonusTrip.new(ROM.env).create(data) }

@@ -3,7 +3,7 @@ describe Operations::Wayforpay::Hold do
   let(:trip) { Factory[:trip, user_id: user.id] }
   let(:card) { Factory[:card, user_id: user.id] }
   let(:user) { Factory[:user] }
-  let(:wayforpay_body) { { reasonCode: '1100' }.to_json }
+  let(:wayforpay_body) { { reasonCode: 1100 }.to_json }
 
   before { allow(Wayforpay::Payments).to receive(:hold) { OpenStruct.new(body: wayforpay_body) } }
 
