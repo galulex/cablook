@@ -10,7 +10,7 @@
 }
 
 body {
-  background: $grey;
+  background: black;
   font-family: Gilroy, Helvetica, Arial, sans-serif;
   font-weight: 100;
   overflow-x: hidden;
@@ -24,6 +24,23 @@ main {
   text-align: center;
   transition: margin-left .3s;
   padding-bottom: 200px;
+  min-height: 100vh;
+}
+
+.welcome {
+  background: $violet;
+  background: $welcome-bg;
+
+  ul {
+    display: inline-block;
+    min-width: 35%;
+  }
+  li { text-align: left; }
+
+  .city {
+    width: 114%;
+    margin-left: -7%;
+  }
 }
 
 h1 {

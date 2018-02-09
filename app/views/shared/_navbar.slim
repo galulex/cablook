@@ -3,19 +3,20 @@ label for='menu'
 nav
   .main-menu
     .main-menu__header
-      = inline_svg 'cablook', class: 'main-menu__logo'
+      a href=root_path
+        = inline_svg 'cablook', class: 'main-menu__logo'
       .main-menu__title= t('.order')
     = render 'shared/user_form'
-    = link_to page_path(:about) do
+    = link_to page_path(:about), class: 'menu-item' do
       => inline_svg 'leaf', class: :icon
       = t('.about_us')
-    = link_to page_path(:about) do
+    = link_to page_path(:about), class: 'menu-item' do
       => inline_svg 'pin', class: :icon
       = t('.why')
-    = link_to page_path(:about) do
+    = link_to page_path(:about), class: 'menu-item' do
       => inline_svg 'faq', class: :icon
       ' FAQ
-    = link_to page_path(:about) do
+    = link_to page_path(:about), class: 'menu-item' do
       => inline_svg 'car', class: :icon
       = t('.be_driver')
   .bottom-menu

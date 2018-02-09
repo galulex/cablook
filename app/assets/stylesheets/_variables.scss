@@ -1,7 +1,10 @@
 $white: white;
-$green: #17a15f;
+$green: #19a160;
 $light-green: lighten($green, 5%);
 $purple: #a925ad;
 $yellow: #efcc3a;
 $dark-blue: #322960;
 $grey: #e1e1e1;
+$violet: #312d50;
+
+$welcome-bg: linear-gradient(rgba($violet, .8), 60%, rgba($green, .8));

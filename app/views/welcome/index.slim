@@ -1,6 +1,18 @@
-.content#main
+main.welcome.content role='main'
   = inline_svg 'logo.svg', class: 'white-logo'
   div.logo-title
     b CAB
     | LOOK
   h1.title= t('.title')
+  a> href='#'
+    = inline_svg 'applestore.svg', class: :icon
+  a< href='#'
+    = inline_svg 'googleplay.svg', class: :icon
+  h2= t('.subtitle')
+  ul
+    li= t('.download')
+    li= t('.share')
+    li= t('.receive')
+
+  = inline_svg 'city.svg', class: :city
+  = inline_svg 'nissan.svg', class: :nissan

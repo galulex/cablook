@@ -1,5 +1,5 @@
 .white-logo {
-  max-width: 250px;
+  max-width: 200px;
 
   path[fill="#1c1c1c"] {
     fill: white;
@@ -15,4 +15,20 @@
   font-size: 1.2rem;
   font-weight: 400;
   color: white;
+}
+
+.nissan {
+  max-width: 400px;
+}
+
+
+@keyframes dash {
+  to {
+    stroke-dashoffset: -48;
+  }
+}
+
+ellipse[stroke-dasharray] {
+  stroke-dashoffset: 0;
+  animation: dash .3s linear infinite;
 }
