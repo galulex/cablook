@@ -26,6 +26,12 @@ describe Api::TripsController, type: :controller do
 
       it { is_expected.to have_http_status(:unprocessable_entity) }
     end
+
+    context 'when pay by bonus' do
+      let(:trip_params) { super().merge(bonus: true) }
+
+      it { is_expected.to have_http_status(:unprocessable_entity) }
+    end
   end
 
   describe '#index' do
