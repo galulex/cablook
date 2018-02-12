@@ -10,6 +10,8 @@ class Payments < ROM::Relation[:sql]
     attribute :trip_id, Types::ForeignKey(:trips)
     attribute :driver_id, Types::ForeignKey(:drivers)
 
+    attribute :response, Types::PG::JSONB
+
     associations do
       belongs_to :card
       belongs_to :trip
