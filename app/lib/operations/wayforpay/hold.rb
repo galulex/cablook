@@ -10,12 +10,12 @@ module Operations
 
       def call
         response = hold_payment
-        status = if hold_payment['reasonCode'] == Constants::Payments::WAYFORPAY_SUCCESS
+        status = if response['reasonCode'] == Constants::Payments::WAYFORPAY_SUCCESS
                    Constants::Payments::HOLD
                  else
                    Constants::Payments::PENDING
                  end
-        create_trip_payment(status)
+        create_trip_payment(status, response)
         response
       end
 
@@ -34,14 +34,15 @@ module Operations
         JSON.parse(response.body)
       end
 
-      def create_trip_payment(status)
+      def create_trip_payment(status, wayforpay_data)
         Repositories::Payment.new(ROM.env).create(
           status: status,
           amount: trip.cost,
           user_id: trip.user_id,
           card_id: card_id,
           trip_id: trip_id,
-          order_reference: order_reference
+          order_reference: order_reference,
+          response: wayforpay_data
         )
       end
 
@@ -50,7 +51,11 @@ module Operations
       end
 
       def order_reference
-        @order_reference ||= "trip_#{Rails.env}_#{trip_id}"
+        @order_reference ||= if Rails.env.production?
+                               "cablook_trip_#{trip_id}"
+                             else
+                               "cablook_#{Rails.env}_trip_#{trip_id}"
+                             end
       end
     end
   end
