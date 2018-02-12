@@ -14,5 +14,11 @@ describe Events::AuthorizeUser do
 
       it { is_expected.to raise_error(Events::InvalidParamsError) }
     end
+
+    context 'when user will create' do
+      let!(:user) { Factory.structs[:user] }
+
+      it { is_expected.to change { user_repository.users.count }.by(+1) }
+    end
   end
 end

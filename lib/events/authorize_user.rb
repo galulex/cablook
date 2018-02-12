@@ -25,7 +25,11 @@ module Events
     end
 
     def create_user
-      @user ||= Repositories::User.new(ROM.env).create(data.merge(auth_token: SecureRandom.base58(24), verification_token: code))
+      @user ||= Repositories::User.new(ROM.env).create(data.merge(
+                                                         auth_token: SecureRandom.base58(24),
+                                                         verification_token: code,
+                                                         referral_code: SecureRandom.base58(6)
+      ))
     end
 
     def code
