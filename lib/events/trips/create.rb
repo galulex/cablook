@@ -22,7 +22,11 @@ module Events
         convert_location_to_pg_array
         validate_unpaid_trips!
         create_trip
-        hold_or_bonus!
+        if data[:bonus]
+          pay_by_bonus
+        else
+          hold_payment
+        end
         create_trip_job(@trip.id)
         @trip
       end
@@ -34,9 +38,13 @@ module Events
         invalid!([I18n.t('trips.pay_off_debt')]) if pending_payments.any?
       end
 
-      def hold_or_bonus!
+      def hold_payment
+        Jobs::PaymentHold.perform_later(@trip.id, card_id)
+      end
+
+      def pay_by_bonus
         bonus_trips = Repositories::BonusTrip.new(ROM.env).available_by_user(data[:user_id])
-        if data[:bonus] && bonus_trips.any?
+        if bonus_trips.any?
           Repositories::Payment.new(ROM.env).create(
             status: Constants::Payments::BONUS,
             amount: 0,
@@ -45,7 +53,7 @@ module Events
           )
           Repositories::BonusTrip.new(ROM.env).update(bonus_trips.first.id, status: Constants::BonusTrip::USED, trip_id: @trip.id)
         else
-          Jobs::PaymentHold.perform_later(@trip.id, card_id)
+          invalid!(I18n.t('bonus_trips.no_available_bonus'))
         end
       end
 
