@@ -4,11 +4,11 @@ main.welcome.content role='main'
     b CAB
     | LOOK
   h1.title= t('.title')
-  a> href='#'
-    = inline_svg 'applestore.svg', class: :icon
-  a< href='#'
-    = inline_svg 'googleplay.svg', class: :icon
-  h2= t('.subtitle')
+  a.pd> href='#'
+    = inline_svg 'applestore.svg', class: 'icon-2x'
+  a.pd< href='#'
+    = inline_svg 'googleplay.svg', class: 'icon-2x'
+  h2.subtitle= t('.subtitle')
   ul
     li= t('.download')
     li= t('.share')

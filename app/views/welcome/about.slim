@@ -1,6 +1,6 @@
-= render 'corner_images'
-= inline_svg 'city_line', class: 'city-line'
-.content#about
+main.content.about
+  = render 'corner_images'
+  = inline_svg 'city_line', class: 'city-line'
   .header
     = inline_svg 'logo.svg', class: 'header__logo'
     h3.header__title= t('.title')

@@ -10,7 +10,7 @@
 }
 
 body {
-  background: black;
+  background: $violet;
   font-family: Gilroy, Helvetica, Arial, sans-serif;
   font-weight: 100;
   overflow-x: hidden;
@@ -34,6 +34,8 @@ main {
   ul {
     display: inline-block;
     min-width: 35%;
+    color: white;
+    margin: 0;
   }
   li { text-align: left; }
 
@@ -94,6 +96,7 @@ input#menu:checked + label:before {
   bottom: 0;
   left: 20%;
   transition: left .3s .1s;
+  z-index: -1;
 }
 
 .top-left, .top-right, .bottom-right, .bottom-left {
@@ -193,3 +196,18 @@ input#menu:checked + label:before {
 .col-10 { width: 83.33%; }
 .col-11 { width: 91.66%; }
 .col-12 { width: 100%; }
+
+
+.title {
+  font-size: 1.2rem;
+  font-weight: 400;
+  color: white;
+}
+
+.subtitle {
+  color: $green;
+}
+
+.pd {
+  padding: 0 5%;
+}

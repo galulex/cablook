@@ -13,9 +13,9 @@ form.form
       = t('.sign_out')
     div.form__user-number#account
     .form__location
-      input.form__location-field#from type=:text required=true placeholder= t('.from') value="Marshala Krasovs'koho Street 8, Cherkasy, Cherkas'ka oblast, Ukraine"
+      input.form__location-field#from type=:text required=true placeholder= t('.from')
       ul.form__location-list data-list=true
-    input.form__location-field#to type=:text required=true placeholder= t('.to') oninput='app.autocomplete(this)' value='haharina 55 cherkasy'
+    input.form__location-field#to type=:text required=true placeholder= t('.to') oninput='app.autocomplete(this)'
   fieldset.form__fieldset disabled=true
     div#state
       .loader
