@@ -10,7 +10,7 @@
 }
 
 body {
-  background: $violet;
+  background: $grey;
   font-family: Gilroy, Helvetica, Arial, sans-serif;
   font-weight: 100;
   overflow-x: hidden;
@@ -33,7 +33,7 @@ main {
 
   ul {
     display: inline-block;
-    min-width: 35%;
+    min-width: 380px;
     color: white;
     margin: 0;
   }
@@ -209,5 +209,5 @@ input#menu:checked + label:before {
 }
 
 .pd {
-  padding: 0 5%;
+  padding: 0 3%;
 }
