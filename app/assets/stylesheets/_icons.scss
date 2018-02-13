@@ -1,13 +1,19 @@
 .white-logo {
   max-width: 150px;
-
   path[fill="#1c1c1c"] {
     fill: white;
   }
 }
 
+.black-logo {
+  max-width: 150px;
+  path[fill="#1c1c1c"] {
+    fill: $black;
+  }
+}
+
 .logo-title {
-  font-size: 2rem;
+  font-size: 1.6rem;
   color: $green;
 }
 

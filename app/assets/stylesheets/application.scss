@@ -4,6 +4,7 @@
 @import 'about';
 @import 'form';
 @import 'loader';
+@import 'why';
 
 * {
   box-sizing: border-box;
@@ -27,6 +28,10 @@ main {
   min-height: 100vh;
 }
 
+b {
+  font-weight: 400;
+}
+
 .welcome {
   background: $violet;
   background: $welcome-bg;
@@ -38,11 +43,11 @@ main {
     margin: 0;
   }
   li { text-align: left; }
+}
 
-  .city {
-    width: 114%;
-    margin-left: -7%;
-  }
+.city {
+  width: 114%;
+  margin-left: -7%;
 }
 
 h1 {
@@ -165,6 +170,18 @@ input#menu:checked + label:before {
     .welcome-section__description {
       text-align: justify;
     }
+  }
+
+  .why .why-icon {
+    position: relative;
+    width: 25%;
+    padding: 2% 0;
+  }
+
+  .why li {
+    text-align: center !important;
+    padding-left: 0;
+    padding-right: 0 !important;
   }
 }
 
