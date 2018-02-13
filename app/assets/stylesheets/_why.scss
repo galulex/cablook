@@ -1,0 +1,47 @@
+.why {
+  background: $why-bg;
+
+  ul {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+
+  li {
+    border-top: 2px solid $green;
+    padding: 2% 0;
+    text-align: left;
+    padding-left: 10%;
+    position: relative;
+
+    &:nth-child(2) {
+      text-align: right;
+      padding-left: 0;
+      padding-right: 10%;
+
+      .why-icon {
+        right: 0;
+        left: auto;
+      }
+    }
+  }
+
+  h3 {
+    margin: 0;
+    color: $green;
+  }
+
+  h2 {
+    font-weight: 100;
+  }
+
+  .why-icon {
+    position: absolute;
+    left: 0;
+    width: 9%;
+  }
+
+  .city g {
+    stroke: $white;
+  }
+}

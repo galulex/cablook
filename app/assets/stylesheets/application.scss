@@ -4,13 +4,14 @@
 @import 'about';
 @import 'form';
 @import 'loader';
+@import 'why';
 
 * {
   box-sizing: border-box;
 }
 
 body {
-  background: $violet;
+  background: $grey;
   font-family: Gilroy, Helvetica, Arial, sans-serif;
   font-weight: 100;
   overflow-x: hidden;
@@ -27,22 +28,26 @@ main {
   min-height: 100vh;
 }
 
+b {
+  font-weight: 400;
+}
+
 .welcome {
   background: $violet;
   background: $welcome-bg;
 
   ul {
     display: inline-block;
-    min-width: 35%;
+    min-width: 380px;
     color: white;
     margin: 0;
   }
   li { text-align: left; }
+}
 
-  .city {
-    width: 114%;
-    margin-left: -7%;
-  }
+.city {
+  width: 114%;
+  margin-left: -7%;
 }
 
 h1 {
@@ -166,6 +171,18 @@ input#menu:checked + label:before {
       text-align: justify;
     }
   }
+
+  .why .why-icon {
+    position: relative;
+    width: 25%;
+    padding: 2% 0;
+  }
+
+  .why li {
+    text-align: center !important;
+    padding-left: 0;
+    padding-right: 0 !important;
+  }
 }
 
 @media only screen and (max-width: 480px) {
@@ -209,5 +226,5 @@ input#menu:checked + label:before {
 }
 
 .pd {
-  padding: 0 5%;
+  padding: 0 3%;
 }

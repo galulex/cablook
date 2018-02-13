@@ -1,0 +1,14 @@
+main.content.why
+  = inline_svg 'logo.svg', class: 'black-logo'
+  div.logo-title
+    b CAB
+    | LOOK
+  h2= t('.title')
+  p: b= t('.goal')
+  ul
+    - t('.benefits').each do |b|
+      li
+        = inline_svg "#{b[:img]}.svg", class: 'why-icon'
+        h3= b[:title]
+        p= b[:description]
+  = inline_svg 'city.svg', class: :city
