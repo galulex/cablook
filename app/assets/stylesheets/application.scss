@@ -11,7 +11,6 @@
 }
 
 body {
-  background: $grey;
   font-family: Gilroy, Helvetica, Arial, sans-serif;
   font-weight: 100;
   overflow-x: hidden;
@@ -24,7 +23,6 @@ main {
   width: 80%;
   text-align: center;
   transition: margin-left .3s;
-  padding-bottom: 200px;
   min-height: 100vh;
 }
 
@@ -48,6 +46,10 @@ b {
 .city {
   width: 114%;
   margin-left: -7%;
+  min-width: 700px;
+
+  &.white g { stroke: $white; }
+  &.violet g { stroke: $violet; }
 }
 
 h1 {
@@ -94,42 +96,6 @@ input#menu:checked + label {
 input#menu:checked + label:before {
   content: '×';
   font-size: 3rem;
-}
-
-.city-line {
-  position: fixed;
-  bottom: 0;
-  left: 20%;
-  transition: left .3s .1s;
-  z-index: -1;
-}
-
-.top-left, .top-right, .bottom-right, .bottom-left {
-  position: absolute;
-  z-index: 1;
-  opacity: 0.3;
-}
-
-.top-left {
-  width: 25%;
-  left: 0;
-}
-
-.top-right {
-  width: 35%;
-  right: 0;
-}
-
-.bottom-right {
-  width: 20%;
-  bottom: 0;
-  right: 0;
-}
-
-.bottom-left {
-  width: 35%;
-  bottom: 0;
-  left: 0;
 }
 
 @media only screen and (max-width: 768px) {
