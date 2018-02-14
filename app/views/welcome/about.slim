@@ -1,9 +1,6 @@
 main.content.about
-  = render 'corner_images'
-  = inline_svg 'city_line', class: 'city-line'
-  .header
-    = inline_svg 'logo.svg', class: 'header__logo'
-    h3.header__title= t('.title')
+  = inline_svg 'logo.svg', class: 'header__logo'
+  h3.= t('.title')
   ul.about-section
     - I18n.t('welcome.index.logos').each do |key, value|
       li.welcome-section__item.col-6
@@ -11,3 +8,4 @@ main.content.about
         h2 class="welcome-section__title--#{key}"
           = value[:title]
         .about-section__description= value[:description]
+  = inline_svg 'city.svg', class: 'city violet'

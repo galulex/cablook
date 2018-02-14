@@ -1,7 +1,7 @@
 .content {
   position: relative;
   z-index: 2;
-  padding: 20px 5%;
+  padding: 20px 5% 0 5%;
 }
 
 .header {
@@ -58,6 +58,10 @@
   }
 }
 
+.about-section {
+  padding: 0;
+}
+
 [class^=icon] {
   vertical-align: middle;
   max-width: 40px;
@@ -67,8 +71,4 @@
 .icon-2x {
   max-height: 70px;
   max-width: 70px;
-}
-
-.about {
-  background: $grey;
 }
