@@ -32,6 +32,15 @@ describe Api::TripsController, type: :controller do
 
       it { is_expected.to have_http_status(:unprocessable_entity) }
     end
+
+    context 'when user have pending payments' do
+      before do
+        Factory[:payment, user_id: user.id, status: Constants::Payments::PENDING]
+        post :create, params: params, as: :json
+      end
+
+      it { is_expected.to have_http_status(418) }
+    end
   end
 
   describe '#index' do

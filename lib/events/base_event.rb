@@ -30,8 +30,8 @@ module Events
       invalid!(validation.messages(full: true, locale: I18n.locale).values.flatten) if validation.failure?
     end
 
-    def invalid!(errors)
-      raise InvalidParamsError, errors.to_json
+    def invalid!(errors, status: 422)
+      raise InvalidParamsError.new(status: status), errors.to_json
     end
   end
 end
