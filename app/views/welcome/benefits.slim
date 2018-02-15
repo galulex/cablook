@@ -1,0 +1,45 @@
+main.content.benefits
+  = inline_svg 'logo.svg', class: 'black-logo'
+  div.logo-title
+    b CAB
+    | LOOK
+  h1= t('.title')
+  ul.benefits
+    - b = t('.benefits').first
+    li.benefit.odd
+      = inline_svg "#{b[:img]}.svg", class: 'list-icon'
+      h2= b[:title]
+      p= b[:description]
+    - b = t('.benefits').last
+    li.benefit
+      = inline_svg "#{b[:img]}.svg", class: 'list-icon'
+      h2= b[:title]
+      p= b[:description]
+      p
+        b= t('.opportunity')
+        ul
+          - t('.opportunities').each do |o|
+            li= o
+  hr
+  br
+  .title.black Bonus +
+  .title.green= t('.free_trips')
+  div.bonus.text-left
+    .col-6
+      div.step
+        => inline_svg('bonus/download.svg', class: 'icon-m')
+        = t('.bonus.download')
+      div.step
+        => inline_svg('bonus/login.svg', class: 'icon-m')
+        = t('.bonus.login')
+      div.step
+        => inline_svg('bonus/navigate.svg', class: 'icon-m')
+        = t('.bonus.navigate')
+    .col-6
+      div.step
+        => inline_svg('bonus/share.svg', class: 'icon-m')
+        = t('.bonus.share')
+      div.step
+        => inline_svg('bonus/thumbsup.svg', class: 'icon-m')
+        = t('.bonus.get')
+  = inline_svg 'city.svg', class: 'city violet'

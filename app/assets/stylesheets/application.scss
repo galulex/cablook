@@ -5,6 +5,7 @@
 @import 'form';
 @import 'loader';
 @import 'why';
+@import 'benefits';
 
 * {
   box-sizing: border-box;
@@ -53,7 +54,18 @@ b {
 }
 
 h1 {
-  font-weight: 100;
+  font-weight: 400;
+  font-size: 1.2rem;
+}
+
+ul {
+  padding: 0;
+}
+
+hr {
+  margin: 0;
+  border: none;
+  border-top: 2px solid $green;
 }
 
 label[for='menu'] {
@@ -138,13 +150,13 @@ input#menu:checked + label:before {
     }
   }
 
-  .why .why-icon {
+  .list-icon {
     position: relative;
     width: 25%;
     padding: 2% 0;
   }
 
-  .why li {
+  .benefits li {
     text-align: center !important;
     padding-left: 0;
     padding-right: 0 !important;
@@ -180,17 +192,29 @@ input#menu:checked + label:before {
 .col-11 { width: 91.66%; }
 .col-12 { width: 100%; }
 
+[class*='col-'] {
+  display: inline-block;
+  vertical-align: top;
+}
+
 
 .title {
   font-size: 1.2rem;
   font-weight: 400;
   color: white;
-}
+  &.green {
+    color: $green;
+  }
 
-.subtitle {
-  color: $green;
+  &.black {
+    color: $black;
+  }
 }
 
 .pd {
   padding: 0 3%;
+}
+
+.text-left {
+  text-align: left;
 }

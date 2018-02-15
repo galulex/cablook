@@ -3,12 +3,12 @@ main.content.why
   div.logo-title
     b CAB
     | LOOK
-  h2= t('.title')
-  p: b= t('.goal')
-  ul
+  h2= t('.why')
+  h1= t('.title')
+  ul.benefits.odd
     - t('.benefits').each do |b|
-      li
-        = inline_svg "#{b[:img]}.svg", class: 'why-icon'
-        h3= b[:title]
+      li.benefit class=cycle('', 'odd')
+        = inline_svg "#{b[:img]}.svg", class: 'list-icon'
+        h2= b[:title]
         p= b[:description]
   = inline_svg 'city.svg', class: 'city violet'

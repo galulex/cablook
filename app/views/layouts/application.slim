@@ -3,8 +3,8 @@ html
     script async src='https://www.googletagmanager.com/gtag/js?id=UA-111386040-1'
     meta http-equiv='Content-type' content='text/html; charset=utf-8'
     meta name='viewport' content='initial-scale=1, maximum-scale=1'
-    title= t('head.title')
-    meta name='description' content= t('head.description')
+    title= t("#{params[:controller]}.#{params[:page]}.meta_title", default: t('head.title'))
+    meta name='description' content= t("#{params[:controller]}.#{params[:page]}.meta_description", default: t('head.description'))
     = csrf_meta_tags
     = render 'shared/favicon_links'
     javascript:

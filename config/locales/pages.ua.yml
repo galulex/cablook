@@ -9,6 +9,7 @@ ua:
       contacts: Контакти
       be_driver: Стати Водієм
       why: Чому CabLook?
+      benefits: Переваги
     user_form:
       change_number: Змiнити номер
       sms: Введiть код із SMS
@@ -18,10 +19,14 @@ ua:
       sign_out: Вийти
   welcome:
     about:
+      meta_title:
+      meta_description:
       title: CabLook Taxi - це екологічна альтернатива послугам таксі у місті Черкаси.
     why:
-      title: Чому CabLook Taxi сервіс?
-      goal: Мета нашої компанії - зробити місто чистішим
+      meta_title:
+      meta_description:
+      why: Чому CabLook Taxi сервіс?
+      title: Мета нашої компанії - зробити місто чистішим
       benefits:
         - title: 100% електротяга
           img: plug
@@ -39,7 +44,38 @@ ua:
             Штат CabLook таксі орієнтован на сервіс і розуміє як важлив час клієнтам.
             Всі водії нашої компанії кваліфіковані, доброзичливі та пунктуальні.
             Система Cablook Taxi максимально оптимізує маршрут, а час подачі таксі не перевищує 10 хвилин.
+    benefits:
+      meta_title:
+      meta_description:
+      title: CabLook Taxi - безпечне, комфортне та зручне перевезення пасажирів по місту Черкаси
+      free_trips: Безкоштовні поїздки в CabLook Taxi
+      opportunity: 'За допомогою CabLook Taxi додатка ви маєте можливість:'
+      opportunities:
+        - Замовити таксі он-лайн на будь-який час
+        - Відстежувати автомобіль в режимі реального часу
+        - Оцінити якість послуг
+        - Скористатися геотаргетингом користувача
+      bonus:
+        download: Завантаж додаток CabLook Taxi
+        login: Увійди через мобільний
+        navigate: Перейди до вкладки “Bonus”
+        share: Розішли промокод друзям
+        get: Отримай безкоштовну поїздку за кожного друга, який скористувався послугою CabLook Taxi
+      benefits:
+        - title: Cablook Taxi и Master Card/Visa
+          img: cards
+          description:
+            CabLook Taxi - простий і швидкий сервіс.
+            Для зручності наших клієнтів ми впровадили систему онлайн-розрахунків, сертифіковану Security Standards Council (розділ PCI DSS).
+            За допомогою розрахункової картки Visa / Mastercard ви можете оплатити поїздку під час замовлення послуги.
+            Всі дані обробляються на нашому сервері й закрити від сторонніх агентів.
+        - title: CabLook Taxi Application - просто, інтуїтивно, безкоштовно
+          img: cablook2
+          description:
+            CabLook Taxi додаток - завжди напохваті простий і зручний спосіб замовити таксі зараз або пізніше, в будь-якому місці і в будь-який час.
     index:
+      meta_title:
+      meta_description:
       title: CabLook Taxi - перше екологічне таксі у місті Черкаси
       subtitle: ОТРИМАЙ БЕЗКОШТОВНІ ПОЇЗДКИ!
       download: завантаж додаток на свій мобільний,
