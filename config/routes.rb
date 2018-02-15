@@ -9,6 +9,9 @@ Rails.application.routes.draw do
     resource :session, only: %i[create update]
     resources :bonus_trips, only: %i[index]
     resources :cards, only: %i[index create destroy]
+    resources :payments, only: %i[index] do
+      post 'retry_pendings', on: :collection
+    end
     resources :referrals, only: %i[create]
     resources :subscriptions, only: %i[create]
     resources :trips, only: %i[index show create] do

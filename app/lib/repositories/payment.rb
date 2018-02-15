@@ -10,8 +10,16 @@ module Repositories
       payments.where(trip_id: trip_id).one
     end
 
+    def by_user(user_id)
+      payments.where(user_id: user_id).to_a
+    end
+
     def pending_by_user(user_id)
       payments.where(status: Constants::Payments::PENDING, user_id: user_id).to_a
+    end
+
+    def pending
+      payments.where(status: Constants::Payments::PENDING).to_a
     end
   end
 end

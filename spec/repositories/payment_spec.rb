@@ -26,4 +26,18 @@ describe Repositories::Payment do
       it { expect(instance).not_to be_empty }
     end
   end
+
+  describe '#by_user' do
+    let(:instance) { payment_repository.by_user(user.id) }
+    let!(:payment) { Factory[:payment] }
+    let(:user) { Factory[:user] }
+
+    it { expect(instance).to be_empty }
+
+    context 'when payment is found' do
+      let!(:payment) { Factory[:payment, user_id: user.id] }
+
+      it { expect(instance).not_to be_empty }
+    end
+  end
 end
