@@ -27,19 +27,19 @@ main.content.benefits
   div.bonus.text-left
     .col-6
       div.step
-        => inline_svg('bonus/download.svg', class: 'icon-m')
+        => inline_svg('bonus/download.svg', class: :icon)
         = t('.bonus.download')
       div.step
-        => inline_svg('bonus/login.svg', class: 'icon-m')
+        => inline_svg('bonus/login.svg', class: :icon)
         = t('.bonus.login')
       div.step
-        => inline_svg('bonus/navigate.svg', class: 'icon-m')
+        => inline_svg('bonus/navigate.svg', class: :icon)
         = t('.bonus.navigate')
     .col-6
       div.step
-        => inline_svg('bonus/share.svg', class: 'icon-m')
+        => inline_svg('bonus/share.svg', class: :icon)
         = t('.bonus.share')
       div.step
-        => inline_svg('bonus/thumbsup.svg', class: 'icon-m')
-        = t('.bonus.get')
+        => inline_svg('bonus/thumbsup.svg', class: :icon)
+        =< t('.bonus.get')
   = inline_svg 'city.svg', class: 'city violet'

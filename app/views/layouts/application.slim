@@ -11,6 +11,9 @@ html
       window._TOKEN = "#{ENV['WAYFORPAY_SECRET']}"
       window._MERCHANT = "#{ENV['WAYFORPAY_MERCHANT']}"
     css:
+      html {
+        overflow-x: hidden;
+      }
       fieldset[disabled] { display: none; }
       body {
         background: #e1e1e1;
