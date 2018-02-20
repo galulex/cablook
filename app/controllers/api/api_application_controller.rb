@@ -8,8 +8,8 @@ module Api
       render json: { errors: ['Not found'] }, status: 404
     end
 
-    rescue_from Events::InvalidParamsError do |errors|
-      render json: { errors: JSON.parse(errors.message) }, status: 422
+    rescue_from Events::InvalidParamsError do |error|
+      render json: { errors: JSON.parse(error.message) }, status: error.object[:status]
     end
 
     def current_user

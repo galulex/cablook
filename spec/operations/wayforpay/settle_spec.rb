@@ -11,7 +11,6 @@ describe Operations::Wayforpay::Settle do
     let!(:payment) { Factory[:payment, trip_id: trip.id] }
     let(:user) { Factory[:user] }
 
-
     context 'when status is ok' do
       it { is_expected.to change { payment_repository.by_id(payment.id).status }.to(Constants::Payments::SUCCESS) }
 

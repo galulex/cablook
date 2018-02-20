@@ -35,7 +35,7 @@ module Events
 
       def validate_unpaid_trips!
         pending_payments = Repositories::Payment.new(ROM.env).pending_by_user(data[:user_id])
-        invalid!([I18n.t('trips.pay_off_debt')]) if pending_payments.any?
+        invalid!([I18n.t('trips.pay_off_debt')], status: 418) if pending_payments.any?
       end
 
       def hold_payment
