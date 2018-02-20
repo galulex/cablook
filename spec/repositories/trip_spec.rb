@@ -11,10 +11,12 @@ describe Repositories::Trip do
     end
   end
 
-  describe '#by_user' do
-    subject { trip_repository.by_user(user.id) }
+  describe '#by_user_and_status' do
+    subject { trip_repository.by_user_and_status(user.id, attrs) }
 
+    let(:attrs) { {} }
     let(:user) { Factory[:user] }
+    let!(:trip) { Factory[:trip] }
 
     it { is_expected.to be_empty }
 
@@ -22,6 +24,24 @@ describe Repositories::Trip do
       before { Factory[:trip, user_id: user.id] }
 
       it { is_expected.not_to be_empty }
+    end
+
+    context 'when by status' do
+      let!(:trip) { Factory[:trip, user_id: user.id, status: Constants::Trip::PENDING] }
+
+      it { is_expected.not_to be_empty }
+
+      context 'and status is set' do
+        let(:attrs) { { status: [Constants::Trip::PENDING] } }
+
+        it { is_expected.not_to be_empty }
+      end
+
+      context 'but not found' do
+        let(:attrs) { { status: Constants::Trip::ON_THE_WAY } }
+
+        it { is_expected.to be_empty }
+      end
     end
   end
 

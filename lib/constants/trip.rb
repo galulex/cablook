@@ -8,13 +8,15 @@ module Constants
     CANCELED       = 5
     DECLINED       = 6
 
+    STATUSES = [PENDING, ON_THE_WAY, WAITING_CLIENT, DRIVING, FINISHED, CANCELED, DECLINED].freeze
+
     CENTS_PER_KM = 600
     FEE = 0.025
     LANDING = 1_000
 
     EXPIRES_IN = 1.minute.freeze
 
-    STATUSES = {
+    STATUS_CODES = {
       PENDING        => 'pending'.freeze,
       ON_THE_WAY     => 'on_the_way'.freeze,
       WAITING_CLIENT => 'waiting_client'.freeze,
