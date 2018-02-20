@@ -3,6 +3,10 @@ class DriverMapChannel < ApplicationCable::Channel
     stream_from Constants::Channels::DRIVER_MAP
   end
 
+  def sos(data)
+    ActionCable.server.broadcast(Constants::BroadcastActions::SOS, data)
+  end
+
   def send_location(data)
     body = JSON.parse(data.fetch('body'))
     location = [body.fetch('latitude'), body.fetch('longitude')]

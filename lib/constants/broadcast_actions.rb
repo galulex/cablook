@@ -1,6 +1,7 @@
 module Constants
   module BroadcastActions
     SEND_LOCATION     = 'SendLocation'.freeze
+    SOS               = 'SOS'.freeze
     TRIP_ASSIGNED     = 'TripAssigned'.freeze
     TRIP_ACCEPTED     = 'TripAccepted'.freeze
     TRIP_PROPOSE      = 'TripPropose'.freeze
