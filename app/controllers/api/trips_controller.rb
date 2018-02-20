@@ -3,8 +3,8 @@ module Api
     before_action :authorize!
 
     def index
-      trips = Repositories::Trip.new(ROM.env).by_user(current_user.id, index_params)
-      render json: Presenters::Trips::Collection.new(trips).to_json(user_options: { with_feedbacks: true}), status: 200
+      trips = Repositories::Trip.new(ROM.env).by_user_and_status(current_user.id, index_params)
+      render json: Presenters::Trips::Collection.new(trips).to_json(user_options: { with_feedbacks: true }), status: 200
     end
 
     def show
@@ -25,7 +25,7 @@ module Api
     private
 
     def index_params
-      { page: params[:page]&.to_i, per: params[:per]&.to_i }.compact
+      { status: params[:status], page: params[:page]&.to_i, per: params[:per]&.to_i }.compact
     end
 
     def trip_params
