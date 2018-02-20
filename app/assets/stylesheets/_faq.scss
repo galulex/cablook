@@ -1,0 +1,31 @@
+.faq {
+  width: 80%;
+  text-align: left;
+  margin: 0 auto;
+
+  details {
+    border-top: 2px solid $green;
+
+    &[open] summary {
+      border-bottom: 2px solid $grey;
+    }
+  }
+
+  summary {
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 10px 0;
+    outline: none;
+  }
+
+  .title {
+    margin-top: 10px;
+    padding-left: 5%;
+    color: $green;
+  }
+
+  p {
+    margin: 0;
+    padding-left: 5%;
+  }
+}

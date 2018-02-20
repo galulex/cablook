@@ -1,0 +1,15 @@
+main.content
+  = inline_svg 'logo.svg', class: 'black-logo'
+  div.logo-title
+    b CAB
+    | LOOK
+  h1= t('.title')
+  section.faq
+    - t('.sections').each do |s|
+      details
+        summary= s[:title]
+        - s[:items].each do |i|
+          .title= i[:question]
+          p= i[:answer]
+
+  = inline_svg 'city.svg', class: 'city violet'

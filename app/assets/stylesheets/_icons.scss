@@ -21,6 +21,16 @@
   max-width: 400px;
 }
 
+[class^=icon] {
+  vertical-align: middle;
+  max-width: 40px;
+  max-height: 40px;
+}
+
+.icon-2x {
+  max-height: 70px;
+  max-width: 70px;
+}
 
 @keyframes dash {
   to {

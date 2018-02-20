@@ -10,6 +10,7 @@ nav {
   z-index: 4;
   overflow-y: auto;
   box-shadow: 0px 0px 20px 1px black;
+  padding-bottom: 30px;
 }
 
 .menu-item {
@@ -108,11 +109,7 @@ nav button:hover {
   }
 
   &__logo {
-    width: 30px;
-    max-width: 30px;
-    height: 3%;
-    max-height: 20px;
-    margin-right: 10px;
+    width: 100%;
   }
 
   &__title {
@@ -187,4 +184,13 @@ nav button:hover {
       border-bottom: none;
     }
   }
+
+  &__rights {
+    background: $green;
+    font-size: .5rem;
+  }
+}
+
+nav .icon {
+  margin-right: 5px;
 }
