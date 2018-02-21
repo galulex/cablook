@@ -34,7 +34,6 @@ class App {
   }
 
   TripAccepted(data) {
-    console.log(data)
     UI.showTrip(data.trip)
   }
 
@@ -45,15 +44,28 @@ class App {
   }
 
   autocomplete(input) {
-    fetch(`https://maps.googleapis.com/maps/api/place/queryautocomplete/json?input=${input.value}&key=AIzaSyDlGdVGbkeO_30Yn7tPCpe61AgdrsXMbQ0&location=49.44444,32.05972&radius=50`, { mode: 'no-cors', method: 'GET'}).then(res => {
-      // if (res.ok) {
-        res.json().then(data => {
-          console.log(data)
-        })
-      // } else {
-        // console.log(res)
-      // }
+    input.nextElementSibling.innerHTML = ''
+    if (input.value.length == 0) return false
+    let service = new google.maps.places.AutocompleteService()
+    service.getPlacePredictions({input: input.value, componentRestrictions: {country: 'ua'}, location: new google.maps.LatLng(49.44444, 32.05972), radius: 10}, data => {
+      this.suggestions = []
+      if (!data) return false
+      this.suggestions = data
+      data.forEach(l => {
+        input.nextElementSibling.innerHTML += `<li onclick=''><b>${l.structured_formatting.main_text}</b></br>${l.structured_formatting.secondary_text}</li>`
+      })
     })
+  }
+
+  setStart(event) {
+    if (!isValid(event) || this.suggestions.length < 1) return false
+    Locations.get(event)
+    UI.destination.focus()
+  }
+
+  setFinish(event) {
+    if (!isValid(event) || this.suggestions.length < 1) return false
+    Locations.get(event, Trips.create)
   }
 }
 

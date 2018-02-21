@@ -6,10 +6,10 @@ trip = {
   cost: 40,
 
   get departure_address() {
-    return document.getElementById('from').value
+    return document.getElementById('departure').value
   },
 
   get destination_address() {
-    return document.getElementById('to').value
+    return document.getElementById('destination').value
   }
 }

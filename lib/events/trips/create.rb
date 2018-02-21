@@ -85,6 +85,7 @@ module Events
 
       def cost
         cost = (matrix.distance / 1000.0).ceil(1) * Constants::Trip::CENTS_PER_KM + Constants::Trip::LANDING
+        cost = Constants::Trip::MIN_PRICE if cost < Constants::Trip::MIN_PRICE
         ((cost + cost * Constants::Trip::FEE) / 100).ceil
       end
 

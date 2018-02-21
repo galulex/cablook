@@ -13,11 +13,13 @@ form.form
       = t('.sign_out')
     div.form__user-number#account
     .form__location
-      input.form__location-field#from type=:text required=true placeholder= t('.from')
+      input.form__location-field#departure type=:text required=true placeholder= t('.from') oninput='app.autocomplete(this)' onkeydown='app.setStart(event)'
       ul.form__location-list data-list=true
-    input.form__location-field#to type=:text required=true placeholder= t('.to') oninput='app.autocomplete(this)'
+    .form__location
+      input.form__location-field#destination type=:text required=true placeholder= t('.to') oninput='app.autocomplete(this)' onkeydown='app.setFinish(event)'
+      ul.form__location-list data-list=true
   fieldset.form__fieldset disabled=true
-    div#state
-      .loader
-      | Одну хвилину підбираємо водія
+    div#state.loader
+      = inline_svg('wheel.svg', class: :icon)
+      p= t('.looking_for_driver')
     button#cancel type=:button onclick='Trips.cancel()' = t('cancel')

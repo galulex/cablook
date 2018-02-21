@@ -19,6 +19,11 @@
 
 .nissan {
   max-width: 400px;
+  transition: transform 2s;
+
+  &.gone {
+    transform: translateX(100vw);
+  }
 }
 
 [class^=icon] {

@@ -19,6 +19,7 @@ ua:
       from: Звідки
       to: Куди
       sign_out: Вийти
+      looking_for_driver: Одну хвилнку, підбираємо машинку
   welcome:
     about:
       meta_title: 'Замовити комфортне та дешеве таксі, Черкаси | CabLook Taxi'
@@ -115,7 +116,7 @@ ua:
     faq:
       title: Поширені запитання
       sections:
-      - title: Акаунт і платіжні дані
+      - title: Аккаунт і платіжні дані
         items:
           - question: Як змінити персональні дані профілю?
             answer:

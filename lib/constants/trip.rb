@@ -13,6 +13,7 @@ module Constants
     CENTS_PER_KM = 600
     FEE = 0.025
     LANDING = 1_000
+    MIN_PRICE = 3_000
 
     EXPIRES_IN = 1.minute.freeze
 

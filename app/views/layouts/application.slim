@@ -5,7 +5,7 @@ html
     meta property='og:title' content='Замовити таксі по місту Черкаси | CabLook Taxi'
     meta property='og:description' content='Швидкий сервіс замовити таксі по місту Черкаси. Завжди поруч, завжди вчасно || Бонус+: отримай БЕЗКОШТОВНІ поїздкі'
     meta property='og:image' content='https://i.imgur.com/VY8ZmVI.jpg'
-    script async src='https://www.googletagmanager.com/gtag/js?id=UA-111386040-1'
+    script src='https://www.googletagmanager.com/gtag/js?id=UA-111386040-1' async=true
     meta http-equiv='Content-type' content='text/html; charset=utf-8'
     meta name='viewport' content='initial-scale=1, maximum-scale=1'
     title= t("#{params[:controller]}.#{params[:page]}.meta_title", default: t('head.title'))
@@ -43,49 +43,23 @@ html
     = javascript_include_tag 'application', async: true
     = stylesheet_link_tag    'fonts', media: 'all'
   = render 'shared/schema_org'
-  script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDlGdVGbkeO_30Yn7tPCpe61AgdrsXMbQ0&libraries=places&callback=initAutocomplete" async=true defer=true
+  script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDlGdVGbkeO_30Yn7tPCpe61AgdrsXMbQ0&libraries=places" async=true defer=true
   script id="widget-wfp-script" language="javascript" type="text/javascript" src="https://secure.wayforpay.com/server/pay-widget.js"
 
   javascript:
-    function initAutocomplete() {
-      from = new google.maps.places.Autocomplete(document.getElementById('from'), {
-        componentRestrictions: {country: 'ua'}
-      });
-      from.addListener('place_changed', function(){
-        var location = this.getPlace().geometry.location
-        trip.departure = [location.lat(),location.lng()]
-        document.getElementById('to').focus()
-      });
-
-      to = new google.maps.places.Autocomplete(document.getElementById('to'), {
-        componentRestrictions: {country: 'ua'}
-      });
-      to.addListener('place_changed', function(){
-        var geo = this.getPlace().geometry
-        if (!geo) return true
-        trip.destination = [geo.location.lat(), geo.location.lng()]
-        Trips.create()
-      });
-    }
-
     wayforpay = new Wayforpay();
     var pay = function () {
       wayforpay.run((new WFP),
         function (response) {
-          console.log("Approved")
           setTimeout(function(){
             wayforpay.closeit()
             Cards.create(response)
           }, 1000)
         },
         function (response) {
-          console.log("Declined")
-          console.log(response)
             // on declined
         },
         function (response) {
-          console.log("Processing")
-          console.log(response)
             // on pending or in processing
         }
       );
