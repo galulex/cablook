@@ -40,7 +40,7 @@ class App {
   TripDeclined(trip) {
     UI.step(2)
     localStorage.removeItem('trip')
-    alert('Налажь ми не можемо виконати ваше замовлення.\n Просимо вибачення за незручності')
+    alert('Нажаль ми не можемо виконати ваше замовлення.\n Просимо вибачення за незручності')
   }
 
   autocomplete(input) {
