@@ -15,6 +15,10 @@ UI = {
     return document.getElementById('destination')
   },
 
+  get nissan() {
+    return document.getElementById('nissan')
+  },
+
   step(index = 0) {
     this.fieldsets.forEach(e => e.disabled = true)
     this.inputs.forEach(e => e.value = '')
@@ -31,6 +35,6 @@ UI = {
       Прибуття: <b>${trip.finish_time}</b>
     `
     document.getElementById('cancel').remove()
-    document.getElementById('nissan').className.baseVal = 'nissan gone'
+    if (this.nissan) this.nissan.className.baseVal = 'nissan gone'
   }
 }
