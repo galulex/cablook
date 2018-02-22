@@ -21,7 +21,8 @@ module Operations
             recToken: card.token,
             productName: ['Trip'],
             productPrice: [payment.amount.to_f],
-            productCount: [1]
+            productCount: [1],
+            orderDate: Time.now.to_i,
           )
           response = JSON.parse(hold.body)
 
