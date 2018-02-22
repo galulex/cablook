@@ -29,7 +29,7 @@ UI = {
 
   disableCurrentLink() {
     let a = document.querySelectorAll('[href="'+ window.location.pathname +'"]')[0]
-    if (a) a.className = 'menu-item current'
+    if (a) a.className += ' current'
   },
 
   showTrip(trip) {
