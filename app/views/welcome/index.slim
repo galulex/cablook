@@ -17,4 +17,6 @@ main.welcome.content role='main'
     li= t('.receive')
 
   = inline_svg 'city.svg', class: :city
-  = inline_svg 'nissan.svg', class: :nissan, id: :nissan
+  .city-road
+    = inline_svg 'nissan.svg', class: :nissan, id: :nissan
+    = inline_svg 'road.svg', class: :road

@@ -3,9 +3,9 @@ $green: #19a160;
 $light-green: lighten($green, 5%);
 $purple: #a925ad;
 $yellow: #efcc3a;
-$dark-blue: #322960;
-$grey: #d1d1d1;
 $violet: #312d50;
+$dark-blue: $violet;
+$grey: #d1d1d1;
 $black: #1c1c1c;
 
 $welcome-bg: linear-gradient(rgba($violet, .8), 60%, rgba($green, .8)), url(https://i.imgur.com/cK8S0IY.jpg);

@@ -27,14 +27,21 @@ UI = {
     if (input) input.focus()
   },
 
+  disableCurrentLink() {
+    let a = document.querySelectorAll('[href="'+ window.location.pathname +'"]')[0]
+    if (a) a.className = 'menu-item current'
+  },
+
   showTrip(trip) {
     document.getElementById('state').innerHTML = `
       Вартість: <b>${trip.cost}грн</b></br>
       Відстань: <b>${(trip.distance/1000).toFixed(1)}КМ</b></br>
-      Віправлення: <b>${trip.start_time}</b></br>
+      Відправлення: <b>${trip.start_time}</b></br>
       Прибуття: <b>${trip.finish_time}</b>
     `
     document.getElementById('cancel').remove()
     if (this.nissan) this.nissan.className.baseVal = 'nissan gone'
   }
 }
+
+UI.disableCurrentLink()

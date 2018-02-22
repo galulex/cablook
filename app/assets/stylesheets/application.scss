@@ -49,8 +49,13 @@ b {
   margin-left: -7%;
   min-width: 700px;
 
-  &.white g { stroke: $white; }
-  &.violet g { stroke: $violet; }
+  &.white {
+    g, path, circle { stroke: $white; }
+  }
+
+  &.violet {
+    g, path, circle { stroke: $violet; }
+  }
 }
 
 h1 {

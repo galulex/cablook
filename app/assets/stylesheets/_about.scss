@@ -61,3 +61,16 @@
 .about-section {
   padding: 0;
 }
+
+.city-road {
+  position: relative;
+
+  .road {
+    width: 114%;
+    position: absolute;
+    bottom: 0;
+    top: auto;
+    left: -7%;
+    right: 0;
+  }
+}
