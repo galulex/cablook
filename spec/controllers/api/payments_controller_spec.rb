@@ -7,7 +7,7 @@ describe Api::PaymentsController, type: :controller do
   before do
     request.headers['Auth-Token'] = auth_token
     body = { reasonCode: Constants::Payments::WAYFORPAY_SUCCESS }.to_json
-    allow(Wayforpay::Payments).to receive(:settle) { OpenStruct.new(body: body) }
+    allow(Wayforpay::Payments).to receive(:hold) { OpenStruct.new(body: body) }
   end
 
   describe '#index' do

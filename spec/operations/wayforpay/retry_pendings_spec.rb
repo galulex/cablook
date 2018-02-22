@@ -4,7 +4,7 @@ describe Operations::Wayforpay::RetryPendings do
   let(:card) { Factory[:card, user_id: user.id] }
   let(:wayforpay_body) { { reasonCode: Constants::Payments::WAYFORPAY_SUCCESS }.to_json }
 
-  before { allow(Wayforpay::Payments).to receive(:settle) { OpenStruct.new(body: wayforpay_body) } }
+  before { allow(Wayforpay::Payments).to receive(:hold) { OpenStruct.new(body: wayforpay_body) } }
 
   describe '#call' do
     subject { -> { instance.call } }
@@ -13,7 +13,7 @@ describe Operations::Wayforpay::RetryPendings do
 
     it { is_expected.to change { payment_repository.by_id(payment.id).status }.to(Constants::Payments::SUCCESS) }
     it do
-      expect(Wayforpay::Payments).to receive(:settle).once
+      expect(Wayforpay::Payments).to receive(:hold).once
       subject.call
     end
 
@@ -21,7 +21,7 @@ describe Operations::Wayforpay::RetryPendings do
       let(:card) { Factory[:card] }
 
       it do
-        expect(Wayforpay::Payments).not_to receive(:settle)
+        expect(Wayforpay::Payments).not_to receive(:hold)
         subject.call
       end
 
@@ -30,7 +30,7 @@ describe Operations::Wayforpay::RetryPendings do
         let(:another_user) { Factory[:user] }
 
         it do
-          expect(Wayforpay::Payments).not_to receive(:settle)
+          expect(Wayforpay::Payments).not_to receive(:hold)
           subject.call
         end
       end

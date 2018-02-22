@@ -12,14 +12,18 @@ module Operations
         return unless card&.user_id == user_id
 
         payments.each do |payment|
-          settle = ::Wayforpay::Payments.settle(
-            orderReference: payment.order_reference,
+          order_reference = "#{payment.order_reference}_retry_#{SecureRandom.base58(6)}"
+          hold = ::Wayforpay::Payments.hold(
+            orderReference:  order_reference,
             merchantTransactionType: 'SALE',
-            amount: payment.amount,
+            amount: payment.amount.to_f,
             currency: 'UAH',
-            recToken: card.token
+            recToken: card.token,
+            productName: ['Trip'],
+            productPrice: [payment.amount.to_f],
+            productCount: [1]
           )
-          response = JSON.parse(settle.body)
+          response = JSON.parse(hold.body)
 
           if response['reasonCode'] == Constants::Payments::WAYFORPAY_SUCCESS
             payment_repository.update(payment.id, status: Constants::Payments::SUCCESS)
