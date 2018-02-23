@@ -15,14 +15,14 @@ module Operations
           order_reference = "#{payment.order_reference}_retry_#{SecureRandom.base58(6)}"
           hold = ::Wayforpay::Payments.hold(
             orderReference:  order_reference,
-            merchantTransactionType: 'SALE',
-            amount: payment.amount.to_f,
+            amount: payment.amount.to_s,
             currency: 'UAH',
             recToken: card.token,
             productName: ['Trip'],
-            productPrice: [payment.amount.to_f],
+            productPrice: [payment.amount.to_s],
             productCount: [1],
             orderDate: Time.now.to_i,
+            merchantTransactionType: 'SALE'
           )
           response = JSON.parse(hold.body)
 
