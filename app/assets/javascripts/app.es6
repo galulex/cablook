@@ -1,6 +1,7 @@
 class App {
   constructor() {
     UI.number = localStorage.number || ''
+    UI.disableCurrentLink()
     if (localStorage.trip) {
       this.subscribe()
       ajax('trips/' + localStorage.trip, 'GET', null, trip => {
@@ -52,20 +53,31 @@ class App {
       if (!data) return false
       this.suggestions = data
       data.forEach(l => {
-        input.nextElementSibling.innerHTML += `<li onclick=''><b>${l.structured_formatting.main_text}</b></br>${l.structured_formatting.secondary_text}</li>`
+        input.nextElementSibling.innerHTML += `<li onclick='app.setLocation(this)'><b>${l.structured_formatting.main_text}</b></br>${l.structured_formatting.secondary_text}</li>`
       })
     })
   }
 
   setStart(event) {
     if (!isValid(event) || this.suggestions.length < 1) return false
-    Locations.get(event)
+    Locations.get(event.target)
     UI.destination.focus()
   }
 
   setFinish(event) {
     if (!isValid(event) || this.suggestions.length < 1) return false
-    Locations.get(event, Trips.create)
+    Locations.get(event.target, Trips.create)
+  }
+
+  setLocation(li) {
+    let i = Array.prototype.indexOf.call(li.parentElement.children, li)
+    let input = li.parentElement.previousElementSibling
+    if (input.id == 'departure') {
+      Locations.get(input, i)
+      UI.destination.focus()
+    } else {
+      Locations.get(input, i, Trips.create)
+    }
   }
 }
 

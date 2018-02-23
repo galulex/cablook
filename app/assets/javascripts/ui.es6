@@ -43,5 +43,3 @@ UI = {
     if (this.nissan) this.nissan.className.baseVal = 'nissan gone'
   }
 }
-
-UI.disableCurrentLink()

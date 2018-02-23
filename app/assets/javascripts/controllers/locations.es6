@@ -1,13 +1,13 @@
 Locations = {
-  get(event, callback) {
+  get(input, index = 0, callback) {
     let geo = new google.maps.Geocoder()
-    geo.geocode({ address: app.suggestions[0].description }, result => {
+    geo.geocode({ address: app.suggestions[index].description }, result => {
       if (result.length == 0) return false
       let location = result[0].geometry.location
-      trip[event.target.id] = [location.lat(),location.lng()]
+      trip[input.id] = [location.lat(),location.lng()]
       input.nextElementSibling.innerHTML = ''
       if (callback) callback()
     })
-    event.target.value = app.suggestions[0].description
+    input.value = app.suggestions[index].description
   }
 }
