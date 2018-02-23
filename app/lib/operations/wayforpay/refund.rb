@@ -11,6 +11,8 @@ module Operations
         if payment.status == Constants::Payments::BONUS
           refund_bonus
           update_payment_status
+        elsif payment.status == Constants::Payments::PENDING
+          update_payment_status
         else
           refund_response = JSON.parse(refund_payment.body)
           update_payment_status if refund_response['reasonCode'] == Constants::Payments::WAYFORPAY_SUCCESS
