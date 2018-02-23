@@ -15,12 +15,21 @@ describe Operations::Wayforpay::Refund do
       it { expect(payment_repository.payments.to_a.last.status).to eq(Constants::Payments::REFUND) }
     end
 
-    context 'when smth went wrong' do
-      let(:wayforpay_body) { { reasonCode: '1111' }.to_json }
+    context 'when payment status is pending' do
+      let!(:payment) { Factory[:payment, trip_id: trip.id, status: Constants::Payments::PENDING] }
 
       before { instance.call }
 
-      it { expect(payment_repository.payments.to_a.last.status).to eq(Constants::Payments::PENDING) }
+      it { expect(payment_repository.payments.to_a.last.status).to eq(Constants::Payments::REFUND) }
+    end
+
+    context 'when smth went wrong' do
+      let(:wayforpay_body) { { reasonCode: '1111' }.to_json }
+      let!(:payment) { Factory[:payment, trip_id: trip.id, status: Constants::Payments::HOLD] }
+
+      before { instance.call }
+
+      it { expect(payment_repository.payments.to_a.last.status).to eq(Constants::Payments::HOLD) }
     end
 
     context 'when payment by bonus' do
