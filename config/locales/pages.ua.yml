@@ -16,8 +16,8 @@ ua:
       change_number: Змiнити номер
       sms: Введiть код із SMS
       wrong_code: Неправильний код
-      from: Звідки
-      to: Куди
+      from: Звідки (2 Смілянська)
+      to: Куди (Спорт лайф)
       sign_out: Вийти
       looking_for_driver: Одну хвилнку, підбираємо машинку
   welcome:
