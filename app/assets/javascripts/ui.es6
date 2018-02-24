@@ -11,6 +11,10 @@ UI = {
     return document.querySelectorAll('input')
   },
 
+  get departure() {
+    return document.getElementById('departure')
+  },
+
   get destination() {
     return document.getElementById('destination')
   },

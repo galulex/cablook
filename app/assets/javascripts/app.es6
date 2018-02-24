@@ -48,7 +48,7 @@ class App {
     input.nextElementSibling.innerHTML = ''
     if (input.value.length == 0) return false
     let service = new google.maps.places.AutocompleteService()
-    service.getPlacePredictions({input: input.value, componentRestrictions: {country: 'ua'}, location: new google.maps.LatLng(49.44444, 32.05972), radius: 10}, data => {
+    service.getPlacePredictions({input: input.value, componentRestrictions: {country: 'ua'}, location: new google.maps.LatLng(49.4311119, 31.9791903), radius: 10, strictbounds: true}, data => {
       this.suggestions = []
       if (!data) return false
       this.suggestions = data
@@ -66,18 +66,19 @@ class App {
 
   setFinish(event) {
     if (!isValid(event) || this.suggestions.length < 1) return false
-    Locations.get(event.target, Trips.create)
+    if (!trip.departure) {
+      Locations.get(event.target, 0)
+      UI.departure.focus()
+    } else {
+      Locations.get(event.target, 0, Trips.create)
+    }
   }
 
   setLocation(li) {
     let i = Array.prototype.indexOf.call(li.parentElement.children, li)
     let input = li.parentElement.previousElementSibling
-    if (input.id == 'departure') {
-      Locations.get(input, i)
-      UI.destination.focus()
-    } else {
-      Locations.get(input, i, Trips.create)
-    }
+    input.value = this.suggestions[i].structured_formatting.main_text + ' '
+    input.focus()
   }
 }
 
