@@ -40,5 +40,18 @@ describe Operations::Wayforpay::Refund do
 
       it { expect(bonus_trip_repository.by_id(bonus_trip.id).status).to eq(Constants::BonusTrip::NEW) }
     end
+
+    context 'when fake taxi' do
+      let!(:payment) { Factory[:payment, trip_id: trip.id, status: Constants::Payments::HOLD, card_id: card.id] }
+      let(:card) { Factory[:card] }
+      let(:instance) { described_class.new(trip.id, fake: true) }
+
+      before { allow(Wayforpay::Payments).to receive(:hold) }
+
+      it do
+        expect(Wayforpay::Payments).to receive(:hold).once
+        instance.call
+      end
+    end
   end
 end

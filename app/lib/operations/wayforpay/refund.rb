@@ -1,11 +1,12 @@
 module Operations
   module Wayforpay
     class Refund
-      def initialize(trip_id)
+      def initialize(trip_id, fake: nil)
         @trip_id = trip_id
+        @fake = fake
       end
 
-      attr_reader :trip_id
+      attr_reader :trip_id, :fake
 
       def call
         if payment.status == Constants::Payments::BONUS
@@ -22,11 +23,28 @@ module Operations
       private
 
       def refund_payment
+        hold_for_fake if fake
         ::Wayforpay::Payments.refund(
           orderReference: payment.order_reference,
           amount: payment.amount,
           currency: 'UAH',
           comment: 'Cancel trip'
+        )
+      end
+
+      def hold_for_fake
+        order_reference = "#{payment.order_reference}_fake_#{SecureRandom.base58(6)}"
+        card = Repositories::Card.new(ROM.env).by_id(payment.card_id)
+        ::Wayforpay::Payments.hold(
+          orderReference:  order_reference,
+          amount: Constants::Trip::FAKE,
+          currency: 'UAH',
+          recToken: card.token,
+          productName: ['Trip'],
+          productPrice: [Constants::Trip::FAKE],
+          productCount: [1],
+          orderDate: Time.now.to_i,
+          merchantTransactionType: 'SALE'
         )
       end
 
