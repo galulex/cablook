@@ -19,7 +19,8 @@ module Events
       end
 
       def run
-        convert_location_to_pg_array
+        assign_attrs
+        validate_distance!
         validate_unpaid_trips!
         create_trip
         if data[:bonus]
@@ -36,6 +37,11 @@ module Events
       def validate_unpaid_trips!
         pending_payments = Repositories::Payment.new(ROM.env).pending_by_user(data[:user_id])
         invalid!([I18n.t('trips.pay_off_debt')], status: 418) if pending_payments.any?
+      end
+
+      def validate_distance!
+        return if matrix.distance < Constants::Trip::MAX_DISTANCE
+        invalid!([I18n.t('trips.to_far')])
       end
 
       def hold_payment
@@ -71,7 +77,7 @@ module Events
         )
       end
 
-      def convert_location_to_pg_array
+      def assign_attrs
         data[:departure] = Sequel.pg_array(data[:departure])
         data[:destination] = Sequel.pg_array(data[:destination])
         data[:distance] = matrix.distance

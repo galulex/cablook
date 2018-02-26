@@ -20,11 +20,11 @@
             },
             {
                "distance" : {
-                  "text" : "30.3 km",
-                  "value" : 30345
+                  "text" : "7.3 km",
+                  "value" : 7305
                },
                "duration" : {
-                  "text" : "32 mins",
+                  "text" : "12 mins",
                   "value" : 1924
                },
                "status" : "OK"
@@ -35,22 +35,22 @@
          "elements" : [
             {
                "distance" : {
-                  "text" : "21.2 km",
-                  "value" : 21246
+                  "text" : "7.2 km",
+                  "value" : 7246
                },
                "duration" : {
                   "text" : "22 mins",
-                  "value" : 1315
+                  "value" : 2315
                },
                "status" : "OK"
             },
             {
                "distance" : {
-                  "text" : "9.1 km",
-                  "value" : 9103
+                  "text" : "5.1 km",
+                  "value" : 5103
                },
                "duration" : {
-                  "text" : "15 mins",
+                  "text" : "5 mins",
                   "value" : 878
                },
                "status" : "OK"

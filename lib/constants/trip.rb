@@ -14,6 +14,7 @@ module Constants
     FEE = 0.025
     LANDING = 1_000
     MIN_PRICE = 3_000
+    MAX_DISTANCE = 40_000
 
     EXPIRES_IN = 1.minute.freeze
 
