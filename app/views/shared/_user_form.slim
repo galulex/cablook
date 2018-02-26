@@ -16,7 +16,7 @@ form.form
       input.form__location-field#departure type=:text required=true placeholder= t('.from') oninput='app.autocomplete(this)' onkeydown='app.setStart(event)'
       ul.form__location-list data-list=true
     .form__location
-      input.form__location-field#destination type=:text required=true placeholder= t('.to') oninput='app.autocomplete(this)' onkeydown='app.setFinish(event)'
+      input.form__location-field#destination type=:text disabled=true required=true placeholder= t('.to') oninput='app.autocomplete(this)' onkeydown='app.setFinish(event)'
       ul.form__location-list data-list=true
   fieldset.form__fieldset disabled=true
     div#state.loader

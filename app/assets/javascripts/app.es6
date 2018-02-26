@@ -60,7 +60,8 @@ class App {
 
   setStart(event) {
     if (!isValid(event) || this.suggestions.length < 1) return false
-    Locations.get(event.target)
+    Locations.get(event.target, 0)
+    UI.destination.disabled = false
     UI.destination.focus()
   }
 
@@ -105,3 +106,6 @@ let isValid = function(event) {
 }
 
 var app = new App
+
+// IOS safari zoom hack
+document.body.addEventListener('gesturestart', (e) => e.preventDefault())
