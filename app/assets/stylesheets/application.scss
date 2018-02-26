@@ -6,6 +6,7 @@
 @import 'why';
 @import 'benefits';
 @import 'faq';
+@import 'contacts';
 
 * {
   box-sizing: border-box;
@@ -36,10 +37,9 @@ b {
   background: $welcome-bg;
 
   ul {
-    display: inline-block;
-    min-width: 380px;
+    max-width: 320px;
     color: white;
-    margin: 0;
+    margin: 0 auto;
   }
   li { text-align: left; }
 }
@@ -103,6 +103,8 @@ input#menu:checked ~ nav {
 
 input#menu:checked ~ main {
   margin-left: 42%;
+  overflow: hidden;
+  max-height: 100vh;
 }
 
 input#menu:checked + label {
