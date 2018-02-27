@@ -4,7 +4,7 @@ Rails.application.configure do
     'http://cablook.herokuapp.com',
     'https://staging.cablook.taxi',
     'http://staging.cablook.taxi',
-    'http://staging.cablook.taxi/',
+    'https://staging.cablook.taxi/',
     'https://cablook.taxi',
     'http://cablook.taxi'
   ]

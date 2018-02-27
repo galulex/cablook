@@ -4,7 +4,8 @@ class DriverMapChannel < ApplicationCable::Channel
   end
 
   def sos(data)
-    ActionCable.server.broadcast(Constants::BroadcastActions::SOS, data)
+    data['action'] = Constants::BroadcastActions::SOS
+    ActionCable.server.broadcast(Constants::Channels::DRIVER_MAP, data)
   end
 
   def send_location(data)
