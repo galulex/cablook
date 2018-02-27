@@ -5,9 +5,15 @@ main.content.contacts
     | LOOK
   h1= t('.title')
 
-  a href='mailto:contact@cablook.taxi' ✉ contact@cablook.taxi
+  a.email href='mailto:contact@cablook.taxi'
+    => inline_svg :email, class: :icon
+    ' contact@cablook.taxi
   br
-  a href='tel:+380932225665' ✆ +30(93)222-5665
+  a href='tel:+380932225665'
+    => inline_svg :phone, class: :icon
+    ' (093) 222-5665
   br
-  a href='tel:+380502225665' ✆ +30(50)222-5665
+  a href='tel:+380502225665'
+    => inline_svg :phone, class: :icon
+    ' (050) 222-5665
   address= t('.address')

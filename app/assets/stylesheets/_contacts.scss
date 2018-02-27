@@ -1,8 +1,13 @@
 .contacts {
   a {
-    color: $black;
+    font-weight: 400;
+    color: $green;
     padding: 5px;
-    display: inline-block;
-    font-size: 1.4rem;
+    font-size: 1.7rem;
+    text-decoration: none;
+    display: block;
+    &.email {
+      font-size: 1.4rem;
+    }
   }
 }

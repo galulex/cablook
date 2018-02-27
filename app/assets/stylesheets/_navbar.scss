@@ -17,7 +17,7 @@ nav {
 a.contacts {
   color: $white;
   font-weight: 400;
-  padding: 5px 0 5px 10%;
+  padding: 5% 10%;
   background: $green;
   width: 100%;
   display: block;
@@ -245,6 +245,7 @@ nav button:hover {
   &__rights {
     background: $green;
     font-size: .5rem;
+    padding: 5px 0 5px 10%;
   }
 }
 
