@@ -19,6 +19,12 @@ describe Events::Trips::Cancel do
 
     context 'and refund payment job is running' do
       it { is_expected.to have_enqueued_job(Jobs::PaymentRefund).with(trip.id) }
+
+      context 'when fake trip' do
+        let(:trip) { Factory[:trip, status: Constants::Trip::WAITING_CLIENT] }
+
+        it { is_expected.to have_enqueued_job(Jobs::PaymentRefund).with(trip.id, true) }
+      end
     end
 
     context 'and broadcast to channel' do

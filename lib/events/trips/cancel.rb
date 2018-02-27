@@ -10,7 +10,7 @@ module Events
       end
 
       def run
-        if trip.status.in?([Constants::Trip::PENDING, Constants::Trip::ON_THE_WAY])
+        if trip.status.in?([Constants::Trip::PENDING, Constants::Trip::ON_THE_WAY, Constants::Trip::WAITING_CLIENT])
           update_trip
           delete_from_jobs
           refund_payment
@@ -45,7 +45,11 @@ module Events
       end
 
       def refund_payment
-        Jobs::PaymentRefund.set(wait: 1.minute).perform_later(data[:trip_id])
+        if trip.status == Constants::Trip::WAITING_CLIENT
+          Jobs::PaymentRefund.set(wait: 1.minute).perform_later(data[:trip_id], true)
+        else
+          Jobs::PaymentRefund.set(wait: 1.minute).perform_later(data[:trip_id])
+        end
       end
 
       def trip
