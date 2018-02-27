@@ -11,6 +11,7 @@ gem 'rails', '~> 5.1.3'
 
 gem 'activeadmin'
 gem 'activejob-cancel'
+gem 'autoprefixer-rails'
 gem 'bcrypt', '~> 3.1.7'
 gem 'dry-validation'
 gem 'google_distance_matrix'
