@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180212102035) do
+ActiveRecord::Schema.define(version: 20180226152931) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -76,7 +76,7 @@ ActiveRecord::Schema.define(version: 20180212102035) do
 
   create_table "subscriptions", force: :cascade do |t|
     t.string "email"
-    t.datetime "created_at", default: -> { "now()" }
+    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }
   end
 
   create_table "trip_jobs", force: :cascade do |t|
@@ -98,7 +98,7 @@ ActiveRecord::Schema.define(version: 20180212102035) do
     t.bigint "car_id"
     t.bigint "driver_id"
     t.bigint "user_id"
-    t.datetime "created_at", default: -> { "now()" }
+    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }
     t.integer "distance"
     t.integer "duration"
     t.datetime "start_at"
@@ -119,6 +119,7 @@ ActiveRecord::Schema.define(version: 20180212102035) do
     t.string "verification_token"
     t.string "confirmation_token"
     t.string "referral_code"
+    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }
   end
 
   add_foreign_key "bonus_trips", "trips"
