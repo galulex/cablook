@@ -25,6 +25,12 @@ describe Events::Trips::Cancel do
 
         it { is_expected.to have_enqueued_job(Jobs::PaymentRefund).with(trip.id, true) }
       end
+
+      context 'when payment is refund' do
+        let!(:payment) { Factory[:payment, trip_id: trip.id, status: Constants::Payments::REFUND] }
+
+        it { is_expected.not_to have_enqueued_job(Jobs::PaymentRefund) }
+      end
     end
 
     context 'and broadcast to channel' do

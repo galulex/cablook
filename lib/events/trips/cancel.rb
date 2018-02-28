@@ -45,15 +45,20 @@ module Events
       end
 
       def refund_payment
+        return if payment&.status == Constants::Payments::REFUND
         if trip.status == Constants::Trip::WAITING_CLIENT
-          Jobs::PaymentRefund.set(wait: 1.minute).perform_later(data[:trip_id], true)
+          Jobs::PaymentRefund.perform_later(data[:trip_id], true)
         else
-          Jobs::PaymentRefund.set(wait: 1.minute).perform_later(data[:trip_id])
+          Jobs::PaymentRefund.perform_later(data[:trip_id])
         end
       end
 
       def trip
         @trip ||= Repositories::Trip.new(ROM.env).by_id(data[:trip_id])
+      end
+
+      def payment
+        @payment ||= Repositories::Payment.new(ROM.env).by_trip(trip.id)
       end
     end
   end
