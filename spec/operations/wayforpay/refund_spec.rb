@@ -15,6 +15,16 @@ describe Operations::Wayforpay::Refund do
       it { expect(payment_repository.payments.to_a.last.status).to eq(Constants::Payments::REFUND) }
     end
 
+    context 'when payment not found' do
+      let!(:payment) { Factory[:payment] }
+
+      it do
+        expect(Wayforpay::Payments).not_to receive(:hold)
+        expect(instance).not_to receive(:update_payment_status)
+        instance.call
+      end
+    end
+
     context 'when payment status is pending' do
       let!(:payment) { Factory[:payment, trip_id: trip.id, status: Constants::Payments::PENDING] }
 
