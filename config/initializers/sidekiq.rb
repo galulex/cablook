@@ -14,6 +14,6 @@ end
 Sidekiq::Web.set :session_secret, ENV['SECRET_KEY_BASE']
 
 Sidekiq::Web.use Rack::Auth::Basic, 'Protected Area' do |username, password|
-  Rack::Utils.secure_compare(::Digest::SHA256.hexdigest(username), ::Digest::SHA256.hexdigest(ENV['SIDEKIQ_USERNAME'])) &
-    Rack::Utils.secure_compare(::Digest::SHA256.hexdigest(password), ::Digest::SHA256.hexdigest(ENV['SIDEKIQ_PASSWORD']))
+  Rack::Utils.secure_compare(::Digest::SHA256.hexdigest(username), ::Digest::SHA256.hexdigest(ENV['SIDEKIQ_USERNAME'] || Rails.application.secrets[:sidekiq_username])) &
+    Rack::Utils.secure_compare(::Digest::SHA256.hexdigest(password), ::Digest::SHA256.hexdigest(ENV['SIDEKIQ_PASSWORD'] || Rails.application.secrets[:sidekiq_password]))
 end
