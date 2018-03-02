@@ -14,7 +14,8 @@ module Events
           update_trip
           delete_from_jobs
           refund_payment
-          broadcast_trip_unavailable
+          broadcast_unavailable_to_map
+          broadcast_unavailable_to_trip
         else
           invalid!([I18n.t('trips.cancel_impossible')])
         end
@@ -34,7 +35,16 @@ module Events
         Jobs::SearchCarForTrip.cancel(trip_job.activejob_id) if trip_job
       end
 
-      def broadcast_trip_unavailable
+      def refund_payment
+        return if payment&.status == Constants::Payments::REFUND
+        if trip.status == Constants::Trip::WAITING_CLIENT
+          Jobs::PaymentRefund.perform_later(data[:trip_id], true)
+        else
+          Jobs::PaymentRefund.perform_later(data[:trip_id])
+        end
+      end
+
+      def broadcast_unavailable_to_map
         ActionCable.server.broadcast(
           Constants::Channels::DRIVER_MAP,
           action: Constants::BroadcastActions::TRIP_UNAVAILABLE,
@@ -44,13 +54,12 @@ module Events
         )
       end
 
-      def refund_payment
-        return if payment&.status == Constants::Payments::REFUND
-        if trip.status == Constants::Trip::WAITING_CLIENT
-          Jobs::PaymentRefund.perform_later(data[:trip_id], true)
-        else
-          Jobs::PaymentRefund.perform_later(data[:trip_id])
-        end
+      def broadcast_unavailable_to_trip
+        ActionCable.server.broadcast(
+          "#{Constants::Channels::TRIP}_#{trip.id}",
+          action: Constants::BroadcastActions::TRIP_UNAVAILABLE,
+          trip_id: data[:trip_id]
+        )
       end
 
       def trip
