@@ -27,14 +27,10 @@ module CabLook
     config.active_job.queue_adapter = :sidekiq
     config.assets.precompile += %w( fonts.css )
 
-    if File.exist?('config/secrets.yml')
-      YAML.safe_load(File.read('config/secrets.yml'))[Rails.env].each do |key, value|
-        ENV[key.upcase] = value unless ENV[key.upcase]
-      end
-    end
-
     config.i18n.default_locale = :ua
     config.i18n.fallbacks = true
     config.i18n.fallbacks = [:en]
   end
 end
+
+Rails.application.secrets.each { |key, value| ENV[key.to_s.upcase] ||= value }
