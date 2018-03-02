@@ -9,7 +9,7 @@ module Events
     end
 
     def run
-      Jobs::Sms.perform_later(data[:phone_number], code)
+      Jobs::Sms.perform_later(data[:phone_number], sms_body)
       update_code
       user || create_user
     end
@@ -34,6 +34,10 @@ module Events
 
     def code
       @code ||= rand(1000..9999)
+    end
+
+    def sms_body
+      I18n.t('verifications.number.send_verification_token', token: code)
     end
   end
 end

@@ -10,8 +10,9 @@ class Users < ROM::Relation[:sql]
     attribute :referral_code, Types::String
 
     associations do
-      has_many :trips
       has_many :cards
+      has_many :trips
+      has_one :device
     end
 
     primary_key :id

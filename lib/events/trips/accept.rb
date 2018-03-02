@@ -17,6 +17,7 @@ module Events
           update_car_status
           broadcast_accepted_trip
           broadcast_accepted_trip_to_trip_channel
+          send_sms
         else
           broadcast_with_error
         end
@@ -59,6 +60,15 @@ module Events
           driver: driver,
           trip: Presenters::Trips::Detailed.new(trip)
         )
+      end
+
+      def send_sms
+        user = Repositories::User.new(ROM.env).by_id_with_device(trip.user_id)
+        Jobs::Sms.perform_later(user.phone_number, sms_body) unless user.device
+      end
+
+      def sms_body
+        I18n.t('sms.car_found', time: matrix.duration.seconds.since.strftime('%H:%M'))
       end
 
       def broadcast_with_error
