@@ -26,6 +26,9 @@ Rails.application.routes.draw do
       resources :sessions, only: :create do
         delete :destroy, on: :collection
       end
+      resources :trips, only: [] do
+        patch 'cancel'
+      end
     end
 
     namespace :verifications do
