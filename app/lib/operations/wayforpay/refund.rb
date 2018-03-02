@@ -9,6 +9,7 @@ module Operations
       attr_reader :trip_id, :fake
 
       def call
+        return unless payment
         if payment.status == Constants::Payments::BONUS
           refund_bonus
           update_payment_status
