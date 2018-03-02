@@ -35,3 +35,5 @@ en:
     disable_for_yourself: Can't create bonus trip for yourself
     already_have_referrer: You already have referrer
     no_available_bonus: You don't have available bonus trips
+  sms:
+    car_found: "Car found. Wait at %{time}"

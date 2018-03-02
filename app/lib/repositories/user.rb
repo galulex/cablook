@@ -29,5 +29,9 @@ module Repositories
     def by_referral_code(referral_code)
       users.where(referral_code: referral_code).one
     end
+
+    def by_id_with_device(user_id)
+      users.combine(:device).by_pk(user_id).one
+    end
   end
 end

@@ -11,6 +11,10 @@ module RepositoryInstances
     @card_repository ||= Repositories::Card.new(ROM.env)
   end
 
+  def device_repository
+    @device_repository ||= Repositories::Device.new(ROM.env)
+  end
+
   def driver_repository
     @driver_repository ||= Repositories::Driver.new(ROM.env)
   end
