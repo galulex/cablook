@@ -36,7 +36,7 @@ describe Events::Trips::Cancel do
     context 'and broadcast to channel' do
       after { subject.call }
 
-      it { expect(ActionCable.server).to receive(:broadcast).once }
+      it { expect(ActionCable.server).to receive(:broadcast).twice }
     end
 
     context 'when trip is on the way' do
