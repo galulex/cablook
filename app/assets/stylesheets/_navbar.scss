@@ -80,6 +80,10 @@ nav input {
   &:placeholder-shown {
     border-color: $light-green;
   }
+
+  &[disabled] {
+    opacity: 0.5;
+  }
 }
 
 nav label {

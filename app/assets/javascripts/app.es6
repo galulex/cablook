@@ -79,6 +79,7 @@ class App {
     let i = Array.prototype.indexOf.call(li.parentElement.children, li)
     let input = li.parentElement.previousElementSibling
     input.value = this.suggestions[i].structured_formatting.main_text + ' '
+    this.autocomplete(input)
     input.focus()
   }
 }
