@@ -6,6 +6,7 @@ ActiveAdmin.setup do |config|
   config.batch_actions = true
   config.localize_format = :long
   config.breadcrumb = proc { [] }
+  config.before_action :set_admin_locale
 end
 
 class ActiveAdmin::BaseController

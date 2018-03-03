@@ -25,8 +25,9 @@ module CabLook
     config.eager_load_paths << "#{Rails.root}/lib"
 
     config.active_job.queue_adapter = :sidekiq
-    config.assets.precompile += %w( fonts.css )
+    config.assets.precompile += %w[fonts.css]
 
+    config.i18n.available_locales = %w[en ua ru]
     config.i18n.default_locale = :ua
     config.i18n.fallbacks = true
     config.i18n.fallbacks = [:en]
