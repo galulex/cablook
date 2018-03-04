@@ -6,6 +6,7 @@ Rails.application.configure do
     'http://staging.cablook.taxi',
     'https://staging.cablook.taxi/',
     'https://cablook.taxi',
+    'https://cablook.taxi/',
     'http://cablook.taxi'
   ]
 
