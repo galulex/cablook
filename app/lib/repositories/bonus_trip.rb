@@ -1,6 +1,6 @@
 module Repositories
   class BonusTrip < ROM::Repository[:bonus_trips]
-    commands :create, update: :by_pk
+    commands :create, update: :by_pk, delete: :by_pk
 
     def by_id(id)
       bonus_trips.by_pk(id).one

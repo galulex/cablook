@@ -12,7 +12,7 @@ Rails.application.routes.draw do
     resources :payments, only: %i[index] do
       post 'retry_pendings', on: :collection
     end
-    resources :referrals, only: %i[create]
+    resources :referrals, only: %i[index create]
     resources :subscriptions, only: %i[create]
     resources :trips, only: %i[index show create] do
       patch 'cancel'

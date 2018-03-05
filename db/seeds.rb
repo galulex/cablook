@@ -12,7 +12,7 @@ user_data = [
   { phone_number: '+380990000004', encrypted_password: password, auth_token: token },
   { phone_number: '+380990000005', encrypted_password: password, auth_token: token },
 ]
-user_data.each { |data, index| Repositories::User.new(ROM.env).create(data.merge(referal_code: "rf_#{i}")) }
+user_data.each { |data, index| Repositories::User.new(ROM.env).create(data.merge(referral_code: SecureRandom.base58(6).upcase)) }
 
 puts '============================='
 puts 'Users created'
