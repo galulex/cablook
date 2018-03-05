@@ -15,6 +15,7 @@ module Constants
     LANDING = 1_000
     MIN_PRICE = 3_000
     MAX_DISTANCE = 40_000
+    MAX_BONUS_DISTANCE = 10_000
     FAKE = 10
 
     EXPIRES_IN = 1.minute.freeze

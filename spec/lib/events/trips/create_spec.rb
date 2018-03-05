@@ -51,11 +51,19 @@ describe Events::Trips::Create do
       let!(:bonus_trip) { Factory[:bonus_trip, user_id: user.id, status: Constants::BonusTrip::NEW] }
       let(:data) { trip_params.merge(bonus: true) }
 
+      before { allow_any_instance_of(SearchEngine::Matrix).to receive(:distance) { 5_000 } }
+
       it { is_expected.to change { payment_repository.payments.count }.by(+1) }
       it { is_expected.to change { bonus_trip_repository.by_id(bonus_trip.id).status }.to(Constants::BonusTrip::USED) }
 
       context 'but bonus was used before' do
         before { bonus_trip_repository.update(bonus_trip.id, status: Constants::BonusTrip::USED) }
+
+        it { is_expected.to raise_error(Events::InvalidParamsError) }
+      end
+
+      context 'when bonus more than 10 km' do
+        before { allow_any_instance_of(SearchEngine::Matrix).to receive(:distance) { 15_000 } }
 
         it { is_expected.to raise_error(Events::InvalidParamsError) }
       end
