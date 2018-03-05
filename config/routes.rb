@@ -22,11 +22,12 @@ Rails.application.routes.draw do
     namespace :drivers_app do
       resources :cars, only: :index
       patch 'assign_car', to: 'assign_car#update'
+      resources :maps, only: %i[index]
       post 'sign_up', to: 'registrations#create'
       resources :sessions, only: :create do
         delete :destroy, on: :collection
       end
-      resources :trips, only: [] do
+      resources :trips, only: %i[index] do
         patch 'cancel'
       end
     end
