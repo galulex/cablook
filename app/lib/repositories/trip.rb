@@ -33,5 +33,9 @@ module Repositories
     def count_of_finished_for_user(user_id)
       trips.where(user_id: user_id, status: Constants::Trip::FINISHED).count
     end
+
+    def pending
+      trips.where(status: Constants::Trip::PENDING).to_a
+    end
   end
 end
