@@ -24,6 +24,7 @@ module Events
         validate_unpaid_trips!
         create_trip
         if data[:bonus]
+          validate_bonus!
           pay_by_bonus
         else
           hold_payment
@@ -44,23 +45,23 @@ module Events
         invalid!([I18n.t('trips.to_far')])
       end
 
+      def validate_bonus!
+        return if bonus_trips.any? && matrix.distance < Constants::Trip::MAX_BONUS_DISTANCE
+        invalid!(I18n.t('bonus_trips.no_available_bonus'))
+      end
+
       def hold_payment
         Jobs::PaymentHold.perform_later(@trip.id, card_id)
       end
 
       def pay_by_bonus
-        bonus_trips = Repositories::BonusTrip.new(ROM.env).available_by_user(data[:user_id])
-        if bonus_trips.any?
-          Repositories::Payment.new(ROM.env).create(
-            status: Constants::Payments::BONUS,
-            amount: 0,
-            trip_id: @trip.id,
-            user_id: data[:user_id]
-          )
-          Repositories::BonusTrip.new(ROM.env).update(bonus_trips.first.id, status: Constants::BonusTrip::USED, trip_id: @trip.id)
-        else
-          invalid!(I18n.t('bonus_trips.no_available_bonus'))
-        end
+        Repositories::Payment.new(ROM.env).create(
+          status: Constants::Payments::BONUS,
+          amount: 0,
+          trip_id: @trip.id,
+          user_id: data[:user_id]
+        )
+        Repositories::BonusTrip.new(ROM.env).update(bonus_trips.first.id, status: Constants::BonusTrip::USED, trip_id: @trip.id)
       end
 
       def create_trip
@@ -83,6 +84,10 @@ module Events
         data[:distance] = matrix.distance
         data[:duration] = matrix.duration
         data[:cost] = cost
+      end
+
+      def bonus_trips
+        @bonus_trips ||= Repositories::BonusTrip.new(ROM.env).available_by_user(data[:user_id])
       end
 
       def matrix
