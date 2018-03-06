@@ -10,6 +10,7 @@ module Events
       def run
         update_car_status_to_offline
         regenerate_auth_token_for_driver
+        broadcast_to_driver_map
       end
 
       private
@@ -26,6 +27,15 @@ module Events
           driver.id,
           auth_token: SecureRandom.base58(24),
           car_id: nil
+        )
+      end
+
+      def broadcast_to_driver_map
+        ActionCable.server.broadcast(
+          Constants::Channels::DRIVER_MAP,
+          action: Constants::BroadcastActions::DRIVER_SIGN_OUT,
+          driver_id: driver.id,
+          car_id: driver.car_id
         )
       end
 

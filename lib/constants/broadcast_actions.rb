@@ -1,5 +1,6 @@
 module Constants
   module BroadcastActions
+    DRIVER_SIGN_OUT   = 'DriverSignOut'.freeze
     SEND_LOCATION     = 'SendLocation'.freeze
     SOS               = 'SOS'.freeze
     TRIP_ASSIGNED     = 'TripAssigned'.freeze
