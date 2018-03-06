@@ -109,6 +109,8 @@ input#menu:checked ~ main {
   margin-left: 42%;
   overflow: hidden;
   max-height: 100vh;
+  position: fixed;
+  top: 0;
 }
 
 input#menu:checked + label {
@@ -243,4 +245,14 @@ input#menu:checked + label:before {
   display: inline-block;
   margin: 10px 0;
   display: none;
+}
+
+@media only screen and (min-width: 768px) {
+  .ribbon {
+    position: absolute;
+    top: 10%;
+    right: -3%;
+    width: 35%;
+    max-width: 500px;
+  }
 }

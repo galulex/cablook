@@ -5,6 +5,7 @@ main.welcome.content role='main'
     | LOOK
   h1.title= t('.title')
   label.col-12.btn for='menu' = t('order')
+  div= inline_svg 'ribbon.svg', class: :ribbon
   br
   a.pd href='#' style='opacity: 0.2; pointer-events: none;'
     = inline_svg 'applestore.svg', class: 'icon-2x'
