@@ -3,4 +3,4 @@
 User-agent: *
 Disallow: /assets/
 
-Sitemap: https://cablook.taxi/shared/sitemap.xml.gz
+Sitemap: https://cablook.taxi/sitemap.xml.gz
