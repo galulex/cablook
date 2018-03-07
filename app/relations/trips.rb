@@ -36,7 +36,7 @@ class Trips < ROM::Relation[:sql]
   end
 
   def detailed
-    select_append(cars[:number].as(:car_number), drivers[:name].as(:driver_name))
+    select_append(cars[:number].as(:car_number), drivers[:name].as(:driver_name), drivers[:name].as(:driver_phone_number))
       .left_join(:cars, id: Sequel[:trips][:car_id])
       .left_join(:drivers, id: Sequel[:trips][:driver_id])
   end

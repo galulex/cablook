@@ -3,4 +3,5 @@ Factory.define(:driver) do |f|
   f.username { fake(:lorem, :word) }
   f.encrypted_password BCrypt::Password.create('12341234')
   f.auth_token { fake(:internet, :password) }
+  f.phone_number { "+#{fake(:number, :number, 12)}" }
 end
