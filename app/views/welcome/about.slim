@@ -1,5 +1,9 @@
 main.content.about
-  = inline_svg 'logo.svg', class: 'black-logo'
+  a href=root_path
+    = inline_svg 'logo.svg', class: 'black-logo'
+    div.logo-title
+      b CAB
+      | LOOK
   h1= t('.title')
   ul.about-section
     - I18n.t('welcome.index.logos').each do |key, value|

@@ -1,8 +1,9 @@
 main.content.why
-  = inline_svg 'logo.svg', class: 'black-logo'
-  div.logo-title
-    b CAB
-    | LOOK
+  a href=root_path
+    = inline_svg 'logo.svg', class: 'black-logo'
+    div.logo-title
+      b CAB
+      | LOOK
   h2= t('.why')
   h1= t('.title')
   ul.benefits.odd
