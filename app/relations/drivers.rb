@@ -5,6 +5,7 @@ class Drivers < ROM::Relation[:sql]
     attribute :username, Types::String
     attribute :encrypted_password, Types::String
     attribute :auth_token, Types::String
+    attribute :phone_number, Types::String
 
     attribute :car_id, Types::ForeignKey(:cars)
 

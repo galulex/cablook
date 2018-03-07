@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180301123632) do
+ActiveRecord::Schema.define(version: 20180307142836) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -54,6 +54,7 @@ ActiveRecord::Schema.define(version: 20180301123632) do
     t.string "encrypted_password"
     t.string "auth_token"
     t.bigint "car_id"
+    t.string "phone_number"
     t.index ["car_id"], name: "index_drivers_on_car_id"
   end
 
