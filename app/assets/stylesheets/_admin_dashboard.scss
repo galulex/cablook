@@ -1,0 +1,26 @@
+.dashboard {
+  display: flex;
+}
+
+.map {
+  height: 66vh;
+  width: 80%;
+}
+
+.trips {
+  list-style: none;
+  padding: 0 10px;
+  width: 20%;
+
+  &__card {
+    box-shadow: 0 2px 5px 0 rgba(0,0,0,0.16), 0 2px 10px 0 rgba(0,0,0,0.12);
+    margin-bottom: 10px;
+    padding: 10px;
+  }
+}
+
+.marker {
+  background-image: asset-url('car-black.svg');
+  height: 25px;
+  width: 31px;
+}

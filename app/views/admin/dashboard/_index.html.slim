@@ -1,13 +1,27 @@
 script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.43.0/mapbox-gl.js'
 link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.43.0/mapbox-gl.css' rel='stylesheet'
 
-#map style='width: 80%; height: 66vh;'
+.dashboard data-page='dashboard'
+  .map#map
+  ul.trips
+    - @trips.each do |trip|
+      li.trips__card
+        .field
+          strong' Status:
+          span=Constants::Trip::STATUS_CODES[trip.status]
+        .field
+          strong' Departure:
+          span=trip.departure_address
+        .field
+          strong' Destination:
+          span=trip.destination_address
+        .field
+          strong' Cost:
+          span=trip.cost
+        .field
+          strong' User:
+          span=trip.user.phone_number
 
-javascript:
-  mapboxgl.accessToken = 'pk.eyJ1IjoiYnJ1Y2VsaWF0b3IiLCJhIjoiY2oxcTJ5dDNzMDA2ajMybnR6M3V5cGVubiJ9.qjyqnH72UUVnsaY63OzMGg';
-  var map = new mapboxgl.Map({
-      container: 'map',
-      style: 'mapbox://styles/mapbox/streets-v9',
-      center: [32.05, 49.43],
-      zoom: 12
-  });
+
+- @cars.each do |car|
+  div.js-car data-info=car.to_json
