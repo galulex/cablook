@@ -37,7 +37,7 @@ function init() {
 function subscribe() {
   return this.ActionCable.createConsumer().subscriptions.create(
     { channel: 'DriverMapChannel' },
-    { received: data => { if (data.action === 'SendLocation') { this.sendLocation(data) } } }
+    { received: function(data) { if (data.action === 'SendLocation') { sendLocation(data) } } }
   )
 }
 
