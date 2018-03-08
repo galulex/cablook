@@ -12,19 +12,7 @@ module Operations
         return unless card&.user_id == user_id
 
         payments.each do |payment|
-          order_reference = "#{payment.order_reference}_retry_#{SecureRandom.base58(6)}"
-          hold = ::Wayforpay::Payments.hold(
-            orderReference:  order_reference,
-            amount: payment.amount.to_s,
-            currency: 'UAH',
-            recToken: card.token,
-            productName: ['Trip'],
-            productPrice: [payment.amount.to_s],
-            productCount: [1],
-            orderDate: Time.now.to_i,
-            merchantTransactionType: 'SALE'
-          )
-          response = JSON.parse(hold.body)
+          response = retry_pay(payment)
 
           if response['reasonCode'] == Constants::Payments::WAYFORPAY_SUCCESS
             payment_repository.update(payment.id, status: Constants::Payments::SUCCESS)
@@ -33,6 +21,22 @@ module Operations
       end
 
       private
+
+      def retry_pay(payment)
+        order_reference = "#{payment.order_reference}_retry_#{SecureRandom.base58(6)}"
+        hold = ::Wayforpay::Payments.hold(
+          orderReference:  order_reference,
+          amount: payment.amount.to_s,
+          currency: 'UAH',
+          recToken: card.token,
+          productName: ['Trip'],
+          productPrice: [payment.amount.to_s],
+          productCount: [1],
+          orderDate: Time.now.to_i,
+          merchantTransactionType: 'SALE'
+        )
+        JSON.parse(hold.body)
+      end
 
       def card
         @card ||= Repositories::Card.new(ROM.env).by_id(card_id)
