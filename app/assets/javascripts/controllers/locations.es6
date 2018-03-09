@@ -9,5 +9,6 @@ Locations = {
       if (callback) callback()
     })
     input.value = app.suggestions[index].description
+    input.disabled = false
   }
 }

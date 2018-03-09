@@ -34,6 +34,9 @@ class App {
     )
   }
 
+  TripUnavailable(data) {
+  }
+
   TripAccepted(data) {
     UI.showTrip(data.trip)
   }
@@ -67,6 +70,7 @@ class App {
 
   setFinish(event) {
     if (!isValid(event) || this.suggestions.length < 1) return false
+    event.target.disabled = true
     if (!trip.departure) {
       Locations.get(event.target, 0)
       UI.departure.focus()
