@@ -29,6 +29,9 @@ Rails.application.routes.draw do
       end
       resources :trips, only: %i[index] do
         patch 'cancel'
+        patch 'finish'
+        patch 'start'
+        patch 'waiting_client'
       end
     end
 

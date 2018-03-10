@@ -28,4 +28,37 @@ describe Api::DriversApp::TripsController, type: :controller do
       it { is_expected.to have_http_status(:unprocessable_entity) }
     end
   end
+
+  describe '#start' do
+    subject { response }
+
+    let(:params) { { trip_id: trip.id } }
+    let(:trip) { Factory[:trip] }
+
+    before { patch :start, params: params, as: :json }
+
+    it { is_expected.to have_http_status(:success) }
+  end
+
+  describe '#finish' do
+    subject { response }
+
+    let(:params) { { trip_id: trip.id } }
+    let(:trip) { Factory[:trip] }
+
+    before { patch :start, params: params, as: :json }
+
+    it { is_expected.to have_http_status(:success) }
+  end
+
+  describe '#waiting_client' do
+    subject { response }
+
+    let(:params) { { trip_id: trip.id } }
+    let(:trip) { Factory[:trip] }
+
+    before { patch :waiting_client, params: params, as: :json }
+
+    it { is_expected.to have_http_status(:success) }
+  end
 end
