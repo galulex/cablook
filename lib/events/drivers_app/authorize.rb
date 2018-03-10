@@ -13,10 +13,17 @@ module Events
       def run
         check_username!
         check_password!
+        reset_status!
         driver
       end
 
       private
+
+      def reset_status!
+        return unless driver.car_id
+        Repositories::Car.new(ROM.env).update(driver.car_id, status: Constants::Car::OFFLINE)
+        @driver = Repositories::Driver.new(ROM.env).update(driver.id, car_id: nil)
+      end
 
       def driver
         @driver ||= Repositories::Driver.new(ROM.env).by_username(data[:username])

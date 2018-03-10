@@ -20,5 +20,13 @@ describe Events::DriversApp::Authorize do
 
       it { is_expected.to raise_error(Events::InvalidParamsError) }
     end
+
+    context 'when car is assigned' do
+      let(:car) { Factory[:car, status: Constants::Car::FREE] }
+      let!(:driver) { Factory[:driver, car_id: car.id] }
+
+      it { is_expected.to change { driver_repository.by_id(driver.id).car_id }.to(nil) }
+      it { is_expected.to change { car_repository.by_id(car.id).status }.to(Constants::Car::OFFLINE) }
+    end
   end
 end
