@@ -9,4 +9,5 @@ Factory.define(:trip) do |f|
   f.destination { Sequel.pg_array([fake(:address, :latitude), fake(:address, :longitude)]) }
   f.departure_address { fake(:address, :street_name) }
   f.destination_address { fake(:address, :street_name) }
+  f.comment { fake(:lorem, :sentence) }
 end

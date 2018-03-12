@@ -24,6 +24,7 @@ class Trips < ROM::Relation[:sql]
     attribute :arrived_at, Types::Time
     attribute :distance, Types::Int
     attribute :duration, Types::Int
+    attribute :comment, Types::String
 
     associations do
       has_many :feedbacks
