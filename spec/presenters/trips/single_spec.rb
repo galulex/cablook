@@ -13,6 +13,7 @@ describe Presenters::Trips::Single do
   it { is_expected.to have_key(:destination).with_value(trip.destination) }
   it { is_expected.to have_key(:departure_address).with_value(trip.departure_address) }
   it { is_expected.to have_key(:destination_address).with_value(trip.destination_address) }
+  it { is_expected.to have_key(:comment).with_value(trip.comment) }
   it { is_expected.to have_key(:user_id).with_value(trip.user_id) }
   it { is_expected.to have_key(:driver_id).with_value(trip.driver_id) }
   it { is_expected.to have_key(:created_at).with_value(trip.created_at) }

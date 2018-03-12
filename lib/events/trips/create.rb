@@ -13,6 +13,7 @@ module Events
           required(:departure_address).filled(:str?)
           required(:destination_address).filled(:str?)
 
+          optional(:comment).filled(:str?)
           optional(:card_id).filled(:int?)
           optional(:bouns).filled(:bool?)
         end
