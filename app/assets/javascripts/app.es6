@@ -75,7 +75,7 @@ class App {
       Locations.get(event.target, 0)
       UI.departure.focus()
     } else {
-      Locations.get(event.target, 0, Trips.create)
+      Locations.get(event.target, 0, Path.wayPoints)
     }
   }
 
