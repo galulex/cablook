@@ -8,7 +8,7 @@ module Api
     end
 
     def retry_pendings
-      Operations::Wayforpay::RetryPendings.new(current_user.id, card_id).call
+      Operations::RetryPendingPayments.new(current_user.id, card_id).call
       render json: pending_payments.to_json, status: 200
     end
 
