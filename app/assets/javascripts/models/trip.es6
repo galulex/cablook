@@ -1,7 +1,7 @@
 trip = {
   departure: null,
   destination: null,
-  path: 'path',
+  path: null,
   status: 0,
   cost: 40,
 
