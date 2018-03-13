@@ -8,5 +8,14 @@ module Constants
     TRIP_PROPOSE      = 'TripPropose'.freeze
     TRIP_UNAVAILABLE  = 'TripUnavailable'.freeze
     TRIP_DECLINED     = 'TripDeclined'.freeze
+
+    TRIP_FINISHED     = 'TripFinished'.freeze
+    TRIP_STARTED      = 'TripStarted'.freeze
+    TRIP_WAITING      = 'DriverArrived'.freeze
+
+
+    TRIP_FINISH_ACTION     = 'finish_trip'.freeze
+    TRIP_START_ACTION      = 'start_trip'.freeze
+    TRIP_WAITING_ACTION    = 'waiting_client'.freeze
   end
 end
