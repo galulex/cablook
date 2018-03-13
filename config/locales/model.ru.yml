@@ -10,10 +10,6 @@ ru:
           attributes:
             token:
               taken: Эта карта уже была добавлена
-        validators/subscription:
-          attributes:
-            email:
-              taken: Пользователь с таким емейлом уже существует
         validators/user:
           attributes:
             email:

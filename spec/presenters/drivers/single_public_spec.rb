@@ -7,5 +7,4 @@ describe Presenters::DriversApp::SinglePublic do
   it { is_expected.to have_key(:id).with_value(driver.id) }
   it { is_expected.to have_key(:name).with_value(driver.name) }
   it { is_expected.to have_key(:car_id).with_value(driver.car_id) }
-  it { is_expected.to have_key(:phone_number).with_value(driver.phone_number) }
 end

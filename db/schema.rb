@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180312084122) do
+ActiveRecord::Schema.define(version: 20180313144501) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -39,6 +39,7 @@ ActiveRecord::Schema.define(version: 20180312084122) do
     t.string "number"
     t.integer "status", default: 0
     t.string "color"
+    t.string "phone_number"
   end
 
   create_table "devices", force: :cascade do |t|
@@ -54,7 +55,6 @@ ActiveRecord::Schema.define(version: 20180312084122) do
     t.string "encrypted_password"
     t.string "auth_token"
     t.bigint "car_id"
-    t.string "phone_number"
     t.index ["car_id"], name: "index_drivers_on_car_id"
   end
 
@@ -80,11 +80,6 @@ ActiveRecord::Schema.define(version: 20180312084122) do
     t.index ["driver_id"], name: "index_payments_on_driver_id"
     t.index ["trip_id"], name: "index_payments_on_trip_id"
     t.index ["user_id"], name: "index_payments_on_user_id"
-  end
-
-  create_table "subscriptions", force: :cascade do |t|
-    t.string "email"
-    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }
   end
 
   create_table "trip_jobs", force: :cascade do |t|
