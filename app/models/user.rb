@@ -9,4 +9,8 @@ class User < ApplicationRecord
       .select('MAX(cards.id) IS NOT NULL AS has_cards')
       .group(:id)
   }
+
+  def display_name
+    phone_number
+  end
 end
