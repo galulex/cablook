@@ -9,12 +9,17 @@ module Events
     end
 
     def run
+      return user if custom_iphone?
       Jobs::Sms.perform_later(data[:phone_number], sms_body)
       update_code
       user || create_user
     end
 
     private
+
+    def custom_iphone?
+      data[:phone_number] == '+380000000000'
+    end
 
     def update_code
       Repositories::User.new(ROM.env).update(user.id, verification_token: code) if user
