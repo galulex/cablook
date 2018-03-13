@@ -6,6 +6,7 @@ module Events
           configure { config.messages = :i18n }
 
           required(:trip_id).filled(:int?)
+          optional(:by_driver).filled(:bool?)
         end
       end
 
@@ -50,7 +51,8 @@ module Events
           action: Constants::BroadcastActions::TRIP_UNAVAILABLE,
           errors: [I18n.t('trips.assigned_or_canceled')],
           driver_id: data[:driver_id],
-          trip_id: data[:trip_id]
+          trip_id: data[:trip_id],
+          by_driver: data[:by_driver]
         )
       end
 
@@ -58,7 +60,8 @@ module Events
         ActionCable.server.broadcast(
           "#{Constants::Channels::TRIP}_#{trip.id}",
           action: Constants::BroadcastActions::TRIP_UNAVAILABLE,
-          trip_id: data[:trip_id]
+          trip_id: data[:trip_id],
+          by_driver: data[:by_driver]
         )
       end
 

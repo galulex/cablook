@@ -9,7 +9,7 @@ module Api
       end
 
       def cancel
-        Events::Trips::Cancel.(trip_id: params[:trip_id].to_i)
+        Events::Trips::Cancel.(trip_id: params[:trip_id].to_i, by_driver: true)
         render json: [I18n.t('trips.canceled')], status: 200
       end
     end
