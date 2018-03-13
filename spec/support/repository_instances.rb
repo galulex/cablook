@@ -27,10 +27,6 @@ module RepositoryInstances
     @payment_repository ||= Repositories::Payment.new(ROM.env)
   end
 
-  def subscription_repository
-    @subscription_repository ||= Repositories::Subscription.new(ROM.env)
-  end
-
   def trip_repository
     @trip_repository ||= Repositories::Trip.new(ROM.env)
   end
