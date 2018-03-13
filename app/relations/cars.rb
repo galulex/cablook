@@ -4,6 +4,7 @@ class Cars < ROM::Relation[:sql]
     attribute :number, Types::String
     attribute :status, Types::Int
     attribute :color, Types::String
+    attribute :phone_number, Types::String
 
     associations do
       has_one :driver

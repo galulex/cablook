@@ -6,4 +6,5 @@ describe Presenters::Cars::Single do
   it { is_expected.to have_key(:id).with_value(car.id) }
   it { is_expected.to have_key(:number).with_value(car.number) }
   it { is_expected.to have_key(:status).with_value(car.status) }
+  it { is_expected.to have_key(:phone_number).with_value(car.phone_number) }
 end
