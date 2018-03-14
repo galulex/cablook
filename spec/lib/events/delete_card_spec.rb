@@ -1,4 +1,4 @@
-describe Events::DeleteCard do
+describe Events::Cards::Delete do
   describe '.call' do
     subject { -> { described_class.call(data) } }
 

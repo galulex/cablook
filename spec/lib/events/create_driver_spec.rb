@@ -1,4 +1,4 @@
-describe Events::CreateDriver do
+describe Events::Drivers::Create do
   describe '.call' do
     subject { -> { described_class.call(data) } }
 

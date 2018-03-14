@@ -1,4 +1,4 @@
-describe Events::CreateFeedback do
+describe Events::Feedbacks::Create do
   describe '.call' do
     subject { -> { described_class.call(data) } }
 

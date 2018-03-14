@@ -2,7 +2,7 @@ module Api
   module DriversApp
     class RegistrationsController < Api::DriversApp::ApplicationController
       def create
-        driver = Events::CreateDriver.(driver_attrs)
+        driver = Events::Drivers::Create.(driver_attrs)
         render json: Presenters::DriversApp::SinglePrivate.new(driver).to_json, status: 201
       end
 
