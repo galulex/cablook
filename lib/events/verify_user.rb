@@ -11,6 +11,7 @@ module Events
 
     def run
       invalid!(I18n.t('verifications.errors.invalid_or_expired')) unless user
+      return user if custom_iphone?
       user.update(verification_token: nil)
       user
     end
@@ -19,6 +20,10 @@ module Events
 
     def user
       @user ||= User.for_verification(data[:phone_number], data[:token]).first
+    end
+
+    def custom_iphone?
+      data[:phone_number] == '+380000000000'
     end
   end
 end
