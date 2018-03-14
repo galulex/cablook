@@ -7,13 +7,29 @@ ActiveAdmin.register Driver do
 
   index do
     selectable_column
-    column :id
-    column :name
-    column :username
-    column :car
-    column :phone_number
+    (driver_columns - %w[encrypted_password]).each { |title| column title }
+    actions
+  end
+
+  show do
+    attributes_table do
+      driver_columns.each { |title| row title }
+    end
+  end
+
+  form do |f|
+    semantic_errors
+    inputs ' Driver Details' do
+      driver_columns.each { |title| input title }
+    end
     actions
   end
 
   remove_filter :encrypted_password, :auth_token
+end
+
+def driver_columns
+  columns_exclude = %w[auth_token car_id]
+  added_columns = %w[car]
+  Driver.column_names - columns_exclude + added_columns
 end
