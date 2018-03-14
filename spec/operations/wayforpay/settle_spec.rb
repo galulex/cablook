@@ -14,6 +14,11 @@ describe Operations::Wayforpay::Settle do
     context 'when status is ok' do
       it { is_expected.to change { payment_repository.by_id(payment.id).status }.to(Constants::Payments::SUCCESS) }
 
+      it do
+        expect(Wayforpay::Payments).to receive(:settle).once
+        subject.call
+      end
+
       context 'and give bonus trip for referrer' do
         let(:referrer) { Factory[:user] }
         let!(:bonus_trip) { Factory[:bonus_trip, user_id: referrer.id, friend_id: user.id] }
@@ -28,6 +33,17 @@ describe Operations::Wayforpay::Settle do
       before { subject.call }
 
       it { expect(payment_repository.payments.to_a.last.status).to eq(Constants::Payments::PENDING) }
+    end
+
+    context 'when payment by bonus' do
+      let!(:payment) { Factory[:payment, trip_id: trip.id, status: Constants::Payments::BONUS] }
+
+      it { is_expected.not_to change { payment_repository.by_id(payment.id).status } }
+
+      it do
+        expect(Wayforpay::Payments).not_to receive(:settle)
+        subject.call
+      end
     end
   end
 end
