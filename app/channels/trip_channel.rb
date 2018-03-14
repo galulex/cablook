@@ -9,17 +9,14 @@ class TripChannel < ApplicationCable::Channel
 
   def waiting_client(data)
     Events::Trips::WaitingClient.(trip_id: params[:trip_id])
-    ActionCable.server.broadcast trip_channel, data
   end
 
   def start_trip(data)
     Events::Trips::Start.(trip_id: params[:trip_id])
-    ActionCable.server.broadcast trip_channel, data
   end
 
   def finish_trip(data)
     Events::Trips::Finish.(trip_id: params[:trip_id])
-    ActionCable.server.broadcast trip_channel, data
   end
 
   private

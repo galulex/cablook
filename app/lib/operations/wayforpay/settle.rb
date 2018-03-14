@@ -10,6 +10,7 @@ module Operations
       # TODO: Impement logic when the price changed
       # TODO: REFACTOR DB CONNECTIONS !!!!11111!!!
       def call
+        return if payment.status == Constants::Payments::BONUS
         wayforpay_response = JSON.parse(settle_payment.body)
         if wayforpay_response['reasonCode'] == Constants::Payments::WAYFORPAY_SUCCESS
           update_payment_status
