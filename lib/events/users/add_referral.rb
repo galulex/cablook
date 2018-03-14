@@ -1,6 +1,6 @@
 module Events
-  module Referrers
-    class Add < BaseEvent
+  module Users
+    class AddReferral < BaseEvent
       def schema
         Dry::Validation.Schema do
           configure { config.messages = :i18n }

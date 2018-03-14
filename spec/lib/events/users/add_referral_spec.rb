@@ -1,4 +1,4 @@
-describe Events::Referrers::Add do
+describe Events::Users::AddReferral do
   describe '.call' do
     subject { -> { described_class.call(data) } }
 
