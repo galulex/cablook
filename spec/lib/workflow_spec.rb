@@ -1,7 +1,7 @@
 describe 'Workflow' do
   # drivers = Array.new(5) do |i|
   #   name = "test_#{i}"
-  #   Events::CreateDriver.(name: name, username: username, encrypted_password: '12341234')
+  #   Events::Drivers::Create.(name: name, username: username, encrypted_password: '12341234')
   # end
 
   # cars = Array.new(6) do |i|

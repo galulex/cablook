@@ -3,7 +3,7 @@ module Api
     before_action :authorize!
 
     def create
-      feedback = Events::CreateFeedback.(feedback_params)
+      feedback = Events::Feedbacks::Create.(feedback_params)
       render json: Presenters::Feedbacks::Single.new(feedback).to_json, status: 201
     end
 

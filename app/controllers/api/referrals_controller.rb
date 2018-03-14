@@ -9,7 +9,7 @@ module Api
     end
 
     def create
-      Events::AddReferrer.(referral_code: referral_code, referral_id: current_user.id)
+      Events::Users::AddReferral.(referral_code: referral_code, referral_id: current_user.id)
       render json: {}, status: 200
     end
 

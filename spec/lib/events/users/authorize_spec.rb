@@ -1,4 +1,4 @@
-describe Events::AuthorizeUser do
+describe Events::Users::Authorize do
   describe '.call' do
     subject { -> { result } }
 

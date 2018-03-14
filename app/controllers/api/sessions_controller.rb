@@ -1,13 +1,13 @@
 module Api
   class SessionsController < ApiApplicationController
     def create
-      user = Events::AuthorizeUser.(phone_number: params[:phone_number])
+      user = Events::Users::Authorize.(phone_number: params[:phone_number])
       Operations::UpdateUserDevice.(user.id, device_params) if params[:device]
       render json: Presenters::Users::SinglePrivate.new(user).to_json, status: 201
     end
 
     def update
-      user = Events::VerifyUser.(params)
+      user = Events::Users::Verify.(params)
       render json: Presenters::Users::Verified.new(user).to_json
     end
 
