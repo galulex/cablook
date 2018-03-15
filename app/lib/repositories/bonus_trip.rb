@@ -18,6 +18,10 @@ module Repositories
       bonus_trips.where(friend_id: friend_id).to_a
     end
 
+    def frozen_by_friend(friend_id)
+      bonus_trips.where(friend_id: friend_id, status: Constants::BonusTrip::FROZEN).to_a
+    end
+
     def by_trip(trip_id)
       bonus_trips.where(trip_id: trip_id).one
     end

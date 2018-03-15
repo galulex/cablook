@@ -12,4 +12,5 @@ describe Presenters::BonusTrips::Single do
   it { is_expected.to have_key(:trip_id).with_value(bonus.trip_id) }
   it { is_expected.to have_key(:status).with_value(bonus.status) }
   it { is_expected.to have_key(:code).with_value(bonus.code) }
+  it { is_expected.to have_key(:type).with_value(bonus.type) }
 end
