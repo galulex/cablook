@@ -57,10 +57,12 @@ html lang=I18n.locale
           }, 1000)
         },
         function (response) {
-            // on declined
+          UI.disableButtons(false)
+          alert(response)
         },
         function (response) {
-            // on pending or in processing
+          UI.disableButtons(false)
+          alert(response)
         }
       );
     }
