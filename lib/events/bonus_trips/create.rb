@@ -6,7 +6,7 @@ module Events
           configure { config.messages = :i18n }
 
           required(:user_id).filled(:int?)
-          optional(:friend_id).filled(:int?)
+          required(:friend_id).filled(:int?)
         end
       end
 
@@ -22,7 +22,22 @@ module Events
       end
 
       def create_bonus_trip
-        Repositories::BonusTrip.new(ROM.env).create(data.to_h.merge(code: SecureRandom.base58(24)))
+        Repositories::BonusTrip.new(ROM.env).create(
+          user_id: data[:user_id],
+          friend_id: data[:friend_id],
+          status: bonus_status,
+          code: SecureRandom.base58(24),
+          type: Constants::BonusTrip::REFERRAL
+        )
+      end
+
+      def bonus_status
+        count = Repositories::Trip.new(ROM.env).count_of_finished_for_user(data[:friend_id])
+        if count.positive?
+          Constants::BonusTrip::NEW
+        else
+          Constants::BonusTrip::FROZEN
+        end
       end
     end
   end

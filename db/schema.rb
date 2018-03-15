@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180313144501) do
+ActiveRecord::Schema.define(version: 20180315145219) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -21,6 +21,7 @@ ActiveRecord::Schema.define(version: 20180313144501) do
     t.bigint "friend_id"
     t.bigint "trip_id"
     t.string "code"
+    t.string "type"
     t.index ["friend_id"], name: "index_bonus_trips_on_friend_id"
     t.index ["trip_id"], name: "index_bonus_trips_on_trip_id"
     t.index ["user_id"], name: "index_bonus_trips_on_user_id"

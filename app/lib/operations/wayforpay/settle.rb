@@ -33,9 +33,8 @@ module Operations
       end
 
       def update_bonus_trip_if_necessary
-        count = trip_repository.count_of_finished_for_user(trip.user_id)
-        if count == 1 && bonus_trips.any?
-          bonus_trip_repository.update(bonus_trips.first.id, status: Constants::BonusTrip::NEW)
+        if frozen_bonuses.any? && count_of_finished_trips.positive?
+          bonus_trip_repository.update(frozen_bonuses.first.id, status: Constants::BonusTrip::NEW)
         end
       end
 
@@ -47,8 +46,12 @@ module Operations
         @trip ||= trip_repository.by_id(trip_id)
       end
 
-      def bonus_trips
-        @bonus_trips ||= bonus_trip_repository.by_friend(trip.user_id)
+      def frozen_bonuses
+        @frozen_bonuses ||= bonus_trip_repository.frozen_by_friend(trip.user_id)
+      end
+
+      def count_of_finished_trips
+        trip_repository.count_of_finished_for_user(trip.user_id)
       end
 
       def bonus_trip_repository

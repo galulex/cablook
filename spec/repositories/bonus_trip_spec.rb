@@ -47,6 +47,22 @@ describe Repositories::BonusTrip do
     end
   end
 
+  describe '#frozen_by_friend' do
+    subject { bonus_trip_repository.frozen_by_friend(user.id) }
+
+    let(:user) { Factory[:user] }
+
+    before { Factory[:bonus_trip, friend_id: user.id, status: Constants::BonusTrip::NEW] }
+
+    it { is_expected.to be_empty }
+
+    context 'when user has trips' do
+      before { Factory[:bonus_trip, friend_id: user.id, status: Constants::BonusTrip::FROZEN] }
+
+      it { is_expected.not_to be_empty }
+    end
+  end
+
   describe '#by_trip' do
     subject { bonus_trip_repository.by_trip(trip.id) }
 

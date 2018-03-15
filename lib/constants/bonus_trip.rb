@@ -11,5 +11,10 @@ module Constants
       USED    => 'used'.freeze,
       EXPIRED => 'expired'.freeze
     }.freeze
+
+    REFERRAL = 'referral'.freeze
+    GIFT     = 'gift'.freeze
+
+    TYPES = [REFERRAL, GIFT].freeze
   end
 end

@@ -6,6 +6,7 @@ class BonusTrips < ROM::Relation[:sql]
     attribute :friend_id, Types::ForeignKey(:users)
     attribute :trip_id, Types::ForeignKey(:trips)
     attribute :code, Types::String
+    attribute :type, Types::String
 
     associations do
       belongs_to :user, as: :user, foreign_key: :user_id
