@@ -11,8 +11,8 @@ Trips = {
 
   create: () => {
     data = new FormData(UI.form)
-    data.append('trip[departure_address]', trip.departure)
-    data.append('trip[destination_address]', trip.destination)
+    data.append('trip[departure_address]', trip.departure_address)
+    data.append('trip[destination_address]', trip.destination_address)
     data.append('trip[departure][]', trip.departure[0])
     data.append('trip[departure][]', trip.departure[1])
     data.append('trip[destination][]', trip.destination[0])
