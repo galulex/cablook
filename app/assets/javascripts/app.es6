@@ -28,14 +28,6 @@ class App {
     return ActionCable.createConsumer();
   }
 
-  get url() {
-    return UI.fieldsets[this.step].getAttribute('data-url')
-  }
-
-  get method() {
-    return UI.fieldsets[this.step].getAttribute('data-url')
-  }
-
   set step(val) {
     this._step = val
     UI.step(val)
@@ -78,7 +70,7 @@ class App {
       if (!data) return false
       this.suggestions = data
       data.forEach(l => {
-        input.nextElementSibling.innerHTML += `<li onclick='app.setLocation(this)'><b>${l.structured_formatting.main_text}</b></br>${l.structured_formatting.secondary_text}</li>`
+        input.nextElementSibling.innerHTML += `<li onclick='app.setLocation(this)' data-place='${l.place_id}'><b>${l.structured_formatting.main_text}</b></br>${l.structured_formatting.secondary_text}</li>`
       })
     })
   }
@@ -94,6 +86,7 @@ class App {
     let input = li.parentElement.previousElementSibling
     trip[input.id] = this.suggestions[i].description
     input.value = this.suggestions[i].structured_formatting.main_text + ' '
+    input.setAttribute('data-place', li.getAttribute('data-place'))
     li.parentElement.innerHTML = ''
     input.focus()
   }

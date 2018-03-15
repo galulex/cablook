@@ -1,14 +1,22 @@
 Locations = {
   get(input, callback) {
-    let geo = new google.maps.Geocoder()
-    geo.geocode({ address: trip[input.id] }, result => {
-      if (result.length == 0) {
+    let service = new google.maps.places.PlacesService(document.createElement('div'))
+    let placeId = input.getAttribute('data-place')
+    if (!placeId) {
+      input.setCustomValidity('Адреса введена не вірно')
+      input.reportValidity()
+      UI.disableButtons(false)
+      return false
+    }
+    service.getDetails({ placeId: placeId }, (place, status) => {
+      if (status !== google.maps.places.PlacesServiceStatus.OK) {
         input.setCustomValidity('Адреса введена не вірно')
         input.reportValidity()
+        UI.disableButtons(false)
         return false
       } else {
         input.setCustomValidity('')
-        let location = result[0].geometry.location
+        let location = place.geometry.location
         let field = input.getAttribute('data-field')
         trip[field] = [location.lat(), location.lng()]
         trip[`${field}_address`] = input.value
