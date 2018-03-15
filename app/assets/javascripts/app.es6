@@ -1,30 +1,48 @@
 class App {
   constructor() {
+    this.step = 0
     UI.number = localStorage.number || ''
     UI.disableCurrentLink()
     if (localStorage.trip) {
       this.subscribe()
       ajax('trips/' + localStorage.trip, 'GET', null, trip => {
         if (trip.status == 0) {
-          UI.step(3)
+          this.step = 4
           return false
         }
         if (trip.status < 3) {
-          UI.showTrip(trip)
-          UI.step(3)
+          UI.showTrip({trip: trip})
+          this.step = 4
         } else {
           localStorage.removeItem('trip')
-          UI.step(2)
+          this.step = 2
         }
       })
       return false
     }
     if (!localStorage.token) return false
-    UI.step(2)
+    this.step = 2
   }
 
   get cable() {
     return ActionCable.createConsumer();
+  }
+
+  get url() {
+    return UI.fieldsets[this.step].getAttribute('data-url')
+  }
+
+  get method() {
+    return UI.fieldsets[this.step].getAttribute('data-url')
+  }
+
+  set step(val) {
+    this._step = val
+    UI.step(val)
+  }
+
+  get step() {
+    return this._step
   }
 
   subscribe() {
@@ -35,14 +53,18 @@ class App {
   }
 
   TripUnavailable(data) {
+    app.step = 2
+    localStorage.removeItem('trip')
+    alert('Поїздка скасована.')
   }
 
   TripAccepted(data) {
-    UI.showTrip(data.trip)
+    localStorage.data = data
+    UI.showTrip(data)
   }
 
   TripDeclined(trip) {
-    UI.step(2)
+    app.step = 2
     localStorage.removeItem('trip')
     alert('Нажаль ми не можемо виконати ваше замовлення.\n Просимо вибачення за незручності')
   }
@@ -61,39 +83,35 @@ class App {
     })
   }
 
-  setStart(event) {
+  setAddress(event) {
     if (!isValid(event) || this.suggestions.length < 1) return false
     Locations.get(event.target, 0)
-    UI.destination.disabled = false
     UI.destination.focus()
-  }
-
-  setFinish(event) {
-    if (!isValid(event) || this.suggestions.length < 1) return false
-    event.target.disabled = true
-    if (!trip.departure) {
-      Locations.get(event.target, 0)
-      UI.departure.focus()
-    } else {
-      Locations.get(event.target, 0, Path.wayPoints)
-    }
   }
 
   setLocation(li) {
     let i = Array.prototype.indexOf.call(li.parentElement.children, li)
     let input = li.parentElement.previousElementSibling
+    trip[input.id] = this.suggestions[i].description
     input.value = this.suggestions[i].structured_formatting.main_text + ' '
-    this.autocomplete(input)
+    li.parentElement.innerHTML = ''
     input.focus()
+  }
+
+  submit(event) {
+    event.preventDefault()
+    UI.disableButtons()
+    eval(UI.fieldsets[this.step].getAttribute('data-action'))
   }
 }
 
 let ajax = (path, method, attrs, onSuccess) => {
   fetch('api/' + path, {
     method: method,
-    headers: { 'Content-Type': 'application/json', 'Auth-Token': localStorage.token },
-    body: (method == 'GET') ? null : JSON.stringify(attrs)
+    headers: { 'Auth-Token': localStorage.token },
+    body: attrs
   }).then(res => {
+    UI.disableButtons(false)
     if (res.ok) {
       res.json().then(data => onSuccess(data))
     } else {

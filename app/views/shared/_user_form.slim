@@ -1,25 +1,45 @@
-form.form
-  fieldset.form__fieldset.form__fieldset--short
+form#form.form onsubmit='app.submit(event)' action='/'
+  fieldset.form__fieldset.form__fieldset--short data-action='Sessions.create()'
     label.form__number-label for=:number +380
-    input.form__number#number type=:number min=100_000_000 max=999_999_999 required=true placeholder=123456789 onkeydown='Sessions.create(event)'
-  fieldset.form__fieldset disabled=true
-    input#verification type=:number min=1_000 max=9_999 required=true pattern='.{4}' placeholder=1234 onkeydown='Sessions.update(event)' data-message= t('.wrong_code')
-    label for=:verification
-      = t('.sms')
-    button type=:button  onclick='Sessions.destroy()'
-      = t('.change_number')
-  fieldset.form__fieldset disabled=true
-    button type=:button onclick='Sessions.destroy()'
+    input.form__number#number name='phone_number' type=:number min=100_000_000 max=999_999_999 required=true placeholder='932225665'
+    label for=:number = t('.number')
+    button.button type=:submit = t('next')
+
+  fieldset.form__fieldset disabled=true data-action='Sessions.update()'
+    input#verification name=:token type=:number min=1_000 max=9_999 required=true pattern='.{4}' placeholder=1234 data-message= t('.wrong_code')
+    label for=:verification = t('.sms')
+    button.button type=:submit = t('next')
+    button.button type=:button onclick='Sessions.destroy()' = t('.change_number')
+
+  fieldset.form__fieldset disabled=true data-action='Trips.build()'
+    button.button type=:button onclick='Sessions.destroy()'
       = t('.sign_out')
     div.form__user-number#account
-    .form__location
-      input.form__location-field#departure type=:text required=true placeholder= t('.from') oninput='app.autocomplete(this)' onkeydown='app.setStart(event)'
-      ul.form__location-list data-list=true
-    .form__location
-      input.form__location-field#destination type=:text disabled=true required=true placeholder= t('.to') oninput='app.autocomplete(this)' onkeydown='app.setFinish(event)'
-      ul.form__location-list data-list=true
+    .points
+      .form__location
+        input.form__location-field#departure_address data-field='departure' autocomplete='off' name='trip[departure_address]' type=:text required=true placeholder= t('.from') oninput="app.autocomplete(this); this.setCustomValidity('')"
+        ul.form__location-list data-list=true
+      .form__location
+        button.form__location-remove.link type=:button onclick='UI.removePoint(this)' ×
+        input.form__location-field#destination_address data-field='destination' autocomplete='off' name='trip[destination_address]' type=:text required=true placeholder= t('.to') oninput="app.autocomplete(this); this.setCustomValidity('')"
+        ul.form__location-list data-list=true
+    / button#add_point.link type=:button onclick='UI.addPoint()' = t('add_point')
+    details
+      summary= t('comment')
+      textarea#comment name='trip[comment]'
+    br
+    button#done.button type=:submit = t('done')
+
+  fieldset.form__fieldset disabled=true data-action='Trips.create()'
+    div: img#trip_path
+    button#go.button type=:submit = t('go')
+    button.button type=:button onclick='Trips.destroy()' = t('cancel')
+
   fieldset.form__fieldset disabled=true
     div#state.loader
       = inline_svg('wheel.svg', class: :icon)
       p= t('.looking_for_driver')
-    button#cancel type=:button onclick='Trips.cancel()' = t('cancel')
+    button.button#cancel type=:button onclick='Trips.cancel()' = t('cancel')
+
+  a.col-8 href='https://play.google.com/store/apps/details?id=com.cablook&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1' target=:_black
+    img alt='Завантажити з Google Play' src='https://play.google.com/intl/en_us/badges/images/generic/ua_badge_web_generic.png'

@@ -12,6 +12,11 @@
   box-sizing: border-box;
 }
 
+html {
+  overflow-y: auto;
+  overflow-y: overlay;
+}
+
 body {
   font-family: Gilroy, Helvetica, Arial, sans-serif;
   font-weight: 100;
@@ -259,4 +264,9 @@ input#menu:checked + label:before {
     width: 35%;
     max-width: 500px;
   }
+}
+
+summary {
+  outline: none;
+  cursor: pointer;
 }
