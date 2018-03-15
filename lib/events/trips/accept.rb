@@ -31,7 +31,7 @@ module Events
           status: Constants::Trip::ON_THE_WAY,
           car_id: data[:car_id],
           driver_id: data[:driver_id],
-          start_at: matrix.duration.seconds.since
+          start_at: (matrix.duration.seconds.since + 2.minutes)
         )
         @trip = Repositories::Trip.new(ROM.env).detailed(data[:trip_id])
       end
@@ -68,7 +68,7 @@ module Events
       end
 
       def sms_body
-        I18n.t('sms.car_found', time: matrix.duration.seconds.since.strftime('%H:%M'))
+        I18n.t('sms.car_found', time: (matrix.duration.seconds.since + 2.minutes).strftime('%H:%M'), number: car.phone_number)
       end
 
       def broadcast_with_error
@@ -87,6 +87,10 @@ module Events
 
       def car_trip
         @car_trip ||= Repositories::Trip.new(ROM.env).trips.where(car_id: trip.car_id, status: Constants::Trip::DRIVING).one
+      end
+
+      def car
+        @car ||= Repositories::Car.new(ROM.env).by_id(data[:car_id])
       end
 
       def trip
