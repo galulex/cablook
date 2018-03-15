@@ -3,8 +3,7 @@ label.menu-trigger for='menu'
 nav
   .main-menu
     .main-menu__header
-      a href=root_path
-        = inline_svg 'cablook', class: 'main-menu__logo icon'
+      = inline_svg 'cablook', class: 'main-menu__logo icon'
       = t('.order')
     = render 'shared/user_form'
     = link_to page_path(:about), class: 'menu-item' do

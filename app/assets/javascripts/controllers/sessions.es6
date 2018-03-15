@@ -1,23 +1,23 @@
 Sessions = {
-  create: event => {
-    if (!isValid(event)) return false
-    let input = event.target
-    let val = "+380" + input.value
-    ajax('session', 'POST', {phone_number: val}, data => {
-      app.phone = val
-      UI.number = val
-      UI.step(1)
+  create: () => {
+    data = new FormData(UI.form)
+    let phone = '+380' + data.get('phone_number')
+    data.append('phone_number', phone)
+    ajax('session', 'POST', data, () => {
+      app.phone = phone
+      UI.number = phone
+      app.step = 1
     })
   },
 
-  update: event => {
-    if (!isValid(event)) return false
-    let input = event.target
-    ajax('session', 'PATCH', {phone_number: app.phone, token: input.value}, data => {
+  update: () => {
+    data = new FormData(UI.form)
+    data.append('phone_number', app.phone)
+    ajax('session', 'PATCH', data, data => {
       localStorage.token = data['auth_token']
       localStorage.number = data['phone_number']
       if (data['has_cards']) localStorage.ready = data['ready']
-      UI.step(2)
+      app.step = 2
     })
   },
 
@@ -26,6 +26,6 @@ Sessions = {
     localStorage.removeItem('number')
     localStorage.removeItem('ready')
     UI.number = ''
-    UI.step(0)
+    app.step = 0
   }
 }

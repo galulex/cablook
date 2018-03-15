@@ -1,14 +1,22 @@
 Locations = {
-  get(input, index = 0, callback) {
+  get(input, callback) {
     let geo = new google.maps.Geocoder()
-    geo.geocode({ address: app.suggestions[index].description }, result => {
-      if (result.length == 0) return false
-      let location = result[0].geometry.location
-      trip[input.id] = [location.lat(),location.lng()]
-      input.nextElementSibling.innerHTML = ''
-      if (callback) callback()
+    geo.geocode({ address: trip[input.id] }, result => {
+      if (result.length == 0) {
+        input.setCustomValidity('Адреса введена не вірно')
+        input.reportValidity()
+        return false
+      } else {
+        input.setCustomValidity('')
+        let location = result[0].geometry.location
+        let field = input.getAttribute('data-field')
+        trip[field] = [location.lat(), location.lng()]
+        trip[`${field}_address`] = input.value
+        input.nextElementSibling.innerHTML = ''
+        if (callback) callback()
+        UI.disableButtons(false)
+      }
+      UI.disableButtons(false)
     })
-    input.value = app.suggestions[index].description
-    input.disabled = false
   }
 }
