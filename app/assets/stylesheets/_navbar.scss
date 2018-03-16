@@ -318,3 +318,13 @@ nav .icon {
 #state {
   text-align: center;
 }
+
+.badges {
+  a {
+    vertical-align: middle;
+  }
+
+  svg {
+    max-width: 100%;
+  }
+}
