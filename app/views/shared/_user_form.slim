@@ -3,12 +3,12 @@ form#form.form onsubmit='app.submit(event)' action='/'
     label.form__number-label for=:number +380
     input.form__number#number name='phone_number' type=:number min=100_000_000 max=999_999_999 required=true placeholder='932225665'
     label for=:number = t('.number')
-    button.button type=:submit = t('next')
+    button.button#submit_phone type=:submit = t('next')
 
   fieldset.form__fieldset disabled=true data-action='Sessions.update()'
     input#verification name=:token type=:number min=1_000 max=9_999 required=true pattern='.{4}' placeholder=1234 data-message= t('.wrong_code')
     label for=:verification = t('.sms')
-    button.button type=:submit = t('next')
+    button.button#submit_code type=:submit = t('next')
     button.button type=:button onclick='Sessions.destroy()' = t('.change_number')
 
   fieldset.form__fieldset disabled=true data-action='Trips.build()'
@@ -26,7 +26,7 @@ form#form.form onsubmit='app.submit(event)' action='/'
     / button#add_point.link type=:button onclick='UI.addPoint()' = t('add_point')
     details
       summary= t('comment')
-      textarea#comment name='trip[comment]'
+      textarea#comment name='trip[comment]' oninput='trip.comment = this.value'
     br
     button#done.button type=:submit = t('done')
 

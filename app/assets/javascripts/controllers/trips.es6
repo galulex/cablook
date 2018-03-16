@@ -18,6 +18,7 @@ Trips = {
     data.append('trip[destination][]', trip.destination[0])
     data.append('trip[destination][]', trip.destination[1])
     data.append('trip[path]', trip.path)
+    data.append('trip[comment]', trip.comment)
     if (localStorage.ready) {
       ajax('trips', 'POST', data, data => {
         localStorage.trip = data['id']
