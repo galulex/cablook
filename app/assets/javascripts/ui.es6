@@ -33,8 +33,8 @@ UI = {
     return document.getElementById('destination_address')
   },
 
-  set path(val) {
-    document.getElementById('trip_path').setAttribute('src', val)
+  get waypoints() {
+    return document.querySelectorAll("[name='waypoints']")
   },
 
   get form() {
@@ -68,10 +68,10 @@ UI = {
     btn.parentElement.remove()
   },
 
-  addPoint() {
-    let point = this.destination.parentElement.cloneNode(true)
+  addPoint(button) {
+    let point = this.destinationAddress.parentElement.cloneNode(true)
     point.id = Date.now().toString()
-    this.destination.parentElement.parentElement.appendChild(point)
+    button.parentElement.insertBefore(point, button)
   },
 
   showTrip(data) {

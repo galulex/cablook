@@ -17,13 +17,13 @@ form#form.form onsubmit='app.submit(event)' action='/'
     div.form__user-number#account
     .points
       .form__location
-        input.form__location-field#departure_address data-field='departure' autocomplete='off' name='trip[departure_address]' type=:text required=true placeholder= t('.from') oninput="app.autocomplete(this); this.setCustomValidity('')"
+        input.form__location-field#departure_address data-field='departure' autocomplete='off' name='waypoints' type=:text required=true placeholder= t('.from') oninput="app.autocomplete(this); this.setCustomValidity('')"
         ul.form__location-list data-list=true
       .form__location
         button.form__location-remove.link type=:button onclick='UI.removePoint(this)' ×
-        input.form__location-field#destination_address data-field='destination' autocomplete='off' name='trip[destination_address]' type=:text required=true placeholder= t('.to') oninput="app.autocomplete(this); this.setCustomValidity('')"
+        input.form__location-field#destination_address data-field='destination' autocomplete='off' name='waypoints' type=:text required=true placeholder= t('.to') oninput="app.autocomplete(this); this.setCustomValidity('')"
         ul.form__location-list data-list=true
-    / button#add_point.link type=:button onclick='UI.addPoint()' = t('add_point')
+      button#add_point.link type=:button onclick='UI.addPoint(this)' = t('add_point')
     details
       summary= t('comment')
       textarea#comment name='trip[comment]' oninput='trip.comment = this.value'

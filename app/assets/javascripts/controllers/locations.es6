@@ -18,11 +18,13 @@ Locations = {
         input.setCustomValidity('')
         let location = place.geometry.location
         let field = input.getAttribute('data-field')
-        trip[field] = [location.lat(), location.lng()]
+        trip.waypoints.push([location.lat(), location.lng()])
         trip[`${field}_address`] = input.value
         input.nextElementSibling.innerHTML = ''
         if (callback) callback()
         UI.disableButtons(false)
+        if (input.parentElement.nextElementSibling.id != 'add_point') return false
+        Path.build()
       }
       UI.disableButtons(false)
     })
