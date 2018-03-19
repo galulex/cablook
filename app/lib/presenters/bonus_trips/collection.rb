@@ -1,7 +1,9 @@
 module Presenters
   module BonusTrips
     class Collection < Presenters::BaseCollection
-      collection :entries, extend: Presenters::BonusTrips::Single, as: :bonus_trips
+      include Representable::JSON::Collection
+
+      items extend: Presenters::BonusTrips::Single
     end
   end
 end
