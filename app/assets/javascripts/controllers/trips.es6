@@ -1,8 +1,8 @@
 Trips = {
   build: () => {
-    UI.waypoints.forEach(point =>
-      Locations.get(point)
-    )
+    // UI.waypoints.forEach(point =>
+      // Locations.get(point)
+    // )
     // Locations.get(UI.departureAddress, Locations.get(UI.destinationAddress, Path.build))
   },
 
