@@ -25,9 +25,10 @@ module Events
       private
 
       def update_trip
+        status = data[:by_driver] ? Constants::Trip::CANCELED_BY_DRIVER : Constants::Trip::CANCELED
         Repositories::Trip.new(ROM.env).update(
           data[:trip_id],
-          status: Constants::Trip::CANCELED
+          status: status
         )
       end
 
