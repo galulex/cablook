@@ -5,7 +5,13 @@ module Api
     def index
       parent_bonus = bonus_repository.by_friend(current_user.id)
       bonus_trips = bonus_repository.by_user(current_user.id)
-      render json: { parent_bonus: parent_bonus, bonus_trips: bonus_trips }.to_json, status: 200
+      render(
+        json: {
+          parent_bonus: Presenters::BonusTrips::Collection.new(parent_bonus),
+          bonus_trips: Presenters::BonusTrips::Collection.new(bonus_trips)
+        }.to_json,
+        status: 200
+      )
     end
 
     def create
