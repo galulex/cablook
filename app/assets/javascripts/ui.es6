@@ -33,6 +33,10 @@ UI = {
     return document.getElementById('destination_address')
   },
 
+  set path(val) {
+    document.getElementById('trip_path').setAttribute('src', val)
+  },
+
   get waypoints() {
     return document.querySelectorAll("[name='waypoints']")
   },
@@ -71,6 +75,8 @@ UI = {
   addPoint(button) {
     let point = this.destinationAddress.parentElement.cloneNode(true)
     point.id = Date.now().toString()
+    point.querySelector('input').value = ''
+    point.querySelector('input').removeAttribute('data-point')
     button.parentElement.insertBefore(point, button)
   },
 

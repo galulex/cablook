@@ -16,10 +16,8 @@ Trips = {
     data = new FormData(UI.form)
     data.append('trip[departure_address]', trip.departure_address)
     data.append('trip[destination_address]', trip.destination_address)
-    data.append('trip[departure][]', trip.departure[0])
-    data.append('trip[departure][]', trip.departure[1])
-    data.append('trip[destination][]', trip.destination[0])
-    data.append('trip[destination][]', trip.destination[1])
+    data.append('trip[departure]', trip.departure)
+    data.append('trip[destination]', trip.destination)
     data.append('trip[path]', trip.path)
     data.append('trip[comment]', trip.comment)
     if (localStorage.ready) {
@@ -35,7 +33,7 @@ Trips = {
   },
 
   destroy: () => {
-    trip = {}
+    trip = { waypoints: [] }
     app.step = 2
   },
 

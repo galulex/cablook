@@ -1,13 +1,17 @@
 Path = {
   build(callback){
     let directionsService = new google.maps.DirectionsService()
-    UI.waypoints.forEach(w => {
-      trip.waypoints.push({ placeId: w.getAttribute('data-place') })
+    let waypoints = Array.from(UI.waypoints)
+    waypoints.slice(1, waypoints.length - 1).forEach(w => {
+      trip.waypoints.push({ location: { placeId: w.getAttribute('data-place') }, stopover: true })
     })
 
+    trip.departure = waypoints[0].getAttribute('data-place')
+    trip.destination = waypoints.pop().getAttribute('data-place')
+
     let params = {
-      origin: trip.waypoints[0],
-      destination: trip.waypoints[1],
+      origin: { placeId: trip.departure },
+      destination: { placeId: trip.destination },
       waypoints: trip.waypoints,
       travelMode: 'DRIVING'
     }
@@ -17,6 +21,8 @@ Path = {
         let points = response.routes[0].overview_polyline
         console.log(response)
         trip.path = points
+        trip.distance = 100
+        trip.duration = 100
         Trips.show()
       }else{
         console.log('Directions request failed due to ' + status)

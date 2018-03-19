@@ -11,7 +11,7 @@ form#form.form onsubmit='app.submit(event)' action='/'
     button.button#submit_code type=:submit = t('next')
     button.button type=:button onclick='Sessions.destroy()' = t('.change_number')
 
-  fieldset.form__fieldset disabled=true data-action='Trips.build()'
+  fieldset.form__fieldset disabled=true data-action='Path.build()'
     button.button type=:button onclick='Sessions.destroy()'
       = t('.sign_out')
     div.form__user-number#account
