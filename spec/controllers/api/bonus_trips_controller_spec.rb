@@ -7,7 +7,10 @@ describe Api::BonusTripsController, type: :controller do
   describe '#index' do
     subject { response }
 
-    before { get :index, as: :json }
+    before do
+      Factory[:bonus_trip, user_id: user.id]
+      get :index, as: :json
+    end
 
     it_behaves_like 'authorization_required'
 

@@ -8,7 +8,11 @@ describe Api::ReferralsController, type: :controller do
   describe '#index' do
     subject { response }
 
-    before { get :index, as: :json }
+    before do
+      Factory[:bonus_trip, user_id: user.id]
+      Factory[:bonus_trip, friend_id: user.id, user_id: Factory[:user].id]
+      get :index, as: :json
+    end
 
     it { is_expected.to have_http_status(:success) }
   end
