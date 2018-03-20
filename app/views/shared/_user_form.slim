@@ -36,9 +36,10 @@ form#form.form onsubmit='app.submit(event)' action='/'
     button.button type=:button onclick='Trips.destroy()' = t('cancel')
 
   fieldset.form__fieldset disabled=true
-    div#state.loader
+    #loader
       = inline_svg('wheel.svg', class: :icon)
       p= t('.looking_for_driver')
+    #state
     button.button#cancel type=:button onclick='Trips.cancel()' = t('cancel')
 
   div.badges

@@ -91,7 +91,13 @@ UI = {
     if (data.driver) {
       html += `${data.driver.name}: <b><a href='tel:${data.driver.car.phone_number}'>${data.driver.car.phone_number}</a></b></br>`
     }
+    document.getElementById('loader').classList.toggle('hidden')
     document.getElementById('state').innerHTML = html
     if (this.nissan) this.nissan.className.baseVal = 'nissan gone'
+  },
+
+  destroyTrip() {
+    document.getElementById('loader').classList.toggle('hidden')
+    document.getElementById('state').innerHTML = html
   }
 }

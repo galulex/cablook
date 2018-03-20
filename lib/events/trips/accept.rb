@@ -82,7 +82,7 @@ module Events
       end
 
       def matrix
-        @matrix ||= SearchEngine::Matrix.new(Redis.current.get("car_#{data[:car_id]}")&.split(','), car_trip&.destination, trip.departure)
+        @matrix ||= SearchEngine::Directions.new(Redis.current.get("car_#{data[:car_id]}")&.split(','), trip.departure, [car_trip&.destination].compact)
       end
 
       def car_trip
