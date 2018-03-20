@@ -33,21 +33,21 @@ RSpec.feature 'Create trip', type: :feature, js: true do
 
       fill_in 'departure_address', with: start_address
       find('ul.form__location-list', text: start_address).first('li').click
-      sleep 0.4
+      sleep 0.5
 
       fill_in 'destination_address', with: end_address
       find('ul.form__location-list', text: end_address).first('li').click
-      sleep 0.4
+      sleep 0.5
 
       find('summary').click
       fill_in 'comment', with: comment
       page.execute_script("localStorage.ready = true")
 
       click_button 'done'
-      sleep 0.4
+      sleep 0.5
 
       click_button 'go'
-      sleep 0.4
+      sleep 0.5
 
       Trip.last.update(car_id: Car.last.id, driver_id: Driver.last.id, status: 1, distance: 4000, start_at: Time.now, finish_at: Time.now + 1)
       sleep 0.2

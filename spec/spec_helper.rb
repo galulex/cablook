@@ -19,8 +19,16 @@ SimpleCov.start
 
 Capybara.javascript_driver = :selenium_chrome
 
-Capybara.register_driver :selenium do |app|
-  Capybara::Selenium::Driver.new(app, browser: :chrome)
+Capybara.register_driver :selenium_chrome do |app|
+  capabilities = Selenium::WebDriver::Remote::Capabilities.chrome(
+    chromeOptions: { args: %w(headless disable-gpu) }
+  )
+
+  Capybara::Selenium::Driver.new(
+    app,
+    browser: :chrome,
+    desired_capabilities: capabilities
+  )
 end
 
 Capybara.configure do |config|
@@ -54,6 +62,11 @@ RSpec.configure do |config|
     conn = ROM.env.gateways[:default].connection
 
     DatabaseCleaner[:sequel, connection: conn].cleaning { example.run }
+  end
+
+  config.after(:all, type: :feature) do
+    conn = ROM.env.gateways[:default].connection
+    DatabaseCleaner[:sequel, connection: conn].clean_with(:truncation)
   end
 
   config.before(:each, type: :feature) do
