@@ -49,7 +49,7 @@ Trips = {
   cancel: () => {
     ajax(`trips/${localStorage.trip}/cancel`, 'PATCH', {trip_id: 1}, data => {
       localStorage.removeItem('trip')
-      this.destroy()
+      Trips.destroy()
     })
   }
 }
