@@ -3,6 +3,7 @@ require File.expand_path('../../config/environment', __FILE__)
 require 'rspec/rails'
 
 require 'bcrypt'
+require 'capybara/rspec'
 require 'rom-rails'
 require 'rom-factory'
 require 'sidekiq/testing'
@@ -15,6 +16,17 @@ Dir[
 ].each { |f| require f }
 
 SimpleCov.start
+
+Capybara.javascript_driver = :selenium_chrome
+
+Capybara.register_driver :selenium do |app|
+  Capybara::Selenium::Driver.new(app, browser: :chrome)
+end
+
+Capybara.configure do |config|
+  config.default_max_wait_time = 10
+  config.default_driver        = :selenium
+end
 
 RSpec.configure do |config|
   # config.infer_spec_type_from_file_location!
@@ -42,6 +54,11 @@ RSpec.configure do |config|
     conn = ROM.env.gateways[:default].connection
 
     DatabaseCleaner[:sequel, connection: conn].cleaning { example.run }
+  end
+
+  config.before(:each, type: :feature) do
+    WebMock.disable_net_connect! allow_localhost: true
+    Capybara.current_session.driver.browser.manage.window.resize_to(960, 640)
   end
 
   config.before(:each) do
