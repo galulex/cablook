@@ -2,7 +2,7 @@ module SearchEngine
   class Directions
     def initialize(origin, destination, waypoints = nil)
       gmaps = GoogleMapsService::Client.new
-      @data = gmaps.directions(origin.to_a, destination.to_a, waypoints: waypoints)[0]
+      @data = gmaps.directions(origin.to_a, destination.to_a, waypoints: waypoints, mode: 'driving')[0]
     end
 
     def duration
