@@ -29,7 +29,7 @@ module Events
           validate_bonus!
           pay_by_bonus
         else
-          # hold_payment
+          hold_payment
         end
         create_trip_job(@trip.id)
         @trip

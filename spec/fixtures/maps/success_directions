@@ -1,4 +1,4 @@
-/**/_xdc_._mk44mb && _xdc_._mk44mb( {
+{
    "geocoded_waypoints" : [
       {
          "geocoder_status" : "OK",
@@ -497,4 +497,3 @@
    ],
    "status" : "OK"
 }
-)
