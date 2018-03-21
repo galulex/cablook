@@ -1,0 +1,500 @@
+/**/_xdc_._mk44mb && _xdc_._mk44mb( {
+   "geocoded_waypoints" : [
+      {
+         "geocoder_status" : "OK",
+         "place_id" : "ChIJIar5649L0UARx2zALYRK6OE",
+         "types" : [ "establishment", "point_of_interest" ]
+      },
+      {
+         "geocoder_status" : "OK",
+         "place_id" : "ChIJ31p2iHxL0UAR6lpJx2Z3jpM",
+         "types" : [ "cafe", "establishment", "food", "point_of_interest" ]
+      },
+      {
+         "geocoder_status" : "OK",
+         "place_id" : "ChIJt5pEAO1M0UARUsVILM2BY2w",
+         "types" : [ "establishment", "food", "point_of_interest", "restaurant" ]
+      },
+      {
+         "geocoder_status" : "OK",
+         "place_id" : "ChIJIar5649L0UARx2zALYRK6OE",
+         "types" : [ "establishment", "point_of_interest" ]
+      }
+   ],
+   "routes" : [
+      {
+         "bounds" : {
+            "northeast" : {
+               "lat" : 49.4590351,
+               "lng" : 32.0695344
+            },
+            "southwest" : {
+               "lat" : 49.4267725,
+               "lng" : 32.0277321
+            }
+         },
+         "copyrights" : "Map data ©2018 Google",
+         "legs" : [
+            {
+               "distance" : {
+                  "text" : "2.4 km",
+                  "value" : 2445
+               },
+               "duration" : {
+                  "text" : "9 mins",
+                  "value" : 517
+               },
+               "end_address" : "Khreshchatyk St, 251, Cherkasy, Cherkas'ka oblast, Ukraine, 18000",
+               "end_location" : {
+                  "lat" : 49.443214,
+                  "lng" : 32.0662627
+               },
+               "start_address" : "Marshala Krasovs'koho St, 8, Cherkasy, Cherkas'ka oblast, Ukraine, 18000",
+               "start_location" : {
+                  "lat" : 49.4267725,
+                  "lng" : 32.0533859
+               },
+               "steps" : [
+                  {
+                     "distance" : {
+                        "text" : "0.6 km",
+                        "value" : 637
+                     },
+                     "duration" : {
+                        "text" : "3 mins",
+                        "value" : 165
+                     },
+                     "end_location" : {
+                        "lat" : 49.4306012,
+                        "lng" : 32.0596115
+                     },
+                     "html_instructions" : "Head \u003cb\u003enortheast\u003c/b\u003e on \u003cb\u003eвул. Маршала Красовського\u003c/b\u003e",
+                     "polyline" : {
+                        "points" : "ittlHulsbEU_@y@y@UUiBqBIMKYIUQ]U[Y_@]]aCoCa@g@]a@[i@e@}@O_@]cA]cAQg@Ma@IYI_@I_@G_@E]Iw@G_A"
+                     },
+                     "start_location" : {
+                        "lat" : 49.4267725,
+                        "lng" : 32.0533859
+                     },
+                     "travel_mode" : "DRIVING"
+                  },
+                  {
+                     "distance" : {
+                        "text" : "0.3 km",
+                        "value" : 262
+                     },
+                     "duration" : {
+                        "text" : "1 min",
+                        "value" : 39
+                     },
+                     "end_location" : {
+                        "lat" : 49.4328914,
+                        "lng" : 32.0587747
+                     },
+                     "html_instructions" : "Turn \u003cb\u003eleft\u003c/b\u003e onto \u003cb\u003eвул. Громова\u003c/b\u003e",
+                     "maneuver" : "turn-left",
+                     "polyline" : {
+                        "points" : "glulHqstbEIAG@WBYDm@Lm@P_@JE@oAf@sDfA"
+                     },
+                     "start_location" : {
+                        "lat" : 49.4306012,
+                        "lng" : 32.0596115
+                     },
+                     "travel_mode" : "DRIVING"
+                  },
+                  {
+                     "distance" : {
+                        "text" : "0.3 km",
+                        "value" : 330
+                     },
+                     "duration" : {
+                        "text" : "1 min",
+                        "value" : 46
+                     },
+                     "end_location" : {
+                        "lat" : 49.4351893,
+                        "lng" : 32.061669
+                     },
+                     "html_instructions" : "Turn \u003cb\u003eright\u003c/b\u003e onto \u003cb\u003eвул. Свято-Макаріївська\u003c/b\u003e",
+                     "maneuver" : "turn-right",
+                     "polyline" : {
+                        "points" : "qzulHintbEW]k@s@yBuCyEwGs@cA"
+                     },
+                     "start_location" : {
+                        "lat" : 49.4328914,
+                        "lng" : 32.0587747
+                     },
+                     "travel_mode" : "DRIVING"
+                  },
+                  {
+                     "distance" : {
+                        "text" : "0.9 km",
+                        "value" : 904
+                     },
+                     "duration" : {
+                        "text" : "3 mins",
+                        "value" : 196
+                     },
+                     "end_location" : {
+                        "lat" : 49.4413813,
+                        "lng" : 32.0695344
+                     },
+                     "html_instructions" : "Continue onto \u003cb\u003eвул. Небесної Сотні\u003c/b\u003e",
+                     "polyline" : {
+                        "points" : "}hvlHm`ubEKVqBoCc@i@oC{DyDeGgB_CwDiFmBqCMSOQgBcCKOwB}CqAkB"
+                     },
+                     "start_location" : {
+                        "lat" : 49.4351893,
+                        "lng" : 32.061669
+                     },
+                     "travel_mode" : "DRIVING"
+                  },
+                  {
+                     "distance" : {
+                        "text" : "0.3 km",
+                        "value" : 312
+                     },
+                     "duration" : {
+                        "text" : "1 min",
+                        "value" : 71
+                     },
+                     "end_location" : {
+                        "lat" : 49.443214,
+                        "lng" : 32.0662627
+                     },
+                     "html_instructions" : "Turn \u003cb\u003eleft\u003c/b\u003e onto \u003cb\u003eвул. Хрещатик\u003c/b\u003e\u003cdiv style=\"font-size:0.9em\"\u003eDestination will be on the right\u003c/div\u003e",
+                     "maneuver" : "turn-left",
+                     "polyline" : {
+                        "points" : "sowlHqqvbE_@v@w@`BYh@oAjCu@hBkAfCi@jA"
+                     },
+                     "start_location" : {
+                        "lat" : 49.4413813,
+                        "lng" : 32.0695344
+                     },
+                     "travel_mode" : "DRIVING"
+                  }
+               ],
+               "traffic_speed_entry" : [],
+               "via_waypoint" : []
+            },
+            {
+               "distance" : {
+                  "text" : "3.2 km",
+                  "value" : 3167
+               },
+               "duration" : {
+                  "text" : "7 mins",
+                  "value" : 441
+               },
+               "end_address" : "Pal'okhy St, 25, Cherkasy, Cherkas'ka oblast, Ukraine, 18000",
+               "end_location" : {
+                  "lat" : 49.4590351,
+                  "lng" : 32.0335819
+               },
+               "start_address" : "Khreshchatyk St, 251, Cherkasy, Cherkas'ka oblast, Ukraine, 18000",
+               "start_location" : {
+                  "lat" : 49.443214,
+                  "lng" : 32.0662627
+               },
+               "steps" : [
+                  {
+                     "distance" : {
+                        "text" : "1.9 km",
+                        "value" : 1907
+                     },
+                     "duration" : {
+                        "text" : "4 mins",
+                        "value" : 266
+                     },
+                     "end_location" : {
+                        "lat" : 49.4542907,
+                        "lng" : 32.0461267
+                     },
+                     "html_instructions" : "Head \u003cb\u003enorthwest\u003c/b\u003e on \u003cb\u003eвул. Хрещатик\u003c/b\u003e toward \u003cb\u003eвул. Остафія Дашковича\u003c/b\u003e",
+                     "polyline" : {
+                        "points" : "a{wlHc}ubE}CnGcCjFkCzFKRO\\aAtBeAvBMXQ`@}@tBO\\iA`CA@[p@e@dAy@`BIT]v@{B`FaEdJkBbEgA`C_ChFcCrFm@tAkC`GmBlEm@nAcA`CgB`E"
+                     },
+                     "start_location" : {
+                        "lat" : 49.443214,
+                        "lng" : 32.0662627
+                     },
+                     "travel_mode" : "DRIVING"
+                  },
+                  {
+                     "distance" : {
+                        "text" : "0.2 km",
+                        "value" : 211
+                     },
+                     "duration" : {
+                        "text" : "1 min",
+                        "value" : 45
+                     },
+                     "end_location" : {
+                        "lat" : 49.45284,
+                        "lng" : 32.0442519
+                     },
+                     "html_instructions" : "Turn \u003cb\u003eleft\u003c/b\u003e onto \u003cb\u003eвул. Університетська\u003c/b\u003e",
+                     "maneuver" : "turn-left",
+                     "polyline" : {
+                        "points" : "i`zlHi_rbEfCnDxCfE"
+                     },
+                     "start_location" : {
+                        "lat" : 49.4542907,
+                        "lng" : 32.0461267
+                     },
+                     "travel_mode" : "DRIVING"
+                  },
+                  {
+                     "distance" : {
+                        "text" : "1.0 km",
+                        "value" : 1018
+                     },
+                     "duration" : {
+                        "text" : "2 mins",
+                        "value" : 104
+                     },
+                     "end_location" : {
+                        "lat" : 49.4588119,
+                        "lng" : 32.0335838
+                     },
+                     "html_instructions" : "Turn \u003cb\u003eright\u003c/b\u003e onto \u003cb\u003eбул. Шевченка\u003c/b\u003e",
+                     "maneuver" : "turn-right",
+                     "polyline" : {
+                        "points" : "gwylHqsqbEgClFyDnIyHlPuFrL_D`HyA|CSb@i@pA"
+                     },
+                     "start_location" : {
+                        "lat" : 49.45284,
+                        "lng" : 32.0442519
+                     },
+                     "travel_mode" : "DRIVING"
+                  },
+                  {
+                     "distance" : {
+                        "text" : "31 m",
+                        "value" : 31
+                     },
+                     "duration" : {
+                        "text" : "1 min",
+                        "value" : 26
+                     },
+                     "end_location" : {
+                        "lat" : 49.4590351,
+                        "lng" : 32.0335819
+                     },
+                     "html_instructions" : "Turn \u003cb\u003eright\u003c/b\u003e onto \u003cb\u003eвул. Пальохи\u003c/b\u003e (signs for \u003cb\u003eГОТЕЛЬ \"УКРАЇНА\"\u003c/b\u003e/\u003cb\u003eБОУЛІНГ-КЛУБ \"КОСМОС\"\u003c/b\u003e)\u003cdiv style=\"font-size:0.9em\"\u003eDestination will be on the right\u003c/div\u003e",
+                     "maneuver" : "turn-right",
+                     "polyline" : {
+                        "points" : "q|zlH{pobEMV[UAAA?"
+                     },
+                     "start_location" : {
+                        "lat" : 49.4588119,
+                        "lng" : 32.0335838
+                     },
+                     "travel_mode" : "DRIVING"
+                  }
+               ],
+               "traffic_speed_entry" : [],
+               "via_waypoint" : []
+            },
+            {
+               "distance" : {
+                  "text" : "5.2 km",
+                  "value" : 5175
+               },
+               "duration" : {
+                  "text" : "11 mins",
+                  "value" : 663
+               },
+               "end_address" : "Marshala Krasovs'koho St, 8, Cherkasy, Cherkas'ka oblast, Ukraine, 18000",
+               "end_location" : {
+                  "lat" : 49.4267725,
+                  "lng" : 32.0533859
+               },
+               "start_address" : "Pal'okhy St, 25, Cherkasy, Cherkas'ka oblast, Ukraine, 18000",
+               "start_location" : {
+                  "lat" : 49.4590351,
+                  "lng" : 32.0335819
+               },
+               "steps" : [
+                  {
+                     "distance" : {
+                        "text" : "19 m",
+                        "value" : 19
+                     },
+                     "duration" : {
+                        "text" : "1 min",
+                        "value" : 26
+                     },
+                     "end_location" : {
+                        "lat" : 49.4588848,
+                        "lng" : 32.033456
+                     },
+                     "html_instructions" : "Head \u003cb\u003esouthwest\u003c/b\u003e on \u003cb\u003eвул. Пальохи\u003c/b\u003e toward \u003cb\u003eР10\u003c/b\u003e",
+                     "polyline" : {
+                        "points" : "_~zlH{pobE@?@@ZT"
+                     },
+                     "start_location" : {
+                        "lat" : 49.4590351,
+                        "lng" : 32.0335819
+                     },
+                     "travel_mode" : "DRIVING"
+                  },
+                  {
+                     "distance" : {
+                        "text" : "0.5 km",
+                        "value" : 498
+                     },
+                     "duration" : {
+                        "text" : "1 min",
+                        "value" : 80
+                     },
+                     "end_location" : {
+                        "lat" : 49.455424,
+                        "lng" : 32.029489
+                     },
+                     "html_instructions" : "Continue onto \u003cb\u003eвул. Можайського\u003c/b\u003e/\u003cb\u003eР10\u003c/b\u003e (signs for \u003cb\u003eвул. МОЖАЙСЬКОГО\u003c/b\u003e/\u003cb\u003eБТБ СОРГО\u003c/b\u003e/\u003cb\u003eСТРОЙЦЕНТР\u003c/b\u003e/\u003cb\u003eСМІЛА\u003c/b\u003e/\u003cb\u003eЧИГИРИН\u003c/b\u003e/\u003cb\u003eКИЇВ\u003c/b\u003e)",
+                     "polyline" : {
+                        "points" : "_}zlHcpobERr@Te@`D~D|@fAtBlCnBdCX`@t@`AzAnBVZ"
+                     },
+                     "start_location" : {
+                        "lat" : 49.4588848,
+                        "lng" : 32.033456
+                     },
+                     "travel_mode" : "DRIVING"
+                  },
+                  {
+                     "distance" : {
+                        "text" : "0.2 km",
+                        "value" : 205
+                     },
+                     "duration" : {
+                        "text" : "1 min",
+                        "value" : 25
+                     },
+                     "end_location" : {
+                        "lat" : 49.4539594,
+                        "lng" : 32.027775
+                     },
+                     "html_instructions" : "Continue straight onto \u003cb\u003eвул. Можайського\u003c/b\u003e",
+                     "maneuver" : "straight",
+                     "polyline" : {
+                        "points" : "kgzlHiwnbEvBfCjDlE"
+                     },
+                     "start_location" : {
+                        "lat" : 49.455424,
+                        "lng" : 32.029489
+                     },
+                     "travel_mode" : "DRIVING"
+                  },
+                  {
+                     "distance" : {
+                        "text" : "3.2 km",
+                        "value" : 3213
+                     },
+                     "duration" : {
+                        "text" : "6 mins",
+                        "value" : 347
+                     },
+                     "end_location" : {
+                        "lat" : 49.4352509,
+                        "lng" : 32.0615529
+                     },
+                     "html_instructions" : "Turn \u003cb\u003eleft\u003c/b\u003e onto \u003cb\u003eвул. Надпільна\u003c/b\u003e (signs for \u003cb\u003eвул. ІЛЬЇНА\u003c/b\u003e/\u003cb\u003eBOSCH дизель центр НЬЮТОН\u003c/b\u003e/\u003cb\u003eBOSCH автосервіс НЬЮТОН\u003c/b\u003e/\u003cb\u003eGEELY автосалон НЬЮТОН\u003c/b\u003e)",
+                     "maneuver" : "turn-left",
+                     "polyline" : {
+                        "points" : "g~ylHslnbEFHlCkGjCyFpBoE~BeFnHkPfIuQbCmFbBqDbBsD~HaQxDkI~BgFnBgEL[xAaDhBcE@EtBqE~@sB~@qBdA_CzBcFfA_C`@_AzAiDfGwM|@kB~@uBZs@N[rAyCb@{@~AmD"
+                     },
+                     "start_location" : {
+                        "lat" : 49.4539594,
+                        "lng" : 32.027775
+                     },
+                     "travel_mode" : "DRIVING"
+                  },
+                  {
+                     "distance" : {
+                        "text" : "0.3 km",
+                        "value" : 341
+                     },
+                     "duration" : {
+                        "text" : "1 min",
+                        "value" : 36
+                     },
+                     "end_location" : {
+                        "lat" : 49.4328914,
+                        "lng" : 32.0587747
+                     },
+                     "html_instructions" : "Turn \u003cb\u003eright\u003c/b\u003e onto \u003cb\u003eвул. Свято-Макаріївська\u003c/b\u003e (signs for \u003cb\u003eвул. ЛЕНІНА\u003c/b\u003e)",
+                     "maneuver" : "turn-right",
+                     "polyline" : {
+                        "points" : "iivlHu_ubEJWr@bAxEvGxBtCj@r@V\\"
+                     },
+                     "start_location" : {
+                        "lat" : 49.4352509,
+                        "lng" : 32.0615529
+                     },
+                     "travel_mode" : "DRIVING"
+                  },
+                  {
+                     "distance" : {
+                        "text" : "0.3 km",
+                        "value" : 262
+                     },
+                     "duration" : {
+                        "text" : "1 min",
+                        "value" : 28
+                     },
+                     "end_location" : {
+                        "lat" : 49.4306012,
+                        "lng" : 32.0596115
+                     },
+                     "html_instructions" : "Turn \u003cb\u003eleft\u003c/b\u003e onto \u003cb\u003eвул. Громова\u003c/b\u003e (signs for \u003cb\u003eвул. ГРОМОВА\u003c/b\u003e/\u003cb\u003eфітнес-клу6 АТЛАНТІС\u003c/b\u003e/\u003cb\u003eстоматологія ДЖУЛІЯ\u003c/b\u003e)",
+                     "maneuver" : "turn-left",
+                     "polyline" : {
+                        "points" : "qzulHintbErDgAnAg@DA^Kl@Ql@MXEVCFAH@"
+                     },
+                     "start_location" : {
+                        "lat" : 49.4328914,
+                        "lng" : 32.0587747
+                     },
+                     "travel_mode" : "DRIVING"
+                  },
+                  {
+                     "distance" : {
+                        "text" : "0.6 km",
+                        "value" : 637
+                     },
+                     "duration" : {
+                        "text" : "2 mins",
+                        "value" : 121
+                     },
+                     "end_location" : {
+                        "lat" : 49.4267725,
+                        "lng" : 32.0533859
+                     },
+                     "html_instructions" : "Turn \u003cb\u003eright\u003c/b\u003e onto \u003cb\u003eвул. Маршала Красовського\u003c/b\u003e\u003cdiv style=\"font-size:0.9em\"\u003eDestination will be on the left\u003c/div\u003e",
+                     "maneuver" : "turn-right",
+                     "polyline" : {
+                        "points" : "glulHqstbEF~@Hv@D\\F^H^H^HXL`@Pf@\\bA\\bAN^d@|@Zh@\\`@`@f@`CnC\\\\X^TZP\\HTJXHLhBpBTTx@x@T^"
+                     },
+                     "start_location" : {
+                        "lat" : 49.4306012,
+                        "lng" : 32.0596115
+                     },
+                     "travel_mode" : "DRIVING"
+                  }
+               ],
+               "traffic_speed_entry" : [],
+               "via_waypoint" : []
+            }
+         ],
+         "overview_polyline" : {
+            "points" : "ittlHulsbEU_@y@y@_CgCq@{Ao@{@_DmD_AiAaAgB}AoEW{@S_AM}@QwBQ?q@HaCl@oAf@sDfAcAqAyBuCyEwGs@cAKVuCyDoC{DyDeG_HiJ{BeD{FcIqAkB_@v@qAjCoAjCu@hBuBrEyLjWeDdHoAvCyA~C}BzEg@lA}HfQwLbXuItRkDbI`HvJqZ~o@wHtPMV[UCAB@ZTRr@Te@`D~DrDtEzGxIbIzJlCkGjCyFpFuL~Yap@|Uih@`IiQvF}LjHcP`NcZbDeHjBeElGzIdDhEV\\rDgAtAi@lA]fAS^EH@F~@NtAd@xBzApEt@|Ax@jAzEtFf@x@Tn@rB~BnAnAT^"
+         },
+         "summary" : "вул. Маршала Красовського and вул. Небесної Сотні",
+         "warnings" : [],
+         "waypoint_order" : [ 0, 1 ]
+      }
+   ],
+   "status" : "OK"
+}
+)
