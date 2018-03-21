@@ -243,6 +243,10 @@ nav button:hover {
         }
       }
 
+      &:nth-child(7) + button#add_point {
+        display: none !important;
+      }
+
       input:focus + ul {
         visibility: visible;
       }
@@ -315,7 +319,7 @@ nav .icon {
   max-width: 32px;
 }
 
-#state {
+#state, #loader {
   text-align: center;
 }
 

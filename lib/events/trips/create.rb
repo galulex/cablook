@@ -12,6 +12,7 @@ module Events
           required(:destination) { array? & size?(2) }
           required(:departure_address).filled(:str?)
           required(:destination_address).filled(:str?)
+          optional(:waypoints) { array? }
 
           optional(:comment).filled(:str?)
           optional(:card_id).filled(:int?)
@@ -92,7 +93,7 @@ module Events
       end
 
       def matrix
-        @matrix ||= SearchEngine::Matrix.new(data[:departure], data[:destination])
+        @matrix ||= SearchEngine::Directions.new(data[:departure], data[:destination], data[:waypoints]&.map { |w| w.split(',') })
       end
 
       def cost

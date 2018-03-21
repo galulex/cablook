@@ -1,6 +1,9 @@
 Trips = {
   build: () => {
-    Locations.get(UI.departureAddress, Locations.get(UI.destinationAddress, Path.build))
+    // UI.waypoints.forEach(point =>
+      // Locations.get(point)
+    // )
+    // Locations.get(UI.departureAddress, Locations.get(UI.destinationAddress, Path.build))
   },
 
   show: () => {
@@ -17,6 +20,11 @@ Trips = {
     data.append('trip[departure][]', trip.departure[1])
     data.append('trip[destination][]', trip.destination[0])
     data.append('trip[destination][]', trip.destination[1])
+
+    trip.waypoints.forEach(w => {
+      data.append('trip[waypoints][]', w)
+    })
+
     data.append('trip[path]', trip.path)
     data.append('trip[comment]', trip.comment)
     if (localStorage.ready) {
@@ -24,6 +32,7 @@ Trips = {
         localStorage.trip = data['id']
         app.step = 4
         app.subscribe()
+        dataLayer.push({ 'event': 'formSubmission', 'formType': 'Order Taxi' })
       })
     } else {
       alert('На даний момент CabLook підтримує лише безготівковий спосіб оплати. \n Щоб продовжити додайте свою платіжну картку')
@@ -32,14 +41,15 @@ Trips = {
   },
 
   destroy: () => {
-    trip = {}
+    trip = { waypoints: [] }
+    UI.destroyTrip()
     app.step = 2
   },
 
   cancel: () => {
     ajax(`trips/${localStorage.trip}/cancel`, 'PATCH', {trip_id: 1}, data => {
       localStorage.removeItem('trip')
-      app.step = 2
+      Trips.destroy()
     })
   }
 }

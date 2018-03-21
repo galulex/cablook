@@ -37,6 +37,10 @@ UI = {
     document.getElementById('trip_path').setAttribute('src', val)
   },
 
+  get waypoints() {
+    return document.querySelectorAll("[name='waypoints']")
+  },
+
   get form() {
     return document.getElementById('form')
   },
@@ -68,10 +72,12 @@ UI = {
     btn.parentElement.remove()
   },
 
-  addPoint() {
-    let point = this.destination.parentElement.cloneNode(true)
+  addPoint(button) {
+    let point = this.destinationAddress.parentElement.cloneNode(true)
     point.id = Date.now().toString()
-    this.destination.parentElement.parentElement.appendChild(point)
+    point.querySelector('input').value = ''
+    point.querySelector('input').removeAttribute('data-point')
+    button.parentElement.insertBefore(point, button)
   },
 
   showTrip(data) {
@@ -85,7 +91,13 @@ UI = {
     if (data.driver) {
       html += `${data.driver.name}: <b><a href='tel:${data.driver.car.phone_number}'>${data.driver.car.phone_number}</a></b></br>`
     }
+    document.getElementById('loader').classList.add('hidden')
     document.getElementById('state').innerHTML = html
     if (this.nissan) this.nissan.className.baseVal = 'nissan gone'
+  },
+
+  destroyTrip() {
+    document.getElementById('loader').classList.remove('hidden')
+    document.getElementById('state').innerHTML = ''
   }
 }

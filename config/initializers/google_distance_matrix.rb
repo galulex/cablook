@@ -3,3 +3,4 @@ GoogleDistanceMatrix.configure_defaults do |config|
   config.mode = 'driving'
   config.departure_time = 'now'
 end
+

@@ -55,6 +55,12 @@ class App {
     UI.showTrip(data)
   }
 
+  finish_trip(data) {
+    app.step = 2
+    localStorage.removeItem('trip')
+    alert('Поїздка завершена.')
+  }
+
   TripDeclined(trip) {
     app.step = 2
     localStorage.removeItem('trip')
