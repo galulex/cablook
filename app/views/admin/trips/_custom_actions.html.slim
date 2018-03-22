@@ -1,0 +1,3 @@
+.custom-actions
+  - if @trip.status == Constants::Trip::DRIVING
+    = button_to 'Finish Trip', finish_admin_trip_path(@trip), class: 'button', method: :put

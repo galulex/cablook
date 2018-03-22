@@ -4,4 +4,23 @@ ActiveAdmin.register Payment do
       params.permit!
     end
   end
+
+  show do
+    attributes_table do
+      Payment.column_names.each { |title| row title }
+    end
+    render 'custom_actions'
+  end
+
+  member_action :retry_payment, method: :post do
+    payment = Payment.find(params[:id])
+    card_id = payment.card_id || Card.find_by(user_id: payment.user_id)&.id
+    Operations::Wayforpay::RetryPayment.new(payment.id, payment.card_id).call
+    notice = if payment.status == Constants::Payments::SUCCESS
+               'Payment success'
+             else
+               'Something went wrong. Check response'
+             end
+    redirect_to admin_payment_path(payment), notice: notice
+  end
 end

@@ -9,6 +9,13 @@ ActiveAdmin.register Trip do
     attributes_table do
       view_trip_columns(ordered_trip_columns, :row)
     end
+    render 'custom_actions'
+  end
+
+  member_action :finish, method: :put do
+    trip_id = params[:id].to_i
+    Events::Trips::Finish.(trip_id: trip_id)
+    redirect_to admin_trip_path(trip_id), notice: 'Finished!'
   end
 end
 
