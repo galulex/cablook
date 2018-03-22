@@ -1,6 +1,8 @@
 RSpec.feature 'Trip', type: :feature, js: true do
   let(:phone_number)  { 630123456 }
   let(:start_address) { 'Active Bridge' }
+  let(:address_1) { 'Depot' }
+  let(:address_2) { 'McDonald\'s' }
   let(:end_address) { 'Sport Life' }
   let(:comment) { 'Comment' }
   let(:car) { Factory[:car] }
@@ -11,7 +13,7 @@ RSpec.feature 'Trip', type: :feature, js: true do
   scenario 'user authorize' do
     visit root_path
     fill_in 'number', with: phone_number
-    find('button').click; sleep 1
+    find('button').click; sleep(1)
     fill_in 'verification', with: User.last.verification_token
     click_button 'submit_code'
 
@@ -27,18 +29,20 @@ RSpec.feature 'Trip', type: :feature, js: true do
       visit root_path
       fill_in 'departure_address', with: start_address
       find('ul.form__location-list', text: start_address).first('li').click
-      sleep 0.5
-      fill_in 'destination_address', with: end_address
+      fill_in 'destination_address', with:address_1
+      find('ul.form__location-list', text: address_1).first('li').click
+      click_button 'add_point'
+      all(:fillable_field, 'waypoints').last.set address_2
+      find('ul.form__location-list', text: address_2).first('li').click
+      click_button 'add_point'
+      all(:fillable_field, 'waypoints').last.set end_address
       find('ul.form__location-list', text: end_address).first('li').click
-      sleep 0.5
       find('summary').click
       fill_in 'comment', with: comment
       page.execute_script("localStorage.ready = true")
-      sleep 0.2
       click_button 'done'
-      sleep 1
       click_button 'go'
-      sleep 1
+      sleep(1)
       trip
       expect(page).to have_content(I18n.t('shared.user_form.looking_for_driver'))
       visit root_path
