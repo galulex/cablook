@@ -67,7 +67,7 @@ describe Api::TripsController, type: :controller do
     subject { response }
 
     let(:params) { { id: trip.id } }
-    let(:trip) { Factory[:trip] }
+    let(:trip) { Factory[:trip, user_id: user.id] }
 
     before { get :show, params: params, as: :json }
 

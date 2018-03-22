@@ -7,7 +7,7 @@ module Repositories
     end
 
     def detailed(trip_id)
-      trips.detailed.by_pk(trip_id).one
+      trips.detailed.with_user.by_pk(trip_id).one
     end
 
     def by_id(trip_id)
