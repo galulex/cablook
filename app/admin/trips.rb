@@ -47,7 +47,7 @@ end
 
 def path(element)
   send(element, 'path') do |trip|
-    image_tag("https://maps.googleapis.com/maps/api/staticmap?size=350x300&path=enc:#{trip.path}&key=AIzaSyDlGdVGbkeO_30Yn7tPCpe61AgdrsXMbQ0")
+    image_tag("https://maps.googleapis.com/maps/api/staticmap?size=150x100&path=enc:#{trip.path}&key=AIzaSyDlGdVGbkeO_30Yn7tPCpe61AgdrsXMbQ0")
   end
 end
 

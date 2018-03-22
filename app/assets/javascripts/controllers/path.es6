@@ -18,6 +18,12 @@ Path = {
       travelMode: 'DRIVING'
     }
 
+    if (!departure || !destination) {
+      alert('Адреса введена не вірно')
+      UI.disableButtons(false)
+      return false
+    }
+
     directionsService.route(params, function (response, status) {
       if (status === 'OK'){
         let route = response.routes[0]
