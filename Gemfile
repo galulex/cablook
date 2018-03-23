@@ -48,8 +48,12 @@ group :development, :test do
 end
 
 group :test do
+  gem 'capybara'
+  gem 'chromedriver-helper'
   gem 'database_cleaner'
+  gem 'capybara-webkit'
   gem 'rspec-rails'
+  gem 'selenium-webdriver'
   gem 'simplecov', require: false
   gem 'webmock'
 end
