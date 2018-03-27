@@ -10,10 +10,11 @@ ActiveAdmin.register_page 'Dashboard' do
         location = redis.get("car_#{car_struct.id}")
         car = car_struct.to_h
         car[:location] = location&.split(',')
+        car[:status] = Constants::Car::STATUS_CODES[car_struct.status]
         car
       end
 
-      @trips = Trip.last(10)
+      @trips = Repositories::Trip.new(ROM.env).in_progress
     end
   end
 end
