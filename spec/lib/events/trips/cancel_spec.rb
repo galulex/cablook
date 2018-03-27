@@ -51,6 +51,12 @@ describe Events::Trips::Cancel do
       it { is_expected.to change { trip_repository.by_id(trip.id).status }.to(Constants::Trip::CANCELED_BY_DRIVER) }
     end
 
+    context 'when trip is declined' do
+      let(:trip) { Factory[:trip, status: Constants::Trip::DECLINED] }
+
+      it { is_expected.not_to change { trip_repository.by_id(trip.id).status } }
+    end
+
     context 'when trip is finished' do
       let(:trip) { Factory[:trip, status: Constants::Trip::FINISHED] }
 

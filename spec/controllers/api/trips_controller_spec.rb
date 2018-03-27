@@ -90,4 +90,15 @@ describe Api::TripsController, type: :controller do
       it { is_expected.to have_http_status(:unprocessable_entity) }
     end
   end
+
+  describe '#retry' do
+    subject { response }
+
+    let(:params) { { trip_id: trip.id } }
+    let(:trip) { Factory[:trip] }
+
+    before { patch :retry, params: params, as: :json }
+
+    it { is_expected.to have_http_status(:success) }
+  end
 end

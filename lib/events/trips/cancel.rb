@@ -11,7 +11,7 @@ module Events
       end
 
       def run
-        if trip.status.in?([Constants::Trip::PENDING, Constants::Trip::ON_THE_WAY, Constants::Trip::WAITING_CLIENT])
+        if trip.status.in?([Constants::Trip::PENDING, Constants::Trip::ON_THE_WAY, Constants::Trip::WAITING_CLIENT, Constants::Trip::DECLINED])
           update_trip
           delete_from_jobs
           refund_payment
@@ -25,6 +25,7 @@ module Events
       private
 
       def update_trip
+        return if trip.status == Constants::Trip::DECLINED
         status = data[:by_driver] ? Constants::Trip::CANCELED_BY_DRIVER : Constants::Trip::CANCELED
         Repositories::Trip.new(ROM.env).update(
           data[:trip_id],

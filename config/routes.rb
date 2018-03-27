@@ -15,6 +15,7 @@ Rails.application.routes.draw do
     resources :referrals, only: %i[index create]
     resources :trips, only: %i[index show create] do
       patch 'cancel'
+      patch 'retry'
       resources :feedbacks, only: :create
     end
 
