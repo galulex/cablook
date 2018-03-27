@@ -98,9 +98,6 @@ GEM
       rack (>= 1.0.0)
       rack-test (>= 0.5.4)
       xpath (>= 2.0, < 4.0)
-    capybara-webkit (1.15.0)
-      capybara (>= 2.3, < 4.0)
-      json
     charlatan (0.1.0)
     childprocess (0.9.0)
       ffi (~> 1.0, >= 1.0.11)
@@ -500,7 +497,6 @@ DEPENDENCIES
   capistrano-rails
   capistrano-sidekiq
   capybara
-  capybara-webkit
   chromedriver-helper
   database_cleaner
   dry-validation
@@ -526,8 +522,8 @@ DEPENDENCIES
   rspec-rails
   rubocop
   sass-rails
-  serviceworker-rails
   selenium-webdriver
+  serviceworker-rails
   sidekiq
   simplecov
   sitemap_generator
