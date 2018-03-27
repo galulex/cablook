@@ -37,5 +37,10 @@ module Repositories
     def pending
       trips.where(status: Constants::Trip::PENDING).to_a
     end
+
+    def in_progress
+      statuses = [Constants::Trip::PENDING, Constants::Trip::ON_THE_WAY, Constants::Trip::WAITING_CLIENT, Constants::Trip::DRIVING]
+      trips.with_user.where(status: statuses).to_a
+    end
   end
 end
