@@ -156,9 +156,10 @@ nav button:hover {
 
     &:before {
       content: '▼';
-      padding-top: 2%;
+      padding-top: 5px;
       position: absolute;
       right: 10%;
+      max-height: 20px;
     }
   }
 
@@ -330,5 +331,6 @@ nav .icon {
 
   svg {
     max-width: 100%;
+    max-height: 55px;
   }
 }

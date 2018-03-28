@@ -32,6 +32,7 @@
 
   &__image {
     width: 20%;
+    max-height: 20%;
   }
 
   &__title {
@@ -73,5 +74,6 @@
     top: auto;
     left: -7%;
     right: 0;
+    max-height: 210px;
   }
 }

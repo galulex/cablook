@@ -1,5 +1,6 @@
 .white-logo {
   max-width: 150px;
+  max-height: 150px;
   path[fill="#1c1c1c"] {
     fill: white;
   }
@@ -7,6 +8,7 @@
 
 .black-logo {
   max-width: 150px;
+  max-height: 150px;
   path[fill="#1c1c1c"] {
     fill: $black;
   }
@@ -20,6 +22,7 @@
 .nissan {
   width: 40%;
   transition: transform 2s;
+  max-height: 250px;
 
   &.gone {
     transform: translateX(100vw);
