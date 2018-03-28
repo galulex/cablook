@@ -13,13 +13,23 @@ module Jobs
     '.freeze
 
     def perform(number, body)
+      response = Net::HTTP.new(URL.host, URL.port).start { |http| http.request http_request(number, body) }
+      raise response_state(response).text unless response_state(response)['code'] == 'ACCEPT'
+    end
+
+    private
+
+    def http_request(number, body)
       request = Net::HTTP::Post.new(URL.path)
       request.body = format(BODY, body, number)
       p request.body
-      request.basic_auth('+380636086045', 'SexMC90')
+      request.basic_auth('380636086045', 'SexMC90')
       request.content_type = 'text/xml'
-      response = Net::HTTP.new(URL.host, URL.port).start { |http| http.request request }
-      response
+      request
+    end
+
+    def response_state(response)
+      Nokogiri::XML(response.read_body).at('//state')
     end
   end
 end
