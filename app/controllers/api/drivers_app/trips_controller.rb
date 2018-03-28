@@ -15,17 +15,23 @@ module Api
 
       def start
         Events::Trips::Start.(trip_id: params[:trip_id].to_i)
-        render json: {}, status: 200
+        render json: Presenters::Trips::Single.new(trip).to_json, status: 200
       end
 
       def finish
         Events::Trips::Finish.(trip_id: params[:trip_id].to_i)
-        render json: {}, status: 200
+        render json: Presenters::Trips::Single.new(trip).to_json, status: 200
       end
 
       def waiting_client
         Events::Trips::WaitingClient.(trip_id: params[:trip_id].to_i)
-        render json: {}, status: 200
+        render json: Presenters::Trips::Single.new(trip).to_json, status: 200
+      end
+
+      private
+
+      def trip
+        @trip ||= Repositories::Trip.new(ROM.env).by_id(params[:trip_id])
       end
     end
   end

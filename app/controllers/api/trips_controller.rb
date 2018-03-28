@@ -22,6 +22,11 @@ module Api
       render json: [I18n.t('trips.canceled')], status: 200
     end
 
+    def retry
+      trip = Events::Trips::Retry.(trip_id: params[:trip_id].to_i)
+      render json: Presenters::Trips::Single.new(trip).to_json, status: 200
+    end
+
     private
 
     def index_params
