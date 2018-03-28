@@ -17,6 +17,7 @@ module Events
       private
 
       def delete_card
+        Repositories::Payment.new(ROM.env).nullify_card(data[:card_id])
         card_repository.delete(data[:card_id])
       end
 

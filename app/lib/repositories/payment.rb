@@ -21,5 +21,9 @@ module Repositories
     def pending
       payments.where(status: Constants::Payments::PENDING).to_a
     end
+
+    def nullify_card(card_id)
+      payments.where(card_id: card_id).changeset(:update, card_id: nil).commit
+    end
   end
 end
