@@ -1,29 +1,18 @@
 module Jobs
   class Sms < ActiveJob::Base
-    URL = URI.parse('http://svitsms.com/api/api.php').freeze
-    BODY = '
-      <?xml version="1.0" encoding="utf-8"?>
-      <request>
-        <operation>SENDSMS</operation>
-        <message start_time="AUTO" end_time="AUTO" lifetime="4" rate="120" desc="" source="CabLook">
-          <body>%s</body>
-          <recipient>%s</recipient>
-        </message>
-      </request>
-    '.freeze
-
     def perform(number, body)
-      response = Net::HTTP.new(URL.host, URL.port).start { |http| http.request http_request(number, body) }
-      raise response_state(response).text unless response_state(response)['code'] == 'ACCEPT'
+      response = Net::HTTP.new(Constants::Sms::URL.host, Constants::Sms::URL.port).start do |http|
+        http.request http_request(number, body)
+      end
+      raise response_state(response).text unless response_state(response)['code'] == Constants::Sms::ACCEPT
     end
 
     private
 
     def http_request(number, body)
-      request = Net::HTTP::Post.new(URL.path)
-      request.body = format(BODY, body, number)
-      p request.body
-      request.basic_auth('380636086045', 'SexMC90')
+      request = Net::HTTP::Post.new(Constants::Sms::URL.path)
+      request.body = format(Constants::Sms::BODY, body, number)
+      request.basic_auth(ENV['SVITSMS_USER'], ENV['SVITSMS_PASSWORD'])
       request.content_type = 'text/xml'
       request
     end
