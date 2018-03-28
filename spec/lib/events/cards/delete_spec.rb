@@ -8,6 +8,12 @@ describe Events::Cards::Delete do
 
     it { is_expected.to change { card_repository.cards.count }.by(-1) }
 
+    context 'when payment is exists' do
+      let!(:payment) { Factory[:payment, card_id: card.id] }
+
+      it { is_expected.to change { payment_repository.by_id(payment.id).card_id }.to(nil) }
+    end
+
     context 'when card not found' do
       let(:card) { Factory[:card] }
 

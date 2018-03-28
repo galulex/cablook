@@ -40,4 +40,13 @@ describe Repositories::Payment do
       it { expect(instance).not_to be_empty }
     end
   end
+
+  describe '#nullify_card' do
+    subject { -> { payment_repository.nullify_card(card.id) } }
+
+    let!(:payment) { Factory[:payment, card_id: card.id] }
+    let(:card) { Factory[:card] }
+
+    it { is_expected.to change { payment_repository.by_id(payment.id).card_id }.from(card.id).to(nil) }
+  end
 end
