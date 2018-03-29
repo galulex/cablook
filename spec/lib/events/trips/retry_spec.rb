@@ -7,6 +7,7 @@ describe Events::Trips::Retry do
     subject { -> { described_class.call(data) } }
 
     it { is_expected.to change { trip_repository.by_id(trip.id).status }.to(Constants::Trip::PENDING) }
+    it { is_expected.to have_enqueued_job(Jobs::DeclineTrip).with(trip.id) }
 
     context 'and broadcast to channel' do
       after { subject.call }
