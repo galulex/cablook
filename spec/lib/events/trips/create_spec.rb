@@ -11,6 +11,7 @@ describe Events::Trips::Create do
 
     context 'and active job is created' do
       it { is_expected.to have_enqueued_job(Jobs::SearchCarForTrip).with(data[:id]) }
+      it { is_expected.to have_enqueued_job(Jobs::DeclineTrip).with(data[:id]) }
     end
 
     context 'and trip_job is created' do

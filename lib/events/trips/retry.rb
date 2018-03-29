@@ -12,6 +12,7 @@ module Events
       def run
         trip = update_trip
         SearchEngine.(trip_id: data[:trip_id]) # broadcast
+        Jobs::DeclineTrip.set(wait: Constants::Trip::EXPIRES_IN).perform_later(data[:trip_id])
         trip
       end
 

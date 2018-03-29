@@ -14,6 +14,7 @@ module Events
         update_trip
         Jobs::PaymentSettle.perform_later(data[:trip_id])
         broadcast
+        update_car
       end
 
       private
@@ -24,6 +25,11 @@ module Events
           status: Constants::Trip::FINISHED,
           finished_at: Time.now
         )
+      end
+
+      def update_car
+        trip = Repositories::Trip.new(ROM.env).by_id(data[:trip_id])
+        Repositories::Car.new(ROM.env).update(trip.car_id, status: Constants::Car::FREE)
       end
 
       def broadcast

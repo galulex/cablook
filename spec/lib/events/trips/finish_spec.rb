@@ -2,11 +2,13 @@ describe Events::Trips::Finish do
   describe '.call' do
     subject { -> { described_class.call(data) } }
 
-    let(:trip) { Factory[:trip, status: Constants::Trip::PENDING] }
+    let(:trip) { Factory[:trip, status: Constants::Trip::PENDING, car_id: car.id] }
+    let(:car) { Factory[:car, status: Constants::Car::OFFLINE] }
 
     let(:data) { { trip_id: trip.id } }
 
     it { is_expected.to change { trip_repository.by_id(trip.id).status }.to(Constants::Trip::FINISHED) }
+    it { is_expected.to change { car_repository.by_id(car.id).status }.to(Constants::Car::FREE) }
     it { is_expected.to have_enqueued_job(Jobs::PaymentSettle) }
 
     context 'and broadcast to driver map channel' do
