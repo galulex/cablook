@@ -1,5 +1,5 @@
 describe Jobs::Sms do
-  let(:body) do
+  let(:xml_body) do
     '<?xml version="1.0" encoding="utf-8"?>
     <message>
       <state code="%s" date="2012-01-24 12:48:32">%s</state>
@@ -10,23 +10,30 @@ describe Jobs::Sms do
 
   before do
     stub_request(:any, 'http://svitsms.com/api/api.php')
-      .to_return(body: format(body, code, text), status: 200,
-                 headers: { 'Content-Length' => 3 })
+      .to_return(body: body, status: 200, headers: { 'Content-Length' => 3 })
   end
 
-  after { subject }
+  context 'when xml response received' do
+    let(:body) { format(xml_body, code, text) }
 
-  context 'when sms is sent' do
-    let(:code) { 'ACCEPT' }
-    let(:text) { 'success' }
+    context 'when sms is sent' do
+      let(:code) { 'ACCEPT' }
+      let(:text) { 'success' }
 
-    it { is_expected.to_not raise_error }
+      it { is_expected.to_not raise_error }
+    end
+
+    context 'when sms is not sent' do
+      let(:code) { 'INSUFFICIENTFUNDS' }
+      let(:text) { 'error' }
+
+      it { is_expected.to raise_error(text) }
+    end
   end
 
-  context 'when sms is not sent' do
-    let(:code) { 'INSUFFICIENTFUNDS' }
-    let(:text) { 'error' }
+  context 'when xml response is not received' do
+    let(:body) { 'error' }
 
-    it { is_expected.to raise_error(text) }
+    it { is_expected.to raise_error(body) }
   end
 end

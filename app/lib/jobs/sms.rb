@@ -18,7 +18,9 @@ module Jobs
     end
 
     def response_state(response)
-      Nokogiri::XML(response.read_body).at('//state')
+      xml = Nokogiri::XML(response.read_body).at('//state')
+      raise response.read_body unless xml
+      xml.at('//state')
     end
   end
 end
