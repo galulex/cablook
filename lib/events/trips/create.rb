@@ -14,7 +14,7 @@ module Events
           required(:destination_address).filled(:str?)
           optional(:waypoints) { array? }
 
-          optional(:comment).filled(:str?)
+          optional(:comment) { str? }
           optional(:card_id).filled(:int?)
           optional(:bouns).filled(:bool?)
         end
