@@ -11,7 +11,7 @@ var mapboxglToken = 'pk.eyJ1IjoiYnJ1Y2VsaWF0b3IiLCJhIjoiY2oxcTJ5dDNzMDA2ajMybnR6
 var tripColors = ['#68efad', '#9b26af', '#FF5722', '#FFEB3B', '#18FFFF',
                   '#8BC34A', '#B388FF', '#E91E63', '#CDDC39', '#03A9F4',
                   '#02C8A7', '#675682', '#FE65B7', '#EC96A4', '#4484CE'];
-var freeColors = tripColors;
+var freeColors = [...tripColors];
 
 function init() {
   mapboxgl.accessToken = mapboxglToken;
@@ -28,6 +28,9 @@ function init() {
     el.className = 'marker';
     el.innerHTML = $('.car-icon')[0].innerHTML;
     $('svg path:first-child', el).css('fill', data.color);
+    if (data.color === 'white') {
+      $(el).addClass('white');
+    }
     el.setAttribute('data-info', JSON.stringify(data));
     el.addEventListener('click', function() {
     });
@@ -144,7 +147,7 @@ function getTripColor() {
   randomColor = freeColors[Math.floor(Math.random() * freeColors.length)];
   index = freeColors.indexOf(randomColor);
   freeColors.splice(index, 1);
-  if (!freeColors.length) { freeColors = tripColors; }
+  if (!freeColors.length) { freeColors = [...tripColors]; }
   return randomColor;
 }
 
