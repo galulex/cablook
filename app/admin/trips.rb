@@ -2,7 +2,9 @@ ActiveAdmin.register Trip do
   index do
     selectable_column
     view_trip_columns(ordered_trip_columns - %w[departure destination], :column)
-    actions
+    actions do |trip|
+      item 'Finish', finish_admin_trip_path(trip), method: :put if trip.status == Constants::Trip::DRIVING
+    end
   end
 
   show do
