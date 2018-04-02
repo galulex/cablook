@@ -1,5 +1,7 @@
 describe Api::DriversApp::TripsController, type: :controller do
-  let(:driver) { Factory[:driver] }
+  let(:driver) { Factory[:driver, car_id: car.id] }
+  let(:car) { Factory[:car] }
+  let(:user) { Factory[:user] }
   let(:auth_token) { driver.auth_token }
 
   before { request.headers['Auth-Token'] = auth_token }
@@ -16,7 +18,7 @@ describe Api::DriversApp::TripsController, type: :controller do
     subject { response }
 
     let(:params) { { trip_id: trip.id } }
-    let(:trip) { Factory[:trip] }
+    let(:trip) { Factory[:trip, car_id: car.id, driver_id: driver.id, user_id: user.id] }
 
     before { patch :cancel, params: params, as: :json }
 
@@ -29,11 +31,31 @@ describe Api::DriversApp::TripsController, type: :controller do
     end
   end
 
+  describe '#accept' do
+    subject { response }
+
+    let(:params) { { trip_id: trip.id } }
+    let(:trip) { Factory[:trip, car_id: car.id, driver_id: driver.id, user_id: user.id] }
+
+    before do
+      Redis.current.set("car_#{driver.car_id}", '49.461655,32.165358')
+      patch :accept, params: params, as: :json
+    end
+
+    it { is_expected.to have_http_status(:success) }
+
+    context 'when driver without car' do
+      let(:driver) { Factory[:driver] }
+
+      it { is_expected.to have_http_status(:unprocessable_entity) }
+    end
+  end
+
   describe '#start' do
     subject { response }
 
     let(:params) { { trip_id: trip.id } }
-    let(:trip) { Factory[:trip] }
+    let(:trip) { Factory[:trip, car_id: car.id, driver_id: driver.id, user_id: user.id] }
 
     before { patch :start, params: params, as: :json }
 
@@ -44,7 +66,7 @@ describe Api::DriversApp::TripsController, type: :controller do
     subject { response }
 
     let(:params) { { trip_id: trip.id } }
-    let(:trip) { Factory[:trip] }
+    let(:trip) { Factory[:trip, car_id: car.id, driver_id: driver.id, user_id: user.id] }
 
     before { patch :start, params: params, as: :json }
 
@@ -55,7 +77,7 @@ describe Api::DriversApp::TripsController, type: :controller do
     subject { response }
 
     let(:params) { { trip_id: trip.id } }
-    let(:trip) { Factory[:trip] }
+    let(:trip) { Factory[:trip, car_id: car.id, driver_id: driver.id, user_id: user.id] }
 
     before { patch :waiting_client, params: params, as: :json }
 
