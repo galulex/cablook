@@ -10,6 +10,16 @@ ActiveAdmin.register Car do
     car_columns
     actions
   end
+
+  form do |f|
+    semantic_errors
+    inputs ' Car Details' do
+      (Car.column_names - %w[id]).each do |title|
+        input title, as: :string
+      end
+    end
+    actions
+  end
 end
 
 def car_columns

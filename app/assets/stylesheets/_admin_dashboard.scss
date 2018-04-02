@@ -24,6 +24,11 @@
 .marker {
   height: 25px;
   width: 31px;
+
+  &.white svg path {
+    stroke: black;
+    stroke-width: 4px;
+  }
 }
 
 .car-icon {
