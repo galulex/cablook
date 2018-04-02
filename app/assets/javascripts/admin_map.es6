@@ -1,9 +1,17 @@
-document.addEventListener('DOMContentLoaded', function(event) {
+document.addEventListener('turbolinks:load', function(event) {
   var $page = $("[data-page='dashboard']");
   if ($page.length > 0) {
-    init();
+    if (typeof mapbox  === 'undefined') { loadMapbox(); }
+    else { init(); }
   }
 });
+
+function loadMapbox() {
+  var script = document.createElement('script');
+  script.onload = function () { init(); }
+  script.src = 'https://api.tiles.mapbox.com/mapbox-gl-js/v0.43.0/mapbox-gl.js';
+  document.head.appendChild(script);
+}
 
 var map;
 var markers = [];
