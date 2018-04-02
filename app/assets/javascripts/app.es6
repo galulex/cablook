@@ -62,9 +62,13 @@ class App {
   }
 
   TripDeclined(trip) {
-    app.step = 2
-    localStorage.removeItem('trip')
-    alert('Нажаль ми не можемо виконати ваше замовлення.\n Просимо вибачення за незручності')
+    if (confirm('Нажаль машинку не знайдено.\n Спробувати ще,')) {
+      Trips.retry()
+    } else {
+      Trips.cancel()
+      localStorage.removeItem('trip')
+      app.step = 2
+    }
   }
 
   autocomplete(input) {

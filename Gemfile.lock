@@ -24,7 +24,6 @@ GEM
       erubi (~> 1.4)
       rails-dom-testing (~> 2.0)
       rails-html-sanitizer (~> 1.0, >= 1.0.3)
-    active_admin_flat_skin (0.1.2)
     activeadmin (1.2.0)
       arbre (>= 1.1.1)
       coffee-rails
@@ -390,6 +389,8 @@ GEM
       rspec-expectations (~> 3.7.0)
       rspec-mocks (~> 3.7.0)
       rspec-support (~> 3.7.0)
+    rspec-retry (0.5.7)
+      rspec-core (> 3.3)
     rspec-support (3.7.0)
     rubocop (0.51.0)
       parallel (~> 1.10)
@@ -495,7 +496,6 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  active_admin_flat_skin
   activeadmin
   activeadmin-select2
   activejob-cancel
@@ -530,6 +530,7 @@ DEPENDENCIES
   rom-repository
   rom-sql
   rspec-rails
+  rspec-retry
   rubocop
   sass-rails
   select2-rails

@@ -9,6 +9,7 @@ require 'rom-factory'
 require 'sidekiq/testing'
 require 'simplecov'
 require 'webmock/rspec'
+require 'rspec/retry'
 Dir[
   Rails.root.join('spec/support/**/*.rb'),
   Rails.root.join('lib/constants.rb'),
@@ -39,6 +40,11 @@ end
 RSpec.configure do |config|
   # config.infer_spec_type_from_file_location!
   # config.filter_rails_from_backtrace!
+  config.verbose_retry = true
+
+  config.around :each, :js do |ex|
+    ex.run_with_retry retry: 3
+  end
 
   config.expect_with :rspec do |expectations|
     expectations.include_chain_clauses_in_custom_matcher_descriptions = true

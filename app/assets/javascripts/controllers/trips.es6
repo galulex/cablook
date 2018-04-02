@@ -51,5 +51,10 @@ Trips = {
       localStorage.removeItem('trip')
       Trips.destroy()
     })
+  },
+
+  retry: () => {
+    ajax(`trips/${localStorage.trip}/retry`, 'PATCH', {trip_id: 1}, data => {
+    })
   }
 }

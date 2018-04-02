@@ -55,6 +55,7 @@ group :test do
   gem 'chromedriver-helper'
   gem 'database_cleaner'
   gem 'rspec-rails'
+  gem 'rspec-retry'
   gem 'selenium-webdriver'
   gem 'simplecov', require: false
   gem 'webmock'
