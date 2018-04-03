@@ -1,9 +1,5 @@
 RSpec.feature 'Trip', type: :feature, js: true do
   let(:phone_number)  { '630123456' }
-  let(:start_address) { 'Active Bridge' }
-  let(:address_1)     { 'Depot' }
-  let(:address_2)     { 'McDonald\'s' }
-  let(:end_address)   { 'Sport Life' }
   let(:comment)       { 'Comment' }
   let(:car)           { Factory[:car] }
   let(:driver)        { Factory[:driver] }
@@ -47,10 +43,8 @@ RSpec.feature 'Trip', type: :feature, js: true do
   end
 
   scenario 'when user hasn\'t a card' do
-    fill_in 'departure_address', with: start_address
-    find('ul.form__location-list', text: start_address).first('li').click
-    fill_in 'destination_address', with: address_1
-    find('ul.form__location-list', text: address_1).first('li').click
+    script_set_addresses
+    script_add_addresses
     click_button 'done'
     click_button 'go'
 
@@ -60,20 +54,14 @@ RSpec.feature 'Trip', type: :feature, js: true do
   context 'user has a card' do
     before { Card.create(token: card.token, type: card.type, currency: card.currency, user_id: User.last.id) }
 
-    scenario 'creat trip' do
-      fill_in 'departure_address', with: start_address
-      find('ul.form__location-list', text: start_address).first('li').click
-      fill_in 'destination_address', with: address_1
-      find('ul.form__location-list', text: address_1).first('li').click
+    scenario 'create trip' do
+      script_set_addresses
+      script_add_addresses
       click_button 'add_point'
-      all(:fillable_field, 'waypoints').last.set address_2
-      find('ul.form__location-list', text: address_2).first('li').click
-      click_button 'add_point'
-      all(:fillable_field, 'waypoints').last.set end_address
-      find('ul.form__location-list', text: end_address).first('li').click
+      script_add_waypoints
       find('summary').click
       fill_in 'comment', with: comment
-      page.execute_script('localStorage.ready = true')
+      script_set_localstorage
       click_button 'done'
       click_button 'go'
       sleep(1)
@@ -84,4 +72,28 @@ RSpec.feature 'Trip', type: :feature, js: true do
       expect(page).to have_content(I18n.t('structs.trip.cost'))
     end
   end
+end
+
+def script_set_addresses
+  page.execute_script(" document.getElementById('departure_address').value = 'Active Bridge' ")
+  page.execute_script(" document.getElementById('destination_address').value = 'Mcdonalds' ")
+  page.execute_script(" document.getElementById('departure_address').dataset.place = 'ChIJIar5649L0UARx2zALYRK6OE' ")
+  page.execute_script(" document.getElementById('destination_address').dataset.place = 'ChIJiy_YjWlM0UARJFq73yvu1h0' ")
+end
+
+def script_add_addresses
+  page.execute_script(" trip.departure_address = 'Active Bridge, Marshala Krasovskoho Street, Cherkasy, Cherkaska oblast, Ukraine' ")
+  page.execute_script(" trip.destination_address = 'Sport Life, Yaroslavska Street, Cherkasy, Cherkaska oblast, Ukraine' ")
+  page.execute_script(" trip.dearture = [ 49.4267725, 32.05338589999997 ] " )
+  page.execute_script(" trip.destination = [ 49.43505769999999, 32.01106010000001 ] " )
+end
+
+def script_add_waypoints
+  page.execute_script(" document.getElementsByClassName('form__location-field')[2].value = 'Sport Life' ")
+  page.execute_script(" document.getElementsByClassName('form__location-field')[2].dataset.place = 'ChIJ0xjbtn5L0UARTQBvFZE58-I' ")
+  page.execute_script(" trip.waypoints = [ '49.4409414, 32.06395700000007' ] " )
+end
+
+def script_set_localstorage
+  page.execute_script('localStorage.ready = true')
 end
