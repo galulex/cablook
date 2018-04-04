@@ -15,7 +15,7 @@ module Constants
     OUTSIDE_CENTS_PER_KM = 900
     FEE = 0.025
     LANDING = 2_000
-    MIN_PRICE = 3_000
+    MIN_PRICE = 4_000
     MAX_DISTANCE = 40_000
     MAX_BONUS_DISTANCE = 10_000
     FAKE = 10
