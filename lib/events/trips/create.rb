@@ -12,7 +12,7 @@ module Events
           required(:destination) { array? & size?(2) }
           required(:departure_address).filled(:str?)
           required(:destination_address).filled(:str?)
-          optional(:waypoints) { array? }
+          optional(:waypoints) { none? | array? }
 
           optional(:comment) { str? }
           optional(:card_id).filled(:int?)
