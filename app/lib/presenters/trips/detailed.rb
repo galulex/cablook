@@ -1,6 +1,6 @@
 class Presenters::Trips::Detailed < Presenters::BaseSingle
   properties :id, :status, :path, :cost, :departure, :destination,
-             :departure_address, :destination_address,
+             :departure_address, :destination_address, :waypoints,
              :start_at, :started_at, :finish_at, :finished_at, :duration, :distance, :comment,
              :user_id, :driver_id, :created_at,
              :driver_name, :car_number, :car_phone_number, :user_number

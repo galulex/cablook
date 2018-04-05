@@ -34,14 +34,6 @@ describe Events::Trips::Create do
       it { is_expected.to raise_error(Events::InvalidParamsError) }
     end
 
-    context 'when cost is int' do
-      let(:data) { trip_params.except(:cost) }
-
-      before { data[:cost] = data[:cost].to_i }
-
-      it { is_expected.to change { trip_repository.trips.count }.by(+1) }
-    end
-
     context 'when user_id is empty' do
       let(:data) { trip_params.except(:user_id) }
 
