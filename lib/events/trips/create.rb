@@ -43,12 +43,12 @@ module Events
       end
 
       def validate_distance!
-        return if matrix.distance < Constants::Trip::MAX_DISTANCE
+        return if trip_calculation.distance < Constants::Trip::MAX_DISTANCE
         invalid!([I18n.t('trips.to_far')])
       end
 
       def validate_bonus!
-        return if bonus_trips.any? && matrix.distance < Constants::Trip::MAX_BONUS_DISTANCE
+        return if bonus_trips.any? && trip_calculation.distance < Constants::Trip::MAX_BONUS_DISTANCE
         invalid!(I18n.t('bonus_trips.no_available_bonus'))
       end
 
@@ -84,23 +84,22 @@ module Events
       def assign_attrs
         data[:departure] = Sequel.pg_array(data[:departure])
         data[:destination] = Sequel.pg_array(data[:destination])
-        data[:distance] = matrix.distance
-        data[:duration] = matrix.duration
-        data[:cost] = cost
+        data[:distance] = trip_calculation.distance
+        data[:duration] = trip_calculation.duration
+        data[:cost] = trip_calculation.cost
+        data[:waypoints] = Sequel.pg_array(data[:waypoints])
       end
 
       def bonus_trips
         @bonus_trips ||= Repositories::BonusTrip.new(ROM.env).available_by_user(data[:user_id])
       end
 
-      def matrix
-        @matrix ||= SearchEngine::Directions.new(data[:departure], data[:destination], data[:waypoints]&.map { |w| w.split(',') })
-      end
-
-      def cost
-        cost = (matrix.distance / 1000.0).ceil(1) * Constants::Trip::CENTS_PER_KM + Constants::Trip::LANDING
-        cost = Constants::Trip::MIN_PRICE if cost < Constants::Trip::MIN_PRICE
-        ((cost + cost * Constants::Trip::FEE) / 100).ceil
+      def trip_calculation
+        @trip_calculation ||= Operations::TripCalculation.new(
+          departure: data[:departure],
+          destination: data[:destination],
+          waypoints: data[:waypoints]
+        )
       end
 
       def card_id
