@@ -87,7 +87,7 @@ module Events
         data[:distance] = trip_calculation.distance
         data[:duration] = trip_calculation.duration
         data[:cost] = trip_calculation.cost
-        data[:waypoints] = Sequel.pg_array(data[:waypoints])
+        data[:waypoints] = Sequel.pg_array(data[:waypoints]) if data[:waypoints]&.any?
       end
 
       def bonus_trips
