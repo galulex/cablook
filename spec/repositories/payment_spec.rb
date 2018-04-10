@@ -48,5 +48,11 @@ describe Repositories::Payment do
     let(:card) { Factory[:card] }
 
     it { is_expected.to change { payment_repository.by_id(payment.id).card_id }.from(card.id).to(nil) }
+
+    context 'when multiple payments' do
+      before { Factory[:payment, card_id: card.id] }
+
+      it { is_expected.to change { payment_repository.by_id(payment.id).card_id }.from(card.id).to(nil) }
+    end
   end
 end
