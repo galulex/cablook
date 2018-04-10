@@ -82,15 +82,13 @@ UI = {
 
   showTrip(data) {
     let html = `
-      <img scr='https://maps.googleapis.com/maps/api/staticmap?size=350x300&path=enc:${trip.path}&key=AIzaSyDlGdVGbkeO_30Yn7tPCpe61AgdrsXMbQ0'></br>
+      <img src='https://maps.googleapis.com/maps/api/staticmap?size=350x300&path=enc:${data.trip.path}&key=AIzaSyDlGdVGbkeO_30Yn7tPCpe61AgdrsXMbQ0'></br>
       Вартість: <b>${data.trip.cost}грн</b></br>
       Відстань: <b>${(data.trip.distance/1000).toFixed(1)}КМ</b></br>
       Відправлення: <b>${data.trip.start_time}</b></br>
       Прибуття: <b>${data.trip.finish_time}</b></br>
+      ${data.trip.driver_name}: <b><a href='tel:${data.trip.car_phone_number}'>${data.trip.car_phone_number}</a></b></br>
     `
-    if (data.driver) {
-      html += `${data.driver.name}: <b><a href='tel:${data.driver.car.phone_number}'>${data.driver.car.phone_number}</a></b></br>`
-    }
     document.getElementById('loader').classList.add('hidden')
     document.getElementById('state').innerHTML = html
     if (this.nissan) this.nissan.className.baseVal = 'nissan gone'
