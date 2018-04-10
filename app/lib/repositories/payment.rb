@@ -23,7 +23,7 @@ module Repositories
     end
 
     def nullify_card(card_id)
-      payments.where(card_id: card_id).changeset(:update, card_id: nil).commit
+      payments.where(card_id: card_id).command(:update).call(card_id: nil)
     end
   end
 end
