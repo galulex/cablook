@@ -109,18 +109,19 @@ class App {
 }
 
 let ajax = (path, method, attrs, onSuccess) => {
-  fetch('api/' + path, {
-    method: method,
-    headers: { 'Auth-Token': localStorage.token },
-    body: attrs
-  }).then(res => {
+  xhr = new XMLHttpRequest()
+  xhr.open(method, 'api/' + path, true)
+  xhr.setRequestHeader('Auth-Token', localStorage.token)
+  xhr.onreadystatechange = function() {
     UI.disableButtons(false)
-    if (res.ok) {
-      res.json().then(data => onSuccess(data))
+    if (xhr.readyState != 4) return false
+    if (xhr.status === 200 || xhr.status === 201) {
+      onSuccess(JSON.parse(xhr.response))
     } else {
-      res.json().then(data => alert(data['errors']))
+      alert(JSON.parse(xhr.response)['errors'])
     }
-  })
+  }
+  xhr.send(attrs)
 }
 
 let isValid = function(event) {
