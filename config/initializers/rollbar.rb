@@ -6,6 +6,7 @@ Rollbar.configure do |config|
 
   # Here we'll disable in 'test' and 'development':
   config.enabled = false unless Rails.env.production?
+  config.exception_level_filters['ActionController::RoutingError'] = 'ignore'
 
   # By default, Rollbar will try to call the `current_user` controller method
   # to fetch the logged-in user object, and then call that object's `id`,
