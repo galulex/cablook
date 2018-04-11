@@ -45,5 +45,14 @@ describe Operations::Wayforpay::Settle do
         subject.call
       end
     end
+
+    context 'when payment not found' do
+      let!(:payment) { Factory[:payment] }
+
+      it do
+        expect(Wayforpay::Payments).not_to receive(:settle)
+        subject.call
+      end
+    end
   end
 end
