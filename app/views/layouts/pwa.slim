@@ -1,0 +1,141 @@
+html lang=I18n.locale
+  head
+    meta property='og:url' content='https://cablook.taxi'
+    meta property='og:type' content='website'
+    meta property='og:title' content='Замовити таксі по місту Черкаси | CabLook Taxi'
+    meta property='og:description' content='Швидкий сервіс замовити таксі по місту Черкаси. Завжди поруч, завжди вчасно || Бонус+: отримай БЕЗКОШТОВНІ поїздкі'
+    meta property='og:image' content='https://i.imgur.com/VY8ZmVI.jpg'
+    script src='https://www.googletagmanager.com/gtag/js?id=UA-111386040-1' async=true
+    meta http-equiv='Content-type' content='text/html; charset=utf-8'
+    meta name='viewport' content='initial-scale=1, maximum-scale=1'
+    title= t("#{params[:controller]}.#{params[:page]}.meta_title", default: t('head.title'))
+    meta name='description' content= t("#{params[:controller]}.#{params[:page]}.meta_description", default: t('head.description'))
+    link rel='manifest' href='/manifest.json'
+    = csrf_meta_tags
+    = render 'shared/favicon_links'
+    javascript:
+      window._TOKEN = "#{ENV['WAYFORPAY_SECRET']}"
+      window._MERCHANT = "#{ENV['WAYFORPAY_MERCHANT']}"
+    css:
+      html {
+        overflow-x: hidden;
+      }
+      fieldset[disabled] { display: none; }
+      button[disabled] {
+        opacity: 0.5;
+      }
+      body {
+        margin: 0;
+        padding: 0;
+        font-size: 18px;
+        background: #312d50;
+        background: linear-gradient(#312d50, #19a160);
+        background: linear-gradient(rgba(49,45,80,0.8), 60%, rgba(25,161,96,0.8)),url(https://i.imgur.com/cK8S0IY.jpg);
+        color: white;
+      }
+
+      fieldset {
+        border: none;
+      }
+
+      .white-logo {
+        width: 50%;
+      }
+
+      .white-logo path[fill="#1c1c1c"] {
+        fill: white;
+      }
+
+      .logo-title{
+        color: #19a160;
+      }
+
+      main {
+        width: 80%;
+        max-width: 800px;
+        margin: 0 auto;
+      }
+
+      [class*='icon'] {
+        max-width: 40px;
+        max-height: 40px;
+        vertical-align: middle;
+      }
+
+      input, textarea {
+        width: 100%;
+        display: block;
+        border: none;
+        background: transparent;
+        box-shadow: inset 0px 0px 15px 0px rgba(15,14,15,0.7);
+        color: #19a160;
+        font-size: 1rem;
+        padding: 10px;
+        border-radius: 5px;
+        margin: 10px 0;
+        outline: none;
+      }
+
+      img {
+        max-width: 100%;
+      }
+
+      textarea {
+        resize: vertical;
+      }
+
+      summary {
+        cursor: pointer;
+        outline: none;
+        user-select: none;
+        -moz-user-select: none;
+        -khtml-user-select: none;
+        -webkit-user-select: none;
+        -ms-user-select: none;
+      }
+
+      button.button {
+        background: #19a160;
+        color: white;
+        font-weight: 300;
+        border: none;
+        border-radius: 5px;
+        padding: 10px 0;
+        display: block;
+        width: 100%;
+        margin: 20px 0;
+      }
+
+      button.button:first-child {
+        background: transparent;
+        border: 2px solid white;
+      }
+
+  body
+    main= yield
+    = javascript_include_tag 'application', async: true
+    = stylesheet_link_tag    'fonts', media: 'all'
+  = render 'shared/schema_org'
+  script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDx2cLwlAG3muHMV9DVYY3l2PupoYCS-Mk&libraries=places" async=true defer=true
+  script id="widget-wfp-script" language="javascript" type="text/javascript" src="https://secure.wayforpay.com/server/pay-widget.js"
+
+  javascript:
+    wayforpay = new Wayforpay();
+    var pay = function () {
+      wayforpay.run((new WFP),
+        function (response) {
+          setTimeout(function(){
+            wayforpay.closeit()
+            Cards.create(response)
+          }, 1000)
+        },
+        function (response) {
+          UI.disableButtons(false)
+          alert(response)
+        },
+        function (response) {
+          UI.disableButtons(false)
+          alert(response)
+        }
+      );
+    }
