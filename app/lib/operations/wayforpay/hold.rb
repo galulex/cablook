@@ -13,6 +13,7 @@ module Operations
         status = if response['reasonCode'] == Constants::Payments::WAYFORPAY_SUCCESS
                    Constants::Payments::HOLD
                  else
+                   send_sms
                    Constants::Payments::PENDING
                  end
         create_trip_payment(status, response)
@@ -44,6 +45,11 @@ module Operations
           order_reference: order_reference,
           response: wayforpay_data
         )
+      end
+
+      def send_sms
+        user = Repositories::User.new(ROM.env).by_id(trip.user_id)
+        Jobs::Sms.perform_later(user.phone_number, I18n.t('sms.payment_failed'))
       end
 
       def trip

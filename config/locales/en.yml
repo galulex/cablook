@@ -37,3 +37,4 @@ en:
     no_available_bonus: You don't have available bonus trips
   sms:
     car_found: "Car found. Wait at %{time}"
+    payment_failed: Due to a lack of founds or internet limit you could not pay for the trip. You can pay the next time.

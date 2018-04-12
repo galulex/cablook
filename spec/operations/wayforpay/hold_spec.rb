@@ -12,6 +12,8 @@ describe Operations::Wayforpay::Hold do
 
     context 'and payment is created' do
       it { is_expected.to change { payment_repository.payments.count }.by(+1) }
+
+      it { is_expected.not_to have_enqueued_job(Jobs::Sms) }
     end
 
     context 'when status is ok' do
@@ -23,9 +25,13 @@ describe Operations::Wayforpay::Hold do
     context 'when smth went wrong' do
       let(:wayforpay_body) { { reasonCode: '1111' }.to_json }
 
-      before { subject.call }
+      it { is_expected.to have_enqueued_job(Jobs::Sms) }
 
-      it { expect(payment_repository.payments.to_a.last.status).to eq(Constants::Payments::PENDING) }
+      context 'and the status of payment is pending' do
+        before { subject.call }
+
+        it { expect(payment_repository.payments.to_a.last.status).to eq(Constants::Payments::PENDING) }
+      end
     end
   end
 end
