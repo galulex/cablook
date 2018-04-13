@@ -5,17 +5,17 @@
   "theme_color": "#19a160",
   "icons": [
     {
-      "src": "icon-2x.png",
+      "src": "favicon-96x96.png",
       "sizes": "96x96",
       "type": "image/png"
     },
     {
-      "src": "icon-3x.png",
+      "src": "mstile-144x144.png",
       "sizes": "144x144",
       "type": "image/png"
     },
     {
-      "src": "icon-4x.png",
+      "src": "favicon-192x192.png",
       "sizes": "192x192",
       "type": "image/png"
     }

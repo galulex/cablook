@@ -62,7 +62,7 @@ class App {
   }
 
   TripDeclined(trip) {
-    if (confirm('Нажаль машинку не знайдено.\n Спробувати ще,')) {
+    if (confirm('Нажаль машинку не знайдено.\n Спробувати ще?')) {
       Trips.retry()
     } else {
       Trips.cancel()
@@ -79,9 +79,9 @@ class App {
       this.suggestions = []
       if (!data) return false
       this.suggestions = data
-      data.forEach(l => {
-        input.nextElementSibling.innerHTML += `<li onclick='app.setLocation(this)' data-place='${l.place_id}'><b>${l.structured_formatting.main_text}</b></br>${l.structured_formatting.secondary_text}</li>`
-      })
+      for (var i = 0; i < data.length; i++) {
+        input.nextElementSibling.innerHTML += `<li onclick='app.setLocation(this)' data-place='${data[i].place_id}'><b>${data[i].structured_formatting.main_text}</b></br>${data[i].structured_formatting.secondary_text}</li>`
+      }
     })
   }
 

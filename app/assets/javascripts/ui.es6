@@ -50,8 +50,10 @@ UI = {
   },
 
   step(index = 0, resetInput = true) {
-    this.fieldsets.forEach(e => e.disabled = true)
-    if (resetInput) this.inputs.forEach(e => e.value = '')
+    for (var i = 0; i < this.fieldsets.length; i++) { this.fieldsets[i].disabled = true }
+    if (resetInput) for (var i = 0; i < this.inputs.length; i++) {
+      this.inputs[i].value = ''
+    }
     this.fieldsets[index].disabled = false
     var input = this.fieldsets[index].querySelector('input')
     if (input) input.focus()
@@ -63,13 +65,13 @@ UI = {
   },
 
   disableButtons(val = true) {
-    this.buttons.forEach(b => {
-      b.disabled = val
-    })
+    for (var i = 0; i < this.buttons.length; i++) {
+      this.buttons.disabled = val
+    }
   },
 
   removePoint(btn) {
-    btn.parentElement.remove()
+    btn.parentElement.parentNode.removeChild(btn.parentElement)
   },
 
   addPoint(button) {
@@ -82,7 +84,7 @@ UI = {
 
   showTrip(data) {
     let html = `
-      <img src='https://maps.googleapis.com/maps/api/staticmap?size=350x300&path=enc:${data.trip.path}&key=AIzaSyDlGdVGbkeO_30Yn7tPCpe61AgdrsXMbQ0'></br>
+      <img src='https://maps.googleapis.com/maps/api/staticmap?size=600x400&path=enc:${data.trip.path}&key=AIzaSyDlGdVGbkeO_30Yn7tPCpe61AgdrsXMbQ0'></br>
       Вартість: <b>${data.trip.cost}грн</b></br>
       Відстань: <b>${(data.trip.distance/1000).toFixed(1)}КМ</b></br>
       Відправлення: <b>${data.trip.start_time}</b></br>
