@@ -4,10 +4,10 @@ class App {
     UI.number = localStorage.number || ''
     UI.disableCurrentLink()
     if (localStorage.trip) {
-      this.subscribe()
       ajax('trips/' + localStorage.trip, 'GET', null, trip => {
         if (trip.status == 0) {
           this.step = 4
+          this.subscribe()
           return false
         }
         if (trip.status < 3) {

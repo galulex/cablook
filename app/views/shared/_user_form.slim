@@ -9,7 +9,7 @@ form#form.form onsubmit='app.submit(event)' action='/'
     input#verification name=:token type=:number min=1_000 max=9_999 required=true pattern='.{4}' placeholder=1234 data-message= t('.wrong_code')
     label for=:verification = t('.sms')
     button.button#submit_code type=:submit = t('next')
-    button.button.change-number type=:button onclick='Sessions.destroy()' = t('.change_number')
+    button.button.yellow-button type=:button onclick='Sessions.destroy()' = t('.change_number')
 
   fieldset.form__fieldset disabled=true data-action='Path.build()'
     button.button.exit type=:button onclick='Sessions.destroy()'
@@ -33,11 +33,11 @@ form#form.form onsubmit='app.submit(event)' action='/'
   fieldset.form__fieldset disabled=true data-action='Trips.create()'
     div: img#trip_path
     button#go.button type=:submit = t('go')
-    button.button type=:button onclick='Trips.destroy()' = t('cancel')
+    button.button.yellow-button type=:button onclick='Trips.destroy()' = t('cancel')
 
   fieldset.form__fieldset disabled=true
     .loader#loader
       = inline_svg('wheel.svg', class: :icon)
       p= t('.looking_for_driver')
     .state#state
-    button.button#cancel type=:button onclick='Trips.cancel()' = t('cancel')
+    button.button.yellow-button#cancel type=:button onclick='Trips.cancel()' = t('cancel')
