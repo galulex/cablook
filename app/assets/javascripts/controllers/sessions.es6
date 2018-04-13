@@ -1,7 +1,7 @@
 Sessions = {
   create: () => {
     data = new FormData(UI.form)
-    let phone = '+380' + data.get('phone_number')
+    let phone = '+380' + document.getElementById('number').value
     data.append('phone_number', phone)
     ajax('session', 'POST', data, () => {
       app.phone = phone

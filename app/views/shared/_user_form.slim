@@ -9,10 +9,10 @@ form#form.form onsubmit='app.submit(event)' action='/'
     input#verification name=:token type=:number min=1_000 max=9_999 required=true pattern='.{4}' placeholder=1234 data-message= t('.wrong_code')
     label for=:verification = t('.sms')
     button.button#submit_code type=:submit = t('next')
-    button.button type=:button onclick='Sessions.destroy()' = t('.change_number')
+    button.button.change-number type=:button onclick='Sessions.destroy()' = t('.change_number')
 
   fieldset.form__fieldset disabled=true data-action='Path.build()'
-    button.button type=:button onclick='Sessions.destroy()'
+    button.button.exit type=:button onclick='Sessions.destroy()'
       = t('.sign_out')
     div.form__user-number#account
     .points
@@ -23,7 +23,7 @@ form#form.form onsubmit='app.submit(event)' action='/'
         button.form__location-remove.link type=:button onclick='UI.removePoint(this)' ×
         input.form__location-field#destination_address data-field='destination' autocomplete='off' name='waypoints' type=:text required=true placeholder= t('.to') oninput="app.autocomplete(this); this.setCustomValidity('')"
         ul.form__location-list data-list=true
-      button#add_point.link type=:button onclick='UI.addPoint(this)' = t('add_point')
+      button#add_point.link.add-point type=:button onclick='UI.addPoint(this)' = t('add_point')
     details
       summary= t('comment')
       textarea#comment name='trip[comment]' oninput='trip.comment = this.value'
@@ -36,14 +36,8 @@ form#form.form onsubmit='app.submit(event)' action='/'
     button.button type=:button onclick='Trips.destroy()' = t('cancel')
 
   fieldset.form__fieldset disabled=true
-    #loader
+    .loader#loader
       = inline_svg('wheel.svg', class: :icon)
       p= t('.looking_for_driver')
-    #state
+    .state#state
     button.button#cancel type=:button onclick='Trips.cancel()' = t('cancel')
-
-  div.badges
-    a.col-6 href='https://play.google.com/store/apps/details?id=com.cablook&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1' target=:_black
-      = inline_svg 'playmarket.svg'
-    a.col-6 href='https://itunes.apple.com/us/app/cablook-taxi/id1356063043?ls=1&mt=8' target=:_black
-      = inline_svg 'appstore.svg'

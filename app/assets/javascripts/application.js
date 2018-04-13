@@ -6,3 +6,4 @@
 #= require_tree ./controllers
 #= require ui
 #= require app
+#= require serviceworker-companion
