@@ -45,7 +45,7 @@ class App {
   }
 
   TripUnavailable(data) {
-    app.step = 2
+    Trips.destroy()
     localStorage.removeItem('trip')
     alert('Поїздка скасована.')
   }

@@ -98,6 +98,7 @@ UI = {
 
   destroyTrip() {
     document.getElementById('loader').classList.remove('hidden')
+    document.getElementById('nissan').classList.remove('gone')
     document.getElementById('state').innerHTML = ''
   }
 }
