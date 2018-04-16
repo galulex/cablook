@@ -3,13 +3,13 @@ module Operations
     def initialize(departure:, destination:, waypoints: [])
       @departure = departure
       @destination = destination
-      @waypoints = waypoints
+      @waypoints = waypoints&.map { |w| w.split(',') }
     end
 
     attr_reader :departure, :destination, :waypoints
 
     def cost
-      cost = (matrix.distance / 1000.0).ceil(1) * Constants::Trip::CENTS_PER_KM + Constants::Trip::LANDING
+      cost = (matrix.distance / 1000.0).ceil(1) * cents_per_km + Constants::Trip::LANDING
       cost = Constants::Trip::MIN_PRICE if cost < Constants::Trip::MIN_PRICE
       ((cost + cost * Constants::Trip::FEE) / 100).ceil
     end
@@ -24,8 +24,24 @@ module Operations
 
     private
 
+    def cents_per_km
+      cents_per_km = in_town? ? Constants::Trip::CENTS_PER_KM : Constants::Trip::OUTSIDE_CENTS_PER_KM
+    end
+
+    def in_town?
+      points = []
+      points << Geokit::LatLng.new(departure[0], departure[1])
+      points << Geokit::LatLng.new(destination[0], destination[1])
+      waypoints&.each { |point| points << Geokit::LatLng.new(point[0], point[1]) }
+      points.all? { |point| polygon.contains?(point) }
+    end
+
     def matrix
-      @matrix ||= SearchEngine::Directions.new(departure, destination, waypoints&.map { |w| w.split(',') })
+      @matrix ||= SearchEngine::Directions.new(departure, destination, waypoints)
+    end
+
+    def polygon
+      @polygon ||= Geokit::Polygon.new(Constants::Polygon::CHERKASY)
     end
   end
 end
