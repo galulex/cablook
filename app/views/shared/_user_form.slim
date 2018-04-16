@@ -19,13 +19,19 @@ form#form.form onsubmit='app.submit(event)' action='/'
       .form__location
         input.form__location-field#departure_address data-field='departure' autocomplete='off' name='waypoints' type=:text required=true placeholder= t('.from') oninput="app.autocomplete(this); this.setCustomValidity('')"
         ul.form__location-list data-list=true
+        span.circle
       .form__location
         button.form__location-remove.link type=:button onclick='UI.removePoint(this)' ×
         input.form__location-field#destination_address data-field='destination' autocomplete='off' name='waypoints' type=:text required=true placeholder= t('.to') oninput="app.autocomplete(this); this.setCustomValidity('')"
         ul.form__location-list data-list=true
-      button#add_point.link.add-point type=:button onclick='UI.addPoint(this)' = t('add_point')
+        span.circle
+      button#add_point.link.add-point type=:button onclick='UI.addPoint(this)'
+        span.plus
+        = t('add_point')
     details
-      summary= t('comment')
+      summary
+        span.comment-arrow
+        = t('comment')
       textarea#comment name='trip[comment]' oninput='trip.comment = this.value'
     br
     button#done.button type=:submit = t('done')

@@ -106,6 +106,7 @@ button.button {
   transition: .3s;
   position: relative;
   outline: none;
+  border: 2px solid white;
 }
 
 button.button:hover,
@@ -161,20 +162,39 @@ button.add-point {
   outline: none;
 }
 
-button.add-point:before {
-  content: '+';
-  display: block;
+button.add-point .plus {
   position: absolute;
   width: 28px;
-  height: 25px;
-  padding-top: 2px;
-  color: white;
-  font-weight: 500;
-  border-radius: 50%;
+  height: 28px;
   border: 2px solid white;
+  border-radius: 50%;
   left: -19px;
   top: 50%;
   transform: translateY(-50%);
+}
+
+button.add-point .plus:before {
+  content: '';
+  width: 2px;
+  height: 13px;
+  display: inline-block;
+  background: white;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+button.add-point .plus:after {
+  content: '';
+  width: 13px;
+  height: 2px;
+  display: inline-block;
+  background: white;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
 }
 
 .form__location {
@@ -215,16 +235,21 @@ button.add-point:before {
   font-size: 1rem;
 }
 
-.form__location:before {
+.form__location span.circle {
   content: '';
   position: absolute;
   width: 10px;
   height: 10px;
-  left: -18px;
-  background: #249E62;
+  left: -20px;
+  border: 2px solid #249E62;
   border-radius: 50%;
   top: 50%;
   transform: translateY(-50%);
+  transition: .3s;
+}
+
+.form__location-field:valid ~ span.circle {
+  background: #249E62;
 }
 
 .form__location:after {
@@ -232,9 +257,9 @@ button.add-point:before {
   position: absolute;
   background: #249E62;
   width: 2px;
-  height: 60px;
+  height: 49.5px;
   left: -14px;
-  top: 50%;
+  top: 30px;
 }
 
 .form__location:last-of-type:after {
@@ -311,27 +336,33 @@ details {
   position: relative;
 }
 
-details:before {
-  content: '►';
+summary span.comment-arrow {
+  display: inline;
   position: absolute;
+  width: 28px;
+  height: 28px;
   border: 2px solid white;
   border-radius: 50%;
-  width: 26px;
-  height: 26px;
-  padding-left: 2px;
-  padding-top: 2px;
-  font-size: 0.8em;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  top: 50%;
+  transform: translateY(-50%);
   left: -19px;
-  top: -6px;
-  transition: .3s;
 }
 
-details[open]:before {
-  -webkit-transform: rotate(90deg);
-  transform: rotate(90deg);
+summary span.comment-arrow:before {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 6px 0 6px 10.4px;
+  border-color: transparent transparent transparent white;
+  top: 50%;
+  left: 50%;
+  transform: translate(-40%, -50%);
+}
+
+details[open] span.comment-arrow {
+  transform: translateY(-50%) rotate(90deg);
 }
 
 summary {
