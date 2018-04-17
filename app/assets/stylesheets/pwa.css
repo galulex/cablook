@@ -311,6 +311,10 @@ input[type=number]::-webkit-outer-spin-button {
   margin: 0;
 }
 
+input[type=number] {
+  -moz-appearance:textfield;
+}
+
 @keyframes dash {
   to {
     stroke-dashoffset: -48;
@@ -366,6 +370,7 @@ details[open] span.comment-arrow {
 }
 
 summary {
+  display: block;
   margin-top: 30px;
   padding-left: 20px;
   position: relative;
