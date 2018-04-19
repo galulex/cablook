@@ -42,5 +42,12 @@ module Repositories
       statuses = [Constants::Trip::PENDING, Constants::Trip::ON_THE_WAY, Constants::Trip::WAITING_CLIENT, Constants::Trip::DRIVING]
       trips.with_user.where(status: statuses).to_a
     end
+
+    def by_driver_and_status_beetwen_dates(driver_id, status, from:, to: Time.now)
+      trips
+        .where(driver_id: driver_id, status: status)
+        .where(Sequel.lit('created_at BETWEEN :from AND :to', from: from, to: to))
+        .to_a
+    end
   end
 end

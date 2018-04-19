@@ -1,0 +1,24 @@
+h1 Calculations
+
+.sidebar
+  .sidebar_section.panel
+    .panel_contents
+      = form_tag admin_calculations_path, method: :get, class: 'filter_form' do
+        .date_range.filter_form_field.filter_date_range
+          label.label Range
+          = text_field_tag :from, params[:from] || 1.day.ago.to_date, type: :date, class: "datepicker hasDatepicker"
+          = text_field_tag :to, params[:to] || Time.now.to_date, type: :date, class: "datepicker hasDatepicker"
+        = submit_tag "Send"
+
+
+table
+  thead
+    th Driver
+    th Cost
+    th Count
+  tbody
+    - @data.each do |item|
+      tr
+        td= item.username
+        td= item.trips_sum
+        td= item.trips_count
