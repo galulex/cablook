@@ -24,7 +24,7 @@ module Events
       end
 
       def custom_iphone?
-        data[:phone_number] == '+380000000000'
+        data[:phone_number] == '+380111111111'
       end
     end
   end
