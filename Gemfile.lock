@@ -65,6 +65,10 @@ GEM
       activesupport (>= 3.0.0)
     archive-zip (0.11.0)
       io-like (~> 0.3.0)
+    arctic_admin (1.5.0)
+      activeadmin (>= 1.1.0, < 2.0)
+      font-awesome-rails
+      jquery-rails
     arel (8.0.0)
     ast (2.3.0)
     autoprefixer-rails (8.0.0)
@@ -174,6 +178,8 @@ GEM
     faraday (0.13.1)
       multipart-post (>= 1.2, < 3)
     ffi (1.9.18)
+    font-awesome-rails (4.7.0.4)
+      railties (>= 3.2, < 6.0)
     formtastic (3.1.5)
       actionpack (>= 3.2.13)
     formtastic_i18n (0.6.0)
@@ -500,6 +506,7 @@ DEPENDENCIES
   activeadmin
   activeadmin-select2
   activejob-cancel
+  arctic_admin
   autoprefixer-rails
   bcrypt (~> 3.1.7)
   capistrano
