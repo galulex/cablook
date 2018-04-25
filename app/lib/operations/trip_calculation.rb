@@ -41,7 +41,12 @@ module Operations
     end
 
     def polygon
-      @polygon ||= Geokit::Polygon.new(Constants::Polygon::CHERKASY)
+      @polygon ||= Geokit::Polygon.new(polygon_data)
+    end
+
+    def polygon_data
+      points = JSON.parse(File.read('config/polygons/cherkassy.json'))
+      points.map { |point| Geokit::LatLng.new(point['lat'], point['lng']) }
     end
   end
 end
