@@ -85,13 +85,15 @@ module Events
         @matrix ||= SearchEngine::Directions.new(
           Redis.current.get("car_#{data[:car_id]}")&.split(','),
           trip.departure,
-          car_trip_destination
+          current_trip_points
         )
       end
 
-      def car_trip_destination
-        car_trip = Repositories::Trip.new(ROM.env).trips.where(car_id: data[:car_id], status: Constants::Trip::DRIVING).one
-        car_trip ? [car_trip.destination.to_a] : []
+      def current_trip_points
+        current_car_trip = Repositories::Trip.new(ROM.env).trips.where(car_id: data[:car_id], status: Constants::Trip::DRIVING).one
+        return [] unless current_car_trip
+        waypoints = current_car_trip.waypoints&.map { |points| points.split(',') }
+        waypoints ? waypoints.push(current_car_trip.destination.to_a) : [current_car_trip.destination.to_a]
       end
 
       def car
