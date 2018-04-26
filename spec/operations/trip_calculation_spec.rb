@@ -15,5 +15,11 @@ describe Operations::TripCalculation do
 
       it { expect(instance.cost).to eq(113) }
     end
+
+    context 'when points is the hotel ukraina' do
+      let(:destination) { ['49.477132', '31.995375'] }
+
+      it { expect(instance.cost).to eq(82) }
+    end
   end
 end
