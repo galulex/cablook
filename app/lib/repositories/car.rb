@@ -26,8 +26,8 @@ module Repositories
       cars.exclude(status: Constants::Car::OFFLINE).to_a
     end
 
-    def online_with_driver
-      cars.exclude(status: Constants::Car::OFFLINE).combine(:driver).to_a
+    def all_with_driver
+      cars.combine(:driver).to_a
     end
   end
 end
