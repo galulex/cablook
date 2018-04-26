@@ -26,12 +26,13 @@ module Events
       private
 
       def update_trip
+        start_at = matrix.duration.seconds.since + 2.minutes
         Repositories::Trip.new(ROM.env).update(
           data[:trip_id],
           status: Constants::Trip::ON_THE_WAY,
           car_id: data[:car_id],
           driver_id: data[:driver_id],
-          start_at: (matrix.duration.seconds.since + 2.minutes)
+          start_at: car_trip ? start_at + car_trip_remaining_time : start_at
         )
         @trip = Repositories::Trip.new(ROM.env).detailed(data[:trip_id])
       end
@@ -85,15 +86,16 @@ module Events
         @matrix ||= SearchEngine::Directions.new(
           Redis.current.get("car_#{data[:car_id]}")&.split(','),
           trip.departure,
-          current_trip_points
+          car_trip ? [car_trip.destination.to_a] : []
         )
       end
 
-      def current_trip_points
-        current_car_trip = Repositories::Trip.new(ROM.env).trips.where(car_id: data[:car_id], status: Constants::Trip::DRIVING).one
-        return [] unless current_car_trip
-        waypoints = current_car_trip.waypoints&.map { |points| points.split(',') }
-        waypoints ? waypoints.push(current_car_trip.destination.to_a) : [current_car_trip.destination.to_a]
+      def car_trip
+        @car_trip ||= Repositories::Trip.new(ROM.env).trips.where(car_id: data[:car_id], status: Constants::Trip::DRIVING).one
+      end
+
+      def car_trip_remaining_time
+        ((car_trip.duration - (Time.now - car_trip.started_at)) / 60).to_i.minutes
       end
 
       def car
