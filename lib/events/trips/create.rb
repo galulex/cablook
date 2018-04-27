@@ -103,9 +103,10 @@ module Events
       end
 
       def card_id
-        user_cards = Repositories::Card.new(ROM.env).by_user(data[:user_id])
+        card_repository = Repositories::Card.new(ROM.env)
+        user_cards = card_repository.by_user(data[:user_id])
         invalid!([I18n.t('cards.add_card')]) if user_cards.empty?
-        data[:card_id] || user_cards.first.id
+        card_repository.by_id(data[:card_id]) || user_cards.first.id
       end
     end
   end

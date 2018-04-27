@@ -26,6 +26,12 @@ describe Events::Trips::Create do
 
         it { is_expected.to raise_error(Events::InvalidParamsError) }
       end
+
+      context 'when card_id invalid but user has cards' do
+        let(:data) { trip_params.merge(card_id: 100_000) }
+
+        it { is_expected.to have_enqueued_job(Jobs::PaymentHold).with(data[:id], card.id) }
+      end
     end
 
     context 'when path is empty' do
