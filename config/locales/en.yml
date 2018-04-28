@@ -31,6 +31,7 @@ en:
     user_not_found: User with this phone number not found in database
     something_went_wrong: Something went wrong
     add_card: Please add a card before creating a trip
+    cant_delete: You have a pending payments
   bonus_trips:
     disable_for_yourself: Can't create bonus trip for yourself
     already_have_referrer: You already have referrer

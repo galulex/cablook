@@ -11,14 +11,20 @@ module Events
       end
 
       def run
+        validate_pending_payments!
         delete_card if cards.any? { |card| card.id == data[:card_id] }
       end
 
       private
 
       def delete_card
-        Repositories::Payment.new(ROM.env).nullify_card(data[:card_id])
+        payment_repository.nullify_card(data[:card_id])
         card_repository.delete(data[:card_id])
+      end
+
+      def validate_pending_payments!
+        payments = payment_repository.hold_or_pending_by_user(data[:user_id])
+        invalid!([I18n.t('cards.cant_delete')]) if payments.any?
       end
 
       def cards
@@ -27,6 +33,10 @@ module Events
 
       def card_repository
         @card_repository ||= Repositories::Card.new(ROM.env)
+      end
+
+      def payment_repository
+        @payment_repository ||= Repositories::Payment.new(ROM.env)
       end
     end
   end

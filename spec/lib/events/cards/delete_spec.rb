@@ -25,5 +25,17 @@ describe Events::Cards::Delete do
 
       it { is_expected.not_to change { card_repository.cards.count } }
     end
+
+    context 'when pending payment' do
+      let!(:payment) { Factory[:payment, user_id: user.id, status: Constants::Payments::PENDING] }
+
+      it { is_expected.to raise_error(Events::InvalidParamsError) }
+    end
+
+    context 'when hold payment' do
+      before { Factory[:payment, user_id: user.id, status: Constants::Payments::HOLD] }
+
+      it { is_expected.to raise_error(Events::InvalidParamsError) }
+    end
   end
 end
