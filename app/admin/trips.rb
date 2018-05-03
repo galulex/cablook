@@ -3,7 +3,7 @@ ActiveAdmin.register Trip do
     selectable_column
     view_trip_columns(ordered_trip_columns - %w[departure destination], :column)
     actions do |trip|
-      item 'Finish', finish_admin_trip_path(trip), method: :put if trip.status == Constants::Trip::DRIVING
+      item 'Finish', finish_admin_trip_path(trip), method: :put, class: 'member_link' if trip.status == Constants::Trip::DRIVING
     end
   end
 
@@ -11,7 +11,7 @@ ActiveAdmin.register Trip do
     attributes_table do
       view_trip_columns(ordered_trip_columns, :row)
     end
-    render 'custom_actions'
+    render 'custom_actions' if trip.status == Constants::Trip::DRIVING
   end
 
   member_action :finish, method: :put do
