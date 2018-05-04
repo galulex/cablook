@@ -11,7 +11,7 @@ module Events
       end
 
       def run
-        if trip.status.in?([Constants::Trip::PENDING, Constants::Trip::ON_THE_WAY, Constants::Trip::WAITING_CLIENT, Constants::Trip::DECLINED])
+        if trip&.status.in?([Constants::Trip::PENDING, Constants::Trip::ON_THE_WAY, Constants::Trip::WAITING_CLIENT, Constants::Trip::DECLINED])
           update_trip
           delete_from_jobs
           refund_payment

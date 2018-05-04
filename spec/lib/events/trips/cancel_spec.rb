@@ -51,6 +51,12 @@ describe Events::Trips::Cancel do
       it { is_expected.to change { trip_repository.by_id(trip.id).status }.to(Constants::Trip::CANCELED_BY_DRIVER) }
     end
 
+    context 'when trip not found' do
+      let(:data) { { trip_id: 100_000 } }
+
+      it { is_expected.to raise_error(Events::InvalidParamsError) }
+    end
+
     context 'when trip is declined' do
       let(:trip) { Factory[:trip, status: Constants::Trip::DECLINED] }
 
