@@ -18,6 +18,13 @@ module Repositories
       payments.where(status: Constants::Payments::PENDING, user_id: user_id).to_a
     end
 
+    def hold_or_pending_by_user(user_id)
+      payments.where(
+        status: [Constants::Payments::PENDING, Constants::Payments::HOLD],
+        user_id: user_id
+      ).to_a
+    end
+
     def pending
       payments.where(status: Constants::Payments::PENDING).to_a
     end
