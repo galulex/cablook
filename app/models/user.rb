@@ -1,6 +1,7 @@
 class User < ApplicationRecord
   has_many :trips
   has_many :cards
+  has_many :bonus_trips
 
   scope :for_verification, lambda { |phone, token|
     left_joins(:cards)
