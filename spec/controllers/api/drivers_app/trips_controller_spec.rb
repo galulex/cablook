@@ -11,7 +11,7 @@ describe Api::DriversApp::TripsController, type: :controller do
 
     before { get :index, as: :json }
 
-    it { is_expected.to have_http_status(:success) }
+    it { is_expected.to be_successful }
   end
 
   describe '#cancel' do
@@ -22,7 +22,7 @@ describe Api::DriversApp::TripsController, type: :controller do
 
     before { patch :cancel, params: params, as: :json }
 
-    it { is_expected.to have_http_status(:success) }
+    it { is_expected.to be_successful }
 
     context 'when trip is finished' do
       let(:trip) { Factory[:trip, status: Constants::Trip::FINISHED] }
@@ -42,7 +42,7 @@ describe Api::DriversApp::TripsController, type: :controller do
       patch :accept, params: params, as: :json
     end
 
-    it { is_expected.to have_http_status(:success) }
+    it { is_expected.to be_successful }
 
     context 'when driver without car' do
       let(:driver) { Factory[:driver] }
@@ -59,7 +59,7 @@ describe Api::DriversApp::TripsController, type: :controller do
 
     before { patch :start, params: params, as: :json }
 
-    it { is_expected.to have_http_status(:success) }
+    it { is_expected.to be_successful }
   end
 
   describe '#finish' do
@@ -70,7 +70,7 @@ describe Api::DriversApp::TripsController, type: :controller do
 
     before { patch :start, params: params, as: :json }
 
-    it { is_expected.to have_http_status(:success) }
+    it { is_expected.to be_successful }
   end
 
   describe '#waiting_client' do
@@ -81,6 +81,6 @@ describe Api::DriversApp::TripsController, type: :controller do
 
     before { patch :waiting_client, params: params, as: :json }
 
-    it { is_expected.to have_http_status(:success) }
+    it { is_expected.to be_successful }
   end
 end

@@ -16,7 +16,7 @@ describe Api::FeedbacksController, type: :controller do
 
     before { post :create, params: params, as: :json }
 
-    it { is_expected.to have_http_status(:success) }
+    it { is_expected.to be_successful }
 
     context 'when params are invalid' do
       let(:feedback_params) { Factory[:feedback].to_h.except(:id, :rate) }

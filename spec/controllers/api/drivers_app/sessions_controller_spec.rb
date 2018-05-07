@@ -9,7 +9,7 @@ describe Api::DriversApp::SessionsController , type: :controller do
 
     before { post :create, params: params }
 
-    it { is_expected.to have_http_status(:success) }
+    it { is_expected.to be_successful }
 
     context 'when username is blank' do
       let(:params) { { driver: { username: '', password: Faker::Internet.password } } }
@@ -24,6 +24,6 @@ describe Api::DriversApp::SessionsController , type: :controller do
       delete :destroy
     end
 
-    it { is_expected.to have_http_status(:success) }
+    it { is_expected.to be_successful }
   end
 end

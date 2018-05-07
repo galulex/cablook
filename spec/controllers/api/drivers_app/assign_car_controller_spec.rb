@@ -14,6 +14,6 @@ describe Api::DriversApp::AssignCarController, type: :controller do
 
     before { patch :update, params: params, as: :json }
 
-    it { is_expected.to have_http_status(:success) }
+    it { is_expected.to be_successful }
   end
 end

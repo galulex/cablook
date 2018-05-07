@@ -11,7 +11,7 @@ describe Api::Verifications::EmailsController, type: :controller do
       get :send_verification, params: params, as: :json
     end
 
-    it { is_expected.to have_http_status(:success) }
+    it { is_expected.to be_successful }
 
     context 'when params are invalid' do
       let(:email) { "+#{Faker::Internet.email}" }
@@ -30,7 +30,7 @@ describe Api::Verifications::EmailsController, type: :controller do
 
     before { post :verify, params: params, as: :json }
 
-    it { is_expected.to have_http_status(:success) }
+    it { is_expected.to be_successful }
 
     context 'when email is invalid' do
       let(:email) { "+#{Faker::Internet.email}" }

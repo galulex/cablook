@@ -14,6 +14,6 @@ describe Api::BonusTripsController, type: :controller do
 
     it_behaves_like 'authorization_required'
 
-    it { is_expected.to have_http_status(:success) }
+    it { is_expected.to be_successful }
   end
 end

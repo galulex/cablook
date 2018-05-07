@@ -17,7 +17,7 @@ describe Api::PaymentsController, type: :controller do
 
     it_behaves_like 'authorization_required'
 
-    it { is_expected.to have_http_status(:success) }
+    it { is_expected.to be_successful }
   end
 
   describe '#retry_pendings' do
@@ -27,6 +27,6 @@ describe Api::PaymentsController, type: :controller do
 
     before { post :retry_pendings, params: params, as: :json }
 
-    it { is_expected.to have_http_status(:success) }
+    it { is_expected.to be_successful }
   end
 end

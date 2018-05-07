@@ -8,7 +8,7 @@ describe Api::SessionsController, type: :controller do
     context 'valid data' do
       before { post :create, params: params }
 
-      it { is_expected.to have_http_status(:success) }
+      it { is_expected.to be_successful }
     end
 
     context 'invalid data' do
@@ -30,7 +30,7 @@ describe Api::SessionsController, type: :controller do
 
       before { post :create, params: params }
 
-      it { is_expected.to have_http_status(:success) }
+      it { is_expected.to be_successful }
     end
   end
 
@@ -44,7 +44,7 @@ describe Api::SessionsController, type: :controller do
     before { patch :update, params: params }
 
     context 'valid data' do
-      pending { is_expected.to have_http_status(:success) }
+      pending { is_expected.to be_successful }
     end
 
     context 'invalid data' do

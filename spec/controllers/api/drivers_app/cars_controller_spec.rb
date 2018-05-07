@@ -9,6 +9,6 @@ describe Api::DriversApp::CarsController, type: :controller do
 
     before { get :index, as: :json }
 
-    it { is_expected.to have_http_status(:success) }
+    it { is_expected.to be_successful }
   end
 end

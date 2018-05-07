@@ -11,7 +11,7 @@ describe Api::CardsController, type: :controller do
 
     it_behaves_like 'authorization_required'
 
-    it { is_expected.to have_http_status(:success) }
+    it { is_expected.to be_successful }
   end
 
   describe '#create' do
@@ -21,7 +21,7 @@ describe Api::CardsController, type: :controller do
 
     before { post :create, params: params }
 
-    it { is_expected.to have_http_status(:success) }
+    it { is_expected.to be_successful }
 
     context 'when something went wrong' do
       let(:params) { super().merge(recToken: nil) }
@@ -38,7 +38,7 @@ describe Api::CardsController, type: :controller do
 
     before { delete :destroy, params: params }
 
-    it { is_expected.to have_http_status(:success) }
+    it { is_expected.to be_successful }
 
     context 'when something went wrong' do
       let(:params) { { id: 999 } }
