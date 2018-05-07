@@ -14,7 +14,7 @@ describe Api::ReferralsController, type: :controller do
       get :index, as: :json
     end
 
-    it { is_expected.to have_http_status(:success) }
+    it { is_expected.to be_successful }
   end
 
   describe '#create' do
@@ -26,7 +26,7 @@ describe Api::ReferralsController, type: :controller do
 
     it_behaves_like 'authorization_required'
 
-    it { is_expected.to have_http_status(:success) }
+    it { is_expected.to be_successful }
 
     context 'when referrer not found' do
       let(:params) { { referral_code: 'test' } }

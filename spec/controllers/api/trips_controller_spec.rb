@@ -19,7 +19,7 @@ describe Api::TripsController, type: :controller do
 
     before { post :create, params: params, as: :json }
 
-    it { is_expected.to have_http_status(:success) }
+    it { is_expected.to be_successful }
 
     context 'when params are invalid' do
       let(:trip_params) { Factory[:trip].to_h.except(:id, :path) }
@@ -54,12 +54,12 @@ describe Api::TripsController, type: :controller do
       get :index, as: :json, params: params
     end
 
-    it { is_expected.to have_http_status(:success) }
+    it { is_expected.to be_successful }
 
     context 'with pagination' do
       let(:params) { { page: 1, per: 1 } }
 
-      it { is_expected.to have_http_status(:success) }
+    it { is_expected.to be_successful }
     end
   end
 
@@ -71,7 +71,7 @@ describe Api::TripsController, type: :controller do
 
     before { get :show, params: params, as: :json }
 
-    it { is_expected.to have_http_status(:success) }
+    it { is_expected.to be_successful }
   end
 
   describe '#cancel' do
@@ -82,7 +82,7 @@ describe Api::TripsController, type: :controller do
 
     before { patch :cancel, params: params, as: :json }
 
-    it { is_expected.to have_http_status(:success) }
+    it { is_expected.to be_successful }
 
     context 'when trip is finished' do
       let(:trip) { Factory[:trip, status: Constants::Trip::FINISHED] }
@@ -99,6 +99,6 @@ describe Api::TripsController, type: :controller do
 
     before { patch :retry, params: params, as: :json }
 
-    it { is_expected.to have_http_status(:success) }
+    it { is_expected.to be_successful }
   end
 end

@@ -12,7 +12,7 @@ describe Api::DriversApp::RegistrationsController, type: :controller do
 
     before { post :create, params: params }
 
-    it { is_expected.to have_http_status(:success) }
+    it { is_expected.to be_successful }
 
     context 'when username is blank' do
       let(:params) do
