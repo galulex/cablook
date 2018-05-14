@@ -18,6 +18,10 @@ describe Events::Trips::Create do
       it { is_expected.to change { trip_job_repository.trip_jobs.count }.by(+1) }
     end
 
+    context 'and user trips_count updated' do
+      it { is_expected.to change { user_repository.by_id(user.id).trips_count }.from(0).to(1) }
+    end
+
     context 'and payment job is running' do
       it { is_expected.to have_enqueued_job(Jobs::PaymentHold).with(data[:id], card.id) }
 

@@ -7,4 +7,5 @@ describe Presenters::Users::SinglePublic do
   it { is_expected.to have_key(:email).with_value(user.email) }
   it { is_expected.to have_key(:phone_number).with_value(user.phone_number) }
   it { is_expected.to have_key(:referral_code).with_value(user.referral_code) }
+  it { is_expected.to have_key(:trips_count).with_value(user.trips_count) }
 end

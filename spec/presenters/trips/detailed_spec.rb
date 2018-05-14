@@ -23,7 +23,9 @@ describe Presenters::Trips::Detailed do
   context 'detailed fields' do
     it { is_expected.to have_key(:driver_name).with_value(driver.name) }
     it { is_expected.to have_key(:car_number).with_value(car.number) }
+    it { is_expected.to have_key(:car_color).with_value(car.color) }
     it { is_expected.to have_key(:car_phone_number).with_value(car.phone_number) }
     it { is_expected.to have_key(:user_number).with_value(user.phone_number) }
+    it { is_expected.to have_key(:trips_count).with_value(user.trips_count) }
   end
 end

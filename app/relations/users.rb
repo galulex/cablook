@@ -8,6 +8,7 @@ class Users < ROM::Relation[:sql]
     attribute :confirmation_token, Types::String
     attribute :verification_token, Types::String
     attribute :referral_code, Types::String
+    attribute :trips_count, Types::Int
 
     associations do
       has_many :cards
