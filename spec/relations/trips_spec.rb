@@ -42,5 +42,6 @@ describe Trips do
     it { expect(result.count).to eq(1) }
     it { expect(result.first[:id]).to eq(trip_with_user.id) }
     it { expect(result.first[:user_number]).to eq(user.phone_number) }
+    it { expect(result.first[:trips_count]).to eq(user.trips_count) }
   end
 end

@@ -25,6 +25,7 @@ module Events
         validate_distance!
         validate_unpaid_trips!
         create_trip
+        increment_user_trips_count
         if data[:bonus]
           validate_bonus!
           pay_by_bonus
@@ -68,6 +69,10 @@ module Events
 
       def create_trip
         @trip = Repositories::Trip.new(ROM.env).create(data.to_h)
+      end
+
+      def increment_user_trips_count
+        Repositories::User.new(ROM.env).update(data[:user_id], trips_count: Sequel.expr(1) + :trips_count)
       end
 
       def create_trip_job(trip_id)

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180405084439) do
+ActiveRecord::Schema.define(version: 2018_05_14_103857) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -126,6 +126,7 @@ ActiveRecord::Schema.define(version: 20180405084439) do
     t.string "confirmation_token"
     t.string "referral_code"
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }
+    t.integer "trips_count", default: 0
   end
 
   add_foreign_key "bonus_trips", "trips"

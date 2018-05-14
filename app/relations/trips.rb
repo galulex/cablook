@@ -38,7 +38,12 @@ class Trips < ROM::Relation[:sql]
   end
 
   def detailed
-    select_append(cars[:number].as(:car_number), cars[:phone_number].as(:car_phone_number), drivers[:name].as(:driver_name))
+    select_append(
+      cars[:number].as(:car_number),
+      cars[:phone_number].as(:car_phone_number),
+      cars[:color].as(:car_color),
+      drivers[:name].as(:driver_name)
+    )
       .left_join(:cars, id: Sequel[:trips][:car_id])
       .left_join(:drivers, id: Sequel[:trips][:driver_id])
   end
@@ -59,7 +64,10 @@ class Trips < ROM::Relation[:sql]
   end
 
   def with_user
-    select_append(users[:phone_number].as(:user_number))
+    select_append(
+      users[:phone_number].as(:user_number),
+      users[:trips_count].as(:trips_count)
+    )
       .inner_join(:users, id: Sequel[:trips][:user_id])
   end
 
