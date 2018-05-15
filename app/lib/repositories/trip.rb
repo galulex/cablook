@@ -34,6 +34,11 @@ module Repositories
       trips.where(user_id: user_id, status: Constants::Trip::FINISHED).count
     end
 
+    def currents(driver_id)
+      statuses = [Constants::Trip::ON_THE_WAY, Constants::Trip::WAITING_CLIENT, Constants::Trip::DRIVING]
+      trips.where(Sequel[:trips][:driver_id] => driver_id, Sequel[:trips][:status] => statuses).with_user.detailed.to_a
+    end
+
     def pending
       trips.where(status: Constants::Trip::PENDING).to_a
     end

@@ -28,6 +28,7 @@ Rails.application.routes.draw do
         delete :destroy, on: :collection
       end
       resources :trips, only: %i[index] do
+        get 'currents', on: :collection
         patch 'accept'
         patch 'cancel'
         patch 'finish'

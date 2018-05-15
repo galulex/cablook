@@ -14,6 +14,17 @@ describe Api::DriversApp::TripsController, type: :controller do
     it { is_expected.to be_successful }
   end
 
+  describe '#index' do
+    subject { response }
+
+    before do
+      Factory[:trip, status: Constants::Trip::ON_THE_WAY, user_id: Factory[:user].id, driver_id: driver.id]
+      get :currents, as: :json
+    end
+
+    it { is_expected.to be_successful }
+  end
+
   describe '#cancel' do
     subject { response }
 

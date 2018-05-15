@@ -95,4 +95,20 @@ describe Repositories::Trip do
       it { expect(result).to be nil }
     end
   end
+
+  describe '#currents' do
+    let(:driver) { Factory[:driver] }
+
+    before do
+      2.times { Factory[:trip, status: Constants::Trip::ON_THE_WAY, user_id: Factory[:user].id, driver_id: driver.id] }
+
+      Factory[:trip, status: Constants::Trip::PENDING, user_id: Factory[:user].id, driver_id: driver.id]
+    end
+
+    context 'when trip found' do
+      let(:result) { trip_repository.currents(driver.id) }
+
+      it { expect(result.count).to eq(2) }
+    end
+  end
 end
