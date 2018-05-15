@@ -8,6 +8,11 @@ module Api
         render json: Presenters::Trips::Collection.new(trips).to_json, status: 200
       end
 
+      def currents
+        trips = Repositories::Trip.new(ROM.env).currents(current_driver.id)
+        render json: Presenters::Trips::DetailedCollection.new(trips).to_json, status: 200
+      end
+
       def cancel
         Events::Trips::Cancel.(trip_id: params[:trip_id].to_i, by_driver: true)
         render json: [I18n.t('trips.canceled')], status: 200
