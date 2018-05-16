@@ -7,8 +7,10 @@ Path = {
     let destination = waypoints.pop().getAttribute('data-place')
 
     let steps = []
+    trip.stops = []
     waypoints.forEach(w => {
       steps.push({ location: { placeId: w.getAttribute('data-place') }, stopover: true })
+      trip.stops.push(w.value)
     })
 
     let params = {
@@ -19,7 +21,7 @@ Path = {
     }
 
     if (!departure || !destination) {
-      alert('Адреса введена не вірно')
+      alert('Адреса введена не вірно. Виберіть із списку')
       UI.disableButtons(false)
       return false
     }

@@ -1,11 +1,4 @@
 Trips = {
-  build: () => {
-    // UI.waypoints.forEach(point =>
-      // Locations.get(point)
-    // )
-    // Locations.get(UI.departureAddress, Locations.get(UI.destinationAddress, Path.build))
-  },
-
   show: () => {
     app.step = 3
     UI.disableButtons(false)
@@ -23,6 +16,10 @@ Trips = {
 
     trip.waypoints.forEach(w => {
       data.append('trip[waypoints][]', w)
+    })
+
+    trip.stops.forEach(w => {
+      data.append('trip[stops][]', w)
     })
 
     data.append('trip[path]', trip.path)

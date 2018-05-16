@@ -85,17 +85,11 @@ class App {
     })
   }
 
-  setAddress(event) {
-    if (!isValid(event) || this.suggestions.length < 1) return false
-    Locations.get(event.target, 0)
-    UI.destination.focus()
-  }
-
   setLocation(li) {
     let i = Array.prototype.indexOf.call(li.parentElement.children, li)
     let input = li.parentElement.previousElementSibling
-    trip[input.id] = this.suggestions[i].description
     input.value = this.suggestions[i].structured_formatting.main_text + ' '
+    trip[input.id] = input.value
     input.setAttribute('data-place', li.getAttribute('data-place'))
     li.parentElement.innerHTML = ''
     input.focus()
