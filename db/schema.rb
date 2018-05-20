@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_05_14_103857) do
+ActiveRecord::Schema.define(version: 2018_05_18_192016) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -25,6 +25,23 @@ ActiveRecord::Schema.define(version: 2018_05_14_103857) do
     t.index ["friend_id"], name: "index_bonus_trips_on_friend_id"
     t.index ["trip_id"], name: "index_bonus_trips_on_trip_id"
     t.index ["user_id"], name: "index_bonus_trips_on_user_id"
+  end
+
+  create_table "businesses", force: :cascade do |t|
+    t.bigint "user_id"
+    t.integer "card_id"
+    t.string "name"
+    t.string "email"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["card_id"], name: "index_businesses_on_card_id"
+    t.index ["user_id"], name: "index_businesses_on_user_id"
+  end
+
+  create_table "businesses_users", id: false, force: :cascade do |t|
+    t.integer "business_id"
+    t.integer "user_id"
+    t.index ["business_id", "user_id"], name: "index_businesses_users_on_business_id_and_user_id", unique: true
   end
 
   create_table "cards", force: :cascade do |t|
@@ -132,6 +149,7 @@ ActiveRecord::Schema.define(version: 2018_05_14_103857) do
   add_foreign_key "bonus_trips", "trips"
   add_foreign_key "bonus_trips", "users"
   add_foreign_key "bonus_trips", "users", column: "friend_id"
+  add_foreign_key "businesses", "users"
   add_foreign_key "cards", "users"
   add_foreign_key "devices", "users"
   add_foreign_key "drivers", "cars"

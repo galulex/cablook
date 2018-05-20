@@ -12,6 +12,10 @@ module Api
       render json: { errors: JSON.parse(error.message) }, status: error.object[:status]
     end
 
+    rescue_from ActiveRecord::RecordInvalid do |error|
+      render json: { errors: error }, status: :unprocessable_entity
+    end
+
     def current_user
       @current_user ||= Repositories::User.new(ROM.env).by_token(auth_token)
     end

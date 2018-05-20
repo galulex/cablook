@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   mount Sidekiq::Web => '/sidekiq'
 
   namespace :api do
+    resource :business, only: %i[create update show destroy]
     resource :session, only: %i[create update]
     resources :bonus_trips, only: %i[index]
     resources :cards, only: %i[index create destroy]

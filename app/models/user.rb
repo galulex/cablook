@@ -1,7 +1,10 @@
 class User < ApplicationRecord
+  has_one :business, inverse_of: :owner
   has_many :trips
   has_many :cards
   has_many :bonus_trips
+
+  validates :phone_number, format: { with: Constants::Regex::PHONE_NUMBER }
 
   scope :for_verification, lambda { |phone, token|
     left_joins(:cards)
