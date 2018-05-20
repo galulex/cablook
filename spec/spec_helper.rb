@@ -16,7 +16,7 @@ Dir[
   Rails.root.join('lib/constants/**/*.rb')
 ].each { |f| require f }
 
-SimpleCov.start
+SimpleCov.start 'rails'
 
 Capybara.javascript_driver = :selenium_chrome
 
