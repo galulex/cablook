@@ -61,6 +61,8 @@ RSpec.configure do |config|
 
     conn = ROM.env.gateways[:default].connection
 
+    DatabaseCleaner.strategy = :transaction
+    DatabaseCleaner.clean_with(:truncation)
     DatabaseCleaner[:sequel, connection: conn].strategy = :transaction
     DatabaseCleaner[:sequel, connection: conn].clean_with(:truncation)
   end

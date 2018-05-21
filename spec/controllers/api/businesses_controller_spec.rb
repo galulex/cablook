@@ -32,7 +32,10 @@ describe Api::BusinessesController, type: :controller do
   end
 
   describe '#show' do
-    before { get :show, as: :json }
+    before do
+      user.create_business(business_params)
+      get :show, as: :json
+    end
 
     it { is_expected.to be_successful }
   end
