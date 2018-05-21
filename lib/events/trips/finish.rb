@@ -28,7 +28,7 @@ module Events
       end
 
       def update_car
-        trip = Repositories::Trip.new(ROM.env).by_id(data[:trip_id])
+        return if next_trip?
         Repositories::Car.new(ROM.env).update(trip.car_id, status: Constants::Car::FREE)
       end
 
@@ -38,6 +38,14 @@ module Events
           action: Constants::BroadcastActions::TRIP_FINISH_ACTION,
           body: { action: Constants::BroadcastActions::TRIP_FINISHED }
         )
+      end
+
+      def next_trip?
+        Repositories::Trip.new(ROM.env).currents(trip.driver_id).any?
+      end
+
+      def trip
+        @trip ||= Repositories::Trip.new(ROM.env).by_id(data[:trip_id])
       end
 
       def trip_channel
