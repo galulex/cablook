@@ -1,3 +1,3 @@
 class Driver < ApplicationRecord
-  belongs_to :car, validate: false
+  belongs_to :car, required: false
 end

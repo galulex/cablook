@@ -55,6 +55,7 @@ RSpec.configure do |config|
   end
 
   config.shared_context_metadata_behavior = :apply_to_host_groups
+  config.use_transactional_fixtures = false
 
   config.before(:suite) do
 
@@ -81,9 +82,16 @@ RSpec.configure do |config|
   end
 
   config.before(:each) do
+    DatabaseCleaner.strategy = :transaction
+    DatabaseCleaner.start
+
     body = File.read('spec/fixtures/maps/success_directions')
     stub_request(:get, /https:\/\/maps.googleapis.com\/maps\/api\/directions\/.*/)
       .to_return(status: 200, headers: { 'Content-Type' => 'application/json' }, body: body)
+  end
+
+  config.append_after(:each) do
+    DatabaseCleaner.clean
   end
 
   Factory = ROM::Factory.configure do |config|
