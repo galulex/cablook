@@ -2,7 +2,7 @@ describe Repositories::User do
   describe '#all' do
     let(:instance) { user_repository.all }
 
-    pending { expect(instance).to be_empty }
+    it { expect(instance).to be_empty }
 
     context 'when users are found' do
       let!(:user) { Factory[:user] }
