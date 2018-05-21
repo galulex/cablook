@@ -14,6 +14,14 @@ module Repositories
       payments.where(user_id: user_id).to_a
     end
 
+    def card_token_by_trip(trip_id)
+      payments
+        .select(:id, cards[:token].as(:token))
+        .inner_join(:cards, id: Sequel[:payments][:card_id])
+        .where(trip_id: trip_id)
+        .one
+    end
+
     def pending_by_user(user_id)
       payments.where(status: Constants::Payments::PENDING, user_id: user_id).to_a
     end
