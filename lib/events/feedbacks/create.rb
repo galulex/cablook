@@ -6,14 +6,16 @@ module Events
           configure { config.messages = :i18n }
 
           required(:rate) { int? & gt?(0) & lteq?(5) }
-          optional(:description).filled(:str?)
           required(:trip_id).filled(:int?)
           required(:user_id).filled(:int?)
+          optional(:description).filled(:str?)
+          optional(:tip).filled(:int?)
         end
       end
 
       def run
         validate!
+        send_and_create_tip_for_driver if data[:tip]&.positive?
         create_feedback
       end
 
@@ -26,6 +28,10 @@ module Events
 
       def create_feedback
         Repositories::Feedback.new(ROM.env).create(data.to_h)
+      end
+
+      def send_and_create_tip_for_driver
+        Jobs::PaymentTip.perform_later(data[:trip_id], data[:tip])
       end
     end
   end

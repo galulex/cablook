@@ -100,6 +100,13 @@ ActiveRecord::Schema.define(version: 2018_05_18_192016) do
     t.index ["user_id"], name: "index_payments_on_user_id"
   end
 
+  create_table "tips", force: :cascade do |t|
+    t.bigint "trip_id"
+    t.integer "amount"
+    t.jsonb "response"
+    t.index ["trip_id"], name: "index_tips_on_trip_id"
+  end
+
   create_table "trip_jobs", force: :cascade do |t|
     t.string "activejob_id"
     t.string "sidekiq_id"
@@ -158,6 +165,7 @@ ActiveRecord::Schema.define(version: 2018_05_18_192016) do
   add_foreign_key "payments", "cards"
   add_foreign_key "payments", "drivers"
   add_foreign_key "payments", "trips"
+  add_foreign_key "tips", "trips"
   add_foreign_key "trip_jobs", "trips"
   add_foreign_key "trips", "cars"
   add_foreign_key "trips", "drivers"

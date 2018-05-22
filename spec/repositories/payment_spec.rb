@@ -13,6 +13,17 @@ describe Repositories::Payment do
     end
   end
 
+  describe '#card_token_by_trip' do
+    let(:instance) { payment_repository.card_token_by_trip(trip.id) }
+    let(:trip) { Factory[:trip] }
+    let(:card) { Factory[:card] }
+    let!(:payment) { Factory[:payment, card_id: card.id, trip_id: trip.id] }
+    let!(:payment_2) { Factory[:payment, card_id: card.id] }
+
+    it { expect(instance).to be }
+    it { expect(instance.token).to eq(card.token) }
+  end
+
   describe '#pending_by_user' do
     let(:instance) { payment_repository.pending_by_user(user.id) }
     let!(:payment) { Factory[:payment, user_id: user.id, status: Constants::Payments::HOLD] }
