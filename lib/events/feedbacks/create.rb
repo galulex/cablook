@@ -15,7 +15,7 @@ module Events
 
       def run
         validate!
-        send_and_create_tip_for_driver if data[:tip]
+        send_and_create_tip_for_driver if data[:tip]&.positive?
         create_feedback
       end
 
@@ -31,6 +31,7 @@ module Events
       end
 
       def send_and_create_tip_for_driver
+        Jobs::PaymentTip.perform_later(data[:trip_id], data[:tip])
       end
     end
   end

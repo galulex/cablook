@@ -8,8 +8,8 @@ module Operations
     attr_reader :trip_id, :amount
 
     def call
-      create_tip
-      send_payment
+      response = send_payment
+      create_tip(response: response)
     end
 
     private
@@ -29,10 +29,11 @@ module Operations
       JSON.parse(hold.body)
     end
 
-    def create_tip
+    def create_tip(response)
       Repositories::Tip.new(ROM.env).create(
-        trip_id: data[:trip_id],
-        amount: data[:tip]
+        trip_id: trip_id,
+        amount: amount,
+        response: response
       )
     end
 

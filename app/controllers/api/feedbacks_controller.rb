@@ -12,12 +12,17 @@ module Api
     def feedback_params
       params.require(:feedback).permit(:rate, :description).merge(
         trip_id: trip_id,
+        tip: tip,
         user_id: current_user.id
       )
     end
 
     def trip_id
       params[:trip_id].to_i
+    end
+
+    def tip
+      params[:tip].to_i
     end
   end
 end
