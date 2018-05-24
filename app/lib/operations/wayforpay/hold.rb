@@ -17,7 +17,30 @@ module Operations
                    Constants::Payments::PENDING
                  end
         create_trip_payment(status, response)
+        broadcast_status_to_trip_channel(status)
         response
+      end
+
+      private
+
+      def broadcast_status_to_trip_channel(status)
+        ActionCable.server.broadcast(
+          "#{Constants::Channels::TRIP}_#{trip.id}",
+          action: Constants::BroadcastActions::PAYMENT_RESPONSE,
+          payment_status: status
+        )
+      end
+
+      def create_trip_payment(status, wayforpay_data)
+        @payment ||= Repositories::Payment.new(ROM.env).create(
+          status: status,
+          amount: trip.cost,
+          user_id: trip.user_id,
+          card_id: card_id,
+          trip_id: trip_id,
+          order_reference: order_reference,
+          response: wayforpay_data
+        )
       end
 
       def hold_payment
@@ -33,18 +56,6 @@ module Operations
           orderReference: order_reference
         )
         JSON.parse(response.body)
-      end
-
-      def create_trip_payment(status, wayforpay_data)
-        Repositories::Payment.new(ROM.env).create(
-          status: status,
-          amount: trip.cost,
-          user_id: trip.user_id,
-          card_id: card_id,
-          trip_id: trip_id,
-          order_reference: order_reference,
-          response: wayforpay_data
-        )
       end
 
       def send_sms

@@ -16,6 +16,18 @@ describe Operations::Wayforpay::Hold do
       it { is_expected.not_to have_enqueued_job(Jobs::Sms) }
     end
 
+    context 'and broadcast to channel with status success' do
+      after { subject.call }
+
+      it do
+        expect(ActionCable.server).to receive(:broadcast).with(
+          "#{Constants::Channels::TRIP}_#{trip.id}",
+          action: Constants::BroadcastActions::PAYMENT_RESPONSE,
+          payment_status: Constants::Payments::HOLD
+        )
+      end
+    end
+
     context 'when status is ok' do
       before { subject.call }
 
@@ -31,6 +43,18 @@ describe Operations::Wayforpay::Hold do
         before { subject.call }
 
         it { expect(payment_repository.payments.to_a.last.status).to eq(Constants::Payments::PENDING) }
+      end
+
+      context 'and broadcast to channel with status failed' do
+        after { subject.call }
+
+        it do
+          expect(ActionCable.server).to receive(:broadcast).with(
+            "#{Constants::Channels::TRIP}_#{trip.id}",
+            action: Constants::BroadcastActions::PAYMENT_RESPONSE,
+            payment_status: Constants::Payments::PENDING
+          )
+        end
       end
     end
   end
