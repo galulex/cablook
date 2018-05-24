@@ -14,11 +14,12 @@ describe Api::DriversApp::TripsController, type: :controller do
     it { is_expected.to be_successful }
   end
 
-  describe '#index' do
+  describe '#currents' do
     subject { response }
 
     before do
-      Factory[:trip, status: Constants::Trip::ON_THE_WAY, user_id: Factory[:user].id, driver_id: driver.id]
+      trip = Factory[:trip, status: Constants::Trip::ON_THE_WAY, user_id: Factory[:user].id, driver_id: driver.id]
+      Factory[:payment, trip_id: trip.id]
       get :currents, as: :json
     end
 
@@ -30,6 +31,7 @@ describe Api::DriversApp::TripsController, type: :controller do
 
     let(:params) { { trip_id: trip.id } }
     let(:trip) { Factory[:trip, car_id: car.id, driver_id: driver.id, user_id: user.id] }
+    let!(:payment) { Factory[:payment, trip_id: trip.id] }
 
     before { patch :cancel, params: params, as: :json }
 
@@ -37,6 +39,7 @@ describe Api::DriversApp::TripsController, type: :controller do
 
     context 'when trip is finished' do
       let(:trip) { Factory[:trip, status: Constants::Trip::FINISHED] }
+      let!(:payment) { Factory[:payment, trip_id: trip.id] }
 
       it { is_expected.to have_http_status(:unprocessable_entity) }
     end
@@ -47,6 +50,7 @@ describe Api::DriversApp::TripsController, type: :controller do
 
     let(:params) { { trip_id: trip.id } }
     let(:trip) { Factory[:trip, car_id: car.id, driver_id: driver.id, user_id: user.id] }
+    let!(:payment) { Factory[:payment, trip_id: trip.id] }
 
     before do
       Redis.current.set("car_#{driver.car_id}", '49.461655,32.165358')
@@ -67,6 +71,7 @@ describe Api::DriversApp::TripsController, type: :controller do
 
     let(:params) { { trip_id: trip.id } }
     let(:trip) { Factory[:trip, car_id: car.id, driver_id: driver.id, user_id: user.id] }
+    let!(:payment) { Factory[:payment, trip_id: trip.id] }
 
     before { patch :start, params: params, as: :json }
 
@@ -78,6 +83,7 @@ describe Api::DriversApp::TripsController, type: :controller do
 
     let(:params) { { trip_id: trip.id } }
     let(:trip) { Factory[:trip, car_id: car.id, driver_id: driver.id, user_id: user.id] }
+    let!(:payment) { Factory[:payment, trip_id: trip.id] }
 
     before { patch :start, params: params, as: :json }
 
@@ -89,6 +95,7 @@ describe Api::DriversApp::TripsController, type: :controller do
 
     let(:params) { { trip_id: trip.id } }
     let(:trip) { Factory[:trip, car_id: car.id, driver_id: driver.id, user_id: user.id] }
+    let!(:payment) { Factory[:payment, trip_id: trip.id] }
 
     before { patch :waiting_client, params: params, as: :json }
 

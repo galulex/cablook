@@ -7,7 +7,7 @@ module Repositories
     end
 
     def detailed(trip_id)
-      trips.detailed.with_user.by_pk(trip_id).one
+      trips.detailed.with_user.with_payment.by_pk(trip_id).one
     end
 
     def by_id(trip_id)
@@ -36,7 +36,7 @@ module Repositories
 
     def currents(driver_id)
       statuses = [Constants::Trip::ON_THE_WAY, Constants::Trip::WAITING_CLIENT, Constants::Trip::DRIVING]
-      trips.where(Sequel[:trips][:driver_id] => driver_id, Sequel[:trips][:status] => statuses).with_user.detailed.to_a
+      trips.with_payment.where(Sequel[:trips][:driver_id] => driver_id, Sequel[:trips][:status] => statuses).with_user.detailed.to_a
     end
 
     def pending

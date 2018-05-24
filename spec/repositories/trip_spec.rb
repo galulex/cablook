@@ -100,7 +100,10 @@ describe Repositories::Trip do
     let(:driver) { Factory[:driver] }
 
     before do
-      2.times { Factory[:trip, status: Constants::Trip::ON_THE_WAY, user_id: Factory[:user].id, driver_id: driver.id] }
+      2.times do
+        trip = Factory[:trip, status: Constants::Trip::ON_THE_WAY, user_id: Factory[:user].id, driver_id: driver.id]
+        Factory[:payment, trip_id: trip.id]
+      end
 
       Factory[:trip, status: Constants::Trip::PENDING, user_id: Factory[:user].id, driver_id: driver.id]
     end

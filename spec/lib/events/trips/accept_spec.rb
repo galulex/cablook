@@ -5,6 +5,7 @@ describe Events::Trips::Accept do
     let(:driver) { Factory[:driver, car_id: Factory[:car].id] }
     let(:trip) { Factory[:trip, user_id: user.id] }
     let(:user) { Factory[:user] }
+    let!(:payment) { Factory[:payment, trip_id: trip.id]}
     let!(:device) { Factory[:device, user_id: user.id] }
     let(:data) { { trip_id: trip.id, driver_id: driver.id, car_id: driver.car_id } }
 
