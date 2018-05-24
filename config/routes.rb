@@ -12,6 +12,7 @@ Rails.application.routes.draw do
     resources :cards, only: %i[index create destroy]
     resources :payments, only: %i[index] do
       post 'retry_pendings', on: :collection
+      get 'pending', on: :collection
     end
     resources :referrals, only: %i[index create]
     resources :trips, only: %i[index show create] do

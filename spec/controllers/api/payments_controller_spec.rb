@@ -29,4 +29,14 @@ describe Api::PaymentsController, type: :controller do
 
     it { is_expected.to be_successful }
   end
+
+  describe '#pending' do
+    let!(:payment) { Factory[:payment, user_id: user.id] }
+
+    before { get :pending, as: :json }
+
+    it_behaves_like 'authorization_required'
+
+    it { is_expected.to be_successful }
+  end
 end

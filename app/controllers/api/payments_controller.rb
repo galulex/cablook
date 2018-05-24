@@ -12,6 +12,10 @@ module Api
       render json: pending_payments.to_json, status: 200
     end
 
+    def pending
+      render json: pending_payments.to_json, status: 200
+    end
+
     private
 
     def card_id
