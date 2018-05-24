@@ -4,7 +4,7 @@ class Presenters::Trips::Detailed < Presenters::BaseSingle
              :start_at, :started_at, :finish_at, :finished_at, :duration, :distance, :comment,
              :user_id, :driver_id, :created_at,
              :driver_name, :car_number, :car_phone_number, :car_color,
-             :user_number, :trips_count
+             :user_number, :trips_count, :payment_status
   property :start_time, exec_context: :decorator
   property :finish_time, exec_context: :decorator
 

@@ -68,6 +68,7 @@ describe Api::TripsController, type: :controller do
 
     let(:params) { { id: trip.id } }
     let(:trip) { Factory[:trip, user_id: user.id] }
+    let!(:payment) { Factory[:payment, trip_id: trip.id] }
 
     before { get :show, params: params, as: :json }
 

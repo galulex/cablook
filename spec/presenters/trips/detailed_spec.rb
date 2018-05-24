@@ -2,6 +2,7 @@ describe Presenters::Trips::Detailed do
   let(:user) { Factory[:user] }
   let(:driver) { Factory[:driver, car_id: car.id] }
   let(:car) { Factory[:car] }
+  let!(:payment) { Factory[:payment, trip_id: trip.id] }
   let!(:trip) { Factory[:trip, user_id: user.id, driver_id: driver.id, car_id: car.id] }
   let(:data) { trip_repository.detailed(trip.id) }
 
@@ -27,5 +28,6 @@ describe Presenters::Trips::Detailed do
     it { is_expected.to have_key(:car_phone_number).with_value(car.phone_number) }
     it { is_expected.to have_key(:user_number).with_value(user.phone_number) }
     it { is_expected.to have_key(:trips_count).with_value(user.trips_count) }
+    it { is_expected.to have_key(:payment_status).with_value(payment.status) }
   end
 end

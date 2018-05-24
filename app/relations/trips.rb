@@ -32,6 +32,7 @@ class Trips < ROM::Relation[:sql]
       has_one :cars
       has_one :users
       has_one :drivers
+      has_one :payment
     end
 
     primary_key :id
@@ -69,6 +70,10 @@ class Trips < ROM::Relation[:sql]
       users[:trips_count].as(:trips_count)
     )
       .inner_join(:users, id: Sequel[:trips][:user_id])
+  end
+
+  def with_payment
+    select_append(payments[:status].as(:payment_status)).inner_join(:payments)
   end
 
   def with_feedbacks
