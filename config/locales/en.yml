@@ -39,3 +39,10 @@ en:
   sms:
     car_found: "Car found. Wait at %{time}"
     payment_failed: Due to a lack of founds or internet limit you could not pay for the trip. You can pay the next time.
+  business_mailer:
+    receipt:
+      subject: 'CabLook Business'
+      user: 'User:'
+      trip: 'Trip:'
+      cost: 'Cost:'
+      card: 'Card:'

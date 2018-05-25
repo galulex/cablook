@@ -1,0 +1,18 @@
+=> t('.user')
+b= @trip.user.phone_number
+br
+=> t('.trip')
+b
+  = @trip.departure_address
+  ' →
+  = @trip.destination_address
+br
+= t('.cost')
+b
+  = @trip.cost
+  ' ₴
+br
+=> t('.card')
+b= @trip.card.pan
+br
+img style='border-radius: 50%;' src="https://maps.googleapis.com/maps/api/staticmap?size=150x150&path=enc:#{@trip.path}&key=AIzaSyDlGdVGbkeO_30Yn7tPCpe61AgdrsXMbQ0"

@@ -50,6 +50,11 @@ class App {
     alert('Поїздка скасована.')
   }
 
+  PaymentResponse(data) {
+    //TODO Handle payment response
+    console.log(data)
+  }
+
   TripAccepted(data) {
     localStorage.data = data
     UI.showTrip(data)

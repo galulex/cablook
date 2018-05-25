@@ -2,6 +2,8 @@ class Trip < ApplicationRecord
   belongs_to :user
   belongs_to :driver
   belongs_to :car
+  has_one :payment
+  has_one :card, through: :payment
 
   scope :sum_cost, -> do
      joins(:driver)
