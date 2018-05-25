@@ -46,12 +46,17 @@ describe Trips do
   end
 
   describe '#with_payment' do
-    let(:trip) { Factory[:trip] }
-    let!(:payment) { Factory[:payment, trip_id: trip.id] }
+    let!(:trip) { Factory[:trip] }
     let(:result) { relation.with_payment.to_a }
 
     it { expect(result.count).to eq(1) }
     it { expect(result.first[:id]).to eq(trip.id) }
-    it { expect(result.first[:payment_status]).to eq(payment.status) }
+    it { expect(result.first[:payment_status]).to eq(nil) }
+
+    context 'when payment is created' do
+      let!(:payment) { Factory[:payment, trip_id: trip.id] }
+
+      it { expect(result.first[:payment_status]).to eq(payment.status) }
+    end
   end
 end

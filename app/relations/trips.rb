@@ -73,7 +73,7 @@ class Trips < ROM::Relation[:sql]
   end
 
   def with_payment
-    select_append(payments[:status].as(:payment_status)).inner_join(:payments)
+    select_append(payments[:status].as(:payment_status)).left_join(:payments)
   end
 
   def with_feedbacks
