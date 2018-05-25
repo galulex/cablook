@@ -38,7 +38,8 @@ module Operations
     end
 
     def card
-      @card ||= Repositories::Payment.new(ROM.env).card_token_by_trip(trip_id)
+      Repositories::Payment.new(ROM.env).card_token_by_trip(trip_id) ||
+        Repositories::Card.new(ROM.env).by_user(trip.user_id).last
     end
 
     def trip
