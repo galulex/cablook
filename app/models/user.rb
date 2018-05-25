@@ -1,8 +1,10 @@
 class User < ApplicationRecord
   has_one :business, inverse_of: :owner
+  has_and_belongs_to_many :businesses
   has_many :trips
   has_many :cards
   has_many :bonus_trips
+  has_many :business_cards, through: :businesses, source: :card
 
   validates :phone_number, format: { with: Constants::Regex::PHONE_NUMBER }
 
