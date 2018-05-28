@@ -51,5 +51,5 @@ form#form.form onsubmit='app.submit(event)' action='/'
     .loader#loader
       = inline_svg('wheel.svg', class: :icon)
       p= t('.looking_for_driver')
-    .state#state
+    .state.form__user-number#state
     button.button.yellow-button#cancel type=:button onclick='Trips.cancel()' = t('cancel')

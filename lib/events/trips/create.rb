@@ -108,10 +108,10 @@ module Events
       end
 
       def card_id
+        #TODO cleanup after swith to ActiveRecord
         card_repository = Repositories::Card.new(ROM.env)
         user_cards = card_repository.by_user(data[:user_id])
-        return if user_cards.any?
-        user_cards = Card.user_cards(data[:user_id])
+        user_cards ||= Card.user_cards(data[:user_id])
         invalid!([I18n.t('cards.add_card')]) if user_cards.empty?
         card_repository.by_id(data[:card_id])&.id || user_cards.first.id
       end

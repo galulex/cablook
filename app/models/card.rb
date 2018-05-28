@@ -2,6 +2,7 @@ class Card < ApplicationRecord
   self.inheritance_column = :_type_disabled
 
   belongs_to :user
+  has_one :business
 
   scope :user_cards, (lambda do |user|
     select('cards.*')

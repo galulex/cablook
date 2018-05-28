@@ -1,6 +1,6 @@
 class BusinessMailer < ApplicationMailer
-  def receipt(business, trip)
-    @email = business.email
+  def receipt(trip)
+    @email = trip.card.business.email
     @trip = trip
     mail to: @email
   end

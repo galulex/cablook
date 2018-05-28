@@ -84,7 +84,7 @@ UI = {
 
   showTrip(data) {
     let html = `
-      <img src='https://maps.googleapis.com/maps/api/staticmap?size=400x400&path=enc:${data.trip.path}&key=AIzaSyDlGdVGbkeO_30Yn7tPCpe61AgdrsXMbQ0'></br>
+      <img class='map-img' src='https://maps.googleapis.com/maps/api/staticmap?size=400x400&path=enc:${data.trip.path}&key=AIzaSyDlGdVGbkeO_30Yn7tPCpe61AgdrsXMbQ0'></br>
       Вартість: <b>${data.trip.cost}грн</b></br>
       Відстань: <b>${(data.trip.distance/1000).toFixed(1)}КМ</b></br>
       Відправлення: <b>${data.trip.start_time}</b></br>
