@@ -70,7 +70,7 @@ html lang=I18n.locale
 
   body
     main= yield
-    = javascript_include_tag 'application', async: true
+    = javascript_include_tag 'pwa', async: true
     = stylesheet_link_tag    'fonts', media: 'all'
     = stylesheet_link_tag 'pwa', media: :all
   = render 'layouts/footer'

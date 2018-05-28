@@ -4,8 +4,6 @@ nav
   .main-menu
     .main-menu__header
       = inline_svg 'cablook', class: 'main-menu__logo icon'
-      = t('.order')
-    = render 'shared/user_form'
 
     div.badges
       a.col-8 href=pwa_path target=:_blank
@@ -15,6 +13,9 @@ nav
       a.col-8 href='https://itunes.apple.com/us/app/cablook-taxi/id1356063043?ls=1&mt=8' target=:_black
         = inline_svg 'app_store_badge.svg'
 
+    = link_to '/pwa', class: 'menu-item', target: :_blank do
+      => inline_svg 'cablook', class: :icon
+      = t('.order')
     = link_to page_path(:about), class: 'menu-item' do
       => inline_svg 'leaf', class: :icon
       = t('.about_us')

@@ -153,14 +153,6 @@ nav button:hover {
     padding: 5% 10%;
     position: relative;
     align-items: center;
-
-    &:before {
-      content: '▼';
-      padding-top: 5px;
-      position: absolute;
-      right: 10%;
-      max-height: 20px;
-    }
   }
 
   &__logo {

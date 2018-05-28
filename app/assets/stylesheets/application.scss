@@ -163,10 +163,6 @@ input#menu:checked + label:before {
       width: 100%;
     }
 
-    .ribbon {
-      max-height: 80px;
-    }
-
     .city-line {
       width: 100%;
       left: 0;
@@ -199,10 +195,6 @@ input#menu:checked + label:before {
     text-align: center !important;
     padding-left: 0 !important;
     padding-right: 0 !important;
-  }
-
-  .welcome .btn {
-    display: block;
   }
 }
 
@@ -266,22 +258,12 @@ input#menu:checked + label:before {
   background: $green;
   color: $white;
   font-weight: 400;
-  padding: 3% 5%;
+  padding: 20px;
   border-radius: 5px;
   display: inline-block;
   margin: 10px 0;
-  display: none;
-}
-
-@media only screen and (min-width: 768px) {
-  .ribbon {
-    position: absolute;
-    top: 10%;
-    right: -3%;
-    width: 35%;
-    max-width: 500px;
-    max-height: 50px;
-  }
+  display: inline-block;
+  min-width: 30%;
 }
 
 summary {
