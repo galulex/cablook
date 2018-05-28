@@ -2,7 +2,7 @@ Trips = {
   show: () => {
     app.step = 3
     UI.disableButtons(false)
-    UI.path = `https://maps.googleapis.com/maps/api/staticmap?size=600x400&path=enc:${trip.path}&key=AIzaSyDlGdVGbkeO_30Yn7tPCpe61AgdrsXMbQ0`
+    UI.path = `https://maps.googleapis.com/maps/api/staticmap?size=400x400&path=enc:${trip.path}&key=AIzaSyDlGdVGbkeO_30Yn7tPCpe61AgdrsXMbQ0`
   },
 
   create: () => {

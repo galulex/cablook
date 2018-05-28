@@ -1,17 +1,36 @@
 describe Api::CardsController, type: :controller do
-  let(:user) { Factory[:user] }
+  let(:user) { Factory[:user, auth_token: 'token'] }
   let(:auth_token) { user.auth_token }
 
   before { request.headers['Auth-Token'] = auth_token }
 
   describe '#index' do
-    subject { response }
+    let!(:user) { User.create(phone_number: '+380632225665', auth_token: 'token') }
+    let!(:personal_card) { Card.create(user_id: user.id, pan: '0000****1234', token: :token, type: :Visa, currency: :UAH) }
 
-    before { get :index, as: :json }
+    before { allow_any_instance_of(Api::ApiApplicationController).to receive(:current_user).and_return(user) }
 
-    it_behaves_like 'authorization_required'
+    subject { JSON.parse(response.body) }
 
-    it { is_expected.to be_successful }
+    context 'personal cards' do
+      before { get :index, as: :json }
+
+      it 'returns all cards' do
+        expect(subject.size).to eql(1)
+      end
+    end
+
+    context 'business' do
+      let!(:owner) { User.create(phone_number: '+380502225665') }
+      let!(:business_card) { Card.create(user_id: owner.id, pan: '0000****1111', token: :token, type: :Visa, currency: :UAH) }
+      let!(:business) { Business.create(name: 'CabLook', email: 'contact@cablook.taxi', card_id: business_card.id, user_id: owner.id, users: [user]) }
+
+      before { get :index, as: :json }
+
+      it 'returns personal and business cards' do
+        expect(subject.size).to eql(2)
+      end
+    end
   end
 
   describe '#create' do

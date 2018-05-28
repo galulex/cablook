@@ -16,7 +16,7 @@ Sessions = {
     ajax('session', 'PATCH', data, data => {
       localStorage.token = data['auth_token']
       localStorage.number = data['phone_number']
-      if (data['has_cards']) localStorage.ready = data['ready']
+      Cards.fetch()
       app.step = 2
     })
   },

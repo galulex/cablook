@@ -8,7 +8,15 @@ let Cards = {
     data.append('email', attrs.email)
     ajax('cards', 'POST', data, data => {
       localStorage.ready = true
-      Trips.create()
+      Cards.fetch()
+    })
+  },
+
+  fetch: () => {
+    localStorage.removeItem('ready')
+    ajax('cards', 'GET', {}, data => {
+      if (data.length > 0) localStorage.ready = data['ready']
+      UI.addCards(data)
     })
   }
 }

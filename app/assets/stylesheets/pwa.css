@@ -53,7 +53,7 @@ main {
   vertical-align: middle;
 }
 
-input, textarea {
+input, textarea, select {
   width: 100%;
   display: block;
   border: none;
@@ -69,12 +69,41 @@ input, textarea {
   position: relative;
 }
 
+select {
+  width: 100%;
+  color: #E8C03B;
+  background: transparent;
+  padding: 10px 30px 10px 10px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  margin: 0;
+}
+
+.select {
+  position: relative;
+  display: inline-block;
+}
+
+.select:before {
+  color: #E8C03B;
+  content: '▼';
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
 ::placeholder {
   color: rgba(25, 161, 96, 0.5);
 }
 
 img {
   max-width: 100%;
+}
+
+.map-img {
+  border-radius: 50px;
 }
 
 textarea {

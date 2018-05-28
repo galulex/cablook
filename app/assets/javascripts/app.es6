@@ -21,6 +21,7 @@ class App {
       return false
     }
     if (!localStorage.token) return false
+    Cards.fetch()
     this.step = 2
   }
 

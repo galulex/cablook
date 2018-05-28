@@ -3,8 +3,7 @@ module Api
     before_action :authorize!
 
     def index
-      cards = Repositories::Card.new(ROM.env).by_user(current_user.id)
-      render json: Presenters::Cards::Collection.new(cards).to_json, status: 200
+      render json: cards.to_json(only: %i[id type property pan]), status: 200
     end
 
     # https://wiki.wayforpay.com/pages/viewpage.action?pageId=852102
@@ -18,6 +17,12 @@ module Api
       event = Events::Cards::Delete.(card_id: params[:id].to_i, user_id: current_user.id)
       raise Constants::NotFoundError unless event
       head :ok
+    end
+
+    private
+
+    def cards
+      @cards ||= Card.user_cards(current_user.id)
     end
   end
 end

@@ -15,7 +15,7 @@ module Events
           optional(:waypoints) { none? | array? }
 
           optional(:comment) { str? }
-          optional(:card_id).filled(:int?)
+          optional(:card_id)
           optional(:bouns).filled(:bool?)
         end
       end
@@ -110,6 +110,8 @@ module Events
       def card_id
         card_repository = Repositories::Card.new(ROM.env)
         user_cards = card_repository.by_user(data[:user_id])
+        return if user_cards.any?
+        user_cards = Card.user_cards(data[:user_id])
         invalid!([I18n.t('cards.add_card')]) if user_cards.empty?
         card_repository.by_id(data[:card_id])&.id || user_cards.first.id
       end

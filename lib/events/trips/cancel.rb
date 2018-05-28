@@ -14,6 +14,7 @@ module Events
         if trip&.status.in?([Constants::Trip::PENDING, Constants::Trip::ON_THE_WAY, Constants::Trip::WAITING_CLIENT, Constants::Trip::DECLINED])
           update_trip
           delete_from_jobs
+          update_car
           refund_payment
           broadcast_unavailable_to_map
           broadcast_unavailable_to_trip
@@ -23,6 +24,15 @@ module Events
       end
 
       private
+
+      def update_car
+        return if next_trip?
+        Repositories::Car.new(ROM.env).update(trip.car_id, status: Constants::Car::FREE)
+      end
+
+      def next_trip?
+        Repositories::Trip.new(ROM.env).currents(trip.driver_id).any?
+      end
 
       def update_trip
         return if trip.status == Constants::Trip::DECLINED

@@ -37,7 +37,13 @@ form#form.form onsubmit='app.submit(event)' action='/'
     button#done.button type=:submit = t('done')
 
   fieldset.form__fieldset disabled=true data-action='Trips.create()'
-    div: img#trip_path
+    div.form__user-number: img#trip_path.map-img
+    br
+    .card-section hidden=true
+      label> for='card' = t('.card_label')
+      div.select
+        select#card name='trip[card_id]' onchange="if (this.value == '') { pay(); this.selectedIndex = 0 }"
+    br
     button#go.button type=:submit = t('go')
     button.button.yellow-button type=:button onclick='Trips.destroy()' = t('cancel')
 
