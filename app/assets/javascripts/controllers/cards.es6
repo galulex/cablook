@@ -16,7 +16,7 @@ let Cards = {
     localStorage.removeItem('ready')
     ajax('cards', 'GET', {}, data => {
       if (data.length > 0) localStorage.ready = data['ready']
-      UI.addCards(data)
+      UI.addCards(data['cards'])
     })
   }
 }
