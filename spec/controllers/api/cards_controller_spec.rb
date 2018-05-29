@@ -10,7 +10,7 @@ describe Api::CardsController, type: :controller do
 
     before { allow_any_instance_of(Api::ApiApplicationController).to receive(:current_user).and_return(user) }
 
-    subject { JSON.parse(response.body) }
+    subject { JSON.parse(response.body)['cards'] }
 
     context 'personal cards' do
       before { get :index, as: :json }

@@ -3,7 +3,7 @@ module Api
     before_action :authorize!
 
     def index
-      render json: cards.to_json(only: %i[id type property pan]), status: 200
+      render json: { cards: cards }, status: 200
     end
 
     # https://wiki.wayforpay.com/pages/viewpage.action?pageId=852102

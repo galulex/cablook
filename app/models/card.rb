@@ -13,4 +13,8 @@ class Card < ApplicationRecord
       .group('cards.id')
       .order('property ASC, id DESC')
   end)
+
+  def to_json
+    super(except: :token)
+  end
 end
