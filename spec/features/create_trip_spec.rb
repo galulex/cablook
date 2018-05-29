@@ -12,43 +12,7 @@ RSpec.feature 'Trip', type: :feature, js: true do
   let(:no_code)       { 'Код не вірний або час на верифікацію скінчився. Спробуйте ще раз.' }
   let(:card)          { Factory[:card] }
 
-  before { visit root_path }
-
-  scenario 'user enter invalid phone number' do
-    fill_in 'number', with: '0123456789'
-    find('button').click
-
-    expect(alert.text).to eq no_phone
-  end
-
-  scenario 'user enter invalid verification code' do
-    fill_in 'number', with: phone_number
-    find('button').click
-    sleep(1)
-    fill_in 'verification', with: '1111'
-    click_button 'submit_code'
-
-    expect(alert.text).to eq no_code
-  end
-
-  scenario 'user authorize' do
-    fill_in 'number', with: phone_number
-    find('button').click
-    sleep(1)
-    fill_in 'verification', with: User.last.verification_token
-    click_button 'submit_code'
-
-    expect(page).to have_content(I18n.t('order'))
-  end
-
-  scenario 'when user hasn\'t a card' do
-    script_set_addresses
-    script_add_addresses
-    click_button 'done'
-    click_button 'go'
-
-    expect(alert.text).to include no_card
-  end
+  before { visit '/pwa' }
 
   pending 'user has a card' do
     before { create_card }
