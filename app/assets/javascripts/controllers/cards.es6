@@ -15,7 +15,7 @@ let Cards = {
   fetch: () => {
     localStorage.removeItem('ready')
     ajax('cards', 'GET', {}, data => {
-      if (data.length > 0) localStorage.ready = data['ready']
+      if (data['cards'].length > 0) localStorage.ready = true
       UI.addCards(data['cards'])
     })
   }
