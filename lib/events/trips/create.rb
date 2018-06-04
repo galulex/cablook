@@ -13,6 +13,7 @@ module Events
           required(:departure_address).filled(:str?)
           required(:destination_address).filled(:str?)
           optional(:waypoints) { none? | array? }
+          optional(:stops) { none? | array? }
 
           optional(:comment) { str? }
           optional(:card_id)
@@ -93,6 +94,7 @@ module Events
         data[:duration] = trip_calculation.duration
         data[:cost] = trip_calculation.cost
         data[:waypoints] = Sequel.pg_array(data[:waypoints]) if data[:waypoints]&.any?
+        data[:stops] = Sequel.pg_array(data[:stops]) if data[:stops]&.any?
       end
 
       def bonus_trips

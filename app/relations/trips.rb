@@ -10,6 +10,7 @@ class Trips < ROM::Relation[:sql]
     attribute :departure_address, Types::String
     attribute :destination_address, Types::String
     attribute :waypoints, Types::PG::Array
+    attribute :stops, Types::PG::Array
 
     attribute :estimated_end_time, Types::Time
     attribute :created_at, Types::Time
