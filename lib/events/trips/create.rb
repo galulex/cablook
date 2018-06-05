@@ -26,9 +26,9 @@ module Events
         validate_distance!
         validate_unpaid_trips!
         create_trip
+        validate_bonus! if data[:bonus]
         increment_user_trips_count
         if data[:bonus]
-          validate_bonus!
           pay_by_bonus
         else
           hold_payment
