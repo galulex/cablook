@@ -25,8 +25,8 @@ module Events
         assign_attrs
         validate_distance!
         validate_unpaid_trips!
-        create_trip
         validate_bonus! if data[:bonus]
+        create_trip
         increment_user_trips_count
         if data[:bonus]
           pay_by_bonus
