@@ -43,6 +43,7 @@ gem 'turbolinks'
 gem 'twilio-ruby', '~> 5.2.1'
 gem 'uglifier'
 gem 'wayforpay'
+gem 'websocket-driver', git: 'https://github.com/faye/websocket-driver-ruby', ref: 'ee39af83d03ae3059c775583e4c4b291641257b8'
 
 group :development, :test do
   gem 'github_workflow'
