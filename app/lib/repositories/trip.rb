@@ -40,7 +40,7 @@ module Repositories
     end
 
     def pending
-      trips.where(status: Constants::Trip::PENDING).to_a
+      trips.where(status: Constants::Trip::PENDING).with_user.to_a
     end
 
     def in_progress
