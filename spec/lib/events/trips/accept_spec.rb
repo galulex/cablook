@@ -43,11 +43,5 @@ describe Events::Trips::Accept do
 
       it { expect(ActionCable.server).to receive(:broadcast).twice }
     end
-
-    context 'when sms will be sent' do
-      let!(:device) { Factory[:device] }
-
-      it { is_expected.to have_enqueued_job(Jobs::Sms) }
-    end
   end
 end
