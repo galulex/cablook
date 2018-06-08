@@ -5,7 +5,7 @@ module Api
 
       def index
         trips = Repositories::Trip.new(ROM.env).pending
-        render json: Presenters::Trips::Collection.new(trips).to_json, status: 200
+        render json: Presenters::Trips::DetailedCollection.new(trips).to_json, status: 200
       end
 
       def currents

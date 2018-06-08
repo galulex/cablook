@@ -2,11 +2,45 @@ class Presenters::Trips::Detailed < Presenters::BaseSingle
   properties :id, :status, :path, :cost, :departure, :destination,
              :departure_address, :destination_address, :waypoints,
              :start_at, :started_at, :finish_at, :finished_at, :duration, :distance, :comment,
-             :user_id, :driver_id, :created_at, :stops,
-             :driver_name, :car_number, :car_phone_number, :car_color,
-             :user_number, :trips_count, :payment_status
+             :user_id, :driver_id, :created_at, :stops
   property :start_time, exec_context: :decorator
   property :finish_time, exec_context: :decorator
+
+  property :driver_name, exec_context: :decorator
+  property :car_number, exec_context: :decorator
+  property :car_phone_number, exec_context: :decorator
+  property :car_color, exec_context: :decorator
+  property :payment_status, exec_context: :decorator
+  property :trips_count, exec_context: :decorator
+  property :user_number, exec_context: :decorator
+
+  def driver_name
+    represented.try(:driver_name)
+  end
+
+  def car_number
+    represented.try(:car_number)
+  end
+
+  def car_phone_number
+    represented.try(:car_phone_number)
+  end
+
+  def car_color
+    represented.try(:car_color)
+  end
+
+  def payment_status
+    represented.try(:payment_status)
+  end
+
+  def trips_count
+    represented.try(:trips_count)
+  end
+
+  def user_number
+    represented.try(:user_number)
+  end
 
   def start_time
     represented.start_at.strftime('%H:%M')
