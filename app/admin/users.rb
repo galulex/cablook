@@ -29,8 +29,8 @@ ActiveAdmin.register User do
 
   form do |f|
     semantic_errors
-    inputs 'User Details' do
-      user_columns.each { |title| input title }
+    inputs do
+      %w[email phone_number referral_code].each { |title| input title }
     end
     actions
   end

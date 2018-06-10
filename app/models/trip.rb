@@ -5,8 +5,10 @@ class Trip < ApplicationRecord
   has_one :payment
   has_one :card, through: :payment
 
+  enum status: Constants::Trip::STATUS_CODES.invert
+
   scope :sum_cost, -> do
-     joins(:driver)
+    joins(:driver)
       .select('COUNT(trips.id) AS trips_count, SUM(trips.cost) AS trips_sum, MIN(drivers.username) AS username')
       .group(:driver_id)
       .order(:driver_id)
