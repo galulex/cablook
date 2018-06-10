@@ -54,13 +54,7 @@ def view_trip_columns(columns, element)
 end
 
 def modified_columns
-  %w[status path duration]
-end
-
-def status(element)
-  send(element, 'status') do |trip|
-    Constants::Trip::STATUS_CODES[trip.status]
-  end
+  %w[duration]
 end
 
 def path(element)
