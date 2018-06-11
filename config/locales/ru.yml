@@ -24,7 +24,7 @@ ru:
   bonus_trips:
     disable_for_yourself: Невозможно создать бонусную поездку для себя
     already_have_referrer: Вы уже имеете родительского реферала
-    no_available_bonus: К сожалению, у вас нет доступних бонусных поездок
+    no_available_bonus: К сожалению, у вас нет доступних бонусных поездок или расcтояниe больше 10км
   cards:
     user_not_found: Пользователь с этим номером телефона не найден
     something_went_wrong: Что-то пошло не так

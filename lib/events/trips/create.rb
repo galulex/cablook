@@ -51,7 +51,7 @@ module Events
 
       def validate_bonus!
         return if bonus_trips.any? && trip_calculation.distance < Constants::Trip::MAX_BONUS_DISTANCE
-        invalid!(I18n.t('bonus_trips.no_available_bonus'))
+        invalid!([I18n.t('bonus_trips.no_available_bonus')])
       end
 
       def hold_payment

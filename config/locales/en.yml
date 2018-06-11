@@ -35,7 +35,7 @@ en:
   bonus_trips:
     disable_for_yourself: Can't create bonus trip for yourself
     already_have_referrer: You already have referrer
-    no_available_bonus: You don't have available bonus trips
+    no_available_bonus: You don't have available bonus trips or distance is more than 10km
   sms:
     car_found: "Car found. Wait at %{time}"
     payment_failed: Due to a lack of founds or internet limit you could not pay for the trip. You can pay the next time.
