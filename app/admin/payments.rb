@@ -13,7 +13,7 @@ ActiveAdmin.register Payment do
   end
 
   index do
-    %w[id amount trip user card_pan response].each { |title| column title }
+    %w[id amount status trip user card_pan response].each { |title| column title }
     actions
   end
 
