@@ -3,8 +3,8 @@ module Api
     before_action :authorize!
 
     def index
-      parent_bonus = bonus_repository.by_friend(current_user.id)
-      bonus_trips = bonus_repository.by_user(current_user.id)
+      parent_bonus = BonusTrip.where(friend_id: current_user.id)
+      bonus_trips = BonusTrip.where(user_id: current_user.id)
       render(
         json: {
           parent_bonus: Presenters::BonusTrips::Collection.new(parent_bonus),
@@ -23,10 +23,6 @@ module Api
 
     def referral_code
       params.require(:referral_code)
-    end
-
-    def bonus_repository
-      @bonus_repository ||= Repositories::BonusTrip.new(ROM.env)
     end
   end
 end

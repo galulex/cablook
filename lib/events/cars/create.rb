@@ -18,12 +18,12 @@ module Events
       private
 
       def validate!
-        validator = Validators::Car.new(data)
-        invalid!(validator.errors.values.flatten) if validator.invalid?
+        @car = Car.new(data)
+        invalid!(@car.errors.values.flatten) if @car.invalid?
       end
 
       def create_car
-        Repositories::Car.new(ROM.env).create(data.to_h)
+        @car.save
       end
     end
   end

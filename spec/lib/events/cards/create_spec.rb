@@ -7,20 +7,20 @@ describe Events::Cards::Create do
           .symbolize_keys
           .merge(user_id: user.id)
     end
-    let!(:user) { Factory[:user] }
+    let!(:user) { create(:user) }
 
     context 'when card is created successfully' do
-      it { is_expected.to change { card_repository.cards.count }.by(+1) }
+      it { is_expected.to change { Card.count }.by(+1) }
     end
 
     context 'and user email is updated' do
-      it { is_expected.to change { user_repository.by_id(user.id).email }.to(data[:email]) }
+      it { is_expected.to change { user.reload.email }.to(data[:email]) }
     end
 
     context 'when user with data number not found' do
       let(:data) { super().merge(user_id: 9999) }
 
-      it { is_expected.to raise_error(Events::InvalidParamsError) }
+      it { is_expected.to raise_error(ActiveRecord::RecordNotFound) }
     end
 
     context 'when token is invalid' do
@@ -29,7 +29,7 @@ describe Events::Cards::Create do
       it { is_expected.to raise_error(Events::InvalidParamsError) }
 
       context 'when token already exist' do
-        let(:card) { Factory[:card, user_id: user.id] }
+        let(:card) { create(:card, user_id: user.id) }
         let(:data) { super().merge(recToken: card.token) }
 
         it { is_expected.to raise_error(Events::InvalidParamsError) }

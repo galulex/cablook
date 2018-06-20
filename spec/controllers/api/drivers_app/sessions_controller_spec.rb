@@ -1,5 +1,5 @@
 describe Api::DriversApp::SessionsController , type: :controller do
-  let!(:driver) { Factory[:driver] }
+  let!(:driver) { create(:driver_with_car) }
 
   subject { response }
 

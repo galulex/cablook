@@ -1,10 +1,13 @@
 describe Api::BusinessesController, type: :controller do
-  let(:user) { User.create(phone_number: '+380932225665') }
-  let(:params) { { business: business_params, auth_token: user.auth_token } }
-  let(:business_params) { { card_id: card.id, email: 'contact@cablook.taxi', name: 'CabLook', employees: ['+380932225665'] } }
-  let(:card) { Card.create(Factory.structs[:card].to_h.merge(user: user)) }
+  let(:phone_number) { '+380932225665' }
+  let(:auth_token) { user.auth_token }
+  let(:user) { create(:user, phone_number: phone_number) }
+  let(:card) { create(:card, user_id: user.id) }
+  let(:params) { { business: business_params } }
+  let(:business_params) { { card_id: card.id, email: 'contact@cablook.taxi', name: 'CabLook', employees: [phone_number] } }
 
-  before { allow_any_instance_of(Api::ApiApplicationController).to receive(:current_user).and_return(user) }
+  before { request.headers['Auth-Token'] = auth_token }
+
   subject { response }
 
   describe '#create' do

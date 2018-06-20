@@ -21,12 +21,12 @@ module Events
 
       def reset_status!
         return unless driver.car_id
-        Repositories::Car.new(ROM.env).update(driver.car_id, status: Constants::Car::OFFLINE)
-        @driver = Repositories::Driver.new(ROM.env).update(driver.id, car_id: nil)
+        Car.find(driver.car_id).update(status: Constants::Car::OFFLINE)
+        driver.update(car_id: nil)
       end
 
       def driver
-        @driver ||= Repositories::Driver.new(ROM.env).by_username(data[:username])
+        @driver ||= Driver.find_by(username: data[:username])
       end
 
       def encrypted_password

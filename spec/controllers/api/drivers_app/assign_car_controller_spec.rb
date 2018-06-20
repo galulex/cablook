@@ -1,5 +1,5 @@
 describe Api::DriversApp::AssignCarController, type: :controller do
-  let(:driver) { Factory[:driver] }
+  let(:driver) { create(:driver) }
   let(:auth_token) { driver.auth_token }
 
   before { request.headers['Auth-Token'] = auth_token }
@@ -10,7 +10,7 @@ describe Api::DriversApp::AssignCarController, type: :controller do
     it_behaves_like 'authorization_required'
 
     let(:params) { { driver: { car_id: car.id, name: 'name' } } }
-    let(:car) { Factory[:car] }
+    let(:car) { create(:car) }
 
     before { patch :update, params: params, as: :json }
 

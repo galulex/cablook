@@ -32,7 +32,7 @@ module Operations
       end
 
       def create_trip_payment(status, wayforpay_data)
-        @payment ||= Repositories::Payment.new(ROM.env).create(
+        @payment ||= Payment.create(
           status: status,
           amount: trip.cost,
           user_id: trip.user_id,
@@ -44,7 +44,7 @@ module Operations
       end
 
       def hold_payment
-        card = Repositories::Card.new(ROM.env).by_id(card_id)
+        card = Card.find(card_id)
         response = ::Wayforpay::Payments.hold(
           recToken: card.token,
           amount: trip.cost,
@@ -59,12 +59,12 @@ module Operations
       end
 
       def send_sms
-        user = Repositories::User.new(ROM.env).by_id(trip.user_id)
+        user = trip.user
         Jobs::Sms.perform_later(user.phone_number, I18n.t('sms.payment_failed'))
       end
 
       def trip
-        @trip ||= Repositories::Trip.new(ROM.env).by_id(trip_id)
+        @trip ||= Trip.find(trip_id)
       end
 
       def order_reference

@@ -1,11 +1,10 @@
 describe Presenters::BonusTrips::Single do
-  let!(:bonus) { Factory[:bonus_trip, user_id: user.id, friend_id: user.id, trip_id: trip.id] }
-  let(:user) { Factory[:user] }
-  let(:friend) { Factory[:user] }
-  let(:trip) { Factory[:trip] }
-  let(:data) { bonus_trip_repository.by_user(user.id).first }
+  let!(:bonus) { create(:bonus_trip, user_id: user.id, friend_id: user.id, trip_id: trip.id) }
+  let(:user) { create(:user) }
+  let(:friend) { create(:user) }
+  let(:trip) { create(:trip) }
 
-  subject { described_class.new(data).to_json }
+  subject { described_class.new(bonus).to_json }
 
   it { is_expected.to have_key(:id).with_value(bonus.id) }
   it { is_expected.to have_key(:user_id).with_value(bonus.user_id) }

@@ -1,8 +1,8 @@
 describe Operations::Wayforpay do
   describe '.hold' do
-    let(:trip) { Factory[:trip, user_id: user.id] }
-    let(:card) { Factory[:card, user_id: user.id] }
-    let(:user) { Factory[:user] }
+    let(:trip) { create(:trip, user_id: user.id) }
+    let(:card) { create(:card, user_id: user.id) }
+    let(:user) { create(:user) }
 
     after { described_class.hold(trip.id, card.id) }
 
@@ -10,9 +10,9 @@ describe Operations::Wayforpay do
   end
 
   describe '.settle' do
-    let(:trip) { Factory[:trip, user_id: user.id] }
-    let(:card) { Factory[:card, user_id: user.id] }
-    let(:user) { Factory[:user] }
+    let(:trip) { create(:trip, user_id: user.id) }
+    let(:card) { create(:card, user_id: user.id) }
+    let(:user) { create(:user) }
 
     after { described_class.settle(trip.id) }
 
@@ -20,9 +20,9 @@ describe Operations::Wayforpay do
   end
 
   describe '.refund' do
-    let(:trip) { Factory[:trip, user_id: user.id] }
-    let(:card) { Factory[:card, user_id: user.id] }
-    let(:user) { Factory[:user] }
+    let(:trip) { create(:trip, user_id: user.id) }
+    let(:card) { create(:card, user_id: user.id) }
+    let(:user) { create(:user) }
 
     after { described_class.refund(trip.id) }
 

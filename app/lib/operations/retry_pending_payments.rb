@@ -18,15 +18,11 @@ module Operations
     private
 
     def card
-      @card ||= Repositories::Card.new(ROM.env).by_id(card_id)
+      @card ||= Card.find(card_id)
     end
 
     def payments
-      @payments ||= payment_repository.pending_by_user(user_id)
-    end
-
-    def payment_repository
-      @payment_repository ||= Repositories::Payment.new(ROM.env)
+      @payments ||= Payment.where(status: Constants::Payments::PENDING, user_id: user_id)
     end
   end
 end

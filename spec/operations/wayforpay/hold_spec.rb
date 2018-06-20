@@ -1,8 +1,8 @@
 describe Operations::Wayforpay::Hold do
   let(:instance) { described_class.new(trip_id: trip.id, card_id: card.id) }
-  let(:trip) { Factory[:trip, user_id: user.id] }
-  let(:card) { Factory[:card, user_id: user.id] }
-  let(:user) { Factory[:user] }
+  let(:trip) { create(:trip, user_id: user.id) }
+  let(:card) { create(:card, user_id: user.id) }
+  let(:user) { create(:user) }
   let(:wayforpay_body) { { reasonCode: 1100 }.to_json }
 
   before { allow(Wayforpay::Payments).to receive(:hold) { OpenStruct.new(body: wayforpay_body) } }
@@ -11,7 +11,7 @@ describe Operations::Wayforpay::Hold do
     subject { -> { instance.call } }
 
     context 'and payment is created' do
-      it { is_expected.to change { payment_repository.payments.count }.by(+1) }
+      it { is_expected.to change { Payment.count }.by(+1) }
 
       it { is_expected.not_to have_enqueued_job(Jobs::Sms) }
     end
@@ -31,7 +31,7 @@ describe Operations::Wayforpay::Hold do
     context 'when status is ok' do
       before { subject.call }
 
-      it { expect(payment_repository.payments.to_a.last.status).to eq(Constants::Payments::HOLD) }
+      it { expect(Payment.last.status).to eq(Constants::Payments::HOLD) }
     end
 
     context 'when smth went wrong' do
@@ -42,7 +42,7 @@ describe Operations::Wayforpay::Hold do
       context 'and the status of payment is pending' do
         before { subject.call }
 
-        it { expect(payment_repository.payments.to_a.last.status).to eq(Constants::Payments::PENDING) }
+        it { expect(Payment.last.status).to eq(Constants::Payments::PENDING) }
       end
 
       context 'and broadcast to channel with status failed' do

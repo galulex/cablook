@@ -2,14 +2,14 @@ describe Events::Users::AddReferral do
   describe '.call' do
     subject { -> { described_class.call(data) } }
 
-    let(:referrer) { Factory[:user] }
-    let(:user) { Factory[:user] }
+    let(:referrer) { create(:user) }
+    let(:user) { create(:user) }
     let(:data) { { referral_code: referrer.referral_code, referral_id: user.id } }
 
-    it { is_expected.to change { bonus_trip_repository.bonus_trips.count }.by(+1) }
+    it { is_expected.to change { BonusTrip.count }.by(+1) }
 
     context 'when user already have referrer' do
-      before { Factory[:bonus_trip, friend_id: user.id] }
+      before { create(:bonus_trip, user_id: create(:user).id, friend_id: user.id) }
 
       it { is_expected.to raise_error(Events::InvalidParamsError) }
     end

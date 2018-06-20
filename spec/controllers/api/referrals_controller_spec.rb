@@ -1,6 +1,6 @@
 describe Api::ReferralsController, type: :controller do
-  let!(:referrer) { Factory[:user] }
-  let!(:user) { Factory[:user] }
+  let!(:referrer) { create(:user) }
+  let!(:user) { create(:user) }
   let(:auth_token) { user.auth_token }
 
   before { request.headers['Auth-Token'] = auth_token }
@@ -9,8 +9,8 @@ describe Api::ReferralsController, type: :controller do
     subject { response }
 
     before do
-      Factory[:bonus_trip, user_id: user.id]
-      Factory[:bonus_trip, friend_id: user.id, user_id: Factory[:user].id]
+      create(:bonus_trip, user_id: user.id)
+      create(:bonus_trip, friend_id: user.id, user_id: create(:user).id)
       get :index, as: :json
     end
 

@@ -1,7 +1,7 @@
 describe TripChannel do
   let(:channel) { described_class.new(connection, nil, trip_id: trip.id) }
   let(:connection) { TestConnection.new }
-  let!(:trip) { Factory[:trip] }
+  let!(:trip) { create(:trip_with_driver) }
 
   context '#start_trip' do
     let(:data) do
@@ -15,8 +15,8 @@ describe TripChannel do
 
     subject { -> { channel.perform_action(data) } }
 
-    it { is_expected.to change { trip_repository.by_id(trip.id).status }.to(Constants::Trip::DRIVING) }
-    it { is_expected.to change { trip_repository.by_id(trip.id).started_at }.from(nil) }
+    it { is_expected.to change { trip.reload.status }.to(Constants::Trip::STATUS_CODES[Constants::Trip::DRIVING]) }
+    it { is_expected.to change { trip.reload.started_at }.from(nil) }
   end
 
   context '#finish_trip' do
@@ -24,8 +24,8 @@ describe TripChannel do
 
     subject { -> { channel.perform_action(data) } }
 
-    it { is_expected.to change { trip_repository.by_id(trip.id).status }.to(Constants::Trip::FINISHED) }
-    it { is_expected.to change { trip_repository.by_id(trip.id).finished_at }.from(nil) }
+    it { is_expected.to change { trip.reload.status }.to(Constants::Trip::STATUS_CODES[Constants::Trip::FINISHED]) }
+    it { is_expected.to change { trip.reload.finished_at }.from(nil) }
   end
 
   context '#waiting_client' do
@@ -33,7 +33,7 @@ describe TripChannel do
 
     subject { -> { channel.perform_action(data) } }
 
-    it { is_expected.to change { trip_repository.by_id(trip.id).status }.to(Constants::Trip::WAITING_CLIENT) }
-    it { is_expected.to change { trip_repository.by_id(trip.id).arrived_at }.from(nil) }
+    it { is_expected.to change { trip.reload.status }.to(Constants::Trip::STATUS_CODES[Constants::Trip::WAITING_CLIENT]) }
+    it { is_expected.to change { trip.reload.arrived_at }.from(nil) }
   end
 end

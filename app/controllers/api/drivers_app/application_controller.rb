@@ -10,7 +10,7 @@ module Api
       end
 
       def current_driver
-        @current_driver ||= Repositories::Driver.new(ROM.env).by_token(auth_token)
+        @current_driver ||= Driver.find_by(auth_token: auth_token)
       end
 
       private

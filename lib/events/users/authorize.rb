@@ -23,18 +23,18 @@ module Events
       end
 
       def update_code
-        Repositories::User.new(ROM.env).update(user.id, verification_token: code) if user
+        user.update(verification_token: code) if user
       end
 
       def user
-        @user ||= Repositories::User.new(ROM.env).by_phone_number(data[:phone_number])
+        @user ||= User.find_by(phone_number: data[:phone_number])
       end
 
       def create_user
-        @user ||= Repositories::User.new(ROM.env).create(data.merge(
-                                                           auth_token: SecureRandom.base58(24),
-                                                           verification_token: code,
-                                                           referral_code: SecureRandom.base58(6)
+        @user ||= User.create(data.merge(
+          auth_token: SecureRandom.base58(24),
+          verification_token: code,
+          referral_code: SecureRandom.base58(6)
         ))
       end
 

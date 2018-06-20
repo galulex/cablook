@@ -3,37 +3,37 @@ describe Events::Cards::Delete do
     subject { -> { described_class.call(data) } }
 
     let!(:data) { { card_id: card.id, user_id: user.id } }
-    let(:card) { Factory[:card, user_id: user.id] }
-    let(:user) { Factory[:user] }
+    let(:card) { create(:card, user_id: user.id) }
+    let(:user) { create(:user) }
 
-    it { is_expected.to change { card_repository.cards.count }.by(-1) }
+    it { is_expected.to change { Card.count }.by(-1) }
 
     context 'when payment is exists' do
-      let!(:payment) { Factory[:payment, card_id: card.id] }
+      let!(:payment) { create(:payment, card_id: card.id, user_id: user.id, status: Constants::Payments::SUCCESS) }
 
-      it { is_expected.to change { payment_repository.by_id(payment.id).card_id }.to(nil) }
+      it { is_expected.to change { payment.reload.card_id }.to(nil) }
 
       context 'when multiple payments' do
-        let!(:payment_2) { Factory[:payment, card_id: card.id] }
+        let!(:payment_2) { create(:payment, card_id: card.id, user_id: user.id, status: Constants::Payments::SUCCESS) }
 
-        it { is_expected.to change { payment_repository.by_id(payment_2.id).card_id }.to(nil) }
+        it { is_expected.to change { payment_2.reload.card_id }.to(nil) }
       end
     end
 
     context 'when card not found' do
-      let(:card) { Factory[:card] }
+      let(:card) { create(:card) }
 
-      it { is_expected.not_to change { card_repository.cards.count } }
+      it { is_expected.not_to change { Card.count } }
     end
 
     context 'when pending payment' do
-      let!(:payment) { Factory[:payment, user_id: user.id, status: Constants::Payments::PENDING] }
+      let!(:payment) { create(:payment, user_id: user.id, status: Constants::Payments::PENDING) }
 
       it { is_expected.to raise_error(Events::InvalidParamsError) }
     end
 
     context 'when hold payment' do
-      before { Factory[:payment, user_id: user.id, status: Constants::Payments::HOLD] }
+      before { create(:payment, user_id: user.id, status: Constants::Payments::HOLD) }
 
       it { is_expected.to raise_error(Events::InvalidParamsError) }
     end

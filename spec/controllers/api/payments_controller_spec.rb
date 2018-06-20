@@ -1,7 +1,7 @@
 describe Api::PaymentsController, type: :controller do
   subject { response }
 
-  let!(:user) { Factory[:user] }
+  let!(:user) { create(:user) }
   let(:auth_token) { user.auth_token }
 
   before do
@@ -11,7 +11,7 @@ describe Api::PaymentsController, type: :controller do
   end
 
   describe '#index' do
-    let!(:payment) { Factory[:payment, user_id: user.id] }
+    let!(:payment) { create(:payment, user_id: user.id) }
 
     before { get :index, as: :json }
 
@@ -22,8 +22,8 @@ describe Api::PaymentsController, type: :controller do
 
   describe '#retry_pendings' do
     let(:params) { { card_id: card.id } }
-    let(:card) { Factory[:card, user_id: user.id] }
-    let!(:payment) { Factory[:payment, user_id: user.id, status: Constants::Payments::PENDING] }
+    let(:card) { create(:card, user_id: user.id) }
+    let!(:payment) { create(:payment, user_id: user.id, status: Constants::Payments::PENDING) }
 
     before { post :retry_pendings, params: params, as: :json }
 
@@ -31,7 +31,7 @@ describe Api::PaymentsController, type: :controller do
   end
 
   describe '#pending' do
-    let!(:payment) { Factory[:payment, user_id: user.id] }
+    let!(:payment) { create(:payment, user_id: user.id) }
 
     before { get :pending, as: :json }
 

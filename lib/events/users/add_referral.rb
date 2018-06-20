@@ -12,14 +12,14 @@ module Events
 
       def run
         check_for_referrer
-        validate
+        validate!
         Events::BonusTrips::Create.(user_id: referrer.id, friend_id: data[:referral_id])
       end
 
       private
 
-      def validate
-        bonuses = Repositories::BonusTrip.new(ROM.env).by_friend(data[:referral_id])
+      def validate!
+        bonuses = BonusTrip.where(friend_id: data[:referral_id])
         invalid!([I18n.t('bonus_trips.already_have_referrer')]) if bonuses.any?
       end
 
@@ -28,7 +28,7 @@ module Events
       end
 
       def referrer
-        @referrer ||= Repositories::User.new(ROM.env).by_referral_code(data[:referral_code])
+        @referrer ||= User.find_by(referral_code: data[:referral_code])
       end
     end
   end

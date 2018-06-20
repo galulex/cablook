@@ -2,9 +2,9 @@ describe Operations::BroadcastTripProposal do
   describe '.call' do
     subject { -> { described_class.call(cars: cars, trip_id: trip.id) } }
 
-    let(:car) { Factory[:car, status: 0] }
+    let(:car) { create(:car, status: 0) }
     let(:cars) { [car.id] }
-    let(:trip) { Factory[:trip] }
+    let(:trip) { create(:trip) }
 
     let(:driver_map_channel) { Constants::Channels::DRIVER_MAP }
     let(:driver_map_channel_params) do

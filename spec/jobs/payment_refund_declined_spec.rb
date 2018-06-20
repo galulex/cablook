@@ -1,14 +1,14 @@
 describe Jobs::PaymentRefundDeclined do
   after { described_class.new.perform(trip.id) }
 
-  let(:trip) { Factory[:trip, status: Constants::Trip::PENDING] }
+  let(:trip) { create(:trip, status: Constants::Trip::PENDING) }
 
   before { allow(Operations::Wayforpay).to receive(:refund) }
 
   it { expect(Operations::Wayforpay).not_to receive(:refund) }
 
   context 'when trip is declined' do
-    let(:trip) { Factory[:trip, status: Constants::Trip::DECLINED] }
+    let(:trip) { create(:trip, status: Constants::Trip::DECLINED) }
 
     it { expect(Operations::Wayforpay).to receive(:refund) }
   end

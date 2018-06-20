@@ -40,7 +40,7 @@ module Events
       private
 
       def validate_unpaid_trips!
-        pending_payments = Repositories::Payment.new(ROM.env).pending_by_user(data[:user_id])
+        pending_payments = Payment.where(status: Constants::Payments::PENDING, user_id: data[:user_id])
         invalid!([I18n.t('trips.pay_off_debt')], status: 418) if pending_payments.any?
       end
 
@@ -59,28 +59,29 @@ module Events
       end
 
       def pay_by_bonus
-        Repositories::Payment.new(ROM.env).create(
+        Payment.create(
           status: Constants::Payments::BONUS,
           amount: 0,
           trip_id: @trip.id,
           user_id: data[:user_id]
         )
-        Repositories::BonusTrip.new(ROM.env).update(bonus_trips.first.id, status: Constants::BonusTrip::USED, trip_id: @trip.id)
+        BonusTrip.find(bonus_trips.first.id).update(status: Constants::BonusTrip::USED, trip_id: @trip.id)
       end
 
       def create_trip
-        @trip = Repositories::Trip.new(ROM.env).create(data.to_h)
+        @trip = Trip.create(data.to_h.except(:bonus, :card_id))
       end
 
       def increment_user_trips_count
-        Repositories::User.new(ROM.env).update(data[:user_id], trips_count: Sequel.expr(1) + :trips_count)
+        # TODO counter_cache
+        # User.find(data[:user_id]).update(trips_count: Sequel.expr(1) + :trips_count)
       end
 
       def create_trip_job(trip_id)
         Jobs::DeclineTrip.set(wait: Constants::Trip::EXPIRES_IN).perform_later(trip_id)
         Jobs::PaymentRefundDeclined.set(wait: 10.minutes).perform_later(trip_id)
         job = Jobs::SearchCarForTrip.perform_later(trip_id)
-        Repositories::TripJob.new(ROM.env).create(
+        TripJob.create(
           activejob_id: job.job_id,
           sidekiq_id: job.provider_job_id,
           trip_id: trip_id
@@ -88,17 +89,13 @@ module Events
       end
 
       def assign_attrs
-        data[:departure] = Sequel.pg_array(data[:departure])
-        data[:destination] = Sequel.pg_array(data[:destination])
         data[:distance] = trip_calculation.distance
         data[:duration] = trip_calculation.duration
         data[:cost] = trip_calculation.cost
-        data[:waypoints] = Sequel.pg_array(data[:waypoints]) if data[:waypoints]&.any?
-        data[:stops] = Sequel.pg_array(data[:stops]) if data[:stops]&.any?
       end
 
       def bonus_trips
-        @bonus_trips ||= Repositories::BonusTrip.new(ROM.env).available_by_user(data[:user_id])
+        @bonus_trips ||= BonusTrip.where(user_id: data[:user_id], status: Constants::BonusTrip::NEW)
       end
 
       def trip_calculation
@@ -110,12 +107,10 @@ module Events
       end
 
       def card_id
-        #TODO cleanup after swith to ActiveRecord
-        card_repository = Repositories::Card.new(ROM.env)
-        user_cards = card_repository.by_user(data[:user_id])
         user_cards ||= Card.user_cards(data[:user_id])
         invalid!([I18n.t('cards.add_card')]) if user_cards.empty?
-        card_repository.by_id(data[:card_id])&.id || user_cards.first.id
+        return user_cards.find(data[:card_id]) if data[:card_id]
+        user_cards.first.id
       end
     end
   end

@@ -1,7 +1,7 @@
 describe Presenters::Trips::Single do
-  let(:user) { Factory[:user] }
-  let(:driver) { Factory[:driver] }
-  let(:trip) { Factory[:trip, user_id: user.id, driver_id: driver.id] }
+  let(:user) { create(:user) }
+  let(:driver) { create(:driver) }
+  let(:trip) { create(:trip, user_id: user.id, driver_id: driver.id) }
 
   subject { described_class.new(trip).to_json }
 

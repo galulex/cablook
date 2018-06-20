@@ -20,16 +20,12 @@ module Events
       private
 
       def update_trip
-        Repositories::Trip.new(ROM.env).update(
-          data[:trip_id],
-          status: Constants::Trip::FINISHED,
-          finished_at: Time.now
-        )
+        trip.update(status: Constants::Trip::FINISHED, finished_at: Time.now)
       end
 
       def update_car
         return if next_trip?
-        Repositories::Car.new(ROM.env).update(trip.car_id, status: Constants::Car::FREE)
+        Car.find(trip.car_id).update(status: Constants::Car::FREE)
       end
 
       def broadcast
@@ -41,11 +37,14 @@ module Events
       end
 
       def next_trip?
-        Repositories::Trip.new(ROM.env).currents(trip.driver_id).any?
+        Trip.where(
+          driver_id: trip.driver_id,
+          status: [Constants::Trip::ON_THE_WAY, Constants::Trip::WAITING_CLIENT, Constants::Trip::DRIVING]
+        ).any?
       end
 
       def trip
-        @trip ||= Repositories::Trip.new(ROM.env).by_id(data[:trip_id])
+        @trip ||= Trip.find(data[:trip_id])
       end
 
       def trip_channel

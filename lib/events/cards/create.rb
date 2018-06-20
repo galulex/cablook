@@ -16,9 +16,10 @@ module Events
 
       def run
         find_user!
-        validate_card!
+        validate!
         update_user_email
         create_card
+        @card
       end
 
       private
@@ -27,17 +28,17 @@ module Events
         invalid!([I18n.t('cards.user_not_found')]) unless user
       end
 
-      def validate_card!
-        validator = Validators::Card.new(card_params)
-        invalid!(validator.errors.values.flatten) if validator.invalid?
+      def validate!
+        @card = Card.new(card_params)
+        invalid!(@card.errors.values.flatten) if @card.invalid?
       end
 
       def create_card
-        Repositories::Card.new(ROM.env).create(card_params)
+        @card.save
       end
 
       def update_user_email
-        Repositories::User.new(ROM.env).update(user.id, email: data[:email])
+        user.update(email: data[:email])
       end
 
       def card_params
@@ -51,7 +52,7 @@ module Events
       end
 
       def user
-        @user ||= Repositories::User.new(ROM.env).by_id(data[:user_id])
+        @user ||= User.find(data[:user_id])
       end
     end
   end

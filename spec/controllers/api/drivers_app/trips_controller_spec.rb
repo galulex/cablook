@@ -1,7 +1,7 @@
 describe Api::DriversApp::TripsController, type: :controller do
-  let(:driver) { Factory[:driver, car_id: car.id] }
-  let(:car) { Factory[:car] }
-  let(:user) { Factory[:user] }
+  let(:driver) { create(:driver, car_id: car.id) }
+  let(:car) { create(:car) }
+  let(:user) { create(:user) }
   let(:auth_token) { driver.auth_token }
 
   before { request.headers['Auth-Token'] = auth_token }
@@ -18,8 +18,9 @@ describe Api::DriversApp::TripsController, type: :controller do
     subject { response }
 
     before do
-      trip = Factory[:trip, status: Constants::Trip::ON_THE_WAY, user_id: Factory[:user].id, driver_id: driver.id]
-      Factory[:payment, trip_id: trip.id]
+      the_user = create(:user)
+      trip = create(:trip, status: Constants::Trip::ON_THE_WAY, user_id: the_user.id, driver_id: driver.id)
+      create(:payment, trip_id: trip.id, user_id: the_user.id)
       get :currents, as: :json
     end
 
@@ -30,16 +31,16 @@ describe Api::DriversApp::TripsController, type: :controller do
     subject { response }
 
     let(:params) { { trip_id: trip.id } }
-    let(:trip) { Factory[:trip, car_id: car.id, driver_id: driver.id, user_id: user.id] }
-    let!(:payment) { Factory[:payment, trip_id: trip.id] }
+    let(:trip) { create(:trip, car_id: car.id, driver_id: driver.id, user_id: user.id) }
+    let!(:payment) { create(:payment, trip_id: trip.id, user_id: trip.user_id) }
 
     before { patch :cancel, params: params, as: :json }
 
     it { is_expected.to be_successful }
 
     context 'when trip is finished' do
-      let(:trip) { Factory[:trip, status: Constants::Trip::FINISHED] }
-      let!(:payment) { Factory[:payment, trip_id: trip.id] }
+      let(:trip) { create(:trip, status: Constants::Trip::FINISHED) }
+      let!(:payment) { create(:payment, trip_id: trip.id, user_id: trip.user_id) }
 
       it { is_expected.to have_http_status(:unprocessable_entity) }
     end
@@ -49,8 +50,8 @@ describe Api::DriversApp::TripsController, type: :controller do
     subject { response }
 
     let(:params) { { trip_id: trip.id } }
-    let(:trip) { Factory[:trip, car_id: car.id, driver_id: driver.id, user_id: user.id] }
-    let!(:payment) { Factory[:payment, trip_id: trip.id] }
+    let(:trip) { create(:trip, car_id: car.id, driver_id: driver.id, user_id: user.id) }
+    let!(:payment) { create(:payment, trip_id: trip.id, user_id: trip.user_id) }
 
     before do
       Redis.current.set("car_#{driver.car_id}", '49.461655,32.165358')
@@ -60,7 +61,7 @@ describe Api::DriversApp::TripsController, type: :controller do
     it { is_expected.to be_successful }
 
     context 'when driver without car' do
-      let(:driver) { Factory[:driver] }
+      let(:driver) { create(:driver) }
 
       it { is_expected.to have_http_status(:unprocessable_entity) }
     end
@@ -70,8 +71,8 @@ describe Api::DriversApp::TripsController, type: :controller do
     subject { response }
 
     let(:params) { { trip_id: trip.id } }
-    let(:trip) { Factory[:trip, car_id: car.id, driver_id: driver.id, user_id: user.id] }
-    let!(:payment) { Factory[:payment, trip_id: trip.id] }
+    let(:trip) { create(:trip, car_id: car.id, driver_id: driver.id, user_id: user.id) }
+    let!(:payment) { create(:payment, trip_id: trip.id, user_id: trip.user_id) }
 
     before { patch :start, params: params, as: :json }
 
@@ -82,8 +83,8 @@ describe Api::DriversApp::TripsController, type: :controller do
     subject { response }
 
     let(:params) { { trip_id: trip.id } }
-    let(:trip) { Factory[:trip, car_id: car.id, driver_id: driver.id, user_id: user.id] }
-    let!(:payment) { Factory[:payment, trip_id: trip.id] }
+    let(:trip) { create(:trip, car_id: car.id, driver_id: driver.id, user_id: user.id) }
+    let!(:payment) { create(:payment, trip_id: trip.id, user_id: trip.user_id) }
 
     before { patch :start, params: params, as: :json }
 
@@ -94,8 +95,8 @@ describe Api::DriversApp::TripsController, type: :controller do
     subject { response }
 
     let(:params) { { trip_id: trip.id } }
-    let(:trip) { Factory[:trip, car_id: car.id, driver_id: driver.id, user_id: user.id] }
-    let!(:payment) { Factory[:payment, trip_id: trip.id] }
+    let(:trip) { create(:trip, car_id: car.id, driver_id: driver.id, user_id: user.id) }
+    let!(:payment) { create(:payment, trip_id: trip.id, user_id: trip.user_id) }
 
     before { patch :waiting_client, params: params, as: :json }
 

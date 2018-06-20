@@ -11,11 +11,11 @@ module Events
       end
 
       def run
-        if trip&.status.in?([Constants::Trip::PENDING, Constants::Trip::ON_THE_WAY, Constants::Trip::WAITING_CLIENT, Constants::Trip::DECLINED])
-          update_trip
+        if trip && Trip.statuses[trip.status].in?([Constants::Trip::PENDING, Constants::Trip::ON_THE_WAY, Constants::Trip::WAITING_CLIENT, Constants::Trip::DECLINED])
           delete_from_jobs
-          update_car
+          update_car if trip.car
           refund_payment
+          update_trip
           broadcast_unavailable_to_map
           broadcast_unavailable_to_trip
         else
@@ -26,31 +26,30 @@ module Events
       private
 
       def update_car
-        return if next_trip?
-        Repositories::Car.new(ROM.env).update(trip.car_id, status: Constants::Car::FREE)
+        trip.car.update(status: Constants::Car::FREE) unless next_trip?
       end
 
       def next_trip?
-        Repositories::Trip.new(ROM.env).currents(trip.driver_id).any?
+        Trip.where(
+          driver_id: trip.driver_id,
+          status: [Constants::Trip::ON_THE_WAY, Constants::Trip::WAITING_CLIENT, Constants::Trip::DRIVING]
+        ).any?
       end
 
       def update_trip
-        return if trip.status == Constants::Trip::DECLINED
+        return if trip.status == Constants::Trip::STATUS_CODES[Constants::Trip::DECLINED]
         status = data[:by_driver] ? Constants::Trip::CANCELED_BY_DRIVER : Constants::Trip::CANCELED
-        Repositories::Trip.new(ROM.env).update(
-          data[:trip_id],
-          status: status
-        )
+        trip.update(status: status)
       end
 
       def delete_from_jobs
-        trip_job = Repositories::TripJob.new(ROM.env).by_trip_id(data[:trip_id])
+        trip_job = TripJob.find_by(trip_id: data[:trip_id])
         Jobs::SearchCarForTrip.cancel(trip_job.activejob_id) if trip_job
       end
 
       def refund_payment
         return if payment&.status == Constants::Payments::REFUND
-        if trip.status == Constants::Trip::WAITING_CLIENT
+        if trip.status == Constants::Trip::STATUS_CODES[Constants::Trip::WAITING_CLIENT]
           Jobs::PaymentRefund.perform_later(data[:trip_id], true)
         else
           Jobs::PaymentRefund.perform_later(data[:trip_id])
@@ -78,11 +77,11 @@ module Events
       end
 
       def trip
-        @trip ||= Repositories::Trip.new(ROM.env).by_id(data[:trip_id])
+        @trip ||= Trip.find(data[:trip_id])
       end
 
       def payment
-        @payment ||= Repositories::Payment.new(ROM.env).by_trip(trip.id)
+        @payment ||= trip.payment
       end
     end
   end

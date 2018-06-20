@@ -1,6 +1,6 @@
 describe Presenters::DriversApp::SinglePublic do
-  let(:car) { Factory[:car] }
-  let(:driver) { Factory[:driver, car_id: car.id] }
+  let(:car) { create(:car) }
+  let(:driver) { create(:driver, car_id: car.id) }
 
   subject { described_class.new(driver).to_json }
 

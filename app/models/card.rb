@@ -3,6 +3,10 @@ class Card < ApplicationRecord
 
   belongs_to :user
   has_one :business
+  has_many :payments, dependent: :nullify
+
+  validates :token, :pan, :user_id, presence: true
+  validates :token, uniqueness: { scope: :user_id }
 
   scope :user_cards, (lambda do |user|
     select('cards.*')

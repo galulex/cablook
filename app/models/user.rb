@@ -1,5 +1,6 @@
 class User < ApplicationRecord
   has_one :business, inverse_of: :owner
+  has_one :device
   has_and_belongs_to_many :businesses
   has_many :trips
   has_many :cards

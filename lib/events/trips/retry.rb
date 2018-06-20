@@ -10,7 +10,7 @@ module Events
       end
 
       def run
-        trip = update_trip
+        update_trip
         SearchEngine.(trip_id: data[:trip_id]) # broadcast
         Jobs::DeclineTrip.set(wait: Constants::Trip::EXPIRES_IN).perform_later(data[:trip_id])
         trip
@@ -19,7 +19,11 @@ module Events
       private
 
       def update_trip
-        Repositories::Trip.new(ROM.env).update(data[:trip_id], status: Constants::Trip::PENDING)
+        trip.update(status: Constants::Trip::PENDING)
+      end
+
+      def trip
+        @trip ||= Trip.find(data[:trip_id])
       end
     end
   end

@@ -2,7 +2,7 @@ describe Api::SessionsController, type: :controller do
   describe '#create' do
     subject { response }
 
-    let!(:user) { Factory[:user] }
+    let!(:user) { create(:user) }
     let(:params) { { phone_number: user.phone_number } }
 
     context 'valid data' do
@@ -23,10 +23,10 @@ describe Api::SessionsController, type: :controller do
       let(:params) do
         {
           phone_number: user.phone_number,
-          device: { token: device.token, platform: device.platform }
+          device: device_attrs
         }
       end
-      let(:device) { Factory.structs[:device] }
+      let(:device_attrs) { attributes_for(:device) }
 
       before { post :create, params: params }
 
@@ -37,15 +37,13 @@ describe Api::SessionsController, type: :controller do
   describe '#update' do
     subject { response }
 
-    let!(:user) { Factory[:user] }
+    let!(:user) { create(:user) }
     let(:params) { { phone_number: user.phone_number, token: token } }
     let(:token) { user.verification_token }
 
     before { patch :update, params: params }
 
-    context 'valid data' do
-      pending { is_expected.to be_successful }
-    end
+    it { is_expected.to be_successful }
 
     context 'invalid data' do
       let(:token) { '0000' }

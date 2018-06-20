@@ -17,11 +17,7 @@ module Events
       private
 
       def update_trip
-        Repositories::Trip.new(ROM.env).update(
-          data[:trip_id],
-          status: Constants::Trip::DRIVING,
-          started_at: Time.now
-        )
+        Trip.find(data[:trip_id]).update(status: Constants::Trip::DRIVING, started_at: Time.now)
       end
 
       def broadcast

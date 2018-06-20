@@ -1,5 +1,5 @@
 describe Api::BonusTripsController, type: :controller do
-  let(:user) { Factory[:user] }
+  let(:user) { create(:user) }
   let(:auth_token) { user.auth_token }
 
   before { request.headers['Auth-Token'] = auth_token }
@@ -8,7 +8,8 @@ describe Api::BonusTripsController, type: :controller do
     subject { response }
 
     before do
-      Factory[:bonus_trip, user_id: user.id]
+      trip = create(:trip, user_id: user.id)
+      create(:bonus_trip, trip_id: trip.id, user_id: user.id)
       get :index, as: :json
     end
 

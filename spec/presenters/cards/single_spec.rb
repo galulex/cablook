@@ -1,5 +1,5 @@
 describe Presenters::Cards::Single do
-  let(:card) { Factory[:card] }
+  let(:card) { create(:card) }
 
   subject { described_class.new(card).to_json }
 

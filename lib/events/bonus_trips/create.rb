@@ -22,7 +22,7 @@ module Events
       end
 
       def create_bonus_trip
-        Repositories::BonusTrip.new(ROM.env).create(
+        BonusTrip.create(
           user_id: data[:user_id],
           friend_id: data[:friend_id],
           status: bonus_status,
@@ -32,7 +32,7 @@ module Events
       end
 
       def bonus_status
-        count = Repositories::Trip.new(ROM.env).count_of_finished_for_user(data[:friend_id])
+        count = Trip.where(user_id: data[:friend_id], status: Constants::Trip::FINISHED).count
         if count.positive?
           Constants::BonusTrip::NEW
         else

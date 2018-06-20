@@ -11,9 +11,9 @@ module Operations
       def call
         response = retry_pay
         if response['reasonCode'] == Constants::Payments::WAYFORPAY_SUCCESS
-          payment_repository.update(payment.id, status: Constants::Payments::SUCCESS)
+          payment.update(status: Constants::Payments::SUCCESS)
         else
-          payment_repository.update(payment.id, response: response)
+          payment.update(response: response)
         end
         response
       end
@@ -37,15 +37,11 @@ module Operations
       end
 
       def card
-        @card ||= Repositories::Card.new(ROM.env).by_id(card_id)
+        @card ||= Card.find(card_id)
       end
 
       def payment
-        @payment ||= payment_repository.by_id(payment_id)
-      end
-
-      def payment_repository
-        @payment_repository ||= Repositories::Payment.new(ROM.env)
+        @payment ||= Payment.find(payment_id)
       end
     end
   end
