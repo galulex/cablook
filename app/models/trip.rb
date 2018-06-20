@@ -8,6 +8,8 @@ class Trip < ApplicationRecord
 
   enum status: Constants::Trip::STATUS_CODES.invert
 
+  delegate :phone_number, to: :user, prefix: true
+
   scope :sum_cost, -> do
     joins(:driver)
       .select('COUNT(trips.id) AS trips_count, SUM(trips.cost) AS trips_sum, MIN(drivers.username) AS username')

@@ -14,7 +14,7 @@ ActiveAdmin.register_page 'Dashboard' do
         car
       end
 
-      @trips = Trip.joins(:users).where(status: [Constants::Trip::PENDING, Constants::Trip::ON_THE_WAY, Constants::Trip::WAITING_CLIENT, Constants::Trip::DRIVING])
+      @trips = Trip.includes(:user).where(status: [Constants::Trip::PENDING, Constants::Trip::ON_THE_WAY, Constants::Trip::WAITING_CLIENT, Constants::Trip::DRIVING])
     end
   end
 end
