@@ -6,19 +6,19 @@ link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.43.0/mapbox-gl.css' rel=
     - @trips.each do |trip|
       li.trips__card data-trip=trip.to_json
         .field
-          strong' Status:
+          strong> Status:
           span.status=Constants::Trip::STATUS_CODES[trip.status]
         .field
-          strong' Departure:
+          strong> Departure:
           span=trip.departure_address
         .field
-          strong' Destination:
+          strong> Destination:
           span=trip.destination_address
         .field
-          strong' Cost:
+          strong> Cost:
           span=trip.cost
         .field
-          strong' User:
+          strong> User:
           span=trip.user_phone_number
 
 - @cars.each do |car|
