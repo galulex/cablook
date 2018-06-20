@@ -17,7 +17,7 @@ module Api
     end
 
     def current_user
-      @current_user ||= Repositories::User.new(ROM.env).by_token(auth_token)
+      @current_user ||= User.find_by(auth_token: auth_token)
     end
 
     private

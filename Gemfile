@@ -27,10 +27,6 @@ gem 'puma', '~> 3.7'
 gem 'redis', '~> 3.0'
 gem 'roar'
 gem 'rollbar'
-gem 'rom-model'
-gem 'rom-rails'
-gem 'rom-repository'
-gem 'rom-sql'
 gem 'sass-rails'
 gem 'select2-rails'
 gem 'serviceworker-rails'
@@ -40,16 +36,13 @@ gem 'slim'
 gem 'sprockets'
 gem 'sprockets-es6'
 gem 'turbolinks'
-gem 'twilio-ruby', '~> 5.2.1'
 gem 'uglifier'
 gem 'wayforpay'
 gem 'websocket-driver', git: 'https://github.com/faye/websocket-driver-ruby', ref: 'ee39af83d03ae3059c775583e4c4b291641257b8'
 
 group :development, :test do
-  gem 'github_workflow'
   gem 'pry-rails'
   gem 'reek', require: false
-  gem 'rom-factory'
   gem 'rubocop', require: false
 end
 
@@ -57,6 +50,8 @@ group :test do
   gem 'capybara'
   gem 'chromedriver-helper'
   gem 'database_cleaner'
+  gem 'factory_bot_rails', '~> 4.0'
+  gem 'faker'
   gem 'rspec-rails'
   gem 'rspec-retry'
   gem 'selenium-webdriver'

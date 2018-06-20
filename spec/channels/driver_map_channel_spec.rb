@@ -41,8 +41,8 @@ describe DriverMapChannel do
   end
 
   context '#accept_trip' do
-    let(:driver) { Factory[:driver, car_id: Factory[:car].id] }
-    let(:trip) { Factory[:trip, status: 0] }
+    let(:driver) { create(:driver, car_id: create(:car).id) }
+    let(:trip) { create(:trip, status: 0) }
     let(:data) do
       {
         'action' => 'accept_trip',
@@ -59,7 +59,7 @@ describe DriverMapChannel do
     it { expect(Events::Trips::Accept).to receive(:call).once }
 
     context 'when trip was accepted' do
-      let(:trip) { Factory[:trip, status: Constants::Trip::ON_THE_WAY] }
+      let(:trip) { create(:trip, status: Constants::Trip::ON_THE_WAY) }
     end
 
     context 'when data is invalid' do

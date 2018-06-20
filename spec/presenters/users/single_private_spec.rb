@@ -1,5 +1,5 @@
 describe Presenters::Users::SinglePrivate do
-  let(:user) { Factory[:user] }
+  let(:user) { create(:user) }
 
   subject { described_class.new(user).to_json }
 

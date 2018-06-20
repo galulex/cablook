@@ -1,8 +1,8 @@
 RSpec.feature 'Trip', type: :feature, js: true do
   let(:phone_number)  { '630123456' }
   let(:comment)       { 'Comment' }
-  let(:car)           { Factory[:car] }
-  let(:driver)        { Factory[:driver] }
+  let(:car)           { create(:car) }
+  let(:driver)        { create(:driver) }
   let!(:car_1)        { Car.create(number: car.number, status: 0, color: car.color, phone_number: car.phone_number) }
   let!(:driver_1)     { Driver.create(name: driver.name, username: driver.username, encrypted_password: driver.encrypted_password, auth_token: driver.auth_token, car_id: Car.last.id) }
   let(:wait)          { Selenium::WebDriver::Wait.new ignore: Selenium::WebDriver::Error::NoAlertPresentError }
@@ -10,7 +10,7 @@ RSpec.feature 'Trip', type: :feature, js: true do
   let(:no_card)       { 'На даний момент CabLook підтримує лише безготівковий спосіб оплати.' }
   let(:no_phone)      { 'phone_number не вірний формат' }
   let(:no_code)       { 'Код не вірний або час на верифікацію скінчився. Спробуйте ще раз.' }
-  let(:card)          { Factory[:card] }
+  let(:card)          { create(:card) }
 
   before { visit '/pwa' }
 

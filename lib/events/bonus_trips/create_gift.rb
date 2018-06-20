@@ -16,7 +16,7 @@ module Events
       private
 
       def create_bonus_trip
-        Repositories::BonusTrip.new(ROM.env).create(
+        BonusTrip.create(
           user_id: data[:user_id],
           status: Constants::BonusTrip::NEW,
           code: SecureRandom.base58(24),

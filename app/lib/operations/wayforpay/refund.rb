@@ -35,7 +35,7 @@ module Operations
 
       def hold_for_fake
         order_reference = "#{payment.order_reference}_fake_#{SecureRandom.base58(6)}"
-        card = Repositories::Card.new(ROM.env).by_id(payment.card_id)
+        card = Card.find(payment.card_id)
         ::Wayforpay::Payments.hold(
           orderReference:  order_reference,
           amount: Constants::Trip::FAKE,
@@ -50,21 +50,16 @@ module Operations
       end
 
       def update_payment_status
-        payment_repository.update(payment.id, status: Constants::Payments::REFUND)
+        payment.update(status: Constants::Payments::REFUND)
       end
 
       def refund_bonus
-        bt_repository = Repositories::BonusTrip.new(ROM.env)
-        bonus_trip = bt_repository.by_trip(trip_id)
-        bt_repository.update(bonus_trip.id, status: Constants::BonusTrip::NEW) if bonus_trip
+        bonus_trip = BonusTrip.find_by(trip_id: trip_id)
+        bonus_trip&.update(status: Constants::BonusTrip::NEW)
       end
 
       def payment
-        @payment ||= payment_repository.by_trip(trip_id)
-      end
-
-      def payment_repository
-        @payment_repository ||= Repositories::Payment.new(ROM.env)
+        @payment ||= Payment.find_by(trip_id: trip_id)
       end
     end
   end

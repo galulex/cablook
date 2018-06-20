@@ -1,5 +1,5 @@
 describe Presenters::Cars::Single do
-  let(:car) { Factory[:car] }
+  let(:car) { create(:car) }
 
   subject { described_class.new(car).to_json }
 

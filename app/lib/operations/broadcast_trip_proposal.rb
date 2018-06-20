@@ -27,7 +27,7 @@ module Operations
     end
 
     def trip
-      @trip ||= Repositories::Trip.new(ROM.env).by_id_with_user(trip_id)
+      @trip ||= Trip.find(trip_id)
     end
   end
 end

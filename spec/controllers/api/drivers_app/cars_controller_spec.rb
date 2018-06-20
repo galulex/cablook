@@ -1,5 +1,5 @@
 describe Api::DriversApp::CarsController, type: :controller do
-  let(:driver) { Factory[:driver] }
+  let(:driver) { create(:driver) }
   let(:auth_token) { driver.auth_token }
 
   before { request.headers['Auth-Token'] = auth_token }

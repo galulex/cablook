@@ -20,15 +20,11 @@ module Operations
     private
 
     def find_or_create_device
-      @device = device_repository.by_user(user_id) || device_repository.create(user_id: user_id, token: token, platform: platform)
+      @device = Device.find_by(user_id: user_id) || Device.create(user_id: user_id, token: token, platform: platform)
     end
 
     def update_device
-      device_repository.update(@device.id, token: token, platform: platform)
-    end
-
-    def device_repository
-      @device_repository ||= Repositories::Device.new(ROM.env)
+      @device.update(token: token, platform: platform)
     end
   end
 end

@@ -1,4 +1,6 @@
-Factory.define(:trip_job) do |f|
-  f.activejob_id { fake(:number, :number, 10) }
-  f.sidekiq_id { fake(:number, :number, 10) }
+FactoryBot.define do
+  factory :trip_job do
+    activejob_id { Faker::Number.number(10) }
+    sidekiq_id { Faker::Number.number(10) }
+  end
 end

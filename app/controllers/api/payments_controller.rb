@@ -3,7 +3,7 @@ module Api
     before_action :authorize!
 
     def index
-      payments = payment_repository.by_user(current_user.id)
+      payments = Payment.where(user_id: current_user.id)
       render json: payments.to_json
     end
 
@@ -23,11 +23,7 @@ module Api
     end
 
     def pending_payments
-      @pending_payments ||= payment_repository.pending_by_user(current_user.id)
-    end
-
-    def payment_repository
-      @payment_repository ||= Repositories::Payment.new(ROM.env)
+      @pending_payments ||= Payment.where(status: Constants::Payments::PENDING, user_id: current_user.id)
     end
   end
 end

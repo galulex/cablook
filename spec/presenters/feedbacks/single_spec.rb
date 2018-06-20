@@ -1,7 +1,7 @@
 describe Presenters::Feedbacks::Single do
-  let(:user) { Factory[:user] }
-  let(:trip) { Factory[:trip] }
-  let(:feedback) { Factory[:feedback, trip_id: trip.id, user_id: user.id] }
+  let(:user) { create(:user) }
+  let(:trip) { create(:trip) }
+  let(:feedback) { create(:feedback, trip_id: trip.id, user_id: user.id) }
 
   subject { described_class.new(feedback).to_json }
 

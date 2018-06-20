@@ -1,13 +1,22 @@
-Factory.define(:trip) do |f|
-  f.status 0
-  f.path { fake(:internet, :password) }
-  f.cost { fake(:number, :decimal, 2).to_f }
+FactoryBot.define do
+  factory :trip do
+    status 0
+    path { Faker::Internet.password }
+    cost { Faker::Number.decimal(2).to_f }
 
-  f.estimated_end_time { fake(:time, :between, Time.now, Date.today) }
+    estimated_end_time { Faker::Time.between(Time.now, Date.today) }
 
-  f.departure { Sequel.pg_array([fake(:address, :latitude), fake(:address, :longitude)]) }
-  f.destination { Sequel.pg_array([fake(:address, :latitude), fake(:address, :longitude)]) }
-  f.departure_address { fake(:address, :street_name) }
-  f.destination_address { fake(:address, :street_name) }
-  f.comment { fake(:lorem, :sentence) }
+    departure { [Faker::Address.latitude, Faker::Address.longitude] }
+    destination { [Faker::Address.latitude, Faker::Address.longitude] }
+    departure_address { Faker::Address.street_name }
+    destination_address { Faker::Address.street_name }
+    comment { Faker::Lorem.sentence }
+
+    association :user
+
+    factory :trip_with_driver do
+      association :driver
+      association :car
+    end
+  end
 end

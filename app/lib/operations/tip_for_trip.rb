@@ -30,7 +30,7 @@ module Operations
     end
 
     def create_tip(response)
-      Repositories::Tip.new(ROM.env).create(
+      Tip.create(
         trip_id: trip_id,
         amount: amount,
         response: response
@@ -38,12 +38,11 @@ module Operations
     end
 
     def card
-      Repositories::Payment.new(ROM.env).card_token_by_trip(trip_id) ||
-        Repositories::Card.new(ROM.env).by_user(trip.user_id).last
+      trip.payment.card || Card.where(user: trip.user_id).last
     end
 
     def trip
-      @trip ||= Repositories::Trip.new(ROM.env).by_id(trip_id)
+      @trip ||= Trip.find(trip_id)
     end
 
     def order_reference

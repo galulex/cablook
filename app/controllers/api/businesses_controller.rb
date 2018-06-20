@@ -22,10 +22,6 @@ module Api
       current_user.business || current_user.build_business
     end
 
-    def current_user
-      @current_user ||= User.find_by!(auth_token: auth_token)
-    end
-
     def business_params
       params.require(:business).permit(:name, :email, :card_id, employees: [])
     end

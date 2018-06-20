@@ -15,31 +15,31 @@ class Presenters::Trips::Detailed < Presenters::BaseSingle
   property :user_number, exec_context: :decorator
 
   def driver_name
-    represented.try(:driver_name)
+    represented.try(:driver_name) || represented.driver&.name
   end
 
   def car_number
-    represented.try(:car_number)
+    represented.try(:car_number) || represented.car&.number
   end
 
   def car_phone_number
-    represented.try(:car_phone_number)
+    represented.try(:car_phone_number) || represented.car&.phone_number
   end
 
   def car_color
-    represented.try(:car_color)
+    represented.try(:car_color) || represented.car&.color
   end
 
   def payment_status
-    represented.try(:payment_status)
+    represented.try(:payment_status) || represented.payment&.status
   end
 
   def trips_count
-    represented.try(:trips_count)
+    represented.try(:trips_count) || represented.user.trips_count
   end
 
   def user_number
-    represented.try(:user_number)
+    represented.try(:user_number) || represented.user.phone_number
   end
 
   def start_time

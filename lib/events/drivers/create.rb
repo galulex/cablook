@@ -14,17 +14,18 @@ module Events
       def run
         validate!
         create_driver
+        @driver
       end
 
       private
 
       def validate!
-        validator = Validators::Driver.new(data)
-        invalid!(validator.errors.values.flatten) if validator.invalid?
+        @driver = Driver.new(data.merge(auth_token: SecureRandom.base58(24)))
+        invalid!(@driver.errors.values.flatten) if @driver.invalid?
       end
 
       def create_driver
-        Repositories::Driver.new(ROM.env).create(data.merge(auth_token: SecureRandom.base58(24)))
+        @driver.save
       end
     end
   end

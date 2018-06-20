@@ -2,10 +2,10 @@ module Api
   module DriversApp
     class MapsController < Api::DriversApp::ApplicationController
       def index
-        cars = Repositories::Car.new(ROM.env).all_with_driver.map do |car_struct|
-          location = redis.get("car_#{car_struct.id}")
-          car = car_struct.to_h
-          car[:location] = location&.split(',')
+        cars = Car.joins('INNER JOIN drivers ON drivers.car_id = cars.id').map do |car_model|
+          location = redis.get("car_#{car_model.id}")
+          car = car_model.attributes
+          car['location'] = location&.split(',')
           car
         end
         render json: { cars: cars }.to_json, status: 200

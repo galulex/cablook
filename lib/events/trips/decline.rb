@@ -10,8 +10,8 @@ module Events
       end
 
       def run
-        return unless trip.status == Constants::Trip::PENDING
-        Repositories::Trip.new(ROM.env).update(trip.id, status: Constants::Trip::DECLINED)
+        return unless trip.status == Constants::Trip::STATUS_CODES[Constants::Trip::PENDING]
+        trip.update(status: Constants::Trip::DECLINED)
         broadcast
         broadcast_to_trip_channel
       end
@@ -19,7 +19,7 @@ module Events
       private
 
       def trip
-        @trip ||= Repositories::Trip.new(ROM.env).by_id(data[:trip_id])
+        @trip ||= Trip.find(data[:trip_id])
       end
 
       def broadcast

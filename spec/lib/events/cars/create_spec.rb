@@ -2,12 +2,18 @@ describe Events::Cars::Create do
   describe '.call' do
     subject { -> { described_class.call(data) } }
 
-    let(:data) { Factory.structs[:car].to_h }
+    let(:data) { attributes_for(:car) }
 
-    it { is_expected.to change { car_repository.all.count }.by(+1) }
+    it { is_expected.to change { Car.count }.by(+1) }
 
     context 'when number is empty' do
-      let(:data) { Factory.structs[:car].to_h.except(:number) }
+      let(:data) { attributes_for(:car).except(:number) }
+
+      it { is_expected.to raise_error(Events::InvalidParamsError) }
+    end
+
+    context 'when number is already exist' do
+      before { create(:car, number: data[:number]) }
 
       it { is_expected.to raise_error(Events::InvalidParamsError) }
     end

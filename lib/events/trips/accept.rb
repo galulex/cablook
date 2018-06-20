@@ -12,7 +12,7 @@ module Events
       end
 
       def run
-        if trip.status == Constants::Trip::PENDING
+        if trip.status == Constants::Trip::STATUS_CODES[Constants::Trip::PENDING]
           update_trip
           update_car_status
           broadcast_accepted_trip
@@ -26,21 +26,16 @@ module Events
 
       def update_trip
         start_at = matrix.duration.seconds.since + 2.minutes
-        Repositories::Trip.new(ROM.env).update(
-          data[:trip_id],
+        trip.update(
           status: Constants::Trip::ON_THE_WAY,
           car_id: data[:car_id],
           driver_id: data[:driver_id],
           start_at: car_trip ? start_at + car_trip_remaining_time : start_at
         )
-        @trip = Repositories::Trip.new(ROM.env).detailed(data[:trip_id])
       end
 
       def update_car_status
-        Repositories::Car.new(ROM.env).update(
-          data[:car_id],
-          status: Constants::Car::DURING_IN_TRIP
-        )
+        car.update(status: Constants::Car::DURING_IN_TRIP)
       end
 
       def broadcast_accepted_trip
@@ -81,7 +76,7 @@ module Events
       end
 
       def car_trip
-        @car_trip ||= Repositories::Trip.new(ROM.env).trips.where(car_id: data[:car_id], status: Constants::Trip::DRIVING).one
+        @car_trip ||= Trip.find_by(car_id: data[:car_id], status: Constants::Trip::DRIVING)
       end
 
       def car_trip_remaining_time
@@ -89,15 +84,15 @@ module Events
       end
 
       def car
-        @car ||= Repositories::Car.new(ROM.env).by_id(data[:car_id])
+        @car ||= Car.find(data[:car_id])
       end
 
       def trip
-        @trip ||= Repositories::Trip.new(ROM.env).detailed(data[:trip_id])
+        @trip ||= Trip.find(data[:trip_id])
       end
 
       def driver
-        @driver ||= Repositories::Driver.new(ROM.env).by_id_with_car(data[:driver_id])
+        @driver ||= Driver.find(data[:driver_id])
       end
     end
   end

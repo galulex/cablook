@@ -3,7 +3,7 @@ describe Events::DriversApp::Authorize do
     subject { -> { result } }
 
     let(:result) { described_class.call(data) }
-    let!(:driver) { Factory[:driver] }
+    let!(:driver) { create(:driver) }
     let(:data) { { username: driver.username, password: '12341234' } }
 
     it { expect(result).not_to be nil }
@@ -22,11 +22,11 @@ describe Events::DriversApp::Authorize do
     end
 
     context 'when car is assigned' do
-      let(:car) { Factory[:car, status: Constants::Car::FREE] }
-      let!(:driver) { Factory[:driver, car_id: car.id] }
+      let(:car) { create(:car, status: Constants::Car::FREE) }
+      let!(:driver) { create(:driver, car_id: car.id) }
 
-      it { is_expected.to change { driver_repository.by_id(driver.id).car_id }.to(nil) }
-      it { is_expected.to change { car_repository.by_id(car.id).status }.to(Constants::Car::OFFLINE) }
+      it { is_expected.to change { driver.reload.car_id }.to(nil) }
+      it { is_expected.to change { car.reload.status }.to(Constants::Car::OFFLINE) }
     end
   end
 end

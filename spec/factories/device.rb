@@ -1,4 +1,6 @@
-Factory.define(:device) do |f|
-  f.token { fake(:internet, :password) }
-  f.platform { %w[ios android].sample }
+FactoryBot.define do
+  factory :device do
+    token { Faker::Internet.password }
+    platform { %w[ios android].sample }
+  end
 end

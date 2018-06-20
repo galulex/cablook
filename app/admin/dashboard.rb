@@ -6,15 +6,15 @@ ActiveAdmin.register_page 'Dashboard' do
   controller do
     def index
       redis = Redis.current
-      @cars = Repositories::Car.new(ROM.env).online_with_driver.map do |car_struct|
-        location = redis.get("car_#{car_struct.id}")
-        car = car_struct.to_h
+      @cars = Car.where.not(status: Constants::Car::OFFLINE).map do |car_model|
+        location = redis.get("car_#{car_model.id}")
+        car = car_model.to_h
         car[:location] = location&.split(',')
-        car[:status] = Constants::Car::STATUS_CODES[car_struct.status]
+        car[:status] = Constants::Car::STATUS_CODES[car_model.status]
         car
       end
 
-      @trips = Repositories::Trip.new(ROM.env).in_progress
+      @trips = Trip.joins(:users).where(status: [Constants::Trip::PENDING, Constants::Trip::ON_THE_WAY, Constants::Trip::WAITING_CLIENT, Constants::Trip::DRIVING])
     end
   end
 end

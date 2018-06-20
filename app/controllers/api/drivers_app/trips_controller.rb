@@ -4,12 +4,15 @@ module Api
       before_action :authorize!
 
       def index
-        trips = Repositories::Trip.new(ROM.env).pending
+        trips = Trip.where(status: Constants::Trip::PENDING)
         render json: Presenters::Trips::DetailedCollection.new(trips).to_json, status: 200
       end
 
       def currents
-        trips = Repositories::Trip.new(ROM.env).currents(current_driver.id)
+        trips = Trip.where(
+          driver_id: current_driver.id,
+          status: [Constants::Trip::ON_THE_WAY, Constants::Trip::WAITING_CLIENT, Constants::Trip::DRIVING]
+        )
         render json: Presenters::Trips::DetailedCollection.new(trips).to_json, status: 200
       end
 
@@ -46,7 +49,7 @@ module Api
       private
 
       def trip
-        @trip ||= Repositories::Trip.new(ROM.env).detailed(params[:trip_id])
+        @trip ||= Trip.find(params[:trip_id])
       end
     end
   end

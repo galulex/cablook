@@ -14,20 +14,14 @@ module Events
       end
 
       def run
-        validate!
         send_and_create_tip_for_driver if data[:tip]&.positive?
         create_feedback
       end
 
       private
 
-      def validate!
-        validator = Validators::Feedback.new(data)
-        invalid!(validator.errors.values.flatten) if validator.invalid?
-      end
-
       def create_feedback
-        Repositories::Feedback.new(ROM.env).create(data.to_h)
+        Feedback.create(data.to_h.except(:tip))
       end
 
       def send_and_create_tip_for_driver

@@ -18,7 +18,7 @@ module Events
       private
 
       def update_car
-        Repositories::Car.new(ROM.env).update(data[:id], data.to_h.except(:id))
+        Car.find(data[:id]).update(data.to_h.except(:id))
       end
     end
   end

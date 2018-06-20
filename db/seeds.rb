@@ -12,7 +12,7 @@ user_data = [
   { phone_number: '+380990000004', encrypted_password: password, auth_token: token },
   { phone_number: '+380990000005', encrypted_password: password, auth_token: token },
 ]
-user_data.each { |data, index| Repositories::User.new(ROM.env).create(data.merge(referral_code: SecureRandom.base58(6).upcase)) }
+user_data.each { |data, index| User.create(data.merge(referral_code: SecureRandom.base58(6).upcase)) }
 
 puts '============================='
 puts 'Users created'
@@ -27,7 +27,7 @@ driver_data = [
   { username: 'driver_4', encrypted_password: password, auth_token: token },
   { username: 'driver_5', encrypted_password: password, auth_token: token },
 ]
-driver_data.each { |data| Repositories::Driver.new(ROM.env).create(data) }
+driver_data.each { |data| Driver.create(data) }
 
 puts '============================='
 puts 'Drivers created'
@@ -36,21 +36,21 @@ puts "=============================\n"
 puts 'Creating cars...'
 
 car_data = [
-  { name: '01', status: 0 },
-  { name: '02', status: 0 },
-  { name: '03', status: 0 },
-  { name: '04', status: 0 },
-  { name: '05', status: 0 }
+  { number: '01', status: 0 },
+  { number: '02', status: 0 },
+  { number: '03', status: 0 },
+  { number: '04', status: 0 },
+  { number: '05', status: 0 }
 ]
-car_data.each { |data| Repositories::Car.new(ROM.env).create(data) }
+car_data.each { |data| Car.create(data) }
 
 puts '============================='
 puts 'Cars created'
 puts "=============================\n"
 
 puts 'Creating trips...'
-location_1 = Sequel.pg_array([49.426334, 32.054184])
-location_2 = Sequel.pg_array([49.446263, 32.055930])
+location_1 = [49.426334, 32.054184]
+location_2 = [49.446263, 32.055930]
 address = "TestAddress"
 
 trip_data = [
@@ -60,7 +60,7 @@ trip_data = [
   { status: 3, path: 'test_path', cost: 13.37, departure: location_1, destination: location_2, user_id: 4, car_id: 2, driver_id: 2, departure_address: address, destination_address: address },
   { status: 4, path: 'test_path', cost: 22.22, departure: location_1, destination: location_2, user_id: 5, departure_address: address, destination_address: address }
 ]
-trip_data.each { |data| Repositories::Trip.new(ROM.env).create(data) }
+trip_data.each { |data| Trip.create(data) }
 
 puts '============================='
 puts 'Trips created'
@@ -71,7 +71,7 @@ puts 'Creating trips...'
 feedbacks_data = [
   { rate: 1, description: 'so long', user_id: 4, trip_id: 5 }
 ]
-feedbacks_data.each { |data| Repositories::Feedback.new(ROM.env).create(data) }
+feedbacks_data.each { |data| Feedback.create(data) }
 
 puts '============================='
 puts 'Feedbacks created'
@@ -86,4 +86,4 @@ bonus_trip_data = [
   { status: 1, user_id: 4, friend_id: 5, trip_id: 5, code: 'test_new_3' },
   { status: 0, user_id: 1, friend_id: 1, code: 'test_frozen' }
 ]
-bonus_trip_data.each { |data| Repositories::BonusTrip.new(ROM.env).create(data) }
+bonus_trip_data.each { |data| BonusTrip.create(data) }

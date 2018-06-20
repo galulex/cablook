@@ -1,17 +1,17 @@
 describe Events::Trips::Decline do
   describe '.call' do
-    let(:trip) { Factory[:trip, status: Constants::Trip::PENDING] }
+    let(:trip) { create(:trip, status: Constants::Trip::PENDING) }
 
     let(:data) { { trip_id: trip.id } }
 
     subject { -> { described_class.call(data) } }
 
-    it { is_expected.to change { trip_repository.by_id(trip.id).status }.to(Constants::Trip::DECLINED) }
+    it { is_expected.to change { trip.reload.status }.to(Constants::Trip::STATUS_CODES[Constants::Trip::DECLINED]) }
 
     context 'when nothing happened' do
-      let(:trip) { Factory[:trip, status: Constants::Trip::FINISHED] }
+      let(:trip) { create(:trip, status: Constants::Trip::FINISHED) }
 
-      it { is_expected.not_to change { trip_repository.by_id(trip.id).status } }
+      it { is_expected.not_to change { trip.reload.status } }
     end
 
     context 'and broadcast to channel' do

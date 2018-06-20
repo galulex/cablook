@@ -7,12 +7,12 @@ describe Operations::Wayforpay::Settle do
   describe '#call' do
     subject { -> { instance.call } }
 
-    let!(:trip) { Factory[:trip, user_id: user.id, status: Constants::Trip::FINISHED] }
-    let!(:payment) { Factory[:payment, trip_id: trip.id] }
-    let(:user) { Factory[:user] }
+    let!(:trip) { create(:trip, user_id: user.id, status: Constants::Trip::FINISHED) }
+    let!(:payment) { create(:payment, trip_id: trip.id, user_id: user.id) }
+    let(:user) { create(:user) }
 
     context 'when status is ok' do
-      it { is_expected.to change { payment_repository.by_id(payment.id).status }.to(Constants::Payments::SUCCESS) }
+      it { is_expected.to change { payment.reload.status }.to(Constants::Payments::SUCCESS) }
 
       it do
         expect(Wayforpay::Payments).to receive(:settle).once
@@ -20,10 +20,10 @@ describe Operations::Wayforpay::Settle do
       end
 
       context 'and give bonus trip for referrer' do
-        let(:referrer) { Factory[:user] }
-        let!(:bonus_trip) { Factory[:bonus_trip, user_id: referrer.id, friend_id: user.id] }
+        let(:referrer) { create(:user) }
+        let!(:bonus_trip) { create(:bonus_trip, user_id: referrer.id, friend_id: user.id) }
 
-        it { is_expected.to change { bonus_trip_repository.by_id(bonus_trip.id).status }.to(Constants::BonusTrip::NEW) }
+        it { is_expected.to change { bonus_trip.reload.status }.to(Constants::BonusTrip::NEW) }
       end
     end
 
@@ -32,13 +32,13 @@ describe Operations::Wayforpay::Settle do
 
       before { subject.call }
 
-      it { expect(payment_repository.payments.to_a.last.status).to eq(Constants::Payments::PENDING) }
+      it { expect(payment.reload.status).to eq(Constants::Payments::PENDING) }
     end
 
     context 'when payment by bonus' do
-      let!(:payment) { Factory[:payment, trip_id: trip.id, status: Constants::Payments::BONUS] }
+      let!(:payment) { create(:payment, trip_id: trip.id, status: Constants::Payments::BONUS, user_id: user.id) }
 
-      it { is_expected.not_to change { payment_repository.by_id(payment.id).status } }
+      it { is_expected.not_to change { payment.reload.status } }
 
       it do
         expect(Wayforpay::Payments).not_to receive(:settle)
@@ -47,7 +47,7 @@ describe Operations::Wayforpay::Settle do
     end
 
     context 'when payment not found' do
-      let!(:payment) { Factory[:payment] }
+      let!(:payment) { create(:payment, user_id: user.id) }
 
       it do
         expect(Wayforpay::Payments).not_to receive(:settle)

@@ -10,10 +10,6 @@ Requirements:
 
 Architecture:
 
-* Sequel 5.1.0: http://sequel.jeremyevans.net/documentation.html
-
-* Ruby Object Mapper (ROM) 4.0: https://rom-rb.org/4.0/learn/
-
 * dry-validation: http://dry-rb.org/gems/dry-validation/
 
 ## :arrow_up: How to Setup Repository

@@ -1,5 +1,5 @@
 describe Presenters::DriversApp::SinglePrivate do
-  let(:driver) { Factory[:driver] }
+  let(:driver) { create(:driver) }
 
   subject { described_class.new(driver).to_json }
 

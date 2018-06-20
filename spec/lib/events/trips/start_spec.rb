@@ -2,11 +2,11 @@ describe Events::Trips::Start do
   describe '.call' do
     subject { -> { described_class.call(data) } }
 
-    let(:trip) { Factory[:trip, status: Constants::Trip::WAITING_CLIENT] }
+    let(:trip) { create(:trip, status: Constants::Trip::WAITING_CLIENT) }
 
     let(:data) { { trip_id: trip.id } }
 
-    it { is_expected.to change { trip_repository.by_id(trip.id).status }.to(Constants::Trip::DRIVING) }
+    it { is_expected.to change { trip.reload.status }.to(Constants::Trip::STATUS_CODES[Constants::Trip::DRIVING]) }
 
     context 'and broadcast to driver map channel' do
       it do

@@ -18,16 +18,12 @@ module Events
       private
 
       def assign_car
-        Repositories::Car.new(ROM.env).update(data[:car_id], status: Constants::Car::FREE)
-        driver_repository.update(data[:driver_id], car_id: data[:car_id])
+        Car.find(data[:car_id]).update(status: Constants::Car::FREE)
+        Driver.find(data[:driver_id]).update(car_id: data[:car_id])
       end
 
       def validate!
-        invalid!([I18n.t('assignings.errors.messages.has_already_been_taken')]) if driver_repository.by_car_id(data[:car_id])
-      end
-
-      def driver_repository
-        @driver_repository ||= Repositories::Driver.new(ROM.env)
+        invalid!([I18n.t('assignings.errors.messages.has_already_been_taken')]) if Driver.find_by(car_id: data[:car_id])
       end
     end
   end

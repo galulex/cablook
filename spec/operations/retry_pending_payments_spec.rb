@@ -1,7 +1,7 @@
 describe Operations::RetryPendingPayments do
   let(:instance) { described_class.new(user.id, card.id) }
-  let(:user) { Factory[:user] }
-  let(:card) { Factory[:card, user_id: user.id] }
+  let(:user) { create(:user) }
+  let(:card) { create(:card, user_id: user.id) }
   let(:wayforpay_body) { { reasonCode: Constants::Payments::WAYFORPAY_SUCCESS }.to_json }
 
   before do
@@ -11,7 +11,7 @@ describe Operations::RetryPendingPayments do
   describe '#call' do
     subject { -> { instance.call } }
 
-    let!(:payment) { Factory[:payment, user_id: user.id, status: Constants::Payments::PENDING] }
+    let!(:payment) { create(:payment, user_id: user.id, status: Constants::Payments::PENDING) }
 
     it do
       expect_any_instance_of(Operations::Wayforpay::RetryPayment).to receive(:call).once
@@ -19,7 +19,7 @@ describe Operations::RetryPendingPayments do
     end
 
     context 'when card not found' do
-      let(:card) { Factory[:card] }
+      let(:card) { create(:card) }
 
       it do
         expect_any_instance_of(Operations::Wayforpay::RetryPayment).not_to receive(:call)
@@ -27,8 +27,8 @@ describe Operations::RetryPendingPayments do
       end
 
       context 'when card owned by another user' do
-        let(:card) { Factory[:card, user_id: another_user.id] }
-        let(:another_user) { Factory[:user] }
+        let(:card) { create(:card, user_id: another_user.id) }
+        let(:another_user) { create(:user) }
 
         it do
           expect_any_instance_of(Operations::Wayforpay::RetryPayment).not_to receive(:call)

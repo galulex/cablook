@@ -1,9 +1,10 @@
 class Trip < ApplicationRecord
-  belongs_to :user
-  belongs_to :driver
-  belongs_to :car
+  belongs_to :driver, required: false
+  belongs_to :car, required: false
+  belongs_to :user, counter_cache: true
   has_one :payment
   has_one :card, through: :payment
+  has_many :feedbacks
 
   enum status: Constants::Trip::STATUS_CODES.invert
 

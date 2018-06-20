@@ -4,12 +4,11 @@ require 'rspec/rails'
 
 require 'bcrypt'
 require 'capybara/rspec'
-require 'rom-rails'
-require 'rom-factory'
 require 'sidekiq/testing'
 require 'simplecov'
 require 'webmock/rspec'
 require 'rspec/retry'
+require 'support/factory_bot'
 Dir[
   Rails.root.join('spec/support/**/*.rb'),
   Rails.root.join('lib/constants.rb'),
@@ -38,8 +37,6 @@ Capybara.configure do |config|
 end
 
 RSpec.configure do |config|
-  # config.infer_spec_type_from_file_location!
-  # config.filter_rails_from_backtrace!
   config.verbose_retry = true
 
   config.around :each, :js do |ex|
@@ -58,24 +55,8 @@ RSpec.configure do |config|
   config.use_transactional_fixtures = false
 
   config.before(:suite) do
-
-    conn = ROM.env.gateways[:default].connection
-
     DatabaseCleaner.strategy = :transaction
     DatabaseCleaner.clean_with(:truncation)
-    DatabaseCleaner[:sequel, connection: conn].strategy = :transaction
-    DatabaseCleaner[:sequel, connection: conn].clean_with(:truncation)
-  end
-
-  config.around(:each) do |example|
-    conn = ROM.env.gateways[:default].connection
-
-    DatabaseCleaner[:sequel, connection: conn].cleaning { example.run }
-  end
-
-  config.after(:all, type: :feature) do
-    conn = ROM.env.gateways[:default].connection
-    DatabaseCleaner[:sequel, connection: conn].clean_with(:truncation)
   end
 
   config.before(:each, type: :feature) do
@@ -96,9 +77,6 @@ RSpec.configure do |config|
     DatabaseCleaner.clean
   end
 
-  Factory = ROM::Factory.configure do |config|
-    config.rom = ROM.env
-  end
-  Dir[Rails.root.join('spec/factories/**/*.rb')].each { |f| require f }
+  # Dir[Rails.root.join('spec/factories/**/*.rb')].each { |f| require f }
   ActiveJob::Base.queue_adapter = :test
 end
