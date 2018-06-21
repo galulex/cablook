@@ -9,7 +9,7 @@ describe Operations::Wayforpay::RetryPayment do
   describe '#call' do
     subject { -> { instance.call } }
 
-    let!(:payment) { create(:payment, user_id: user.id, status: Constants::Payments::PENDING, user_id: user.id) }
+    let!(:payment) { create(:payment, user_id: user.id, status: Constants::Payments::PENDING) }
 
     it do
       expect(Wayforpay::Payments).to receive(:hold).once
