@@ -9,8 +9,8 @@ ActiveAdmin.register_page 'Dashboard' do
       @cars = Car.where.not(status: Constants::Car::OFFLINE).map do |car_model|
         location = redis.get("car_#{car_model.id}")
         car = car_model.attributes
-        car[:location] = location&.split(',')
-        car[:status] = Constants::Car::STATUS_CODES[car_model.status]
+        car['location'] = location&.split(',')
+        car['status'] = Constants::Car::STATUS_CODES[car_model['status']]
         car
       end
 

@@ -7,7 +7,7 @@ link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.43.0/mapbox-gl.css' rel=
       li.trips__card data-trip=trip.to_json
         .field
           strong> Status:
-          span.status=Constants::Trip::STATUS_CODES[trip.status]
+          span.status=trip.status
         .field
           strong> Departure:
           span=trip.departure_address

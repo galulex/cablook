@@ -37,7 +37,7 @@ module Api
     end
 
     def index_params
-      { page: params[:page]&.to_i, per: params[:per]&.to_i }.compact
+      { page: params[:page]&.to_i, per: (params[:per] || 5).to_i }
     end
 
     def trip_params
