@@ -27,7 +27,6 @@ module Events
         validate_unpaid_trips!
         validate_bonus! if data[:bonus]
         create_trip
-        increment_user_trips_count
         if data[:bonus]
           pay_by_bonus
         else
@@ -72,11 +71,6 @@ module Events
         @trip = Trip.create(data.to_h.except(:bonus, :card_id))
       end
 
-      def increment_user_trips_count
-        # TODO counter_cache
-        # User.find(data[:user_id]).update(trips_count: Sequel.expr(1) + :trips_count)
-      end
-
       def create_trip_job(trip_id)
         Jobs::DeclineTrip.set(wait: Constants::Trip::EXPIRES_IN).perform_later(trip_id)
         Jobs::PaymentRefundDeclined.set(wait: 10.minutes).perform_later(trip_id)
@@ -109,7 +103,7 @@ module Events
       def card_id
         user_cards ||= Card.user_cards(data[:user_id])
         invalid!([I18n.t('cards.add_card')]) if user_cards.empty?
-        return user_cards.find(data[:card_id]) if data[:card_id]
+        return user_cards.find(data[:card_id])&.id if data[:card_id]
         user_cards.first.id
       end
     end
