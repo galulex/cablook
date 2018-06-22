@@ -52,7 +52,7 @@ module Events
         ActionCable.server.broadcast(
           "#{Constants::Channels::TRIP}_#{data[:trip_id]}",
           action: Constants::BroadcastActions::TRIP_ACCEPTED,
-          driver: driver.attributes.merge(car.attributes),
+          driver: driver.attributes.merge('car' => car.attributes),
           trip: Presenters::Trips::Detailed.new(trip)
         )
       end
