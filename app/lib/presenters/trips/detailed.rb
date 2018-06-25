@@ -11,6 +11,7 @@ class Presenters::Trips::Detailed < Presenters::BaseSingle
   property :car_phone_number, exec_context: :decorator
   property :car_color, exec_context: :decorator
   property :payment_status, exec_context: :decorator
+  property :status, exec_context: :decorator
   property :trips_count, exec_context: :decorator
   property :user_number, exec_context: :decorator
 
@@ -32,6 +33,10 @@ class Presenters::Trips::Detailed < Presenters::BaseSingle
 
   def payment_status
     represented.try(:payment_status) || represented.payment&.status
+  end
+
+  def status
+    Trip.statuses[represented.status]
   end
 
   def trips_count

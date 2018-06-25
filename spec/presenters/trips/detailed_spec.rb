@@ -2,12 +2,12 @@ describe Presenters::Trips::Detailed do
   let(:user) { create(:user) }
   let(:driver) { create(:driver, car_id: car.id) }
   let(:car) { create(:car) }
-  let!(:trip) { create(:trip, user_id: user.id, driver_id: driver.id, car_id: car.id) }
+  let!(:trip) { create(:trip, user_id: user.id, driver_id: driver.id, car_id: car.id, status: Constants::Trip::FINISHED) }
 
   subject { described_class.new(trip).to_json }
 
   it { is_expected.to have_key(:id).with_value(trip.id) }
-  it { is_expected.to have_key(:status).with_value(trip.status) }
+  it { is_expected.to have_key(:status).with_value(Constants::Trip::FINISHED) }
   it { is_expected.to have_key(:path).with_value(trip.path) }
   it { is_expected.to have_key(:cost).with_value(trip.cost) }
   it { is_expected.to have_key(:departure).with_value(trip.departure) }
