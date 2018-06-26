@@ -53,7 +53,9 @@ module Operations
           productPrice: [trip.cost],
           productCount: [1],
           orderDate: Time.now.to_i,
-          orderReference: order_reference
+          orderReference: order_reference,
+          clientEmail: trip.user.email,
+          clientPhone: trip.user.phone_number
         )
         JSON.parse(response.body)
       end
