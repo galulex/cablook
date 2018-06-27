@@ -29,6 +29,7 @@ describe Operations::Wayforpay::Settle do
 
     context 'when smth went wrong' do
       let(:wayforpay_body) { { reasonCode: '1111' }.to_json }
+      let!(:payment) { create(:payment, trip_id: trip.id, user_id: user.id, status: Constants::Payments::HOLD) }
 
       before { subject.call }
 

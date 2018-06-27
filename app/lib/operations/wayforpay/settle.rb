@@ -15,6 +15,8 @@ module Operations
         if wayforpay_response['reasonCode'] == Constants::Payments::WAYFORPAY_SUCCESS
           update_payment_status
           update_bonus_trip_if_necessary
+        else
+          update_payment_status_to_pending
         end
       end
 
@@ -30,6 +32,10 @@ module Operations
 
       def update_payment_status
         payment.update(status: Constants::Payments::SUCCESS)
+      end
+
+      def update_payment_status_to_pending
+        payment.update(status: Constants::Payments::PENDING)
       end
 
       def update_bonus_trip_if_necessary
