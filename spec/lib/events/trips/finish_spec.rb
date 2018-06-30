@@ -9,7 +9,7 @@ describe Events::Trips::Finish do
     let(:data) { { trip_id: trip.id } }
 
     it { is_expected.to change { trip.reload.status }.to(Constants::Trip::STATUS_CODES[Constants::Trip::FINISHED]) }
-    it { is_expected.to change { car.reload.status }.to(Constants::Car::FREE) }
+    it { is_expected.to change { car.reload.status }.to('free') }
     it { is_expected.to have_enqueued_job(Jobs::PaymentSettle) }
 
     context 'and broadcast to driver map channel' do
@@ -25,10 +25,10 @@ describe Events::Trips::Finish do
 
     context 'when driver has second trip' do
       let!(:next_trip) { create(:trip, status: Constants::Trip::ON_THE_WAY, car_id: car.id, driver_id: driver.id) }
-      let(:car) { create(:car, status: Constants::Car::DURING_IN_TRIP) }
+      let(:car) { create(:car, status: Constants::Car::DURING_TRIP) }
 
       it 'keeps busy car status' do
-        expect(car.reload.status).to eq(Constants::Car::DURING_IN_TRIP)
+        expect(car.reload.status).to eq('during_trip')
       end
     end
   end

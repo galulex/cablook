@@ -15,7 +15,7 @@ describe Events::Trips::Accept do
     it { is_expected.to change { trip.reload.status }.to(Constants::Trip::STATUS_CODES[Constants::Trip::ON_THE_WAY]) }
     it { is_expected.to change { trip.reload.car_id }.to(driver.car_id) }
     it { is_expected.to change { trip.reload.driver_id}.to(driver.id) }
-    it { is_expected.to change { driver.car.reload.status }.to(Constants::Car::DURING_IN_TRIP) }
+    it { is_expected.to change { driver.car.reload.status }.to('during_trip') }
     it { is_expected.not_to have_enqueued_job(Jobs::Sms) }
 
     context 'when trip was accepted' do

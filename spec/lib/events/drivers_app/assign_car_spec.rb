@@ -12,7 +12,7 @@ describe Events::DriversApp::AssignCar do
     let(:car) { create(:car, status: Constants::Car::OFFLINE) }
 
     it { is_expected.to change { driver.reload.car_id }.to(car.id) }
-    it { is_expected.to change { car.reload.status }.to(Constants::Car::FREE) }
+    it { is_expected.to change { car.reload.status }.to('free') }
 
     context 'when driver_id is empty' do
       let(:data) { attributes_for(:driver).except(:driver_id) }

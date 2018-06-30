@@ -26,7 +26,7 @@ describe Events::DriversApp::Authorize do
       let!(:driver) { create(:driver, car_id: car.id) }
 
       it { is_expected.to change { driver.reload.car_id }.to(nil) }
-      it { is_expected.to change { car.reload.status }.to(Constants::Car::OFFLINE) }
+      it { is_expected.to change { car.reload.status }.to('offline') }
     end
   end
 end

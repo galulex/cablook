@@ -35,7 +35,7 @@ module Events
       end
 
       def update_car_status
-        car.update(status: Constants::Car::DURING_IN_TRIP)
+        car.update(status: Constants::Car::DURING_TRIP)
       end
 
       def broadcast_accepted_trip
