@@ -13,13 +13,18 @@ module Events
       def run
         validate!
         assign_car
+        driver
       end
 
       private
 
       def assign_car
         Car.find(data[:car_id]).update(status: Constants::Car::FREE)
-        Driver.find(data[:driver_id]).update(car_id: data[:car_id])
+        driver.update(car_id: data[:car_id])
+      end
+
+      def driver
+        @driver ||= Driver.find(data[:driver_id])
       end
 
       def validate!
