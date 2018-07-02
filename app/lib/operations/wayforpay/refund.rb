@@ -59,7 +59,7 @@ module Operations
       end
 
       def payment
-        @payment ||= Payment.find_by(trip_id: trip_id)
+        @payment ||= Payments::Trip.find_by(trip_id: trip_id)
       end
     end
   end

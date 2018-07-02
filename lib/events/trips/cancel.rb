@@ -81,7 +81,7 @@ module Events
       end
 
       def payment
-        @payment ||= trip.payment
+        @payment ||= trip.trip_payment
       end
     end
   end

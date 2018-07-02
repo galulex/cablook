@@ -3,7 +3,7 @@ module Api
     before_action :authorize!
 
     def index
-      payments = Payment.where(user_id: current_user.id)
+      payments = Payments::Trip.where(user_id: current_user.id)
       render json: payments.to_json
     end
 
@@ -23,7 +23,7 @@ module Api
     end
 
     def pending_payments
-      @pending_payments ||= Payment.where(status: Constants::Payments::PENDING, user_id: current_user.id)
+      @pending_payments ||= Payments::Trip.where(status: Constants::Payments::PENDING, user_id: current_user.id)
     end
   end
 end

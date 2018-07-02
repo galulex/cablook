@@ -22,7 +22,7 @@ module Events
       end
 
       def validate_pending_payments!
-        payments = Payment.where(
+        payments = Payments::Trip.where(
           status: [Constants::Payments::PENDING, Constants::Payments::HOLD],
           user_id: data[:user_id]
         )
