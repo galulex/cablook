@@ -61,6 +61,7 @@ end
 
 group :development do
   gem 'capistrano'
+  gem 'capistrano-db-tasks', require: false
   gem 'capistrano-passenger'
   gem 'capistrano-rails'
   gem 'capistrano-sidekiq'

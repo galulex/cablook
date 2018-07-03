@@ -1,10 +1,14 @@
 ActiveAdmin.register Trip do
 
-  remove_filter :payment, :card, :path, :departure, :destination, :estimated_end_time, :start_at, :finish_at, :started_at, :finished_at, :arrived_at, :waypoints
+  remove_filter :payment, :card, :path, :departure, :destination, :estimated_end_time, :start_at, :finish_at, :started_at, :finished_at, :arrived_at, :waypoints, :job, :bonus_trip, :feedbacks
 
   controller do
     def permitted_params
       params.permit!
+    end
+
+    def scoped_collection
+      super.includes(:payment, :car, :user, :driver)
     end
   end
 

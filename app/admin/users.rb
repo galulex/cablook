@@ -1,7 +1,9 @@
 ActiveAdmin.register User do
+  remove_filter :trip
+
   controller do
     def scoped_collection
-      User.left_joins(:bonus_trips)
+      super.left_joins(:bonus_trips)
         .select("users.*, COUNT(bonus_trips.id) AS bonus_count")
         .group(:id)
     end

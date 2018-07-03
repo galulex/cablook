@@ -1,7 +1,13 @@
 ActiveAdmin.register Payment do
+  remove_filter :trip
+
   controller do
     def permitted_params
       params.permit!
+    end
+
+    def scoped_collection
+      super.includes(:trip, :card, :user)
     end
   end
 
