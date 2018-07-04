@@ -7,7 +7,7 @@ class Trip < ApplicationRecord
   has_one :trip_payment, class_name: 'Payments::Trip'
   has_one :idle_payment, class_name: 'Payments::Idle'
 
-  has_one :card, through: :payment
+  has_one :card, through: :payments
   has_many :feedbacks
   has_one :job, dependent: :destroy, class_name: 'TripJob'
   has_one :bonus_trip, dependent: :destroy
