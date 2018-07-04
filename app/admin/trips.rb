@@ -1,6 +1,6 @@
 ActiveAdmin.register Trip do
 
-  remove_filter :payment, :card, :path, :departure, :destination, :estimated_end_time, :start_at, :finish_at, :started_at, :finished_at, :arrived_at, :waypoints, :job, :bonus_trip, :feedbacks
+  remove_filter :payments, :card, :path, :departure, :destination, :estimated_end_time, :start_at, :finish_at, :started_at, :finished_at, :arrived_at, :waypoints, :job, :bonus_trip, :feedbacks
 
   controller do
     def permitted_params
@@ -8,7 +8,7 @@ ActiveAdmin.register Trip do
     end
 
     def scoped_collection
-      super.includes(:payment, :car, :user, :driver)
+      super.includes(:payments, :car, :user, :driver)
     end
   end
 
@@ -43,7 +43,7 @@ ActiveAdmin.register Trip do
 end
 
 def ordered_trip_columns
-  %w[id cost departure_address destination_address stops status payment
+  %w[id cost departure_address destination_address stops status payments
      car driver user duration distance created_at comment]
 end
 

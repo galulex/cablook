@@ -9,7 +9,12 @@ module Operations
 
     def call
       response = send_payment
-      create_tip(response: response)
+      status = if response['reasonCode'] == Constants::Payments::WAYFORPAY_SUCCESS
+                  Constants::Payments::SUCCESS
+                else
+                  Constants::Payments::PENDING
+      end
+      create_tip(response, status)
     end
 
     private
@@ -29,12 +34,13 @@ module Operations
       JSON.parse(hold.body)
     end
 
-    def create_tip(response)
+    def create_tip(response, status)
       Payments::Tip.create(
         trip_id: trip_id,
         user_id: trip.user_id,
         amount: amount,
-        response: response
+        response: response,
+        status: status
       )
     end
 
