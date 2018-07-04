@@ -43,7 +43,7 @@ module Operations
       end
 
       def payment
-        @payment ||= Payment.find(payment_id)
+        @payment ||= Payments::Trip.find(payment_id)
       end
     end
   end

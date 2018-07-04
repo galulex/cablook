@@ -18,7 +18,7 @@ describe Operations::TipForTrip do
       subject.call
     end
 
-    it { is_expected.to change { Tip.count }.by(+1) }
+    it { is_expected.to change { Payments::Tip.count }.by(+1) }
 
     context 'when payment without card_id' do
       let!(:payment) { create(:payment, trip_id: trip.id, card_id: card.id, user_id: user.id) }

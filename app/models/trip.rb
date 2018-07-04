@@ -2,7 +2,11 @@ class Trip < ApplicationRecord
   belongs_to :driver, required: false
   belongs_to :car, required: false
   belongs_to :user, counter_cache: true
-  has_one :payment
+  has_many :payments
+  has_one :tip_payment, class_name: 'Payments::Tip'
+  has_one :trip_payment, class_name: 'Payments::Trip'
+  has_one :idle_payment, class_name: 'Payments::Idle'
+
   has_one :card, through: :payment
   has_many :feedbacks
   has_one :job, dependent: :destroy, class_name: 'TripJob'

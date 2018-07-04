@@ -30,15 +30,16 @@ module Operations
     end
 
     def create_tip(response)
-      Tip.create(
+      Payments::Tip.create(
         trip_id: trip_id,
+        user_id: trip.user_id,
         amount: amount,
         response: response
       )
     end
 
     def card
-      trip.payment.card || Card.where(user: trip.user_id).last
+      trip.trip_payment.card || Card.where(user: trip.user_id).last
     end
 
     def trip

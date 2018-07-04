@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_06_03_184145) do
+ActiveRecord::Schema.define(version: 2018_07_02_080111) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -94,17 +94,11 @@ ActiveRecord::Schema.define(version: 2018_06_03_184145) do
     t.string "order_reference"
     t.bigint "user_id"
     t.jsonb "response"
+    t.string "type", default: "Payments::Trip"
     t.index ["card_id"], name: "index_payments_on_card_id"
     t.index ["driver_id"], name: "index_payments_on_driver_id"
     t.index ["trip_id"], name: "index_payments_on_trip_id"
     t.index ["user_id"], name: "index_payments_on_user_id"
-  end
-
-  create_table "tips", force: :cascade do |t|
-    t.bigint "trip_id"
-    t.integer "amount"
-    t.jsonb "response"
-    t.index ["trip_id"], name: "index_tips_on_trip_id"
   end
 
   create_table "trip_jobs", force: :cascade do |t|
@@ -166,7 +160,6 @@ ActiveRecord::Schema.define(version: 2018_06_03_184145) do
   add_foreign_key "payments", "cards"
   add_foreign_key "payments", "drivers"
   add_foreign_key "payments", "trips"
-  add_foreign_key "tips", "trips"
   add_foreign_key "trip_jobs", "trips"
   add_foreign_key "trips", "cars"
   add_foreign_key "trips", "drivers"

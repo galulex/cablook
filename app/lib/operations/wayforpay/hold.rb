@@ -32,7 +32,7 @@ module Operations
       end
 
       def create_trip_payment(status, wayforpay_data)
-        @payment ||= Payment.create(
+        @payment ||= Payments::Trip.create(
           status: status,
           amount: trip.cost,
           user_id: trip.user_id,

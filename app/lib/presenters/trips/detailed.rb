@@ -32,7 +32,7 @@ class Presenters::Trips::Detailed < Presenters::BaseSingle
   end
 
   def payment_status
-    represented.try(:payment_status) || represented.payment&.status
+    represented.try(:payment_status) || represented.trip_payment&.status
   end
 
   def status
