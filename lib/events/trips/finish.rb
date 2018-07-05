@@ -5,6 +5,7 @@ module Events
         Dry::Validation.Schema do
           configure { config.messages = :i18n }
 
+          required(:idle)
           required(:trip_id).filled(:int?)
         end
       end
@@ -15,6 +16,7 @@ module Events
         Jobs::PaymentSettle.perform_later(data[:trip_id])
         broadcast
         update_car
+        settle_payment_idle
       end
 
       private
@@ -34,6 +36,10 @@ module Events
           action: Constants::BroadcastActions::TRIP_FINISH_ACTION,
           body: { action: Constants::BroadcastActions::TRIP_FINISHED }
         )
+      end
+
+      def settle_payment_idle
+        Jobs::PaymentIdleSettle.perform_later(data[:trip_id], data[:idle].to_i) if data[:idle].to_i > 10
       end
 
       def next_trip?
