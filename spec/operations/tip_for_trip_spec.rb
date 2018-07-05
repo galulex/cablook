@@ -22,6 +22,7 @@ describe Operations::TipForTrip do
     
     context 'and wayfropay responce is ok' do
       before { subject.call }
+
       it { expect(Payment.last.status).to eq(Constants::Payments::SUCCESS) }
     end
     
@@ -29,8 +30,8 @@ describe Operations::TipForTrip do
       let(:wayforpay_body) { { reasonCode: '1234' }.to_json }
       
       before { subject.call }
+      
       it { expect(Payment.last.status).not_to eq('1234') }
-    
     end
 
     context 'when payment without card_id' do
