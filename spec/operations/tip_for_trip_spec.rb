@@ -17,8 +17,22 @@ describe Operations::TipForTrip do
       expect(Wayforpay::Payments).to receive(:hold).once
       subject.call
     end
-
+      
     it { is_expected.to change { Payments::Tip.count }.by(+1) }
+    
+    context 'and wayfropay responce is ok' do
+      before { subject.call }
+
+      it { expect(Payment.last.status).to eq(Constants::Payments::SUCCESS) }
+    end
+    
+    context 'when something went wrong' do
+      let(:wayforpay_body) { { reasonCode: '1234' }.to_json }
+      
+      before { subject.call }
+      
+      it { expect(Payment.last.status).not_to eq('1234') }
+    end
 
     context 'when payment without card_id' do
       let!(:payment) { create(:payment, trip_id: trip.id, card_id: card.id, user_id: user.id) }
@@ -26,7 +40,7 @@ describe Operations::TipForTrip do
       it do
         expect(Wayforpay::Payments).to receive(:hold).once
         subject.call
-      end
+      end 
     end
   end
 end
