@@ -6,6 +6,7 @@ module Events
           configure { config.messages = :i18n }
 
           required(:trip_id).filled(:int?)
+          optional(:idle).filled(:int?)
         end
       end
 
@@ -34,6 +35,12 @@ module Events
           action: Constants::BroadcastActions::TRIP_FINISH_ACTION,
           body: { action: Constants::BroadcastActions::TRIP_FINISHED }
         )
+      end
+
+      def settle_payment_idle
+        if data[:idle].to_i > 10
+          Jobs::PaymentIdleSettle.perform_later(data[:trip_id], data[:idle].to_i)
+        end
       end
 
       def next_trip?
