@@ -37,7 +37,7 @@ module Api
       end
 
       def finish
-        Events::Trips::Finish.(trip_id: params[:trip_id].to_i)
+        Events::Trips::Finish.(trip_id: params[:trip_id].to_i, idle: params[:idle])
         render json: Presenters::Trips::Detailed.new(trip).to_json, status: 200
       end
 
