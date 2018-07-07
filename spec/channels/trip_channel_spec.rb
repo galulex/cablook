@@ -1,7 +1,8 @@
 describe TripChannel do
-  let(:channel) { described_class.new(connection, nil, trip_id: trip.id) }
+  let(:channel) { described_class.new(connection, nil, trip_id: trip.id, idle: idle) }
   let(:connection) { TestConnection.new }
   let!(:trip) { create(:trip_with_driver) }
+  let!(:idle){ 5 }
 
   context '#start_trip' do
     let(:data) do
