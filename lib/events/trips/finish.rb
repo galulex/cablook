@@ -39,8 +39,13 @@ module Events
       end
 
       def settle_payment_idle
+<<<<<<< HEAD
         return if data[:idle]/60 < 10
         Jobs::PaymentIdleSettle.perform_later(data[:trip_id], data[:idle])
+=======
+        return if (data[:idle])/60 < 10
+        Jobs::PaymentIdleSettle.perform_later(data[:trip_id], data[:idle].to_i)
+>>>>>>> 3d9ea56a5b349ec011a9fdff6757e4b4694b0c56
       end
 
       def next_trip?
