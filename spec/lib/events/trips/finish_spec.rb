@@ -11,6 +11,18 @@ describe Events::Trips::Finish do
     it { is_expected.to change { trip.reload.status }.to(Constants::Trip::STATUS_CODES[Constants::Trip::FINISHED]) }
     it { is_expected.to change { car.reload.status }.to('free') }
 
+    context 'when idle is bigger than 10' do
+      let(:data) { { trip_id: trip.id, idle: 800} }
+
+      it { is_expected.to have_enqueued_job(Jobs::PaymentIdleSettle).with(trip.id, 70) }
+    end
+
+    context 'when idle is lower than 10' do
+      let(:data) { { trip_id: trip.id, idle: 8} }
+
+      it { is_expected.not_to have_enqueued_job(Jobs::PaymentIdleSettle).with(trip.id, 8) }
+    end
+    
     context 'and broadcast to driver map channel' do
       it do
         expect(ActionCable.server).to receive(:broadcast).with(

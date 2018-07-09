@@ -16,7 +16,7 @@ class TripChannel < ApplicationCable::Channel
   end
 
   def finish_trip(data)
-    Events::Trips::Finish.(trip_id: params[:trip_id])
+    Events::Trips::Finish.(trip_id: params[:trip_id], idle: params[:idle])
   end
 
   private
