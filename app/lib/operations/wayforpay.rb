@@ -13,5 +13,9 @@ module Operations
     def refund(trip_id, fake: nil)
       Operations::Wayforpay::Refund.new(trip_id, fake: fake).call
     end
+
+    def idle(trip_id, amount)
+      Operations::Wayforpay::IdleSettle.new(trip_id, amount).call
+    end
   end
 end
