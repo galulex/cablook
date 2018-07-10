@@ -25,6 +25,7 @@ module Events
         assign_attrs
         validate_distance!
         validate_unpaid_trips!
+        validate_card!
         validate_bonus! if data[:bonus]
         create_trip
         if data[:bonus]
@@ -41,6 +42,10 @@ module Events
       def validate_unpaid_trips!
         pending_payments = Payments::Trip.where(status: Constants::Payments::PENDING, user_id: data[:user_id])
         invalid!([I18n.t('trips.pay_off_debt')], status: 418) if pending_payments.any?
+      end
+
+      def validate_card!
+        invalid!([I18n.t('cards.add_card')]) if user_cards.empty?
       end
 
       def validate_distance!
@@ -101,10 +106,12 @@ module Events
       end
 
       def card_id
-        user_cards ||= Card.user_cards(data[:user_id])
-        invalid!([I18n.t('cards.add_card')]) if user_cards.empty?
         return user_cards.find(data[:card_id])&.id if data[:card_id]
         user_cards.first.id
+      end
+
+      def user_cards
+        @user_cards ||= Card.user_cards(data[:user_id])
       end
     end
   end
