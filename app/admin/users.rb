@@ -1,5 +1,5 @@
 ActiveAdmin.register User do
-  remove_filter :trip
+  remove_filter :trips, :business, :bussinesses, :cards, :bonus_trips
 
   controller do
     def scoped_collection

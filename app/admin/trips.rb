@@ -1,6 +1,7 @@
 ActiveAdmin.register Trip do
-
-  remove_filter :payments, :card, :path, :departure, :destination, :estimated_end_time, :start_at, :finish_at, :started_at, :finished_at, :arrived_at, :waypoints, :job, :bonus_trip, :feedbacks
+  remove_filter :payments, :card, :path, :departure, :destination, :estimated_end_time, :start_at,
+                :finish_at, :started_at, :finished_at, :arrived_at, :waypoints, :job, :bonus_trip, :feedbacks,
+                :tip_payment, :trip_payment, :idle_payment
 
   controller do
     def permitted_params
@@ -22,7 +23,7 @@ ActiveAdmin.register Trip do
 
   show do
     attributes_table do
-      view_trip_columns(ordered_trip_columns, :row)
+      view_trip_columns(ordered_trip_columns + modified_columns, :row)
     end
     render 'custom_actions' if trip.status == Constants::Trip::DRIVING
   end
@@ -58,7 +59,7 @@ def view_trip_columns(columns, element)
 end
 
 def modified_columns
-  %w[duration]
+  %w[duration path]
 end
 
 def path(element)

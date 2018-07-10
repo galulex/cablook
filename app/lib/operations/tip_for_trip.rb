@@ -29,7 +29,9 @@ module Operations
         productPrice: [amount.to_s],
         productCount: [1],
         orderDate: Time.now.to_i,
-        merchantTransactionType: 'SALE'
+        merchantTransactionType: 'SALE',
+        clientEmail: card.user.email,
+        clientPhone: card.user.phone_number
       )
       JSON.parse(hold.body)
     end
