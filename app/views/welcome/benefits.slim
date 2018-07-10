@@ -43,4 +43,8 @@ main.content.benefits
       div.step
         => inline_svg('bonus/thumbsup.svg', class: :icon)
         =< t('.bonus.get')
+  br
+      div.step
+        = link_to ext_opp_path do
+          =t('.extended_opportunities')
   = inline_svg 'city.svg', class: 'city violet'

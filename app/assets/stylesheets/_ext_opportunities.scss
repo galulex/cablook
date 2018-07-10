@@ -1,0 +1,20 @@
+.ext_opp{
+  border-top: 2px solid $green;
+  padding-top: 2vh;
+  h2{
+    text-decoration: underline solid $green;
+  }
+
+  details {
+    &[open]{
+      p{
+        text-align: left;
+      }
+    }
+  }
+  
+  summary {
+    font-weight: bold;
+    margin-bottom: 2vh;
+  }
+}
