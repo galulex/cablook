@@ -15,6 +15,7 @@ module Operations
         if wayforpay_response['reasonCode'] == Constants::Payments::WAYFORPAY_SUCCESS
           update_payment_status
           update_bonus_trip_if_necessary
+          update_trip_total
         else
           update_payment_status_to_pending
         end
@@ -42,6 +43,10 @@ module Operations
         if frozen_bonuses.any? && count_of_finished_trips.positive?
           frozen_bonuses.first.update(status: Constants::BonusTrip::NEW)
         end
+      end
+
+      def update_trip_total
+        trip.update(total: payment.amount)
       end
 
       def payment

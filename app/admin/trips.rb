@@ -44,7 +44,7 @@ ActiveAdmin.register Trip do
 end
 
 def ordered_trip_columns
-  %w[id cost departure_address destination_address stops status payments
+  %w[id cost idle total departure_address destination_address stops status payments
      car driver user duration distance created_at comment]
 end
 

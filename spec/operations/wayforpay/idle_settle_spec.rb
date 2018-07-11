@@ -4,7 +4,7 @@ describe Operations::Wayforpay::IdleSettle do
     let(:trip) { create(:trip, user_id: user.id) }
     let(:card) { create(:card, user_id: user.id) }
     let(:wayforpay_body) { { reasonCode: Constants::Payments::WAYFORPAY_SUCCESS }.to_json }
-    let(:idle) { 5 }
+    let(:idle) { 800 }
   
     before { allow(Wayforpay::Payments).to receive(:hold) { OpenStruct.new(body: wayforpay_body) } }
   
@@ -17,8 +17,11 @@ describe Operations::Wayforpay::IdleSettle do
   
       context 'and wayfropay responce is ok' do
         before { subject.call }
-  
+        
+        let(:total){ trip.reload.total }
+
         it { expect(Payments::Idle.last.status).to eq(Constants::Payments::SUCCESS) }
+        it { is_expected.to change { trip.reload.total }.to(total + idle / 60 * Constants::Payments::IDLE_PRICE) }
       end
   
       context 'when something went wrong' do
