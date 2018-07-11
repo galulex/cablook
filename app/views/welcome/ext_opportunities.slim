@@ -1,0 +1,18 @@
+main.content.ext_opportunities
+  a href=root_path
+    = inline_svg 'logo.svg', class: 'black-logo'
+    div.logo-title
+      b CAB
+      | LOOK
+  h1= t('welcome.benefits.ext_opportunities.title')
+  .ext_opportunities-section
+    - I18n.t('welcome.benefits.ext_opportunities.ext_opp').each do |o|
+      .ext_opp
+        = inline_svg "#{o[:img]}.svg", class: 'welcome-section__image'
+        h2= o[:title]
+        details
+          summary= o[:subtitle]
+          - o[:item].each do |i|
+              p= i[:description]
+
+  = inline_svg 'city.svg', class: 'city violet'
