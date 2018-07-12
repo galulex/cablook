@@ -18,6 +18,7 @@ ua:
       be_driver: Стати Водієм
       why: Чому CabLook?
       benefits: Переваги
+      ext_opportunities: Нові можливості
     user_form:
       card_label: Оберіть картку
       change_number: Змiнити номер
@@ -60,7 +61,7 @@ ua:
       title: CabLook Taxi - сервіс онлайн замовлення таксі  по місту. Просто, швидко, зрозуміло
       free_trips: Безкоштовні поїздки в CabLook Taxi
       opportunity: 'За допомогою CabLook Taxi додатку ви маєте можливість:'
-      extended_opportunities: 'Розшиерені можливості'
+      extended_opportunities: 'Розширені можливості'
       opportunities:
         - Замовити таксі онлайн на будь-який час
         - Відстежити автомобіль в режимі реального часу
