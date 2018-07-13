@@ -13,6 +13,7 @@ describe Operations::Wayforpay::Settle do
 
     context 'when status is ok' do
       it { is_expected.to change { payment.reload.status }.to(Constants::Payments::SUCCESS) }
+      it { is_expected.to change { trip.reload.total }.from(0).to(payment.amount) }
 
       it do
         expect(Wayforpay::Payments).to receive(:settle).once

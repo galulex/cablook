@@ -10,11 +10,11 @@ module Operations
 
       def call
         wayforpay_response = settle_payment_idle
-        status = if wayforpay_response['reasonCode'] == Constants::Payments::WAYFORPAY_SUCCESS
-                   Constants::Payments::SUCCESS
-                 else
-                   Constants::Payments::PENDING
-                 end
+        status = Constants::Payments::PENDING
+        if wayforpay_response['reasonCode'] == Constants::Payments::WAYFORPAY_SUCCESS
+          status = Constants::Payments::SUCCESS
+          update_trip_total_and_idle
+        end
         create_idle_payment(status, wayforpay_response)
       end
 
@@ -50,6 +50,10 @@ module Operations
 
       def idle_amount
         @idle_amount ||= idle / 60 * Constants::Payments::IDLE_PRICE
+      end
+
+      def update_trip_total_and_idle
+        trip.update(idle: idle, total: trip.total.to_i + idle_amount.to_i)
       end
 
       def trip
