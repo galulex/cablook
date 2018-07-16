@@ -17,4 +17,24 @@
     font-weight: bold;
     margin-bottom: 2vh;
   }
+
+  .ext_opp_image{
+    width: 10%;
+  }
+}
+
+@media screen and (max-width: 768px){
+  .ext_opp{
+    .ext_opp_image{
+      width: 15%;
+    }
+  }
+}
+
+@media screen and (max-width: 375px){
+  .ext_opp{
+    .ext_opp_image{
+      width: 30%;
+    }
+  }
 }

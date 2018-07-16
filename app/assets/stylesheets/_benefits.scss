@@ -3,7 +3,12 @@
   padding: 5px 0;
 }
 
+.title.green{
+  margin: 2vh;
+}
+
 .step a {
   color: $green;
   font-size: 1.25em;
+  font-weight: bold;
 }
