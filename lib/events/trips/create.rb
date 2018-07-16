@@ -31,7 +31,7 @@ module Events
         if data[:bonus]
           pay_by_bonus
         else
-          hold_payment
+          create_payment
         end
         create_trip_job(@trip.id)
         @trip
@@ -58,8 +58,15 @@ module Events
         invalid!([I18n.t('bonus_trips.no_available_bonus')])
       end
 
-      def hold_payment
-        Jobs::PaymentHold.perform_later(@trip.id, card_id)
+      def create_payment
+        Payments::Trip.create(
+          status: Constants::Payments::PENDING,
+          amount: @trip.cost,
+          user_id: @trip.user_id,
+          card_id: card_id,
+          trip_id: @trip.id,
+          order_reference: order_reference
+        )
       end
 
       def pay_by_bonus
@@ -112,6 +119,14 @@ module Events
 
       def user_cards
         @user_cards ||= Card.user_cards(data[:user_id])
+      end
+
+      def order_reference
+        @order_reference ||= if Rails.env.production?
+                               "cablook_trip_#{@trip.id}"
+                             else
+                               "cablook_#{Rails.env}_trip_#{@trip.id}"
+                             end
       end
     end
   end

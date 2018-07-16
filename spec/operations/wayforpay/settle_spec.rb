@@ -2,13 +2,14 @@ describe Operations::Wayforpay::Settle do
   let(:instance) { described_class.new(trip.id) }
   let(:wayforpay_body) { { reasonCode: Constants::Payments::WAYFORPAY_SUCCESS }.to_json }
 
-  before { allow(Wayforpay::Payments).to receive(:settle) { OpenStruct.new(body: wayforpay_body) } }
+  before { allow(Wayforpay::Payments).to receive(:hold) { OpenStruct.new(body: wayforpay_body) } }
 
   describe '#call' do
     subject { -> { instance.call } }
 
     let!(:trip) { create(:trip, user_id: user.id, status: Constants::Trip::FINISHED) }
-    let!(:payment) { create(:payment, trip_id: trip.id, user_id: user.id) }
+    let!(:payment) { create(:payment, trip_id: trip.id, user_id: user.id, card_id: card.id) }
+    let(:card) { create(:card, user_id: user.id) }
     let(:user) { create(:user) }
 
     context 'when status is ok' do
@@ -16,7 +17,7 @@ describe Operations::Wayforpay::Settle do
       it { is_expected.to change { trip.reload.total }.from(0).to(payment.amount) }
 
       it do
-        expect(Wayforpay::Payments).to receive(:settle).once
+        expect(Wayforpay::Payments).to receive(:hold).once
         subject.call
       end
 
@@ -28,22 +29,13 @@ describe Operations::Wayforpay::Settle do
       end
     end
 
-    context 'when smth went wrong' do
-      let(:wayforpay_body) { { reasonCode: '1111' }.to_json }
-      let!(:payment) { create(:payment, trip_id: trip.id, user_id: user.id, status: Constants::Payments::HOLD) }
-
-      before { subject.call }
-
-      it { expect(payment.reload.status).to eq(Constants::Payments::PENDING) }
-    end
-
     context 'when payment by bonus' do
       let!(:payment) { create(:payment, trip_id: trip.id, status: Constants::Payments::BONUS, user_id: user.id) }
 
       it { is_expected.not_to change { payment.reload.status } }
 
       it do
-        expect(Wayforpay::Payments).not_to receive(:settle)
+        expect(Wayforpay::Payments).not_to receive(:hold)
         subject.call
       end
     end
@@ -52,7 +44,7 @@ describe Operations::Wayforpay::Settle do
       let!(:payment) { create(:payment, user_id: user.id) }
 
       it do
-        expect(Wayforpay::Payments).not_to receive(:settle)
+        expect(Wayforpay::Payments).not_to receive(:hold)
         subject.call
       end
     end
