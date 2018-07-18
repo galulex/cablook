@@ -1,7 +1,9 @@
 ActiveAdmin.register Trip do
+  preserve_default_filters!
   remove_filter :payments, :card, :path, :departure, :destination, :estimated_end_time, :start_at,
                 :finish_at, :started_at, :finished_at, :arrived_at, :waypoints, :job, :bonus_trip, :feedbacks,
                 :tip_payment, :trip_payment, :idle_payment
+  filter :user, as: :select, collection: proc { User.joins(:trips).group(:id).all }
 
   controller do
     def permitted_params
@@ -9,7 +11,7 @@ ActiveAdmin.register Trip do
     end
 
     def scoped_collection
-      super.includes(:payments, :car, :user, :driver)
+      super.includes(:trip_payment, :car, :user, :driver)
     end
   end
 
@@ -44,7 +46,7 @@ ActiveAdmin.register Trip do
 end
 
 def ordered_trip_columns
-  %w[id cost idle total departure_address destination_address stops status payments
+  %w[id cost idle total departure_address destination_address stops status trip_payment
      car driver user duration distance created_at comment]
 end
 
