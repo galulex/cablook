@@ -34,10 +34,10 @@ describe Api::TripsController, type: :controller do
     end
 
     context 'when user have pending payments' do
-      before do
-        create(:payment, user_id: user.id, status: Constants::Payments::PENDING)
-        post :create, params: params, as: :json
-      end
+      let(:trip) { create(:trip, user_id: user.id, status: Constants::Trip::FINISHED) }
+      let!(:payment) { create(:payment, user_id: user.id, status: Constants::Payments::PENDING, trip: trip) }
+
+      before { post :create, params: params, as: :json }
 
       it { is_expected.to have_http_status(418) }
     end

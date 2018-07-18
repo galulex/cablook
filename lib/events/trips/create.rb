@@ -40,7 +40,7 @@ module Events
       private
 
       def validate_unpaid_trips!
-        pending_payments = Payments::Trip.where(status: Constants::Payments::PENDING, user_id: data[:user_id])
+        pending_payments = Trip.unpaid.where(user_id: data[:user_id])
         invalid!([I18n.t('trips.pay_off_debt')], status: 418) if pending_payments.any?
       end
 
