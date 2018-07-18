@@ -9,33 +9,19 @@ module Operations
       attr_reader :payment_id, :card_id
 
       def call
-        response = retry_pay
-        if response['reasonCode'] == Constants::Payments::WAYFORPAY_SUCCESS
+        if retry_response['reasonCode'] == Constants::Payments::WAYFORPAY_SUCCESS
           payment.update(status: Constants::Payments::SUCCESS)
         else
-          payment.update(response: response)
+          payment.update(response: retry_response)
         end
-        response
+        retry_response
       end
 
       private
 
-      def retry_pay
+      def retry_response
         order_reference = "#{payment.order_reference}_retry_#{SecureRandom.base58(6)}"
-        hold = ::Wayforpay::Payments.hold(
-          orderReference:  order_reference,
-          amount: payment.amount.to_s,
-          currency: 'UAH',
-          recToken: card.token,
-          productName: ['Trip'],
-          productPrice: [payment.amount.to_s],
-          productCount: [1],
-          orderDate: Time.now.to_i,
-          merchantTransactionType: 'SALE',
-          clientEmail: card.user.email,
-          clientPhone: card.user.phone_number
-        )
-        JSON.parse(hold.body)
+        @retry_response ||= Operations::Wayforpay::SendPayment.new(card, payment.amount, 'Trip', order_reference).call
       end
 
       def card

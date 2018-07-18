@@ -7,12 +7,9 @@ module Operations
 
       attr_reader :trip_id
 
-      # TODO: Impement logic when the price changed
-      # TODO: REFACTOR DB CONNECTIONS !!!!11111!!!
       def call
         return if payment.nil? || payment.status == Constants::Payments::BONUS
-        wayforpay_response = JSON.parse(settle_payment.body)
-        if wayforpay_response['reasonCode'] == Constants::Payments::WAYFORPAY_SUCCESS
+        if settle_response['reasonCode'] == Constants::Payments::WAYFORPAY_SUCCESS
           update_payment_status
           update_bonus_trip_if_necessary
           update_trip_total
@@ -21,20 +18,8 @@ module Operations
 
       private
 
-      def settle_payment
-        ::Wayforpay::Payments.hold(          
-          recToken: card.token,
-          amount: trip.cost,
-          currency: 'UAH',
-          productName: ['Trip'],
-          productPrice: [trip.cost],
-          productCount: [1],
-          orderDate: Time.now.to_i,
-          merchantTransactionType: 'SALE',
-          orderReference: payment.order_reference,
-          clientEmail: trip.user.email,
-          clientPhone: trip.user.phone_number
-        )
+      def settle_response
+        @settle_response ||= Operations::Wayforpay::SendPayment.new(card, trip.cost, 'Trip', payment.order_reference).call
       end
 
       def update_payment_status

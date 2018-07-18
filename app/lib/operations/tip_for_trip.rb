@@ -8,40 +8,26 @@ module Operations
     attr_reader :trip_id, :amount
 
     def call
-      response = send_payment
-      status = if response['reasonCode'] == Constants::Payments::WAYFORPAY_SUCCESS
+      status = if tip_response['reasonCode'] == Constants::Payments::WAYFORPAY_SUCCESS
                   Constants::Payments::SUCCESS
                 else
                   Constants::Payments::PENDING
       end
-      create_tip(response, status)
+      create_tip(status)
     end
 
     private
 
-    def send_payment
-      hold = ::Wayforpay::Payments.hold(
-        orderReference:  order_reference,
-        amount: amount.to_s,
-        currency: 'UAH',
-        recToken: card.token,
-        productName: ['Trip'],
-        productPrice: [amount.to_s],
-        productCount: [1],
-        orderDate: Time.now.to_i,
-        merchantTransactionType: 'SALE',
-        clientEmail: card.user.email,
-        clientPhone: card.user.phone_number
-      )
-      JSON.parse(hold.body)
+    def tip_response
+      @tip_response ||= Operations::Wayforpay::SendPayment.new(card, amount, 'Trip', order_reference).call
     end
 
-    def create_tip(response, status)
+    def create_tip(status)
       Payments::Tip.create(
         trip_id: trip_id,
         user_id: trip.user_id,
         amount: amount,
-        response: response,
+        response: tip_response,
         status: status
       )
     end
