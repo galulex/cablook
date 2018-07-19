@@ -7,36 +7,23 @@ module Operations
 
       attr_reader :trip_id
 
-      # TODO: Impement logic when the price changed
-      # TODO: REFACTOR DB CONNECTIONS !!!!11111!!!
       def call
         return if payment.nil? || payment.status == Constants::Payments::BONUS
-        wayforpay_response = JSON.parse(settle_payment.body)
-        if wayforpay_response['reasonCode'] == Constants::Payments::WAYFORPAY_SUCCESS
+        if settle_response['reasonCode'] == Constants::Payments::WAYFORPAY_SUCCESS
           update_payment_status
           update_bonus_trip_if_necessary
           update_trip_total
-        else
-          update_payment_status_to_pending
         end
       end
 
       private
 
-      def settle_payment
-        ::Wayforpay::Payments.settle(
-          orderReference: payment.order_reference,
-          amount: payment.amount,
-          currency: 'UAH'
-        )
+      def settle_response
+        @settle_response ||= Operations::Wayforpay::SendPayment.new(card, trip.cost, 'Trip', payment.order_reference).call
       end
 
       def update_payment_status
         payment.update(status: Constants::Payments::SUCCESS)
-      end
-
-      def update_payment_status_to_pending
-        payment.update(status: Constants::Payments::PENDING)
       end
 
       def update_bonus_trip_if_necessary
@@ -59,6 +46,10 @@ module Operations
 
       def frozen_bonuses
         @frozen_bonuses ||= BonusTrip.where(friend_id: trip.user_id, status: Constants::BonusTrip::FROZEN)
+      end
+
+      def card
+        @card = Card.find(payment.card_id)
       end
 
       def count_of_finished_trips

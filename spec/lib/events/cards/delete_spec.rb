@@ -31,11 +31,5 @@ describe Events::Cards::Delete do
 
       it { is_expected.to raise_error(Events::InvalidParamsError) }
     end
-
-    context 'when hold payment' do
-      before { create(:payment, user_id: user.id, status: Constants::Payments::HOLD) }
-
-      it { is_expected.to raise_error(Events::InvalidParamsError) }
-    end
   end
 end

@@ -9,41 +9,27 @@ module Operations
       attr_reader :trip_id, :idle
 
       def call
-        wayforpay_response = settle_payment_idle
         status = Constants::Payments::PENDING
-        if wayforpay_response['reasonCode'] == Constants::Payments::WAYFORPAY_SUCCESS
+        if settle_idle_response['reasonCode'] == Constants::Payments::WAYFORPAY_SUCCESS
           status = Constants::Payments::SUCCESS
           update_trip_total_and_idle
         end
-        create_idle_payment(status, wayforpay_response)
+        create_idle_payment(status)
       end
 
       private
 
-      def settle_payment_idle
+      def settle_idle_response
         order_reference = "#{payment.order_reference}_idle_#{SecureRandom.base58(6)}"
-        hold = ::Wayforpay::Payments.hold(
-          orderReference:  order_reference,
-          amount: idle_amount,
-          currency: 'UAH',
-          recToken: card.token,
-          productName: ['Idle'],
-          productPrice: [idle_amount],
-          productCount: [1],
-          orderDate: Time.now.to_i,
-          merchantTransactionType: 'SALE',
-          clientEmail: card.user.email,
-          clientPhone: card.user.phone_number
-        )
-        JSON.parse(hold.body)
+        @settle_idle_response ||= Operations::Wayforpay::SendPayment.new(card, idle_amount, 'Idle', order_reference).call
       end
 
-      def create_idle_payment(status, wayforpay_response)
+      def create_idle_payment(status)
         Payments::Idle.create(
           trip_id: trip_id,
           user_id: trip.user_id,
           amount: idle_amount,
-          response: wayforpay_response,
+          response: settle_idle_response,
           status: status
         )
       end

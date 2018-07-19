@@ -22,29 +22,6 @@ describe Events::Trips::Create do
       it { is_expected.to change { user.reload.trips_count }.from(0).to(1) }
     end
 
-    context 'and payment job is running' do
-      it { is_expected.to have_enqueued_job(Jobs::PaymentHold).with(kind_of(Numeric), card.id) }
-
-      context 'when user without card' do
-        before { card.destroy }
-
-        it { is_expected.to raise_error(Events::InvalidParamsError) }
-      end
-
-      context 'when card_id from params' do
-        let(:data) { trip_params.merge(card_id: card.id) }
-
-        it { is_expected.to have_enqueued_job(Jobs::PaymentHold).with(kind_of(Numeric), card.id) }
-      end
-
-      context 'when card_id is no user card' do
-        let(:another_card) { create(:card) }
-        let(:data) { trip_params.merge(card_id: another_card.id) }
-
-        it { is_expected.to have_enqueued_job(Jobs::PaymentHold).with(kind_of(Numeric), card.id) }
-      end
-    end
-
     context 'when path is empty' do
       let(:data) { trip_params.except(:path) }
 

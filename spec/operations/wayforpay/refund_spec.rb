@@ -35,11 +35,11 @@ describe Operations::Wayforpay::Refund do
 
     context 'when smth went wrong' do
       let(:wayforpay_body) { { reasonCode: '1111' }.to_json }
-      let!(:payment) { create(:payment, trip_id: trip.id, status: Constants::Payments::HOLD, user_id: trip.user_id) }
+      let!(:payment) { create(:payment, trip_id: trip.id, status: Constants::Payments::DECLINE, user_id: trip.user_id) }
 
       before { instance.call }
 
-      it { expect(payment.reload.status).to eq(Constants::Payments::HOLD) }
+      it { expect(payment.reload.status).to eq(Constants::Payments::DECLINE) }
     end
 
     context 'when payment by bonus' do
@@ -52,7 +52,7 @@ describe Operations::Wayforpay::Refund do
     end
 
     context 'when fake taxi' do
-      let!(:payment) { create(:payment, trip_id: trip.id, status: Constants::Payments::HOLD, card_id: card.id, user_id: trip.user_id) }
+      let!(:payment) { create(:payment, trip_id: trip.id, status: Constants::Payments::DECLINE, card_id: card.id, user_id: trip.user_id) }
       let(:card) { create(:card) }
       let(:instance) { described_class.new(trip.id, fake: true) }
 
