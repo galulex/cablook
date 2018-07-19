@@ -10,9 +10,11 @@ module Operations
       def call
         return if payment.nil? || payment.status == Constants::Payments::BONUS
         if settle_response['reasonCode'] == Constants::Payments::WAYFORPAY_SUCCESS
-          update_payment_status
+          update_payment
           update_bonus_trip_if_necessary
           update_trip_total
+        else
+          update_payment_response
         end
       end
 
@@ -22,8 +24,12 @@ module Operations
         @settle_response ||= Operations::Wayforpay::SendPayment.new(card, trip.cost, 'Trip', payment.order_reference).call
       end
 
-      def update_payment_status
-        payment.update(status: Constants::Payments::SUCCESS)
+      def update_payment
+        payment.update(status: Constants::Payments::SUCCESS, response: settle_response, driver_id: trip.driver_id)
+      end
+
+      def update_payment_response
+        payment.update(response: settle_response)
       end
 
       def update_bonus_trip_if_necessary
