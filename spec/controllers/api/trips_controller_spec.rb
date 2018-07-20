@@ -80,7 +80,8 @@ describe Api::TripsController, type: :controller do
 
     let(:params) { { trip_id: trip.id } }
     let(:trip) { create(:trip_with_driver) }
-
+    let!(:payment) { create(:payment, trip_id: trip.id, user_id: trip.user_id) }
+    
     before { patch :cancel, params: params, as: :json }
 
     it { is_expected.to be_successful }

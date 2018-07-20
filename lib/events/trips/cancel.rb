@@ -14,7 +14,7 @@ module Events
         if trip && Trip.statuses[trip.status].in?([Constants::Trip::PENDING, Constants::Trip::ON_THE_WAY, Constants::Trip::WAITING_CLIENT, Constants::Trip::DECLINED])
           delete_from_jobs
           update_car if trip.car
-          refund_payment
+          update_payment_status
           update_trip
           broadcast_unavailable_to_map
           broadcast_unavailable_to_trip
@@ -47,13 +47,8 @@ module Events
         Jobs::SearchCarForTrip.cancel(trip_job.activejob_id) if trip_job
       end
 
-      def refund_payment
-        return if payment&.status == Constants::Payments::REFUND
-        if trip.status == Constants::Trip::STATUS_CODES[Constants::Trip::WAITING_CLIENT]
-          Jobs::PaymentRefund.perform_later(data[:trip_id], true)
-        else
-          Jobs::PaymentRefund.perform_later(data[:trip_id])
-        end
+      def update_payment_status
+        payment.update(status: Constants::Payments::DECLINE)
       end
 
       def broadcast_unavailable_to_map
