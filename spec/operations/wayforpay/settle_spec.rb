@@ -14,6 +14,7 @@ describe Operations::Wayforpay::Settle do
 
     context 'when status is ok' do
       it { is_expected.to change { payment.reload.status }.to(Constants::Payments::SUCCESS) }
+      it { is_expected.to change { payment.reload.response }.from(nil) }
       it { is_expected.to change { trip.reload.total }.from(0).to(payment.amount) }
 
       it do
@@ -27,6 +28,13 @@ describe Operations::Wayforpay::Settle do
 
         it { is_expected.to change { bonus_trip.reload.status }.to(Constants::BonusTrip::NEW) }
       end
+    end
+
+    context 'when something went wrong' do
+      let(:wayforpay_body) { { reasonCode: '1234' }.to_json }
+
+      it { is_expected.not_to change { payment.reload.status } }
+      it { is_expected.to change { payment.reload.response } }
     end
 
     context 'when payment by bonus' do
