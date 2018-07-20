@@ -3,5 +3,10 @@ FactoryBot.define do
     amount { Faker::Number.number(2) }
     status { 0 }
     association :trip
+
+    factory :idle_payment, class: Payments::Idle
+    factory :fake_taxi_payment, class: Payments::FakeTaxi
+    factory :tip_payment, class: Payments::Tip
+    factory :trip_payment, class: Payments::Trip
   end
 end

@@ -1,7 +1,6 @@
 describe Events::Trips::Cancel do
   describe '.call' do
     let(:trip) { create(:trip, status: Constants::Trip::PENDING) }
-
     let(:data) { { trip_id: trip.id } }
 
     subject { -> { described_class.call(data) } }
@@ -21,6 +20,16 @@ describe Events::Trips::Cancel do
 
     context 'and payment status is changed' do
       it { is_expected.to change { payment.reload.status }.to(Constants::Payments::DECLINE) }
+    end
+
+    context 'and have fake settle job' do
+      it { is_expected.to have_enqueued_job(Jobs::PaymentFakeSettle).with(trip.id) }
+    end
+
+    context 'and not have fake settle job when waiting for client' do
+      let(:trip) { create(:trip, status: Constants::Trip::WAITING_CLIENT) }
+
+      it { is_expected.not_to have_enqueued_job(Jobs::PaymentFakeSettle).with(trip.id) }
     end
 
     context 'and broadcast to channel' do

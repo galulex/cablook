@@ -6,6 +6,7 @@ class Trip < ApplicationRecord
   has_one :tip_payment, class_name: 'Payments::Tip'
   has_one :trip_payment, class_name: 'Payments::Trip'
   has_one :idle_payment, class_name: 'Payments::Idle'
+  has_one :fake_taxi_payment, class_name: 'Payments::FakeTaxi'
 
   has_one :card, through: :payments
   has_many :feedbacks
