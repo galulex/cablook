@@ -85,7 +85,6 @@ module Events
 
       def create_trip_job(trip_id)
         Jobs::DeclineTrip.set(wait: Constants::Trip::EXPIRES_IN).perform_later(trip_id)
-        Jobs::PaymentRefundDeclined.set(wait: 10.minutes).perform_later(trip_id)
         job = Jobs::SearchCarForTrip.perform_later(trip_id)
         TripJob.create(
           activejob_id: job.job_id,

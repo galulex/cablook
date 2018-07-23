@@ -12,6 +12,7 @@ module Events
       def run
         return unless trip.status == Constants::Trip::STATUS_CODES[Constants::Trip::PENDING]
         trip.update(status: Constants::Trip::DECLINED)
+        trip.trip_payment.update(status: Constants::Payments::DECLINE)
         broadcast
         broadcast_to_trip_channel
       end

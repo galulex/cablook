@@ -6,6 +6,8 @@ describe Events::Trips::Cancel do
 
     subject { -> { described_class.call(data) } }
 
+    let!(:payment) { create(:payment, trip_id: trip.id, user_id: trip.user.id) }
+
     it { is_expected.to change { trip.reload.status }.to(Constants::Trip::STATUS_CODES[Constants::Trip::CANCELED]) }
 
     context 'and job deleted' do
@@ -17,20 +19,8 @@ describe Events::Trips::Cancel do
       it { is_expected.not_to have_enqueued_job(Jobs::SearchCarForTrip).with(trip.id) }
     end
 
-    context 'and refund payment job is running' do
-      it { is_expected.to have_enqueued_job(Jobs::PaymentRefund).with(trip.id) }
-
-      context 'when fake trip' do
-        let(:trip) { create(:trip, status: Constants::Trip::WAITING_CLIENT) }
-
-        it { is_expected.to have_enqueued_job(Jobs::PaymentRefund).with(trip.id, true) }
-      end
-
-      context 'when payment is refund' do
-        let!(:payment) { create(:payment, trip_id: trip.id, status: Constants::Payments::REFUND, user_id: trip.user_id) }
-
-        it { is_expected.not_to have_enqueued_job(Jobs::PaymentRefund) }
-      end
+    context 'and payment status is changed' do
+      it { is_expected.to change { payment.reload.status }.to(Constants::Payments::DECLINE) }
     end
 
     context 'and broadcast to channel' do
