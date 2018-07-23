@@ -112,7 +112,7 @@ module Events
       end
 
       def card_id
-        card = user_cards.detect { |c| c.id == data[:card_id] } if data[:card_id]
+        card = user_cards.detect { |c| c.id == data[:card_id].to_i } if data[:card_id]
         card&.id || user_cards.first.id
       end
 
