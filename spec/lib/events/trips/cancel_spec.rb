@@ -23,12 +23,12 @@ describe Events::Trips::Cancel do
     end
 
     context 'and have fake settle job' do
+      let(:trip) { create(:trip, status: Constants::Trip::WAITING_CLIENT) }
+
       it { is_expected.to have_enqueued_job(Jobs::PaymentFakeSettle).with(trip.id) }
     end
 
     context 'and not have fake settle job when waiting for client' do
-      let(:trip) { create(:trip, status: Constants::Trip::WAITING_CLIENT) }
-
       it { is_expected.not_to have_enqueued_job(Jobs::PaymentFakeSettle).with(trip.id) }
     end
 

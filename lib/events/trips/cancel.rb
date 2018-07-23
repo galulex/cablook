@@ -53,8 +53,9 @@ module Events
       end
 
       def fake_taxi_payment
-        return if trip.status == Constants::Trip::STATUS_CODES[Constants::Trip::WAITING_CLIENT]
-        Jobs::PaymentFakeSettle.perform_later(data[:trip_id])
+        if trip.status == Constants::Trip::STATUS_CODES[Constants::Trip::WAITING_CLIENT]
+          Jobs::PaymentFakeSettle.perform_later(data[:trip_id])
+        end
       end
 
       def broadcast_unavailable_to_map
