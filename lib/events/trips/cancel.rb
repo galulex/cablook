@@ -15,6 +15,7 @@ module Events
           delete_from_jobs
           update_car if trip.car
           update_payment_status
+          fake_taxi_payment
           update_trip
           broadcast_unavailable_to_map
           broadcast_unavailable_to_trip
@@ -49,6 +50,11 @@ module Events
 
       def update_payment_status
         payment.update(status: Constants::Payments::DECLINE)
+      end
+
+      def fake_taxi_payment
+        return if trip.status == Constants::Trip::STATUS_CODES[Constants::Trip::WAITING_CLIENT]
+        Jobs::PaymentFakeSettle.perform_later(data[:trip_id])
       end
 
       def broadcast_unavailable_to_map
