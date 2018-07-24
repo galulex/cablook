@@ -39,7 +39,7 @@ module Operations
       end
 
       def update_trip_total_and_idle
-        trip.update(idle: idle, total: trip.total.to_i + idle_amount.to_i)
+        trip.update(idle: idle, total: trip.trip_payment.amount.to_i + idle_amount.to_i)
       end
 
       def trip
