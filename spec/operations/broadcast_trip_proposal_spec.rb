@@ -6,11 +6,16 @@ describe Operations::BroadcastTripProposal do
     let(:cars) { [car.id] }
     let(:trip) { create(:trip) }
 
-    let(:driver_map_channel) { Constants::Channels::DRIVER_MAP }
-    let(:driver_map_channel_params) do
-      { action: Constants::BroadcastActions::TRIP_PROPOSE,
-        cars: cars,
-        trip: trip_repository.by_id_with_user(trip.id).to_json }
+    context 'and broadcast to driver map channel' do
+      it do
+        expect(ActionCable.server).to receive(:broadcast).with(
+          Constants::Channels::DRIVER_MAP,
+          action: Constants::BroadcastActions::TRIP_PROPOSE,
+          cars: cars,
+          trip: Presenters::Trips::Detailed.new(trip).to_json
+        ).once
+        subject.call
+      end
     end
   end
 end

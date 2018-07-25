@@ -22,7 +22,7 @@ module Operations
         Constants::Channels::DRIVER_MAP,
         action: Constants::BroadcastActions::TRIP_PROPOSE,
         cars: cars,
-        trip: trip.to_json
+        trip: Presenters::Trips::Detailed.new(trip).to_json
       )
     end
 
