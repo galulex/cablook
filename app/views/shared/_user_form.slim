@@ -28,6 +28,8 @@ form#form.form onsubmit='app.submit(event)' action='/'
       button#add_point.link.add-point type=:button onclick='UI.addPoint(this)'
         span.plus
         = t('add_point')
+    .bonus-section hidden=true    
+      input#bonus name='trip[bonus]' type='checkbox' onclick='trip.bonus = this.value'
     details
       summary
         span.comment-arrow

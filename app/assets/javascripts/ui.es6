@@ -49,6 +49,10 @@ UI = {
     return document.getElementById('nissan')
   },
 
+  get bonus() {
+    return document.getElementById('bonus')
+  },
+
   step(index = 0, resetInput = true) {
     for (var i = 0; i < this.fieldsets.length; i++) { this.fieldsets[i].disabled = true }
     if (resetInput) for (var i = 0; i < this.inputs.length; i++) {
@@ -113,5 +117,10 @@ UI = {
       select.add(option)
     }
     select.innerHTML += "<option value=''>Додати картку</option>";
+  },
+
+  addBonus() {
+    let input = document.getElementById('bonus')
+    input.parentNode.hidden = false
   }
 }

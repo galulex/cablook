@@ -22,6 +22,7 @@ class App {
     }
     if (!localStorage.token) return false
     Cards.fetch()
+    Bonus.fetch()
     this.step = 2
   }
 

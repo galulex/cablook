@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_07_02_080111) do
+ActiveRecord::Schema.define(version: 2018_07_11_102236) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -120,7 +120,7 @@ ActiveRecord::Schema.define(version: 2018_07_02_080111) do
     t.bigint "car_id"
     t.bigint "driver_id"
     t.bigint "user_id"
-    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }
+    t.datetime "created_at", default: -> { "now()" }
     t.integer "distance"
     t.integer "duration"
     t.datetime "start_at"
@@ -131,6 +131,8 @@ ActiveRecord::Schema.define(version: 2018_07_02_080111) do
     t.string "comment"
     t.text "waypoints", array: true
     t.text "stops", array: true
+    t.integer "idle", default: 0
+    t.integer "total", default: 0
     t.index ["car_id"], name: "index_trips_on_car_id"
     t.index ["driver_id"], name: "index_trips_on_driver_id"
     t.index ["user_id"], name: "index_trips_on_user_id"
@@ -144,7 +146,7 @@ ActiveRecord::Schema.define(version: 2018_07_02_080111) do
     t.string "verification_token"
     t.string "confirmation_token"
     t.string "referral_code"
-    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }
+    t.datetime "created_at", default: -> { "now()" }
     t.integer "trips_count", default: 0
   end
 
