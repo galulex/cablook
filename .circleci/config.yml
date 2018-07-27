@@ -2,7 +2,7 @@ version: 2
 jobs:
   build-job:
     parallelism: 1
-    working_directory: ~/circleci/cablook-backend
+    working_directory: ~/activebridge/cablook-backend
     docker:
       - image: circleci/ruby:2.4.2-node
         environment:
@@ -48,20 +48,26 @@ jobs:
 
   deploy-job:
     docker:
-      - image: cablook-image
-    working_directory: /tmp/my-project
+      - image: buildpack-deps:trusty
     steps:
+      - checkout
       - run:
-          name: Run setup script
-          command: bash .circleci/setup_staging.sh
+          name: Setup Heroku
+          command: bash .circleci/setup-heroku.sh
       - add_ssh_keys:
           fingerprints:
             - "ed:8a:91:7c:a9:24:98:7b:f2:ef:dc:21:dd:32:16:4d"
+            - "8b:48:5e:67:0e:c9:16:47:32:f2:87:0c:1f:c8:60:ad"   
+      - run:
+          name: Add Heroku to known_hosts
+          command: ssh-keyscan -H heroku.com >> ~/.ssh/known_hosts
+
       - run:
           name: Deploy Master to Heroku
           command: |
+            git remote add heroku https://git.heroku.com/cablook.git
             git push --force git@heroku.com:$HEROKU_APP_NAME.git HEAD:refs/heads/master
-            heroku run bundle exec rake db:migrate -a cabloook
+            heroku run rails db:migrate
             heroku restart
 workflows:
   version: 2
