@@ -29,7 +29,7 @@ ActiveAdmin.register Payment do
   member_action :retry_payment, method: :post do
     payment = Payment.find(params[:id])
     card_id = payment.card_id || Card.find_by(user_id: payment.user_id)&.id
-    Operations::Wayforpay::RetryPayment.new(payment.id, payment.card_id).call
+    Operations::Wayforpay::RetryPayment.new(payment.id, card_id).call
     notice = if payment.status == Constants::Payments::SUCCESS
                'Payment success'
              else
