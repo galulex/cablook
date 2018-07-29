@@ -1,5 +1,5 @@
 module Operations
-  class RetryPendingPayments
+  class RetryUserPendingPayments
     def initialize(user_id, card_id)
       @user_id = user_id
       @card_id = card_id
@@ -22,7 +22,7 @@ module Operations
     end
 
     def payments
-      @payments ||= Payments::Trip.where(status: Constants::Payments::PENDING, user_id: user_id)
+      @payments ||= Payment.where(status: Constants::Payments::PENDING, user_id: user_id)
     end
   end
 end

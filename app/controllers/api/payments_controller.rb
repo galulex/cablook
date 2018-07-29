@@ -8,7 +8,7 @@ module Api
     end
 
     def retry_pendings
-      Operations::RetryPendingPayments.new(current_user.id, card_id).call
+      Operations::RetryUserPendingPayments.new(current_user.id, card_id).call
       render json: pending_payments.to_json, status: 200
     end
 
@@ -23,7 +23,7 @@ module Api
     end
 
     def pending_payments
-      @pending_payments ||= Payments::Trip.where(status: Constants::Payments::PENDING, user_id: current_user.id)
+      @pending_payments ||= Payment.where(status: Constants::Payments::PENDING, user_id: current_user.id)
     end
   end
 end
