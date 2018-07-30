@@ -17,7 +17,7 @@ module Events
 
           optional(:comment) { str? }
           optional(:card_id)
-          optional(:bonus).filled(:bool?)
+          optional(:bonus)
         end
       end
 

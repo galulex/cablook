@@ -28,8 +28,6 @@ form#form.form onsubmit='app.submit(event)' action='/'
       button#add_point.link.add-point type=:button onclick='UI.addPoint(this)'
         span.plus
         = t('add_point')
-    .bonus-section hidden=true    
-      input#bonus name='trip[bonus]' type='checkbox' onclick='trip.bonus = this.value'
     details
       summary
         span.comment-arrow
@@ -46,6 +44,8 @@ form#form.form onsubmit='app.submit(event)' action='/'
       div.select
         select#card name='trip[card_id]' onchange="if (this.value == '') { pay(); this.selectedIndex = 0 }"
     br
+    .bonus-section hidden=true
+      button#bonus.button name='trip[bonus]' value='bonus' onclick='trip.bonus = this.value' type=:submit = t('bonus_trip')
     button#go.button type=:submit = t('go')
     button.button.yellow-button type=:button onclick='Trips.destroy()' = t('cancel')
 
