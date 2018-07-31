@@ -17,6 +17,7 @@ let Cards = {
     ajax('cards', 'GET', {}, data => {
       if (data['cards'].length > 0) localStorage.ready = true
       UI.addCards(data['cards'])
+      Bonus.fetch()
     })
   }
 }

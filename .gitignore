@@ -14,6 +14,7 @@
 !/tmp/.keep
 /coverage
 /config/secrets.yml
+/config/database.yml
 *.DS_Store
 
 .github
