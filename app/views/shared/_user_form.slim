@@ -45,7 +45,7 @@ form#form.form onsubmit='app.submit(event)' action='/'
         select#card name='trip[card_id]' onchange="if (this.value == '') { pay(); this.selectedIndex = 0 }"
     br
     .bonus-section hidden=true
-      button#bonus.button name='trip[bonus]' value='bonus' onclick='trip.bonus = this.value' type=:submit = t('bonus_trip')
+      button#bonus.button name='trip[bonus]' value='true' onclick='trip.bonus = this.value' type=:submit = t('bonus_trip')
     button#go.button type=:submit = t('go')
     button.button.yellow-button type=:button onclick='Trips.destroy()' = t('cancel')
 
