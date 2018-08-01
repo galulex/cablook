@@ -24,7 +24,8 @@ Trips = {
 
     data.append('trip[path]', trip.path)
 
-    data.append('trip[bonus]', trip.bonus)
+    if (trip['bonus'] == 'true') data.append('trip[bonus]', trip.bonus)
+
     data.append('trip[comment]', trip.comment)
     if (localStorage.ready) {
       ajax('trips', 'POST', data, data => {
