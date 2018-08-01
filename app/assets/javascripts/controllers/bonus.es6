@@ -1,8 +1,12 @@
 let Bonus = {
   fetch: () => {
     ajax('bonus_trips', 'GET', {}, data => {
-      if (data['bonus_trips'].length > 0) {
-        UI.addBonus()
+      let bonus_data = data['bonus_trips']
+      for (var i = 0; i < bonus_data.length; i++) {
+        let x = bonus_data[i].status
+        if (x == 1) {
+          UI.addBonus()
+        }
       }
     })
   }
