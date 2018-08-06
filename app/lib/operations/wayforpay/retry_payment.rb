@@ -10,7 +10,7 @@ module Operations
 
       def call
         if retry_response['reasonCode'] == Constants::Payments::WAYFORPAY_SUCCESS
-          payment.update(status: Constants::Payments::SUCCESS)
+          payment.update(status: Constants::Payments::SUCCESS, response: retry_response)
         else
           payment.update(response: retry_response)
         end
@@ -21,7 +21,7 @@ module Operations
 
       def retry_response
         order_reference = "#{payment.order_reference}_retry_#{SecureRandom.base58(6)}"
-        @retry_response ||= Operations::Wayforpay::SendPayment.new(card, payment.amount, 'Trip', order_reference).call
+        @retry_response ||= Operations::Wayforpay::SendPayment.new(card, payment.amount, payment.type, order_reference).call
       end
 
       def card

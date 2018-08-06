@@ -1,4 +1,4 @@
-describe Operations::RetryPendingPayments do
+describe Operations::RetryUserPendingPayments do
   let(:instance) { described_class.new(user.id, card.id) }
   let(:user) { create(:user) }
   let(:card) { create(:card, user_id: user.id) }
