@@ -15,6 +15,8 @@ Rails.application.routes.draw do
       get 'pending', on: :collection
     end
     resources :referrals, only: %i[index create]
+
+    post 'trips/new', to: 'v2/trips#new'
     resources :trips, only: %i[index show create] do
       patch 'cancel'
       patch 'retry'
