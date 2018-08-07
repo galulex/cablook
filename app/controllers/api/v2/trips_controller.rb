@@ -4,10 +4,8 @@ module Api
       before_action :authorize!
 
       def new
-        trip = Trip.prepare(trip_params)
+        trip = Events::Trips::Build.(trip_params)
         render json: Presenters::Trips::Single.new(trip).to_json, status: 200
-      rescue
-        render json: { errors: [I18n.t('trips.invalid')] }, status: :unprocessable_entity
       end
 
       private

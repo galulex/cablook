@@ -1,6 +1,4 @@
 class Trip < ApplicationRecord
-  FIELDS = %i[duration distance departure destination path waypoints].freeze
-
   belongs_to :driver, required: false
   belongs_to :car, required: false
   belongs_to :user, counter_cache: true
@@ -28,12 +26,4 @@ class Trip < ApplicationRecord
   scope :beetwen, ->(from, to) { where('created_at BETWEEN ? AND ?', from, to) }
   scope :by_status, ->(status) { where(status: status) }
   scope :unpaid, -> { joins(:trip_payment).where('payments.status = ? AND trips.status = ?', Constants::Payments::PENDING, Constants::Trip::FINISHED) }
-
-  def self.prepare(attrs)
-    directions = Directions.new(attrs[:departure], attrs[:destination], attrs[:waypoints] || [])
-    trip = new(attrs)
-    FIELDS.each { |field| trip[field] = directions.send(field) }
-    trip.cost = Operations::V2TripCalculation.new(trip).cost
-    trip
-  end
 end
