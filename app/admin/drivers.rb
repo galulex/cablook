@@ -1,5 +1,5 @@
 ActiveAdmin.register Driver do
-  DRIVER_COLUMNS = %w[name username password car].freeze
+  DRIVER_COLUMNS = %w[name username password address car].freeze
 
   controller do
     def permitted_params
