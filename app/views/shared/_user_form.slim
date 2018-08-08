@@ -11,7 +11,7 @@ form#form.form onsubmit='app.submit(event)' action='/'
     button.button#submit_code type=:submit = t('next')
     button.button.yellow-button type=:button onclick='Sessions.destroy()' = t('.change_number')
 
-  fieldset.form__fieldset disabled=true data-action='Path.build()'
+  fieldset.form__fieldset disabled=true data-action='Trips.build()'
     button.button.exit type=:button onclick='Sessions.destroy()'
       = t('.sign_out')
     div.form__user-number#account
@@ -37,7 +37,14 @@ form#form.form onsubmit='app.submit(event)' action='/'
     button#done.button type=:submit = t('done')
 
   fieldset.form__fieldset disabled=true data-action='Trips.create()'
-    div.form__user-number: img#trip_path.map-img
+    div.form__user-number
+      img#trip_path.map-img
+      br
+      ' Вартість:
+      b#trip_cost
+      br
+      ' Відстань:
+      b#trip_distance
     br
     .card-section hidden=true
       label> for='card' = t('.card_label')

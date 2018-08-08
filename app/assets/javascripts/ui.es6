@@ -37,6 +37,14 @@ UI = {
     document.getElementById('trip_path').setAttribute('src', val)
   },
 
+  set tripCost(val) {
+    document.getElementById('trip_cost').innerHTML = val
+  },
+
+  set tripDistance(val) {
+    document.getElementById('trip_distance').innerHTML = val
+  },
+
   get waypoints() {
     return document.querySelectorAll("[name='waypoints']")
   },

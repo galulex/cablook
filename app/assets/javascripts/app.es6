@@ -79,6 +79,8 @@ class App {
 
   autocomplete(input) {
     input.nextElementSibling.innerHTML = ''
+    input.removeAttribute('data-place')
+    trip[input.id] = ''
     if (input.value.length == 0) return false
     let service = new google.maps.places.AutocompleteService()
     service.getPlacePredictions({input: input.value, componentRestrictions: {country: 'ua'}, location: new google.maps.LatLng(49.4311119, 31.9791903), radius: 10, strictbounds: true}, data => {
