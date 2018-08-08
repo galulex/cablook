@@ -7,4 +7,14 @@ class Driver < ApplicationRecord
 
   validates :username, presence: true, uniqueness: true
   validates :name, :encrypted_password, presence: true
+
+  before_validation :set_address_location, on: %i[create update]
+
+  private
+
+  def set_address_location
+    return if address.blank?
+    location = Geokit::Geocoders::GoogleGeocoder.geocode("#{address}, Cherkassy")
+    self.address_location = [location.lat, location.lng]
+  end
 end

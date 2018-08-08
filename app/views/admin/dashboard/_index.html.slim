@@ -26,3 +26,6 @@ link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.43.0/mapbox-gl.css' rel=
 
 .car-icon
   = inline_svg 'car-black'
+
+- @drivers.each do |driver|
+  div.driver data-drivers=driver.to_json
