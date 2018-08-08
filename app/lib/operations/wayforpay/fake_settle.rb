@@ -28,7 +28,8 @@ module Operations
           user_id: trip.user_id,
           amount: Constants::Trip::FAKE,
           response: fake_settle_response,
-          status: status
+          status: status,
+          order_reference: order_reference
         )
       end
 
