@@ -20,7 +20,6 @@ module Operations
       private
 
       def settle_idle_response
-        order_reference = "#{payment.order_reference}_idle_#{SecureRandom.base58(6)}"
         @settle_idle_response ||= Operations::Wayforpay::SendPayment.new(card, idle_amount, 'Idle', order_reference).call
       end
 
@@ -30,7 +29,8 @@ module Operations
           user_id: trip.user_id,
           amount: idle_amount,
           response: settle_idle_response,
-          status: status
+          status: status,
+          order_reference: order_reference
         )
       end
 
@@ -52,6 +52,10 @@ module Operations
 
       def payment
         @payment ||= Payment.find_by(trip_id: trip_id)
+      end
+
+      def order_reference
+        @order_reference ||= "#{payment.order_reference}_idle_#{SecureRandom.base58(6)}"
       end
     end
   end
