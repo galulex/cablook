@@ -32,7 +32,6 @@ module Events
       end
 
       def build_trip
-        directions = Directions.new(data[:departure], data[:destination], data[:waypoints] || [])
         @trip = Trip.new(data)
         FIELDS.each { |field| @trip[field] = directions.send(field) }
         @trip.cost = Operations::V2TripCalculation.new(@trip).cost
