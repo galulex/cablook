@@ -49,7 +49,7 @@ describe Events::Trips::Accept do
       before { allow_any_instance_of(SearchEngine::Directions).to receive(:duration).and_return(300) }
 
       context 'when free driver accept trip' do
-        it { is_expected.to change { trip.reload.start_at.to_s }.to((Time.now + 5.minutes + 2.minutes).to_s) }
+        it { is_expected.to change { trip.reload.start_at.to_s }.to(7.minutes.since.to_s) }
       end
 
       context 'when driver accept second trip' do
