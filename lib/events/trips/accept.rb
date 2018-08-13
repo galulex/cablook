@@ -30,7 +30,7 @@ module Events
           status: Constants::Trip::ON_THE_WAY,
           car_id: data[:car_id],
           driver_id: data[:driver_id],
-          start_at: car_trip ? start_at + car_trip_remaining_time : start_at
+          start_at: car_trip ? (start_at + car_trip_remaining_time) : start_at
         )
       end
 
@@ -76,11 +76,16 @@ module Events
       end
 
       def car_trip
-        @car_trip ||= Trip.find_by(car_id: data[:car_id], status: Constants::Trip::DRIVING)
+        @car_trip ||= Trip.find_by(car_id: data[:car_id], status: [Constants::Trip::DRIVING, Constants::Trip::ON_THE_WAY, Constants::Trip::WAITING_CLIENT])
       end
 
       def car_trip_remaining_time
-        ((car_trip.duration - (Time.now - car_trip.started_at)) / 60).to_i.minutes
+        expected_finish_time = ((car_trip.started_at || car_trip.start_at) + car_trip.duration)
+        if Time.now > expected_finish_time
+          0.minutes
+        else
+          ((expected_finish_time - Time.now) / 60).round.minutes
+        end
       end
 
       def car
