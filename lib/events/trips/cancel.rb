@@ -17,6 +17,7 @@ module Events
           update_payment_status
           fake_taxi_payment
           update_trip
+          refund_bonus
           broadcast_unavailable_to_map
           broadcast_unavailable_to_trip
         else
@@ -84,6 +85,11 @@ module Events
 
       def payment
         @payment ||= trip.trip_payment
+      end
+
+      def refund_bonus
+        bonus_trip = BonusTrip.find_by(trip_id: trip.id)
+        bonus_trip&.update(status: Constants::BonusTrip::NEW)
       end
     end
   end
