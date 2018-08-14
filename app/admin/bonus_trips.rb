@@ -3,7 +3,8 @@ ActiveAdmin.register BonusTrip do
 
   preserve_default_filters!
   remove_filter :trip, :code
-  filter :user, as: :select, collection: proc { User.joins(:bonus_trips).group(:id).all }
+  filter :user,   as: :select, collection: proc { User.joins(:bonus_trips).group(:id).all }
+  filter :friend, as: :select, collection: proc { User.select(User.arel_table[Arel.star]).where(BonusTrip.arel_table[:friend_id].not_eq(nil)).joins(User.arel_table.join(BonusTrip.arel_table).on(BonusTrip.arel_table[:friend_id].eq(User.arel_table[:id])).join_sources).group(:id) }
 
   controller do
     def permitted_params
@@ -11,7 +12,7 @@ ActiveAdmin.register BonusTrip do
     end
 
     def scoped_collection
-      super.includes(:trip, :user)
+      super.includes(:trip, :user, :friend)
     end
   end
 
