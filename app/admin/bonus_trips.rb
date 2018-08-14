@@ -1,11 +1,18 @@
 ActiveAdmin.register BonusTrip do
   BONUS_TRIP_COLUMNS = %w[id user friend trip status type].freeze
 
+  preserve_default_filters!
   remove_filter :trip, :code
+  filter :user,   as: :select, collection: proc { User.joins(:bonus_trips).group(:id).all }
+  filter :friend, as: :select, collection: proc { User.joins('INNER JOIN bonus_trips ON bonus_trips.friend_id = users.id GROUP BY users.id') }
 
   controller do
     def permitted_params
       params.permit!
+    end
+
+    def scoped_collection
+      super.includes(:trip, :user, :friend)
     end
   end
 
