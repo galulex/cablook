@@ -1,18 +1,16 @@
 module Operations
   class RetryAllPendingPayments
-    def self.all
+    def self.call
       new.call
     end
 
     def call
-      payments.find_each do |payment|
-        card_id = payment.card_id || payment.user.cards.last.id
-        Operations::Wayforpay::RetryPayment.new(payment.id, card_id).call
+      Payment.where(status: Constans::Payments::PENDING).find_each do |payment|
+        begin
+          card_id = payment.card_id || payment.user.cards.last.id
+          Operations::Wayforpay::RetryPayment.new(payment.id, card_id).call
+        end
       end
-    end
-
-    def payments
-      @payments |= Payment.where(status: Constans::Payments::PENDING)
     end
   end
 end
