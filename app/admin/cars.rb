@@ -10,7 +10,7 @@ ActiveAdmin.register Car do
     inputs ' Car Details' do
       input :number
       input :status
-      input :color, as: :string
+      input :color, as: :select, collection: Constants::Car::COLORS
       input :phone_number
     end
     actions

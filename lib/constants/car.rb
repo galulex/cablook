@@ -11,5 +11,7 @@ module Constants
       DURING_TRIP    => 'during_trip'.freeze,
       CHARGE         => 'charge'.freeze
     }.freeze
+
+    COLORS = %i[Black Blue Red Silver White]
   end
 end
