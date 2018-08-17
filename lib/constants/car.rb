@@ -12,6 +12,6 @@ module Constants
       CHARGE         => 'charge'.freeze
     }.freeze
 
-    COLORS = %i[Black Blue Red Silver White]
+    COLORS = %i[black blue red silver white]
   end
 end
