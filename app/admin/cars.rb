@@ -8,9 +8,10 @@ ActiveAdmin.register Car do
   form do |f|
     semantic_errors
     inputs ' Car Details' do
-      (Car.column_names - %w[id]).each do |title|
-        input title, as: :string
-      end
+      input :number
+      input :status
+      input :color, as: :select, collection: Constants::Car::COLORS
+      input :phone_number
     end
     actions
   end
