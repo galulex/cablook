@@ -25,7 +25,7 @@ module Operations
       end
 
       def update_payment
-        payment.update(status: Constants::Payments::SUCCESS, response: settle_response, driver_id: trip.driver_id)
+        payment.update(status: Constants::Payments::SUCCESS, response: settle_response)
       end
 
       def update_payment_response

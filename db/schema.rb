@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_08_08_132235) do
+ActiveRecord::Schema.define(version: 2018_08_20_072956) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -92,13 +92,11 @@ ActiveRecord::Schema.define(version: 2018_08_08_132235) do
     t.integer "status", default: 0
     t.bigint "card_id"
     t.bigint "trip_id"
-    t.bigint "driver_id"
     t.string "order_reference"
     t.bigint "user_id"
     t.jsonb "response"
     t.string "type", default: "Payments::Trip"
     t.index ["card_id"], name: "index_payments_on_card_id"
-    t.index ["driver_id"], name: "index_payments_on_driver_id"
     t.index ["trip_id"], name: "index_payments_on_trip_id"
     t.index ["user_id"], name: "index_payments_on_user_id"
   end
@@ -122,7 +120,7 @@ ActiveRecord::Schema.define(version: 2018_08_08_132235) do
     t.bigint "car_id"
     t.bigint "driver_id"
     t.bigint "user_id"
-    t.datetime "created_at", default: -> { "now()" }
+    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }
     t.integer "distance"
     t.integer "duration"
     t.datetime "start_at"
@@ -148,7 +146,7 @@ ActiveRecord::Schema.define(version: 2018_08_08_132235) do
     t.string "verification_token"
     t.string "confirmation_token"
     t.string "referral_code"
-    t.datetime "created_at", default: -> { "now()" }
+    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }
     t.integer "trips_count", default: 0
   end
 
@@ -162,7 +160,6 @@ ActiveRecord::Schema.define(version: 2018_08_08_132235) do
   add_foreign_key "feedbacks", "trips"
   add_foreign_key "feedbacks", "users"
   add_foreign_key "payments", "cards"
-  add_foreign_key "payments", "drivers"
   add_foreign_key "payments", "trips"
   add_foreign_key "trip_jobs", "trips"
   add_foreign_key "trips", "cars"

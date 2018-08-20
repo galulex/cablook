@@ -23,7 +23,10 @@ ActiveAdmin.register Payment do
   end
 
   index do
-    %w[id amount status type trip driver_id user card_pan response].each { |title| column title }
+    %w[id amount status type trip user card_pan response].each { |title| column title }
+    column 'driver_id' do |payment|
+      payment.trip.driver_id
+    end
     column 'created_at' do |payment|
       payment.trip.created_at
     end
