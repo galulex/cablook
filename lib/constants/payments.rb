@@ -6,7 +6,6 @@ module Constants
     REFUND  = 3
     BONUS   = 4
 
-    IDLE_PRICE = 1
     WAYFORPAY_SUCCESS = 1100
   end
 end
