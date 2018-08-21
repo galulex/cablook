@@ -10,6 +10,12 @@ module Operations
 
     attr_reader :departure, :destination, :waypoints
 
+    def cost
+      cost = ((matrix.distance / 1000.0).ceil(1) * cents_per_km + prices.landing) * prices.coefficient
+      cost = prices.min_price if cost < prices.min_price
+      ((cost + cost * Constants::Trip::FEE) / 100).ceil
+    end
+
     def distance
       matrix.distance
     end
@@ -19,6 +25,10 @@ module Operations
     end
 
     private
+
+    def prices
+      @prices ||= Price.last
+    end
 
     def cents_per_km
       cents_per_km = in_town? ? prices.cents_per_km : prices.outside_cents_per_km

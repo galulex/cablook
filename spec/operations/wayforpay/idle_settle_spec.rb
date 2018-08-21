@@ -20,7 +20,7 @@ describe Operations::Wayforpay::IdleSettle do
       let(:payment){ create(:payment, user_id: user.id, trip_id: trip.id, card_id: card.id, amount: total) }
       let(:total) { 40 }
 
-      it { is_expected.to change { trip.reload.total }.from(total).to(total + idle / 60 * Constants::Payments::IDLE_PRICE) }
+      it { is_expected.to change { trip.reload.total }.from(total).to(total + idle / 60 * Price.last.idle_price) }
     end
 
     context 'and wayfropay responce is ok' do
