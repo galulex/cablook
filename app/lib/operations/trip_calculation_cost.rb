@@ -1,9 +1,15 @@
 module Operations
   module TripCalculationCost
     def cost
-      cost = (@trip.distance / 1000.0).ceil(1) * cents_per_km + Constants::Trip::LANDING
-      cost = Constants::Trip::MIN_PRICE if cost < Constants::Trip::MIN_PRICE
+      cost = ((@trip.distance / 1000.0).ceil(1) * cents_per_km + prices.landing) * prices.coefficient
+      cost = prices.min_price if cost < prices.min_price
       ((cost + cost * Constants::Trip::FEE) / 100).ceil
+    end
+
+    private
+
+    def prices
+      @prices ||= Price.last
     end
   end
 end

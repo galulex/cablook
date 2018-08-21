@@ -38,15 +38,19 @@ module Operations
         card = Card.find(payment.card_id)
         ::Wayforpay::Payments.hold(
           orderReference:  order_reference,
-          amount: Constants::Trip::FAKE,
+          amount: prices.fake,
           currency: 'UAH',
           recToken: card.token,
           productName: ['Trip'],
-          productPrice: [Constants::Trip::FAKE],
+          productPrice: [prices.fake],
           productCount: [1],
           orderDate: Time.now.to_i,
           merchantTransactionType: 'SALE'
         )
+      end
+
+      def prices
+        @prices ||= Price.last
       end
 
       def update_payment_status

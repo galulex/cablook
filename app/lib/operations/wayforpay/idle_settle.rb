@@ -34,8 +34,12 @@ module Operations
         )
       end
 
+      def prices
+        @prices ||= Price.last
+      end
+
       def idle_amount
-        @idle_amount ||= idle / 60 * Constants::Payments::IDLE_PRICE
+        @idle_amount ||= idle / 60 * prices.idle_price
       end
 
       def update_trip_total_and_idle

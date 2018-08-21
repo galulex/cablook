@@ -10,12 +10,8 @@ module Operations
 
     private
 
-    def prices
-      @prices ||= Price.last
-    end
-
     def cents_per_km
-      in_town? ? Constants::Trip::CENTS_PER_KM : Constants::Trip::OUTSIDE_CENTS_PER_KM
+      in_town? ? prices.cents_per_km : prices.outside_cents_per_km
     end
 
     def in_town?
