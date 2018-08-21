@@ -1,5 +1,7 @@
 module Operations
   class TripCalculation
+    include TripCalculationCost
+    
     def initialize(departure:, destination:, waypoints: [])
       @departure = departure
       @destination = destination
@@ -7,12 +9,6 @@ module Operations
     end
 
     attr_reader :departure, :destination, :waypoints
-
-    def cost
-      cost = (matrix.distance / 1000.0).ceil(1) * cents_per_km + Constants::Trip::LANDING
-      cost = Constants::Trip::MIN_PRICE if cost < Constants::Trip::MIN_PRICE
-      ((cost + cost * Constants::Trip::FEE) / 100).ceil
-    end
 
     def distance
       matrix.distance
