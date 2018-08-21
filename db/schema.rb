@@ -102,12 +102,12 @@ ActiveRecord::Schema.define(version: 2018_08_20_143025) do
   end
 
   create_table "prices", force: :cascade do |t|
-    t.integer "cents_per_km"
-    t.integer "outside_cents_per_km"
-    t.integer "landing"
-    t.integer "fake"
-    t.integer "idle_price"
-    t.integer "min_price"
+    t.integer "cents_per_km", default: 600
+    t.integer "outside_cents_per_km", default: 900
+    t.integer "landing", default: 2000
+    t.integer "fake", default: 20
+    t.integer "idle_price", default: 1
+    t.integer "min_price", default: 4000
     t.float "coefficient", default: 1.0
   end
 
