@@ -10,10 +10,6 @@ module Operations
 
     private
 
-    def cents_per_km
-      in_town? ? prices.cents_per_km : prices.outside_cents_per_km
-    end
-
     def in_town?
       points = []
       points << Geokit::LatLng.new(*@trip.departure)

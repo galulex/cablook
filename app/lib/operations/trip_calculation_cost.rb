@@ -11,5 +11,9 @@ module Operations
     def prices
       @prices ||= Price.last
     end
+
+    def cents_per_km
+      cents_per_km = in_town? ? prices.cents_per_km : prices.outside_cents_per_km
+    end
   end
 end
