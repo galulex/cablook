@@ -1,7 +1,6 @@
 ActiveAdmin.register Price do
   config.filters = false
-  
-  Price.count > 0 ? (actions :all, except: %i[new show destroy]) : (actions :all, except: %i[show destroy])
+  actions :all, except: %i[new show destroy]
   
   controller do
     def permitted_params
