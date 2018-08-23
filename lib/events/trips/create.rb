@@ -107,7 +107,7 @@ module Events
         @trip_calculation ||= Directions.new(
           data[:departure],
           data[:destination],
-          data[:waypoints]
+          data[:waypoints] || []
         )
       end
 

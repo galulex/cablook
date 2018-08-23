@@ -42,6 +42,6 @@ class Directions
 
     def direction_by_coordinates(origin, destination, waypoints)
       @url = URL + "&origin=#{origin[0].to_f},#{origin[1].to_f}&destination=#{destination[0].to_f},#{destination[1].to_f}&waypoints="
-      @url << waypoints.map { |point| "#{point.to_f}" }.join('|') unless waypoints.nil?
+      @url << waypoints.map { |point| "#{point.to_f}" }.join('|')
     end
 end
