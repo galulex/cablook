@@ -96,7 +96,7 @@ module Events
       def assign_attrs
         data[:distance] = trip_calculation.distance
         data[:duration] = trip_calculation.duration
-        data[:cost] = trip_calculation.cost
+        data[:cost] = Operations::V2TripCalculation.new(trip_calculation).cost
       end
 
       def bonus_trips
@@ -104,10 +104,10 @@ module Events
       end
 
       def trip_calculation
-        @trip_calculation ||= Operations::TripCalculation.new(
-          departure: data[:departure],
-          destination: data[:destination],
-          waypoints: data[:waypoints]
+        @trip_calculation ||= Directions.new(
+          data[:departure],
+          data[:destination],
+          data[:waypoints]
         )
       end
 
