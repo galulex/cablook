@@ -5,7 +5,11 @@ class Directions
   attr_reader :result
 
   def initialize(origin, destination, waypoints = [])
-    origin.is_a?(String) ? direction_by_place_id(origin, destination, waypoints) : direction_by_coordinates(origin, destination, waypoints)
+    @origin = origin
+    @destination = destination
+    @waypoints = waypoints
+
+    @origin.is_a?(String) ? direction_by_place_id : direction_by_coordinates
     @result = JSON.parse(Net::HTTP.get_response(URI(@url)).body)['routes'][0]
   end
 
@@ -35,13 +39,13 @@ class Directions
 
   private
 
-    def direction_by_place_id(origin, destination, waypoints)
-      @url = URL + "&origin=place_id:#{origin}&destination=place_id:#{destination}&waypoints="
-      @url << waypoints.map { |point| "place_id:#{point}" }.join('|')
+    def direction_by_place_id
+      @url = URL + "&origin=place_id:#{@origin}&destination=place_id:#{@destination}&waypoints="
+      @url << @waypoints.map { |point| "place_id:#{point}" }.join('|')
     end
 
-    def direction_by_coordinates(origin, destination, waypoints)
-      @url = URL + "&origin=#{origin[0].to_f},#{origin[1].to_f}&destination=#{destination[0].to_f},#{destination[1].to_f}&waypoints="
-      @url << waypoints.map { |point| "#{point.to_f}" }.join('|')
+    def direction_by_coordinates
+      @url = URL + "&origin=#{@origin.join(',')}&destination=#{@destination.join(',')}&waypoints="
+      @url << @waypoints.map { |point| "#{point}" }.join('|')
     end
 end
