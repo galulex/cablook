@@ -1,6 +1,10 @@
 html lang='uk'
   head
+    = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload'
+    = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
+    = javascript_pack_tag 'application'
     = render 'layouts/head'
+
     css:
       html {
         overflow-x: hidden;
@@ -33,7 +37,5 @@ html lang='uk'
   body
     = render 'shared/navbar'
     = yield
-    = stylesheet_link_tag    'application', media: 'all'
-    = javascript_include_tag 'application', async: true
     = stylesheet_link_tag    'fonts', media: 'all'
   = render 'layouts/footer'
