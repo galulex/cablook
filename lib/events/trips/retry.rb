@@ -11,12 +11,16 @@ module Events
 
       def run
         update_trip
-        Operations::BroadcastTripProposal.(cars: cars, trip_id: data[:trip_id])
-        Jobs::DeclineTrip.set(wait: Constants::Trip::EXPIRES_IN).perform_later(data[:trip_id])
+        retry_trip_job(trip.id)
         trip
       end
 
       private
+
+      def retry_trip_job(trip_id)
+        Jobs::SearchCarForTrip.perform_now(trip_id) #broadcast
+        Jobs::DeclineTrip.set(wait: Constants::Trip::EXPIRES_IN).perform_later(trip_id)
+      end
 
       def update_trip
         trip.update(status: Constants::Trip::PENDING)
@@ -24,10 +28,6 @@ module Events
 
       def trip
         @trip ||= Trip.find(data[:trip_id])
-      end
-
-      def cars
-        cars = Car.where.not(status: Constants::Car::OFFLINE).pluck(:id)
       end
     end
   end
