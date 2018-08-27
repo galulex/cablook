@@ -1,11 +1,17 @@
 ActiveAdmin.register Price do
   config.filters = false
+  config.batch_actions = false
   actions :all, except: %i[new show destroy]
   
   controller do
     def permitted_params
       params.permit!
     end
+  end
+
+  index do |f|
+    %i[cents_per_km outside_cents_per_km landing fake idle_price min_price coefficient].each { |title| column title }
+    actions
   end
 
   form do |f|
