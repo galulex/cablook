@@ -5,9 +5,12 @@ class Directions
   attr_reader :result
 
   def initialize(origin, destination, waypoints = [])
-    url = URL + "&origin=place_id:#{origin}&destination=place_id:#{destination}&waypoints="
-    url << waypoints.map { |point| "place_id:#{point}" }.join('|')
-    @result = JSON.parse(Net::HTTP.get_response(URI(url)).body)['routes'][0]
+    @origin = origin
+    @destination = destination
+    @waypoints = waypoints
+
+    @origin.is_a?(String) ? direction_by_place_id : direction_by_coordinates
+    @result = JSON.parse(Net::HTTP.get_response(URI(@url)).body)['routes'][0]
   end
 
   def duration
@@ -33,4 +36,16 @@ class Directions
   def waypoints
     @result['legs'][0..-2].map { |leg| leg['end_location'].values.join(',') }
   end
+
+  private
+
+    def direction_by_place_id
+      @url = URL + "&origin=place_id:#{@origin}&destination=place_id:#{@destination}&waypoints="
+      @url << @waypoints.map { |point| "place_id:#{point}" }.join('|')
+    end
+
+    def direction_by_coordinates
+      @url = URL + "&origin=#{@origin.join(',')}&destination=#{@destination.join(',')}&waypoints="
+      @url << @waypoints.map { |point| "#{point}" }.join('|')
+    end
 end
