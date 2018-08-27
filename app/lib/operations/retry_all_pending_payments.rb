@@ -5,10 +5,12 @@ module Operations
     end
 
     def call
-      Payment.where(status: Constans::Payments::PENDING).find_each do |payment|
+      Payment.where(status: Constants::Payments::PENDING).find_each do |payment|
         begin
-          card_id = payment.card_id || payment.user.cards.last.id
-          Operations::Wayforpay::RetryPayment.new(payment.id, card_id).call
+          card = payment.card || payment.user.cards.last
+          if card
+            Operations::Wayforpay::RetryPayment.new(payment.id, card.id).call
+          end
         end
       end
     end
