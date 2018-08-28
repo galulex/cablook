@@ -16,7 +16,7 @@ module Events
       private
 
       def update_car_status_to_offline
-        car.update(status: Constants::Car::OFFLINE)
+        car&.update(status: Constants::Car::OFFLINE)
       end
 
       def regenerate_auth_token_for_driver
@@ -28,7 +28,7 @@ module Events
           Constants::Channels::DRIVER_MAP,
           action: Constants::BroadcastActions::DRIVER_SIGN_OUT,
           driver_id: driver.id,
-          car_id: car.id
+          car_id: car&.id
         )
       end
 
