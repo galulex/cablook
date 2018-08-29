@@ -16,7 +16,7 @@ module Events
         Jobs::PaymentSettle.perform_later(data[:trip_id])
         broadcast
         update_car
-        settle_payment_idle
+        settle_payment_idle if data[:idle]
       end
 
       private

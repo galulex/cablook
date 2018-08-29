@@ -19,16 +19,14 @@ ActiveAdmin.register Trip do
   index do
     selectable_column
     view_trip_columns(ordered_trip_columns, :column)
-    actions do |trip|
-      item 'Finish', finish_admin_trip_path(trip), method: :put, class: 'member_link' if trip.status == Constants::Trip::DRIVING
-    end
+    actions
   end
 
   show do
     attributes_table do
       view_trip_columns(ordered_trip_columns + modified_columns, :row)
     end
-    render 'custom_actions' if trip.status == Constants::Trip::DRIVING
+    render 'custom_actions' unless trip.status == 'finished'
   end
 
   form do |f|
