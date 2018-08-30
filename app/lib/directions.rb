@@ -46,10 +46,6 @@ class Directions
 
     def direction_by_coordinates
       @url = URL + "&origin=#{@origin.join(',')}&destination=#{@destination.join(',')}&waypoints="
-      if @waypoints[0].is_a?(String)
-        @url << @waypoints.map { |point| "#{point}" }.join('|')
-      else
-        @url << @waypoints.map { |point| "#{point.join(',')}" }.join('|')
-      end
+      @url << @waypoints.map { |point| "#{point}" }.join('|')
     end
 end
