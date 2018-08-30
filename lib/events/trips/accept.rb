@@ -71,7 +71,7 @@ module Events
         @matrix ||= Directions.new(
           Redis.current.get("car_#{data[:car_id]}")&.split(','),
           trip.departure,
-          car_trip ? [car_trip.destination.to_a] : []
+          car_trip ? [car_trip.destination.join(',')] : []
         )
       end
 
