@@ -1,6 +1,8 @@
 module Events
   module Trips
     class Cancel < Events::BaseEvent
+      TRIP_STATUSES = [Constants::Trip::PENDING, Constants::Trip::ON_THE_WAY, Constants::Trip::WAITING_CLIENT, Constants::Trip::DECLINED].freeze
+
       def schema
         Dry::Validation.Schema do
           configure { config.messages = :i18n }
@@ -11,21 +13,25 @@ module Events
       end
 
       def run
-        if trip && Trip.statuses[trip.status].in?([Constants::Trip::PENDING, Constants::Trip::ON_THE_WAY, Constants::Trip::WAITING_CLIENT, Constants::Trip::DECLINED])
-          delete_from_jobs
-          update_car if trip.car
-          update_payment_status
-          fake_taxi_payment
-          update_trip
-          refund_bonus
-          broadcast_unavailable_to_map
-          broadcast_unavailable_to_trip
+        if trip && Trip.statuses[trip.status].in?(TRIP_STATUSES) || (trip && Trip.statuses[trip.status] == Constants::Trip::DRIVING) && data[:by_driver]
+          run_methods
         else
           invalid!([I18n.t('trips.cancel_impossible')])
         end
       end
 
       private
+
+      def run_methods
+        delete_from_jobs
+        update_car if trip.car
+        update_payment_status
+        fake_taxi_payment
+        update_trip
+        refund_bonus
+        broadcast_unavailable_to_map
+        broadcast_unavailable_to_trip
+      end
 
       def update_car
         trip.car.update(status: Constants::Car::FREE) unless next_trip?
@@ -54,9 +60,8 @@ module Events
       end
 
       def fake_taxi_payment
-        if trip.status == Constants::Trip::STATUS_CODES[Constants::Trip::WAITING_CLIENT]
-          Jobs::PaymentFakeSettle.perform_later(data[:trip_id])
-        end
+        return unless trip.status == Constants::Trip::STATUS_CODES[Constants::Trip::WAITING_CLIENT]
+        Jobs::PaymentFakeSettle.perform_later(data[:trip_id])
       end
 
       def broadcast_unavailable_to_map
