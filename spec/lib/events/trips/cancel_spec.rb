@@ -92,5 +92,43 @@ describe Events::Trips::Cancel do
 
       it { is_expected.to raise_error(Events::InvalidParamsError) }
     end
+
+    context 'when driving trip canceled by user' do
+      let(:trip) { create(:trip, status: Constants::Trip::DRIVING) }
+
+      it { is_expected.to raise_error(Events::InvalidParamsError) }
+    end
+
+    context 'when driving trip canceled by driver' do
+      context 'and trip status is changed' do
+        let(:trip) { create(:trip, status: Constants::Trip::DRIVING) }
+        let(:data) { { trip_id: trip.id, by_driver: true } }
+
+        it { is_expected.to change { trip.reload.status }.to(Constants::Trip::STATUS_CODES[Constants::Trip::CANCELED_BY_DRIVER]) }
+      end
+
+      context 'and payment status is changed' do
+        let(:trip) { create(:trip, status: Constants::Trip::DRIVING) }
+        let(:data) { { trip_id: trip.id, by_driver: true } }
+
+        it { is_expected.to change { payment.reload.status }.to(Constants::Payments::DECLINE) }
+      end
+
+      context 'and job deleted' do
+        let(:trip) { create(:trip, status: Constants::Trip::DRIVING) }
+        let(:data) { { trip_id: trip.id, by_driver: true } }
+
+        it { is_expected.not_to have_enqueued_job(Jobs::PaymentFakeSettle).with(trip.id) }
+      end
+
+      context 'and payment by bonus' do
+        let(:trip) { create(:trip, status: Constants::Trip::DRIVING) }
+        let(:data) { { trip_id: trip.id, by_driver: true } }
+        let!(:payment) { create(:payment, trip_id: trip.id, status: Constants::Payments::BONUS, user_id: trip.user_id) }
+        let!(:bonus_trip) { create(:bonus_trip, trip_id: trip.id, status: Constants::BonusTrip::USED, user_id: trip.user_id) }
+
+        it { is_expected.to change { bonus_trip.reload.status }.to(Constants::BonusTrip::NEW) }
+      end
+    end
   end
 end
