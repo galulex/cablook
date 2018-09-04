@@ -5,7 +5,7 @@ module Operations
     end
 
     def call
-      Payment.where(status: Constants::Payments::PENDING).find_each do |payment|
+      Payment.where(status: Constants::Payments::PENDING).joins(:trip).where(trips: {status: Constants::Trip::STATUS_CODES[Constants::Trip::FINISHED]}).find_each do |payment|
         begin
           card = payment.card || payment.user.cards.last
           if card
