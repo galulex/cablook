@@ -1,6 +1,6 @@
 module Api
   class CardsController < ApiApplicationController
-    before_action :authorize!
+    before_action :authorize!, except: :update
 
     def index
       render json: { cards: cards }, status: 200
@@ -16,6 +16,11 @@ module Api
     def destroy
       event = Events::Cards::Delete.(card_id: params[:id].to_i, user_id: current_user.id)
       raise Constants::NotFoundError unless event
+      head :ok
+    end
+
+    def update
+      Events::Cards::Update.(params)
       head :ok
     end
 

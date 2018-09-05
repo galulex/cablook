@@ -23,16 +23,22 @@ describe Events::Cards::Create do
       it { is_expected.to raise_error(ActiveRecord::RecordNotFound) }
     end
 
-    context 'when token is invalid' do
-      let(:data) { super().merge(recToken: nil) }
+    context 'when token already exist' do
+      let(:card) { create(:card, user_id: user.id) }
+      let(:data) { super().merge(recToken: card.token) }
 
       it { is_expected.to raise_error(Events::InvalidParamsError) }
+    end
 
-      context 'when token already exist' do
-        let(:card) { create(:card, user_id: user.id) }
-        let(:data) { super().merge(recToken: card.token) }
+    context 'when second type card' do
+      let!(:data) do
+        JSON.parse(File.read('spec/fixtures/second_card_callback.json'))
+            .symbolize_keys
+            .merge(user_id: user.id)
+      end
 
-        it { is_expected.to raise_error(Events::InvalidParamsError) }
+      context 'when card is created successfully' do
+        it { is_expected.to change { Card.count }.by(+1) }
       end
     end
   end

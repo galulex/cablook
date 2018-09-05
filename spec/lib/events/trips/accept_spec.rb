@@ -60,25 +60,25 @@ describe Events::Trips::Accept do
         before(:each) { described_class.call(new_data) }
 
         context 'during first trip' do
-          let!(:first_trip) { create(:trip, car_id: car.id, started_at: 8.minutes.ago, duration: 10.minutes, status: Constants::Trip::DRIVING, car_id: car.id, driver_id: driver.id) }
+          let!(:first_trip) { create(:trip, started_at: 8.minutes.ago, duration: 10.minutes, status: Constants::Trip::DRIVING, car_id: car.id, driver_id: driver.id) }
 
           it { expect(trip.reload.start_at.to_s).to eq(9.minutes.since.to_s) }
         end
 
         context 'but forgot finish first trip' do
-          let!(:first_trip) { create(:trip, car_id: car.id, started_at: 20.minutes.ago, duration: 10.minutes, status: Constants::Trip::DRIVING, car_id: car.id, driver_id: driver.id) }
+          let!(:first_trip) { create(:trip, started_at: 20.minutes.ago, duration: 10.minutes, status: Constants::Trip::DRIVING, car_id: car.id, driver_id: driver.id) }
 
           it { expect(trip.reload.start_at.to_s).to eq(7.minutes.since.to_s) }
         end
 
         context 'on the way to the first trip' do
-          let!(:first_trip) { create(:trip, car_id: car.id, start_at: 5.minutes.since, duration: 10.minutes, status: Constants::Trip::ON_THE_WAY, car_id: car.id, driver_id: driver.id) }
+          let!(:first_trip) { create(:trip, start_at: 5.minutes.since, duration: 10.minutes, status: Constants::Trip::ON_THE_WAY, car_id: car.id, driver_id: driver.id) }
 
           it { expect(trip.reload.start_at.to_s).to eq(22.minutes.since.to_s) }
         end
 
         context 'during waiting client' do
-          let!(:first_trip) { create(:trip, car_id: car.id, start_at: Time.now, duration: 10.minutes, status: Constants::Trip::WAITING_CLIENT, car_id: car.id, driver_id: driver.id) }
+          let!(:first_trip) { create(:trip, start_at: Time.now, duration: 10.minutes, status: Constants::Trip::WAITING_CLIENT, car_id: car.id, driver_id: driver.id) }
 
           it { expect(trip.reload.start_at.to_s).to eq(17.minutes.since.to_s) }
         end

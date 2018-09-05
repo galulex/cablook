@@ -40,6 +40,22 @@ describe Api::CardsController, type: :controller do
     it { is_expected.to be_successful }
 
     context 'when something went wrong' do
+      let(:params) { super().merge(cardPan: nil) }
+
+      it { is_expected.to have_http_status(:unprocessable_entity) }
+    end
+  end
+
+  describe '#update' do
+    subject { response }
+
+    let(:params) { JSON.parse(File.read('spec/fixtures/second_card_callback.json')).merge(recToken: 'testToken') }
+
+    before { post :update, params: params }
+
+    it { is_expected.to be_successful }
+
+    context 'when something went wrong' do
       let(:params) { super().merge(recToken: nil) }
 
       it { is_expected.to have_http_status(:unprocessable_entity) }

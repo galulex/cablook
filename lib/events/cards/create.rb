@@ -6,8 +6,8 @@ module Events
           configure { config.messages = :i18n }
 
           required(:cardPan).filled(:str?)
-          required(:recToken).filled(:str?)
           required(:user_id).filled(:int?)
+          required(:recToken).maybe(:str?)
           optional(:cardType).filled(:str?)
           optional(:currency).filled(:str?)
           optional(:email).filled(:str?)
@@ -30,6 +30,7 @@ module Events
 
       def validate!
         @card = Card.new(card_params)
+        @card.update(token: data[:orderReference]) if @card.token.empty?
         invalid!(@card.errors.values.flatten) if @card.invalid?
       end
 
