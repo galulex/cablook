@@ -7,8 +7,8 @@ module Events
         Dry::Validation.Schema do
           configure { config.messages = :i18n }
 
-          required(:departure) { str? | array? }
-          required(:destination) { str? | array? }
+          required(:departure).filled
+          required(:destination).filled
           required(:departure_address).filled(:str?)
           required(:destination_address).filled(:str?)
           optional(:waypoints) { none? | array? }
