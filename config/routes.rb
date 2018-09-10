@@ -15,7 +15,7 @@ Rails.application.routes.draw do
       get 'pending', on: :collection
     end
 
-    post 'payment/wayforpay/callback', to: 'cards#update'
+    post 'cards/update', to: 'cards#update'
 
     resources :referrals, only: %i[index create]
 

@@ -49,16 +49,56 @@ describe Api::CardsController, type: :controller do
   describe '#update' do
     subject { response }
 
-    let(:params) { JSON.parse(File.read('spec/fixtures/second_card_callback.json')).merge(recToken: 'testToken') }
-
-    before { post :update, params: params }
+    before { post :update, params: { "{\"orderReference\":\"1996\",\"recToken\":\"testToken\",\"transactionStatus\":\"Approved\"}": nil } }
 
     it { is_expected.to be_successful }
 
-    context 'when something went wrong' do
-      let(:params) { super().merge(recToken: nil) }
+    context 'when recToken already exsist' do
+      let(:card) { create(:card, token: 'testToken') }
+
+      it { is_expected.to be_successful }
+    end
+
+    context 'when params are empty' do
+      before { post :update, params: {} }
+
+      it { is_expected.to have_http_status(:no_content) }
+    end
+
+    context 'when only one parameter' do
+      before { post :update, params: { "{\"orderReference\":\"1996\"}": nil } }
 
       it { is_expected.to have_http_status(:unprocessable_entity) }
+    end
+
+    context 'when recToken is empty' do
+      before { post :update, params: { "{\"orderReference\":\"1996\",\"recToken\":\"\"}": nil } }
+
+      it { is_expected.to have_http_status(:not_modified) }
+    end
+
+    context 'when there are no required params' do
+      before { post :update, params: { "{\"cardPan\":\"1111000099998888\",\"currency\":\"UAH\"}": nil } }
+
+      it { is_expected.to have_http_status(:unprocessable_entity) }
+    end
+
+    context 'when transactionStatus: Approved' do
+      before { post :update, params: { "{\"orderReference\":\"1996\",\"recToken\":\"\",\"transactionStatus\":\"Approved\"}": nil } }
+
+      it { is_expected.to have_http_status(:not_modified) }
+    end
+
+    context 'when transactionStatus: Refunded' do
+      before { post :update, params: { "{\"orderReference\":\"1996\",\"recToken\":\"\",\"transactionStatus\":\"Refunded\"}": nil } }
+
+      it { is_expected.to be_successful }
+    end
+
+    context 'when transactionStatus: Expired' do
+      before { post :update, params: { "{\"orderReference\":\"1996\",\"recToken\":\"\",\"transactionStatus\":\"Expired\"}": nil } }
+
+      it { is_expected.to be_successful }
     end
   end
 

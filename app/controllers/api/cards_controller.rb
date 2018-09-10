@@ -20,14 +20,44 @@ module Api
     end
 
     def update
-      Events::Cards::Update.(params)
-      head :ok
+      return unless parameters
+      if parameters[:recToken]&.empty? && !transaction_status
+        head :not_modified
+      else
+        Events::Cards::Update.(parameters) unless transaction_status
+        send_response
+      end
     end
 
     private
 
     def cards
       @cards ||= Card.user_cards(current_user.id)
+    end
+
+    # Wayforpay send all params as one, which is key with nil value.
+    def parameters
+      return if params.keys.length < 3
+      parsed_params = JSON.parse(params.keys.first)
+
+      { orderReference: parsed_params['orderReference'],
+        recToken: parsed_params['recToken'],
+        transactionStatus: parsed_params['transactionStatus'] }
+    end
+
+    def update_signature
+      OpenSSL::HMAC.hexdigest('MD5', "#{ENV['WAYFORPAY_SECRET']}", "#{parameters[:orderReference]};accept;#{Time.now.to_i}")
+    end
+
+    def transaction_status
+      parameters[:transactionStatus] == 'Refunded' || parameters[:transactionStatus] == 'Expired'
+    end
+
+    def send_response
+      render json: { "orderReference": parameters[:orderReference],
+                     "status": 'accept',
+                     "time": Time.now.to_i,
+                     "signature": update_signature }
     end
   end
 end

@@ -7,7 +7,7 @@ class WFP {
     this.merchantDomainName = 'cablook.taxi'
     this.authorizationType = 'SimpleSignature'
     this.orderReference = orderReference
-    this.serviceUrl = 'payment/wayforpay/callback'
+    this.serviceUrl = 'https://cablook.taxi/api/cards/update'
     this.orderDate = date
     this.amount = '1'
     this.currency = 'UAH'

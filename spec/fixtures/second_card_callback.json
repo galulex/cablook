@@ -1,6 +1,6 @@
 {  
   "merchantAccount": "cablook_taxt",
-  "orderReference": "88005553535aaa",
+  "orderReference": "testOrderReference",
   "merchantSignature": "df3049268cb59571b4f3bb3d6c7fa5b4",
   "amount": 1,
   "currency": "UAH",

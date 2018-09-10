@@ -11,7 +11,7 @@ module Events
       end
 
       def run
-        card
+        return if card.nil?
         update_card
         @card
       end
@@ -19,11 +19,10 @@ module Events
       private
 
       def card
-        @card ||= Card.where(token: data[:orderReference])
+        @card ||= Card.find_by(token: data[:orderReference])
       end
 
       def update_card
-        return if data[:recToken].empty?
         @card.update(token: data[:recToken])
       end
     end
