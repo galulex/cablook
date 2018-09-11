@@ -43,7 +43,7 @@ module Events
       end
 
       def rec_token
-        data[:recToken].blank? ? data[:orderReference] : data[:recToken]
+        data[:recToken].presence || data[:orderReference]
       end
 
       def card_params
