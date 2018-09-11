@@ -6,14 +6,14 @@ module Events
           configure { config.messages = :i18n }
 
           required(:orderReference).filled(:str?)
-          required(:recToken).filled(:str?)
+          required(:recToken)
+          required(:transactionStatus).filled(:str?)
         end
       end
 
       def run
-        return if card.nil?
-        update_card
-        @card
+        update_card unless card.nil?
+        send_response if data[:transactionStatus] != 'Pending'
       end
 
       private
@@ -24,6 +24,17 @@ module Events
 
       def update_card
         @card.update(token: data[:recToken])
+      end
+
+      def send_response
+        { "orderReference": data[:orderReference],
+          "status": 'accept',
+          "time": Time.now.to_i,
+          "signature": signature }
+      end
+
+      def signature
+        OpenSSL::HMAC.hexdigest('MD5', "#{ENV['WAYFORPAY_SECRET']}", "#{data[:orderReference]};accept;#{Time.now.to_i}")
       end
     end
   end

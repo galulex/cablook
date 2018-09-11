@@ -10,7 +10,7 @@ module Api
     # params: spec/fixtures/card_callback.json
     def create
       card = Events::Cards::Create.(params.merge(user_id: current_user.id))
-      render json: Presenters::Cards::Single.new(card).to_json, status: 200
+      card ? (render json: Presenters::Cards::Single.new(card).to_json, status: 200) : (head :unprocessable_entity)
     end
 
     def destroy
@@ -20,13 +20,9 @@ module Api
     end
 
     def update
-      return unless parameters
-      if parameters[:recToken]&.empty? && !transaction_status
-        head :not_modified
-      else
-        Events::Cards::Update.(parameters) unless transaction_status
-        send_response
-      end
+      return head :unprocessable_entity unless parameters
+      event = Events::Cards::Update.(orderReference: parameters['orderReference'], recToken: parameters['recToken'], transactionStatus: parameters['transactionStatus'])
+      event ? (render json: event) : (head :not_modified)
     end
 
     private
@@ -38,26 +34,7 @@ module Api
     # Wayforpay send all params as one, which is key with nil value.
     def parameters
       return if params.keys.length < 3
-      parsed_params = JSON.parse(params.keys.first)
-
-      { orderReference: parsed_params['orderReference'],
-        recToken: parsed_params['recToken'],
-        transactionStatus: parsed_params['transactionStatus'] }
-    end
-
-    def update_signature
-      OpenSSL::HMAC.hexdigest('MD5', "#{ENV['WAYFORPAY_SECRET']}", "#{parameters[:orderReference]};accept;#{Time.now.to_i}")
-    end
-
-    def transaction_status
-      parameters[:transactionStatus] == 'Refunded' || parameters[:transactionStatus] == 'Expired'
-    end
-
-    def send_response
-      render json: { "orderReference": parameters[:orderReference],
-                     "status": 'accept',
-                     "time": Time.now.to_i,
-                     "signature": update_signature }
+      JSON.parse(params.keys.first)
     end
   end
 end

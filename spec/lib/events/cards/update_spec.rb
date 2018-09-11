@@ -9,7 +9,9 @@ describe Events::Cards::Update do
 
     let(:card) { create(:card, token: 'testOrderReference') }
 
-    context 'when recToken empty' do
+    context 'when orderReference empty' do
+      let(:data) { super().merge(orderReference: '') }
+
       it { is_expected.to raise_error(Events::InvalidParamsError) }
     end
 
@@ -22,6 +24,12 @@ describe Events::Cards::Update do
     context 'when recToken already exsist' do
       let!(:card) { create(:card, token: 'testToken') }
       let(:data) { super().merge(recToken: 'testToken') }
+
+      it { is_expected.not_to change {} }
+    end
+
+    context 'when card transactionStatus: Declined' do
+      let(:data) { super().merge(transactionStatus: 'Declined') }
 
       it { is_expected.not_to change {} }
     end

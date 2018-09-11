@@ -44,6 +44,12 @@ describe Api::CardsController, type: :controller do
 
       it { is_expected.to have_http_status(:unprocessable_entity) }
     end
+
+    context 'when status Declined' do
+      let(:params) { super().merge(transactionStatus: 'Declined') }
+
+      it { is_expected.to have_http_status(:unprocessable_entity) }
+    end
   end
 
   describe '#update' do
@@ -62,7 +68,7 @@ describe Api::CardsController, type: :controller do
     context 'when params are empty' do
       before { post :update, params: {} }
 
-      it { is_expected.to have_http_status(:no_content) }
+      it { is_expected.to have_http_status(:unprocessable_entity) }
     end
 
     context 'when only one parameter' do
@@ -74,7 +80,7 @@ describe Api::CardsController, type: :controller do
     context 'when recToken is empty' do
       before { post :update, params: { "{\"orderReference\":\"1996\",\"recToken\":\"\"}": nil } }
 
-      it { is_expected.to have_http_status(:not_modified) }
+      it { is_expected.to have_http_status(:unprocessable_entity) }
     end
 
     context 'when there are no required params' do
@@ -83,10 +89,16 @@ describe Api::CardsController, type: :controller do
       it { is_expected.to have_http_status(:unprocessable_entity) }
     end
 
-    context 'when transactionStatus: Approved' do
-      before { post :update, params: { "{\"orderReference\":\"1996\",\"recToken\":\"\",\"transactionStatus\":\"Approved\"}": nil } }
+    context 'when transactionStatus: Pending' do
+      before { post :update, params: { "{\"orderReference\":\"1996\",\"recToken\":\"\",\"transactionStatus\":\"Pending\"}": nil } }
 
       it { is_expected.to have_http_status(:not_modified) }
+    end
+
+    context 'when transactionStatus: Approved' do
+      before { post :update, params: { "{\"orderReference\":\"1996\",\"recToken\":\"testToken\",\"transactionStatus\":\"Approved\"}": nil } }
+
+      it { is_expected.to be_successful }
     end
 
     context 'when transactionStatus: Refunded' do

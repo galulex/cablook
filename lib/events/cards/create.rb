@@ -18,6 +18,7 @@ module Events
         find_user!
         validate!
         update_user_email
+        return if data[:transactionStatus] == 'Declined'
         create_card
         @card
       end
@@ -30,7 +31,6 @@ module Events
 
       def validate!
         @card = Card.new(card_params)
-        @card.update(token: data[:orderReference]) if @card.token.empty?
         invalid!(@card.errors.values.flatten) if @card.invalid?
       end
 
@@ -42,9 +42,13 @@ module Events
         user.update(email: data[:email])
       end
 
+      def rec_token
+        data[:recToken].blank? ? data[:orderReference] : data[:recToken]
+      end
+
       def card_params
         {
-          token: data[:recToken],
+          token: rec_token,
           pan: data[:cardPan],
           type: data[:cardType],
           currency: data[:currency],
