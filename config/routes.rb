@@ -14,6 +14,9 @@ Rails.application.routes.draw do
       post 'retry_pendings', on: :collection
       get 'pending', on: :collection
     end
+
+    post 'cards/update', to: 'cards#update'
+
     resources :referrals, only: %i[index create]
 
     post 'trips/new', to: 'v2/trips#new'

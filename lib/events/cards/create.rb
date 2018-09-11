@@ -6,8 +6,8 @@ module Events
           configure { config.messages = :i18n }
 
           required(:cardPan).filled(:str?)
-          required(:recToken).filled(:str?)
           required(:user_id).filled(:int?)
+          required(:recToken).maybe(:str?)
           optional(:cardType).filled(:str?)
           optional(:currency).filled(:str?)
           optional(:email).filled(:str?)
@@ -18,6 +18,7 @@ module Events
         find_user!
         validate!
         update_user_email
+        return if data[:transactionStatus] == 'Declined'
         create_card
         @card
       end
@@ -41,9 +42,13 @@ module Events
         user.update(email: data[:email])
       end
 
+      def rec_token
+        data[:recToken].presence || data[:orderReference]
+      end
+
       def card_params
         {
-          token: data[:recToken],
+          token: rec_token,
           pan: data[:cardPan],
           type: data[:cardType],
           currency: data[:currency],
