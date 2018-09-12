@@ -3,6 +3,7 @@ ActiveAdmin.register Payment do
   remove_filter :trip
   filter :type, as: :select, collection: proc { Payment.distinct.pluck(:type) }
   filter :user, as: :select, collection: proc { User.joins(:trips).group(:id).all }
+  filter :trip_car_id, as: :select, collection: proc { Car.all.group(:id) }
   filter :trip_created_at, as: :date_range
 
   controller do
@@ -26,6 +27,9 @@ ActiveAdmin.register Payment do
     %w[id amount status type trip user card_pan response].each { |title| column title }
     column 'driver_id' do |payment|
       payment.trip.driver_id
+    end
+    column 'car_id' do |payment|
+      payment.trip.car_id
     end
     column 'created_at' do |payment|
       payment.trip.created_at
