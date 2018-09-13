@@ -16,9 +16,11 @@ table
     th Driver
     th Cost
     th Count
+    th Tips
   tbody
     - @data.each do |item|
       tr
         td= item.username
         td= item.trips_sum
         td= item.trips_count
+        td= item.tips_sum
