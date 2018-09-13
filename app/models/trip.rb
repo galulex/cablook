@@ -19,7 +19,9 @@ class Trip < ApplicationRecord
 
   scope :sum_cost, -> do
     joins(:driver)
+      .joins("LEFT JOIN payments ON trips.id = payments.trip_id AND payments.type = 'Payments::Tip'")
       .select('COUNT(trips.id) AS trips_count, SUM(trips.cost) AS trips_sum, MIN(drivers.username) AS username')
+      .select('SUM(payments.amount) AS tips_sum')
       .group(:driver_id)
       .order(:driver_id)
   end
