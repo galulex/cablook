@@ -26,7 +26,7 @@ module Operations
       def refund_payment
         hold_for_fake if fake
         ::Wayforpay::Payments.refund(
-          orderReference: payment.order_reference,
+          orderReference: payment.response["orderReference"] || payment.order_reference,
           amount: payment.amount,
           currency: 'UAH',
           comment: 'Cancel trip'
