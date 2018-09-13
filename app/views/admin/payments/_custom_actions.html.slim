@@ -1,3 +1,5 @@
 .custom-actions
   - if @payment.status.in?([Constants::Payments::PENDING, Constants::Payments::DECLINE])
     = button_to 'Retry Payment', retry_payment_admin_payment_path(@payment), class: 'button'
+  - if @payment.status.in?([Constants::Payments::SUCCESS, Constants::Payments::BONUS])
+    = button_to 'Refund Payment', refund_payment_admin_payment_path(@payment), class: 'button'  
