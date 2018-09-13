@@ -3,7 +3,4 @@
 #= require _tagmanager
 #= require action_cable
 #= require_tree ./models
-#= require_tree ./controllers
-#= require ui
-#= require app
 #= require serviceworker-companion

@@ -11,14 +11,18 @@ body {
   color: white;
 }
 
-fieldset {
+.container {
   border: none;
   position: relative;
 }
 
 
-fieldset .state img {
+.container .state img {
   margin-bottom: 10px;
+}
+
+.trip_form {
+  text-align: center;
 }
 
 main {
@@ -321,8 +325,8 @@ button.add-point .plus:after {
 label.form__number-label {
   display: inline-block;
   position: absolute;
-  top: 35px;
-  left: 20px;
+  top: 13.45px;
+  left: 10px;
 }
 
 input.form__number {
