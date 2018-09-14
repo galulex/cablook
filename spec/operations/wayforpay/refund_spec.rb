@@ -1,5 +1,5 @@
 describe Operations::Wayforpay::Refund do
-  let(:instance) { described_class.new(trip.id) }
+  let(:instance) { described_class.new(payment.id) }
   let(:wayforpay_body) { { reasonCode: 1100 }.to_json }
 
   before { allow(Wayforpay::Payments).to receive(:refund) { OpenStruct.new(body: wayforpay_body) } }
@@ -13,16 +13,6 @@ describe Operations::Wayforpay::Refund do
       before { instance.call }
 
       it { expect(payment.reload.status).to eq(Constants::Payments::REFUND) }
-    end
-
-    context 'when payment not found' do
-      let!(:payment) { create(:payment, user_id: user.id) }
-
-      it do
-        expect(Wayforpay::Payments).not_to receive(:hold)
-        expect(instance).not_to receive(:update_payment_status)
-        instance.call
-      end
     end
 
     context 'when payment status is pending' do
@@ -54,7 +44,7 @@ describe Operations::Wayforpay::Refund do
     context 'when fake taxi' do
       let!(:payment) { create(:payment, trip_id: trip.id, status: Constants::Payments::DECLINE, card_id: card.id, user_id: trip.user_id, response: {}) }
       let(:card) { create(:card) }
-      let(:instance) { described_class.new(trip.id, fake: true) }
+      let(:instance) { described_class.new(payment.id, fake: true) }
 
       before { allow(Wayforpay::Payments).to receive(:hold) }
 

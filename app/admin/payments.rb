@@ -42,7 +42,7 @@ ActiveAdmin.register Payment do
 
   member_action :refund_payment, method: :post do
     payment = Payment.find(params[:id])
-    Operations::Wayforpay::Refund.new(payment.trip_id).call
+    Operations::Wayforpay::Refund.new(payment.id).call
     notice = if payment.reload.status == Constants::Payments::REFUND
                'Refund success'
              else

@@ -1,15 +1,14 @@
 module Operations
   module Wayforpay
     class Refund
-      def initialize(trip_id, fake: nil)
-        @trip_id = trip_id
+      def initialize(payment_id, fake: nil)
+        @payment_id = payment_id
         @fake = fake
       end
 
-      attr_reader :trip_id, :fake
+      attr_reader :payment_id, :fake
 
       def call
-        return unless payment
         if payment.status == Constants::Payments::BONUS
           refund_bonus
           update_payment_status
@@ -58,12 +57,12 @@ module Operations
       end
 
       def refund_bonus
-        bonus_trip = BonusTrip.find_by(trip_id: trip_id)
+        bonus_trip = BonusTrip.find_by(trip_id: payment.trip_id)
         bonus_trip&.update(status: Constants::BonusTrip::NEW)
       end
 
       def payment
-        @payment ||= Payments::Trip.find_by(trip_id: trip_id)
+        @payment ||= Payment.find(payment_id)
       end
     end
   end

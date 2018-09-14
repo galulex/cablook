@@ -59,7 +59,12 @@ module Operations
       end
 
       def order_reference
-        @order_reference ||= "#{payment.order_reference}_idle_#{SecureRandom.base58(6)}"
+        secure_code = SecureRandom.base58(6)
+        @order_reference ||= if Rails.env.production?
+                               "cablook_#{trip.id}_idle_#{secure_code}"
+                             else
+                               "cablook_#{Rails.env}_#{trip.id}_idle_#{secure_code}"
+                             end
       end
     end
   end
