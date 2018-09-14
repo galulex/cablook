@@ -28,6 +28,7 @@ module Operations
         user_id: trip.user_id,
         amount: amount,
         response: tip_response,
+        order_reference: order_reference,
         status: status
       )
     end

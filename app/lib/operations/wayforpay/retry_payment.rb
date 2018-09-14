@@ -20,8 +20,16 @@ module Operations
       private
 
       def retry_response
-        order_reference = "#{payment.order_reference}_retry_#{SecureRandom.base58(6)}"
         @retry_response ||= Operations::Wayforpay::SendPayment.new(card, payment.amount, payment.type, order_reference).call
+      end
+
+      def order_reference
+        secure_code = SecureRandom.base58(6)
+        @order_reference ||= if Rails.env.production?
+                               "cablook_#{payment.trip_id}_retry_#{secure_code}"
+                             else
+                               "cablook_#{Rails.env}_#{payment.trip_id}_retry_#{secure_code}"
+                             end
       end
 
       def card
