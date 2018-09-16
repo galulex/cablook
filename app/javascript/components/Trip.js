@@ -139,6 +139,20 @@ export default class Trip {
   }
 
   static show = () => {
-    return 'https://maps.googleapis.com/maps/api/staticmap?size=400x400&path=enc:' + trip.path + '&key=' + process.env.GOOGLE_API_KEY
+    trip.path = localStorage.path
+    return 'https://api.mapbox.com/styles/v1/mapbox/streets-v10/static/pin-s-s+188753(' + trip.departure.join(',') + '),' + trip.waypoints.map((w) => 'pin-s-w+facc1f(' + w + '),').join('') + 'pin-s-f+312d50('+  trip.destination.join(',') + '),path-5+188753-0.8(' + trip.path + ')/auto/400x400?access_token=pk.eyJ1IjoiYnJ1Y2VsaWF0b3IiLCJhIjoiY2oxcTJ5dDNzMDA2ajMybnR6M3V5cGVubiJ9.qjyqnH72UUVnsaY63OzMGg'
   }
-}
+
+  static getPath = () => {
+    let departure = trip.departure
+    let destination = trip.destination
+    departure.reverse()
+    destination.reverse()
+    let waypoints = trip.waypoints
+    let wp = [];
+    waypoints.map((w,index) => {
+      trip.waypoints[index] = w.split(',').reverse().join(',')
+    })
+    return axios.get('https://api.mapbox.com/directions/v5/mapbox/driving/' + departure.join(',') + ';' + trip.waypoints.map((w) => w + ';').join('') + destination.join(',') + '?access_token=pk.eyJ1IjoiYnJ1Y2VsaWF0b3IiLCJhIjoiY2oxcTJ5dDNzMDA2ajMybnR6M3V5cGVubiJ9.qjyqnH72UUVnsaY63OzMGg')
+  }
+} 
