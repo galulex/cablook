@@ -14,6 +14,11 @@ ActiveAdmin.register Payment do
     def scoped_collection
       super.includes(:trip, :card, :user, :driver)
     end
+
+    def refund_all
+      items = Payment.where(status: 0)
+      items.each { |item| Operations::Wayforpay::RetryPayment.new(item, item.card_id).call }
+    end
   end
 
   show do
@@ -24,6 +29,7 @@ ActiveAdmin.register Payment do
   end
 
   index do
+    selectable_column
     %w[id amount status type trip user card_pan response].each { |title| column title }
     column 'driver_id' do |payment|
       payment.trip.driver_id
@@ -38,6 +44,25 @@ ActiveAdmin.register Payment do
     div class: 'panel' do
       h4 "Total: #{Payment.search(params[:q]).result.sum(:amount)}"
     end
+  end
+
+  action_item { link_to 'Retry All', retry_all_admin_payments_path, method: :post }
+  action_item { link_to 'Retry All With Sms', retry_all_with_sms_admin_payments_path, method: :post }
+
+  collection_action :retry_all, method: :post do
+    payments = Payment.where(status: 0)
+    payments.each do |payment|
+      Jobs::PaymentRetry.perform_later(payment.id, payment.card_id)
+    end
+    redirect_to collection_path, notice: 'Retry successfuly'
+  end
+
+  collection_action :retry_all_with_sms, method: :post do
+    payments = Payment.where(status: 0)
+    payments.each do |payment|
+      Jobs::PaymentRetry.perform_later(payment.id, payment.card_id, with_sms: true)
+    end
+    redirect_to collection_path, notice: 'Messages sent successfuly'
   end
 
   member_action :refund_payment, method: :post do
