@@ -14,11 +14,6 @@ ActiveAdmin.register Payment do
     def scoped_collection
       super.includes(:trip, :card, :user, :driver)
     end
-
-    def refund_all
-      items = Payment.where(status: 0)
-      items.each { |item| Operations::Wayforpay::RetryPayment.new(item, item.card_id).call }
-    end
   end
 
   show do
