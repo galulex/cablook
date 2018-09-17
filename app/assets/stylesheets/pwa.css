@@ -21,7 +21,7 @@ body {
   margin-bottom: 10px;
 }
 
-.trip_form {
+.loader {
   text-align: center;
 }
 
@@ -325,7 +325,7 @@ button.add-point .plus:after {
 label.form__number-label {
   display: inline-block;
   position: absolute;
-  top: 13.45px;
+  top: 13px;
   left: 10px;
 }
 

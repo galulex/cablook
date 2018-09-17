@@ -65,7 +65,7 @@ end
 
 def path(element)
   send(element, 'path') do |trip|
-    image_tag("https://api.mapbox.com/styles/v1/mapbox/streets-v10/static/pin-s-s+188753(#{trip.departure.join(',')}),#{trip.waypoints.map{ |w| 'pin-s-w+facc1f(' + w +'),' }.join('')}pin-s-f+312d50(#{trip.destination.join(',')}),path-5+188753-0.8(#{trip.path})/auto/400x300?access_token=pk.eyJ1IjoiYnJ1Y2VsaWF0b3IiLCJhIjoiY2oxcTJ5dDNzMDA2ajMybnR6M3V5cGVubiJ9.qjyqnH72UUVnsaY63OzMGg")
+    image_tag("https://api.mapbox.com/styles/v1/mapbox/streets-v10/static/pin-s-s+188753(#{trip.departure.reverse.join(',')}),#{trip.waypoints.map{ |w| 'pin-s-w+facc1f(' + w.split(',').reverse.join(',') +'),' }.join('')}pin-s-f+312d50(#{trip.destination.reverse.join(',')}),path-5+188753-0.8(#{URI.encode(trip.path, Regexp.new("[^#{URI::PATTERN::UNRESERVED}]"))})/auto/400x300?access_token=pk.eyJ1IjoiYnJ1Y2VsaWF0b3IiLCJhIjoiY2oxcTJ5dDNzMDA2ajMybnR6M3V5cGVubiJ9.qjyqnH72UUVnsaY63OzMGg")
   end
 end
 

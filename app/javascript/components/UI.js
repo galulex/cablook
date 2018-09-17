@@ -1,8 +1,8 @@
 import React from 'react'
 
 export default class UI{
-  static form = (form) => {
-    return document.getElementsByClassName(form)
+  static form = () => {
+    return document.getElementsByClassName('form')
   }
   
   static addCards = (cards) => {

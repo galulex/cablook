@@ -9,7 +9,7 @@ export default class TripScreen extends Component {
 
   render () {
     return (
-      <form className='trip_form'>
+      <form className='form'>
         <div className='loader' id='loader'>
           <svg xmlns='http://www.w3.org/2000/svg' viewBox='-208.9 138.5 55.3 56.7' className='icon'>
             <ellipse cx='-181.3' cy='166.9' fill='none' stroke='#FFF' strokeMiterlimit='10' strokeWidth='3' rx='26.1' ry='26.8'></ellipse>

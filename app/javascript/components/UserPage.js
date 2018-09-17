@@ -67,11 +67,7 @@ export default class UserPage extends Component {
 		event.preventDefault()
     Trip.build().then(data => {
       trip = data.data
-      Trip.getPath().then(res => {
-        localStorage.path = res.data.routes[0].geometry
-        console.log(localStorage.path)
-        this.props.setPath(Trip.show())
-      })
+      this.props.setPath(Trip.show())
     }).catch(err => 
       alert(err.response.data.errors)
     )
