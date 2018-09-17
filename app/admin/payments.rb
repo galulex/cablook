@@ -14,6 +14,22 @@ ActiveAdmin.register Payment do
     def scoped_collection
       super.includes(:trip, :card, :user, :driver)
     end
+
+    def retry_queue
+      Sidekiq::Queue.new('retry_payments')
+    end
+
+    def retry_all(with_sms)
+      if retry_queue.size.zero?
+        payments = Payment.where(status: 0)
+        payments.each do |payment|
+          Jobs::PaymentRetry.perform_later(payment.id, payment.card_id, with_sms)
+        end
+        redirect_to collection_path, notice: 'Retry successfully'
+      else
+        redirect_to collection_path, alert: 'Currently payment retry is not available. Please try again later'
+      end
+    end
   end
 
   show do
@@ -24,7 +40,6 @@ ActiveAdmin.register Payment do
   end
 
   index do
-    selectable_column
     %w[id amount status type trip user card_pan response].each { |title| column title }
     column 'driver_id' do |payment|
       payment.trip.driver_id
@@ -41,23 +56,15 @@ ActiveAdmin.register Payment do
     end
   end
 
-  action_item { link_to 'Retry All', retry_all_admin_payments_path, method: :post }
-  action_item { link_to 'Retry All With Sms', retry_all_with_sms_admin_payments_path, method: :post }
+  action_item(:retry) { link_to 'Retry All', retry_all_without_sms_admin_payments_path, method: :post }
+  action_item(:retry) { link_to 'Retry All With Sms', retry_all_with_sms_admin_payments_path, method: :post }
 
-  collection_action :retry_all, method: :post do
-    payments = Payment.where(status: 0)
-    payments.each do |payment|
-      Jobs::PaymentRetry.perform_later(payment.id, payment.card_id)
-    end
-    redirect_to collection_path, notice: 'Retry successfully'
+  collection_action :retry_all_without_sms, method: :post do
+    retry_all(with_sms: false)
   end
 
   collection_action :retry_all_with_sms, method: :post do
-    payments = Payment.where(status: 0)
-    payments.each do |payment|
-      Jobs::PaymentRetry.perform_later(payment.id, payment.card_id, with_sms: true)
-    end
-    redirect_to collection_path, notice: 'Messages sent successfully'
+    retry_all(with_sms: true)
   end
 
   member_action :refund_payment, method: :post do
