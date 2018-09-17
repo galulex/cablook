@@ -49,7 +49,7 @@ ActiveAdmin.register Payment do
     payments.each do |payment|
       Jobs::PaymentRetry.perform_later(payment.id, payment.card_id)
     end
-    redirect_to collection_path, notice: 'Retry successfuly'
+    redirect_to collection_path, notice: 'Retry successfully'
   end
 
   collection_action :retry_all_with_sms, method: :post do
@@ -57,7 +57,7 @@ ActiveAdmin.register Payment do
     payments.each do |payment|
       Jobs::PaymentRetry.perform_later(payment.id, payment.card_id, with_sms: true)
     end
-    redirect_to collection_path, notice: 'Messages sent successfuly'
+    redirect_to collection_path, notice: 'Messages sent successfully'
   end
 
   member_action :refund_payment, method: :post do
