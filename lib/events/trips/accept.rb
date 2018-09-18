@@ -26,12 +26,14 @@ module Events
 
       def update_trip
         start_at = matrix.duration.seconds.since + 2.minutes
-        trip.update(
-          status: Constants::Trip::ON_THE_WAY,
-          car_id: data[:car_id],
-          driver_id: data[:driver_id],
-          start_at: car_trip ? (start_at + car_trip_remaining_time) : start_at
-        )
+        trip.with_lock do
+          trip.update(
+            status: Constants::Trip::ON_THE_WAY,
+            car_id: data[:car_id],
+            driver_id: data[:driver_id],
+            start_at: car_trip ? (start_at + car_trip_remaining_time) : start_at
+          )
+        end
       end
 
       def update_car_status
