@@ -28,7 +28,7 @@ export default class Confirmation extends Component {
 
   render (){
     return (
-      <form  className='confirmation' id='form' action='/' onSubmit={this.handleSubmit}>
+      <form  className='form' id='form' action='/' onSubmit={this.handleSubmit}>
         <div className='form__fieldset' disabled={this.props.disabled}>
           <input data-message='Неправильний код' id='verification' max='9999' min='1000' name='token' pattern='.{4}' placeholder='1234' required type='number' autoFocus />
           <label htmlFor='verification'>Введiть код з СМС</label>

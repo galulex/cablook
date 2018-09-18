@@ -72,7 +72,7 @@ export default class UserPage extends Component {
       alert(err.response.data.errors)
     )
     setTimeout(() =>
-      this.props.updateStep(4), 100)	
+      this.props.updateStep(4), 500)	
   }
 
   handleClick = (event) => {

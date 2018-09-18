@@ -67,7 +67,7 @@ export default class MapScreen extends Component {
             </div>
           </div>
           <br/>
-          <div className='bonus-section' hidden='true'>
+          <div className='bonus-section' hidden={true}>
             <button className='button' id='bonus' name='trip[bonus]' onClick={(e) => trip.bonus = e.target.value} type='submit' value='true'>Використати бонусну поїздку</button>
           </div>
           <button className='button' id='go' type='submit'>Поїхали</button>

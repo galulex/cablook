@@ -5,11 +5,14 @@ import UI from './UI'
 export default class Trip {
   static build = () => {
     const waypoints = Array.from(UI.waypoints())
-    let data = new FormData(UI.form('form'))
+    const comment = document.getElementById('comment')
+    trip.comment = comment.value || ''
+    let data = new FormData()
     data.append('trip[departure_address]', trip.departure_address)
     data.append('trip[destination_address]', trip.destination_address)
     data.append('trip[departure]', waypoints.shift().getAttribute('data-place'))
     data.append('trip[destination]', waypoints.pop().getAttribute('data-place'))
+    data.append('trip[comment]', trip.comment)
 
     waypoints.forEach(w => {
       data.append('trip[waypoints][]', w.getAttribute('data-place'))
@@ -17,16 +20,17 @@ export default class Trip {
     })
 
     return axios({method: 'POST', url: '/api/trips/new', data: data, headers: {'Auth-Token': localStorage.token}})
-  }
+  } 
 
   static showTrip = (data) => {
+    let trip = data.trip
     const html = `
-      <img class='map-img' src='https://maps.googleapis.com/maps/api/staticmap?size=400x400&path=enc:${data.trip.path}&key=${process.env.GOOGLE_API_KEY}'></br>
-      Вартість: <b>${data.trip.cost}грн</b></br>
-      Відстань: <b>${(data.trip.distance/1000).toFixed(1)}КМ</b></br>
-      Відправлення: <b>${data.trip.start_time}</b></br>
-      Прибуття: <b>${data.trip.finish_time}</b></br>
-      ${data.trip.driver_name}: <b><a href='tel:${data.trip.car_phone_number}'>${data.trip.car_phone_number}</a></b></br>
+      <img class='map-img' src='${localStorage.mapURL}'></br>
+      Вартість: <b>${trip.cost}грн</b></br>
+      Відстань: <b>${(trip.distance/1000).toFixed(1)}КМ</b></br>
+      Відправлення: <b>${trip.start_time}</b></br>
+      Прибуття: <b>${trip.finish_time}</b></br>
+      ${trip.driver_name}: <b><a href='tel:${trip.car_phone_number}'>${trip.car_phone_number}</a></b></br>
     `
     document.getElementById('loader').classList.add('hidden')
     document.getElementById('state').innerHTML = html
@@ -103,7 +107,7 @@ export default class Trip {
   }
 
   static create = (that) => {
-    let data = new FormData(UI.form('form'))
+    let data = new FormData()
     data.append('trip[departure_address]', trip.departure_address)
     data.append('trip[destination_address]', trip.destination_address)
     data.append('trip[departure][]', trip.departure[0])
@@ -139,6 +143,18 @@ export default class Trip {
   }
 
   static show = () => {
-    return 'https://maps.googleapis.com/maps/api/staticmap?size=400x400&path=enc:' + trip.path + '&key=' + process.env.GOOGLE_API_KEY
+    let departure = []
+    let destination = []
+    let waypoints = []
+    trip.departure.map((el, index) => departure[index] = el)
+    trip.destination.map((el, index) => destination[index] = el)
+    destination.reverse()
+    departure.reverse()
+    console.log(departure)
+    trip.waypoints.map((w, index) => {
+      waypoints[index] = w.split(',').reverse().join(',')
+    })
+    localStorage.mapURL = 'https://api.mapbox.com/styles/v1/mapbox/streets-v10/static/pin-s-s+188753(' + departure.join(',') + '),' + waypoints.map((w) => 'pin-s-w+facc1f(' + w + '),').join('') + 'pin-s-f+312d50('+  destination.join(',') + '),path-5+188753-0.8(' + encodeURIComponent(trip.path) + ')/auto/400x400?access_token=pk.eyJ1IjoiYnJ1Y2VsaWF0b3IiLCJhIjoiY2oxcTJ5dDNzMDA2ajMybnR6M3V5cGVubiJ9.qjyqnH72UUVnsaY63OzMGg'
+    return localStorage.mapURL
   }
-}
+} 
