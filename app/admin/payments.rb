@@ -14,6 +14,26 @@ ActiveAdmin.register Payment do
     def scoped_collection
       super.includes(:trip, :card, :user, :driver)
     end
+
+    def retry_queue
+      Sidekiq::Queue.new('retry_payments')
+    end
+
+    def retry_all(with_sms)
+      if retry_queue.size.zero?
+        Payment.where(status: Constants::Payments::PENDING).joins(:trip).where(trips: { status: Constants::Trip::STATUS_CODES[Constants::Trip::FINISHED] }).find_each do |payment|
+          begin
+            card = payment.card || payment.user.cards.last
+            if card
+              Jobs::PaymentRetry.perform_later(payment.id, payment.card_id, with_sms)
+            end
+          end
+        end
+        redirect_to collection_path, notice: 'Retry successfully'
+      else
+        redirect_to collection_path, alert: 'Currently payment retry is not available. Please try again later'
+      end
+    end
   end
 
   show do
@@ -38,6 +58,17 @@ ActiveAdmin.register Payment do
     div class: 'panel' do
       h4 "Total: #{Payment.search(params[:q]).result.sum(:amount)}"
     end
+  end
+
+  action_item(:retry) { link_to 'Retry All', retry_all_without_sms_admin_payments_path, method: :post }
+  action_item(:retry) { link_to 'Retry All With Sms', retry_all_with_sms_admin_payments_path, method: :post }
+
+  collection_action :retry_all_without_sms, method: :post do
+    retry_all(false)
+  end
+
+  collection_action :retry_all_with_sms, method: :post do
+    retry_all(true)
   end
 
   member_action :refund_payment, method: :post do

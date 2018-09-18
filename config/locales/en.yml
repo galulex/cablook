@@ -11,6 +11,7 @@ en:
       already_confirmed: This email is already confirmed
     number:
       send_verification_token: "Verification code: %{token}. https://cablook.taxi"
+      send_retry_message: Dear client, you have unpaid trip. Pay the debt in our application.
 
     errors:
       invalid_or_expired: Verification token is invalid or expired. Try again.

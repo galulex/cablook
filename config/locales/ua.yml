@@ -11,6 +11,7 @@ ua:
       already_confirmed: Email підтвержденно
     number:
       send_verification_token: "Код для верификации: %{token}. https://cablook.taxi"
+      send_retry_message: Шановний клієнт, у вас є неоплачена поїздка. Cплатіть борг у нашому додатку.
     errors:
       invalid_or_expired: Код не вірний або час на верифікацію скінчився. Спробуйте ще раз.
       email:
