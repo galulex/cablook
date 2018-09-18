@@ -21,9 +21,13 @@ ActiveAdmin.register Payment do
 
     def retry_all(with_sms)
       if retry_queue.size.zero?
-        payments = Payment.where(status: 0)
-        payments.each do |payment|
-          Jobs::PaymentRetry.perform_later(payment.id, payment.card_id, with_sms)
+        Payment.where(status: Constants::Payments::PENDING).joins(:trip).where(trips: { status: Constants::Trip::STATUS_CODES[Constants::Trip::FINISHED] }).find_each do |payment|
+          begin
+            card = payment.card || payment.user.cards.last
+            if card
+              Jobs::PaymentRetry.perform_later(payment.id, payment.card_id, with_sms)
+            end
+          end
         end
         redirect_to collection_path, notice: 'Retry successfully'
       else
@@ -60,11 +64,11 @@ ActiveAdmin.register Payment do
   action_item(:retry) { link_to 'Retry All With Sms', retry_all_with_sms_admin_payments_path, method: :post }
 
   collection_action :retry_all_without_sms, method: :post do
-    retry_all(with_sms: false)
+    retry_all(false)
   end
 
   collection_action :retry_all_with_sms, method: :post do
-    retry_all(with_sms: true)
+    retry_all(true)
   end
 
   member_action :refund_payment, method: :post do
