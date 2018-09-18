@@ -9,7 +9,7 @@ module Operations
       attr_reader :payment_id, :card_id
 
       def call
-        return unless card
+        return unless card_id && card
         if retry_response['reasonCode'] == Constants::Payments::WAYFORPAY_SUCCESS
           payment.update(status: Constants::Payments::SUCCESS, response: retry_response)
         else
@@ -26,7 +26,6 @@ module Operations
       end
 
       def card
-        return unless card_id
         @card ||= Card.find(card_id)
       end
 
