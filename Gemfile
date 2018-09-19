@@ -40,7 +40,6 @@ gem 'wayforpay'
 gem 'webpacker'
 gem 'websocket-driver', git: 'https://github.com/faye/websocket-driver-ruby', ref: 'ee39af83d03ae3059c775583e4c4b291641257b8'
 gem 'whenever', require: false
-gem 'yarn'
 
 group :development, :test do
   gem 'pry-rails'
