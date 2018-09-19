@@ -34,14 +34,15 @@ module Events
       end
 
       def update_car
-        trip.car.update(status: Constants::Car::FREE) unless next_trip?
+        return if next_trip?
+        trip.car.update(status: Constants::Car::FREE)
       end
 
       def next_trip?
         Trip.where(
           driver_id: trip.driver_id,
           status: [Constants::Trip::ON_THE_WAY, Constants::Trip::WAITING_CLIENT, Constants::Trip::DRIVING]
-        ).any?
+        ).where.not(id: trip.id).any?
       end
 
       def update_trip
