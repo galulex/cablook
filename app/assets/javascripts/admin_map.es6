@@ -89,7 +89,7 @@ function init() {
     });
   })
 
-  subscribe();
+  window.cable = window.cable || subscribe();
 }
 
 function subscribe() {
