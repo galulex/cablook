@@ -1,16 +1,17 @@
 import React, { Component } from 'react'
-import Session from './Session';
+import UI from './UI'
+import Session from './Session'
 
 export default class NumberForm extends Component {
   handleSubmit = (event) => {
     event.preventDefault()
-    this.props.updateStep(2)
     Session.create().then(response =>{
       localStorage.phone = response.data['phone_number']
       localStorage.token = response.data['auth_token']
-    }).catch(err => 
-      alert(response.data.errors)
-    )
+      this.props.updateStep(2)
+    }).catch(err => {
+      alert(err.response.data.errors)
+    })
   }
 
   render() {
