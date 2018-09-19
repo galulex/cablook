@@ -1,5 +1,7 @@
 describe Events::Trips::Cancel do
   describe '.call' do
+    let(:car) { create(:car, status: Constants::Car::DURING_TRIP) }
+    let(:driver) { create(:driver, car_id: car.id) }
     let(:trip) { create(:trip, status: Constants::Trip::PENDING) }
     let(:data) { { trip_id: trip.id } }
 
@@ -36,6 +38,21 @@ describe Events::Trips::Cancel do
       after { subject.call }
 
       it { expect(ActionCable.server).to receive(:broadcast).twice }
+    end
+
+    context 'when trip is on the way' do
+      let(:trip) { create(:trip, car_id: car.id, driver_id: driver.id, status: Constants::Trip::ON_THE_WAY) }
+
+      it { is_expected.to change { trip.car.reload.status }.to(Constants::Car::STATUS_CODES[Constants::Car::FREE]) }
+    end
+
+    context 'when driver have two trips and cancel first' do
+      let(:first_trip) { create(:trip, car_id: car.id, driver_id: driver.id, status: Constants::Trip::WAITING_CLIENT) }
+      let(:trip) { create(:trip, car_id: car.id, driver_id: driver.id, status: Constants::Trip::ON_THE_WAY) }
+      let(:payment) { create(:payment, trip_id: first_trip.id, user_id: first_trip.user.id) }
+      let(:data) { { trip_id: first_trip.id } }
+
+      it { is_expected.not_to change { trip.car.reload.status } }
     end
 
     context 'when trip is on the way' do
