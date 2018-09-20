@@ -4,3 +4,4 @@
 #= require active_admin/select2
 #= require polyline
 #= require admin_map
+#= require admin_analytics
