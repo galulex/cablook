@@ -27,7 +27,7 @@ export default class MapScreen extends Component {
 
   pay = () => {
     const that = this
-    wayforpay = new Wayforpay();  
+    const wayforpay = new Wayforpay();  
     wayforpay.run((new WFP),
       response =>{
         setTimeout(function(){

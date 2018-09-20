@@ -1,26 +1,3 @@
 = render 'shared/schema_org'
 script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDx2cLwlAG3muHMV9DVYY3l2PupoYCS-Mk&libraries=places" async=true defer=true
 script id="widget-wfp-script" language="javascript" type="text/javascript" src="https://secure.wayforpay.com/server/pay-widget.js"
-
-javascript:
-  wayforpay = new Wayforpay();
-  var pay = function () {
-    wayforpay.run((new WFP),
-      function (response) {
-        setTimeout(function(){
-          wayforpay.closeit()
-          Cards.create(response)
-        }, 1000)
-      },
-      function (response) {
-        UI.disableButtons(false)
-        alert(response)
-      },
-      function (response) {
-        setTimeout(function(){
-          wayforpay.closeit()
-          Cards.create(response)
-        }, 1000)
-      }
-    );
-  }

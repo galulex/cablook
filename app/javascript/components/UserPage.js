@@ -68,11 +68,11 @@ export default class UserPage extends Component {
     Trip.build().then(data => {
       trip = data.data
       this.props.setPath(Trip.show())
+      setTimeout(() =>
+        this.props.updateStep(4), 500)	
     }).catch(err => 
       alert(err.response.data.errors)
     )
-    setTimeout(() =>
-      this.props.updateStep(4), 500)	
   }
 
   handleClick = (event) => {
