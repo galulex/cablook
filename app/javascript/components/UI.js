@@ -65,4 +65,8 @@ export default class UI{
     }
     trip.card_id = event.currentTarget.value
   }
+
+  static number = () => {
+    return '+380' +  document.getElementById('number').value
+  }
 }

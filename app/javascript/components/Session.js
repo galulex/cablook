@@ -3,9 +3,8 @@ import UI from './UI';
 
 export default class Session {
   static create = () => {
-    let data = new FormData()
-    let phone = '+380' + document.getElementById('number').value
-    data.append('phone_number', phone)
+    let data = new FormData(UI.form('form'))
+    data.append('phone_number', UI.number())
     return axios.post('api/session', data)
   }
 

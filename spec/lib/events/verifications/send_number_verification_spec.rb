@@ -9,8 +9,8 @@ describe Events::Verifications::SendNumberVerification do
     it { is_expected.to have_enqueued_job(Jobs::Sms) }
     it { is_expected.to change { user.reload.verification_token } }
 
-    context 'when user not found' do
-      let(:phone_number) { 'test-test-test' }
+    context 'when user input invalid number' do
+      let(:phone_number) { '+380001111111' }
 
       it { is_expected.to raise_error(Events::InvalidParamsError) }
     end
