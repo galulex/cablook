@@ -150,7 +150,6 @@ export default class Trip {
     trip.destination.map((el, index) => destination[index] = el)
     destination.reverse()
     departure.reverse()
-    console.log(departure)
     trip.waypoints.map((w, index) => {
       waypoints[index] = w.split(',').reverse().join(',')
     })
