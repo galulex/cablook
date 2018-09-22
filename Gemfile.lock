@@ -113,6 +113,8 @@ GEM
     capistrano-sidekiq (1.0.2)
       capistrano (>= 3.9.0)
       sidekiq (>= 3.4)
+    capistrano-yarn (2.0.2)
+      capistrano (~> 3.0)
     capybara (3.0.3)
       addressable
       mini_mime (>= 0.1.3)
@@ -461,6 +463,7 @@ DEPENDENCIES
   capistrano-passenger
   capistrano-rails
   capistrano-sidekiq
+  capistrano-yarn
   capybara
   chromedriver-helper
   database_cleaner
