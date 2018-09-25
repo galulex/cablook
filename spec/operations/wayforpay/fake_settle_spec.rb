@@ -15,7 +15,7 @@ describe Operations::Wayforpay::FakeSettle do
     it { is_expected.to change { Payments::FakeTaxi.count }.by(+1) }
 
     context 'and trip total is changed' do
-      it { is_expected.to change { trip.reload.total }.from(trip.total).to(trip.total + Price.last.fake) }
+      it { is_expected.to change { trip.reload.total }.from(trip.total).to(trip.total + Price.last.landing/100) }
     end
 
     context 'when wayforpay response is ok' do
