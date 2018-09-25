@@ -8,4 +8,5 @@ production:
 :queues:
   - default
   - payments
+  - retry_payments
 
