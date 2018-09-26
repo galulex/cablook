@@ -1,5 +1,5 @@
 class Price < ApplicationRecord
-  validates :cents_per_km, :outside_cents_per_km, :landing, :fake, :idle_price, :min_price, :coefficient, presence: true
+  validates :cents_per_km, :outside_cents_per_km, :landing, :idle_price, :min_price, :coefficient, presence: true
   before_create :only_one_price
 
   private
