@@ -1,0 +1,49 @@
+.tab {
+  margin: 1em;
+  border-radius: 5px;
+  overflow: hidden;
+  border: 1px solid #ccc;
+  background-color: #f1f1f1;
+  button {
+    background-color: inherit;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    transition: 0.3s;
+    &:hover {
+      background-color: #ddd;
+    }
+    &.active {
+      background-color: #ccc;
+    }
+  }
+}
+
+.tabcontent {
+  display: none;
+  padding: 6px 12px;
+  border-top: none;
+}
+
+.range {
+  display: inline-block;
+  width: 500px;
+  margin: 1em;
+}
+
+.analytics {
+  margin: 1em;
+}
+
+.send-button {
+  margin: 1em;
+}
+
+ul#checkboxes {
+  margin: 1em;
+  li {
+    display:inline;
+  }
+}
