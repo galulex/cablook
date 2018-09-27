@@ -1,0 +1,56 @@
+{  
+   "routes":[  
+      {  
+         "geometry":"ctrlHwhobEpChFLvDk@tCo^zx@oEvBa@|Ha^vw@kB~C{ChAs@jJ{Q|`@gDnEsFoJwBgc@cA{GcE}FtM}Yop@}~@",
+         "legs":[  
+            {  
+               "summary":"",
+               "weight":1375,
+               "duration":671.2,
+               "steps":[  
+
+               ],
+               "distance":3792.8
+            },
+            {  
+               "summary":"",
+               "weight":743.4,
+               "duration":341.6,
+               "steps":[  
+
+               ],
+               "distance":1811.1
+            }
+         ],
+         "weight_name":"routability",
+         "weight":2118.4,
+         "duration":1012.8000000000001,
+         "distance":5603.9
+      }
+   ],
+   "waypoints":[  
+      {  
+         "name":"Смілянська вулиця",
+         "location":[  
+            32.032276,
+            49.416498
+         ]
+      },
+      {  
+         "name":"Героїв Майдану вулиця",
+         "location":[  
+            32.007088,
+            49.434399
+         ]
+      },
+      {  
+         "name":"Сумгаїтська вулиця",
+         "location":[  
+            32.024318,
+            49.441293
+         ]
+      }
+   ],
+   "code":"Ok",
+   "uuid":"cjmjaeekg01sv4dllmxvbio4b"
+}
