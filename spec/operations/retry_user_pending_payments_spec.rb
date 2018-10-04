@@ -11,7 +11,8 @@ describe Operations::RetryUserPendingPayments do
   describe '#call' do
     subject { -> { instance.call } }
 
-    let!(:payment) { create(:payment, user_id: user.id, status: Constants::Payments::PENDING) }
+    let!(:trip) { create(:trip, status: Constants::Trip::FINISHED) }
+    let!(:payment) { create(:payment, trip_id: trip.id, user_id: user.id, status: Constants::Payments::PENDING) }
 
     it do
       expect_any_instance_of(Operations::Wayforpay::RetryPayment).to receive(:call).once

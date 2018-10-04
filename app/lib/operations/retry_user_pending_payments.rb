@@ -22,7 +22,7 @@ module Operations
     end
 
     def payments
-      @payments ||= Payment.where(status: Constants::Payments::PENDING, user_id: user_id)
+      @payments ||= Payment.pending(user_id)
     end
   end
 end
