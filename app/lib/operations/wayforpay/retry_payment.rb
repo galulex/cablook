@@ -26,10 +26,12 @@ module Operations
 
       def order_reference
         secure_code = SecureRandom.base58(6)
+        type = payment.type.demodulize.downcase
+        ref = "#{payment.trip_id}_retry_#{type}_#{secure_code}"
         @order_reference ||= if Rails.env.production?
-                               "cablook_#{payment.trip_id}_retry_#{secure_code}"
+                               "cablook_" + ref
                              else
-                               "cablook_#{Rails.env}_#{payment.trip_id}_retry_#{secure_code}"
+                               "cablook_#{Rails.env}_" + ref
                              end
       end
 

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_08_20_143025) do
+ActiveRecord::Schema.define(version: 2018_09_25_082929) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -105,7 +105,6 @@ ActiveRecord::Schema.define(version: 2018_08_20_143025) do
     t.integer "cents_per_km", default: 600
     t.integer "outside_cents_per_km", default: 900
     t.integer "landing", default: 2000
-    t.integer "fake", default: 20
     t.integer "idle_price", default: 1
     t.integer "min_price", default: 4000
     t.float "coefficient", default: 1.0

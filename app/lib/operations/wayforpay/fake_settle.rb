@@ -19,14 +19,14 @@ module Operations
       private
 
       def fake_settle_response
-        @fake_settle_reponse ||= Operations::Wayforpay::SendPayment.new(payment.card, prices.fake, 'Trip', order_reference).call
+        @fake_settle_reponse ||= Operations::Wayforpay::SendPayment.new(payment.card, prices.landing/100, 'Trip', order_reference).call
       end
 
       def create_fake_taxi_payment(status)
         Payments::FakeTaxi.create(
           trip_id: trip_id,
           user_id: trip.user_id,
-          amount: prices.fake,
+          amount: prices.landing/100,
           response: fake_settle_response,
           status: status,
           order_reference: order_reference
@@ -38,7 +38,7 @@ module Operations
       end
 
       def update_trip_total
-        trip.update(total: trip.total + prices.fake)
+        trip.update(total: trip.total + prices.landing/100)
       end
 
       def trip

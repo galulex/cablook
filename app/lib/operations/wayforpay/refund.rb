@@ -37,11 +37,11 @@ module Operations
         card = Card.find(payment.card_id)
         ::Wayforpay::Payments.hold(
           orderReference:  order_reference,
-          amount: prices.fake,
+          amount: prices.landing/100,
           currency: 'UAH',
           recToken: card.token,
           productName: ['Trip'],
-          productPrice: [prices.fake],
+          productPrice: [prices.landing/100],
           productCount: [1],
           orderDate: Time.now.to_i,
           merchantTransactionType: 'SALE'

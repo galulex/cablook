@@ -69,8 +69,11 @@ RSpec.configure do |config|
     DatabaseCleaner.start
 
     body = File.read('spec/fixtures/maps/success_directions')
+    body_mapbox = File.read('spec/fixtures/maps/mapbox_success_directions')
     stub_request(:get, /https:\/\/maps.googleapis.com\/maps\/api\/directions\/.*/)
       .to_return(status: 200, headers: { 'Content-Type' => 'application/json' }, body: body)
+    stub_request(:get, /https:\/\/api.mapbox.com\/directions\/v5\/mapbox\/driving\/.*/)
+      .to_return(status: 200, headers: { 'Content-Type' => 'application/json' }, body: body_mapbox)
   end
 
   config.append_after(:each) do
