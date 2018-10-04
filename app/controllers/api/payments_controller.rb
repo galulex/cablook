@@ -23,9 +23,7 @@ module Api
     end
 
     def pending_payments
-      @pending_payments ||= Payment.where(status: Constants::Payments::PENDING, user_id: current_user.id)
-                                   .joins(:trip)
-                                   .where(trips: { status: Constants::Trip::STATUS_CODES[Constants::Trip::FINISHED] })
+      @pending_payments ||= Payment.pending(current_user.id)
     end
   end
 end
