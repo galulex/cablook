@@ -61,3 +61,25 @@
     }
   }
 }
+
+@media screen and (max-width: 768px){
+  .dashboard{
+    flex-direction: column;
+  }
+
+  .map {
+    width: 100%;
+  }
+
+  .trips{
+    display: flex;
+    width: 100%;
+    height: 50vh;
+    overflow-x: scroll;
+
+    &__card{
+      margin: 10px 5px;
+      width: 50%;
+    }
+  }
+}

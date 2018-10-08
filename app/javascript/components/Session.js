@@ -3,7 +3,7 @@ import UI from './UI';
 
 export default class Session {
   static create = () => {
-    let data = new FormData(UI.form('form'))
+    let data = new FormData()
     data.append('phone_number', UI.number())
     return axios.post('api/session', data)
   }
