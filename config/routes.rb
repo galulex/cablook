@@ -49,6 +49,10 @@ Rails.application.routes.draw do
     end
   end
 
+  namespace :admin do
+    get 'analytics/:page' => 'analytics#index', constraints: { page: /(days|hours|mileage)/ }, defaults: { page: 'days' }, as: :page
+  end
+
   # scope '(:locale)', locale: /(ru)/, defaults: { locale: :ua } do
   get 'pwa' => 'welcome#pwa'
   get ':page' => 'welcome#index', constraints: { page: /(about|faq|why|benefits|contacts)/ }, defaults: { page: 'index' }, as: :page
