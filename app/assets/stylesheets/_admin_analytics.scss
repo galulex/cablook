@@ -1,32 +1,3 @@
-.tab {
-  margin: 1em;
-  border-radius: 5px;
-  overflow: hidden;
-  border: 1px solid #ccc;
-  background-color: #f1f1f1;
-  button {
-    background-color: inherit;
-    float: left;
-    border: none;
-    outline: none;
-    cursor: pointer;
-    padding: 14px 16px;
-    transition: 0.3s;
-    &:hover {
-      background-color: #ddd;
-    }
-    &.active {
-      background-color: #ccc;
-    }
-  }
-}
-
-.tabcontent {
-  display: none;
-  padding: 6px 12px;
-  border-top: none;
-}
-
 .range {
   display: inline-block;
   width: 500px;
@@ -39,6 +10,22 @@
 
 .send-button {
   margin: 1em;
+}
+.buttons {
+  margin-top: 1em;
+  margin-bottom: 2em;
+  a {
+    margin-right: 1em;
+    padding-top: 1em;
+    padding-bottom: 1em;
+    padding-left: 2em;
+    padding-right: 2em;
+    border: 1px solid grey;
+    border-radius: 5px;
+  }
+  a:hover {
+    background-color: rgb(238, 238, 238);
+  }
 }
 
 ul#checkboxes {
