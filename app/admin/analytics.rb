@@ -16,7 +16,7 @@ end
 
 def chart_type
   return if params[:chart].nil?
-  TaxiAnalytics.run("#{params[:chart]}", trip_status, from, to)
+  Analytics.run("#{params[:chart]}", trip_status, from, to)
 end
 
 def from
