@@ -28,7 +28,7 @@ module TaxiAnalytics
                               WHERE trips.status IN (#{@trip_status.join(', ')})) statuses
                         CROSS JOIN (SELECT DISTINCT(EXTRACT(HOUR FROM created_at)) AS label FROM trips) labels
                         LEFT JOIN trips ON trips.status = statuses.status
-                                        AND EXTRACT(HOUR FROM created_at) = labels.label
+                                        AND EXTRACT(HOUR FROM created_at AT time zone 'utc' AT time zone '#{Time.now.zone}') = labels.label
                                         AND(created_at BETWEEN '#{@from}' AND '#{@to}')
                         GROUP BY labels.label, statuses.status
                         ORDER BY label")

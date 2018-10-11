@@ -11,11 +11,7 @@ ActiveAdmin.register_page 'Analytics' do
 end
 
 def chart_data
-  { data: chart_type,
-    type: 'bar',
-    height: 600,
-    barOptions: { stacked: 1 },
-    colors: ['#32CD32', '#FF8C00', '#FF0000', '#696969'] }
+  Constants::Analytics::CHART_DATA.merge(data: chart_type)
 end
 
 def chart_type
