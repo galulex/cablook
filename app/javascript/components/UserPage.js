@@ -96,7 +96,7 @@ export default class UserPage extends Component {
     trip[input.id] = ''
     if (input.value.length == 0) return false
     let service = new google.maps.places.AutocompleteService()
-    service.getPlacePredictions({input: input.value, componentRestrictions: {country: 'ua'}, location: new google.maps.LatLng(49.4311119, 31.9791903), radius: 10, strictbounds: true}, data => {
+    service.getPlacePredictions({input: input.value, componentRestrictions: {country: 'ua'}, location: new google.maps.LatLng(49.4311119, 31.9791903), radius: 10, strictbounds: true, offset: 3}, data => {
       this.suggestions = []
       if (!data) return false
       this.suggestions = data

@@ -13,8 +13,11 @@ class Driver < ApplicationRecord
   private
 
   def set_address_location
-    return if address.blank?
-    location = Geokit::Geocoders::GoogleGeocoder.geocode("#{address}, Cherkassy")
-    self.address_location = [location.lat, location.lng]
+    if address.blank?
+      self.address_location = []
+    else
+      location = Geokit::Geocoders::GoogleGeocoder.geocode("#{address}, Cherkassy")
+      self.address_location = [location.lat, location.lng]
+    end
   end
 end
