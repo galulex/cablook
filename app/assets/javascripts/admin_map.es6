@@ -60,24 +60,26 @@ function init() {
 
   $('.driver').each(function(index, driver){
     data = $(driver).data('drivers');
-    if (data.address_location.length > 0);
-    var elt = document.createElement('div');
-    elt.className = 'driver_marker';
-    elt.setAttribute('style', 'background-color: #005b96; border: 1px solid black; height: 12px; width: 12px; border-radius: 50%;');
-    elt.setAttribute('data-drivers', JSON.stringify(data));
-    elt.addEventListener('click', function() {
-    });
-
-    popupHtml = `
-      <h4>${data.name}</h4>
-      <p>${data.username}</p>
-      <p>${data.address}</p>
-    `
-
-    driver_marker = new mapboxgl.Marker(elt)
-      .setLngLat(data.address_location.reverse())
-      .setPopup(new mapboxgl.Popup({ offset: 25 }).setHTML(popupHtml))
-      .addTo(map);
+    if (data.address_location.length > 0) {
+      var elt = document.createElement('div');
+      elt.className = 'driver_marker';
+      elt.setAttribute('style', 'background-color: #005b96; border: 1px solid black; height: 12px; width: 12px; border-radius: 50%;');
+      elt.setAttribute('data-drivers', JSON.stringify(data));
+      elt.addEventListener('click', function() {
+      });
+      
+    
+      popupHtml = `
+        <h4>${data.name}</h4>
+        <p>${data.username}</p>
+        <p>${data.address}</p>
+      `
+    
+      driver_marker = new mapboxgl.Marker(elt)
+        .setLngLat(data.address_location.reverse())
+        .setPopup(new mapboxgl.Popup({ offset: 25 }).setHTML(popupHtml))
+        .addTo(map);
+    }  
   });
 
   map.on('style.load', function () {
