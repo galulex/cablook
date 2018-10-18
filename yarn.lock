@@ -3212,6 +3212,10 @@ loader-utils@^1.0.1, loader-utils@^1.0.2, loader-utils@^1.1.0:
     emojis-list "^2.0.0"
     json5 "^0.5.0"
 
+localized-strings@^0.2.00:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/localized-strings/-/localized-strings-0.2.0.tgz#7a62e6d901a9feb3e0340db8ea3eaec0000a0f40"
+
 locate-path@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/locate-path/-/locate-path-2.0.0.tgz#2b568b265eec944c6d9c0de9c3dbbbca0354cd8e"
@@ -4740,6 +4744,13 @@ react-dom@*, react-dom@^16.4.2:
     object-assign "^4.1.1"
     prop-types "^15.6.0"
 
+react-localization@^1.0.12:
+  version "1.0.12"
+  resolved "https://registry.yarnpkg.com/react-localization/-/react-localization-1.0.12.tgz#df87d5f9b956175e92aa2e548d6d3def4efcaa84"
+  dependencies:
+    localized-strings "^0.2.00"
+    react "^16.0.0"
+
 react-rails-ujs@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/react-rails-ujs/-/react-rails-ujs-1.1.0.tgz#9b3cfe5d7e27ac56ed3be45f8a7b48b118c56ba5"
@@ -4755,6 +4766,15 @@ react@*, react@^16.4.2:
     loose-envify "^1.1.0"
     object-assign "^4.1.1"
     prop-types "^15.6.0"
+
+react@^16.0.0:
+  version "16.5.2"
+  resolved "https://registry.yarnpkg.com/react/-/react-16.5.2.tgz#19f6b444ed139baa45609eee6dc3d318b3895d42"
+  dependencies:
+    loose-envify "^1.1.0"
+    object-assign "^4.1.1"
+    prop-types "^15.6.2"
+    schedule "^0.5.0"
 
 react_ujs@^2.4.4:
   version "2.4.4"
@@ -5085,6 +5105,12 @@ sass-loader@^6.0.7:
 sax@^1.2.4, sax@~1.2.1:
   version "1.2.4"
   resolved "https://registry.yarnpkg.com/sax/-/sax-1.2.4.tgz#2816234e2378bddc4e5354fab5caa895df7100d9"
+
+schedule@^0.5.0:
+  version "0.5.0"
+  resolved "https://registry.yarnpkg.com/schedule/-/schedule-0.5.0.tgz#c128fffa0b402488b08b55ae74bb9df55cc29cc8"
+  dependencies:
+    object-assign "^4.1.1"
 
 schema-utils@^0.3.0:
   version "0.3.0"

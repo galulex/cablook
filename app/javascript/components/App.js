@@ -9,10 +9,13 @@ import TripScreen from './TripScreen'
 import Trip from './Trip'
 import Card from './Card'
 import Bonus from './Bonus'
+import Localization from '../localization/Localization'
+
 
 export default class App extends Component {
   constructor(props){
     super(props)
+    Localization.setLanguage('en')
     this.state = { 
       step: 1, 
       number: '',
