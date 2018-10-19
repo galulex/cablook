@@ -35,6 +35,10 @@ const en = {
     bonus: "Use bonus trip",
     submit: "Go",
     cancel: "Cancel"
+  },
+  trip_screen: {
+    car_search: "One minute, looking for a car",
+    cancel: "Cancel"
   }
 }
 
