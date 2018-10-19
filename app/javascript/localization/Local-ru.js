@@ -1,65 +1,61 @@
 const ru = {
-  number_form: {
-    number: "Введите номер",
-    number_alt: "Поле для номера",
+
+  confirmation: {
+    change_number: "Изменить номер",
+    incorrect_code: "Неправильний код",
+    sms_code: "Введите код из СМС",
     submit: "Далее"
   },
 
-  confirmation: {
-    incorrect_code: "Неправильний код",
-    sms_code: "Введите код из СМС",
-    submit: "Далее",
-    change_number: "Изменить номер",
-    code_input_alt: "Поле для кода"
-  },
-
-  user_page: {
-    from: "Откуда (2 Смелянская)",
-    to: "Куда (Спорт лайф)",
-    exit: "Выйти",
-    exit_alt: "Кнопка выхода",
-    add_point: "Добавить адрес",
-    add_point_alt: "Кнопка добавления адреса",
-    comment: "Комментарий",
-    submit: "Готово",
-    submit_alt: "Кнопка подтверждения"
-  },
-
   map_screen: {
-    currency: "грн",
-    cost: "Стоимость",
-    distance: "Расстояние",
-    km: "км",
-    card: "Выьерите карту",
     add_card: "Добавить карту",
     bonus: "Использовать бонусную поездку",
-    submit: "Поехали",
-    cancel: "Отменить"
+    cancel: "Отменить",
+    card: "Выберите карту",
+    cost: "Стоимость",
+    currency: "грн",
+    distance: "Расстояние",
+    km: "км",
+    submit: "Поехали"
   },
 
-  trip_screen: {
-    car_search: "Одну минутку, подбираем машинку",
-    cancel: "Отменить"
+  number_form: {
+    number: "Введите номер",
+    submit: "Далее"
   },
 
   trip: {
-    currency: "грн",
+    arrival: "Прибытие",
+    car_not_fond: "К сожалению машинка не найдена.\nПопробовать ещё?",
     cost: "Стоимость",
+    currency: "грн",
+    departure: "Отправление",
     distance: "Расстояние",
-    km: "км",
-    departure: "Відправлення",
-    arrival: "Прибуття",
-    car_not_fond: "К сожалению машинка не найдена.\nПопробовать еще?",
-    trip_canceled: "Поездка отменена.",
-    trip_finished: "Поездка завершена.",
     driver_waiting: "Водитель прибыл на место и ожидает Вас.",
-    pay_by_card: "На данный момент CabLook поддерживает только безналичный способ оплаты. \nЧтобы продолжить добавьте свою платежную карту."
+    km: "км",
+    pay_by_card: "На данный момент CabLook поддерживает только безналичный способ оплаты. \nЧтобы продолжить добавьте свою платежную карту.",
+    trip_canceled: "Поездка отменена.",
+    trip_finished: "Поездка завершена."
+  },
+
+  trip_screen: {
+    cancel: "Отменить",
+    car_search: "Одну минутку, подбираем машинку"
   },
 
   ui: {
-    personal_card: "Персональная",
-    business_card: "Бизнес",
     add_card: "Добавить карту",
+    business_card: "Бизнес",
+    personal_card: "Персональная"
+  },
+
+  user_page: {
+    add_point: "Добавить адрес",
+    comment: "Комментарий",
+    exit: "Выйти",
+    from: "Откуда (2 Смелянская)",
+    submit: "Готово",
+    to: "Куда (Спорт лайф)"
   }
 }
 

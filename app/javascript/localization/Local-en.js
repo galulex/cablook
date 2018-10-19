@@ -1,65 +1,61 @@
 const en = {
-  number_form: {
-    number: "Enter number",
-    number_alt: "Number input",
+
+  confirmation: {
+    change_number: "Change number",
+    incorrect_code: "Incorrect code",
+    sms_code: "Enter code from SMS",
     submit: "Submit"
   },
 
-  confirmation: {
-    incorrect_code: "Incorrect code",
-    sms_code: "Enter code from SMS",
-    submit: "Submit",
-    change_number: "Change number",
-    code_input_alt: "Code input"
-  },
-
-  user_page: {
-    from: "From (2 Smilyans'ka St)",
-    to: "To (Sport life)",
-    exit: "Exit",
-    exit_alt: "Exit button",
-    add_point: "Add address",
-    add_point_alt: "Add address button",
-    comment: "Comment",
-    submit: "Ready",
-    submit_alt: "Submit button"
-  },
-
   map_screen: {
-    currency: "uah",
-    cost: "Cost",
-    distance: "Distance",
-    km: "km",
-    card: "Choose a card",
     add_card: "Add a card",
     bonus: "Use bonus trip",
-    submit: "Go",
-    cancel: "Cancel"
+    cancel: "Cancel",
+    card: "Choose a card",
+    cost: "Cost",
+    currency: "uah",
+    distance: "Distance",
+    km: "km",
+    submit: "Go"
   },
-  
-  trip_screen: {
-    car_search: "One minute, looking for a car",
-    cancel: "Cancel"
+
+  number_form: {
+    number: "Enter number",
+    submit: "Submit"
   },
 
   trip: {
-    currency: "uah",
-    cost: "Cost",
-    distance: "Distance",
-    km: "km",
-    departure: "Departure",
     arrival: "Arrival",
     car_not_fond: "Unfortunately the car is not found.\nTry again?",
-    trip_canceled: "Trip canceled.",
-    trip_finished: "Trip finished.",
+    cost: "Cost",
+    currency: "uah",
+    departure: "Departure",
+    distance: "Distance",
     driver_waiting: "Driver has arrived and is waiting for you.",
-    pay_by_card: "Presently, CabLook only supports non-cash payment. \nTo continue please add your payment card."
+    km: "km",
+    pay_by_card: "Presently, CabLook only supports non-cash payment. \nTo continue please add your payment card.",
+    trip_canceled: "Trip canceled.",
+    trip_finished: "Trip finished."
+  },
+
+  trip_screen: {
+    cancel: "Cancel",
+    car_search: "One minute, looking for a car"
   },
 
   ui: {
-    personal_card: "Personal",
+    add_card: "Add a card",
     business_card: "Business",
-    add_card: "Add a card"
+    personal_card: "Personal"
+  },
+
+  user_page: {
+    add_point: "Add address",
+    comment: "Comment",
+    exit: "Exit",
+    from: "From (2 Smilyans'ka St)",
+    submit: "Ready",
+    to: "To (Sport life)"
   }
 }
 

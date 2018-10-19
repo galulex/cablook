@@ -128,17 +128,17 @@ export default class UserPage extends Component {
 		return (
       <form onSubmit={this.handleSubmit} className='form'>
         <div className='form__fieldset'>
-          <button className='button exit' alt={Localization.user_page.exit_alt} onClick={this.logOut} type='button'>{Localization.user_page.exit}</button> 
+          <button className='button exit' onClick={this.logOut} type='button'>{Localization.user_page.exit}</button> 
           <div className='form__user-number' id='account'>{this.props.number}</div>
           <div className='points'>
               {this.state.waypoints.map((el, index) => this.renderWaypoint(index, el.idEl, el.df, el.placeholder, el.predictions))}
-              <button className='link add-point' id='add_point' alt={Localization.user_page.add_point_alt} onClick={this.handleClick} type='button'><span className='plus'></span>{Localization.user_page.add_point}</button>
+              <button className='link add-point' id='add_point' onClick={this.handleClick} type='button'><span className='plus'></span>{Localization.user_page.add_point}</button>
           </div>
           <details>
               <summary><span className='comment-arrow'></span>{Localization.user_page.comment}</summary>
               <textarea id='comment' name='trip[comment]' onInput={(e) => trip.comment = e.target.value}></textarea>
           </details>
-          <br/><button className='button' id='done' alt={Localization.user_page.submit_alt} type='submit'>{Localization.user_page.submit}</button>
+          <br/><button className='button' id='done' type='submit'>{Localization.user_page.submit}</button>
         </div>
       </form>
 		)
