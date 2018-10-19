@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import UI from './UI'
 import Trip from './Trip'
+import Localization from '../localization/Localization'
 
 export default class MapScreen extends Component {
   constructor(props){
@@ -53,25 +54,25 @@ export default class MapScreen extends Component {
         <div className='form__fieldset' data-action=''>
           <div className='form__user-number'>
             <img className='map-img' id='trip_path' src={this.props.path}/>
-            <br/>Вартість: <b id='trip_cost'>{trip.cost}грн</b>
-            <br/>Відстань: <b id='trip_distance'>{(trip.distance/1000).toFixed(1)}км</b>
+            <br/>{Localization.map_screen.cost}: <b id='trip_cost'>{trip.cost}{Localization.map_screen.currency}</b>
+            <br/>{Localization.map_screen.distance}: <b id='trip_distance'>{(trip.distance/1000).toFixed(1)}{Localization.map_screen.km}</b>
           </div>
           <br/>
           <div className='card-section'>
-            <label htmlFor='card'>Оберіть картку</label> 
+            <label htmlFor='card'>{Localization.map_screen.card}</label> 
             <div className='select'>
               <select id='card' name='trip[card_id]' onChange={(e) => UI.selectCard(e, this)}>
                 {this.props.cards.map((el) => UI.renderCard(el))}
-                <option value=''>Додати картку</option>
+                <option value=''>{Localization.map_screen.add_card}</option>
               </select>
             </div>
           </div>
           <br/>
           <div className='bonus-section' hidden={true}>
-            <button className='button' id='bonus' name='trip[bonus]' onClick={(e) => trip.bonus = e.target.value} type='submit' value='true'>Використати бонусну поїздку</button>
+            <button className='button' id='bonus' name='trip[bonus]' onClick={(e) => trip.bonus = e.target.value} type='submit' value='true'>{Localization.map_screen.bonus}</button>
           </div>
-          <button className='button' id='go' type='submit'>Поїхали</button>
-          <button className='button yellow-button' onClick={this.handleClick} type='button'>Відмінити</button>
+          <button className='button' id='go' type='submit'>{Localization.map_screen.submit}</button>
+          <button className='button yellow-button' onClick={this.handleClick} type='button'>{Localization.map_screen.cancel}</button>
         </div>
       </form>
     )

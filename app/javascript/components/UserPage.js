@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import Session from './Session'
 import Trip from './Trip'
+import Localization from '../localization/Localization'
 
 export default class UserPage extends Component {
 	constructor(props){
@@ -11,14 +12,14 @@ export default class UserPage extends Component {
           id: 0,
           idEl: 'departure_address',
           df: 'departure',
-          placeholder: 'Звідки (2 Смілянська)',
+          placeholder: `${Localization.user_page.from}`,
           predictions: []
         },
         {
           id: 1,
           idEl: 'destination_address',
           df: 'destination',
-          placeholder: 'Куди (Спорт лайф)',
+          placeholder: `${Localization.user_page.to}`,
           predictions: []         
         }
       ]
@@ -127,17 +128,17 @@ export default class UserPage extends Component {
 		return (
       <form onSubmit={this.handleSubmit} className='form'>
         <div className='form__fieldset'>
-          <button className='button exit' onClick={this.logOut} type='button'>Вийти</button> 
+          <button className='button exit' onClick={this.logOut} type='button'>{Localization.user_page.exit}</button> 
           <div className='form__user-number' id='account'>{this.props.number}</div>
           <div className='points'>
               {this.state.waypoints.map((el, index) => this.renderWaypoint(index, el.idEl, el.df, el.placeholder, el.predictions))}
-              <button className='link add-point' id='add_point' onClick={this.handleClick} type='button'><span className='plus'></span>Додати адресу</button>
+              <button className='link add-point' id='add_point' onClick={this.handleClick} type='button'><span className='plus'></span>{Localization.user_page.add_point}</button>
           </div>
           <details>
-              <summary><span className='comment-arrow'></span>Коментар</summary>
+              <summary><span className='comment-arrow'></span>{Localization.user_page.comment}</summary>
               <textarea id='comment' name='trip[comment]' onInput={(e) => trip.comment = e.target.value}></textarea>
           </details>
-          <br/><button className='button' id='done' type='submit' >Готово</button>
+          <br/><button className='button' id='done' type='submit'>{Localization.user_page.submit}</button>
         </div>
       </form>
 		)

@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import UI from './UI'
 import Session from './Session'
+import Localization from '../localization/Localization'
 
 export default class NumberForm extends Component {
   handleSubmit = (event) => {
@@ -20,8 +21,8 @@ export default class NumberForm extends Component {
         <div className='form__fieldset form__fieldset--short'>
           <label className='form__number-label' htmlFor='number'>+380</label>
           <input className='form__number' id='number' max='999999999' min='100000000' name='phone_number' placeholder='932225665' required type='number' autoFocus/>
-          <label htmlFor='number'>Введіть номер</label>
-          <button className='button' id='submit_phone' type='submit'>Далі</button>
+          <label htmlFor='number'>{Localization.number_form.number}</label>
+          <button className='button' id='submit_phone' type='submit'>{Localization.number_form.submit}</button>
         </div>  
       </form>
     )
