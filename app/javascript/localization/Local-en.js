@@ -23,6 +23,18 @@ const en = {
     comment: "Comment",
     submit: "Ready",
     submit_alt: "Submit button"
+  },
+
+  map_screen: {
+    currency: "uah",
+    cost: "Cost",
+    distance: "Distance",
+    km: "km",
+    card: "Choose a card",
+    add_card: "Add a card",
+    bonus: "Use bonus trip",
+    submit: "Go",
+    cancel: "Cancel"
   }
 }
 

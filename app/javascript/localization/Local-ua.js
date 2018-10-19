@@ -23,6 +23,18 @@ const ua = {
     comment: "Коментар",
     submit: "Готово",
     submit_alt: "Кнопка підтвердження"
+  },
+
+  map_screen: {
+    currency: "грн",
+    cost: "Вартість",
+    distance: "Відстань",
+    km: "км",
+    card: "Оберіть картку",
+    add_card: "Додати картку",
+    bonus: "Використати бонусну поїздку",
+    submit: "Поїхали",
+    cancel: "Відмінити"
   }
 }
 
