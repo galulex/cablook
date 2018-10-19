@@ -36,9 +36,30 @@ const en = {
     submit: "Go",
     cancel: "Cancel"
   },
+  
   trip_screen: {
     car_search: "One minute, looking for a car",
     cancel: "Cancel"
+  },
+
+  trip: {
+    currency: "uah",
+    cost: "Cost",
+    distance: "Distance",
+    km: "km",
+    departure: "Departure",
+    arrival: "Arrival",
+    car_not_fond: "Unfortunately the car is not found.\nTry again?",
+    trip_canceled: "Trip canceled.",
+    trip_finished: "Trip finished.",
+    driver_waiting: "Driver has arrived and is waiting for you.",
+    pay_by_card: "Presently, CabLook only supports non-cash payment. \nTo continue please add your payment card."
+  },
+
+  ui: {
+    personal_card: "Personal",
+    business_card: "Business",
+    add_card: "Add a card"
   }
 }
 

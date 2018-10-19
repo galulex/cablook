@@ -1,4 +1,5 @@
 import React from 'react'
+import Localization from '../localization/Localization'
 
 export default class UI{
   static form = () => {
@@ -12,10 +13,10 @@ export default class UI{
       select.parentNode.parentNode.hidden = false
       var option = document.createElement('option')
       option.value = cards[card].id
-      option.text = `${(['Персональна', 'Бізнес'])[cards[card].property]} (${cards[card].pan}) - ${cards[card].type}`
+      option.text = `${([Localization.ui.personal_card, Localization.ui.bussines_card])[cards[card].property]} (${cards[card].pan}) - ${cards[card].type}`
       select.add(option)
     })
-    select.innerHTML += "<option value=''>Додати картку</option>";
+    select.innerHTML += `<option value=''>${Localization.ui.add_card}</option>`;
   }
 
   static addPoint = () => {
@@ -48,7 +49,7 @@ export default class UI{
 
   static renderCard = (card) => {
     return (<option value={card.id} key={card.id}>{
-      card.property === 0 ? 'Персональна' : 'Бізнес'
+      card.property === 0 ? `${Localization.ui.personal_card}` : `${Localization.ui.bussines_card}`
     } {card.pan} - {card.type} </option>)
   }
 

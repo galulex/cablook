@@ -1,6 +1,7 @@
 import axios from 'axios';
 
 import UI from './UI'
+import Localization from '../localization/Localization'
 
 export default class Trip {
   static build = () => {
@@ -26,10 +27,10 @@ export default class Trip {
     let trip = data.trip
     const html = `
       <img class='map-img' src='${localStorage.mapURL}'></br>
-      Вартість: <b>${trip.cost}грн</b></br>
-      Відстань: <b>${(trip.distance/1000).toFixed(1)}КМ</b></br>
-      Відправлення: <b>${trip.start_time}</b></br>
-      Прибуття: <b>${trip.finish_time}</b></br>
+      ${Localization.trip.cost}: <b>${trip.cost}${Localization.trip.currency}</b></br>
+      ${Localization.trip.distance}: <b>${(trip.distance/1000).toFixed(1)}${Localization.trip.km}</b></br>
+      ${Localization.trip.departure}: <b>${trip.start_time}</b></br>
+      ${Localization.trip.arrival}: <b>${trip.finish_time}</b></br>
       ${trip.driver_name}: <b><a href='tel:${trip.car_phone_number}'>${trip.car_phone_number}</a></b></br>
     `
     document.getElementById('loader').classList.add('hidden')
@@ -56,7 +57,7 @@ export default class Trip {
   }
 
   static TripDeclined = (data, that) => {
-    if (confirm('Нажаль машинку не знайдено.\n Спробувати ще?')) {
+    if (confirm(`${Localization.trip.car_not_fond}`)) {
       Trip.retry()
     } else {
       Trip.cancel()
@@ -69,18 +70,18 @@ export default class Trip {
     UI.destroyTrip()
     Trip.destroy(that)
     localStorage.removeItem('trip')
-    alert('Поїздка скасована.')
+    alert(`${Localization.trip.trip_canceled}`)
   }
 
   static finish_trip = (data, that) => {
     localStorage.removeItem('trip')
-    alert('Поїздка завершена.')
+    alert(`${Localization.trip.trip_finished}`)
     UI.destroyTrip()
     Trip.destroy(that)
   }
 
   static waiting_client = () => {
-    alert('Водій прибув на місце і очікує Вас')
+    alert(`${Localization.trip.driver_waiting}`)
   }
 
   static cancel = () => {
@@ -137,7 +138,7 @@ export default class Trip {
         dataLayer.push({ 'event': 'formSubmission', 'formType': 'Order Taxi' })
       }).catch(error => alert(error.response.data.errors))
     } else {
-      alert('На даний момент CabLook підтримує лише безготівковий спосіб оплати. \n Щоб продовжити додайте свою платіжну картку')
+      alert(`${Localization.trip.pay_by_card}`)
       that.pay()
     }
   }
