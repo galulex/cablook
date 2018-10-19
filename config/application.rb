@@ -24,6 +24,7 @@ module CabLook
     config.autoload_paths << "#{config.root}/app/channels"
     config.eager_load_paths << "#{Rails.root}/lib"
 
+    config.middleware.use Rack::Deflater
     config.active_job.queue_adapter = :sidekiq
     config.assets.precompile += %w[fonts.css]
 
