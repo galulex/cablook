@@ -20,9 +20,9 @@ export default class NumberForm extends Component {
       <form  className='form' id='form' onSubmit={this.handleSubmit}  action='/' >
         <div className='form__fieldset form__fieldset--short'>
           <label className='form__number-label' htmlFor='number'>+380</label>
-          <input className='form__number' id='number' max='999999999' min='100000000' name='phone_number' placeholder='932225665' required type='number' autoFocus/>
+          <input className='form__number' alt={Localization.number_form.number_alt} id='number' max='999999999' min='100000000' name='phone_number' placeholder='932225665' required type='number' autoFocus/>
           <label htmlFor='number'>{Localization.number_form.number}</label>
-          <button className='button' id='submit_phone' type='submit'>{Localization.number_form.submit}</button>
+          <button className='button' id='submit_phone' alt={Localization.number_form.submit} type='submit'>{Localization.number_form.submit}</button>
         </div>  
       </form>
     )
