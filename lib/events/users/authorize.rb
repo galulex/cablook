@@ -19,7 +19,7 @@ module Events
       private
 
       def custom_iphone?
-        data[:phone_number] == '+380111111111'
+        data[:phone_number] == '+380936977929'
       end
 
       def update_code

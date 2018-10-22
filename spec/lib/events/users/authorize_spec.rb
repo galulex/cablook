@@ -15,6 +15,12 @@ describe Events::Users::Authorize do
       it { is_expected.to raise_error(Events::InvalidParamsError) }
     end
 
+    context 'user custom_iphone?' do
+      let(:data) { { phone_number: '+380936977929', password: user.encrypted_password } }
+
+      it { is_expected.not_to change{ user.reload.verification_token } }
+      it { is_expected.not_to have_enqueued_job(Jobs::Sms) }
+    end
     context 'when user will create' do
       let!(:user) { attributes_for(:user) }
 
