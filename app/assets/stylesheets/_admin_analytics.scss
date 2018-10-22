@@ -1,0 +1,40 @@
+.filter {
+  display: inline-block;
+  width: 50%;
+}
+.analytics {
+  margin-top: 1em;
+}
+
+.send-button {
+  margin-top: 1em;
+}
+.buttons {
+  margin-top: 1em;
+  margin-bottom: 2em;
+  a {
+    margin-right: 1em;
+    display: inline-block;
+    vertical-align: middle;
+    line-height: 35px; 
+    text-align: center;
+    width: 150px;
+    border: 1px solid grey;
+    border-radius: 5px;
+    &:hover {
+      background-color: rgb(238, 238, 238);
+    }
+  }
+}
+
+label.checkbox {
+  display: inline-block;
+  margin-top: 1em;
+  margin-right: 1em;
+  input {
+    vertical-align: middle
+  }
+  span {
+    vertical-align: middle
+  }
+}

@@ -1,0 +1,25 @@
+h3 Load by days
+= form_for admin_analytics_path, remote: true, method: :get, class: 'filter_form' do
+  .filter
+    label.label From
+    = text_field_tag :from, params[:from] || 1.day.ago.to_date, type: :date, class: "datepicker hasDatepicker"
+  .filter
+    label.label To
+    = text_field_tag :to, params[:to] || Time.now.to_date, type: :date, class: "datepicker hasDatepicker"
+  .checkboxes 
+    label.checkbox  
+      = check_box_tag 'status[]', 4
+      span finished
+    label.checkbox  
+      = check_box_tag 'status[]', 5
+      span canceled
+    label.checkbox  
+      = check_box_tag 'status[]', 6
+      span declined
+    label.checkbox  
+      = check_box_tag 'status[]', 7
+      span canceled by driver
+    = hidden_field_tag "chart", "days"    
+  = submit_tag "Send", class: 'send-button'
+#daysChart  
+  

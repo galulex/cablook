@@ -71,6 +71,7 @@ input, textarea, select {
   margin: 15px 0;
   outline: none;
   position: relative;
+  box-sizing: border-box;
 }
 
 select {

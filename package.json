@@ -6,6 +6,7 @@
     "prop-types": "^15.6.2",
     "react": "^16.4.2",
     "react-dom": "^16.4.2",
+    "react-localization": "^1.0.12",
     "react-rails-ujs": "^1.1.0",
     "react_ujs": "^2.4.4"
   },

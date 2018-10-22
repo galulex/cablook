@@ -1,0 +1,12 @@
+h3 Mileage
+= form_for admin_analytics_path, remote: true, method: :get, class: 'filter_form' do
+  .filter
+    label.label From
+    = text_field_tag :from, params[:from] || 1.day.ago.to_date, type: :date, class: "datepicker hasDatepicker"
+  .filter
+    label.label To
+    = text_field_tag :to, params[:to] || Time.now.to_date, type: :date, class: "datepicker hasDatepicker"
+  = hidden_field_tag "chart", "mileage" 
+  = submit_tag "Send", class: 'send-button'
+#mileageChart  
+  

@@ -66,15 +66,16 @@ function init() {
     elt.setAttribute('data-drivers', JSON.stringify(data));
     elt.addEventListener('click', function() {
     });
-
+    
+  
     popupHtml = `
       <h4>${data.name}</h4>
       <p>${data.username}</p>
       <p>${data.address}</p>
     `
-
+  
     driver_marker = new mapboxgl.Marker(elt)
-      .setLngLat([data.address_location[1], data.address_location[0]])
+      .setLngLat(data.address_location.reverse())
       .setPopup(new mapboxgl.Popup({ offset: 25 }).setHTML(popupHtml))
       .addTo(map);
   });
