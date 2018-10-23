@@ -42,6 +42,14 @@ ActiveAdmin.register Trip do
     Events::Trips::Finish.(trip_id: trip_id)
     redirect_to admin_trip_path(trip_id), notice: 'Finished!'
   end
+
+  member_action :accept, method: :put do
+    car = Car.find(params[:car].to_i)
+    trip_id = params[:id].to_i
+    driver = car.driver
+    Events::Trips::Accept.(trip_id: trip_id, driver_id: driver.id, car_id: car.id)
+    redirect_to admin_trip_path(trip_id), notice: 'Accepted!'
+  end
 end
 
 def ordered_trip_columns

@@ -1,2 +1,7 @@
 .custom-actions
-  = button_to 'Finish Trip', finish_admin_trip_path(@trip), class: 'button', method: :put
+  = button_to 'Finish Trip', finish_admin_trip_path(@trip), class: 'form-element', method: :put
+  br
+  - if @trip.status == 'pending'
+    = form_tag accept_admin_trip_path(@trip), method: :put do
+      = select_tag :car, options_for_select(Car.where.not(status: :offline).collect { |i| [i.number, i.id] }), class: 'form-element'
+      = submit_tag 'Accept trip', class: 'form-element'
