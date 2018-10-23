@@ -70,11 +70,11 @@ module Events
       end
 
       def matrix
-        @matrix ||= Directions.new(
-          Redis.current.get("car_#{data[:car_id]}")&.split(','),
-          trip.departure,
-          car_trip ? [car_trip.destination.join(',')] : []
-        )
+        @matrix ||= Directions.new(start_point, trip.departure, [])
+      end
+
+      def start_point
+        car_trip ? car_trip.destination.join(',') : Redis.current.get("car_#{data[:car_id]}")&.split(',')
       end
 
       def car_trip
@@ -83,11 +83,7 @@ module Events
 
       def car_trip_remaining_time
         expected_finish_time = ((car_trip.started_at || car_trip.start_at) + car_trip.duration)
-        if Time.now > expected_finish_time
-          0.minutes
-        else
-          ((expected_finish_time - Time.now) / 60).round.minutes
-        end
+        Time.now > expected_finish_time ? 0.minutes : ((expected_finish_time - Time.now) / 60).round.minutes
       end
 
       def car
