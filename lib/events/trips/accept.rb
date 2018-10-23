@@ -74,7 +74,7 @@ module Events
       end
 
       def start_point
-        car_trip ? car_trip.destination.join(',') : Redis.current.get("car_#{data[:car_id]}")&.split(',')
+        car_trip ? car_trip.destination : Redis.current.get("car_#{data[:car_id]}")&.split(',')
       end
 
       def car_trip
