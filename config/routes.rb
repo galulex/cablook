@@ -59,5 +59,7 @@ Rails.application.routes.draw do
   get 'benefits/ext_opportunities', to: 'welcome#index', defaults: { page: 'ext_opportunities' }, as: :ext_opp
   # end
 
+  resources :locales, only: :show, constraints: { id: /(en|ua|ru)/ }
+
   root to: 'welcome#index'
 end
