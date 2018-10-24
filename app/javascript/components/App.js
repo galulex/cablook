@@ -16,11 +16,10 @@ export default class App extends Component {
   constructor(props){
     super(props)
     Localization.setLanguage('ua')
-    this.state = { 
-      step: 1, 
+    this.state = {
       number: '',
       path: '',
-      cards: [], 
+      cards: [],
       bonus_trips: []
     }
   }
@@ -33,7 +32,7 @@ export default class App extends Component {
     Card.create(attrs).then(response =>{
         localStorage.ready = true
         this.fetchCards()
-      }).catch(err => 
+      }).catch(err =>
         alert(err.response.data.errors)
       )
   }
@@ -47,7 +46,7 @@ export default class App extends Component {
         if (res.data['cards'].length > 0) localStorage.ready = true
         this.setState({ cards: res.data['cards'] })
         this.fetchBonusTrips()
-      }).catch(err => 
+      }).catch(err =>
         alert(err.response.data.errors)
       )
   }
@@ -57,12 +56,13 @@ export default class App extends Component {
         if (response.data['bonus_trips'].some((bonus_trip) => { return bonus_trip.status == 1 }))
           this.addBonusTrips(response.data['bonus_trips'])
           this.state.bonus_trips
-      }).catch(err => 
+      }).catch(err =>
         alert(err.response.data.errors)
       )
   }
 
   handleLoad = () => {
+    document.getElementById('nissan').classList.remove('loader')
     if (localStorage.referralCode){
       this.updateNumber(localStorage.phone)
       this.fetchCards()
@@ -86,7 +86,9 @@ export default class App extends Component {
         return false
       }
       this.setStep(3)
+      return false
     }
+    this.setStep(1)
   }
 
   setStep = (step) => {
@@ -112,53 +114,52 @@ export default class App extends Component {
     switch(this.state.step){
       case 1:
         return (
-          <NumberForm 
-            updateStep={this.setStep} 
+          <NumberForm
+            updateStep={this.setStep}
           />
         )
       case 2:
         return (
-          <Confirmation 
-            updateStep={this.setStep} 
-            number={number} 
+          <Confirmation
+            updateStep={this.setStep}
+            number={number}
             updateNumber={this.updateNumber}
-            fetchCards={this.fetchCards} 
+            fetchCards={this.fetchCards}
             cards={cards}
           />
         )
       case 3:
-        return ( 
-          <UserPage 
-            updateStep={this.setStep} 
-            number={number} 
-            setPath={this.updatePath} 
+        return (
+          <UserPage
+            updateStep={this.setStep}
+            number={number}
+            setPath={this.updatePath}
           />
         )
       case 4:
-        return( 
-          <MapScreen 
-            updateStep={this.setStep} 
-            path={path} 
-            cards={cards} 
-            bonuses={bonus_trips} 
+        return(
+          <MapScreen
+            updateStep={this.setStep}
+            path={path}
+            cards={cards}
+            bonuses={bonus_trips}
             createCard={this.createCard}
         />
         )
       case 5:
         return(
-          <TripScreen 
-            updateStep={this.setStep} 
+          <TripScreen
+            updateStep={this.setStep}
           />
-        )    
+        )
     }
-  } 
-  
+  }
+
   render () {
     return (
       <div className='container'>
         {this.renderComponent()}
-      </div>    
+      </div>
     );
   }
 }
-  

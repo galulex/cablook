@@ -15,7 +15,7 @@ export default class Session {
     data.append('token', token)
     return axios.patch('api/session', data)
   }
-  
+
   static destroy = () => {
     localStorage.removeItem('token')
     localStorage.removeItem('phone')

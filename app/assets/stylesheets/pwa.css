@@ -1,21 +1,7 @@
-body {
-  margin: 0;
-  padding: 0;
-  font-family: Gilroy, Helvetica, Arial, sans-serif;
-  font-weight: 100;
-  font-size: 18px;
-  background: #312d50;
-  background: linear-gradient(#312d50, #19a160);
-  background: linear-gradient(rgba(49,45,80,0.8), 60%, rgba(25,161,96,0.8)),url(https://i.imgur.com/cK8S0IY.jpg);
-  background-attachment: fixed;
-  color: white;
-}
-
 .container {
   border: none;
   position: relative;
 }
-
 
 .container .state img {
   margin-bottom: 10px;
@@ -27,28 +13,6 @@ body {
 
 main {
   text-align: unset !important;
-}
-
-.white-logo {
-  width: 30%;
-  display: block;
-  margin: 0 auto;
-}
-
-.white-logo path[fill="#1c1c1c"] {
-  fill: white;
-}
-
-.logo-title{
-  font-size: 1.6rem;
-  text-align: center;
-  color: #19a160;
-}
-
-.title {
-  font-size: 1.4rem;
-  text-align: center;
-  font-weight: 400;
 }
 
 [class*='icon'] {
@@ -355,13 +319,13 @@ input[type=number] {
   }
 }
 
-ellipse[stroke-dasharray] {
+.gone ellipse[stroke-dasharray] {
   stroke-dashoffset: 0;
   animation: dash .3s linear infinite;
+  transition: transform 2s;
 }
 
 .nissan {
-  transition: transform 2s;
   display: block;
   margin: 0 auto;
 }

@@ -23,7 +23,7 @@ export default class NumberForm extends Component {
           <input className='form__number' id='number' max='999999999' min='100000000' name='phone_number' placeholder='932225665' required type='number' autoFocus/>
           <label htmlFor='number'>{Localization.number_form.number}</label>
           <button className='button' id='submit_phone' type='submit'>{Localization.number_form.submit}</button>
-        </div>  
+        </div>
       </form>
     )
   }

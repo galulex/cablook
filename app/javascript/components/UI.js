@@ -5,7 +5,7 @@ export default class UI{
   static form = () => {
     return document.getElementsByClassName('form')
   }
-  
+
   static addCards = (cards) => {
     let select = document.getElementById('card')
     select.innerHTML = '';
