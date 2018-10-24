@@ -72,6 +72,7 @@ html lang='uk'
 
   body
     main= yield
+    = javascript_include_tag 'pwa', async: true
     = javascript_pack_tag 'application', async: true, defer: true
     = stylesheet_link_tag    'fonts', media: 'all'
     = stylesheet_link_tag 'pwa', media: :all
