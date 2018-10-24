@@ -5,7 +5,6 @@ div.logo-title
   | LOOK
 h1.title= t('welcome.index.title')
 
-= javascript_pack_tag 'application'
 = react_component('App', {}, prerender: true)
 
 = inline_svg 'nissan.svg', class: :nissan, id: :nissan
