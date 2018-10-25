@@ -63,7 +63,7 @@ export default class App extends Component {
 
   handleLoad = () => {
     document.getElementById('nissan').classList.remove('loader')
-    this.setDefaultLanguage()
+    this.getMainPageLanguage()
     if (localStorage.referralCode){
       this.updateNumber(localStorage.phone)
       this.fetchCards()
@@ -110,7 +110,7 @@ export default class App extends Component {
     this.setState({ path })
   }
 
-  setDefaultLanguage = () => {
+  getMainPageLanguage = () => {
     Localization.setLanguage(document.documentElement.lang)
     this.setState({})
   }

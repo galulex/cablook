@@ -37,10 +37,10 @@ nav
       div CabLook Taxi
       div Україна
       div © 2018 CabLook Taxi. All Rights Reserved
-      .locales
-        .flag
-          = link_to locale_path(:ua)
-            = inline_svg 'ua_flag.svg', width: '20', height: '15', alt: 'Ukraine'
-        .flag
-          = link_to locale_path(:ru)
-            = inline_svg 'ru_flag.svg', width: '20', height: '15', alt: 'Russia'
+    .bottom-menu__localization
+      .flag
+        = link_to locale_path(:ua)
+          = inline_svg 'ua_flag.svg', width: '23', height: '15', alt: 'Ukraine'
+      .flag
+        = link_to locale_path(:ru)
+          = inline_svg 'ru_flag.svg', width: '23', height: '15', alt: 'Russia'

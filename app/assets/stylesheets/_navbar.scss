@@ -66,6 +66,7 @@ a.contacts {
 }
 
 .bottom-menu {
+  display: flex;
   position: fixed;
   bottom: 0;
   width: 20%;
@@ -92,6 +93,10 @@ a.contacts {
   &__rights {
     background: $green;
     font-size: .5rem;
+    padding: 5px 0 5px 10%;
+  }
+
+  &__localization {
     padding: 5px 0 5px 10%;
   }
 }
