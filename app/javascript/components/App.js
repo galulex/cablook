@@ -115,11 +115,6 @@ export default class App extends Component {
     this.setState({})
   }
 
-  changeLanguage = (event) => {
-    Localization.setLanguage(event.target.value)
-    this.setState({})
-  }
-
   renderComponent = () => {
     const { step, number, cards, bonus_trips, path } = this.state
     switch(this.state.step){
@@ -168,21 +163,9 @@ export default class App extends Component {
 
   render () {
     return (
-<<<<<<< HEAD
       <div className='container'>
         {this.renderComponent()}
       </div>
-=======
-      <div className='main_container'>
-        <div className='locale_buttons'>
-          <button type='button' onClick={this.changeLanguage} value='ru'>RU</button>
-          <button type='button' onClick={this.changeLanguage} value='ua'>UA</button>
-        </div>
-        <div className='container'>
-          {this.renderComponent()}
-        </div> 
-      </div>   
->>>>>>> Added ability to switch language in pwa
     );
   }
 }
