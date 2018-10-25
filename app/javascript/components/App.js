@@ -63,6 +63,7 @@ export default class App extends Component {
 
   handleLoad = () => {
     document.getElementById('nissan').classList.remove('loader')
+    this.setDefaultLanguage()
     if (localStorage.referralCode){
       this.updateNumber(localStorage.phone)
       this.fetchCards()
@@ -107,6 +108,16 @@ export default class App extends Component {
 
   updatePath = (path) => {
     this.setState({ path })
+  }
+
+  setDefaultLanguage = () => {
+    Localization.setLanguage(document.documentElement.lang)
+    this.setState({})
+  }
+
+  changeLanguage = (event) => {
+    Localization.setLanguage(event.target.value)
+    this.setState({})
   }
 
   renderComponent = () => {
@@ -157,9 +168,21 @@ export default class App extends Component {
 
   render () {
     return (
+<<<<<<< HEAD
       <div className='container'>
         {this.renderComponent()}
       </div>
+=======
+      <div className='main_container'>
+        <div className='locale_buttons'>
+          <button type='button' onClick={this.changeLanguage} value='ru'>RU</button>
+          <button type='button' onClick={this.changeLanguage} value='ua'>UA</button>
+        </div>
+        <div className='container'>
+          {this.renderComponent()}
+        </div> 
+      </div>   
+>>>>>>> Added ability to switch language in pwa
     );
   }
 }
