@@ -303,12 +303,23 @@ input.form__number {
   letter-spacing: 1px;
 }
 
-.locale_buttons {
-  width: 75px;
-  position: relative;
-  margin-left: auto;
-  margin-right: auto;
-  margin-bottom: 15px;
+.localization {
+  position: absolute;
+  right: 25px;
+  top: 25px;
+  text-align: center;
+}
+
+.language {
+  display: inline-block; 
+}
+
+.language a{
+  color: white;
+  margin: 3px;
+  text-decoration: none;
+  font-size: 15px;
+  font-weight: 300;
 }
 
 input[type=number]::-webkit-inner-spin-button,
