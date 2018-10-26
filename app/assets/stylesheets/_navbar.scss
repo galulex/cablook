@@ -99,8 +99,9 @@ a.contacts {
   &__localization {
     background: $green;
     display: inline-block;
+    position: absolute;
     font-size: .5rem;
-    padding: 1px 0 5px 13%;
+    padding: 5px 0 5px 10%;
     .flag {
       margin: 1px;
     }
