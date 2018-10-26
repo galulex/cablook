@@ -90,7 +90,6 @@ a.contacts {
   }
 
   &__rights {
-    display: inline-block;
     background: $green;
     font-size: .5rem;
     padding: 5px 0 5px 10%;
@@ -98,12 +97,11 @@ a.contacts {
 
   &__localization {
     background: $green;
-    display: inline-block;
-    position: absolute;
-    font-size: .5rem;
-    padding: 5px 0 5px 10%;
+    padding: 5px 0 0 10%;
+    width: 100%;
     .flag {
-      margin: 1px;
+      display: inline-block;
+      margin-right: 0.5em;
     }
   }
 }
