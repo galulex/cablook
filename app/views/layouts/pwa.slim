@@ -97,6 +97,7 @@ html lang="#{I18n.locale}"
       }
 
   body
+    = render 'shared/localization'
     main= yield
     = javascript_include_tag 'pwa', async: true
     = javascript_pack_tag 'application', async: true, defer: true

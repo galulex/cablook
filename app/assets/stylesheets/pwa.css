@@ -304,10 +304,10 @@ input.form__number {
 }
 
 .localization {
-  position: absolute;
-  right: 25px;
-  top: 25px;
-  text-align: center;
+  margin-left: auto;
+  position: relative;
+  top: 20px;
+  width: 70px;
 }
 
 .language {
