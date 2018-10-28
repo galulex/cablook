@@ -11,7 +11,7 @@ module Api
       private
 
       def trip_params
-        params.require(:trip).permit(:departure_address, :destination_address, :comment, :departure, :destination, departure: [], destination: [], waypoints: [], stops: [])
+        params.require(:trip).permit(:departure_address, :destination_address, :comment, :start_time, :departure, :destination, departure: [], destination: [], waypoints: [], stops: [])
       end
     end
   end

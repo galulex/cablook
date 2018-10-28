@@ -135,6 +135,7 @@ export default class UserPage extends Component {
               <button className='link add-point' id='add_point' onClick={this.handleClick} type='button'><span className='plus'></span>{Localization.user_page.add_point}</button>
           </div>
           <details>
+              <input type='time' id='start_time' name='trip[start_time]' onInput={(e) => trip.start_time = e.target.value}></input>
               <summary><span className='comment-arrow'></span>{Localization.user_page.comment}</summary>
               <textarea id='comment' name='trip[comment]' onInput={(e) => trip.comment = e.target.value}></textarea>
           </details>
