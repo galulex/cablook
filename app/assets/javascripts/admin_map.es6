@@ -214,6 +214,10 @@ function cardMarkup(trip, color) {
         <strong>User:</strong>
         <span'>${trip.user_number}</span>
       </div>
+      <div class='field'>
+        <strong>Start time:</strong>
+        <span'>${trip.start_time}</span>
+      </div>
     </li>
   `
 }
