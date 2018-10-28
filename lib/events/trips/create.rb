@@ -15,6 +15,7 @@ module Events
           optional(:waypoints) { none? | array? }
           optional(:stops) { none? | array? }
 
+          optional(:start_time)
           optional(:comment) { str? }
           optional(:card_id)
           optional(:bonus)
