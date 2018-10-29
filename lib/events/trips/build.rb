@@ -14,13 +14,11 @@ module Events
           optional(:waypoints) { none? | array? }
           optional(:stops) { none? | array? }
 
-          optional(:start_at) { str? }
           optional(:comment) { str? }
         end
       end
 
       def run
-        validate_start_at
         validate_directions
         build_trip
         @trip
@@ -31,11 +29,6 @@ module Events
       def validate_directions
         return unless directions.result.nil?
         invalid!([I18n.t('trips.invalid')])
-      end
-
-      def validate_start_at
-        return unless data[:start_at]
-        invalid!([I18n.t('trips.start_at_invalid')]) if Time.now > data[:start_at]&.to_time
       end
 
       def build_trip

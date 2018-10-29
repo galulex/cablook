@@ -11,7 +11,6 @@ FactoryBot.define do
     departure_address { Faker::Address.street_name }
     destination_address { Faker::Address.street_name }
     comment { Faker::Lorem.sentence }
-    start_time { nil }
 
     association :user
 

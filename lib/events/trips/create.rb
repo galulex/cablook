@@ -87,7 +87,8 @@ module Events
 
       def start_time
         return unless data[:start_at]
-        @trip.update(start_at: data[:start_at].to_time) if Time.now > data[:start_at].to_time
+        date = data[:start_at].to_time
+        @trip.update(start_at: Time.now < data[:start_at].to_time ? date : date + 1.day)
       end
 
       def create_trip_job(trip_id)
