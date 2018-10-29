@@ -147,7 +147,7 @@ export default class UserPage extends Component {
           <label htmlFor='start_at'>{Localization.user_page.start_time}</label> 
             <div className='select'>
               <select id='start_at' name='trip[start_at]' onChange={(e) => trip.start_at = e.target.value}>
-                <option>{Localization.user_page.start_time_placeholder}</option>
+                <option value=''>{Localization.user_page.start_time_placeholder}</option>
                 {this.state.time_select.map((el) => this.renderSelectTime(el))}
               </select>
             </div>

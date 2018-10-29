@@ -86,8 +86,8 @@ module Events
       end
 
       def start_time
-        return if data[:start_at] == 'undefined' || Time.now > data[:start_at].to_time
-        @trip.update(start_at: data[:start_at].to_time)
+        return unless data[:start_at]
+        @trip.update(start_at: data[:start_at].to_time) if Time.now > data[:start_at].to_time
       end
 
       def create_trip_job(trip_id)

@@ -34,8 +34,8 @@ module Events
       end
 
       def validate_start_at
-        return if data[:start_at] == 'undefined' || Time.now < data[:start_at].to_time
-        invalid!([I18n.t('trips.start_at_invalid')])
+        return unless data[:start_at]
+        invalid!([I18n.t('trips.start_at_invalid')]) if Time.now > data[:start_at]&.to_time
       end
 
       def build_trip
