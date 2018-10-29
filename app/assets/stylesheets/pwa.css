@@ -305,7 +305,7 @@ input.form__number {
 
 .select-section {
   margin-left: 20px;
-  margin-top: 10px;
+  margin-top: 15px;
 }
 
 input[type=number]::-webkit-inner-spin-button,

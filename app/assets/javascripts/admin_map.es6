@@ -216,7 +216,7 @@ function cardMarkup(trip, color) {
       </div>
       <div class='field'>
         <strong>Start time:</strong>
-        <span'>${trip.start_time}</span>
+        <span'>${trip.start_at}</span>
       </div>
     </li>
   `
