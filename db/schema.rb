@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_10_28_134349) do
+ActiveRecord::Schema.define(version: 2018_09_25_082929) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -142,7 +142,6 @@ ActiveRecord::Schema.define(version: 2018_10_28_134349) do
     t.text "stops", default: [], array: true
     t.integer "idle", default: 0
     t.integer "total", default: 0
-    t.datetime "start_time"
     t.index ["car_id"], name: "index_trips_on_car_id"
     t.index ["driver_id"], name: "index_trips_on_driver_id"
     t.index ["user_id"], name: "index_trips_on_user_id"
