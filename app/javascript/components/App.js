@@ -15,7 +15,7 @@ import Localization from '../localization/Localization'
 export default class App extends Component {
   constructor(props){
     super(props)
-    Localization.setLanguage('ua')
+    Localization.setLanguage('uk')
     this.state = {
       number: '',
       path: '',

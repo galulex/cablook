@@ -53,13 +53,13 @@ Rails.application.routes.draw do
     get 'analytics/:page' => 'analytics#index', constraints: { page: /(days|hours|mileage)/ }, defaults: { page: 'days' }, as: :page
   end
 
-  # scope '(:locale)', locale: /(ru)/, defaults: { locale: :ua } do
+  # scope '(:locale)', locale: /(ru)/, defaults: { locale: :uk } do
   get 'pwa' => 'welcome#pwa'
   get ':page' => 'welcome#index', constraints: { page: /(about|faq|why|benefits|contacts)/ }, defaults: { page: 'index' }, as: :page
   get 'benefits/ext_opportunities', to: 'welcome#index', defaults: { page: 'ext_opportunities' }, as: :ext_opp
   # end
 
-  resources :locales, only: :show, constraints: { id: /(en|ua|ru)/ }
+  resources :locales, only: :show, constraints: { id: /(en|uk|ru)/ }
 
   root to: 'welcome#index'
 end

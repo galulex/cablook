@@ -39,7 +39,7 @@ ru:
       destination: Место назначения
       user: Пользователь
 
-ua:
+uk:
   structs:
     user:
       email: Е-мейл
