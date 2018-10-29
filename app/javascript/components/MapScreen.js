@@ -58,7 +58,7 @@ export default class MapScreen extends Component {
             <br/>{Localization.map_screen.distance}: <b id='trip_distance'>{(trip.distance/1000).toFixed(1)}{Localization.map_screen.km}</b>
           </div>
           <br/>
-          <div className='card-section'>
+          <div className='select-section'>
             <label htmlFor='card'>{Localization.map_screen.card}</label> 
             <div className='select'>
               <select id='card' name='trip[card_id]' onChange={(e) => UI.selectCard(e, this)}>

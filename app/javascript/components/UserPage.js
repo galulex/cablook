@@ -22,7 +22,8 @@ export default class UserPage extends Component {
           placeholder: `${Localization.user_page.to}`,
           predictions: []         
         }
-      ]
+      ],
+      time_select: Array(24 * 6).fill(0).map((_, i) => { return ('0' + ~~(i / 6) + ':0' + Math.round(60  * (i / 6 % 1))).replace(/\d(\d\d)/g, '$1') })
     }
   }
   
@@ -119,6 +120,10 @@ export default class UserPage extends Component {
     input.focus()
   }
 
+  renderSelectTime = (el) => {
+    return(<option value={el} key={el}>{el}</option>)
+  }
+
   logOut = () => {
     Session.destroy()
     this.props.updateStep(1)
@@ -134,10 +139,15 @@ export default class UserPage extends Component {
               {this.state.waypoints.map((el, index) => this.renderWaypoint(index, el.idEl, el.df, el.placeholder, el.predictions))}
               <button className='link add-point' id='add_point' onClick={this.handleClick} type='button'><span className='plus'></span>{Localization.user_page.add_point}</button>
           </div>
-          <details>
-            <summary><span className='comment-arrow'></span>{Localization.user_page.start_time}</summary>
-            <input type='time' id='start_time' name='trip[start_time]' onInput={(e) => trip.start_time = e.target.value} placeholder={Localization.user_page.start_time_placeholder}></input>
-          </details>
+          <div className='select-section'>
+            <label htmlFor='card'>{Localization.user_page.start_time}</label> 
+              <div className='select'>
+                <select>
+                  <option>{Localization.user_page.start_time_placeholder}</option>
+                  {this.state.time_select.map((el) => this.renderSelectTime(el))}
+                </select>
+              </div>
+            </div>
           <details>
               <summary><span className='comment-arrow'></span>{Localization.user_page.comment}</summary>
               <textarea id='comment' name='trip[comment]' onInput={(e) => trip.comment = e.target.value}></textarea>
