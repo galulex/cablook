@@ -73,11 +73,11 @@ module Events
       end
 
       def start_time
-        if @trip.start_time.blank?
+        if @trip.start_at.blank?
           start_at = matrix.duration.seconds.since + 2.minutes
           car_trip ? (start_at + car_trip_remaining_time) : start_at
         else
-          @trip.start_time
+          @trip.start_at
         end
       end
 
