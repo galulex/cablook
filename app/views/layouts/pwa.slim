@@ -1,5 +1,5 @@
 doctype 5
-html lang='uk'
+html lang="#{I18n.locale}"
   head
     = render 'layouts/head'
     css:
@@ -97,6 +97,7 @@ html lang='uk'
       }
 
   body
+    = render 'shared/localization'
     main= yield
     = javascript_include_tag 'pwa', async: true
     = javascript_pack_tag 'application', async: true, defer: true

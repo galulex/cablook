@@ -15,7 +15,7 @@ import Localization from '../localization/Localization'
 export default class App extends Component {
   constructor(props){
     super(props)
-    Localization.setLanguage('ua')
+    Localization.setLanguage('uk')
     this.state = {
       number: '',
       path: '',
@@ -63,6 +63,7 @@ export default class App extends Component {
 
   handleLoad = () => {
     document.getElementById('nissan').classList.remove('loader')
+    this.getMainPageLanguage()
     if (localStorage.referralCode){
       this.updateNumber(localStorage.phone)
       this.fetchCards()
@@ -107,6 +108,11 @@ export default class App extends Component {
 
   updatePath = (path) => {
     this.setState({ path })
+  }
+
+  getMainPageLanguage = () => {
+    Localization.setLanguage(document.documentElement.lang)
+    this.setState({})
   }
 
   renderComponent = () => {

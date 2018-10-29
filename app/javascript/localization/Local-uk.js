@@ -1,4 +1,4 @@
-const ua = {
+const uk = {
   confirmation: {
     change_number: "Змiнити номер",
     incorrect_code: "Неправильний код",
@@ -58,4 +58,4 @@ const ua = {
   }
 }
 
-export default ua
+export default uk

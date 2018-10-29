@@ -33,7 +33,15 @@ nav
         = inline_svg 'app_store_badge.svg'
 
   .bottom-menu
+    .bottom-menu__localization
+      .flag
+        = link_to locale_path(:uk)
+          = inline_svg 'ua_flag.svg', width: '23', height: '15', alt: 'Ukraine'
+      .flag
+        = link_to locale_path(:ru)
+          = inline_svg 'ru_flag.svg', width: '23', height: '15', alt: 'Russia'
     .bottom-menu__rights
       div CabLook Taxi
       div Україна
       div © 2018 CabLook Taxi. All Rights Reserved
+

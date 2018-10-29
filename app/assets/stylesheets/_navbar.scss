@@ -94,6 +94,16 @@ a.contacts {
     font-size: .5rem;
     padding: 5px 0 5px 10%;
   }
+
+  &__localization {
+    background: $green;
+    padding: 5px 0 0 10%;
+    width: 100%;
+    .flag {
+      display: inline-block;
+      margin-right: 0.5em;
+    }
+  }
 }
 
 nav .icon {
@@ -103,6 +113,7 @@ nav .icon {
 
 .badges {
   text-align: center;
+  padding-bottom: 25px;
 
   a {
     vertical-align: middle;
