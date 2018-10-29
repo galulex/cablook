@@ -42,10 +42,10 @@ describe Events::Trips::Accept do
       it { expect(ActionCable.server).to receive(:broadcast).twice }
     end
 
-    context 'when trip have start time' do
-      let(:trip) { create(:trip, user_id: user.id, driver_id: driver.id, start_time: Time.new(2018, 10, 10, 21, 35)) }
+    context 'when trip have start at' do
+      let(:trip) { create(:trip, user_id: user.id, driver_id: driver.id, start_at: '16:20'.to_time) }
 
-      it { is_expected.to change { trip.reload.start_at }.to(Time.new(2018, 10, 10, 21, 35)) }
+      it { is_expected.not_to change { trip.reload.start_at } }
     end
 
     context 'time calculation' do

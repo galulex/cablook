@@ -13,8 +13,8 @@ module Events
 
       def run
         if trip.status == Constants::Trip::STATUS_CODES[Constants::Trip::PENDING]
-          update_trip
           update_car_status
+          update_trip
           broadcast_accepted_trip
           broadcast_accepted_trip_to_trip_channel
         else
@@ -27,7 +27,7 @@ module Events
       def update_trip
         trip.with_lock do
           trip.update(
-            status: Constants::Trip::ON_THE_WAY,
+            status: trip_status,
             car_id: data[:car_id],
             driver_id: data[:driver_id],
             start_at: start_time
@@ -36,6 +36,7 @@ module Events
       end
 
       def update_car_status
+        return unless @trip.start_at.blank?
         car.update(status: Constants::Car::DURING_TRIP)
       end
 
@@ -70,6 +71,10 @@ module Events
 
       def matrix
         @matrix ||= Directions.new(start_point, trip.departure, [])
+      end
+
+      def trip_status
+        @trip.start_at.blank? ? Constants::Trip::ON_THE_WAY : Constants::Trip::PRE_ORDERED
       end
 
       def start_time

@@ -11,7 +11,7 @@ module Api
       def currents
         trips = Trip.where(
           driver_id: current_driver.id,
-          status: [Constants::Trip::ON_THE_WAY, Constants::Trip::WAITING_CLIENT, Constants::Trip::DRIVING]
+          status: [Constants::Trip::ON_THE_WAY, Constants::Trip::WAITING_CLIENT, Constants::Trip::DRIVING, Constants::Trip::PRE_ORDERED]
         )
         render json: Presenters::Trips::DetailedCollection.new(trips).to_json, status: 200
       end
