@@ -2,6 +2,8 @@ describe Events::Trips::Create do
   describe '.call' do
     subject { -> { described_class.call(data) } }
 
+    before(:all) { Price.create }
+
     let(:trip_params) { attributes_for(:trip, user_id: user.id) }
     let(:data) { trip_params }
     let(:user) { create(:user) }
@@ -39,12 +41,12 @@ describe Events::Trips::Create do
 
       let(:data) { trip_params.merge(start_at: 15.minutes.since.strftime('%H:%M')) }
 
-      it { expect(Trip.last.start_at.strftime('%H:%M')).to eq(15.minutes.since.strftime('%H:%M')) }
+      it { expect(Trip.last.start_at.utc.strftime('%H:%M')).to eq(15.minutes.since.strftime('%H:%M')) }
 
       context 'and start_at less then current time' do
         let(:data) { trip_params.merge(start_at: 15.minutes.ago.strftime('%d, %H:%M')) }
 
-        it { expect(Trip.last.start_at.strftime('%d, %H:%M')).to eq((15.minutes.ago + 1.day).strftime('%d, %H:%M')) }
+        it { expect(Trip.last.start_at.utc.strftime('%d, %H:%M')).to eq((15.minutes.ago + 1.day).strftime('%d, %H:%M')) }
       end
 
       context 'when start_at blank' do
