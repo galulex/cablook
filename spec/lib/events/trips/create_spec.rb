@@ -2,8 +2,6 @@ describe Events::Trips::Create do
   describe '.call' do
     subject { -> { described_class.call(data) } }
 
-    before(:all) { Price.create }
-
     let(:trip_params) { attributes_for(:trip, user_id: user.id) }
     let(:data) { trip_params }
     let(:user) { create(:user) }
