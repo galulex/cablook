@@ -139,11 +139,11 @@ export default class UserPage extends Component {
               {this.state.waypoints.map((el, index) => this.renderWaypoint(index, el.idEl, el.df, el.placeholder, el.predictions))}
               <button className='link add-point' id='add_point' onClick={this.handleClick} type='button'><span className='plus'></span>{Localization.user_page.add_point}</button>
           </div>
-          <details>
-              <summary><span className='comment-arrow'></span>{Localization.user_page.comment}</summary>
-              <textarea id='comment' name='trip[comment]' onInput={(e) => trip.comment = e.target.value}></textarea>
-          </details>
           <div className='select-section'>
+          <span className='clock'>
+            <div className='hour'></div>
+            <div className='minute'></div>
+          </span>
           <label htmlFor='start_at'>{Localization.user_page.start_time}</label> 
             <div className='select'>
               <select id='start_at' name='trip[start_at]' onChange={(e) => trip.start_at = e.target.value}>
@@ -152,6 +152,10 @@ export default class UserPage extends Component {
               </select>
             </div>
           </div>
+          <details>
+              <summary><span className='comment-arrow'></span>{Localization.user_page.comment}</summary>
+              <textarea id='comment' name='trip[comment]' onInput={(e) => trip.comment = e.target.value}></textarea>
+          </details>
           <br/><button className='button' id='done' type='submit'>{Localization.user_page.submit}</button>
         </div>
       </form>

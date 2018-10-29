@@ -304,8 +304,42 @@ input.form__number {
 }
 
 .select-section {
-  margin-left: 20px;
+  display: block;
   margin-top: 15px;
+  padding-left: 20px;
+  position: relative;
+}
+
+.select-section .clock {
+  position: absolute;
+  width: 28px;
+  height: 28px;
+  border: 2px solid white;
+  border-radius: 50%;
+  left: -19px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.clock .minute {
+  border-left: 2px solid white;
+  border-radius: 1px;
+  height: 13px;
+  position: absolute;
+  left: 50%;
+  margin-left: -1px;
+  top: 4px;
+}
+
+.clock .hour {
+  border-left: 2px solid white;
+  border-radius: 1px;
+  height: 10px;
+  position: absolute;
+  left: 50%;
+  margin-left: 2px;
+  top: 9px;
+  transform: rotate(50deg)
 }
 
 input[type=number]::-webkit-inner-spin-button,
@@ -374,7 +408,7 @@ details[open] span.comment-arrow {
 
 summary {
   display: block;
-  margin-top: 30px;
+  margin-top: 15px;
   padding-left: 20px;
   position: relative;
 }
