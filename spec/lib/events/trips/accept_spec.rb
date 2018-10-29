@@ -42,10 +42,12 @@ describe Events::Trips::Accept do
       it { expect(ActionCable.server).to receive(:broadcast).twice }
     end
 
-    context 'when trip have start at' do
-      let(:trip) { create(:trip, user_id: user.id, driver_id: driver.id, start_at: '16:20'.to_time) }
+    context 'when trip have start_at' do
+      let(:trip) { create(:trip, user_id: user.id, driver_id: driver.id, start_at: '16:20'.to_datetime) }
 
       it { is_expected.not_to change { trip.reload.start_at } }
+      it { is_expected.not_to change { car.reload.status } }
+      it { is_expected.to change { trip.reload.status }.to(Constants::Trip::STATUS_CODES[Constants::Trip::PRE_ORDERED]) }
     end
 
     context 'time calculation' do
@@ -64,6 +66,12 @@ describe Events::Trips::Accept do
         let(:new_data) { { trip_id: trip.id, driver_id: driver.id, car_id: driver.car_id } }
 
         before(:each) { described_class.call(new_data) }
+
+        context 'and have pre-ordered trip' do
+          let!(:first_trip) { create(:trip, start_at: 5.hours.since, duration: 10.minutes, status: Constants::Trip::PRE_ORDERED, car_id: car.id, driver_id: driver.id) }
+
+          it { expect(trip.reload.start_at.to_s).to eq(7.minutes.since.to_s) }
+        end
 
         context 'during first trip' do
           let!(:first_trip) { create(:trip, started_at: 8.minutes.ago, duration: 10.minutes, status: Constants::Trip::DRIVING, car_id: car.id, driver_id: driver.id) }
