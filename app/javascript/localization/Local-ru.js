@@ -56,8 +56,8 @@ const ru = {
     from: "Откуда (2 Смелянская)",
     submit: "Готово",
     to: "Куда (Спорт лайф)",
-    start_time: "Время отправления",
-    start_time_placeholder: "Введите время отправления"
+    start_time: "Время отправления ",
+    start_time_placeholder: "Прямо сейчас"
   }
 }
 

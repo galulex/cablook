@@ -55,8 +55,8 @@ const ua = {
     from: "Звідки (2 Смілянська)",
     submit: "Готово",
     to: "Куди (Спорт лайф)",
-    start_time: "Час відправлення",
-    start_time_placeholder: "Введіть час відправлення"
+    start_time: "Час відправлення ",
+    start_time_placeholder: "Прямо зараз"
   }
 }
 

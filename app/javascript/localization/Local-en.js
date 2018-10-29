@@ -56,8 +56,8 @@ const en = {
     from: "From (2 Smilyans'ka St)",
     submit: "Ready",
     to: "To (Sport life)",
-    start_time: "Departure time",
-    start_time_placeholder: "Enter departure time"
+    start_time: "Departure time ",
+    start_time_placeholder: "Right now"
   }
 }
 

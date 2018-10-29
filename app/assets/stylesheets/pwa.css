@@ -303,6 +303,11 @@ input.form__number {
   letter-spacing: 1px;
 }
 
+.select-section {
+  margin-left: 20px;
+  margin-top: 10px;
+}
+
 input[type=number]::-webkit-inner-spin-button,
 input[type=number]::-webkit-outer-spin-button {
   -webkit-appearance: none;
