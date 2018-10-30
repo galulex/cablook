@@ -87,7 +87,7 @@ module Events
 
       def start_time
         return unless data[:start_at]
-        date = data[:start_at].to_time(:utc)
+        date = data[:start_at].to_time(:utc).to_datetime
         @trip.update(start_at: Time.now.utc.strftime('%H:%M') < data[:start_at].to_time(:utc).strftime('%H:%M') ? date : date + 1.day)
       end
 
