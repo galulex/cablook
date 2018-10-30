@@ -26,7 +26,7 @@ describe Events::Trips::Accept do
       context 'and broadcast to channel' do
         after { subject.call }
 
-        it { expect(ActionCable.server).to receive(:broadcast).once }
+        it { expect(ActionCable.server).to receive(:broadcast).twice }
       end
     end
 
@@ -48,6 +48,14 @@ describe Events::Trips::Accept do
       it { is_expected.not_to change { trip.reload.start_at } }
       it { is_expected.not_to change { car.reload.status } }
       it { is_expected.to change { trip.reload.status }.to(Constants::Trip::STATUS_CODES[Constants::Trip::PRE_ORDERED]) }
+    end
+
+    context 'when driver accept pre-ordered trip' do
+      let(:trip) { create(:trip, user_id: user.id, driver_id: driver.id, start_at: '16:20'.to_datetime, status: Constants::Trip::PRE_ORDERED) }
+
+      it { is_expected.not_to change { trip.reload.start_at } }
+      it { is_expected.to change { trip.reload.status }.to(Constants::Trip::STATUS_CODES[Constants::Trip::ON_THE_WAY]) }
+      it { is_expected.to change { driver.car.reload.status }.to('during_trip') }
     end
 
     context 'time calculation' do

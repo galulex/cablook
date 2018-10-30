@@ -12,7 +12,7 @@ module Events
       end
 
       def run
-        if trip.status == Constants::Trip::STATUS_CODES[Constants::Trip::PENDING]
+        if trip.status == Constants::Trip::STATUS_CODES[Constants::Trip::PENDING] || Constants::Trip::STATUS_CODES[Constants::Trip::PRE_ORDERED]
           update_car_status
           update_trip
           broadcast_accepted_trip
@@ -36,8 +36,9 @@ module Events
       end
 
       def update_car_status
-        return unless @trip.start_at.blank?
-        car.update(status: Constants::Car::DURING_TRIP)
+        if @trip.status == Constants::Trip::STATUS_CODES[Constants::Trip::PRE_ORDERED] || @trip.start_at.blank?
+          car.update(status: Constants::Car::DURING_TRIP)
+        end
       end
 
       def broadcast_accepted_trip
@@ -74,7 +75,11 @@ module Events
       end
 
       def trip_status
-        @trip.start_at.blank? ? Constants::Trip::ON_THE_WAY : Constants::Trip::PRE_ORDERED
+        if @trip.status == Constants::Trip::STATUS_CODES[Constants::Trip::PRE_ORDERED] || @trip.start_at.blank?
+          Constants::Trip::ON_THE_WAY
+        else
+          Constants::Trip::PRE_ORDERED
+        end
       end
 
       def start_time
