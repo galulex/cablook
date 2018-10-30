@@ -267,7 +267,7 @@ button.add-point .plus:after {
   position: relative;
 }
 
-.select-section .clock {
+.start_at_label .clock {
   position: absolute;
   width: 28px;
   height: 28px;
@@ -278,26 +278,32 @@ button.add-point .plus:after {
   transform: translateY(-50%);
 }
 
-.clock .minute {
-  border-left: 2px solid white;
+.start_at_label .clock:before {
   border-radius: 1px;
+  content: '';
+  width: 2px;
   height: 13px;
+  display: inline-block;
+  background: white;
   position: absolute;
   left: 50%;
-  margin-left: -1px;
-  top: 4px;
+  top: 10px;
+  transform: translate(-50%, -50%);
 }
 
-.clock .hour {
-  border-left: 2px solid white;
+.start_at_label .clock:after {
   border-radius: 1px;
-  height: 10px;
+  content: '';
+  width: 9px;
+  height: 2px;
+  display: inline-block;
+  background: white;
   position: absolute;
-  left: 50%;
-  margin-left: 2px;
-  top: 9px;
-  transform: rotate(50deg)
+  left: 42%;
+  top: 43%;
+  transform: rotate(-50deg)
 }
+
 
 .form__location:last-of-type:after {
   display: none;

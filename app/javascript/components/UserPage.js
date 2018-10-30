@@ -140,11 +140,7 @@ export default class UserPage extends Component {
               <button className='link add-point' id='add_point' onClick={this.handleClick} type='button'><span className='plus'></span>{Localization.user_page.add_point}</button>
           </div>
           <div className='select-section'>
-          <span className='clock'>
-            <div className='hour'></div>
-            <div className='minute'></div>
-          </span>
-          <label htmlFor='start_at'>{Localization.user_page.start_time}</label> 
+          <label htmlFor='start_at' className='start_at_label'><span className='clock'></span>{Localization.user_page.start_time}</label> 
             <div className='select'>
               <select id='start_at' name='trip[start_at]' onChange={(e) => trip.start_at = e.target.value}>
                 <option value=''>{Localization.user_page.start_time_placeholder}</option>

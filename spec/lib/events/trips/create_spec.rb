@@ -44,7 +44,7 @@ describe Events::Trips::Create do
       context 'and start_at less then current time' do
         let(:data) { trip_params.merge(start_at: 30.minutes.ago.strftime('%H:%M')) }
 
-        it { expect(Trip.last.start_at.utc.strftime('%d, %H:%M')).to eq((15.minutes.ago + 1.day).strftime('%d, %H:%M')) }
+        it { expect(Trip.last.start_at.utc.strftime('%d, %H:%M')).to eq((30.minutes.ago + 1.day).strftime('%d, %H:%M')) }
       end
 
       context 'when start_at blank' do
