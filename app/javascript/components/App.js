@@ -74,7 +74,7 @@ export default class App extends Component {
             Trip.subscribe(this)
             return false
           }
-          if (trip.status < 3) {
+          if (trip.status < 3 || trip.status == 8) {
             this.setStep(5)
             Trip.showTrip({trip: trip})
             Trip.subscribe(this)
