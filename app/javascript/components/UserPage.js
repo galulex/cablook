@@ -4,8 +4,8 @@ import Trip from './Trip'
 import Localization from '../localization/Localization'
 
 export default class UserPage extends Component {
-	constructor(props){
-		super(props)
+  constructor(props){
+    super(props)
     this.state = {
       waypoints: [
         {
@@ -20,12 +20,13 @@ export default class UserPage extends Component {
           idEl: 'destination_address',
           df: 'destination',
           placeholder: `${Localization.user_page.to}`,
-          predictions: []         
+          predictions: []
         }
-      ]
+      ],
+      time_select: Array(24 * 6).fill(0).map((_, i) => { return ('0' + ~~(i / 6) + ':0' + Math.round(60  * (i / 6 % 1))).replace(/\d(\d\d)/g, '$1') })
     }
   }
-  
+
   componentDidMount = () => {
     window.addEventListener('load', this.handleLoad())
   }
@@ -36,10 +37,10 @@ export default class UserPage extends Component {
         id: this.state.waypoints.length,
         idEl: this.state.waypoints[this.state.waypoints.length - 1].idEl,
         df: this.state.waypoints[this.state.waypoints.length - 1].df,
-        placeholder: this.state.waypoints[this.state.waypoints.length - 1].placeholder, 
+        placeholder: this.state.waypoints[this.state.waypoints.length - 1].placeholder,
         predictions: []
-      }] 
-     })
+      }]
+    })
   }
 
   removePoint = (event) => {
@@ -54,24 +55,24 @@ export default class UserPage extends Component {
   renderWaypoint = (id, idEl, df, placeholder, predictions) => {
     return(
       <div className='form__location' key={id} >
-        <button className='form__location-remove link' onClick={this.removePoint} type='button'>×</button>
-        <input autoComplete='off' className='form__location-field' data-field={df} id={idEl} name='waypoints' onInput={(e) => this.handleInput(e, id)} placeholder={placeholder} required type='text' />
-        <ul className='form__location-list' data-list=''>
-          {this.state.waypoints[id].predictions.map((el, index) => this.renderPrediction(el, index))}
-        </ul>
-        <span className='circle'></span>
+      <button className='form__location-remove link' onClick={this.removePoint} type='button'>×</button>
+      <input autoComplete='off' className='form__location-field' data-field={df} id={idEl} name='waypoints' onInput={(e) => this.handleInput(e, id)} placeholder={placeholder} required type='text' />
+      <ul className='form__location-list' data-list=''>
+      {this.state.waypoints[id].predictions.map((el, index) => this.renderPrediction(el, index))}
+      </ul>
+      <span className='circle'></span>
       </div>
-     )
+    )
   }
 
-	handleSubmit = (event) => {
-		event.preventDefault()
+  handleSubmit = (event) => {
+    event.preventDefault()
     Trip.build().then(data => {
       trip = data.data
       this.props.setPath(Trip.show())
       setTimeout(() =>
-        this.props.updateStep(4), 500)	
-    }).catch(err => 
+        this.props.updateStep(4), 500)
+    }).catch(err =>
       alert(err.response.data.errors)
     )
   }
@@ -109,9 +110,9 @@ export default class UserPage extends Component {
 
   setLocation = (event) => {
     event.preventDefault()
-    let li = event.currentTarget 
+    let li = event.currentTarget
     let i = Array.prototype.indexOf.call(li.parentElement.children, li)
-    let input = li.parentElement.previousElementSibling 
+    let input = li.parentElement.previousElementSibling
     input.value = this.suggestions[i].structured_formatting.main_text + ' '
     trip[input.id] = input.value
     input.setAttribute('data-place', li.getAttribute('data-place'))
@@ -119,28 +120,46 @@ export default class UserPage extends Component {
     input.focus()
   }
 
+  renderSelectTime = (el) => {
+    return(<option value={el} key={el}>{el}</option>)
+  }
+
   logOut = () => {
     Session.destroy()
     this.props.updateStep(1)
   }
 
-	render (){
-		return (
+  handleTimeSelect = (e) => {
+    trip.start_at = e.target.value
+    document.querySelector('[data-time]').setAttribute('data-time', trip.start_at)
+  }
+
+  render (){
+    return (
       <form onSubmit={this.handleSubmit} className='form'>
-        <div className='form__fieldset'>
-          <button className='button exit' onClick={this.logOut} type='button'>{Localization.user_page.exit}</button> 
-          <div className='form__user-number' id='account'>{this.props.number}</div>
-          <div className='points'>
-              {this.state.waypoints.map((el, index) => this.renderWaypoint(index, el.idEl, el.df, el.placeholder, el.predictions))}
-              <button className='link add-point' id='add_point' onClick={this.handleClick} type='button'><span className='plus'></span>{Localization.user_page.add_point}</button>
-          </div>
-          <details>
-              <summary><span className='comment-arrow'></span>{Localization.user_page.comment}</summary>
-              <textarea id='comment' name='trip[comment]' onInput={(e) => trip.comment = e.target.value}></textarea>
-          </details>
-          <br/><button className='button' id='done' type='submit'>{Localization.user_page.submit}</button>
-        </div>
+      <div className='form__fieldset'>
+      <button className='button exit' onClick={this.logOut} type='button'>{Localization.user_page.exit}</button>
+      <div className='form__user-number' id='account'>{this.props.number}</div>
+      <div className='points'>
+      {this.state.waypoints.map((el, index) => this.renderWaypoint(index, el.idEl, el.df, el.placeholder, el.predictions))}
+      <button className='link add-point' id='add_point' onClick={this.handleClick} type='button'><span className='plus'></span>{Localization.user_page.add_point}</button>
+      </div>
+      <div className='select-section'>
+      <label htmlFor='start_at' className='start_at_label'><span className='clock' data-time='12:10'></span>{Localization.user_page.start_time}</label>
+      <div className='select'>
+      <select id='start_at' name='trip[start_at]' onChange={this.handleTimeSelect}>
+      <option value=''>{Localization.user_page.start_time_placeholder}</option>
+      {this.state.time_select.map((el) => this.renderSelectTime(el))}
+      </select>
+      </div>
+      </div>
+      <details>
+      <summary><span className='comment-arrow'></span>{Localization.user_page.comment}</summary>
+      <textarea id='comment' name='trip[comment]' onInput={(e) => trip.comment = e.target.value}></textarea>
+      </details>
+      <br/><button className='button' id='done' type='submit'>{Localization.user_page.submit}</button>
+      </div>
       </form>
-		)
-	}
+    )
+  }
 }

@@ -54,7 +54,9 @@ const uk = {
     exit: "Вийти",
     from: "Звідки (2 Смілянська)",
     submit: "Готово",
-    to: "Куди (Спорт лайф)"
+    to: "Куди (Спорт лайф)",
+    start_time: "Коли ",
+    start_time_placeholder: "Зараз"
   }
 }
 

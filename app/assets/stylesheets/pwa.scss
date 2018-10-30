@@ -260,6 +260,65 @@ button.add-point .plus:after {
   top: 30px;
 }
 
+.select-section {
+  display: block;
+  margin-top: 15px;
+  padding-left: 20px;
+  position: relative;
+}
+
+.start_at_label .clock {
+  position: absolute;
+  width: 28px;
+  height: 28px;
+  border: 2px solid white;
+  border-radius: 50%;
+  left: -19px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.start_at_label .clock:before {
+  border-radius: 1px;
+  content: '';
+  width: 2px;
+  height: 12px;
+  display: inline-block;
+  background: white;
+  position: absolute;
+  left: 46%;
+  top: 2px;
+  transform-origin: bottom;
+  transition: transform .3s;
+}
+
+.start_at_label .clock:after {
+  border-radius: 1px;
+  content: '';
+  width: 2px;
+  height: 8px;
+  display: inline-block;
+  background: white;
+  position: absolute;
+  left: 46%;
+  top: 6px;
+  transform-origin: bottom;
+  transition: transform .3s;
+}
+
+@each $minute in 1, 2, 3, 4, 5 {
+  .clock[data-time*=":#{$minute}"]:before {
+    transform: rotate(#{$minute * 60}deg);
+  }
+}
+
+@each $hour in 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23 {
+  .clock[data-time*="#{$hour}:"]:after {
+    transform: rotate(#{$hour * 30}deg);
+  }
+}
+
+
 .form__location:last-of-type:after {
   display: none;
 }
@@ -388,7 +447,7 @@ details[open] span.comment-arrow {
 
 summary {
   display: block;
-  margin-top: 30px;
+  margin-top: 15px;
   padding-left: 20px;
   position: relative;
 }

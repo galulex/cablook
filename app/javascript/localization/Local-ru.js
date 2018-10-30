@@ -55,7 +55,9 @@ const ru = {
     exit: "Выйти",
     from: "Откуда (2 Смелянская)",
     submit: "Готово",
-    to: "Куда (Спорт лайф)"
+    to: "Куда (Спорт лайф)",
+    start_time: "Когда ",
+    start_time_placeholder: "Сейчас"
   }
 }
 
