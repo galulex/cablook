@@ -50,7 +50,7 @@ Rails.application.routes.draw do
   end
 
   namespace :admin do
-    get 'analytics/:page' => 'analytics#index', constraints: { page: /(days|hours|mileage)/ }, defaults: { page: 'days' }, as: :page
+    get 'analytics/:page' => 'analytics#index', constraints: { page: /(days|hours|mileage|by_driver)/ }, defaults: { page: 'days' }, as: :page
   end
 
   # scope '(:locale)', locale: /(ru)/, defaults: { locale: :uk } do
