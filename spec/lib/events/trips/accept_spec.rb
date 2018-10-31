@@ -26,7 +26,7 @@ describe Events::Trips::Accept do
       context 'and broadcast to channel' do
         after { subject.call }
 
-        it { expect(ActionCable.server).to receive(:broadcast).twice }
+        it { expect(ActionCable.server).to receive(:broadcast).once }
       end
     end
 
