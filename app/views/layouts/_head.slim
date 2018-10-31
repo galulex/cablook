@@ -8,7 +8,7 @@ meta http-equiv='Content-type' content='text/html; charset=utf-8'
 meta name='viewport' content='initial-scale=1, maximum-scale=5'
 title= t("#{params[:controller]}.#{params[:page]}.meta_title", default: t('head.title'))
 meta name='description' content= t("#{params[:controller]}.#{params[:page]}.meta_description", default: t('head.description'))
-link rel='manifest' href='/manifest.json'
+link rel='manifest' href='/manifest.json' crossorigin="use-credentials"
 meta name='theme-color' content='#19a160'
 = csrf_meta_tags
 = render 'shared/favicon_links'

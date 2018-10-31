@@ -5,16 +5,14 @@ function onInstall(event) {
   console.log('[Serviceworker]', "Installing!", event);
   event.waitUntil(
     caches.open(CACHE_NAME).then(function prefill(cache) {
-      return cache.addAll([
-
-        // make sure serviceworker.js is not required by application.js
-        // if you want to reference application.js from here
-        '<%= asset_path "application.js" %>',
-
-        '<%= asset_path "application.css" %>',
-
-        '/offline.html',
-      ]);
+      // make sure serviceworker.js is not required by application.js
+      // if you want to reference application.js from here
+      var urls = ['<%= asset_path "application.js" %>', '<%= asset_path "application.css" %>', '/offline.html'];
+      var req_objects = [];
+      for (var i = 0; i < urls.length; i++) {
+        req_objects.push(new Request(urls[i], {credentials: 'same-origin'}));
+      };
+      return cache.addAll(req_objects);
     })
   );
 }
