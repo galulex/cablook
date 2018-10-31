@@ -1,6 +1,8 @@
 module Events
   module Trips
     class Accept < Events::BaseEvent
+      TRIP_STATUSES = [Constants::Trip::PENDING, Constants::Trip::PRE_ORDERED].freeze
+
       def schema
         Dry::Validation.Schema do
           configure { config.messages = :i18n }
@@ -12,7 +14,7 @@ module Events
       end
 
       def run
-        if trip.status == Constants::Trip::STATUS_CODES[Constants::Trip::PENDING] || Constants::Trip::STATUS_CODES[Constants::Trip::PRE_ORDERED]
+        if Trip.statuses[trip.status].in?(TRIP_STATUSES)
           update_car_status
           update_trip
           broadcast_accepted_trip
@@ -36,7 +38,7 @@ module Events
       end
 
       def update_car_status
-        if @trip.status == Constants::Trip::STATUS_CODES[Constants::Trip::PRE_ORDERED] || @trip.start_at.blank?
+        if trip.status == Constants::Trip::STATUS_CODES[Constants::Trip::PRE_ORDERED] || trip.start_at.blank?
           car.update(status: Constants::Car::DURING_TRIP)
         end
       end
@@ -75,7 +77,7 @@ module Events
       end
 
       def trip_status
-        if @trip.status == Constants::Trip::STATUS_CODES[Constants::Trip::PRE_ORDERED] || @trip.start_at.blank?
+        if trip.status == Constants::Trip::STATUS_CODES[Constants::Trip::PRE_ORDERED] || trip.start_at.blank?
           Constants::Trip::ON_THE_WAY
         else
           Constants::Trip::PRE_ORDERED
@@ -83,11 +85,11 @@ module Events
       end
 
       def start_time
-        if @trip.start_at.blank?
+        if trip.start_at.blank?
           start_at = matrix.duration.seconds.since + 2.minutes
           car_trip ? (start_at + car_trip_remaining_time) : start_at
         else
-          @trip.start_at
+          trip.start_at
         end
       end
 
