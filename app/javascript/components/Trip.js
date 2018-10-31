@@ -14,7 +14,7 @@ export default class Trip {
     data.append('trip[departure]', waypoints.shift().getAttribute('data-place'))
     data.append('trip[destination]', waypoints.pop().getAttribute('data-place'))
     data.append('trip[comment]', trip.comment)
-    
+
     if (trip['start_at'] != null) data.append('trip[start_at]', trip.start_at)
 
     waypoints.forEach(w => {
@@ -23,7 +23,7 @@ export default class Trip {
     })
 
     return axios({method: 'POST', url: '/api/trips/new', data: data, headers: {'Auth-Token': localStorage.token}})
-  } 
+  }
 
   static showTrip = (data) => {
     let trip = data.trip
@@ -43,12 +43,12 @@ export default class Trip {
 
   static cable = () => {
     return ActionCable.createConsumer()
-  } 
+  }
 
   static subscribe = (that) => {
     return Trip.cable().subscriptions.create(
       { channel: 'TripChannel', trip_id: localStorage.trip },
-      { received: trip => { 
+      { received: trip => {
         return Trip[trip['action']](trip, that) }}
     )
   }
@@ -160,4 +160,4 @@ export default class Trip {
     localStorage.mapURL = 'https://api.mapbox.com/styles/v1/mapbox/streets-v10/static/pin-s-s+188753(' + departure.join(',') + '),' + waypoints.map((w) => 'pin-s-w+facc1f(' + w + '),').join('') + 'pin-s-f+312d50('+  destination.join(',') + '),path-5+188753-0.8(' + encodeURIComponent(trip.path) + ')/auto/400x400?access_token=pk.eyJ1IjoiYnJ1Y2VsaWF0b3IiLCJhIjoiY2oxcTJ5dDNzMDA2ajMybnR6M3V5cGVubiJ9.qjyqnH72UUVnsaY63OzMGg'
     return localStorage.mapURL
   }
-} 
+}

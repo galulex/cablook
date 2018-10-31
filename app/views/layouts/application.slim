@@ -35,5 +35,5 @@ html lang="#{I18n.locale}"
     = render 'shared/navbar'
     = yield
     = stylesheet_link_tag    'application', media: 'all'
-    = javascript_include_tag 'application', async: true, defer: true
     = render 'layouts/footer'
+    link href=asset_path('fonts.css') rel=:preload as=:style onload="this.rel='stylesheet'"

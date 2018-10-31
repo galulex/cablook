@@ -99,9 +99,8 @@ html lang="#{I18n.locale}"
   body
     = render 'shared/localization'
     main= yield
-    = javascript_include_tag 'pwa', async: true
-    = javascript_pack_tag 'application', async: true, defer: true
-    = stylesheet_link_tag 'pwa', media: :none, onload: "if(media!='all')media='all'"
-    = render 'shared/schema_org'
+    link href=asset_path('pwa.css') rel=:preload as=:style onload="this.rel='stylesheet'"
+    = javascript_pack_tag 'application', async: true
+    = render 'layouts/footer'
     script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDx2cLwlAG3muHMV9DVYY3l2PupoYCS-Mk&libraries=places" async=true defer=true
     script id="widget-wfp-script" language="javascript" type="text/javascript" src="https://secure.wayforpay.com/server/pay-widget.js" async=true defer=true
