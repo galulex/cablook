@@ -7,7 +7,7 @@ function onInstall(event) {
     caches.open(CACHE_NAME).then(function prefill(cache) {
       // make sure serviceworker.js is not required by application.js
       // if you want to reference application.js from here
-      var urls = '<%= asset_path "application.css" %>', 
+      var urls = ['<%= asset_path "application.css" %>', 
                  '<%= asset_path "pwa.css" %>', 
                  '<%= asset_path "Gilroy-Bold.woff2" %>', 
                  '<%= asset_path "Gilroy-ExtraBold.woff2" %>', 
