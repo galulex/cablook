@@ -11,10 +11,10 @@ ActiveAdmin.register_page 'Analytics' do
 end
 
 def chart_data
-  Constants::Analytics::CHART_DATA.merge(data: chart_type)
+  Constants::Analytics::CHART_DATA.merge(data: chart)
 end
 
-def chart_type
+def chart
   return if params[:chart].nil?
   Analytics.run("#{params[:chart]}", trip_status, from, to)
 end

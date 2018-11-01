@@ -45,6 +45,24 @@ module Analytics
       { labels: numbers, datasets: [{ values: distances }] }
     end
 
+    def by_driver
+      names = []
+      trips = []
+      Trip.find_by_sql("SELECT drivers.name, COUNT(trips.id) FROM drivers
+                        LEFT JOIN trips ON drivers.id = trips.driver_id AND(created_at BETWEEN '#{@from}' AND '#{@to}')
+                        GROUP BY drivers.id
+                        ORDER BY drivers.id").as_json.each { |e| names << e['name']; trips << e['count'] }
+      { labels: names, datasets: [{ values: trips }] }
+    end
+
+    def users
+      values = []
+      query = User.find_by_sql("SELECT COUNT(*) AS all_users,
+                                SUM(CASE WHEN users.trips_count > 1 THEN 1 ELSE 0 END) AS active_users
+                                FROM users").as_json.each { |e| values <<  e['all_users']; values << e['active_users'] }
+      { labels: query.as_json[0].keys.pop(2), datasets: [{ values: values }] }
+    end
+
     def query_parse
       query = send(@chart_type.to_s)
       return if query.blank?
