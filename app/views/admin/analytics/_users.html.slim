@@ -1,0 +1,5 @@
+h3 Users
+= form_for admin_analytics_path, remote: true, method: :get, class: 'filter_form' do
+  = hidden_field_tag "chart", "users"    
+  = submit_tag "Send", class: 'send-button'
+#usersChart 

@@ -55,6 +55,14 @@ module Analytics
       { labels: names, datasets: [{ values: trips }] }
     end
 
+    def users
+      values = []
+      query = User.find_by_sql("SELECT COUNT(*) AS all_users,
+                                SUM(CASE WHEN users.trips_count > 1 THEN 1 ELSE 0 END) AS active_users
+                                FROM users").as_json.each { |e| values <<  e['all_users']; values << e['active_users'] }
+      { labels: query.as_json[0].keys.pop(2), datasets: [{ values: values }] }
+    end
+
     def query_parse
       query = send(@chart_type.to_s)
       return if query.blank?
