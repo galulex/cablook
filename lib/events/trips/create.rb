@@ -15,7 +15,7 @@ module Events
           optional(:waypoints) { none? | array? }
           optional(:stops) { none? | array? }
 
-          optional(:start_at) { str? }
+          optional(:time) { str? }
           optional(:comment) { str? }
           optional(:card_id)
           optional(:bonus)
@@ -81,14 +81,7 @@ module Events
       end
 
       def create_trip
-        @trip = Trip.create(data.to_h.except(:bonus, :card_id, :start_at))
-        start_time
-      end
-
-      def start_time
-        return unless data[:start_at]
-        date = data[:start_at].to_datetime.utc
-        @trip.update(start_at: DateTime.now.utc < data[:start_at].to_datetime.utc ? date : (date + 1.day))
+        @trip = Trip.create(data.to_h.except(:bonus, :card_id))
       end
 
       def create_trip_job(trip_id)
