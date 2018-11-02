@@ -25,7 +25,7 @@ class Trip < ApplicationRecord
   end
 
   def time=(val)
-    date = val.to_time.in_time_zone
+    date = val.to_datetime.utc
     self.start_at = Time.now.in_time_zone < date ? date : (date + 1.day)
     @time = val
     self.status = Constants::Trip::STATUS_CODES[Constants::Trip::PRE_ORDERED]
