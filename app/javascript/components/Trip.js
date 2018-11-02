@@ -14,7 +14,6 @@ export default class Trip {
     data.append('trip[departure]', waypoints.shift().getAttribute('data-place'))
     data.append('trip[destination]', waypoints.pop().getAttribute('data-place'))
     data.append('trip[comment]', trip.comment)
-    
     if (trip['time'] != null) data.append('trip[time]', trip.time)
 
     waypoints.forEach(w => {
