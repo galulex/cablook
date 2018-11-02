@@ -17,6 +17,20 @@ class Trip < ApplicationRecord
 
   delegate :phone_number, to: :user, prefix: true
 
+  # Time for pre-order trip
+  attr_reader :time
+
+  def preorder?
+    status == Constants::Trip::STATUS_CODES[Constants::Trip::PRE_ORDERED]
+  end
+
+  def time=(val)
+    date = val.to_datetime.utc
+    self.start_at = DateTime.now.utc < date ? date : (date + 1.day)
+    @time = val
+    self.status = Constants::Trip::STATUS_CODES[Constants::Trip::PRE_ORDERED]
+  end
+
   scope :sum_cost, -> do
     joins(:driver)
       .joins("LEFT JOIN payments ON trips.id = payments.trip_id AND payments.type = 'Payments::Tip'")

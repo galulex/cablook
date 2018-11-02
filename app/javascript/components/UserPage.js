@@ -130,8 +130,8 @@ export default class UserPage extends Component {
   }
 
   handleTimeSelect = (e) => {
-    trip.start_at = e.target.value
-    document.querySelector('[data-time]').setAttribute('data-time', trip.start_at)
+    trip.time = e.target.value
+    document.querySelector('[data-time]').setAttribute('data-time', trip.time)
   }
 
   render (){
@@ -145,9 +145,9 @@ export default class UserPage extends Component {
       <button className='link add-point' id='add_point' onClick={this.handleClick} type='button'><span className='plus'></span>{Localization.user_page.add_point}</button>
       </div>
       <div className='select-section'>
-      <label htmlFor='start_at' className='start_at_label'><span className='clock' data-time='12:10'></span>{Localization.user_page.start_time}</label>
+      <label htmlFor='time' className='start_at_label'><span className='clock' data-time='12:10'></span>{Localization.user_page.start_time}</label>
       <div className='select'>
-      <select id='start_at' name='trip[start_at]' onChange={this.handleTimeSelect}>
+      <select id='time' name='trip[time]' onChange={this.handleTimeSelect}>
       <option value=''>{Localization.user_page.start_time_placeholder}</option>
       {this.state.time_select.map((el) => this.renderSelectTime(el))}
       </select>
