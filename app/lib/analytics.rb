@@ -51,6 +51,7 @@ module Analytics
       Trip.find_by_sql("SELECT drivers.name, COUNT(trips.id) FROM drivers
                         LEFT JOIN trips ON drivers.id = trips.driver_id AND(created_at BETWEEN '#{@from}' AND '#{@to}')
                         GROUP BY drivers.id
+                        HAVING (COUNT(trips.id) >= 1)
                         ORDER BY drivers.id").as_json.each { |e| names << e['name']; trips << e['count'] }
       { labels: names, datasets: [{ values: trips }] }
     end
