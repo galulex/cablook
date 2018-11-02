@@ -39,12 +39,12 @@ describe Events::Trips::Create do
 
       let(:data) { trip_params.merge(time: 15.minutes.since.strftime('%H:%M')) }
 
-      it { expect(Trip.last.start_at.strftime('%H:%M')).to eq(15.minutes.since.strftime('%H:%M')) }
+      it { expect(Trip.last.start_at.utc.strftime('%H:%M')).to eq(15.minutes.since.utc.strftime('%H:%M')) }
 
       context 'and start_at less then current time' do
         let(:data) { trip_params.merge(time: 3.hours.ago.strftime('%H:%M')) }
 
-        it { expect(Trip.last.start_at.strftime('%d, %H:%M')).to eq((3.hours.ago + 1.day).strftime('%d, %H:%M')) }
+        it { expect(Trip.last.start_at.utc.strftime('%d, %H:%M')).to eq((3.hours.ago + 1.day).utc.strftime('%d, %H:%M')) }
       end
 
       context 'when start_at blank' do
