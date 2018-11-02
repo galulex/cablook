@@ -23,7 +23,7 @@ link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.43.0/mapbox-gl.css' rel=
         - unless trip.start_at.blank?
           .field
             strong> Start time: 
-            span=trip.start_at.utc.strftime("%a, %d, %H:%M") 
+            span=trip.start_at.strftime("%a, %d, %H:%M") 
 
 - @cars.each do |car|
   div.js-car data-info=car.to_json
