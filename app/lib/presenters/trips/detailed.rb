@@ -48,7 +48,7 @@ class Presenters::Trips::Detailed < Presenters::BaseSingle
   end
 
   def start_time
-    represented.start_at.strftime('%d/%m') > Time.now.strftime('%d/%m') ? represented.start_at.strftime('%d/%m, %H:%M') : represented.start_at.strftime('%H:%M')
+    represented.start_at.utc.strftime('%d/%m') > Time.now.utc.strftime('%d/%m') ? represented.start_at.utc.strftime('%d/%m, %H:%M') : represented.start_at.utc.strftime('%H:%M')
   rescue
     nil
   end

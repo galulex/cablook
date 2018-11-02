@@ -37,12 +37,12 @@ describe Events::Trips::Create do
     context 'when user pre-order trip' do
       before { subject.call }
 
-      let(:data) { trip_params.merge(start_at: 15.minutes.since.strftime('%H:%M')) }
+      let(:data) { trip_params.merge(time: 15.minutes.since.strftime('%H:%M')) }
 
       it { expect(Trip.last.start_at.utc.strftime('%H:%M')).to eq(15.minutes.since.strftime('%H:%M')) }
 
       context 'and start_at less then current time' do
-        let(:data) { trip_params.merge(start_at: 3.hours.ago.strftime('%H:%M')) }
+        let(:data) { trip_params.merge(time: 3.hours.ago.strftime('%H:%M')) }
 
         it { expect(Trip.last.start_at.utc.strftime('%d, %H:%M')).to eq((3.hours.ago + 1.day).strftime('%d, %H:%M')) }
       end
