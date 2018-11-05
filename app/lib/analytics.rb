@@ -48,12 +48,14 @@ module Analytics
     def by_driver
       names = []
       trips = []
-      Trip.find_by_sql("SELECT drivers.name, COUNT(trips.id) FROM drivers
+      amount = []
+      Trip.find_by_sql("SELECT drivers.name, COUNT(trips.id), SUM(payments.amount) FROM drivers
                         LEFT JOIN trips ON drivers.id = trips.driver_id AND(created_at BETWEEN '#{@from}' AND '#{@to}')
+                        LEFT JOIN payments ON trips.id = payments.trip_id AND payments.type = 'Payments::Trip'
                         GROUP BY drivers.id
                         HAVING (COUNT(trips.id) >= 1)
-                        ORDER BY drivers.id").as_json.each { |e| names << e['name']; trips << e['count'] }
-      { labels: names, datasets: [{ values: trips }] }
+                        ORDER BY drivers.id").as_json.each { |e| names << e['name']; trips << e['count']; amount << e['sum'] }
+      { labels: names, datasets: [{ name: 'amount', values: amount }, { name: 'trips count', values: trips }] }
     end
 
     def users
