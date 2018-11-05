@@ -308,6 +308,21 @@ button.add-point .plus:after {
   transition: transform .3s;
 }
 
+.target_button {
+  background: none;
+  border: none;
+  height: 25px;
+  position: absolute;
+  right: 10px;
+  cursor: pointer;
+  padding: 0 5px;
+  z-index: 1;
+  transition: .3s;
+  outline: none;
+  bottom: 66%;
+  transform: translateY(-50%);
+}
+
 @each $minute in 1, 2, 3, 4, 5 {
   .clock[data-time*=":#{$minute}"]:before {
     transform: rotate(#{$minute * 60}deg);

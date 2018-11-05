@@ -134,12 +134,35 @@ export default class UserPage extends Component {
     document.querySelector('[data-time]').setAttribute('data-time', trip.time)
   }
 
+  setAddress = (location) => {
+    let result = location.results[0]
+    let address = result.formatted_address.split(',')
+    let field = document.getElementsByClassName('form__location-field')[0]
+    field.setAttribute('value', `${address[0]}, ${address[1]}`)
+    field.setAttribute('data-place', result.place_id)
+  }
+
+  getLocation = () => {
+    navigator.geolocation.getCurrentPosition(position => {
+      let lat = position.coords.latitude
+      let lng = position.coords.longitude
+      fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&language=ru&key=AIzaSyDx2cLwlAG3muHMV9DVYY3l2PupoYCS-Mk`)
+        .then(response => {
+          return response.json()
+        })
+        .then(location => {
+          this.setAddress(location)
+        })
+    })
+  }
+
   render (){
     return (
       <form onSubmit={this.handleSubmit} className='form'>
       <div className='form__fieldset'>
       <button className='button exit' onClick={this.logOut} type='button'>{Localization.user_page.exit}</button>
       <div className='form__user-number' id='account'>{this.props.number}</div>
+      <img className='target_button' src='target.svg' onClick={this.getLocation}></img>
       <div className='points'>
       {this.state.waypoints.map((el, index) => this.renderWaypoint(index, el.idEl, el.df, el.placeholder, el.predictions))}
       <button className='link add-point' id='add_point' onClick={this.handleClick} type='button'><span className='plus'></span>{Localization.user_page.add_point}</button>
