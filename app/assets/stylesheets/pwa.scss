@@ -327,6 +327,10 @@ button.add-point .plus:after {
   fill:#af912d;
 }
 
+.form__location-field#departure_address{
+  padding-right: 40px;
+}
+
 @each $minute in 1, 2, 3, 4, 5 {
   .clock[data-time*=":#{$minute}"]:before {
     transform: rotate(#{$minute * 60}deg);
@@ -352,7 +356,7 @@ button.add-point .plus:after {
   width: 20px;
   height: 30px;
   position: absolute;
-  color: #e2e200;
+  color: #E8C03B;
   right: 10px;
   cursor: pointer;
   padding: 0 5px;
@@ -364,7 +368,7 @@ button.add-point .plus:after {
 }
 
 .form__location-remove.link:hover {
-  color: #9a9a02;;
+  color: #af912d;
 }
 
 label.form__number-label {
