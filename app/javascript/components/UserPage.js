@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import Session from './Session'
 import Trip from './Trip'
 import Localization from '../localization/Localization'
+import ReactSVG from 'react-svg'
 
 export default class UserPage extends Component {
   constructor(props){
@@ -55,6 +56,7 @@ export default class UserPage extends Component {
   renderWaypoint = (id, idEl, df, placeholder, predictions) => {
     return(
       <div className='form__location' key={id} >
+      {id == 0 ? (<ReactSVG src='geo_target_btn.svg' svgClassName='form__location-target btn' svgStyle={{ width: 25, height: 25 }} onClick={this.getLocation} />) : null}
       <button className='form__location-remove link' onClick={this.removePoint} type='button'>×</button>
       <input autoComplete='off' className='form__location-field' data-field={df} id={idEl} name='waypoints' onInput={(e) => this.handleInput(e, id)} placeholder={placeholder} required type='text' />
       <ul className='form__location-list' data-list=''>
@@ -84,6 +86,7 @@ export default class UserPage extends Component {
   handleLoad = () => {
     let input = document.querySelectorAll('input')[0]
     input.focus()
+    this.autoLocation()
   }
 
   renderPrediction = (data, id) => {
@@ -134,12 +137,48 @@ export default class UserPage extends Component {
     document.querySelector('[data-time]').setAttribute('data-time', trip.time)
   }
 
+  setAddress = (location) => {
+    let result = location.results[0]
+    let address = result.formatted_address.split(',')
+    let field = document.getElementsByClassName('form__location-field')[0]
+    field.setAttribute('value', `${address[0]}, ${address[1]}`)
+    field.setAttribute('data-place', result.place_id)
+  }
+
+  autoLocation = () => {
+    if (navigator.permissions) {
+      navigator.permissions.query({name:'geolocation'})
+        .then(result => {
+        // Will return ['granted', 'prompt', 'denied']
+          if (result.state == 'granted') {
+            this.getLocation()
+          }
+        })
+    }
+  }
+
+  getLocation = () => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(position => {
+        let lat = position.coords.latitude
+        let lng = position.coords.longitude
+        fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&language=ru&key=AIzaSyDx2cLwlAG3muHMV9DVYY3l2PupoYCS-Mk`)
+          .then(response => {
+            return response.json()
+          })
+          .then(location => {
+            this.setAddress(location)
+          })
+      })
+    }
+  }
+
   render (){
     return (
       <form onSubmit={this.handleSubmit} className='form'>
       <div className='form__fieldset'>
       <button className='button exit' onClick={this.logOut} type='button'>{Localization.user_page.exit}</button>
-      <div className='form__user-number' id='account'>{this.props.number}</div>
+      <div className='form__user-number' id='account'>{this.props.number}</div>    
       <div className='points'>
       {this.state.waypoints.map((el, index) => this.renderWaypoint(index, el.idEl, el.df, el.placeholder, el.predictions))}
       <button className='link add-point' id='add_point' onClick={this.handleClick} type='button'><span className='plus'></span>{Localization.user_page.add_point}</button>

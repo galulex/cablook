@@ -308,6 +308,25 @@ button.add-point .plus:after {
   transition: transform .3s;
 }
 
+.form__location-target.btn {
+  background: none;
+  border: none;
+  bottom: -1%;
+  cursor: pointer;
+  fill: #E8C03B;
+  outline: none;
+  padding: 0 5px;
+  position: absolute;
+  right: 2%;
+  transform: translateY(-50%);
+  transition: .3s;
+  z-index: 1;
+}
+
+.form__location-target.btn:hover {
+  fill:#af912d;
+}
+
 @each $minute in 1, 2, 3, 4, 5 {
   .clock[data-time*=":#{$minute}"]:before {
     transform: rotate(#{$minute * 60}deg);
