@@ -136,28 +136,36 @@ export default class UserPage extends Component {
     document.querySelector('[data-time]').setAttribute('data-time', trip.time)
   }
 
+  getLocation = () => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(this.showPosition, this.showError)
+    }
+  }
+
+  showPosition = (position) => {
+    let lat = position.coords.latitude
+    let lng = position.coords.longitude
+    fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&language=ru&key=AIzaSyDx2cLwlAG3muHMV9DVYY3l2PupoYCS-Mk`)
+      .then(response => {
+        return response.json()
+      })
+      .then(location => {
+        this.setAddress(location)
+      }) 
+  }
+
+  showError = (error) => {
+    if (error.code == error.PERMISSION_DENIED) {
+      alert(`${Localization.user_page.geo_alert}`)
+    }
+  }
+
   setAddress = (location) => {
     let result = location.results[0]
     let address = result.formatted_address.split(',')
     let field = document.getElementsByClassName('form__location-field')[0]
     field.setAttribute('value', `${address[0]}, ${address[1]}`)
     field.setAttribute('data-place', result.place_id)
-  }
-
-  getLocation = () => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(position => {
-        let lat = position.coords.latitude
-        let lng = position.coords.longitude
-        fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&language=ru&key=AIzaSyDx2cLwlAG3muHMV9DVYY3l2PupoYCS-Mk`)
-          .then(response => {
-            return response.json()
-          })
-          .then(location => {
-            this.setAddress(location)
-          })
-      })
-    }
   }
 
   render (){
