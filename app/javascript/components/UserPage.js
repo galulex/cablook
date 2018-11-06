@@ -86,7 +86,6 @@ export default class UserPage extends Component {
   handleLoad = () => {
     let input = document.querySelectorAll('input')[0]
     input.focus()
-    this.autoLocation()
   }
 
   renderPrediction = (data, id) => {
@@ -143,18 +142,6 @@ export default class UserPage extends Component {
     let field = document.getElementsByClassName('form__location-field')[0]
     field.setAttribute('value', `${address[0]}, ${address[1]}`)
     field.setAttribute('data-place', result.place_id)
-  }
-
-  autoLocation = () => {
-    if (navigator.permissions) {
-      navigator.permissions.query({name:'geolocation'})
-        .then(result => {
-        // Will return ['granted', 'prompt', 'denied']
-          if (result.state == 'granted') {
-            this.getLocation()
-          }
-        })
-    }
   }
 
   getLocation = () => {
