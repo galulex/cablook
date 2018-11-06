@@ -59,7 +59,7 @@ export default class UserPage extends Component {
       <div className='form__location' key={id} >
       {id == 0 ? (<ReactSVG src='geo_target_btn.svg' svgClassName='form__location-target btn' svgStyle={{ width: 25, height: 25 }} onClick={this.getLocation} />) : null}
       <button className='form__location-remove link' onClick={this.removePoint} type='button'>×</button>
-      <input autoComplete='off' className='form__location-field' data-field={df} id={idEl} name='waypoints' onInput={(e) => this.handleInput(e, id)} placeholder={placeholder} required type='text' />
+      <input autoComplete='off' className='form__location-field' data-field={df} id={idEl} name='waypoints' data-location='false' onInput={(e) => this.handleInput(e, id)} placeholder={placeholder} required type='text' />
       <ul className='form__location-list' data-list=''>
       {this.state.waypoints[id].predictions.map((el, index) => this.renderPrediction(el, index))}
       </ul>
@@ -119,6 +119,7 @@ export default class UserPage extends Component {
     input.value = this.suggestions[i].structured_formatting.main_text + ' '
     trip[input.id] = input.value
     input.setAttribute('data-place', li.getAttribute('data-place'))
+    input.setAttribute('data-location', false)
     li.parentNode.hidden = true
     input.focus()
   }
@@ -138,12 +139,13 @@ export default class UserPage extends Component {
   }
 
   getLocation = () => {
-    this.state.counter += 1
-    if (this.state.counter <= 3) {
+    let field = document.getElementsByClassName('form__location-field')[0]
+    let location_attr = field.getAttribute('data-location')
+    if (location_attr == "false" || !(field.hasAttribute('data-place'))) {
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(this.showPosition, this.showError)
       }
-    }
+    }  
   }
 
   showPosition = (position) => {
@@ -169,6 +171,7 @@ export default class UserPage extends Component {
     let address = result.formatted_address.split(',')
     let field = document.getElementsByClassName('form__location-field')[0]
     field.value = `${address[0]}, ${address[1]}`
+    field.setAttribute('data-location', true)
     field.setAttribute('data-place', result.place_id)
   }
 
