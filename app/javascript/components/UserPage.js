@@ -24,6 +24,7 @@ export default class UserPage extends Component {
           predictions: []
         }
       ],
+      counter: 0,
       time_select: Array(24 * 6).fill(0).map((_, i) => { return ('0' + ~~(i / 6) + ':0' + Math.round(60  * (i / 6 % 1))).replace(/\d(\d\d)/g, '$1') })
     }
   }
@@ -137,8 +138,11 @@ export default class UserPage extends Component {
   }
 
   getLocation = () => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(this.showPosition, this.showError)
+    this.state.counter += 1
+    if (this.state.counter <= 3) {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(this.showPosition, this.showError)
+      }
     }
   }
 
@@ -164,7 +168,7 @@ export default class UserPage extends Component {
     let result = location.results[0]
     let address = result.formatted_address.split(',')
     let field = document.getElementsByClassName('form__location-field')[0]
-    field.setAttribute('value', `${address[0]}, ${address[1]}`)
+    field.value = `${address[0]}, ${address[1]}`
     field.setAttribute('data-place', result.place_id)
   }
 
