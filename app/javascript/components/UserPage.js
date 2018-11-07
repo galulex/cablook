@@ -24,7 +24,8 @@ export default class UserPage extends Component {
           predictions: []
         }
       ],
-      time_select: Array(24 * 6).fill(0).map((_, i) => { return ('0' + ~~(i / 6) + ':0' + Math.round(60  * (i / 6 % 1))).replace(/\d(\d\d)/g, '$1') })
+      time_select: Array(24 * 6).fill(0).map((_, i) => { return ('0' + ~~(i / 6) + ':0' + Math.round(60  * (i / 6 % 1))).replace(/\d(\d\d)/g, '$1') }),
+      entrance: Array.from({length: 15}, (v, k) => k + 1)
     }
   }
 
@@ -127,14 +128,26 @@ export default class UserPage extends Component {
     return(<option value={el} key={el}>{el}</option>)
   }
 
+  renderEntrance = (el) => {
+    return(<option value={el} key={el}>{el}</option>)
+  }
+
   logOut = () => {
     Session.destroy()
     this.props.updateStep(1)
   }
 
+  noCallChecked = (e) => {
+    (e.target.checked == true) ? trip.no_call = true : trip.no_call = null
+  }
+
   handleTimeSelect = (e) => {
-    trip.time = e.target.value
+    (e.target.value == '') ? trip.time = null : trip.time = e.target.value
     document.querySelector('[data-time]').setAttribute('data-time', trip.time)
+  }
+
+  handleEntranceSelect = (e) => {
+    (e.target.value == '') ? trip.entrance = null : trip.entrance = e.target.value
   }
 
   getLocation = () => {
@@ -184,7 +197,7 @@ export default class UserPage extends Component {
       {this.state.waypoints.map((el, index) => this.renderWaypoint(index, el.idEl, el.df, el.placeholder, el.predictions))}
       <button className='link add-point' id='add_point' onClick={this.handleClick} type='button'><span className='plus'></span>{Localization.user_page.add_point}</button>
       </div>
-      <div className='select-section'>
+      <div className='form__time-select'>
       <label htmlFor='time' className='start_at_label'><span className='clock' data-time='12:10'></span>{Localization.user_page.start_time}</label>
       <div className='select'>
       <select id='time' name='trip[time]' onChange={this.handleTimeSelect}>
@@ -193,9 +206,19 @@ export default class UserPage extends Component {
       </select>
       </div>
       </div>
+      <div className='form__no-call'>
+      <input id='no_call' name='trip[no_call]' type='checkbox' onChange={this.noCallChecked}></input>
+      </div>
+      <div className='form__entrance'>
+      <label htmlFor='entrance' className='start_at_label'><span className='entrance'></span>Номер подъезда</label>
+      <select id='entrance' name='trip[entrance]' onChange={this.handleEntranceSelect}>
+      <option value=''>Не выбран</option>
+      {this.state.entrance.map((el) => this.renderEntrance(el))}
+      </select>
+      </div>
       <details>
       <summary><span className='comment-arrow'></span>{Localization.user_page.comment}</summary>
-      <textarea id='comment' name='trip[comment]' onInput={(e) => trip.comment = e.target.value}></textarea>
+      <textarea id='comment' name='trip[comment]' onInput={(e) => trip.comment = e.target.chacked}></textarea>
       </details>
       <br/><button className='button' id='done' type='submit'>{Localization.user_page.submit}</button>
       </div>
