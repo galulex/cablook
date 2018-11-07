@@ -48,6 +48,22 @@ describe Events::Trips::Create do
       end
     end
 
+    context 'when user choose no call' do 
+      before { subject.call }
+
+      let(:data) { trip_params.merge(no_call: true) }
+
+      it { expect(Trip.last.no_call).to eq(true) }
+    end
+
+    context 'when user choose entrance' do 
+      before { subject.call }
+
+      let(:data) { trip_params.merge(entrance: 1) }
+
+      it { expect(Trip.last.entrance).to eq(1) }
+    end
+
     context 'when payment by bonus' do
       let!(:bonus_trip) { create(:bonus_trip, user_id: user.id, status: Constants::BonusTrip::NEW) }
       let(:data) { trip_params.merge(bonus: true) }
