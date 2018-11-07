@@ -24,8 +24,7 @@ export default class UserPage extends Component {
           predictions: []
         }
       ],
-      time_select: Array(24 * 6).fill(0).map((_, i) => { return ('0' + ~~(i / 6) + ':0' + Math.round(60  * (i / 6 % 1))).replace(/\d(\d\d)/g, '$1') }),
-      entrance: Array.from({length: 15}, (v, k) => k + 1)
+      time_select: Array(24 * 6).fill(0).map((_, i) => { return ('0' + ~~(i / 6) + ':0' + Math.round(60  * (i / 6 % 1))).replace(/\d(\d\d)/g, '$1') })
     }
   }
 
@@ -194,10 +193,6 @@ export default class UserPage extends Component {
       </select>
       </div>
       </div>
-      <label className='form__no-call'>
-      <input type='checkbox'></input>
-      <span className='form__no-call-checkbox'></span>
-      </label>
       <details>
       <summary><span className='comment-arrow'></span>{Localization.user_page.comment}</summary>
       <textarea id='comment' name='trip[comment]' onInput={(e) => trip.comment = e.target.value}></textarea>
