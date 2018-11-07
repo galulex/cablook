@@ -24,7 +24,6 @@ export default class UserPage extends Component {
           predictions: []
         }
       ],
-      counter: 0,
       time_select: Array(24 * 6).fill(0).map((_, i) => { return ('0' + ~~(i / 6) + ':0' + Math.round(60  * (i / 6 % 1))).replace(/\d(\d\d)/g, '$1') })
     }
   }
