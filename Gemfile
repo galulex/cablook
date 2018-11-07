@@ -9,8 +9,9 @@ ruby '> 2.4.1'
 
 gem 'rails', '~> 5.2.0'
 
-gem 'activeadmin'
+gem 'actionpack-action_caching'
 gem 'activeadmin-select2'
+gem 'activeadmin'
 gem 'activejob-cancel'
 gem 'arctic_admin'
 gem 'autoprefixer-rails'
