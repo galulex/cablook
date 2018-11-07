@@ -16,6 +16,8 @@ module Events
           optional(:stops) { none? | array? }
 
           optional(:time) { str? }
+          optional(:no_call)
+          optional(:entrance)
           optional(:comment) { str? }
           optional(:card_id)
           optional(:bonus)
