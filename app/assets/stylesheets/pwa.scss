@@ -474,6 +474,7 @@ input.form__number {
   display: inline;
   position: absolute;
   right: 0;
+  z-index: 10;
 }
 
 .form__no-call {

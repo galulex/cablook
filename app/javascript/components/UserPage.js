@@ -129,7 +129,7 @@ export default class UserPage extends Component {
   }
 
   renderEntrance = (el) => {
-    return(<option value={el} key={el}>{el}</option>)
+    return(<option value={el} key={el}>{`${el} ${Localization.user_page.entrance}`}</option>)
   }
 
   logOut = () => {
@@ -208,10 +208,8 @@ export default class UserPage extends Component {
       </div>
       </div>
       <div className='form__no-call'>
-      <label htmlFor='no_call'><span className='phone'></span>{Localization.user_page.no_call}</label>
+      <label htmlFor='no_call' className='start_at_label'><span className='phone'><i className='icss-phone'></i></span>{Localization.user_page.no_call}</label>
       </div>
-      <input id='no_call' name='trip[no_call]' type='checkbox' onChange={this.noCallChecked}></input>
-
       <div className='form__entrance'>
       <div className='select'>
       <select id='entrance' name='trip[entrance]' onChange={this.handleEntranceSelect}>
@@ -219,9 +217,6 @@ export default class UserPage extends Component {
       {this.state.entrance.map((el) => this.renderEntrance(el))}
       </select>
       </div>
-      </div>
-      <div className='form__no-call'>
-      <label htmlFor='no_call' className='start_at_label'><span className='phone'><i className='icss-phone'></i></span>No Call</label>
       </div>
       <details>
       <summary><span className='comment-arrow'></span>{Localization.user_page.comment}</summary>
