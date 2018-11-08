@@ -59,7 +59,7 @@ const en = {
     start_time: "When ",
     start_time_placeholder: "Now",
     geo_alert: "If you want to use an address autocomplete, you must allow the browser to check your location",
-    no_call: "No call",
+    no_call: "No call ",
     entrance: "Entrance"
   }
 }

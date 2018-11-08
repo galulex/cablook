@@ -91,6 +91,19 @@ summary {
   -ms-user-select: none;
 }
 
+button.add-point {
+  margin-top: 10px;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 18px;
+  font-weight: 100;
+  padding-left: 20px;
+  cursor: pointer;
+  position: relative;
+  outline: none;
+}
+
 button.button {
   background: #19a160;
   color: white;
@@ -250,7 +263,7 @@ button.add-point .plus:after {
 }
 
 
-.start_at_label .clock {
+.form__tiem-label .clock {
   position: absolute;
   width: 28px;
   height: 28px;
@@ -261,7 +274,7 @@ button.add-point .plus:after {
   transform: translateY(-50%);
 }
 
-.start_at_label .clock:before {
+.form__tiem-label .clock:before {
   border-radius: 1px;
   content: '';
   width: 2px;
@@ -275,7 +288,7 @@ button.add-point .plus:after {
   transition: transform .3s;
 }
 
-.start_at_label .clock:after {
+.form__tiem-label .clock:after {
   border-radius: 1px;
   content: '';
   width: 2px;
@@ -367,24 +380,9 @@ input.form__number {
   letter-spacing: 1px;
 }
 
-
-//new styles
-.first-box {
+.form__first-box {
   display: flex;
   justify-content: space-between;
-
-  button.add-point {
-    margin-top: 10px;
-    background: none;
-    border: none;
-    color: white;
-    font-size: 18px;
-    font-weight: 100;
-    padding-left: 20px;
-    cursor: pointer;
-    position: relative;
-    outline: none;
-  }
   .form__entrance {
     display: inline;
     margin-top: 10px;
@@ -402,7 +400,7 @@ input.form__number {
   }
 }
 
-.second-box {
+.form__second-box {
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
@@ -420,6 +418,26 @@ input.form__number {
       display: inline-flex;
       width: 43px;
       height: 43px;
+    }
+  }
+}
+
+@media screen and (max-width:450px) {
+  .form__first-box {
+    flex-direction: column;
+    align-items: flex-start;
+    .form__entrance {
+      margin-top: 25px;
+    }
+  }
+}
+
+@media screen and (max-width:340px) {
+  .form__second-box {
+    flex-direction: column;
+    align-items: flex-start;
+    .form__no-call {
+      padding-left: 25px;
     }
   }
 }
