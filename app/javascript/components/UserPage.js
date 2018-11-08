@@ -157,7 +157,7 @@ export default class UserPage extends Component {
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(this.showPosition, this.showError)
       }
-    }  
+    }
   }
 
   showPosition = (position) => {
@@ -169,7 +169,7 @@ export default class UserPage extends Component {
       })
       .then(location => {
         this.setAddress(location)
-      }) 
+      })
   }
 
   showError = (error) => {
@@ -192,7 +192,7 @@ export default class UserPage extends Component {
       <form onSubmit={this.handleSubmit} className='form'>
       <div className='form__fieldset'>
       <button className='button exit' onClick={this.logOut} type='button'>{Localization.user_page.exit}</button>
-      <div className='form__user-number' id='account'>{this.props.number}</div>    
+      <div className='form__user-number' id='account'>{this.props.number}</div>
       <div className='points'>
       {this.state.waypoints.map((el, index) => this.renderWaypoint(index, el.idEl, el.df, el.placeholder, el.predictions))}
       <button className='link add-point' id='add_point' onClick={this.handleClick} type='button'><span className='plus'></span>{Localization.user_page.add_point}</button>
@@ -207,7 +207,6 @@ export default class UserPage extends Component {
       </select>
       </div>
       </div>
-
       <div className='form__no-call'>
       <label htmlFor='no_call'><span className='phone'></span>{Localization.user_page.no_call}</label>
       </div>
@@ -221,7 +220,9 @@ export default class UserPage extends Component {
       </select>
       </div>
       </div>
-      
+      <div className='form__no-call'>
+      <label htmlFor='no_call' className='start_at_label'><span className='phone'><i className='icss-phone'></i></span>No Call</label>
+      </div>
       <details>
       <summary><span className='comment-arrow'></span>{Localization.user_page.comment}</summary>
       <textarea id='comment' name='trip[comment]' onInput={(e) => trip.comment = e.target.chacked}></textarea>

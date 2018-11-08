@@ -342,6 +342,90 @@ button.add-point .plus:after {
   }
 }
 
+.phone {
+  position: absolute;
+  width: 28px;
+  height: 28px;
+  border: 2px solid white;
+  border-radius: 50%;
+  left: -19px;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+
+i.icss-phone {
+  width: 4px;
+  height: 10px;
+  background-color: transparent;
+  border-width: 7px 3px;
+  border-style: solid;
+  border-radius: .3em;
+  border-right-color: transparent;
+  transform: rotate(-36deg);
+  margin: 2px 0 0 9px;
+  display: inline-block;
+  position: relative;
+  transform: rotate(-36deg);
+}
+
+.icss-phone:before,
+.icss-phone:after {
+  content: "";
+  border-width: 0;
+  position: absolute;
+  box-sizing: border-box;
+  border-style: solid;
+  border-radius: 100%;
+  border-color: transparent;
+  border-top-color: inherit;
+  transform: rotate(90deg);
+  border-width: .05em;
+}
+
+i.icss-phone:before {
+  width: 15px;
+  height: 9px;
+  top: 0;
+  left: -3px;
+}
+i.icss-phone:after {
+  width: 21px;
+  height: 17px;
+  top: -4px;
+  left: -6px;
+}
+
+.target.icon {
+  color: #000;
+  position: absolute;
+  margin-left: 2px;
+  margin-top: 2px;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  border: solid 1px currentColor;
+}
+.target.icon:before {
+  content: '';
+  position: absolute;
+  left: -1px;
+  top: 7px;
+  width: 11px;
+  height: 1px;
+  border-left: solid 3px currentColor;
+  border-right: solid 3px currentColor;
+}
+.target.icon:after {
+  content: '';
+  position: absolute;
+  left: 7px;
+  top: -1px;
+  width: 1px;
+  height: 11px;
+  border-top: solid 3px currentColor;
+  border-bottom: solid 3px currentColor;
+}
 
 .form__location:last-of-type:after {
   display: none;
@@ -389,7 +473,7 @@ input.form__number {
 .form__entrance {
   display: inline;
   position: absolute;
-  right: 0; 
+  right: 0;
 }
 
 .form__no-call {
@@ -489,4 +573,8 @@ summary::-webkit-details-marker {
 
 details textarea {
   margin-bottom: 0;
+}
+
+label {
+  cursor: pointer;
 }
