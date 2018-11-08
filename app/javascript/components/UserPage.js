@@ -207,15 +207,15 @@ export default class UserPage extends Component {
       </div>
       </div>
       <div className='form__no-call'>
-      <input id='no_call' name='trip[no_call]' type='checkbox' onChange={this.noCallChecked}></input>
-      </div>
-      <div className='form__entrance'>
-      <label htmlFor='entrance' className='start_at_label'><span className='entrance'></span>Номер подъезда</label>
+      <label htmlFor='no_call'><span className='phone'></span>No Call</label>
+      <div className='form__entrance select'>
       <select id='entrance' name='trip[entrance]' onChange={this.handleEntranceSelect}>
-      <option value=''>Не выбран</option>
+      <option value=''>Подъезд</option>
       {this.state.entrance.map((el) => this.renderEntrance(el))}
       </select>
       </div>
+      </div>
+      <input id='no_call' name='trip[no_call]' type='checkbox' onChange={this.noCallChecked}></input>  
       <details>
       <summary><span className='comment-arrow'></span>{Localization.user_page.comment}</summary>
       <textarea id='comment' name='trip[comment]' onInput={(e) => trip.comment = e.target.chacked}></textarea>

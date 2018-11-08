@@ -263,7 +263,6 @@ button.add-point .plus:after {
 }
 
 .form__time-select {
-  display: block;
   margin-top: 15px;
   padding-left: 20px;
   position: relative;
@@ -385,6 +384,30 @@ input.form__number {
 .form__user-number {
   text-align: center;
   letter-spacing: 1px;
+}
+
+input#no_call {
+  display: none;
+}
+
+.form__no-call {
+  margin-top: 15px;
+  padding-left: 20px;
+  position: relative;
+  .phone {
+    position: absolute;
+    width: 28px;
+    height: 28px;
+    border: 2px solid white;
+    border-radius: 50%;
+    left: -19px;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+}
+
+.form__entrance {
+  margin-left: auto;
 }
 
 input[type=number]::-webkit-inner-spin-button,
