@@ -19,6 +19,7 @@ class Trip < ApplicationRecord
 
   # Time for pre-order trip
   attr_reader :time
+  attr_reader :entrance
 
   def preorder?
     status == Constants::Trip::STATUS_CODES[Constants::Trip::PRE_ORDERED]

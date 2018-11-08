@@ -61,7 +61,7 @@ describe Events::Trips::Create do
 
       let(:data) { trip_params.merge(entrance: 1) }
 
-      it { expect(Trip.last.entrance).to eq(1) }
+      it { expect(Trip.last.comment).to eq('') }
     end
 
     context 'when payment by bonus' do
