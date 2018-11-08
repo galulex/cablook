@@ -386,8 +386,10 @@ input.form__number {
   letter-spacing: 1px;
 }
 
-input#no_call {
-  display: none;
+.form__entrance {
+  display: inline;
+  position: absolute;
+  right: 0; 
 }
 
 .form__no-call {
@@ -406,8 +408,8 @@ input#no_call {
   }
 }
 
-.form__entrance {
-  margin-left: auto;
+input#no_call {
+  display: none;
 }
 
 input[type=number]::-webkit-inner-spin-button,
