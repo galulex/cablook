@@ -195,11 +195,22 @@ export default class UserPage extends Component {
       <div className='form__user-number' id='account'>{this.props.number}</div>
       <div className='points'>
       {this.state.waypoints.map((el, index) => this.renderWaypoint(index, el.idEl, el.df, el.placeholder, el.predictions))}
-      <button className='link add-point' id='add_point' onClick={this.handleClick} type='button'><span className='plus'></span>{Localization.user_page.add_point}</button>
       </div>
+      <div className='first-box'>
+        <button className='link add-point' id='add_point' onClick={this.handleClick} type='button'><span className='plus'></span>{Localization.user_page.add_point}</button>
 
+        <div className='form__entrance select'>
+        <label htmlFor='entrance'><span className='door'></span></label>
+        <select id='entrance' name='trip[entrance]' onChange={this.handleEntranceSelect}>
+        <option value=''>{Localization.user_page.entrance}</option>
+        {this.state.entrance.map((el) => this.renderEntrance(el))}
+        </select>
+        </div>
+      </div>
+      
+      <div className='second-box'>
       <div className='form__time-select'>
-      <label htmlFor='time' className='start_at_label'><span className='clock' data-time='12:10'></span>{Localization.user_page.start_time}</label>
+      <label htmlFor='time' className='start_at_label'><span className='clock' data-time='12:10'></span></label>
       <div className='select'>
       <select id='time' name='trip[time]' onChange={this.handleTimeSelect}>
       <option value=''>{Localization.user_page.start_time_placeholder}</option>
@@ -207,17 +218,15 @@ export default class UserPage extends Component {
       </select>
       </div>
       </div>
+
       <div className='form__no-call'>
-      <label htmlFor='no_call' className='start_at_label'><span className='phone'><i className='icss-phone'></i></span>{Localization.user_page.no_call}</label>
-      </div>
-      <div className='form__entrance'>
-      <div className='select'>
-      <select id='entrance' name='trip[entrance]' onChange={this.handleEntranceSelect}>
-      <option value=''>{Localization.user_page.entrance}</option>
-      {this.state.entrance.map((el) => this.renderEntrance(el))}
-      </select>
+      <label htmlFor='no_call'>No call</label>
+      <input type='checkbox' id='no_call' name='trip[no_call]'></input>
       </div>
       </div>
+
+
+
       <details>
       <summary><span className='comment-arrow'></span>{Localization.user_page.comment}</summary>
       <textarea id='comment' name='trip[comment]' onInput={(e) => trip.comment = e.target.chacked}></textarea>
