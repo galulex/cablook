@@ -2,6 +2,8 @@ describe Events::Trips::Create do
   describe '.call' do
     subject { -> { described_class.call(data) } }
 
+    before(:all) { Price.create }
+
     let(:trip_params) { attributes_for(:trip, user_id: user.id) }
     let(:data) { trip_params }
     let(:user) { create(:user) }
@@ -55,13 +57,20 @@ describe Events::Trips::Create do
 
       it { expect(Trip.last.no_call).to eq(true) }
     end
+    
 
     context 'when user choose entrance' do 
       before { subject.call }
 
-      let(:data) { trip_params.merge(entrance: 1) }
+      let(:data) { trip_params.merge(entrance: 1).except(:comment) }
 
-      it { expect(Trip.last.comment).to eq('') }
+      it { expect(Trip.last.comment).to eq('Номер подъезда: 1. ') }
+
+      context 'and add comment' do
+        let(:data) { trip_params.merge(entrance: 1, comment: 'FooBar') }
+
+        it { expect(Trip.last.comment).to eq('Номер подъезда: 1. FooBar') }
+      end
     end
 
     context 'when payment by bonus' do
