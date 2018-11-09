@@ -42,7 +42,7 @@ input, textarea, select {
 
 select {
   width: 100%;
-  color: #25A062;
+  color: #E8C03B;
   background: transparent;
   padding: 10px 30px 10px 10px;
   -webkit-appearance: none;
@@ -57,7 +57,7 @@ select {
 }
 
 .select:before {
-  color: #25A062;
+  color: #E8C03B;
   content: '▼';
   position: absolute;
   right: 10px;
@@ -392,6 +392,12 @@ input.form__number {
     display: inline;
     margin-top: 10px;
     padding-left: 20px;
+    select {
+      color: #25A062;
+    }
+    &::before {
+      color: #25A062;
+    }
     .door {
       position: absolute;
       cursor: default;
@@ -444,20 +450,25 @@ input.form__number {
     padding-left: 20px;
     position: relative;
     display: inline;
+    select {
+      color: #25A062;
+    }
+    .select:before {
+      color: #25A062;
+    }
   }
   .form__no-call {
     display: inline;
     margin-right: 8px;
     height: 43px;
+    width: 135px;
     label {
       width: 0;
       vertical-align: middle;
     }
     .checkbox__wrapper {
-      display: inline-flex;
+      display: inline-block;
       position: relative;
-      padding-left: 35px;
-      margin-bottom: 12px;
       cursor: pointer;
       font-size: 22px;
       -webkit-user-select: none;
@@ -469,12 +480,13 @@ input.form__number {
         opacity: 0;
         cursor: pointer;
         height: 0;
-        width: 0;
         right: 20px;
+        position: absolute;
+        width: 35px;
+        padding: 0;
       }
     }
     .checkbox__checkmark {
-      position: absolute;
       top: 0;
       left: 0;
       width: 100%;
@@ -534,8 +546,7 @@ input.form__number {
     .form__no-call {
       margin-top: 15px;
       direction: rtl;
-      padding-left: 0;
-      margin-left: -24px;
+      padding-left: 2px;
       label {
         margin-right: 10px;
       }
