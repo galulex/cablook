@@ -16,6 +16,8 @@ module Events
           optional(:stops) { none? | array? }
 
           optional(:time) { str? }
+          optional(:no_call)
+          optional(:entrance)
           optional(:comment) { str? }
           optional(:card_id)
           optional(:bonus)
@@ -81,7 +83,12 @@ module Events
       end
 
       def create_trip
-        @trip = Trip.create(data.to_h.except(:bonus, :card_id))
+        @trip = Trip.create(data.to_h.except(:comment, :bonus, :card_id))
+        @trip.update(comment: comment)
+      end
+
+      def comment
+        data[:entrance] ? "Номер подъезда: #{data[:entrance]}. #{data[:comment]}" : data[:comment]
       end
 
       def create_trip_job(trip_id)

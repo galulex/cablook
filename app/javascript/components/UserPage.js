@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import Session from './Session'
 import Trip from './Trip'
 import Localization from '../localization/Localization'
-import ReactSVG from 'react-svg'
 
 export default class UserPage extends Component {
   constructor(props){
@@ -24,7 +23,8 @@ export default class UserPage extends Component {
           predictions: []
         }
       ],
-      time_select: Array(24 * 6).fill(0).map((_, i) => { return ('0' + ~~(i / 6) + ':0' + Math.round(60  * (i / 6 % 1))).replace(/\d(\d\d)/g, '$1') })
+      time_select: Array(24 * 6).fill(0).map((_, i) => { return ('0' + ~~(i / 6) + ':0' + Math.round(60  * (i / 6 % 1))).replace(/\d(\d\d)/g, '$1') }),
+      entrance: Array.from({length: 15}, (v, k) => k + 1)
     }
   }
 
@@ -56,7 +56,7 @@ export default class UserPage extends Component {
   renderWaypoint = (id, idEl, df, placeholder, predictions) => {
     return(
       <div className='form__location' key={id} >
-      {id == 0 ? (<ReactSVG src='geo_target_btn.svg' svgClassName='form__location-target btn' svgStyle={{ width: 25, height: 25 }} onClick={this.getLocation} />) : null}
+      {id == 0 ? (<div className="form__location-pin" onClick={this.getLocation}></div>) : null}
       <button className='form__location-remove link' onClick={this.removePoint} type='button'>×</button>
       <input autoComplete='off' className='form__location-field' data-field={df} id={idEl} name='waypoints' data-location='false' onInput={(e) => this.handleInput(e, id)} placeholder={placeholder} required type='text' />
       <ul className='form__location-list' data-list=''>
@@ -127,14 +127,26 @@ export default class UserPage extends Component {
     return(<option value={el} key={el}>{el}</option>)
   }
 
+  renderEntrance = (el) => {
+    return(<option value={el} key={el}>{`${el} ${Localization.user_page.entrance}`}</option>)
+  }
+
   logOut = () => {
     Session.destroy()
     this.props.updateStep(1)
   }
 
+  noCallChecked = (e) => {
+    (e.target.checked == true) ? trip.no_call = true : trip.no_call = null
+  }
+
   handleTimeSelect = (e) => {
-    trip.time = e.target.value
+    (e.target.value == '') ? trip.time = null : trip.time = e.target.value
     document.querySelector('[data-time]').setAttribute('data-time', trip.time)
+  }
+
+  handleEntranceSelect = (e) => {
+    (e.target.value == '') ? trip.entrance = null : trip.entrance = e.target.value
   }
 
   getLocation = () => {
@@ -144,7 +156,7 @@ export default class UserPage extends Component {
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(this.showPosition, this.showError)
       }
-    }  
+    }
   }
 
   showPosition = (position) => {
@@ -156,7 +168,7 @@ export default class UserPage extends Component {
       })
       .then(location => {
         this.setAddress(location)
-      }) 
+      })
   }
 
   showError = (error) => {
@@ -179,13 +191,23 @@ export default class UserPage extends Component {
       <form onSubmit={this.handleSubmit} className='form'>
       <div className='form__fieldset'>
       <button className='button exit' onClick={this.logOut} type='button'>{Localization.user_page.exit}</button>
-      <div className='form__user-number' id='account'>{this.props.number}</div>    
+      <div className='form__user-number' id='account'>{this.props.number}</div>
       <div className='points'>
       {this.state.waypoints.map((el, index) => this.renderWaypoint(index, el.idEl, el.df, el.placeholder, el.predictions))}
-      <button className='link add-point' id='add_point' onClick={this.handleClick} type='button'><span className='plus'></span>{Localization.user_page.add_point}</button>
       </div>
-      <div className='select-section'>
-      <label htmlFor='time' className='start_at_label'><span className='clock' data-time='12:10'></span>{Localization.user_page.start_time}</label>
+      <div className='form__first-box'>
+      <button className='link add-point' id='add_point' onClick={this.handleClick} type='button'><span className='plus'></span>{Localization.user_page.add_point}</button>
+      <div className='form__entrance select'>
+      <label htmlFor='entrance'><span className='door'></span></label>
+      <select id='entrance' name='trip[entrance]' onChange={this.handleEntranceSelect}>
+      <option value=''>{Localization.user_page.entrance}</option>
+      {this.state.entrance.map((el) => this.renderEntrance(el))}
+      </select>
+      </div>
+      </div> 
+      <div className='form__second-box'>
+      <div className='form__time-select'>
+      <label htmlFor='time' className='form__tiem-label'><span className='clock' data-time='12:10'></span></label>
       <div className='select'>
       <select id='time' name='trip[time]' onChange={this.handleTimeSelect}>
       <option value=''>{Localization.user_page.start_time_placeholder}</option>
@@ -193,9 +215,17 @@ export default class UserPage extends Component {
       </select>
       </div>
       </div>
+      <div className='form__no-call'>
+      <label htmlFor='no_call'>{Localization.user_page.no_call}</label>
+      <label className='checkbox__wrapper'>
+      <input type='checkbox' id='no_call' name='trip[no_call]' onChange={this.noCallChecked}></input>
+      <span className="checkbox__checkmark"></span>
+      </label>
+      </div>
+      </div>
       <details>
       <summary><span className='comment-arrow'></span>{Localization.user_page.comment}</summary>
-      <textarea id='comment' name='trip[comment]' onInput={(e) => trip.comment = e.target.value}></textarea>
+      <textarea id='comment' name='trip[comment]' onInput={(e) => trip.comment = e.target.chacked}></textarea>
       </details>
       <br/><button className='button' id='done' type='submit'>{Localization.user_page.submit}</button>
       </div>

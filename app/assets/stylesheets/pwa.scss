@@ -91,6 +91,19 @@ summary {
   -ms-user-select: none;
 }
 
+button.add-point {
+  margin-top: 10px;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 18px;
+  font-weight: 100;
+  padding-left: 20px;
+  cursor: pointer;
+  position: relative;
+  outline: none;
+}
+
 button.button {
   background: #19a160;
   color: white;
@@ -147,19 +160,6 @@ button.exit:hover {
   background: transparent;
   border: 2px solid #a2a2a2;
   color: #a2a2a2;
-}
-
-button.add-point {
-  margin-top: 10px;
-  background: none;
-  border: none;
-  color: white;
-  font-size: 18px;
-  font-weight: 100;
-  padding-left: 20px;
-  cursor: pointer;
-  position: relative;
-  outline: none;
 }
 
 button.add-point .plus {
@@ -262,14 +262,9 @@ button.add-point .plus:after {
   top: 30px;
 }
 
-.select-section {
-  display: block;
-  margin-top: 15px;
-  padding-left: 20px;
-  position: relative;
-}
 
-.start_at_label .clock {
+.form__tiem-label .clock {
+  cursor: default;
   position: absolute;
   width: 28px;
   height: 28px;
@@ -280,7 +275,7 @@ button.add-point .plus:after {
   transform: translateY(-50%);
 }
 
-.start_at_label .clock:before {
+.form__tiem-label .clock:before {
   border-radius: 1px;
   content: '';
   width: 2px;
@@ -294,7 +289,7 @@ button.add-point .plus:after {
   transition: transform .3s;
 }
 
-.start_at_label .clock:after {
+.form__tiem-label .clock:after {
   border-radius: 1px;
   content: '';
   width: 2px;
@@ -308,23 +303,27 @@ button.add-point .plus:after {
   transition: transform .3s;
 }
 
-.form__location-target.btn {
-  background: none;
-  border: none;
-  bottom: -1%;
-  cursor: pointer;
-  fill: #E8C03B;
-  outline: none;
-  padding: 0 5px;
-  position: absolute;
-  right: 2%;
-  transform: translateY(-50%);
-  transition: .3s;
-  z-index: 1;
-}
 
-.form__location-target.btn:hover {
-  fill:#af912d;
+.form__location-pin {
+  position: absolute;
+  top: 15%;
+  right: 3%;
+  border-radius: 50%;
+  border: 5px solid #19a160;
+  width: 8px;
+  height: 8px;
+  z-index: 10;
+  cursor: pointer;
+  &::after {
+    position: absolute;
+    content: '';
+    width: 0px;
+    height: 7px;
+    bottom: -30px;
+    left: -4px;
+    border: 8px solid transparent;
+    border-top: 14px solid #19a160;
+  }
 }
 
 .form__location-field#departure_address{
@@ -342,7 +341,6 @@ button.add-point .plus:after {
     transform: rotate(#{$hour * 30}deg);
   }
 }
-
 
 .form__location:last-of-type:after {
   display: none;
@@ -385,6 +383,181 @@ input.form__number {
 .form__user-number {
   text-align: center;
   letter-spacing: 1px;
+}
+
+.form__first-box {
+  display: flex;
+  justify-content: space-between;
+  .form__entrance {
+    display: inline;
+    margin-top: 10px;
+    padding-left: 20px;
+    select {
+      color: #25A062;
+    }
+    &::before {
+      color: #25A062;
+    }
+    .door {
+      position: absolute;
+      cursor: default;
+      width: 28px;
+      height: 28px;
+      border: 2px solid white;
+      border-radius: 50%;
+      left: -19px;
+      top: 50%;
+      perspective: 80px;
+      transform: translateY(-50%);
+      &::before {
+        content: '';
+        border: 2px solid white;
+        border-width: 1px 1px 0 1px;
+        width: 12px;
+        height: 19px;
+        display: inline-block;
+        position: absolute;
+        left: 28%;
+        top: 4px;
+        transform-origin: bottom;
+        transition: transform .3s;
+      } 
+      &::after {
+        content: '';
+        border: 1px solid white;
+        border-width: 1px 1px 0 1px;
+        width: 16px;
+        height: 21px;
+        display: inline-block;
+        background: white;
+        position: absolute;
+        left: 31%;
+        top: 3px;
+        transform: rotateY(60deg);
+        transform-origin: bottom;
+        transition: transform .3s;
+      }
+    }
+  }
+}
+
+.form__second-box {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  .form__time-select {
+    margin-top: 15px;
+    padding-left: 20px;
+    position: relative;
+    display: inline;
+    select {
+      color: #25A062;
+    }
+    .select:before {
+      color: #25A062;
+    }
+  }
+  .form__no-call {
+    display: inline-block;
+    margin-right: 8px;
+    height: 43px;
+    width: 135px;
+    label {
+      width: 0;
+      vertical-align: middle;
+    }
+    .checkbox__wrapper {
+      display: inline-block;
+      position: relative;
+      cursor: pointer;
+      font-size: 22px;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+      input {
+        display: inline-flex;
+        opacity: 0;
+        cursor: pointer;
+        height: 0;
+        right: 20px;
+        position: absolute;
+        width: 35px;
+        padding: 0;
+      }
+    }
+    .checkbox__checkmark {
+      top: 0;
+      left: 0;
+      width: 100%;
+      display: block;
+      border: none;
+      background: transparent;
+      box-shadow: inset 0px 0px 15px 0px rgba(15,14,15,0.7);
+      color: #19a160;
+      border: 1px solid rgba(25, 161, 96, 0.7);
+      font-size: 1.1rem;
+      padding: 12px;
+      border-radius: 10px;
+      outline: none;
+      width: 43px;
+      height: 43px;
+      box-sizing: border-box;
+      &:after {
+        content: "";
+        position: absolute;
+        display: none;
+      }
+    }
+    .checkbox__wrapper {
+      input:checked ~ .checkbox__checkmark:after {
+        display: block;
+      }
+      .checkbox__checkmark:after {
+        left: 16px;
+        top: 6px;
+        width: 8px;
+        height: 18px;
+        border: solid #19a160;
+        border-width: 0 3px 3px 0;
+        -webkit-transform: rotate(45deg);
+        -ms-transform: rotate(45deg);
+        transform: rotate(45deg);
+      }
+    }
+
+  }
+}
+
+@media screen and (max-width:450px) {
+  .form__first-box {
+    flex-direction: column;
+    align-items: flex-start;
+    .form__entrance {
+      margin-top: 25px;
+    }
+  }
+}
+
+@media screen and (max-width:370px) {
+  .form__second-box {
+    flex-direction: column;
+    align-items: flex-start;
+    .form__no-call {
+      margin-top: 15px;
+      direction: rtl;
+      padding-left: 2px;
+      label {
+        margin-right: 10px;
+      }
+      .checkbox__wrapper {
+        .checkbox__checkmark:after {
+          left: -25px;
+          position: absolute;
+        }
+      }
+    }
+  }
 }
 
 input[type=number]::-webkit-inner-spin-button,
@@ -453,7 +626,7 @@ details[open] span.comment-arrow {
 
 summary {
   display: block;
-  margin-top: 15px;
+  margin-top: 25px;
   padding-left: 20px;
   position: relative;
 }
@@ -464,4 +637,8 @@ summary::-webkit-details-marker {
 
 details textarea {
   margin-bottom: 0;
+}
+
+label {
+  cursor: pointer;
 }

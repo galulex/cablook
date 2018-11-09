@@ -15,6 +15,8 @@ export default class Trip {
     data.append('trip[destination]', waypoints.pop().getAttribute('data-place'))
     data.append('trip[comment]', trip.comment)
     if (trip['time'] != null) data.append('trip[time]', trip.time)
+    if (trip['no_call'] != null) data.append('trip[no_call]', trip.no_call)
+    if (trip['entrance'] != null) data.append('trip[entrance]', trip.entrance)
 
     waypoints.forEach(w => {
       data.append('trip[waypoints][]', w.getAttribute('data-place'))
@@ -129,8 +131,10 @@ export default class Trip {
     data.append('trip[card_id]', trip.card_id)
 
     if (trip['bonus'] == 'true') data.append('trip[bonus]', trip.bonus)
-
     if (trip['time'] != null) data.append('trip[time]', trip.time)
+    if (trip['no_call'] != null) data.append('trip[no_call]', trip.no_call)
+    if (trip['entrance'] != null) data.append('trip[entrance]', trip.entrance)
+    
     data.append('trip[comment]', trip.comment)
     if (localStorage.ready) {
       axios({method: 'POST', url: '/api/trips', data: data, headers: {'Auth-Token': localStorage.token}}).then(response => {

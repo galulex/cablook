@@ -23,7 +23,7 @@ html lang="#{I18n.locale}"
         background: #312d50;
         background: linear-gradient(#312d50, 70%, #19a160);
         color: white;
-        height: 100vh;
+        min-height: 100vh;
         -webkit-overflow-scrolling: touch;
       }
 
@@ -107,10 +107,10 @@ html lang="#{I18n.locale}"
         text-decoration: none;
       }
 
-  body
+  body onload="document.getElementById('styles').rel = 'stylesheet'"
     = render 'shared/localization'
     main= yield
-    link href=asset_path('pwa.css') rel=:preload as=:style onload="this.rel='stylesheet'"
+    link#styles href=asset_path('pwa.css') rel=:preload as=:style onload="this.rel='stylesheet'"
     = javascript_pack_tag 'application', async: true
     = render 'layouts/footer'
     script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDx2cLwlAG3muHMV9DVYY3l2PupoYCS-Mk&libraries=places" async=true defer=true
