@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import Session from './Session'
 import Trip from './Trip'
 import Localization from '../localization/Localization'
-import ReactSVG from 'react-svg'
 
 export default class UserPage extends Component {
   constructor(props){
@@ -57,7 +56,7 @@ export default class UserPage extends Component {
   renderWaypoint = (id, idEl, df, placeholder, predictions) => {
     return(
       <div className='form__location' key={id} >
-      {id == 0 ? (<ReactSVG src='geo_target_btn.svg' svgClassName='form__location-target btn' svgStyle={{ width: 25, height: 25 }} onClick={this.getLocation} />) : null}
+      {id == 0 ? (<div className="form__location-pin" onClick={this.getLocation}></div>) : null}
       <button className='form__location-remove link' onClick={this.removePoint} type='button'>×</button>
       <input autoComplete='off' className='form__location-field' data-field={df} id={idEl} name='waypoints' data-location='false' onInput={(e) => this.handleInput(e, id)} placeholder={placeholder} required type='text' />
       <ul className='form__location-list' data-list=''>
