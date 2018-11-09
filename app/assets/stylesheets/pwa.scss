@@ -264,6 +264,7 @@ button.add-point .plus:after {
 
 
 .form__tiem-label .clock {
+  cursor: default;
   position: absolute;
   width: 28px;
   height: 28px;
@@ -393,13 +394,43 @@ input.form__number {
     padding-left: 20px;
     .door {
       position: absolute;
+      cursor: default;
       width: 28px;
       height: 28px;
       border: 2px solid white;
       border-radius: 50%;
       left: -19px;
       top: 50%;
+      perspective: 80px;
       transform: translateY(-50%);
+      &::before {
+        content: '';
+        border: 2px solid white;
+        border-width: 1px 1px 0 1px;
+        width: 12px;
+        height: 19px;
+        display: inline-block;
+        position: absolute;
+        left: 28%;
+        top: 4px;
+        transform-origin: bottom;
+        transition: transform .3s;
+      } 
+      &::after {
+        content: '';
+        border: 1px solid white;
+        border-width: 1px 1px 0 1px;
+        width: 16px;
+        height: 21px;
+        display: inline-block;
+        background: white;
+        position: absolute;
+        left: 31%;
+        top: 3px;
+        transform: rotateY(60deg);
+        transform-origin: bottom;
+        transition: transform .3s;
+      }
     }
   }
 }
@@ -420,6 +451,7 @@ input.form__number {
     height: 43px;
     label {
       width: 0;
+      vertical-align: middle;
     }
     .checkbox__wrapper {
       display: inline-flex;

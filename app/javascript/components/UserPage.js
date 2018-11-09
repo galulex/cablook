@@ -218,7 +218,7 @@ export default class UserPage extends Component {
       <div className='form__no-call'>
       <label htmlFor='no_call'>{Localization.user_page.no_call}</label>
       <label className='checkbox__wrapper'>
-      <input type='checkbox' id='no_call' name='trip[no_call]'></input>
+      <input type='checkbox' id='no_call' name='trip[no_call]' onChange={this.noCallChecked}></input>
       <span className="checkbox__checkmark"></span>
       </label>
       </div>
