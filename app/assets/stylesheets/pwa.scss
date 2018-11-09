@@ -318,11 +318,11 @@ button.add-point .plus:after {
     position: absolute;
     content: '';
     width: 0px;
-    height: 4px;
+    height: 7px;
     bottom: -30px;
     left: -4px;
     border: 8px solid transparent;
-    border-top: 18px solid #19a160;
+    border-top: 14px solid #19a160;
   }
 }
 
@@ -458,7 +458,7 @@ input.form__number {
     }
   }
   .form__no-call {
-    display: inline;
+    display: inline-block;
     margin-right: 8px;
     height: 43px;
     width: 135px;
@@ -549,6 +549,12 @@ input.form__number {
       padding-left: 2px;
       label {
         margin-right: 10px;
+      }
+      .checkbox__wrapper {
+        .checkbox__checkmark:after {
+          left: -25px;
+          position: absolute;
+        }
       }
     }
   }
