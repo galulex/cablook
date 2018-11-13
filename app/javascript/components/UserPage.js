@@ -179,9 +179,10 @@ export default class UserPage extends Component {
 
   setAddress = (location) => {
     let result = location.results[0]
-    let address = result.formatted_address.split(',')
+    let address = result.formatted_address.split(', ')
     let field = document.getElementsByClassName('form__location-field')[0]
     field.value = `${address[0]}, ${address[1]}`
+    trip[field.id] = field.value
     field.setAttribute('data-location', true)
     field.setAttribute('data-place', result.place_id)
   }
