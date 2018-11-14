@@ -17,8 +17,15 @@ module Events
       private
 
       def update_trip
-        trip.update(status: Constants::Trip::WAITING_CLIENT, arrived_at: Time.now)
-        trip.update(start_at: trip.preorder_time, preorder_time: '') if trip.preorder?
+        trip.update(params)
+      end
+
+      def params
+        if trip.preorder?
+          { status: Constants::Trip::WAITING_CLIENT, arrived_at: Time.now, start_at: trip.preorder_time, preorder_time: nil }
+        else
+          { status: Constants::Trip::WAITING_CLIENT, arrived_at: Time.now }
+        end
       end
 
       def broadcast
