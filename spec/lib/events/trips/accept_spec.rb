@@ -43,10 +43,10 @@ describe Events::Trips::Accept do
     end
 
     context 'when trip pre-ordered' do
-      let(:trip) { create(:trip, user_id: user.id, driver_id: driver.id, status: Constants::Trip::STATUS_CODES[Constants::Trip::PRE_ORDERED]) }
+      let(:trip) { create(:trip, user_id: user.id, driver_id: driver.id, preorder_time: 2.hours.since) }
 
       it { is_expected.not_to change { car.reload.status } }
-      it { is_expected.not_to change { trip.reload.status } }
+      it { expect(trip.reload.start_at.strftime('%H:%M')).to eq(2.hours.since.strftime('%H:%M')) }
     end
 
     context 'time calculation' do
@@ -67,7 +67,7 @@ describe Events::Trips::Accept do
         before(:each) { described_class.call(new_data) }
 
         context 'and have pre-ordered trip' do
-          let!(:first_trip) { create(:trip, start_at: 5.hours.since, duration: 10.minutes, status: Constants::Trip::PRE_ORDERED, car_id: car.id, driver_id: driver.id) }
+          let!(:first_trip) { create(:trip, duration: 10.minutes, preorder_time: 2.hours.since, car_id: car.id, driver_id: driver.id) }
 
           it { expect(trip.reload.start_at.to_s).to eq(7.minutes.since.to_s) }
         end

@@ -8,12 +8,6 @@ describe Events::Trips::WaitingClient do
 
     it { is_expected.to change { trip.reload.status }.to(Constants::Trip::STATUS_CODES[Constants::Trip::WAITING_CLIENT]) }
 
-    context 'and trips status pre-ordered' do
-      let(:trip) { create(:trip, status: Constants::Trip::PRE_ORDERED) }
-  
-      it { is_expected.to change { trip.reload.status }.to(Constants::Trip::STATUS_CODES[Constants::Trip::WAITING_CLIENT]) }
-    end
-
     context 'and broadcast to driver map channel' do
       it do
         expect(ActionCable.server).to receive(:broadcast).with(

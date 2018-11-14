@@ -142,6 +142,7 @@ ActiveRecord::Schema.define(version: 2018_11_14_090030) do
     t.text "stops", default: [], array: true
     t.integer "idle", default: 0
     t.integer "total", default: 0
+    t.datetime "start_time"
     t.boolean "no_call", default: false
     t.datetime "preorder_time"
     t.index ["car_id"], name: "index_trips_on_car_id"

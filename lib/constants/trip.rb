@@ -15,7 +15,7 @@ module Constants
     MAX_DISTANCE = 60_000
     MAX_BONUS_DISTANCE = 10_000
 
-    EXPIRES_IN = 15.seconds.freeze
+    EXPIRES_IN = 70.seconds.freeze
 
     STATUS_CODES = {
       PENDING            => 'pending'.freeze,

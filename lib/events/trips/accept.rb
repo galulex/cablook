@@ -77,7 +77,7 @@ module Events
       end
 
       def start_time
-        return if trip.preorder_time
+        return if trip.preorder?
         start_at = matrix.duration.seconds.since + 2.minutes
         car_trip ? (start_at + car_trip_remaining_time) : start_at
       end
