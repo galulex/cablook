@@ -29,6 +29,8 @@ class Trip < ApplicationRecord
     preorder_time.present?
   end
 
+  alias pre_order preorder?
+
   def time=(val)
     date = val.in_time_zone
     self.preorder_time = Time.now.in_time_zone < date ? date : (date + 1.day)
