@@ -18,5 +18,13 @@ describe Events::Trips::WaitingClient do
         subject.call
       end
     end
+
+    context 'if waiting client with pre-order trip' do
+      before { subject.call }
+      let(:trip) { create(:trip, status: Constants::Trip::ON_THE_WAY, preorder_time: 15.minutes.ago) }
+
+      it { expect(trip.reload.start_at.strftime('%H:%M')).to eq(15.minutes.ago.strftime('%H:%M')) }
+      it { expect(trip.reload.preorder_time).to eq(nil) }
+      end
   end
 end

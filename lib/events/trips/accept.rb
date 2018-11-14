@@ -87,7 +87,7 @@ module Events
       end
 
       def car_trip
-        @car_trip ||= Trip.find_by(car_id: data[:car_id], status: [Constants::Trip::DRIVING, Constants::Trip::ON_THE_WAY, Constants::Trip::WAITING_CLIENT])
+        @car_trip ||= Trip.find_by(car_id: data[:car_id], status: [Constants::Trip::DRIVING, Constants::Trip::ON_THE_WAY, Constants::Trip::WAITING_CLIENT], preorder_time: nil)
       end
 
       def car_trip_remaining_time

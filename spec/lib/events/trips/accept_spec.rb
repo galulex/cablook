@@ -67,7 +67,7 @@ describe Events::Trips::Accept do
         before(:each) { described_class.call(new_data) }
 
         context 'and have pre-ordered trip' do
-          let!(:first_trip) { create(:trip, duration: 10.minutes, preorder_time: 2.hours.since, car_id: car.id, driver_id: driver.id) }
+          let!(:first_trip) { create(:trip, duration: 10.minutes, status: Constants::Trip::ON_THE_WAY, preorder_time: 2.hours.since, car_id: car.id, driver_id: driver.id) }
 
           it { expect(trip.reload.start_at.to_s).to eq(7.minutes.since.to_s) }
         end
