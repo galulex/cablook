@@ -61,12 +61,6 @@ describe Events::Trips::Cancel do
       it { is_expected.to change { trip.reload.status }.to(Constants::Trip::STATUS_CODES[Constants::Trip::CANCELED]) }
     end
 
-    context 'when trip is pre_ordered' do
-      let(:trip) { create(:trip, status: Constants::Trip::PRE_ORDERED) }
-
-      it { is_expected.to change { trip.reload.status }.to(Constants::Trip::STATUS_CODES[Constants::Trip::CANCELED]) }
-    end
-
     context 'when canceled by driver' do
       let(:data) { { trip_id: trip.id, by_driver: true } }
 

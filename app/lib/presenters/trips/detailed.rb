@@ -1,8 +1,8 @@
 class Presenters::Trips::Detailed < Presenters::BaseSingle
   properties :id, :status, :path, :cost, :departure, :destination,
              :departure_address, :destination_address, :waypoints,
-             :start_at, :started_at, :finish_at, :finished_at, :duration, :distance, :comment, :no_call,
-             :user_id, :driver_id, :created_at, :stops
+             :start_at, :started_at, :finish_at, :finished_at, :duration, :distance, :comment,
+             :user_id, :driver_id, :created_at, :stops, :no_call, :pre_order
   property :start_time, exec_context: :decorator
   property :finish_time, exec_context: :decorator
 

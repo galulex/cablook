@@ -11,13 +11,6 @@ describe Events::Trips::Decline do
     it { is_expected.to change { trip.reload.status }.to(Constants::Trip::STATUS_CODES[Constants::Trip::DECLINED]) }
     it { is_expected.to change { payment.reload.status }.to(Constants::Payments::DECLINE) }
 
-    context 'when trip pre ordered' do
-      let(:trip) { create(:trip, status: Constants::Trip::PRE_ORDERED) }
-
-      it { is_expected.to change { trip.reload.status }.to(Constants::Trip::STATUS_CODES[Constants::Trip::DECLINED]) }
-      it { is_expected.to change { payment.reload.status }.to(Constants::Payments::DECLINE) }
-    end
-
     context 'when nothing happened' do
       let(:trip) { create(:trip, status: Constants::Trip::FINISHED) }
 
