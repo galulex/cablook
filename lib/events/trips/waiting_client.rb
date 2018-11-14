@@ -17,7 +17,8 @@ module Events
       private
 
       def update_trip
-        Trip.find(data[:trip_id]).update(status: Constants::Trip::WAITING_CLIENT, arrived_at: Time.now)
+        trip.update(status: Constants::Trip::WAITING_CLIENT, arrived_at: Time.now)
+        trip.update(start_at: trip.preorder_time, preorder_time: '') if trip.preorder?
       end
 
       def broadcast
@@ -30,6 +31,10 @@ module Events
 
       def trip_channel
         "#{Constants::Channels::TRIP}_#{data[:trip_id]}"
+      end
+
+      def trip
+        @trip = Trip.find(data[:trip_id])
       end
     end
   end
