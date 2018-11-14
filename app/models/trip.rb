@@ -21,15 +21,18 @@ class Trip < ApplicationRecord
   attr_reader :time
   attr_accessor :entrance
 
+  def start_at
+    super || preorder_time
+  end
+
   def preorder?
-    status == Constants::Trip::STATUS_CODES[Constants::Trip::PRE_ORDERED]
+    preorder_time.present?
   end
 
   def time=(val)
     date = val.in_time_zone
-    self.start_at = Time.now.in_time_zone < date ? date : (date + 1.day)
+    self.preorder_time = Time.now.in_time_zone < date ? date : (date + 1.day)
     @time = val
-    self.status = Constants::Trip::STATUS_CODES[Constants::Trip::PRE_ORDERED]
   end
 
   scope :sum_cost, -> do

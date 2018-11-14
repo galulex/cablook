@@ -1,8 +1,6 @@
 module Events
   module Trips
     class Decline < Events::BaseEvent
-      TRIP_STATUSES = [Constants::Trip::PENDING, Constants::Trip::PRE_ORDERED].freeze
-
       def schema
         Dry::Validation.Schema do
           configure { config.messages = :i18n }
@@ -12,7 +10,7 @@ module Events
       end
 
       def run
-        return unless Trip.statuses[trip.status].in?(TRIP_STATUSES)
+        return unless trip.status == Constants::Trip::STATUS_CODES[Constants::Trip::PENDING]
         trip.update(status: Constants::Trip::DECLINED)
         trip.trip_payment.update(status: Constants::Payments::DECLINE)
         refund_bonus

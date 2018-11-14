@@ -5,10 +5,15 @@ class Presenters::Trips::Single < Presenters::BaseSingle
              :user_id, :driver_id, :created_at, :stops, :time, :no_call, :entrance
 
   property :status, exec_context: :decorator
+  property :pre_order, exec_context: :decorator
 
   collection :feedbacks, extend: Presenters::Feedbacks::Single, if: ->(options) { options[:user_options][:with_feedbacks] }
 
   def status
     Trip.statuses[represented.status]
+  end
+
+  def pre_order
+    represented.preorder_time ? true : false
   end
 end

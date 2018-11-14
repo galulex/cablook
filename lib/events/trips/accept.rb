@@ -1,8 +1,6 @@
 module Events
   module Trips
     class Accept < Events::BaseEvent
-      TRIP_STATUSES = [Constants::Trip::PENDING, Constants::Trip::PRE_ORDERED].freeze
-
       def schema
         Dry::Validation.Schema do
           configure { config.messages = :i18n }
@@ -14,7 +12,7 @@ module Events
       end
 
       def run
-        if Trip.statuses[trip.status].in?(TRIP_STATUSES)
+        if trip.status == Constants::Trip::STATUS_CODES[Constants::Trip::PENDING]
           update_car_status
           update_trip
           broadcast_accepted_trip
@@ -75,11 +73,11 @@ module Events
       end
 
       def trip_status
-        trip.preorder? ? Constants::Trip::PRE_ORDERED : Constants::Trip::ON_THE_WAY
+        Constants::Trip::ON_THE_WAY
       end
 
       def start_time
-        return trip.start_at if trip.preorder?
+        return if trip.preorder_time
         start_at = matrix.duration.seconds.since + 2.minutes
         car_trip ? (start_at + car_trip_remaining_time) : start_at
       end

@@ -8,15 +8,14 @@ module Constants
     CANCELED           = 5
     DECLINED           = 6
     CANCELED_BY_DRIVER = 7
-    PRE_ORDERED        = 8
 
-    STATUSES = [PENDING, ON_THE_WAY, WAITING_CLIENT, DRIVING, FINISHED, CANCELED, DECLINED, PRE_ORDERED].freeze
+    STATUSES = [PENDING, ON_THE_WAY, WAITING_CLIENT, DRIVING, FINISHED, CANCELED, DECLINED].freeze
 
     FEE = 0.025
     MAX_DISTANCE = 60_000
     MAX_BONUS_DISTANCE = 10_000
 
-    EXPIRES_IN = 70.seconds.freeze
+    EXPIRES_IN = 15.seconds.freeze
 
     STATUS_CODES = {
       PENDING            => 'pending'.freeze,
@@ -26,8 +25,7 @@ module Constants
       FINISHED           => 'finished'.freeze,
       CANCELED           => 'canceled'.freeze,
       DECLINED           => 'declined'.freeze,
-      CANCELED_BY_DRIVER => 'canceled_by_driver'.freeze,
-      PRE_ORDERED        => 'pre_ordered'.freeze
+      CANCELED_BY_DRIVER => 'canceled_by_driver'.freeze
     }.freeze
   end
 end

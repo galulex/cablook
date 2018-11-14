@@ -14,6 +14,11 @@ class Presenters::Trips::Detailed < Presenters::BaseSingle
   property :status, exec_context: :decorator
   property :trips_count, exec_context: :decorator
   property :user_number, exec_context: :decorator
+  property :pre_order, exec_context: :decorator
+
+  def pre_order
+    represented.preorder_time ? true : false
+  end
 
   def driver_name
     represented.try(:driver_name) || represented.driver&.name
