@@ -1,6 +1,6 @@
 describe MapboxDirections do
   describe 'request with coordinates' do
-    let(:directions) { MapboxDirections.new([32.032276, 49.416498], [32.024318,49.441293], ['49.434399,32.007088']) } 
+    let(:directions) { MapboxDirections.new([32.032276, 49.416498], [32.024318,49.441293], ['49.434399,32.007088']) }
     let(:valid_response) { JSON.parse(File.read('spec/fixtures/maps/mapbox_success_directions')) }
 
     it 'match json response' do
@@ -11,16 +11,16 @@ describe MapboxDirections do
       expect(directions.duration).to eq(valid_response['routes'][0]['legs'].sum { |leg| leg['duration'] })
     end
 
-    it 'distance should match' do 
+    it 'distance should match' do
       expect(directions.distance).to eq(valid_response['routes'][0]['legs'].sum { |leg| leg['distance'] })
     end
 
     it 'departures should match' do
-      expect(directions.departure).to eq(valid_response['waypoints'][0]['location'].join(','))
+      expect(directions.departure).to eq(valid_response['waypoints'][0]['location'].reverse)
     end
 
     it 'destinations should match' do
-      expect(directions.destination).to eq(valid_response['waypoints'][-1]['location'].join(','))
+      expect(directions.destination).to eq(valid_response['waypoints'][-1]['location'].reverse)
     end
 
     it 'pathes should match' do
@@ -28,7 +28,7 @@ describe MapboxDirections do
     end
 
     it 'waypoints should match' do
-      expect(directions.waypoints).to eq(valid_response['waypoints'][1..-2].map { |leg| leg['location'].join(',') })
+      expect(directions.waypoints).to eq(valid_response['waypoints'][1..-2].map { |leg| leg['location'].reverse.join(',') })
     end
-  end  
+  end
 end

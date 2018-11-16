@@ -99,8 +99,8 @@ export default class UserPage extends Component {
     input.removeAttribute('data-place')
     trip[input.id] = ''
     if (input.value.length == 0) return false
-    let service = new google.maps.places.AutocompleteService()
-    service.getPlacePredictions({input: input.value, componentRestrictions: {country: 'ua'}, location: new google.maps.LatLng(49.4311119, 31.9791903), radius: 10, strictbounds: true, offset: 3}, data => {
+    let autocomplete = new google.maps.places.AutocompleteService()
+    autocomplete.getPlacePredictions({input: input.value, componentRestrictions: {country: 'ua'}, location: new google.maps.LatLng(49.4311119, 31.9791903), radius: 10, strictbounds: true, offset: 3}, data => {
       this.suggestions = []
       if (!data) return false
       this.suggestions = data
@@ -113,11 +113,15 @@ export default class UserPage extends Component {
   setLocation = (event) => {
     event.preventDefault()
     let li = event.currentTarget
-    let i = Array.prototype.indexOf.call(li.parentElement.children, li)
     let input = li.parentElement.previousElementSibling
-    input.value = this.suggestions[i].structured_formatting.main_text + ' '
+    console.log(this.suggestions)
+    input.value = li.querySelector('b').textContent + ' '
     trip[input.id] = input.value
-    input.setAttribute('data-place', li.getAttribute('data-place'))
+    let placeService = new google.maps.places.PlacesService(document.createElement('div'))
+    placeService.getDetails({placeId: li.getAttribute('data-place')}, function(result) {
+      let coords = result.geometry.location
+      input.setAttribute('data-place', `${coords.lat()},${coords.lng()}`)
+    })
     input.setAttribute('data-location', false)
     li.parentNode.hidden = true
     input.focus()
@@ -162,6 +166,7 @@ export default class UserPage extends Component {
   showPosition = (position) => {
     let lat = position.coords.latitude
     let lng = position.coords.longitude
+    document.getElementById('departure_address').setAttribute('data-place', `${lat},${lng}`)
     fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&language=ru&key=AIzaSyDx2cLwlAG3muHMV9DVYY3l2PupoYCS-Mk`)
       .then(response => {
         return response.json()
@@ -184,7 +189,6 @@ export default class UserPage extends Component {
     field.value = `${address[0]}, ${address[1]}`
     trip[field.id] = field.value
     field.setAttribute('data-location', true)
-    field.setAttribute('data-place', result.place_id)
   }
 
   render (){
@@ -205,7 +209,7 @@ export default class UserPage extends Component {
       {this.state.entrance.map((el) => this.renderEntrance(el))}
       </select>
       </div>
-      </div> 
+      </div>
       <div className='form__second-box'>
       <div className='form__time-select'>
       <label htmlFor='time' className='form__tiem-label'><span className='clock' data-time='12:10'></span></label>

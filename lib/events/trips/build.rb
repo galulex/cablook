@@ -38,7 +38,13 @@ module Events
       end
 
       def directions
-        @directions ||= Directions.new(data[:departure], data[:destination], data[:waypoints] || [])
+        @directions ||= directions_provider.new(data[:departure], data[:destination], data[:waypoints] || [])
+      end
+
+      private
+
+      def directions_provider
+        data[:departure].include?(',') ? MapboxDirections : Directions
       end
     end
   end
