@@ -89,7 +89,7 @@ export default class UserPage extends Component {
   }
 
   renderPrediction = (data, id) => {
-    return (<li key={id} id={id} onClick={this.setLocation} data-place={data.place_id}><b>{data.structured_formatting.main_text}</b><br /><span>{data.structured_formatting.secondary_text}</span></li>)
+    return (<li key={id} id={id} onClick={this.setLocation} data-place={data.place_id}><b>{(typeof data.structured_formatting !== "undefined") ? data.structured_formatting.main_text : data}</b><br /><span>{(typeof data.structured_formatting !== "undefined") ? data.structured_formatting.secondary_text : 'Cherkasy'}</span></li>)
   }
 
   handleInput = (event, id) => {
@@ -98,9 +98,17 @@ export default class UserPage extends Component {
     input.setCustomValidity('')
     input.removeAttribute('data-place')
     trip[input.id] = ''
-    if (input.value.length == 0) return false
+    if (input.value.length < 1) return false
+    let hits = streets.filter(function(s) { return s.toLowerCase().indexOf(input.value.toLowerCase()) != -1 }).slice(0, 5)
+    console.log(hits)
+    if (hits.length > 0) {
+      this.setState({
+        waypoints: this.state.waypoints.map((el) => el.id == id ? {...el, predictions: hits } : el)
+      })
+      return false
+    }
     let autocomplete = new google.maps.places.AutocompleteService()
-    autocomplete.getPlacePredictions({input: input.value, componentRestrictions: {country: 'ua'}, location: new google.maps.LatLng(49.4311119, 31.9791903), radius: 10, strictbounds: true, offset: 3}, data => {
+    autocomplete.getPlacePredictions({input: input.value, componentRestrictions: {country: 'ua'}, location: new google.maps.LatLng(49.4311119, 31.9791903), radius: 10, strictbounds: true, offset: 2}, data => {
       this.suggestions = []
       if (!data) return false
       this.suggestions = data
@@ -117,14 +125,16 @@ export default class UserPage extends Component {
     console.log(this.suggestions)
     input.value = li.querySelector('b').textContent + ' '
     trip[input.id] = input.value
+    input.setAttribute('data-location', false)
+    li.parentNode.hidden = true
+    input.focus()
+    if (li.getAttribute('data-place') == null) return false
     let placeService = new google.maps.places.PlacesService(document.createElement('div'))
     placeService.getDetails({placeId: li.getAttribute('data-place')}, function(result) {
       let coords = result.geometry.location
       input.setAttribute('data-place', `${coords.lat()},${coords.lng()}`)
+      if (input.parentElement.nextSibling) input.parentElement.nextSibling.querySelector('input').focus()
     })
-    input.setAttribute('data-location', false)
-    li.parentNode.hidden = true
-    input.focus()
   }
 
   renderSelectTime = (el) => {

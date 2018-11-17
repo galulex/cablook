@@ -9,7 +9,6 @@ require 'action_cable/engine'
 require 'active_record/railtie'
 require 'active_model/railtie'
 require 'sprockets/railtie'
-require 'sprockets/es6'
 
 
 Bundler.require(*Rails.groups)
