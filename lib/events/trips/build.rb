@@ -44,7 +44,7 @@ module Events
       private
 
       def directions_provider
-        data[:departure].include?(',') ? MapboxDirections : Directions
+        data[:departure].include?(',') ? OsrmDirections : Directions
       end
     end
   end

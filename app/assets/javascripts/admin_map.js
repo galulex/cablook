@@ -1,14 +1,19 @@
-document.addEventListener('turbolinks:load', function(event) {
+document.addEventListener('turbolinks:load', function (event) {
   var $page = $("[data-page='dashboard']");
   if ($page.length > 0) {
-    if (typeof mapbox  === 'undefined') { loadMapbox(); }
-    else { init(); }
+    if (typeof mapbox === 'undefined') {
+      loadMapbox();
+    } else {
+      init();
+    }
   }
 });
 
 function loadMapbox() {
   var script = document.createElement('script');
-  script.onload = function () { init(); }
+  script.onload = function () {
+    init();
+  };
   script.src = 'https://api.tiles.mapbox.com/mapbox-gl-js/v0.43.0/mapbox-gl.js';
   document.head.appendChild(script);
 }
@@ -16,21 +21,19 @@ function loadMapbox() {
 var map;
 var markers = [];
 var mapboxglToken = 'pk.eyJ1IjoiYnJ1Y2VsaWF0b3IiLCJhIjoiY2oxcTJ5dDNzMDA2ajMybnR6M3V5cGVubiJ9.qjyqnH72UUVnsaY63OzMGg';
-var tripColors = ['#68efad', '#9b26af', '#FF5722', '#FFEB3B', '#18FFFF',
-                  '#8BC34A', '#B388FF', '#E91E63', '#CDDC39', '#03A9F4',
-                  '#02C8A7', '#675682', '#FE65B7', '#EC96A4', '#4484CE'];
-var freeColors = [...tripColors];
+var tripColors = ['#68efad', '#9b26af', '#FF5722', '#FFEB3B', '#18FFFF', '#8BC34A', '#B388FF', '#E91E63', '#CDDC39', '#03A9F4', '#02C8A7', '#675682', '#FE65B7', '#EC96A4', '#4484CE'];
+var freeColors = [].concat(tripColors);
 
 function init() {
   mapboxgl.accessToken = mapboxglToken;
   map = new mapboxgl.Map({
-      container: 'map',
-      style: 'mapbox://styles/mapbox/streets-v9',
-      center: [32.05, 49.43],
-      zoom: 12
+    container: 'map',
+    style: 'mapbox://styles/mapbox/streets-v9',
+    center: [32.05, 49.43],
+    zoom: 12
   });
 
-  $('.js-car').each(function(index, car) {
+  $('.js-car').each(function (index, car) {
     data = $(car).data('info');
     var el = document.createElement('div');
     el.className = 'marker';
@@ -40,88 +43,66 @@ function init() {
       $(el).addClass('white');
     }
     el.setAttribute('data-info', JSON.stringify(data));
-    el.addEventListener('click', function() {
-    });
+    el.addEventListener('click', function () {});
 
-    popupHtml = `
-      <h4>${data.number}</h4>
-      <p>${data.status}</p>
-      <p>${data.phone_number}</p>
-      ${data.driver ? `<p>${data.driver.name}</p>` : ''}
-    `
+    popupHtml = '\n      <h4>' + data.number + '</h4>\n      <p>' + data.status + '</p>\n      <p>' + data.phone_number + '</p>\n      ' + (data.driver ? '<p>' + data.driver.name + '</p>' : '') + '\n    ';
 
-    marker = new mapboxgl.Marker(el)
-      .setLngLat([data.location[1], data.location[0]])
-      .setPopup(new mapboxgl.Popup({ offset: 25 }).setHTML(popupHtml))
-      .addTo(map);
+    marker = new mapboxgl.Marker(el).setLngLat([data.location[1], data.location[0]]).setPopup(new mapboxgl.Popup({ offset: 25 }).setHTML(popupHtml)).addTo(map);
 
     markers.push(marker);
   });
 
-  $('.driver').each(function(index, driver){
+  $('.driver').each(function (index, driver) {
     data = $(driver).data('drivers');
     var elt = document.createElement('div');
     elt.className = 'driver_marker';
     elt.setAttribute('style', 'background-color: #005b96; border: 1px solid black; height: 12px; width: 12px; border-radius: 50%;');
     elt.setAttribute('data-drivers', JSON.stringify(data));
-    elt.addEventListener('click', function() {
-    });
-    
-  
-    popupHtml = `
-      <h4>${data.name}</h4>
-      <p>${data.username}</p>
-      <p>${data.address}</p>
-    `
-  
-    driver_marker = new mapboxgl.Marker(elt)
-      .setLngLat(data.address_location.reverse())
-      .setPopup(new mapboxgl.Popup({ offset: 25 }).setHTML(popupHtml))
-      .addTo(map);
+    elt.addEventListener('click', function () {});
+
+    popupHtml = '\n      <h4>' + data.name + '</h4>\n      <p>' + data.username + '</p>\n      <p>' + data.address + '</p>\n    ';
+
+    driver_marker = new mapboxgl.Marker(elt).setLngLat(data.address_location.reverse()).setPopup(new mapboxgl.Popup({ offset: 25 }).setHTML(popupHtml)).addTo(map);
   });
 
   map.on('style.load', function () {
-    $('.trips__card').each(function(index, trip) {
+    $('.trips__card').each(function (index, trip) {
       tripData = $(trip).data('trip');
       subscribeToTripChannel(tripData.id);
       color = getTripColor();
       $(trip).css('background-color', color);
       drawRoute(color, tripData);
     });
-  })
+  });
 
   window.cable = window.cable || subscribe();
 }
 
 function subscribe() {
-  return this.ActionCable.createConsumer().subscriptions.create(
-    { channel: 'DriverMapChannel' },
-    { received: function(data) {
-      if (data.action === 'SendLocation') { sendLocation(data); }
-      else if (data.action === 'TripPropose') { addNewTrip(JSON.parse(data.trip)); }
-    } }
-  )
+  return this.ActionCable.createConsumer().subscriptions.create({ channel: 'DriverMapChannel' }, { received: function received(data) {
+      if (data.action === 'SendLocation') {
+        sendLocation(data);
+      } else if (data.action === 'TripPropose') {
+        addNewTrip(JSON.parse(data.trip));
+      }
+    } });
 }
 
 function subscribeToTripChannel(tripId) {
-  return this.ActionCable.createConsumer().subscriptions.create(
-    { channel: 'TripChannel', trip_id: tripId },
-    { received: function(data) {
+  return this.ActionCable.createConsumer().subscriptions.create({ channel: 'TripChannel', trip_id: tripId }, { received: function received(data) {
       tripId = JSON.parse(this.identifier).trip_id;
       if (['TripUnavailable', 'TripDeclined', 'finish_trip'].includes(data.action)) {
         this.unsubscribe();
         removeTrip(tripId);
-      }
-      else if (['TripAccepted', 'start_trip', 'waiting_client'].includes(data.action)) {
+      } else if (['TripAccepted', 'start_trip', 'waiting_client'].includes(data.action)) {
         newStatus = { TripAccepted: 'on_the_way', start_trip: 'driving', waiting_client: 'waiting_client' };
         updateTripStatus(tripId, newStatus[data.action]);
       }
-    } }
-  )
+    } });
 }
 
 function sendLocation(car) {
-  el = markers.find(function(element, index, array) {
+  el = markers.find(function (element, index, array) {
     if ($(markers[index]._element).data('info').id == car.car_id) {
       return element;
     }
@@ -135,7 +116,7 @@ function sendLocation(car) {
 function drawRoute(color, trip) {
   coordinates = polyline.decode(trip.path);
   map.addLayer({
-    id: `route_${trip.id}`,
+    id: 'route_' + trip.id,
     type: 'line',
     source: {
       type: 'geojson',
@@ -170,19 +151,21 @@ function updateTripStatus(tripId, status) {
 function removeTrip(tripId) {
   el = getCard(tripId);
   $(el).slideUp();
-  map.setLayoutProperty(`route_${tripId}`, 'visibility', 'none');
+  map.setLayoutProperty('route_' + tripId, 'visibility', 'none');
 }
 
 function getTripColor() {
   randomColor = freeColors[Math.floor(Math.random() * freeColors.length)];
   index = freeColors.indexOf(randomColor);
   freeColors.splice(index, 1);
-  if (!freeColors.length) { freeColors = [...tripColors]; }
+  if (!freeColors.length) {
+    freeColors = [].concat(tripColors);
+  }
   return randomColor;
 }
 
 function getCard(tripId) {
-  card = $.grep($('.trips__card'), function(el) {
+  card = $.grep($('.trips__card'), function (el) {
     if ($(el).data('trip').id == tripId) {
       return el;
     }
@@ -192,32 +175,5 @@ function getCard(tripId) {
 
 function cardMarkup(trip, color) {
   tripJson = JSON.stringify({ id: trip.id });
-  return `
-    <li class='trips__card' style='background-color: ${color}' data-trip=${tripJson}>
-      <div class='field'>
-        <strong>Status:</strong>
-        <span class='status'>pending</span>
-      </div>
-      <div class='field'>
-        <strong>Departure:</strong>
-        <span>${trip.departure_address}</span>
-      </div>
-      <div class='field'>
-        <strong>Destination:</strong>
-        <span'>${trip.destination_address}</span>
-      </div>
-      <div class='field'>
-        <strong>Cost:</strong>
-        <span'>${trip.cost}</span>
-      </div>
-      <div class='field'>
-        <strong>User:</strong>
-        <span'>${trip.user_number}</span>
-      </div>
-      <div class='field'>
-        <strong>Start time:</strong>
-        <span'>${trip.start_at}</span>
-      </div>
-    </li>
-  `
+  return '\n    <li class=\'trips__card\' style=\'background-color: ' + color + '\' data-trip=' + tripJson + '>\n      <div class=\'field\'>\n        <strong>Status:</strong>\n        <span class=\'status\'>pending</span>\n      </div>\n      <div class=\'field\'>\n        <strong>Departure:</strong>\n        <span>' + trip.departure_address + '</span>\n      </div>\n      <div class=\'field\'>\n        <strong>Destination:</strong>\n        <span\'>' + trip.destination_address + '</span>\n      </div>\n      <div class=\'field\'>\n        <strong>Cost:</strong>\n        <span\'>' + trip.cost + '</span>\n      </div>\n      <div class=\'field\'>\n        <strong>User:</strong>\n        <span\'>' + trip.user_number + '</span>\n      </div>\n      <div class=\'field\'>\n        <strong>Start time:</strong>\n        <span\'>' + trip.start_at + '</span>\n      </div>\n    </li>\n  ';
 }

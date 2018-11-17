@@ -1,6 +1,6 @@
-describe MapboxDirections do
+describe OsrmDirections do
   describe 'request with coordinates' do
-    let(:directions) { MapboxDirections.new([32.032276, 49.416498], [32.024318,49.441293], ['49.434399,32.007088']) }
+    let(:directions) { OsrmDirections.new([32.032276, 49.416498], [32.024318,49.441293], ['49.434399,32.007088']) }
     let(:valid_response) { JSON.parse(File.read('spec/fixtures/maps/mapbox_success_directions')) }
 
     it 'match json response' do
