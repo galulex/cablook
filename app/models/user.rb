@@ -9,6 +9,10 @@ class User < ApplicationRecord
   has_many :business_cards, through: :businesses, source: :card
   has_many :favorite_addresses
 
+  has_secure_token :auth_token
+
+  before_create :generate_referral
+
   validates :phone_number, format: { with: Constants::Regex::PHONE_NUMBER }
 
   scope :for_verification, lambda { |phone, token|
@@ -27,4 +31,9 @@ class User < ApplicationRecord
     phone_number
   end
 
+  private
+
+  def generate_referral
+    self.referral_code = SecureRandom.base58(6)
+  end
 end

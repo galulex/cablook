@@ -164,6 +164,7 @@ ActiveRecord::Schema.define(version: 2019_03_16_140147) do
     t.datetime "created_at", default: -> { "now()" }
     t.integer "trips_count", default: 0
     t.boolean "vip", default: false
+    t.string "telegram_username"
   end
 
   add_foreign_key "bonus_trips", "trips"
