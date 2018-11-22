@@ -18,6 +18,11 @@ module Events
         else
           location = Places.new(data[:text]).location
           if location
+            if trip['departure']
+              self.trip = trip.merge({ destination_address: data[:text], destination: "#{location['lat']},#{location['lng']}" })
+            else
+              self.trip = { departure_address: data[:text], departure: "#{location['lat']},#{location['lng']}" }
+            end
             Telegram.bot.send_location chat_id: chat, latitude: location['lat'], longitude: location['lng'], reply_markup: { inline_keyboard: [[text: 'Yes', callback_data: 'confirm_address'], [text: 'No', callback_data: 'reject_addess']] }
           else
             send_message 'incorect address'
@@ -35,11 +40,19 @@ module Events
       private
 
       def confirm_address
-
+        message = trip['destination'] ? 'Done.' : 'Destination address?'
+        send_message message, reply_markup: { remove_reply_keyboard: { keyboard_remove: true } }
+        p trip
       end
 
       def reject_addess
-
+        if trip['destination']
+          self.trip = trip.except('destination', 'destination_address')
+          confirm_address
+        else
+          self.trip = {}
+          book
+        end
       end
 
       def entity
@@ -62,7 +75,7 @@ module Events
       def register
         user = User.find_or_initialize_by(phone_number: "+#{data.dig('contact', 'phone_number')}")
         user.update(telegram_username: data.dig('from', 'username'))
-        send_message 'Would you like to book a taxi?', reply_markup: { inline_keyboard: [[text: 'Book', callback_data: 'book'], remove_reply_keyboard: { keyboard_remove: true }] }
+        send_message 'Would you like to book a taxi?', reply_markup: { inline_keyboard: [[text: 'Book', callback_data: 'book']], remove_reply_keyboard: { keyboard_remove: true } }
       end
 
       def update_location
@@ -82,7 +95,7 @@ module Events
       end
 
       def trip
-        @trip ||= JSON.parse(Redis.current.get("trip_#{current_user.id}"))
+        JSON.parse(Redis.current.get("trip_#{current_user.id}"))
       end
 
       def trip=(attrs)
