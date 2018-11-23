@@ -31,6 +31,11 @@ class User < ApplicationRecord
     phone_number
   end
 
+  def from_telegram(number, username)
+    user = User.find_or_initialize_by(phone_number: "+#{number}")
+    user.update(telegram_username: username)
+  end
+
   private
 
   def generate_referral

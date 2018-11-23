@@ -56,3 +56,39 @@ en:
     car_not_found: No cars available right now.
     will_arrive: '%{name} on %{car} will arrive at %{time}'
     waiting: Driver is already waiting for you
+  bot:
+    request_contact:
+      text: 'What is your phone number?'
+      reply_markup:
+        keyboard:
+          -
+            - text: Share my phone number
+              request_contact: true
+        one_time_keyboard: true
+        resize_keyboard: true
+    request_departure_address:
+      text: 'Departure address?'
+      reply_markup:
+        remove_reply_keyboard:
+          keyboard_remove: true
+    book:
+      text: 'Would you like to book a taxi?'
+      reply_markup:
+        inline_keyboard:
+          -
+            - text: Book
+              callback_data: book
+        remove_reply_keyboard:
+          remove_keyboard: true
+    send_location:
+      reply_markup:
+        inline_keyboard:
+          -
+            - text: 'Yes'
+              callback_data: confirm_address
+            - text: 'No'
+              callback_data: reject_address
+    done:
+      text: Done
+    incorect_address:
+      text: Incorect Address

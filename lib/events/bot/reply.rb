@@ -19,13 +19,13 @@ module Events
           location = Places.new(data[:text]).location
           if location
             if trip['departure']
-              self.trip = trip.merge({ destination_address: data[:text], destination: "#{location['lat']},#{location['lng']}" })
+              self.trip = trip.merge(destination_address: data[:text], destination: "#{location['lat']},#{location['lng']}")
             else
               self.trip = { departure_address: data[:text], departure: "#{location['lat']},#{location['lng']}" }
             end
-            Telegram.bot.send_location chat_id: chat, latitude: location['lat'], longitude: location['lng'], reply_markup: { inline_keyboard: [[text: 'Yes', callback_data: 'confirm_address'], [text: 'No', callback_data: 'reject_addess']] }
+            reply(:send_location, :send_location, latitude: location['lat'], longitude: location['lng'])
           else
-            send_message 'incorect address'
+            send_message :incorect_address
           end
         end
         # if (command = data['text'].to_s.match(%r{\/(.*)}))
@@ -40,12 +40,10 @@ module Events
       private
 
       def confirm_address
-        message = trip['destination'] ? 'Done.' : 'Destination address?'
-        send_message message, reply_markup: { remove_reply_keyboard: { keyboard_remove: true } }
-        p trip
+        send_message(trip[:destination] ? :done : :request_departure_address)
       end
 
-      def reject_addess
+      def reject_address
         if trip['destination']
           self.trip = trip.except('destination', 'destination_address')
           confirm_address
@@ -60,34 +58,28 @@ module Events
       end
 
       def start
-        if current_user
-          send_message 'Intro', reply_markup: { inline_keyboard: [[text: 'Book', callback_data: 'book']] }
-        else
-          send_message('What is your phone number?', reply_markup: { keyboard: [[{ text: 'Share my phone number', request_contact: true }]], one_time_keyboard: true, resize_keyboard: true })
-        end
+        send_message(current_user ? :book : :request_contact)
       end
 
       def book
-        # Telegram.bot.answer_callback_query callback_query_id: data[:id], text: 'Text'
-        send_message 'Departure address?', reply_markup: { remove_reply_keyboard: { keyboard_remove: true } }
+        send_message :request_departure_address
       end
 
       def register
-        user = User.find_or_initialize_by(phone_number: "+#{data.dig('contact', 'phone_number')}")
-        user.update(telegram_username: data.dig('from', 'username'))
-        send_message 'Would you like to book a taxi?', reply_markup: { inline_keyboard: [[text: 'Book', callback_data: 'book']], remove_reply_keyboard: { keyboard_remove: true } }
-      end
-
-      def update_location
-        send_message 'Demon ne vyviz?', reply_markup: { remove_keyboard: true }
+        User.from_telegram(data.dig(:contact, :phone_number), data.dig(:from, :username))
+        send_message :book
       end
 
       def current_user
-        @current_user ||= User.find_by(telegram_username: data['from']['username'])
+        @current_user ||= User.find_by(telegram_username: data[:from][:username])
       end
 
-      def send_message(text, reply_markup: nil)
-        Telegram.bot.send_message chat_id: chat, text: text, reply_markup: reply_markup
+      def send_message(action)
+        reply(:send_message, action)
+      end
+
+      def reply(action, message, attrs = {})
+        Telegram.bot.send(action, I18n.t("bot.#{message}").merge(chat_id: chat).merge(attrs))
       end
 
       def chat
