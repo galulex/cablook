@@ -31,9 +31,13 @@ class User < ApplicationRecord
     phone_number
   end
 
-  def from_telegram(number, username)
+  def self.from_telegram(number, username)
     user = User.find_or_initialize_by(phone_number: "+#{number}")
     user.update(telegram_username: username)
+  end
+
+  def display_name
+    phone_number
   end
 
   private

@@ -71,6 +71,16 @@ en:
       reply_markup:
         remove_reply_keyboard:
           keyboard_remove: true
+    request_destination_address:
+      text: 'Destination address?'
+      reply_markup:
+        remove_reply_keyboard:
+          keyboard_remove: true
+    request_waypoint_address:
+      text: 'Stop point address?'
+      reply_markup:
+        remove_reply_keyboard:
+          keyboard_remove: true
     book:
       text: 'Would you like to book a taxi?'
       reply_markup:
@@ -88,7 +98,14 @@ en:
               callback_data: confirm_address
             - text: 'No'
               callback_data: reject_address
-    done:
-      text: Done
+    waypoints_confirmation:
+      text: 'Would you like to have some other waypoints?'
+      reply_markup:
+        inline_keyboard:
+          -
+            - text: 'Yes'
+              callback_data: add_waypoint
+            - text: 'No'
+              callback_data: reject_waypoints
     incorect_address:
       text: Incorect Address

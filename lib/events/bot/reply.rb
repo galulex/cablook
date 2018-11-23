@@ -18,10 +18,12 @@ module Events
         else
           location = Places.new(data[:text]).location
           if location
-            if trip['departure']
-              self.trip = trip.merge(destination_address: data[:text], destination: "#{location['lat']},#{location['lng']}")
+            if trip[:destination]
+              add_waypoint_to_trip(location, data[:text])
+            elsif trip[:departure]
+              update_trip({ destination_address: data[:text], destination: location_string(location) })
             else
-              self.trip = { departure_address: data[:text], departure: "#{location['lat']},#{location['lng']}" }
+              self.trip = { departure_address: data[:text], departure: location_string(location) }
             end
             reply(:send_location, :send_location, latitude: location['lat'], longitude: location['lng'])
           else
@@ -40,17 +42,46 @@ module Events
       private
 
       def confirm_address
-        send_message(trip[:destination] ? :done : :request_departure_address)
+        send_message(trip[:destination] ? :waypoints_confirmation : :request_destination_address)
       end
 
       def reject_address
-        if trip['destination']
-          self.trip = trip.except('destination', 'destination_address')
+        if trip[:waypoints]
+          remove_last_waypoint
+          add_waypoint
+        elsif trip[:destination]
+          self.trip = trip.except(:destination, :destination_address)
           confirm_address
         else
           self.trip = {}
           book
         end
+      end
+
+      def reject_waypoints
+        built_trip = Events::Strips::Build.(trip.merge(user_id: current_user.id))
+        #TODO send confirmation message containing trip general details
+      end
+
+      def add_waypoint
+        send_message(:request_waypoint_address)
+      end
+
+      def remove_last_waypoint
+        update_trip({ stops: trip[:stops][0...-1], waypoints: trip[:waypoints][0...-1] })
+      end
+
+      def add_waypoint_to_trip(location, stop_address)
+        initialize_waypoints unless trip[:waypoints]
+        update_trip({ stops: trip[:stops] << stop_address, waypoints: trip[:waypoints] << location_string(location) })
+      end
+
+      def initialize_waypoints
+        update_trip({ stops: [], waypoints: [] })
+      end
+
+      def location_string(location)
+        "#{location['lat']},#{location['lng']}"
       end
 
       def entity
@@ -87,11 +118,15 @@ module Events
       end
 
       def trip
-        JSON.parse(Redis.current.get("trip_#{current_user.id}"))
+        JSON.parse(Redis.current.get("trip_#{current_user.id}") || '{}', symbolize_names: true)
       end
 
       def trip=(attrs)
         Redis.current.set("trip_#{current_user.id}", attrs.to_json)
+      end
+
+      def update_trip(args)
+        self.trip = trip.merge(args)
       end
     end
   end
