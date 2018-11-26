@@ -57,6 +57,8 @@ module Events
           driver: driver.attributes.merge('car' => car.attributes),
           trip: Presenters::Trips::Detailed.new(trip)
         )
+        return unless trip.user.telegram
+        trip.user.telegram.reply(:send_message, :driver_found)
       end
 
       def broadcast_with_error

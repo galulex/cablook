@@ -1,6 +1,7 @@
 class User < ApplicationRecord
   has_one :business, inverse_of: :owner
   has_many :devices
+  has_one :telegram, class_name: 'UserTelegram'
   has_and_belongs_to_many :businesses
   has_many :trips
   has_many :cards
@@ -14,6 +15,8 @@ class User < ApplicationRecord
   before_create :generate_referral
 
   validates :phone_number, format: { with: Constants::Regex::PHONE_NUMBER }
+
+  accepts_nested_attributes_for :telegram
 
   scope :for_verification, lambda { |phone, token|
     left_joins(:cards)
@@ -31,9 +34,9 @@ class User < ApplicationRecord
     phone_number
   end
 
-  def self.from_telegram(number, username)
+  def self.from_telegram(number, username, chat_id)
     user = User.find_or_initialize_by(phone_number: "+#{number}")
-    user.update(telegram_username: username)
+    user.update(telegram_attributes: { username: username, chat_id: chat_id })
   end
 
   def display_name

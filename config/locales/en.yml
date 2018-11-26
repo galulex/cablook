@@ -57,8 +57,16 @@ en:
     will_arrive: '%{name} on %{car} will arrive at %{time}'
     waiting: Driver is already waiting for you
   bot:
+    commands:
+      book: BOOK
+      cancel: CANCEL
+      confirm_depature_address: DEPARTURE ADDRESS IS CORRECT
+      reject_depature_address: CHANGE DEPARTURE ADDRESS
+      confirm_destination_address: DESTINATION ADDRESS IS CORRECT
+      reject_destination_address: CHANGE DESTINATION ADDRESS
+      confirm_trip: GO
     request_contact:
-      text: 'What is your phone number?'
+      text: 'I need to know who you are. Could you share your phone number please?'
       reply_markup:
         keyboard:
           -
@@ -81,23 +89,45 @@ en:
       reply_markup:
         remove_reply_keyboard:
           keyboard_remove: true
-    book:
+    start:
       text: 'Would you like to book a taxi?'
       reply_markup:
-        inline_keyboard:
+        keyboard:
           -
-            - text: Book
-              callback_data: book
+            - text: BOOK
+        one_time_keyboard: true
+        resize_keyboard: true
         remove_reply_keyboard:
           remove_keyboard: true
+    confirm_trip:
+      text: Confirm Trip please
+      caption: Confirm Trip please
+      reply_markup:
+        keyboard:
+          -
+            - text: GO
+            - text: CANCEL
+        one_time_keyboard: true
+        resize_keyboard: true
+    confirm_address:
+      caption: Confirm address please or type another one
+      reply_markup:
+        keyboard:
+          -
+            - text: CORRECT
+            - text: CANCEL
+        one_time_keyboard: true
+        resize_keyboard: true
     send_location:
       reply_markup:
-        inline_keyboard:
+        keyboard:
           -
-            - text: 'Yes'
-              callback_data: confirm_address
-            - text: 'No'
-              callback_data: reject_address
+            - text: 'yes'
+            - text: 'no'
+            - text: cancel
+        one_time_keyboard: true
+        resize_keyboard: true
+        remove_reply_keyboard:
     waypoints_confirmation:
       text: 'Would you like to have some other waypoints?'
       reply_markup:
@@ -109,3 +139,18 @@ en:
               callback_data: reject_waypoints
     incorect_address:
       text: Incorect Address
+    looking_for_car:
+      text: Let me find a car for you. I may take up to one minute
+    driver_found:
+      text: Driver found
+    no_car_found:
+      text: Currently no cars available. Would you like to try one more time?
+      reply_markup:
+        keyboard:
+          -
+            - text: TRY AGAIN
+            - text: CANCEL
+        one_time_keyboard: true
+        resize_keyboard: true
+        remove_reply_keyboard:
+          remove_keyboard: true

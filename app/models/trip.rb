@@ -48,7 +48,19 @@ class Trip < ApplicationRecord
   # Time for pre-order trip
   attr_reader :time, :entrance
   attr_writer :pre_order, :vip
-  attr_accessor :osrm, :formatted_date
+  attr_accessor :osrm, :formatted_date, :image
+
+  scope :sum_cost, (lambda do
+    joins(:driver)
+      .joins("LEFT JOIN payments ON trips.id = payments.trip_id AND payments.type = 'Payments::Tip'")
+      .select('COUNT(trips.id) AS trips_count, SUM(trips.cost) AS trips_sum, MIN(drivers.username) AS username')
+      .select('SUM(payments.amount) AS tips_sum')
+      .group(:driver_id)
+      .order(:driver_id)
+  end)
+  scope :beetwen, ->(from, to) { where('created_at BETWEEN ? AND ?', from, to) }
+  scope :by_status, ->(status) { where(status: status) }
+  scope :unpaid, -> { joins(:trip_payment).where('payments.status = ? AND trips.status = ?', Constants::Payments::PENDING, Constants::Trip::FINISHED) }
 
   def start_at
     super || preorder_time
@@ -78,5 +90,9 @@ class Trip < ApplicationRecord
     date = val.in_time_zone
     self.preorder_time = Time.now.in_time_zone < date ? date : (date + 1.day)
     @time = val
+  end
+
+  def image
+    @image ||= "https://api.mapbox.com/styles/v1/mapbox/streets-v10/static/pin-s-s+188753(#{departure.reverse.join(',')}),#{waypoints.map { |w| "pin-s-w+facc1f(#{w.split(',').reverse.join(',')})," }.join('')}pin-s-f+312d50(#{destination.reverse.join(',')}),path-5+188753-0.8(#{CGI.escape(path)})/auto/400x400?access_token=#{ENV['MAPBOX_KEY']}"
   end
 end
