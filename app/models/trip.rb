@@ -12,6 +12,7 @@ class Trip < ApplicationRecord
   has_one :card, through: :payments
   has_many :feedbacks
   has_one :bonus_trip, dependent: :destroy
+  has_one :telegram, through: :user
 
   enum status: Constants::Trip::STATUS_CODES.invert
 

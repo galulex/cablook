@@ -140,9 +140,35 @@ en:
     incorect_address:
       text: Incorect Address
     looking_for_car:
-      text: Let me find a car for you. I may take up to one minute
-    driver_found:
-      text: Driver found
+      text: Let me find a car for you. It may take up to one minute
+    accept:
+      text: Driver found.
+    waiting_client:
+      text: The driver is waiting for you.
+    incorrect_rating:
+      text: Incorrect rating, try again.
+    tips:
+      text: Would you like to leave some tips?
+      reply_markup:
+        keyboard:
+          -
+            - text: 'NO'
+            - text: 3
+            - text: 5
+            - text: 10
+            - text: 20
+    tips_accept:
+      text: Thank you for leaving tips!
+    rate_trip:
+      text: Rate your trip
+      reply_markup:
+        keyboard:
+          -
+            - text: 1
+            - text: 2
+            - text: 3
+            - text: 4
+            - text: 5
     no_car_found:
       text: Currently no cars available. Would you like to try one more time?
       reply_markup:
