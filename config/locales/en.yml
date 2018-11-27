@@ -131,12 +131,19 @@ en:
     waypoints_confirmation:
       text: 'Would you like to have some other waypoints?'
       reply_markup:
-        inline_keyboard:
+        keyboard:
           -
-            - text: 'Yes'
-              callback_data: add_waypoint
-            - text: 'No'
-              callback_data: reject_waypoints
+            - text: 'YES'
+            - text: 'NO'
+    comment_confirmation:
+      text: 'Would you like to leave a comment?'
+      reply_markup:
+        keyboard:
+          -
+            - text: 'YES'
+            - text: 'NO'
+    comment:
+      text: Enter your comment
     incorect_address:
       text: Incorect Address
     looking_for_car:

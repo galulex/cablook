@@ -35,18 +35,38 @@ class TelegramOrder
       self.step = :request_destination_address
       send_message :request_destination_address
     when 'request_destination_address'
-      self.trip = Events::Trips::Build.(trip.merge(user_id: @user.user_id, comment: '')).as_json(methods: :image)
-      send_photo(trip[:image])
-      send_message :confirm_trip
-      self.step = :confirm_trip
+      send_message(:waypoints_confirmation)
+      self.step = :waypoints_confirmation
+    when 'waypoint'
+      send_message(:waypoints_confirmation)
+      self.step = :waypoints_confirmation
     end
+  end
+
+  def confirm_waypoints
+    send_message(:request_waypoint_address)
+    self.step = :initial_waypoint
+  end
+
+  def finish_waypoints
+    update_step(:comment_confirmation)
+  end
+
+  def confirm_comment
+    update_step(:comment)
+  end
+
+  def skip_comment
+    self.trip = Events::Trips::Build.(trip.merge(user_id: @user.user_id)).as_json(methods: :image)
+    send_photo(trip[:image])
+    send_message :confirm_trip
+    self.step = :confirm_trip
   end
 
   def cancel
     self.trip = {}
     self.feedback = {}
-    self.step = :start
-    send_message(:start)
+    start
   end
 
   def try_again
@@ -56,7 +76,7 @@ class TelegramOrder
   end
 
   def go
-    self.trip = Events::Trips::Create.(trip.merge(user_id: @user.user_id, comment: '')).as_json(methods: :image)
+    self.trip = Events::Trips::Create.(trip.merge(user_id: @user.user_id)).as_json(methods: :image)
     self.step = :looking_for_car
     send_message :looking_for_car
   end
@@ -69,7 +89,7 @@ class TelegramOrder
 
   def create_feedback
     Events::Feedbacks::Create.(feedback.merge(trip_id: trip[:id], user_id: @user.user_id))
-    start
+    cancel
   end
 
   def confirm_address
@@ -103,6 +123,19 @@ class TelegramOrder
 
   def update_trip(args)
     self.trip = trip.merge(args)
+  end
+
+  def add_waypoint(stop_address, stop_point)
+    update_trip(stops: trip[:stops] << stop_address, waypoints: trip[:waypoints] << stop_point)
+  end
+
+  def remove_last_waypoint
+    initialize_waypoints unless trip[:waypoints]
+    update_trip(stops: trip[:stops][0...-1], waypoints: trip[:waypoints][0...-1])
+  end
+
+  def initialize_waypoints
+    update_trip(stops: [], waypoints: [])
   end
 
   def step=(val)
