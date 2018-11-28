@@ -1,4 +1,8 @@
 class TelegramOrder
+  UPDATABLE_STEPS = { request_departure_address: :request_destination_address,
+                      request_destination_address: :waypoints_confirmation,
+                      waypoint: :waypoints_confirmation }.freeze
+
   def initialize(user)
     @user = user
   end
@@ -13,34 +17,20 @@ class TelegramOrder
   end
 
   def send_message(action)
-    @user.reply(:send_message, action)
+    reply(:send_message, action)
   end
 
-  def send_location(location)
-    @user.reply(:send_location, :confirm_address, latitude: location['lat'], longitude: location['lng'])
-  end
-
-  def send_photo(photo)
-    @user.reply(:send_photo, :confirm_trip, photo: photo)
+  def reply(action, message, args = {})
+    @user.reply(action, message, args)
   end
 
   def book
-    self.step = :request_departure_address
-    send_message :request_departure_address
+    update_step(:request_departure_address)
   end
 
   def correct
-    case step
-    when 'request_departure_address'
-      self.step = :request_destination_address
-      send_message :request_destination_address
-    when 'request_destination_address'
-      send_message(:waypoints_confirmation)
-      self.step = :waypoints_confirmation
-    when 'waypoint'
-      send_message(:waypoints_confirmation)
-      self.step = :waypoints_confirmation
-    end
+    next_step = UPDATABLE_STEPS[step.to_sym]
+    update_step(next_step) if next_step
   end
 
   def confirm_waypoints
@@ -48,19 +38,10 @@ class TelegramOrder
     self.step = :initial_waypoint
   end
 
-  def finish_waypoints
-    update_step(:comment_confirmation)
-  end
-
-  def confirm_comment
-    update_step(:comment)
-  end
-
   def skip_comment
     self.trip = Events::Trips::Build.(trip.merge(user_id: @user.user_id)).as_json(methods: :image)
-    send_photo(trip[:image])
-    send_message :confirm_trip
-    self.step = :confirm_trip
+    reply(:send_photo, :confirm_trip, photo: trip[:image])
+    update_step(:confirm_trip)
   end
 
   def cancel
@@ -71,20 +52,17 @@ class TelegramOrder
 
   def try_again
     Events::Trips::Retry.(trip_id: trip[:id])
-    self.step = :looking_for_car
-    send_message :looking_for_car
+    update_step(:looking_for_car)
   end
 
   def go
     self.trip = Events::Trips::Create.(trip.merge(user_id: @user.user_id)).as_json(methods: :image)
-    self.step = :looking_for_car
-    send_message :looking_for_car
+    update_step(:looking_for_car)
   end
 
   def compose_feedback(args, next_step)
     update_feedback(args)
-    send_message(next_step)
-    self.step = next_step
+    update_step(next_step)
   end
 
   def create_feedback

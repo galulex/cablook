@@ -3,7 +3,7 @@ module Events
     class Reply < BaseEvent
       COMMANDS = %w[/start BOOK CORRECT INCORRECT CANCEL GO TRY\ AGAIN YES NO].freeze
       COMMANDLESS_STEPS = %w[waypoints_confirmation comment_confirmation comment rate_trip tips].freeze
-      TIPS_REGEXP = /3|5|10|20/.freeze
+      TIPS_REGEXP = /3|5|10|20/
 
       def schema
         Dry::Validation.Schema do
@@ -13,50 +13,62 @@ module Events
 
       def run
         return register if data['contact']
-        command ||= parse_command(data)
-        return telegram_order.perform(command) if COMMANDLESS_STEPS.exclude?(step) && command
-        case step
-        when 'request_departure_address'
-          update_address(data[:text], 'departure')
-        when 'request_destination_address'
-          update_address(data[:text], 'destination')
-        when 'waypoints_confirmation'
-          command == 'yes' ? telegram_order.confirm_waypoints : telegram_order.finish_waypoints
-        when 'initial_waypoint'
-          update_waypoint(data[:text], true)
-        when 'waypoint'
-          update_waypoint(data[:text])
-        when 'comment_confirmation'
-          telegram_order.update_trip({ comment: '' })
-          command == 'yes' ? telegram_order.confirm_comment : telegram_order.skip_comment
-        when 'comment'
-          telegram_order.update_trip({ comment: data[:text] })
-          telegram_order.skip_comment
-        when 'rate_trip'
-          rate_trip(data)
-        when 'tips'
-          add_tips(data)
-        end
+        @text = data[:text]
+        @command ||= parse_command(@text)
+        return telegram_order.perform(@command) if COMMANDLESS_STEPS.exclude?(step) && @command
+        send(step) if respond_to?(step, true)
       end
 
       private
 
-      def update_address(address, field)
-        location = Places.new(address).location
-        return telegram_order.send_message(:incorect_address) unless location
-        telegram_order.update_trip(Hash["#{field}_address".to_sym, address, field.to_sym, location_string(location)])
-        telegram_order.send_location(location)
+      def request_departure_address
+        process_address(@text, 'departure')
       end
 
-      def update_waypoint(address, initial = false)
+      def request_destination_address
+        process_address(@text, 'destination')
+      end
+
+      def waypoints_confirmation
+        @command == 'yes' ? telegram_order.confirm_waypoints : telegram_order.update_step(:comment_confirmation)
+      end
+
+      def initial_waypoint
+        process_address(@text, 'waypoint', true)
+      end
+
+      def waypoint
+        process_address(@text, 'waypoint')
+      end
+
+      def comment_confirmation
+        telegram_order.update_trip(comment: '')
+        @command == 'yes' ? telegram_order.update_step(:comment) : telegram_order.skip_comment
+      end
+
+      def comment
+        telegram_order.update_trip(comment: @text)
+        telegram_order.skip_comment
+      end
+
+      def process_address(address, field, initial = nil)
         location = Places.new(address).location
         return telegram_order.send_message(:incorect_address) unless location
+        field == 'waypoint' ? update_waypoint(address, location, initial) : update_address(address, location, field)
+      end
+
+      def update_address(address, location, field)
+        telegram_order.update_trip(Hash["#{field}_address".to_sym, address, field.to_sym, location_string(location)])
+        telegram_order.reply(:send_location, :confirm_address, latitude: location['lat'], longitude: location['lng'])
+      end
+
+      def update_waypoint(address, location, initial)
         initial ? telegram_order.step = :waypoint : telegram_order.remove_last_waypoint
         telegram_order.add_waypoint(address, location_string(location))
-        telegram_order.send_location(location)
+        telegram_order.reply(:send_location, :confirm_address, latitude: location['lat'], longitude: location['lng'])
       end
 
-      def rate_trip(data)
+      def rate_trip
         rating = data[:text].to_i
         if rating.between?(1, 5)
           telegram_order.compose_feedback({ rate: rating }, :tips)
@@ -65,7 +77,7 @@ module Events
         end
       end
 
-      def add_tips(data)
+      def tips
         tip = data[:text]
         telegram_order.compose_feedback({ tip: tip.to_i }, :tips_accept) if tip.match?(TIPS_REGEXP)
         telegram_order.create_feedback
@@ -75,8 +87,8 @@ module Events
         telegram_order.step
       end
 
-      def parse_command(data)
-        data[:text].downcase.gsub(' ', '_').remove('/') if COMMANDS.include?(data[:text])
+      def parse_command(text)
+        text.downcase.tr(' ', '_').remove('/') if COMMANDS.include?(text)
       end
 
       def register
