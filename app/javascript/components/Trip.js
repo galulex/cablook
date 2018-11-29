@@ -14,6 +14,7 @@ export default class Trip {
     data.append('trip[departure]', waypoints.shift().getAttribute('data-place'))
     data.append('trip[destination]', waypoints.pop().getAttribute('data-place'))
     data.append('trip[comment]', trip.comment)
+    data.append('trip[osrm]', true)
     if (trip['time'] != null) data.append('trip[time]', trip.time)
     if (trip['no_call'] != null) data.append('trip[no_call]', trip.no_call)
     if (trip['entrance'] != null) data.append('trip[entrance]', trip.entrance)
@@ -114,10 +115,9 @@ export default class Trip {
     let data = new FormData()
     data.append('trip[departure_address]', trip.departure_address)
     data.append('trip[destination_address]', trip.destination_address)
-    data.append('trip[departure][]', trip.departure[0])
-    data.append('trip[departure][]', trip.departure[1])
-    data.append('trip[destination][]', trip.destination[0])
-    data.append('trip[destination][]', trip.destination[1])
+    data.append('trip[departure]', trip.departure.toString())
+    data.append('trip[destination]', trip.destination.toString())
+    data.append('trip[osrm]', true)
 
     trip.waypoints.forEach(w => {
       data.append('trip[waypoints][]', w)
@@ -134,7 +134,7 @@ export default class Trip {
     if (trip['time'] != null) data.append('trip[time]', trip.time)
     if (trip['no_call'] != null) data.append('trip[no_call]', trip.no_call)
     if (trip['entrance'] != null) data.append('trip[entrance]', trip.entrance)
-    
+
     data.append('trip[comment]', trip.comment)
     if (localStorage.ready) {
       axios({method: 'POST', url: '/api/trips', data: data, headers: {'Auth-Token': localStorage.token}}).then(response => {

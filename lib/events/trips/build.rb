@@ -1,7 +1,7 @@
 module Events
   module Trips
     class Build < BaseEvent
-      FIELDS = %i[duration distance departure destination path waypoints].freeze
+      FIELDS = %i[duration distance path].freeze
 
       def schema
         Dry::Validation.Schema do
@@ -13,7 +13,7 @@ module Events
           required(:destination_address).filled(:str?)
           optional(:waypoints) { none? | array? }
           optional(:stops) { none? | array? }
-
+          optional(:osrm) { none? | str? }
           optional(:comment) { str? }
         end
       end
@@ -41,10 +41,8 @@ module Events
         @directions ||= directions_provider.new(data[:departure], data[:destination], data[:waypoints] || [])
       end
 
-      private
-
       def directions_provider
-        data[:departure].include?(',') ? OsrmDirections : Directions
+        data[:osrm].present? ? OsrmDirections : Directions
       end
     end
   end

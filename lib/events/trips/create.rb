@@ -8,8 +8,8 @@ module Events
           required(:path).filled(:str?)
           required(:user_id).filled(:int?)
 
-          required(:departure) { array? & size?(2) }
-          required(:destination) { array? & size?(2) }
+          required(:departure).filled
+          required(:destination).filled
           required(:departure_address).filled(:str?)
           required(:destination_address).filled(:str?)
           optional(:waypoints) { none? | array? }
@@ -17,6 +17,7 @@ module Events
 
           optional(:time) { str? }
           optional(:no_call)
+          optional(:osrm)
           optional(:entrance)
           optional(:comment) { str? }
           optional(:card_id)
@@ -112,11 +113,15 @@ module Events
       end
 
       def trip_calculation
-        @trip_calculation ||= Directions.new(
+        @trip_calculation ||= directions_provider.new(
           data[:departure],
           data[:destination],
           data[:waypoints] || []
         )
+      end
+
+      def directions_provider
+        data[:osrm].present? ? OsrmDirections : Directions
       end
 
       def card_id

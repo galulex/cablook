@@ -9,7 +9,7 @@ class Directions
     @destination = destination
     @waypoints = waypoints
 
-    @origin.is_a?(String) ? direction_by_place_id : direction_by_coordinates
+    @origin.is_a?(String) && @origin.exclude?(',') ? direction_by_place_id : direction_by_coordinates
     @result = JSON.parse(Net::HTTP.get_response(URI(@url)).body)['routes'][0]
   end
 
@@ -45,7 +45,7 @@ class Directions
     end
 
     def direction_by_coordinates
-      @url = URL + "&origin=#{@origin.join(',')}&destination=#{@destination.join(',')}&waypoints="
+      @url = URL + "&origin=#{@origin.split(',').flatten.join(',')}&destination=#{@destination.split(',').flatten.join(',')}&waypoints="
       @url << @waypoints.map { |point| "#{point}" }.join('|')
     end
 end

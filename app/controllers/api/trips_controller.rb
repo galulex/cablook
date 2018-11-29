@@ -41,9 +41,7 @@ module Api
     end
 
     def trip_params
-      params.require(:trip)
-            .permit(:path, :cost, :departure_address, :destination_address, :comment, :time, :bonus, :no_call, :entrance, :card_id, departure: [], destination: [], waypoints: [], stops: [])
-            .merge(user_id: current_user.id)
+      params.require(:trip).permit!.merge(user_id: current_user.id)
     end
   end
 end

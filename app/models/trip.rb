@@ -19,7 +19,7 @@ class Trip < ApplicationRecord
 
   # Time for pre-order trip
   attr_reader :time
-  attr_accessor :entrance
+  attr_accessor :entrance, :osrm
 
   def start_at
     super || preorder_time
@@ -27,6 +27,14 @@ class Trip < ApplicationRecord
 
   def preorder?
     preorder_time.present?
+  end
+
+  def departure=(val)
+    self[:departure] = val.split(',').flatten
+  end
+
+  def destination=(val)
+    self[:destination] = val.split(',').flatten
   end
 
   alias pre_order preorder?
