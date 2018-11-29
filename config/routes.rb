@@ -67,6 +67,7 @@ Rails.application.routes.draw do
   # end
 
   resources :locales, only: :show, constraints: { id: /(en|uk|ru)/ }
+  resources :cards, only: %i[create new]
   post 'webhook', to: 'api/webhooks#update'
 
   root to: 'welcome#index'

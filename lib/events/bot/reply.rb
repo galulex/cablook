@@ -12,7 +12,7 @@ module Events
       end
 
       def run
-        return register if data['contact']
+        return register(data[:cards_url]) if data['contact']
         @text = data[:text]
         @command ||= parse_command(@text)
         return telegram_order.perform(@command) if COMMANDLESS_STEPS.exclude?(step) && @command
@@ -77,6 +77,10 @@ module Events
         end
       end
 
+      def select_card
+        telegram_order.add_card(@text)
+      end
+
       def tips
         tip = data[:text]
         telegram_order.compose_feedback({ tip: tip.to_i }, :tips_accept) if tip.match?(TIPS_REGEXP)
@@ -91,9 +95,18 @@ module Events
         text.downcase.tr(' ', '_').remove('/') if COMMANDS.include?(text)
       end
 
-      def register
+      def register(cards_url)
         User.from_telegram(data.dig(:contact, :phone_number), data.dig(:from, :username), chat)
-        telegram_order.send_message :start
+        if telegram_order.user.cards.empty?
+          telegram_order.reply(:send_message, :request_card, reply_markup: add_card_button(cards_url))
+          telegram_order.step = :request_card
+        else
+          telegram_order.send_message :start
+        end
+      end
+
+      def add_card_button(cards_url)
+        { inline_keyboard: [[{ text: '+', url: "#{cards_url}?auth=#{telegram_order.user.auth_token}" }]] }
       end
 
       def current_user

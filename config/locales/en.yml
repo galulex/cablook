@@ -99,6 +99,12 @@ en:
         resize_keyboard: true
         remove_reply_keyboard:
           remove_keyboard: true
+    request_card:
+      text: "You have no cards! Please add one."
+    card_added:
+      text: "The card has been added!"
+    select_card:
+      text: "Select the card."
     confirm_trip:
       text: Confirm Trip please
       caption: Confirm Trip please

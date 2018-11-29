@@ -20,6 +20,7 @@ module Events
         update_user_email
         return if data[:transactionStatus] == 'Declined'
         create_card
+        telegram_message
         @card
       end
 
@@ -58,6 +59,11 @@ module Events
 
       def user
         @user ||= User.find(data[:user_id])
+      end
+
+      def telegram_message
+        return if user.telegram.blank?
+        TelegramOrder.new(user.telegram).confirm_card
       end
     end
   end

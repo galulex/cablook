@@ -2,6 +2,7 @@ class TelegramOrder
   UPDATABLE_STEPS = { request_departure_address: :request_destination_address,
                       request_destination_address: :waypoints_confirmation,
                       waypoint: :waypoints_confirmation }.freeze
+  attr_reader :user
 
   def initialize(user)
     @user = user
@@ -13,7 +14,6 @@ class TelegramOrder
 
   def start
     send_message(@user.persisted? ? :start : :request_contact)
-    self.step = :book
   end
 
   def send_message(action)
@@ -40,8 +40,26 @@ class TelegramOrder
 
   def skip_comment
     self.trip = Events::Trips::Build.(trip.merge(user_id: @user.user_id)).as_json(methods: :image)
+    @user.cards.size > 1 ? request_card : confirmation
+  end
+
+  def confirmation
     reply(:send_photo, :confirm_trip, photo: trip[:image])
     update_step(:confirm_trip)
+  end
+
+  def request_card
+    reply(:send_message, :select_card, reply_markup: { keyboard: card_buttons })
+    self.step = :select_card
+  end
+
+  def card_buttons
+    @user.cards.map { |card| [{ text: card.pan }] }
+  end
+
+  def add_card(pan)
+    update_trip(card_id: @user.cards.find_by(pan: pan).id)
+    confirmation
   end
 
   def cancel
@@ -72,6 +90,11 @@ class TelegramOrder
 
   def confirm_address
     send_message(trip[:destination] ? :waypoints_confirmation : :request_destination_address)
+  end
+
+  def confirm_card
+    send_message(:card_added)
+    start
   end
 
   def update_step(step)
