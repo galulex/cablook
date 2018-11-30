@@ -29,6 +29,7 @@ module Events
         assign_attrs
         validate_distance!
         validate_unpaid_trips!
+        validate_trip!
         validate_card!
         validate_bonus! if data[:bonus]
         create_trip
@@ -55,6 +56,11 @@ module Events
       def validate_distance!
         return if trip_calculation.distance < Constants::Trip::MAX_DISTANCE
         invalid!([I18n.t('trips.to_far')])
+      end
+
+      def validate_trip!
+        return if Trip.pending.where(user_id: data[:user_id]).blank?
+        invalid!([I18n.t('trips.pending_trip_exists')])
       end
 
       def validate_bonus!

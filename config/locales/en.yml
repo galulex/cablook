@@ -29,6 +29,7 @@ en:
     canceled: Trip successfully canceled
     invalid: Address is not correct
     pay_off_debt: Pay off debt for previous trips, please
+    pending_trip_exists: There is one order already in progress
     start_at_invalid: Time entered incorrectly
     to_far: Distance too large
   cards:
