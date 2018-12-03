@@ -19,6 +19,7 @@ class Trip < ApplicationRecord
 
   # Time for pre-order trip
   attr_reader :time
+  attr_writer :pre_order
   attr_accessor :entrance, :osrm
 
   def start_at
