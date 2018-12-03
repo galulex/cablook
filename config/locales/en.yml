@@ -57,14 +57,6 @@ en:
     will_arrive: '%{name} on %{car} will arrive at %{time}'
     waiting: Driver is already waiting for you
   bot:
-    commands:
-      book: BOOK
-      cancel: CANCEL
-      confirm_depature_address: DEPARTURE ADDRESS IS CORRECT
-      reject_depature_address: CHANGE DEPARTURE ADDRESS
-      confirm_destination_address: DESTINATION ADDRESS IS CORRECT
-      reject_destination_address: CHANGE DESTINATION ADDRESS
-      confirm_trip: GO
     request_contact:
       text: 'I need to know who you are. Could you share your phone number please?'
       reply_markup:
@@ -90,7 +82,7 @@ en:
         remove_reply_keyboard:
           keyboard_remove: true
     start:
-      text: 'Would you like to book a taxi?'
+      text: 'Hi there, I am a CabLook Bot . I can book a taxi for you. Click BOOK if you need a ride'
       reply_markup:
         keyboard:
           -
@@ -141,6 +133,8 @@ en:
           -
             - text: 'YES'
             - text: 'NO'
+        one_time_keyboard: true
+        resize_keyboard: true
     comment_confirmation:
       text: 'Would you like to leave a comment?'
       reply_markup:
@@ -148,6 +142,8 @@ en:
           -
             - text: 'YES'
             - text: 'NO'
+        one_time_keyboard: true
+        resize_keyboard: true
     comment:
       text: Enter your comment
     incorect_address:
@@ -158,6 +154,9 @@ en:
       text: Driver found.
     waiting_client:
       text: The driver is waiting for you.
+      reply_markup:
+        remove_reply_keyboard:
+          remove_keyboard: true
     incorrect_rating:
       text: Incorrect rating, try again.
     tips:
@@ -170,6 +169,8 @@ en:
             - text: 5
             - text: 10
             - text: 20
+        one_time_keyboard: true
+        resize_keyboard: true
     tips_accept:
       text: Thank you for leaving tips!
     rate_trip:
@@ -182,6 +183,8 @@ en:
             - text: 3
             - text: 4
             - text: 5
+        one_time_keyboard: true
+        resize_keyboard: true
     no_car_found:
       text: Currently no cars available. Would you like to try one more time?
       reply_markup:
