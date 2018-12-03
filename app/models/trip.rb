@@ -41,6 +41,7 @@ class Trip < ApplicationRecord
   alias pre_order preorder?
 
   def time=(val)
+    retrun if val.blank?
     date = val.in_time_zone
     self.preorder_time = Time.now.in_time_zone < date ? date : (date + 1.day)
     @time = val
