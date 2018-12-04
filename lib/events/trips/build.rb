@@ -35,6 +35,11 @@ module Events
         @trip = Trip.new(data)
         FIELDS.each { |field| @trip[field] = directions.send(field) }
         @trip.cost = Operations::V2TripCalculation.new(@trip).cost
+        # TODO, remove it after we migrate to OSRM completely
+        return if data[:osrm].present?
+        @trip.departure = directions.departure
+        @trip.destination = directions.destination
+        @trip.waypoints = directions.waypoints
       end
 
       def directions
