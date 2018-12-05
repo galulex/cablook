@@ -69,7 +69,7 @@ module Events
       end
 
       def matrix
-        @matrix ||= Directions.new(start_point, trip.departure, [])
+        @matrix ||= OsrmDirections.new(start_point, trip.departure, [])
       end
 
       def trip_status

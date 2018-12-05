@@ -13,7 +13,7 @@ module Events
           required(:destination_address).filled(:str?)
           optional(:waypoints) { none? | array? }
           optional(:stops) { none? | array? }
-          optional(:osrm) { none? | str? }
+          optional(:osrm)
           optional(:comment) { str? }
         end
       end
