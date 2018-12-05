@@ -10,7 +10,7 @@ describe Events::Trips::Accept do
     let(:data) { { trip_id: trip.id, driver_id: driver.id, car_id: driver.car_id } }
     let(:car) { create(:car) }
 
-    before { Redis.current.set("car_#{driver.car_id}", '49.437559, 32.1004251') }
+    before { Redis.current.set("car_#{driver.car_id}", '49.437559,32.1004251') }
 
     it { is_expected.to change { trip.reload.status }.to(Constants::Trip::STATUS_CODES[Constants::Trip::ON_THE_WAY]) }
     it { is_expected.to change { trip.reload.car_id }.to(driver.car_id) }
