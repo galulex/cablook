@@ -90,12 +90,7 @@ module Events
       end
 
       def create_trip
-        @trip = Trip.create(data.to_h.except(:comment, :bonus, :card_id))
-        @trip.update(comment: comment)
-      end
-
-      def comment
-        data[:entrance] ? "Номер подъезда: #{data[:entrance]}. #{data[:comment]}" : data[:comment]
+        @trip = Trip.create(data.to_h.except(:bonus, :card_id))
       end
 
       def create_trip_job(trip_id)

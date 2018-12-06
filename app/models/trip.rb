@@ -18,12 +18,17 @@ class Trip < ApplicationRecord
   delegate :phone_number, to: :user, prefix: true
 
   # Time for pre-order trip
-  attr_reader :time
+  attr_reader :time, :entrance
   attr_writer :pre_order
-  attr_accessor :entrance, :osrm
+  attr_accessor :osrm
 
   def start_at
     super || preorder_time
+  end
+
+  def entrance=(val)
+    return if val.blank?
+    self[:comment] = "#{comment} #{val} під'їзд"
   end
 
   def preorder?

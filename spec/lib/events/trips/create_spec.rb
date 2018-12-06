@@ -62,12 +62,12 @@ describe Events::Trips::Create do
 
       let(:data) { trip_params.merge(entrance: 1).except(:comment) }
 
-      it { expect(Trip.last.comment).to eq('Номер подъезда: 1. ') }
+      it { expect(Trip.last.comment).to eq(" 1 під'їзд") }
 
       context 'and add comment' do
         let(:data) { trip_params.merge(entrance: 1, comment: 'FooBar') }
 
-        it { expect(Trip.last.comment).to eq('Номер подъезда: 1. FooBar') }
+        it { expect(Trip.last.comment).to eq("FooBar 1 під'їзд") }
       end
     end
 
