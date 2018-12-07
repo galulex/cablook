@@ -32,7 +32,7 @@ module Events
       end
 
       def build_trip
-        @trip = Trip.new(data)
+        @trip = Trip.new(data.except(:feedbacks, :driver_id, :car_id, :finished_at, :created_at, :start_at, :started_at))
         FIELDS.each { |field| @trip[field] = directions.send(field) }
         # TODO, remove it after we migrate to OSRM completely
         if data[:osrm].blank?
