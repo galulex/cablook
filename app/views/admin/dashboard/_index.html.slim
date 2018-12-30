@@ -1,4 +1,4 @@
-link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.43.0/mapbox-gl.css' rel='stylesheet'
+link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.52.0/mapbox-gl.css' rel='stylesheet'
 
 .dashboard data-page='dashboard'
   .map#map
@@ -22,8 +22,8 @@ link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.43.0/mapbox-gl.css' rel=
           span=trip.user_phone_number
         - unless trip.start_at.blank?
           .field
-            strong> Start time: 
-            span=trip.start_at.strftime("%a, %d, %H:%M") 
+            strong> Start time:
+            span=trip.start_at.strftime("%a, %d, %H:%M")
 
 - @cars.each do |car|
   div.js-car data-info=car.to_json

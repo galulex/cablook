@@ -14,13 +14,13 @@ function loadMapbox() {
   script.onload = function () {
     init();
   };
-  script.src = 'https://api.tiles.mapbox.com/mapbox-gl-js/v0.43.0/mapbox-gl.js';
+  script.src = 'https://api.tiles.mapbox.com/mapbox-gl-js/v0.52.0/mapbox-gl.js';
   document.head.appendChild(script);
 }
 
 var map;
 var markers = [];
-var mapboxglToken = 'pk.eyJ1IjoiYnJ1Y2VsaWF0b3IiLCJhIjoiY2oxcTJ5dDNzMDA2ajMybnR6M3V5cGVubiJ9.qjyqnH72UUVnsaY63OzMGg';
+var mapboxglToken = 'pk.eyJ1IjoiZ2FsdWxleCIsImEiOiJjamx6ampoZjgyMnYxM3FvZ2ppNjV2M2x5In0.bPgk2WI9NT-DJwnE-OtiLA';
 var tripColors = ['#68efad', '#9b26af', '#FF5722', '#FFEB3B', '#18FFFF', '#8BC34A', '#B388FF', '#E91E63', '#CDDC39', '#03A9F4', '#02C8A7', '#675682', '#FE65B7', '#EC96A4', '#4484CE'];
 var freeColors = [].concat(tripColors);
 
