@@ -1,0 +1,123 @@
+doctype 5
+html lang="#{I18n.locale}"
+  head
+    = render 'layouts/head'
+    css:
+      html {
+        overflow-x: hidden;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      *[disabled] { display: none; }
+
+      button[disabled] {
+        opacity: 0.5;
+      }
+
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: Gilroy, Helvetica, Arial, sans-serif;
+        font-weight: 100;
+        font-size: 18px;
+        overflow-x: hidden;
+        background: white;
+        color: black;
+        min-height: 100vh;
+        -webkit-overflow-scrolling: touch;
+      }
+
+      header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        background :#19A160;
+        background: linear-gradient(to left, #19A160, #132d50);
+        text-align: center;
+        color: white;
+        padding: 1rem 0;
+        z-index: 100;
+      }
+
+      nav {
+        background: white;
+        position: fixed;
+        z-index: 1000;
+      }
+
+      main {
+        flex: 0 0 auto;
+        width: 100%;
+        scroll-snap-align: start;
+      }
+
+      body {
+        display: flex;
+        align-items: stretch;
+        flex-wrap: nowrap;
+        position: fixed;
+        overflow-x: auto;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        scroll-behavior: smooth;
+        scroll-snap-type: x mandatory;
+        flex-direction: row-reverse;
+      }
+
+      #body {
+        position: absolute;
+        right: 0;
+        width: 0;
+      }
+
+      section {
+        width: 100%;
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 3rem 5% 0;
+      }
+
+      img.map {
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: 100%;
+        object-fit: cover;
+        height: 100%;
+      }
+
+      main.login {
+        background: #132d50;
+        background: linear-gradient(to top, #19A160, 20%, #132d50);
+      }
+
+  body onload="document.getElementById('styles').rel = 'stylesheet'"
+    / <main id="app">
+    /   <header>
+    /     <label for="radio" autofocus>+ </label>
+    /     <label for="body">x</label>
+    /   </header>
+    /   br
+    /   br
+    /   <a href="#body">x </a>
+    /   <a href="#nav">=</a>
+    /   <input id="body" name="nav" type="radio"></input>
+    / </main>
+    / <nav id="nav">
+    /   <input id="radio" name="nav" type="radio"></input>
+    /   <a>One</a>
+    /   <a>Two</a>
+    /   <a>Three</a>
+    / </nav>
+    link#styles href=asset_path('pwa.css') rel=:preload as=:style onload="this.rel='stylesheet'"
+    = javascript_pack_tag 'pwa', async: true
+    = render 'layouts/footer'
+    script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDx2cLwlAG3muHMV9DVYY3l2PupoYCS-Mk&libraries=places" async=true defer=true
+    script id="widget-wfp-script" language="javascript" type="text/javascript" src="https://secure.wayforpay.com/server/pay-widget.js" async=true defer=true

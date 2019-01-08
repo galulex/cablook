@@ -3,14 +3,18 @@
     "@rails/webpacker": "3.5",
     "actioncable": "^5.2.1",
     "axios": "^0.18.0",
+    "babel-plugin-module-resolver": "^3.1.1",
+    "babel-plugin-transform-react-jsx": "^6.24.1",
     "babel-preset-react": "^6.24.1",
     "crypto-js": "^3.1.9-1",
+    "mapbox-gl": "^0.52.0",
+    "preact": "^8.4.2",
+    "preact-compat": "^3.18.4",
+    "preact-context": "^1.1.2",
+    "preact-router": "^2.6.1",
+    "preact-svg-loader": "^0.2.1",
     "prop-types": "^15.6.2",
-    "react": "^16.4.2",
-    "react-dom": "^16.4.2",
-    "react-localization": "^1.0.12",
-    "react-rails-ujs": "^1.1.0",
-    "react_ujs": "^2.4.4"
+    "react-localization": "^1.0.12"
   },
   "devDependencies": {
     "webpack-dev-server": "2.11.2"

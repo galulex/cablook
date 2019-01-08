@@ -1,5 +1,5 @@
 class WelcomeController < ApplicationController
-  layout 'pwa', only: :pwa
+  layout 'pwa2', only: :pwa
 
   caches_action :index, cache_path: -> { "#{params[:page]}_#{session[:locale]}" }
 
