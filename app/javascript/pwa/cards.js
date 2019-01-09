@@ -1,4 +1,6 @@
 import { h, render, Component } from 'preact';
+import md5 from 'crypto-js/hmac-md5';
+import axios from 'axios';
 
 export default class Cards extends Component {
   constructor(props) {
@@ -10,20 +12,22 @@ export default class Cards extends Component {
 
   componentDidMount() {
     let component = this
-    fetch('/api/cards', {
-      method: 'get',
-      headers: {'Content-Type':'application/json','Auth-Token':localStorage.token}
-    }).then((response) => {
-       if (response.status !== 200) {
-         response.json().then(function(data) {
-           alert(data.errors)
-         })
-        return;
-      }
-      response.json().then(function(data) {
-        component.setState({cards: data.cards})
-      });
-    });
+    this.loadWidget()
+    axios.get('cards').then((res) => {
+      component.setState({cards: res.data.cards})
+    }).catch((error) => {
+      if (!error.response) return;
+      alert(error.response.data.errors)
+    })
+  }
+
+  loadWidget = () => {
+    if (document.getElementById('widget-wfp-script') === null) {
+      let script = document.createElement('script');
+      script.setAttribute('id', 'widget-wfp-script');
+      script.setAttribute('src', 'https://secure.wayforpay.com/server/pay-widget.js');
+      document.body.appendChild(script);
+    }
   }
 
   render() {
@@ -41,35 +45,83 @@ export default class Cards extends Component {
               )
             })}
         </ul>
-        <button type='button' onClick={this.add}>+ Add Card</button>
+        <button type='button' onClick={this.new}>+ Add Card</button>
         </section>
       </main>
     )
   }
 
-  add = () => {
+  new = () => {
+    const component = this
+    const wayforpay = new Wayforpay();
+    wayforpay.run((this.WFP()),
+      response =>{
+        setTimeout(function(){
+          wayforpay.closeit()
+          component.create(response)
+        }, 1000)
+      },
+      response =>{
+        alert(response)
+      },
+      response =>{
+        setTimeout(function(){
+          wayforpay.closeit()
+          component.create(response)
+        }, 1000)
+      }
+    );
   }
 
-  create = () => {
+  WFP = () => {
+    let date = Date.now()
+    let orderReference = md5(date.toString(), localStorage.token).toString()
+    this.straightWidget = true
+    this.merchantAccount = window._MERCHANT
+    this.merchantDomainName = 'cablook.taxi'
+    this.merchantTransactionType = 'AUTH'
+    this.holdTimeout = 60
+    this.authorizationType = 'SimpleSignature'
+    this.orderReference = orderReference
+    this.serviceUrl = `https://${window.location.hostname}/api/cards/update`
+    this.orderDate = date
+    this.amount = '1'
+    this.currency = 'UAH'
+    this.productName = 'Удержание за добавление карты'
+    this.productPrice = '1'
+    this.transactionType = 'VERIFY'
+    this.clientPhone = localStorage.number || '+380636086045'
+    this.clientEmail = localStorage.email || 'galulex@gmail.com'
+    this.productCount = '1'
+    this.paymentSystem = 'card'
+    this.merchantSignature = md5(`${this.merchantAccount};${this.merchantDomainName};${orderReference};${date};${this.amount};${this.currency};${this.productName};1;1`, window._TOKEN).toString()
+    return this
+  }
+
+  create = (data) => {
+    const component = this
+    let cards = this.state.cards
+
+    axios.post('cards', data).then((res) => {
+      cards.push(res.data)
+      component.setState({cards: cards})
+    }).catch((error) => {
+      if (!error.response) return;
+      alert(error.response.data.errors)
+    })
   }
 
   delete = (id, index) => {
+    if (!confirm('Are you sure?')) return;
     let component = this
     let cards = this.state.cards
     cards.splice(index, 1)
-    fetch(`/api/cards/${id}`, {
-      method: 'delete',
-      headers: {'Content-Type':'application/json', 'Auth-Token':localStorage.token}
-    }).then((response) => {
-       if (response.status !== 200) {
-         response.json().then(function(data) {
-           alert(data.errors)
-         })
-        return;
-      }
-      component.setState({
-        cards: cards
-      })
-    });
+
+    axios.delete(`cards/${id}`).then((card) => {
+      component.setState({cards: cards})
+    }).catch((error) => {
+      if (!error.response) return;
+      alert(error.response.data.errors)
+    })
   }
 }

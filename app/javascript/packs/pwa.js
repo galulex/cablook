@@ -13,6 +13,11 @@ import Cards from '../pwa/cards.js';
 // const Map = ReactMapboxGl({
 //   accessToken: 'pk.eyJ1IjoiYnJ1Y2VsaWF0b3IiLCJhIjoiY2oxcTJ5dDNzMDA2ajMybnR6M3V5cGVubiJ9.qjyqnH72UUVnsaY63OzMGg'
 // });
+//
+import axios from 'axios';
+axios.defaults.baseURL = 'http://localhost:3000/api';
+axios.defaults.headers.common['Auth-Token'] = localStorage.token;
+axios.defaults.headers.common['Content-Type'] = 'application/json';
 
 export default class App extends Component {
 
@@ -33,10 +38,9 @@ export default class App extends Component {
   }
 
   logOut = () => {
-    if (confirm('Are you sure?')) {
-      this.setState({currentUser: null})
-      localStorage.removeItem('token')
-    }
+    if (!confirm('Are you sure?')) return;
+    this.setState({currentUser: null})
+    localStorage.removeItem('token')
   }
 
   render() {
