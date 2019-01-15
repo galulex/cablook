@@ -9,6 +9,7 @@ import { Map } from 'mapbox-gl';
 import AddressInput from '../pwa/trips/address-input.js';
 import Session from '../pwa/session.js';
 import Cards from '../pwa/cards.js';
+import Bonus from '../pwa/bonus_trips.js';
 
 // const Map = ReactMapboxGl({
 //   accessToken: 'pk.eyJ1IjoiYnJ1Y2VsaWF0b3IiLCJhIjoiY2oxcTJ5dDNzMDA2ajMybnR6M3V5cGVubiJ9.qjyqnH72UUVnsaY63OzMGg'
@@ -50,12 +51,14 @@ export default class App extends Component {
           <nav>
             <Link activeClassName='active' href='/pwa'>Home</Link>
             <Link activeClassName='active' href='/pwa/trips'>Trips</Link>
+            <Link activeClassName='active' href='/pwa/bonus_trips'>Bonus</Link>
             <Link activeClassName='active' href='/pwa/cards'>Cards</Link>
             <button onClick={this.logOut}>Log Out</button>
           </nav>
           <Router>
             <Home path='/pwa' />
             <Trips path='/pwa/trips' />
+            <Bonus path='/pwa/bonus_trips' />
             <Cards path='/pwa/cards' />
             <Trip path='/pwa/trip' />
           </Router>

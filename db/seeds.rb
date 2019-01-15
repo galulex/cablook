@@ -6,7 +6,7 @@ end
 password = BCrypt::Password.create('12341234')
 
 user_data = [
-  { phone_number: '+380990000001', encrypted_password: password, auth_token: token,},
+  { phone_number: '+380990000001', encrypted_password: password, auth_token: token },
   { phone_number: '+380990000002', encrypted_password: password, auth_token: token },
   { phone_number: '+380990000003', encrypted_password: password, auth_token: token },
   { phone_number: '+380990000004', encrypted_password: password, auth_token: token },
@@ -21,11 +21,11 @@ puts "=============================\n"
 puts 'Creating drivers...'
 
 driver_data = [
-  { username: 'driver_1', encrypted_password: password, auth_token: token },
-  { username: 'driver_2', encrypted_password: password, auth_token: token },
-  { username: 'driver_3', encrypted_password: password, auth_token: token },
-  { username: 'driver_4', encrypted_password: password, auth_token: token },
-  { username: 'driver_5', encrypted_password: password, auth_token: token },
+  { username: 'driver_1', encrypted_password: password, auth_token: token, name: 'Driver 1' },
+  { username: 'driver_2', encrypted_password: password, auth_token: token, name: 'Driver 2' },
+  { username: 'driver_3', encrypted_password: password, auth_token: token, name: 'Driver 3' },
+  { username: 'driver_4', encrypted_password: password, auth_token: token, name: 'Driver 4' },
+  { username: 'driver_5', encrypted_password: password, auth_token: token, name: 'Driver 5' },
 ]
 driver_data.each { |data| Driver.create(data) }
 

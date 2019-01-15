@@ -105,6 +105,9 @@ export default class Session extends Component {
         return;
        }
       response.json().then(function(data) {
+        localStorage.setItem('referralCode', data.referral_code)
+        localStorage.setItem('email', data.email)
+        localStorage.setItem('phone_number', data.phone_number)
         component.props.login(data.auth_token)
       });
     });
