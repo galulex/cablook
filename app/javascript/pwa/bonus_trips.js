@@ -1,6 +1,7 @@
 import { h, render, Component } from 'preact';
 import L from 'lodash'
 import { Statuses, Status } from './constants/statuses'
+import axios from 'axios';
 
 export default class Bonus extends Component {
   constructor(props) {
@@ -15,20 +16,12 @@ export default class Bonus extends Component {
 
   componentDidMount() {
     let component = this
-    fetch('/api/referrals', {
-      method: 'get',
-      headers: {'Content-Type':'application/json','Auth-Token':localStorage.token}
-    }).then((response) => {
-       if (response.status !== 200) {
-         response.json().then(function(data) {
-           alert(data.errors)
-         })
-        return;
-      }
-      response.json().then(function(data) {
-        component.setState({bonus_trips: data.bonus_trips, parent_bonus: data.parent_bonus})
-      });
-    });
+    axios.get('referrals').then((res) => {
+      component.setState({bonus_trips: res.data.bonus_trips, parent_bonus: res.data.parent_bonus})
+    }).catch((error) => {
+      if (!error.response) return;
+      alert(error.response.data.errors)
+    })
   }
 
   render() {
@@ -93,20 +86,11 @@ export default class Bonus extends Component {
     const params = { referral_code: this.state.friend_code }
     let component = this
     console.log(this.state)
-    fetch('/api/referrals', {
-      method: 'post',
-      headers: {'Content-Type':'application/json', 'Auth-Token':localStorage.token},
-      body: JSON.stringify(params)
-    }).then((response) => {
-       if (response.status !== 200) {
-         response.json().then(function(data) {
-           alert(data.errors)
-         })
-        return;
-      }
-      response.json().then(function(data) {
-        alert('OK')
-      });
-    });
+    axios.post('referrals', params).then((res) => {
+      alert('OK')
+    }).catch((error) => {
+      if (!error.response) return;
+      alert(error.response.data.errors)
+    })
   }
 }
