@@ -23,5 +23,6 @@
 
 .byebug_history
 .ruby-version
+.idea/
 
 tags

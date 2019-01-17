@@ -11,6 +11,7 @@ import Session from '../pwa/session.js';
 import Cards from '../pwa/cards.js';
 import Bonus from '../pwa/bonus_trips.js';
 import Contacts from '../pwa/contacts.js';
+import Trips from '../pwa/trips.js';
 
 // const Map = ReactMapboxGl({
 //   accessToken: 'pk.eyJ1IjoiYnJ1Y2VsaWF0b3IiLCJhIjoiY2oxcTJ5dDNzMDA2ajMybnR6M3V5cGVubiJ9.qjyqnH72UUVnsaY63OzMGg'
@@ -64,7 +65,6 @@ export default class App extends Component {
             <Bonus path='/pwa/bonus_trips' />
             <Cards path='/pwa/cards' />
             <Contacts path='/pwa/contacts' />
-            <Trip path='/pwa/trip' />
           </Router>
         </main>
       )
@@ -73,27 +73,6 @@ export default class App extends Component {
         <Session login = {this.logIn.bind(this)} ></Session>
       )
     }
-  }
-}
-
-class Trips extends Component {
-  render() {
-    return (
-      <section class='trips'>
-        <header>Trips</header>
-      </section>
-    );
-  }
-}
-
-class Trip extends Component {
-  render() {
-    console.log(this.props)
-    return (
-      <section class='trip'>
-        <header>Trip Details</header>
-      </section>
-    );
   }
 }
 
