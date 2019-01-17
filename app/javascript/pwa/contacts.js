@@ -15,7 +15,7 @@ export default class Contacts extends Component {
               <a href='tel:+380932225665'>+380932225665</a>
             </li>
             <li>
-              <a href='https://t.me/cablookk'>Telegram</a>
+              <a href='tg://resolve?domain=cablookk'>Telegram</a>
             </li>
             <li>
               <a href='viber://chat/?number=%2B380932225665'>Viber</a>
