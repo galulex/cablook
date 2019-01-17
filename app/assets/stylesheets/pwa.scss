@@ -74,6 +74,7 @@ img {
 }
 
 .map-img {
+  min-height: 400px;
   border-radius: 50px;
 }
 
@@ -421,7 +422,7 @@ input.form__number {
         top: 4px;
         transform-origin: bottom;
         transition: transform .3s;
-      } 
+      }
       &::after {
         content: '';
         border: 1px solid white;

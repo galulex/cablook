@@ -9,10 +9,12 @@ export default class Trip {
     const comment = document.getElementById('comment')
     trip.comment = comment.value || ''
     let data = new FormData()
+    let departure =  waypoints.shift().getAttribute('data-place')
+    let destination = waypoints.pop().getAttribute('data-place')
     data.append('trip[departure_address]', trip.departure_address)
     data.append('trip[destination_address]', trip.destination_address)
-    data.append('trip[departure]', waypoints.shift().getAttribute('data-place'))
-    data.append('trip[destination]', waypoints.pop().getAttribute('data-place'))
+    if (departure) data.append('trip[departure]', departure)
+    if (destination) data.append('trip[destination]', destination)
     data.append('trip[comment]', trip.comment)
     data.append('trip[osrm]', true)
     if (trip['time'] != null) data.append('trip[time]', trip.time)
@@ -160,7 +162,7 @@ export default class Trip {
     trip.waypoints.map((w, index) => {
       waypoints[index] = w.split(',').reverse().join(',')
     })
-    localStorage.mapURL = 'https://api.mapbox.com/styles/v1/mapbox/streets-v10/static/pin-s-s+188753(' + departure.join(',') + '),' + waypoints.map((w) => 'pin-s-w+facc1f(' + w + '),').join('') + 'pin-s-f+312d50('+  destination.join(',') + '),path-5+188753-0.8(' + encodeURIComponent(trip.path) + ')/auto/400x400?access_token=pk.eyJ1IjoiYnJ1Y2VsaWF0b3IiLCJhIjoiY2oxcTJ5dDNzMDA2ajMybnR6M3V5cGVubiJ9.qjyqnH72UUVnsaY63OzMGg'
+    localStorage.mapURL = 'https://api.mapbox.com/styles/v1/mapbox/streets-v10/static/pin-s-s+188753(' + departure.join(',') + '),' + waypoints.map((w) => 'pin-s-w+facc1f(' + w + '),').join('') + 'pin-s-f+312d50('+  destination.join(',') + '),path-5+188753-0.8(' + encodeURIComponent(trip.path) + ')/auto/400x400?access_token=pk.eyJ1IjoiZ2FsdWxleCIsImEiOiJjamx6ampoZjgyMnYxM3FvZ2ppNjV2M2x5In0.bPgk2WI9NT-DJwnE-OtiLA'
     return localStorage.mapURL
   }
 }
