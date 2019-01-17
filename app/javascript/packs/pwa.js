@@ -6,7 +6,7 @@ import { Link } from 'preact-router/match';
 // import ReactMapboxGl, { Layer, Feature } from 'react-mapbox-gl';
 import { Map } from 'mapbox-gl';
 
-import AddressInput from '../pwa/trips/address-input.js';
+import CurrentTrip from '../pwa/current-trip.js';
 import Session from '../pwa/session.js';
 import Cards from '../pwa/cards.js';
 import Bonus from '../pwa/bonus_trips.js';
@@ -48,6 +48,7 @@ export default class App extends Component {
     if (this.state.currentUser) {
       return(
         <main id="app">
+          <hy-drawer touch-events prevent-default></hy-drawer>
           <nav>
             <Link activeClassName='active' href='/pwa'>Home</Link>
             <Link activeClassName='active' href='/pwa/trips'>Trips</Link>
@@ -56,7 +57,7 @@ export default class App extends Component {
             <button onClick={this.logOut}>Log Out</button>
           </nav>
           <Router>
-            <Home path='/pwa' />
+            <CurrentTrip path='/pwa' />
             <Trips path='/pwa/trips' />
             <Bonus path='/pwa/bonus_trips' />
             <Cards path='/pwa/cards' />
@@ -67,134 +68,6 @@ export default class App extends Component {
     } else {
       return(
         <Session login = {this.logIn.bind(this)} ></Session>
-      )
-    }
-  }
-}
-
-class Home extends Component {
-  constructor(props){
-    super(props)
-    this.state = {
-      trip: {
-        waypoints: [],
-        stops: ['', ''],
-        departure: '',
-        destination: '',
-        departure_address: '',
-        destination_address: '',
-        osrm: true
-      },
-      new: false
-    }
-    this.setAddress = this.setAddress.bind(this)
-  }
-
-  setAddress = (text, coords, index) => {
-    this.setState(state => {
-      state.trip.waypoints[index] = coords;
-      state.trip.stops[index] = text;
-      state.trip.departure = state.trip.waypoints[0]
-      state.trip.destination = state.trip.waypoints[state.trip.waypoints.length - 1]
-      state.trip.departure_address = state.trip.stops[0]
-      state.trip.destination_address = state.trip.stops[state.trip.stops.length - 1]
-      return state
-    })
-  }
-
-  addAddress = () => {
-    console.log(this.state)
-    this.setState(state => {
-      state.trip.stops.push('');
-    })
-  }
-
-  removeAddress = (index) => {
-    this.setState(state => {
-      state.trip.stops.splice(index, 1);
-      state.trip.waypoints.splice(index, 1);
-    })
-  }
-
-  buildTrip = (e) => {
-    const params = this.state.trip
-    let component = this
-    if (!e.target.form.checkValidity()) return e.target.form.reportValidity();
-    console.log(this.state)
-    params.waypoints = params.waypoints.slice(1, -2)
-    params.stops = params.stops.slice(1, -2)
-    fetch('api/trips/new', {
-      method: 'post',
-      headers: {'Content-Type':'application/json', 'Auth-Token':localStorage.token},
-      body: JSON.stringify({ trip: params })
-    }).then((response) => {
-       if (response.status !== 200) {
-         response.json().then(function(data) {
-           alert(data.errors)
-         })
-        return;
-      }
-
-      response.json().then(function(data) {
-        component.setState(state => {
-          state.trip = data
-          state.new = true
-          return state
-        })
-      });
-    });
-  }
-
-  createTrip = (e) => {
-    const params = this.state.trip
-    let component = this
-    console.log(this.state)
-    fetch('/api/trips', {
-      method: 'post',
-      headers: {'Content-Type':'application/json', 'Auth-Token':localStorage.token},
-      body: JSON.stringify({ trip: component.state.trip })
-    }).then((response) => {
-       if (response.status !== 201) {
-         response.json().then(function(data) {
-           alert(data.errors)
-         })
-        return;
-      }
-
-      response.json().then(function(data) {
-        localStorage.setItem('trip', data.id)
-        component.setState(state => {
-          state.trip = data
-          console.log(state)
-          return state
-        })
-      });
-    });
-  }
-
-  render({ }, { text='Some Text' }) {
-    // if (this.state.new) {
-    //   return(
-    //     <section class="home">
-    //     </section>
-    //   )
-    // } else
-    if (!this.state.new && !this.state.trip.id) {
-      return(
-        <section class="home">
-          <header>Search</header>
-          <form action='#'>
-            { this.state.trip.stops.map((e, i) => {
-              return(<AddressInput setAddress = {this.setAddress.bind(this)} removeAddress = { this.removeAddress.bind(this) } index = {i} />)
-            })}
-            <button type='button' onClick={this.addAddress}>+</button>
-            <button type='button' onClick={this.buildTrip}>OK</button>
-          </form>
-        </section>
-      )
-    } else {
-      return(
-        <button type='button' onClick={this.createTrip}>Go</button>
       )
     }
   }

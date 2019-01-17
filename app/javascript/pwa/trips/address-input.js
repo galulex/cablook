@@ -13,8 +13,7 @@ export default class AddressInput extends Component {
   render() {
     return (
       <fieldset>
-        <button type='button' onClick={this.props.removeAddress}>x</button>
-        { this.renderLocationButton(this.props.index) }
+        <button class='remove-address' type='button' onClick={this.props.removeAddress}>×</button>
         <input required type='text' onInput={this.autocomlete} value={this.state.address}/>
         <ul>
           {this.state.predictions.map(this.renderPrediction)}
@@ -24,7 +23,7 @@ export default class AddressInput extends Component {
   }
 
   componentDidMount() {
-    this.base.childNodes[2].setCustomValidity('Choose address from a list')
+    // this.base.childNodes[2].setCustomValidity('Choose address from a list')
   }
 
   renderLocationButton = (i) => {

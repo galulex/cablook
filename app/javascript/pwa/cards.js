@@ -90,8 +90,8 @@ export default class Cards extends Component {
     this.productName = 'Удержание за добавление карты'
     this.productPrice = '1'
     this.transactionType = 'VERIFY'
-    this.clientPhone = localStorage.number || '+380636086045'
-    this.clientEmail = localStorage.email || 'galulex@gmail.com'
+    this.clientPhone = localStorage.number
+    this.clientEmail = localStorage.email
     this.productCount = '1'
     this.paymentSystem = 'card'
     this.merchantSignature = md5(`${this.merchantAccount};${this.merchantDomainName};${orderReference};${date};${this.amount};${this.currency};${this.productName};1;1`, window._TOKEN).toString()
