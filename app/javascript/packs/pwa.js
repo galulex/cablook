@@ -2,7 +2,6 @@ import { h, render, Component } from 'preact';
 import { Router } from 'preact-router';
 import { route } from 'preact-router';
 import { createContext } from "preact-context";
-import { Link } from 'preact-router/match';
 // import ReactMapboxGl, { Layer, Feature } from 'react-mapbox-gl';
 import { Map } from 'mapbox-gl';
 
@@ -12,6 +11,7 @@ import Cards from '../pwa/cards.js';
 import Bonus from '../pwa/bonus_trips.js';
 import Contacts from '../pwa/contacts.js';
 import Trips from '../pwa/trips.js';
+import Drawer from '../pwa/drawer.js';
 
 // const Map = ReactMapboxGl({
 //   accessToken: 'pk.eyJ1IjoiYnJ1Y2VsaWF0b3IiLCJhIjoiY2oxcTJ5dDNzMDA2ajMybnR6M3V5cGVubiJ9.qjyqnH72UUVnsaY63OzMGg'
@@ -27,7 +27,8 @@ export default class App extends Component {
   constructor(props){
     super(props)
     this.state = {
-      currentUser: localStorage.token
+      currentUser: localStorage.token,
+      drawer: false
     }
   }
 
@@ -35,9 +36,13 @@ export default class App extends Component {
     this.currentUrl = e.url;
   };
 
-  logIn = (token) => {
-    this.setState({currentUser: token})
-    localStorage.setItem('token', token)
+  logIn = (data) => {
+    this.setState({currentUser: data.auth_token})
+    localStorage.setItem('token', data.auth_token)
+    localStorage.setItem('email', data.email)
+    localStorage.setItem('referral', data.referral_code)
+    localStorage.setItem('email', data.email)
+    localStorage.setItem('phone', data.phone_number)
   }
 
   logOut = () => {
@@ -46,19 +51,16 @@ export default class App extends Component {
     localStorage.removeItem('token')
   }
 
+  triggerDrawer = (open) => {
+    this.setState({drawer: open})
+  }
+
   render() {
     if (this.state.currentUser) {
       return(
         <main id="app">
-          <hy-drawer touch-events prevent-default></hy-drawer>
-          <nav>
-            <Link activeClassName='active' href='/pwa'>Home</Link>
-            <Link activeClassName='active' href='/pwa/trips'>Trips</Link>
-            <Link activeClassName='active' href='/pwa/bonus_trips'>Bonus</Link>
-            <Link activeClassName='active' href='/pwa/cards'>Cards</Link>
-            <Link activeClassName='active' href='/pwa/contacts'>Contacts</Link>
-            <button onClick={this.logOut}>Log Out</button>
-          </nav>
+          <Drawer active={this.state.drawer} triggerDrawer = {this.triggerDrawer.bind(this)} logOut={this.logOut.bind(this)}/>
+          <button class='burger' onClick={() => this.triggerDrawer(true)}>☰</button>
           <Router>
             <CurrentTrip path='/pwa' />
             <Trips path='/pwa/trips' />

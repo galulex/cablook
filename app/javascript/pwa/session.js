@@ -61,7 +61,6 @@ export default class Session extends Component {
 
   resetNumber = () => {
     this.setState({code: '', number: '', isCodeSent: false})
-    console.log(this.state)
   }
 
   createSession = (e) => {
@@ -69,7 +68,6 @@ export default class Session extends Component {
     if (!e.target.checkValidity) return;
     const params = { phone_number: this.state.number }
     let component = this
-    console.log(this.state)
     fetch('/api/session', {
       method: 'post',
       headers: {'Content-Type':'application/json'},
@@ -105,10 +103,7 @@ export default class Session extends Component {
         return;
        }
       response.json().then(function(data) {
-        localStorage.setItem('referralCode', data.referral_code)
-        localStorage.setItem('email', data.email)
-        localStorage.setItem('phone_number', data.phone_number)
-        component.props.login(data.auth_token)
+        component.props.login(data)
       });
     });
   }
