@@ -36,19 +36,20 @@ export default class Bonus extends Component {
           {
             document.queryCommandSupported('copy') &&
             <div>
-              <input
-                ref={(textarea) => this.textArea = textarea}
-                value= {this.state.referralCode}
-                readOnly
-              />
-              <button onClick={this.copyToClipboard}>Скопировать</button>
-              <ul>
+              <div class='referral-code'>
+                <input
+                  ref={(textarea) => this.textArea = textarea}
+                  value= {this.state.referralCode}
+                  readOnly
+                />
+                <button onClick={this.copyToClipboard} class='purple-btn'>Скопировать</button>
+              </div>
+              <ul class='bonus-trips-list'>
                 { bonusTrips.map((bonus, i) => {
                   return(
                     <li>
-                      <u>{Statuses[bonus.status]}</u>
-                      <span>........................</span>
-                      <b>{bonus.count}</b>
+                      <em>{Statuses[bonus.status]}</em>
+                      <span>{bonus.count}</span>
                     </li>
                   )
                 })}
@@ -63,9 +64,9 @@ export default class Bonus extends Component {
   renderFriendCodeField = () =>{
     if (this.state.parent_bonus.length == 0) {
       return(
-        <form onSubmit={this.applyFriendCode}>
+        <form onSubmit={this.applyFriendCode} class='referral-code'>
           <input id='friend_code' onInput={this.updateCode}/>
-          <button type='submit'>Применить код друга</button>
+          <button type='submit' class='purple-btn'>Применить код друга</button>
         </form>
       )
     }

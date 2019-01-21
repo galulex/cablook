@@ -1,4 +1,8 @@
 import { h, render, Component } from 'preact';
+import Telegram from './images/telegram.svg'
+import Viber from './images/viber.svg'
+import Phone from './images/phone.svg'
+import Email from './images/email.svg'
 
 export default class Contacts extends Component {
   render(){
@@ -7,21 +11,33 @@ export default class Contacts extends Component {
         <section>
           <header>Contacts</header>
           <h1>Contacts</h1>
-          <ul>
+          <ul class='contacts'>
             <li>
-              <a href='mailto:contact@cablook.taxi'>contact@cablook.taxi</a>
+              <a href='mailto:contact@cablook.taxi'>
+                <span dangerouslySetInnerHTML={{__html: Email }}/>
+                <label>contact@cablook.taxi</label>
+              </a>
             </li>
             <li>
-              <a href='tel:+380932225665'>+380932225665</a>
+              <a href='tel:+380932225665'>
+                <span dangerouslySetInnerHTML={{__html: Phone }}/>
+                <label>+380932225665</label>
+              </a>
             </li>
             <li>
-              <a href='tg://resolve?domain=cablookk'>Telegram</a>
+              <a href='tg://resolve?domain=cablookk'>
+                <span dangerouslySetInnerHTML={{__html: Telegram }}/>
+                <label>Telegram</label>
+              </a>
             </li>
             <li>
-              <a href='viber://chat/?number=%2B380932225665'>Viber</a>
+              <a href='viber://chat/?number=%2B380932225665'>
+                <span dangerouslySetInnerHTML={{__html: Viber }}/>
+                <label>Viber</label>
+              </a>
             </li>
           </ul>
-          <h1>Телефон только для справок. Заказы по телефону не принимаются! Время работы службы технической поддержки с 9:00 до 18:00, пн-пт</h1>
+          <h1 style={{color: 'red'}}>Телефон только для справок. Заказы по телефону не принимаются! Время работы службы технической поддержки с 9:00 до 18:00, пн-пт</h1>
         </section>
       </main>
     )
