@@ -1,4 +1,5 @@
 import { h, render, Component } from 'preact';
+
 import Telegram from './images/telegram.svg'
 import Viber from './images/viber.svg'
 import Phone from './images/phone.svg'
@@ -14,25 +15,25 @@ export default class Contacts extends Component {
           <ul class='contacts'>
             <li>
               <a href='mailto:contact@cablook.taxi'>
-                <span dangerouslySetInnerHTML={{__html: Email }}/>
+                <Email/>
                 <label>contact@cablook.taxi</label>
               </a>
             </li>
             <li>
               <a href='tel:+380932225665'>
-                <span dangerouslySetInnerHTML={{__html: Phone }}/>
+                <Phone/>
                 <label>+380932225665</label>
               </a>
             </li>
             <li>
               <a href='tg://resolve?domain=cablookk'>
-                <span dangerouslySetInnerHTML={{__html: Telegram }}/>
+                <Telegram/>
                 <label>Telegram</label>
               </a>
             </li>
             <li>
               <a href='viber://chat/?number=%2B380932225665'>
-                <span dangerouslySetInnerHTML={{__html: Viber }}/>
+                <Viber/>
                 <label>Viber</label>
               </a>
             </li>

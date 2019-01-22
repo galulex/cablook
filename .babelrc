@@ -14,7 +14,6 @@
     "react"
   ],
   "plugins": [
-    "inline-svg",
     "syntax-dynamic-import",
     "transform-object-rest-spread",
     [
