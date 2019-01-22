@@ -1,6 +1,13 @@
 import { h, render, Component } from 'preact';
 import { Link } from 'preact-router/match';
 
+import Home from './images/car.svg'
+import Trip from './images/vehicle-wheel.svg'
+import Bonus from './images/bonus.svg'
+import Card from './images/credit-cards-payment.svg'
+import Contact from './images/contacts.svg'
+import LogOut from './images/sign-out.svg'
+
 export default class Drawer extends Component {
   constructor(props) {
     super(props)
@@ -30,12 +37,12 @@ export default class Drawer extends Component {
           <br/>
           { localStorage.phone }
         </div>
-        <Link activeClassName='active' href='/pwa' onClick={this.close}>Home</Link>
-        <Link activeClassName='active' href='/pwa/trips' onClick={this.close}>Trips</Link>
-        <Link activeClassName='active' href='/pwa/bonus_trips' onClick={this.close}>Bonus</Link>
-        <Link activeClassName='active' href='/pwa/cards' onClick={this.close}>Cards</Link>
-        <Link activeClassName='active' href='/pwa/contacts' onClick={this.close}>Contacts</Link>
-        <button onClick={this.props.logOut}>Log Out</button>
+        <Link activeClassName='active' href='/pwa' onClick={this.close}><Home/>Home</Link>
+        <Link activeClassName='active' href='/pwa/trips' onClick={this.close}><Trip/>Trips</Link>
+        <Link activeClassName='active' href='/pwa/bonus_trips' onClick={this.close}><Bonus/>Bonus</Link>
+        <Link activeClassName='active' href='/pwa/cards' onClick={this.close}><Card/>Cards</Link>
+        <Link activeClassName='active' href='/pwa/contacts' onClick={this.close}><Contact/>Contacts</Link>
+        <Link activeClassName='active' href='' onClick={this.props.logOut}><LogOut/>Log Out</Link>
       </aside>
     );
   }

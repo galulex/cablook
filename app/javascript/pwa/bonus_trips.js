@@ -1,6 +1,6 @@
 import { h, render, Component } from 'preact';
 import L from 'lodash'
-import { Statuses, Status } from './constants/statuses'
+import { Statuses } from './constants/statuses'
 import axios from 'axios';
 
 export default class Bonus extends Component {
