@@ -8,4 +8,9 @@ environment.loaders.insert('svg', {
 const fileLoader = environment.loaders.get('file')
 fileLoader.exclude = /\.(svg)$/i
 
+environment.loaders.insert('css', {
+  test: /\.css$/,
+  use: ['style-loader', 'css-loader']
+})
+
 module.exports = environment

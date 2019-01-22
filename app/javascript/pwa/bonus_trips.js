@@ -2,6 +2,7 @@ import { h, render, Component } from 'preact';
 import L from 'lodash'
 import { Statuses } from './constants/statuses'
 import axios from 'axios';
+import './css/bonus.css'
 
 export default class Bonus extends Component {
   constructor(props) {

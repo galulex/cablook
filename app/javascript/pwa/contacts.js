@@ -1,4 +1,5 @@
 import { h, render, Component } from 'preact';
+import './css/contacts.css'
 
 import Telegram from './images/telegram.svg'
 import Viber from './images/viber.svg'

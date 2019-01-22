@@ -1,0 +1,11 @@
+ul.contacts li a label {
+  cursor: pointer;
+  display: table-caption;
+}
+ul.contacts li a svg {
+  display: inline-block;
+  height: 30px;
+  margin-right: 5%;
+  width: 30px;
+  margin-top: 2%;
+}
