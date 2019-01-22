@@ -27,11 +27,6 @@ html lang="#{I18n.locale}"
         color: black;
         min-height: 100vh;
         -webkit-overflow-scrolling: touch;
-        position: fixed;
-        top: 0;
-        bottom: 0;
-        left: 24px;
-        right: 24px;
       }
 
       header {
@@ -77,23 +72,6 @@ html lang="#{I18n.locale}"
       }
 
   body onload="document.getElementById('styles').rel = 'stylesheet'"
-    / <main id="app">
-    /   <header>
-    /     <label for="radio" autofocus>+ </label>
-    /     <label for="body">x</label>
-    /   </header>
-    /   br
-    /   br
-    /   <a href="#body">x </a>
-    /   <a href="#nav">=</a>
-    /   <input id="body" name="nav" type="radio"></input>
-    / </main>
-    / <nav id="nav">
-    /   <input id="radio" name="nav" type="radio"></input>
-    /   <a>One</a>
-    /   <a>Two</a>
-    /   <a>Three</a>
-    / </nav>
     link#styles href=asset_path('pwa.css') rel=:preload as=:style onload="this.rel='stylesheet'"
     = javascript_pack_tag 'pwa', async: true
     = render 'layouts/footer'

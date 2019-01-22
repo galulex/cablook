@@ -43,6 +43,7 @@ export default class App extends Component {
     localStorage.setItem('referral', data.referral_code)
     localStorage.setItem('email', data.email)
     localStorage.setItem('phone', data.phone_number)
+    axios.defaults.headers.common['Auth-Token'] = data.auth_token;
   }
 
   logOut = () => {
