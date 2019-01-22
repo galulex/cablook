@@ -22,11 +22,8 @@ module Events
       end
 
       def validate_pending_payments!
-        payments = Payments::Trip.where(
-          status: [Constants::Payments::PENDING],
-          user_id: data[:user_id]
-        )
-        invalid!([I18n.t('cards.cant_delete')]) if payments.any?
+        pending_payment_trips = Trip.unpaid.where(user_id: data[:user_id])
+        invalid!([I18n.t('cards.cant_delete')]) if pending_payment_trips.any?
       end
 
       def cards
