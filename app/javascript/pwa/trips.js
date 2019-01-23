@@ -1,6 +1,8 @@
 import { h, render, Component } from 'preact';
-import TripCard from './tripCard.js'
 import axios from 'axios';
+
+import i18n from './i18n.js'
+import TripCard from './tripCard.js'
 
 const PER_PAGE = 10;
 
@@ -66,11 +68,11 @@ export default class Trips extends Component {
   render() {
     return (
       <section class='trips'>
-        <header>Trips</header>
+        <header>{i18n.trips.header}</header>
         <ul>
           {this.state.trips.map((trip) => <TripCard trip={trip} />)}
         </ul>
-        {this.state.isLoading && <div class="loader">Loading...</div>}
+        {this.state.isLoading && <div class="loader">i18n.trips.loading</div>}
       </section>
     );
   }

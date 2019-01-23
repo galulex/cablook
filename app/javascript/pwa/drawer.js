@@ -1,6 +1,7 @@
 import { h, render, Component } from 'preact';
 import { Link } from 'preact-router/match';
 
+import i18n from './i18n.js'
 import Home from './images/car.svg'
 import Trip from './images/vehicle-wheel.svg'
 import Bonus from './images/bonus.svg'
@@ -37,12 +38,12 @@ export default class Drawer extends Component {
           <br/>
           { localStorage.phone }
         </div>
-        <Link activeClassName='active' href='/pwa' onClick={this.close}><Home/>Home</Link>
-        <Link activeClassName='active' href='/pwa/trips' onClick={this.close}><Trip/>Trips</Link>
-        <Link activeClassName='active' href='/pwa/bonus_trips' onClick={this.close}><Bonus/>Bonus</Link>
-        <Link activeClassName='active' href='/pwa/cards' onClick={this.close}><Card/>Cards</Link>
-        <Link activeClassName='active' href='/pwa/contacts' onClick={this.close}><Contact/>Contacts</Link>
-        <Link activeClassName='active' href='' onClick={this.props.logOut}><LogOut/>Log Out</Link>
+        <Link activeClassName='active' href='/pwa' onClick={this.close}><Home/>{i18n.drawer.home}</Link>
+        <Link activeClassName='active' href='/pwa/trips' onClick={this.close}><Trip/>{i18n.drawer.trips}</Link>
+        <Link activeClassName='active' href='/pwa/bonus_trips' onClick={this.close}><Bonus/>{i18n.drawer.bonuses}</Link>
+        <Link activeClassName='active' href='/pwa/cards' onClick={this.close}><Card/>{i18n.drawer.cards}</Link>
+        <Link activeClassName='active' href='/pwa/contacts' onClick={this.close}><Contact/>{i18n.drawer.contacts}</Link>
+        <Link activeClassName='active' href='' onClick={this.props.logOut}><LogOut/>{i18n.drawer.logout}</Link>
       </aside>
     );
   }

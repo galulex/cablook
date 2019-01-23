@@ -1,4 +1,5 @@
 import { h, render, Component } from 'preact';
+import { streets } from '../streets.js'
 
 export default class AddressInput extends Component {
   constructor(props) {
@@ -14,7 +15,7 @@ export default class AddressInput extends Component {
     return (
       <fieldset>
         <button class='remove-address' type='button' onClick={this.props.removeAddress}>×</button>
-        <input required type='text' onInput={this.autocomlete} value={this.state.address}/>
+        <input required type='text' onInput={this.autocomlete} value={this.state.address} ref={input => this.input = input}/>
         <ul>
           {this.state.predictions.map(this.renderPrediction)}
         </ul>
@@ -23,7 +24,7 @@ export default class AddressInput extends Component {
   }
 
   componentDidMount() {
-    // this.base.childNodes[2].setCustomValidity('Choose address from a list')
+    this.input.setCustomValidity('Choose address from a list')
   }
 
   renderLocationButton = (i) => {
@@ -51,27 +52,37 @@ export default class AddressInput extends Component {
   renderPrediction = (prediction) => {
     return(
       <li onClick={() => this.setLocation(prediction)}>
-        <b>{prediction.structured_formatting.main_text}</b>
+        <b>{(prediction.structured_formatting) ? prediction.structured_formatting.main_text : prediction}</b>
         <br/>
-        <sub>{prediction.structured_formatting.secondary_text}</sub>
+        <sub>{(prediction.structured_formatting) ? prediction.structured_formatting.secondary_text : 'Cherkasy'}</sub>
       </li>
     )
   }
 
   setLocation = (place) => {
-    let placeService = new google.maps.places.PlacesService(document.createElement('div'))
     let address = this
+    if (!place.place_id) {
+      address.setState({ address: `${place}, `, predictions: [], isValid: false });
+      address.input.focus()
+      return;
+    }
+    let placeService = new google.maps.places.PlacesService(document.createElement('div'))
     placeService.getDetails({placeId: place.place_id}, function(result) {
       address.setState({ address: place.structured_formatting.main_text, predictions: [], isValid: true });
       address.props.setAddress(place.structured_formatting.main_text, `${result.geometry.location.lng()},${result.geometry.location.lat()}`, address.props.index)
-      address.base.childNodes[2].setCustomValidity('')
+      address.input.setCustomValidity('')
     })
   }
 
   autocomlete = e => {
     if (e.target.value === '') return false
+    let hits = streets.filter(function(s) { return s.toLowerCase().indexOf(e.target.value.toLowerCase()) != -1 }).slice(0, 5)
+    if (hits.length > 0) {
+      this.setState({ predictions: hits, address: e.target.value });
+      return false
+    }
     let autocomplete = new google.maps.places.AutocompleteService()
-    autocomplete.getPlacePredictions({input: e.target.value + ' Cherkasy', componentRestrictions: {country: 'ua'}, location: new google.maps.LatLng(49.4311119, 31.9791903), radius: 30000, strictbounds: true, offset: 2}, data => {
+    autocomplete.getPlacePredictions({input: e.target.value + ' Cherkasy', componentRestrictions: {country: 'ua'}, location: new google.maps.LatLng(49.4311119, 31.9791903), radius: 100000, strictbounds: true, offset: 2}, data => {
       if (!data) return this.setState({ predictions: [], address: e.target.value })
       this.setState({ predictions: data, address: e.target.value });
     })

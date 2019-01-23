@@ -3,12 +3,12 @@
 <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 	 viewBox="-41 164.9 512 512" enable-background="new -41 164.9 512 512" xml:space="preserve">
 <g id="XMLID_33_">
-	<path id="XMLID_4_" fill="none" stroke="#312D50" stroke-width="25.1812" stroke-miterlimit="10" d="M215,177.9
+	<path id="XMLID_4_" fill="none" stroke="#19a160" stroke-width="25.1812" stroke-miterlimit="10" d="M215,177.9
 		c-134.1,0-243,108.9-243,243c0,51,15.7,98.2,42.2,137.2l-32.1,95.7l95.7-32.1c39,26.4,86.2,42.2,137.2,42.2
 		c134.1,0,243-108.9,243-243S349.7,177.9,215,177.9z"/>
 	<g id="XMLID_2_">
-		<polygon fill="#312D50" points="340.3,442.3 89.7,442.3 89.7,474.4 340.3,474.4 		"/>
+		<polygon fill="#19a160" points="340.3,442.3 89.7,442.3 89.7,474.4 340.3,474.4 		"/>
 	</g>
-	<polygon fill="#312D50" points="340.3,373 89.7,373 89.7,405.2 340.3,405.2 	"/>
+	<polygon fill="#19a160" points="340.3,373 89.7,373 89.7,405.2 340.3,405.2 	"/>
 </g>
 </svg>
