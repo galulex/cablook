@@ -122,7 +122,6 @@ export default class UserPage extends Component {
     event.preventDefault()
     let li = event.currentTarget
     let input = li.parentElement.previousElementSibling
-    console.log(this.suggestions)
     input.value = li.querySelector('b').textContent + ' '
     trip[input.id] = input.value
     input.setAttribute('data-location', false)

@@ -16,9 +16,8 @@ export default class Bonus extends Component {
   }
 
   componentDidMount() {
-    let component = this
     axios.get('referrals').then((res) => {
-      component.setState({bonus_trips: res.data.bonus_trips, parent_bonus: res.data.parent_bonus})
+      this.setState({bonus_trips: res.data.bonus_trips, parent_bonus: res.data.parent_bonus})
     }).catch((error) => {
       if (!error.response) return;
       alert(error.response.data.errors)
@@ -86,8 +85,6 @@ export default class Bonus extends Component {
   applyFriendCode = (e) => {
     e.preventDefault()
     const params = { referral_code: this.state.friend_code }
-    let component = this
-    console.log(this.state)
     axios.post('referrals', params).then((res) => {
       alert('OK')
     }).catch((error) => {

@@ -1,26 +1,17 @@
 import { h, render, Component } from 'preact';
 import { streets } from '../streets.js'
+import Pin from '../images/pin'
+import MapPicker from '../mapPicker'
 
 export default class AddressInput extends Component {
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
       predictions: [],
       address: '',
-      isValid: false
+      isValid: false,
+      isShowMap: false
     }
-  }
-
-  render() {
-    return (
-      <fieldset>
-        <button class='remove-address' type='button' onClick={this.props.removeAddress}>×</button>
-        <input required type='text' onInput={this.autocomlete} value={this.state.address} ref={input => this.input = input}/>
-        <ul>
-          {this.state.predictions.map(this.renderPrediction)}
-        </ul>
-      </fieldset>
-    );
   }
 
   componentDidMount() {
@@ -60,21 +51,37 @@ export default class AddressInput extends Component {
   }
 
   setLocation = (place) => {
-    let address = this
     if (!place.place_id) {
-      address.setState({ address: `${place}, `, predictions: [], isValid: false });
-      address.input.focus()
+      this.setState({ address: `${place}, `, predictions: [], isValid: false });
+      this.input.focus();
       return;
     }
-    let placeService = new google.maps.places.PlacesService(document.createElement('div'))
-    placeService.getDetails({placeId: place.place_id}, function(result) {
-      address.setState({ address: place.structured_formatting.main_text, predictions: [], isValid: true });
-      address.props.setAddress(place.structured_formatting.main_text, `${result.geometry.location.lng()},${result.geometry.location.lat()}`, address.props.index)
-      address.input.setCustomValidity('')
+    let placeService = new google.maps.places.PlacesService(document.createElement('div'));
+    placeService.getDetails({placeId: place.place_id}, (result) => {
+      this.setState({ address: place.structured_formatting.main_text, predictions: [], isValid: true });
+      this.props.setAddress(place.structured_formatting.main_text, `${result.geometry.location.lng()},${result.geometry.location.lat()}`, this.props.index);
+      this.input.setCustomValidity('')
     })
   }
 
-  autocomlete = e => {
+  setLocationFromMap = ([lng, lat]) => {
+    const latlng = {lat, lng};
+    const geocoder = new google.maps.Geocoder();
+    geocoder.geocode({'location': latlng}, (results, status) => {
+      if (status === 'OK') {
+        if (results[0]) {
+          this.setState({ address: results[0].formatted_address, predictions: [], isValid: true });
+          this.props.setAddress(results[0].formatted_address, `${lng},${lat}`, this.props.index);
+        } else {
+          window.alert('No results found');
+        }
+      } else {
+        window.alert('Geocoder failed due to: ' + status);
+      }
+    });
+  }
+
+  autocomplete = e => {
     if (e.target.value === '') return false
     let hits = streets.filter(function(s) { return s.toLowerCase().indexOf(e.target.value.toLowerCase()) != -1 }).slice(0, 5)
     if (hits.length > 0) {
@@ -86,5 +93,28 @@ export default class AddressInput extends Component {
       if (!data) return this.setState({ predictions: [], address: e.target.value })
       this.setState({ predictions: data, address: e.target.value });
     })
+  }
+
+  openMap = () => {
+    this.setState({isShowMap: true});
+  };
+
+  closeMap = (coords) => () => {
+    this.setLocationFromMap(coords);
+    this.setState({isShowMap: false});
+  };
+
+  render() {
+    return (
+      <fieldset>
+        <button class='remove-address' type='button' onClick={this.props.removeAddress}>×</button>
+        <Pin color={"#19A160"} fillColor={"#19A160"} onClick={this.openMap}/>
+        {this.state.isShowMap && <MapPicker onCloseMap={this.closeMap} />}
+        <input required type='text' onInput={this.autocomplete} value={this.state.address} ref={input => this.input = input} />
+        <ul>
+          {this.state.predictions.map(this.renderPrediction)}
+        </ul>
+      </fieldset>
+    );
   }
 }
