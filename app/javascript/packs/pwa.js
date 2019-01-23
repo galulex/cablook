@@ -18,7 +18,7 @@ import Drawer from '../pwa/drawer.js';
 // });
 //
 import axios from 'axios';
-axios.defaults.baseURL = 'http://localhost:3000/api';
+axios.defaults.baseURL = '/api';
 axios.defaults.headers.common['Auth-Token'] = localStorage.token;
 axios.defaults.headers.common['Content-Type'] = 'application/json';
 

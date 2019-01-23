@@ -71,7 +71,7 @@ export default class AddressInput extends Component {
   autocomlete = e => {
     if (e.target.value === '') return false
     let autocomplete = new google.maps.places.AutocompleteService()
-    autocomplete.getPlacePredictions({input: e.target.value, componentRestrictions: {country: 'ua'}, location: new google.maps.LatLng(49.4311119, 31.9791903), radius: 10, strictbounds: true, offset: 2}, data => {
+    autocomplete.getPlacePredictions({input: e.target.value + ' Cherkasy', componentRestrictions: {country: 'ua'}, location: new google.maps.LatLng(49.4311119, 31.9791903), radius: 30000, strictbounds: true, offset: 2}, data => {
       if (!data) return this.setState({ predictions: [], address: e.target.value })
       this.setState({ predictions: data, address: e.target.value });
     })
