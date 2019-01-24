@@ -57,7 +57,6 @@ export default class Drawer extends Component {
   }
 
   click = (e) => {
-    e.preventDefault()
     if (e.pageX > 300) this.props.triggerDrawer(false)
   }
 

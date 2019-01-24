@@ -1,7 +1,11 @@
 import { h, render, Component } from 'preact';
+
 import { streets } from '../streets.js'
 import Pin from '../images/pin'
 import MapPicker from '../mapPicker'
+import i18n from '../i18n.js'
+import Cablook  from '../images/cablook.svg'
+import Location  from '../images/target.svg'
 
 export default class AddressInput extends Component {
   constructor(props) {
@@ -42,10 +46,20 @@ export default class AddressInput extends Component {
 
   renderPrediction = (prediction) => {
     return(
-      <li onClick={() => this.setLocation(prediction)}>
+      <li onClick={() => this.setLocation(prediction)} class='prediction'>
+        <Cablook width='32px'/>
         <b>{(prediction.structured_formatting) ? prediction.structured_formatting.main_text : prediction}</b>
         <br/>
         <sub>{(prediction.structured_formatting) ? prediction.structured_formatting.secondary_text : 'Cherkasy'}</sub>
+      </li>
+    )
+  }
+
+  renderGetMyLocation = () => {
+    return(
+      <li class='prediction'>
+        <Location width='32px'/>
+        <b>{i18n.address_input.location}</b>
       </li>
     )
   }
@@ -106,12 +120,14 @@ export default class AddressInput extends Component {
 
   render() {
     return (
-      <fieldset>
-        <button class='remove-address' type='button' onClick={this.props.removeAddress}>×</button>
+      <fieldset class='address'>
+        {(this.props.index > 1) && (<button class='remove-address' type='button' onClick={this.props.removeAddress}>×</button>)}
+        {(this.props.index === 0) && <Location width='32px' class='get-location'/>}
         <Pin color={"#19A160"} fillColor={"#19A160"} onClick={this.openMap}/>
         {this.state.isShowMap && <MapPicker onCloseMap={this.closeMap} />}
-        <input required type='text' onInput={this.autocomplete} value={this.state.address} ref={input => this.input = input} />
-        <ul>
+        <input required class='address' type='text' onFocus={(e) => e.target.select()} onInput={this.autocomplete} value={this.state.address} ref={input => this.input = input} />
+        <ul class='predictions'>
+          {(this.props.index == 0) && this.renderGetMyLocation()}
           {this.state.predictions.map(this.renderPrediction)}
         </ul>
       </fieldset>

@@ -3,6 +3,10 @@ const en = {
     header: 'Trips',
     loading: 'Loading...'
   },
+  current_trip: {
+    header: 'Search',
+    add_address: 'Add address'
+  },
   drawer: {
     home: 'Home',
     trips: 'Trips',
@@ -10,6 +14,9 @@ const en = {
     cards: 'Cards',
     contacts: 'Contacts',
     logout: 'Log Out'
+  },
+  address_input: {
+    location: 'My Location'
   }
 }
 

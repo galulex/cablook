@@ -1,7 +1,10 @@
 import { h, render, Component } from 'preact';
 import axios from 'axios';
 
+import i18n from './i18n.js'
 import AddressInput from '../pwa/trips/address-input.js';
+import Add  from './images/add.svg'
+import './css/current_trip.css'
 
 export default class CurrentTrip extends Component {
   constructor(props){
@@ -81,28 +84,25 @@ export default class CurrentTrip extends Component {
   }
 
   render() {
-    // if (this.state.new) {
-    //   return(
-    //     <section class="home">
-    //     </section>
-    //   )
-    // } else
     if (!this.state.new && !this.state.trip.id) {
       return(
         <section class="home">
-          <header>Search</header>
+          <header>{i18n.current_trip.header}</header>
           <form action='#'>
             { this.state.trip.stops.map((e, i) => {
               return(<AddressInput setAddress = {this.setAddress.bind(this)} removeAddress = { this.removeAddress.bind(this) } index = {i} />)
             })}
-            <button class='add-address' type='button' onClick={this.addAddress}>+</button>
+            <div>
+              <Add width='32px' class='add-address' onClick={this.addAddress}/>
+              <button type='button' onClick={this.addAddress} class='add-address'>{ i18n.current_trip.add_address }</button>
+            </div>
             <label for='nocall'>
               <input id='nocall' type='checkbox'/>
               No Call
             </label>
             <br/>
             <label for='entry'>
-              Where to pick?
+              <span>Where to pick?</span>
               <select id='entrance'>
                 <option value=''>Select Entance</option>
                 {this.state.entrance.map((el) => {

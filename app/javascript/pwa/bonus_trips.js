@@ -28,36 +28,34 @@ export default class Bonus extends Component {
     const groupByStatus = L.groupBy(this.state.bonus_trips, 'status')
     const bonusTrips = Object.keys(groupByStatus).map(el => ({ status: el, count: groupByStatus[el].length }))
     return (
-      <main id='app'>
-        <section>
-          <header>Bonus</header>
-          { this.renderFriendCodeField() }
-          <h1> Ваш реферальный код </h1>
-          {
-            document.queryCommandSupported('copy') &&
-            <div>
-              <div class='referral-code'>
-                <input
-                  ref={(textarea) => this.textArea = textarea}
-                  value= {this.state.referralCode}
-                  readOnly
-                />
-                <button onClick={this.copyToClipboard} class='purple-btn'>Скопировать</button>
-              </div>
-              <ul class='bonus-trips-list'>
-                { bonusTrips.map((bonus, i) => {
-                  return(
-                    <li>
-                      <em>{Statuses[bonus.status]}</em>
-                      <span>{bonus.count}</span>
-                    </li>
-                  )
-                })}
-              </ul>
+      <section>
+        <header>Bonus</header>
+        { this.renderFriendCodeField() }
+        <h1> Ваш реферальный код </h1>
+        {
+          document.queryCommandSupported('copy') &&
+          <div>
+            <div class='referral-code'>
+              <input
+                ref={(textarea) => this.textArea = textarea}
+                value= {this.state.referralCode}
+                readOnly
+              />
+              <button onClick={this.copyToClipboard} class='purple-btn'>Скопировать</button>
             </div>
-          }
-        </section>
-      </main>
+            <ul class='bonus-trips-list'>
+              { bonusTrips.map((bonus, i) => {
+                return(
+                  <li>
+                    <em>{Statuses[bonus.status]}</em>
+                    <span>{bonus.count}</span>
+                  </li>
+                )
+              })}
+            </ul>
+          </div>
+        }
+      </section>
     );
   };
 

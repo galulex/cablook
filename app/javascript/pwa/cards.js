@@ -32,22 +32,20 @@ export default class Cards extends Component {
 
   render() {
     return (
-      <main id='app'>
-        <section>
-          <header>Cards</header>
-          <ul>
-            { this.state.cards.map((card, i) => {
-              return(
-                <li>
-                  {card.type} {card.pan}
-                  <button type='button' onClick={() => this.delete(card.id, i)}>x</button>
-                </li>
-              )
-            })}
+      <section>
+        <header>Cards</header>
+        <ul>
+          { this.state.cards.map((card, i) => {
+            return(
+              <li>
+                {card.type} {card.pan}
+                <button type='button' onClick={() => this.delete(card.id, i)}>x</button>
+              </li>
+            )
+          })}
         </ul>
         <button type='button' onClick={this.new}>+ Add Card</button>
-        </section>
-      </main>
+      </section>
     )
   }
 

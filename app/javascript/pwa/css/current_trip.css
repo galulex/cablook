@@ -1,0 +1,142 @@
+input.address {
+  display: block;
+  width: 85%;
+  border: none;
+  border-bottom: 1px solid #d1d1d1;
+  background: transparent;
+  padding: 3% 25px 3% 0;
+  font-size: 18px;
+  color: #312d50;
+  font-weight: 900;
+  margin: 0 auto;
+}
+
+input.address:invalid {
+  border-color: #a925ad;
+}
+
+input.address:focus {
+  outline: none;
+}
+
+input.address:focus + ul {
+  visibility: visible;
+  opacity: 1;
+  transition: opacity .3s, visibility 0s 0s;
+}
+
+fieldset {
+  border: none;
+  margin: 0;
+  padding: 0;
+  position: relative;
+}
+
+fieldset.address:after {
+  position: absolute;
+  content: '';
+  border-radius: 50%;
+  width: 0;
+  height: 0;
+  border: 6px solid #efcc3a;
+  top: calc(50% - 6px);
+  left: 0;
+  transition: border-color .3s;
+}
+
+fieldset.address:before {
+  content: '';
+  height: 70%;
+  width: 0;
+  top: calc(50% + 5px);
+  border: 1px solid #d1d1d1;
+  left: 5px;
+  position: absolute;
+}
+
+fieldset.address:first-child:before {
+  height: 50%;
+  top: 80%;
+}
+
+fieldset.address:first-child:after {
+  border-color: transparent;
+}
+
+fieldset.address:last-of-type:after {
+  border-color: #312d50;
+}
+
+fieldset.address:last-of-type:before {
+  height: 50%;
+}
+
+ul.predictions {
+  margin: 0;
+  padding: 0;
+  background: white;
+  list-style: none;
+  width: 100%;
+  position: absolute;
+  top: 100%;
+  z-index: 100;
+  left: 0;
+  transition: opacity .3s, visibility 0s .5s;
+  visibility: hidden;
+  opacity: 0;
+  max-height: 60vh;
+  overflow-y: auto;
+}
+
+li.prediction {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  color: #312d50;
+  border-bottom: 1px solid #d1d1d1;
+  line-height: 1;
+  padding: 10px 0 10px 50px;
+  transition: background .2s;
+  cursor: pointer;
+  position: relative;
+}
+
+li.prediction svg {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 10px;
+  width: 34px;
+  height: 20px;
+}
+
+li.prediction:hover {
+  background: rgba(0,0,0,0.2);
+}
+
+svg.get-location, svg.add-address {
+  position: absolute;
+  left: -10px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+button.add-address {
+  background: none;
+  font-size: 18px;
+  font-weight: 700;
+  color: #312d50;
+  border: none;
+  padding: 12px 32px;
+}
+
+button.remove-address {
+  position: absolute;
+  right: -13px;
+  font-size: 2rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: #a925ad;
+}
