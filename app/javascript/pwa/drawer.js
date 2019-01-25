@@ -6,7 +6,7 @@ import Home from './images/car.svg'
 import Trip from './images/vehicle-wheel.svg'
 import Bonus from './images/bonus.svg'
 import Card from './images/credit-cards-payment.svg'
-import Contact from './images/contacts.svg'
+import Contact from './images/manual.svg'
 import LogOut from './images/sign-out.svg'
 
 export default class Drawer extends Component {

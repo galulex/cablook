@@ -1,4 +1,9 @@
 import { h, render, Component } from 'preact';
+import './css/trips.css'
+
+import TripPrice from './images/trip_price.svg'
+import TripStatus from './images/trip_status.svg'
+import TripTime from './images/trip_time.svg'
 
 export default class TripCard extends Component {
   constructor(props) {
@@ -24,7 +29,7 @@ export default class TripCard extends Component {
       width: "100%",
       position: "fixed",
       height: "100%",
-      background: "#ccc",
+      background: "white",
       left: "0",
       top: "0",
       zIndex: "10001"
@@ -41,12 +46,24 @@ export default class TripCard extends Component {
 
     const button = {
       background: "#19A160",
-      padding: "1rem",
+      padding: "10px",
       display: "inline-block",
-      width: "44%",
+      width: "49%",
       color: "white",
       textAlign: "center"
     };
+
+    const departure = []
+    const destination = []
+    const waypoints = []
+    trip.departure.map((el, index) => departure[index] = el)
+    trip.destination.map((el, index) => destination[index] = el)
+    destination.reverse()
+    departure.reverse()
+    trip.waypoints.map((w, index) => {
+      waypoints[index] = w.split(',').reverse().join(',')
+    })
+    localStorage.mapURL = 'https://api.mapbox.com/styles/v1/mapbox/streets-v10/static/pin-s-s+188753(' + departure.join(',') + '),' + waypoints.map((w) => 'pin-s-w+facc1f(' + w + '),').join('') + 'pin-s-f+312d50('+  destination.join(',') + '),path-5+188753-0.8(' + encodeURIComponent(trip.path) + ')/auto/500x500?access_token=pk.eyJ1IjoidHVwaWNraXl2IiwiYSI6ImNqcmJ1YjJsNDE2eTEzeXM3dnc4NGljZDIifQ.N5aaBOWqp1mCTjlxXrWzOQ'
 
     return (
       <div class="trip-details" style={style}>
@@ -55,16 +72,18 @@ export default class TripCard extends Component {
           <span onClick={this.closeDetails} style={backStyle}>&lArr;</span>
         </header>
         <section>
-          <img src="https://www.fillmurray.com/460/300" alt="map"/>
+          <img src={localStorage.mapURL}/>
           <div class="buttons">
-            <span style={{...button, marginRight: "10%"}}>Repeat Trip</span>
+            <span style={{...button, marginRight: "2%"}}>Repeat Trip</span>
             <span style={button}>Reverse Trip</span>
           </div>
-          <div>{`${trip.cost} UAH`}</div>
-          <div>{`Status - ${trip.human_status}`}</div>
-          <address>{trip.departure_address}</address>
-          <address>{trip.destination_address}</address>
-          <time>{trip.formatted_date}</time>
+          <div class='trip-details-content'><TripPrice/>{`${trip.cost} UAH`}</div>
+          <div class='trip-details-content'><TripStatus/>{`Status - ${trip.human_status}`}</div>
+          <div class='trip-details-content'>
+            <address>{trip.departure_address}</address>
+            <address>{trip.destination_address}</address>
+          </div>
+          <div class='trip-details-content'><TripTime/>{trip.formatted_date}</div>
         </section>
       </div>
     )
@@ -74,8 +93,10 @@ export default class TripCard extends Component {
     const { trip } = this.props;
     return (
       <li class="trip-card" onClick={this.showDetails}>
-        <address>{trip.departure_address}</address>
-        <address>{trip.destination_address}</address>
+        <div class='address-block'>
+          <address>{trip.departure_address}</address>
+          <address>{trip.destination_address}</address>
+        </div>
         <p>{[`${trip.cost} UAH`, trip.formatted_date, trip.human_status].join(", ")}</p>
         {this.state.showDetails && this.renderDetails()}
       </li>

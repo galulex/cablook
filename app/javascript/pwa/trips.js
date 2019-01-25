@@ -1,5 +1,6 @@
 import { h, render, Component } from 'preact';
 import axios from 'axios';
+import './css/trips.css'
 
 import i18n from './i18n.js'
 import TripCard from './tripCard.js'
@@ -15,6 +16,8 @@ export default class Trips extends Component {
       isLoading: true,
       page: 0,
       hasMore: true,
+      upcoming: true,
+      previous: false
     }
   }
 
@@ -65,13 +68,37 @@ export default class Trips extends Component {
     });
   };
 
+  upcomingActive = () => {
+    this.setState({upcoming: true});
+    this.setState({previous: false});
+  }
+
+  previousActive = () => {
+    this.setState({upcoming: false});
+    this.setState({previous: true});
+  }
+
   render() {
     return (
       <section class='trips'>
         <header>{i18n.trips.header}</header>
-        <ul>
-          {this.state.trips.map((trip) => <TripCard trip={trip} />)}
-        </ul>
+        <label for='upcoming_trips' onClick={this.upcomingActive.bind(this)} class={this.state.upcoming ? 'active': ''}>Upcoming</label>
+        <label for='previous_trips' onClick={this.previousActive.bind(this)} class={this.state.previous ? 'active': ''}>Previous</label>
+
+        <input id='upcoming_trips' type='radio' name='trips' class='trips-radio' checked/>
+        <div class='trips-content'>
+          <ul>
+            {this.state.trips.filter((e) => e.status < 4).map((trip) => <TripCard trip={trip} />)}
+          </ul>
+        </div>
+
+        <input id='previous_trips' type='radio' name='trips' class='trips-radio'/>
+        <div class='trips-content'>
+          <ul>
+            {this.state.trips.filter((e) => e.status > 3).map((trip) => <TripCard trip={trip} />)}
+          </ul>
+        </div>
+
         {this.state.isLoading && <div class="loader">i18n.trips.loading</div>}
       </section>
     );
