@@ -1,7 +1,7 @@
 import { h, render, Component } from 'preact';
 
 import { streets } from '../streets.js'
-import Pin from '../images/pin'
+import Pin from '../images/pin.svg'
 import MapPicker from '../mapPicker'
 import i18n from '../i18n.js'
 import Cablook  from '../images/cablook.svg'
@@ -97,6 +97,7 @@ export default class AddressInput extends Component {
 
   autocomplete = e => {
     if (e.target.value === '') return false
+    this.input.setCustomValidity('Choose address from a list')
     let hits = streets.filter(function(s) { return s.toLowerCase().indexOf(e.target.value.toLowerCase()) != -1 }).slice(0, 5)
     if (hits.length > 0) {
       this.setState({ predictions: hits, address: e.target.value });
@@ -111,21 +112,40 @@ export default class AddressInput extends Component {
 
   openMap = () => {
     this.setState({isShowMap: true});
-  };
+  }
 
   closeMap = (coords) => () => {
     this.setLocationFromMap(coords);
     this.setState({isShowMap: false});
-  };
+  }
+
+  focus = (e) => {
+    e.target.select()
+  }
+
+  blur = (e) => {
+    if (e.target.value === '' ||  e.target.checkValidity()) return;
+    let prediction = this.state.predictions[0]
+    if (prediction && prediction.structured_formatting) prediction = prediction.structured_formatting.main_text
+    this.setState({ address: prediction });
+    this.setLocation(this.state.predictions[0])
+    if (!e.target.checkValidity()) e.preventDefault()
+  }
+
+  keydown = (e) => {
+    if (e.which !== 13 || !this.state.predictions[0]) return;
+    this.setLocation(this.state.predictions[0])
+  }
 
   render() {
+    let placeholder = (this.props.index !== 0) ? i18n.address_input.where : i18n.address_input.from
     return (
       <fieldset class='address'>
         {(this.props.index > 1) && (<button class='remove-address' type='button' onClick={this.props.removeAddress}>×</button>)}
         {(this.props.index === 0) && <Location width='32px' class='get-location'/>}
-        <Pin color={"#19A160"} fillColor={"#19A160"} onClick={this.openMap}/>
+        <Pin onClick={this.openMap} height='24px' class='map-pick'/>
         {this.state.isShowMap && <MapPicker onCloseMap={this.closeMap} />}
-        <input required class='address' type='text' onFocus={(e) => e.target.select()} onInput={this.autocomplete} value={this.state.address} ref={input => this.input = input} />
+        <input required class='address' placeholder={placeholder} type='text' onKeyDown={this.keydown} onFocus={this.focus} onBlur={this.blur} onInput={this.autocomplete} value={this.state.address} ref={input => this.input = input} />
         <ul class='predictions'>
           {(this.props.index == 0) && this.renderGetMyLocation()}
           {this.state.predictions.map(this.renderPrediction)}

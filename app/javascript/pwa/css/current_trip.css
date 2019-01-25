@@ -1,14 +1,19 @@
+div.addresses {
+  min-height: calc(100vh - 390px);
+}
+
 input.address {
   display: block;
   width: 85%;
   border: none;
   border-bottom: 1px solid #d1d1d1;
   background: transparent;
-  padding: 3% 25px 3% 0;
+  padding: 4% 25px 4% 10px;
   font-size: 18px;
   color: #312d50;
   font-weight: 900;
   margin: 0 auto;
+  border-radius: 0;
 }
 
 input.address:invalid {
@@ -46,7 +51,7 @@ fieldset.address:after {
 
 fieldset.address:before {
   content: '';
-  height: 70%;
+  height: 77%;
   width: 0;
   top: calc(50% + 5px);
   border: 1px solid #d1d1d1;
@@ -55,8 +60,8 @@ fieldset.address:before {
 }
 
 fieldset.address:first-child:before {
-  height: 50%;
-  top: 80%;
+  height: 60%;
+  top: 76%;
 }
 
 fieldset.address:first-child:after {
@@ -86,6 +91,7 @@ ul.predictions {
   opacity: 0;
   max-height: 60vh;
   overflow-y: auto;
+  box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
 }
 
 li.prediction {
@@ -127,16 +133,170 @@ button.add-address {
   font-weight: 700;
   color: #312d50;
   border: none;
-  padding: 12px 32px;
+  margin: 5px 0;
+  padding: 7px 32px;
+  outline: none;
 }
 
 button.remove-address {
   position: absolute;
-  right: -13px;
+  right: -6px;
   font-size: 2rem;
   top: 50%;
   transform: translateY(-50%);
   background: none;
   border: none;
   color: #a925ad;
+  padding: 0 5px;
+  margin: 0;
+  outline: none;
+}
+
+input[type='checkbox'] {
+  margin: 0;
+  opacity: 0;
+  position: absolute;
+}
+
+label {
+  font-size: 18px;
+  font-weight: 700;
+  position: relative;
+}
+
+input[type='checkbox'] + label:after {
+  content: '';
+  background-color: transparent;
+  border: 2px solid #19A160;
+  padding: 9px;
+  display: inline-block;
+  position: relative;
+  transition: background-color .3s, box-shadow .3s;
+  margin: 10px 0px 12px 10px;
+  vertical-align: middle;
+  user-select: none;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.16);
+}
+
+input[type='checkbox']:checked + label:after {
+  background-color: #19A160;
+}
+
+input[type='checkbox']:focus + label:after {
+  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+}
+
+input[type='checkbox']:checked + label:before {
+  width: 11px;
+  height: 5px;
+  border-left: 2px solid white;
+  border-bottom: 2px solid white;
+  border-radius: 2px;
+  transition: width .3s .1s, height .3s .1s;
+  transform-origin: 30% 50%;
+  z-index: 1;
+}
+
+input[type='checkbox'] + label:before {
+  content: '';
+  width: 0px;
+  height: 0px;
+  position: absolute;
+  right: 3px;
+  top: 50%;
+  transform: translateY(-50%) rotate(-50deg);
+  border: none;
+}
+
+svg.map-pick {
+  position: absolute;
+  right: 25px;
+  top: 50%;
+  transform: translateY(-50%)
+}
+
+select#entrance, input#time {
+  padding: 5px 20px 5px 5px;
+  width: 150px;
+  max-width: 50%;
+  color: #312d50;
+  font-size: 16px;
+  background: transparent;
+  border: none;
+  transition: box-shadow .3s;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.16);
+  margin: 15px 0;
+  height: 40px;
+  border-radius: 0;
+  border: 2px solid #19A160;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+label[for='entrance']:after, label[for='time']:after {
+  content: '▼';
+  color: #19A160;
+  right: 10px;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+select#entrance:focus, input#time:focus {
+  outline: none;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+}
+
+label[for='entrance'], label[for='time'] {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+input.comment {
+  display: block;
+  background: transparent;
+  color: #312d50;
+  width: 100%;
+  margin: 15px 0;
+  padding: 10px;
+  border: 2px solid #19A160;
+  font-size: 16px;
+  outline: none;
+  transition: box-shadow .3s;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.16);
+  border-radius: 0;
+}
+
+input.comment:focus {
+  outline:  none;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+}
+
+input.submit {
+  background: #19A160;
+  border: none;
+  color: white;
+  font-size: 18px;
+  font-weight: 700;
+  transition: box-shadow .3s;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.16);
+  padding: 10px 0;
+  margin-bottom: 20px;
+  width: 100%;
+  border-radius: 0;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+input.submit:focus {
+  outline:  none;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+}
+
+div.nocall {
+  text-align: right;
 }

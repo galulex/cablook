@@ -19,7 +19,7 @@ export default class CurrentTrip extends Component {
         destination_address: '',
         osrm: true
       },
-      entrance: Array.from({length: 15}, (v, k) => k + 1),
+      entrance: Array.from({length: 15}, (v, k) => `${k + 1} ${i18n.current_trip.entrance}`),
       new: false
     }
     this.setAddress = this.setAddress.bind(this)
@@ -89,38 +89,42 @@ export default class CurrentTrip extends Component {
         <section class="home">
           <header>{i18n.current_trip.header}</header>
           <form action='#'>
-            { this.state.trip.stops.map((e, i) => {
-              return(<AddressInput setAddress = {this.setAddress.bind(this)} removeAddress = { this.removeAddress.bind(this) } index = {i} />)
-            })}
-            <div>
-              <Add width='32px' class='add-address' onClick={this.addAddress}/>
-              <button type='button' onClick={this.addAddress} class='add-address'>{ i18n.current_trip.add_address }</button>
+            <div class='addresses'>
+              { this.state.trip.stops.map((e, i) => {
+                return(<AddressInput setAddress = {this.setAddress.bind(this)} removeAddress = { this.removeAddress.bind(this) } index = {i} />)
+              })}
+              <div>
+                <Add width='32px' class='add-address' onClick={this.addAddress}/>
+                <button type='button' onClick={this.addAddress} class='add-address'>{ i18n.current_trip.add_address }</button>
+              </div>
             </div>
-            <label for='nocall'>
+            <div class='nocall'>
               <input id='nocall' type='checkbox'/>
-              No Call
-            </label>
-            <br/>
-            <label for='entry'>
+              <label for='nocall'>
+                No Call
+              </label>
+            </div>
+            <label for='entrance'>
               <span>Where to pick?</span>
               <select id='entrance'>
-                <option value=''>Select Entance</option>
+                <option value=''>{i18n.current_trip.select_entrance}</option>
                 {this.state.entrance.map((el) => {
                   return(<option value={el}>{el}</option>)
                 })}
               </select>
             </label>
-            <br/>
-            <label for='time'>When?</label>
-            <input id='time' type='time' step='600'/>
-            <input type='text' onInput={this.setComment}/>
-            <button type='button' onClick={this.build}>OK</button>
+            <label for='time'>
+              <span>When?</span>
+              <input id='time' type='time' step='600' placeholder='Now'/>
+            </label>
+            <input type='text' class='comment' placeholder={i18n.current_trip.comment} onInput={this.setComment}/>
+            <input type='submit' class='submit' onClick={this.build} value='OK'/>
           </form>
         </section>
       )
     } else {
       return(
-        <button type='button' onClick={this.create}>Go</button>
+        <button type='button' class='submit' onClick={this.create}>Go</button>
       )
     }
   }

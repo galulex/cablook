@@ -5,7 +5,10 @@ const en = {
   },
   current_trip: {
     header: 'Search',
-    add_address: 'Add address'
+    add_address: 'Add address',
+    entrance: 'Entrance',
+    select_entrance: 'Select Entrance',
+    comment: 'Comment'
   },
   drawer: {
     home: 'Home',
@@ -16,7 +19,9 @@ const en = {
     logout: 'Log Out'
   },
   address_input: {
-    location: 'My Location'
+    location: 'My Location',
+    from: 'From',
+    where: 'Where',
   }
 }
 
