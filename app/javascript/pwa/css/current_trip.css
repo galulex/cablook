@@ -65,7 +65,7 @@ fieldset.address:first-child:before {
 }
 
 fieldset.address:first-child:after {
-  border-color: transparent;
+  content: none;
 }
 
 fieldset.address:last-of-type:after {
@@ -74,6 +74,10 @@ fieldset.address:last-of-type:after {
 
 fieldset.address:last-of-type:before {
   height: 50%;
+}
+
+fieldset.addresses.nth-of-type(3) + div {
+  display: none;
 }
 
 ul.predictions {
@@ -125,6 +129,16 @@ svg.get-location, svg.add-address {
   left: -10px;
   top: 50%;
   transform: translateY(-50%);
+  cursor: pointer;
+}
+
+svg.running {
+  animation: spin .9s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: translateY(-50%) rotate(0deg); }
+  to { transform: translateY(-50%) rotate(360deg); }
 }
 
 button.add-address {
@@ -136,6 +150,7 @@ button.add-address {
   margin: 5px 0;
   padding: 7px 32px;
   outline: none;
+  cursor: pointer;
 }
 
 button.remove-address {
@@ -150,6 +165,7 @@ button.remove-address {
   padding: 0 5px;
   margin: 0;
   outline: none;
+  cursor: pointer;
 }
 
 input[type='checkbox'] {
@@ -162,6 +178,7 @@ label {
   font-size: 18px;
   font-weight: 700;
   position: relative;
+  cursor: pointer
 }
 
 input[type='checkbox'] + label:after {
@@ -192,7 +209,6 @@ input[type='checkbox']:checked + label:before {
   border-left: 2px solid white;
   border-bottom: 2px solid white;
   border-radius: 2px;
-  transition: width .3s .1s, height .3s .1s;
   transform-origin: 30% 50%;
   z-index: 1;
 }
@@ -212,7 +228,8 @@ svg.map-pick {
   position: absolute;
   right: 25px;
   top: 50%;
-  transform: translateY(-50%)
+  transform: translateY(-50%);
+  cursor: pointer;
 }
 
 select#entrance, input#time {

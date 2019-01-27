@@ -5,17 +5,12 @@ class Presenters::Trips::Single < Presenters::BaseSingle
              :user_id, :driver_id, :created_at, :stops, :time, :entrance,:no_call, :pre_order, :osrm, :vip
 
   property :status, exec_context: :decorator
-  property :human_status, exec_context: :decorator
   property :formatted_date, exec_context: :decorator
 
   collection :feedbacks, extend: Presenters::Feedbacks::Single, if: ->(options) { options[:user_options][:with_feedbacks] }
 
   def status
     Trip.statuses[represented.status]
-  end
-
-  def human_status
-    represented.status
   end
 
   def formatted_date

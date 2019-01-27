@@ -29,6 +29,13 @@ export default class CurrentTrip extends Component {
     this.setState(state => {
       state.trip.waypoints[index] = coords;
       state.trip.stops[index] = text;
+      return state
+    })
+    this.updateTrip()
+  }
+
+  updateTrip = () => {
+    this.setState(state => {
       state.trip.departure = state.trip.waypoints[0]
       state.trip.destination = state.trip.waypoints[state.trip.waypoints.length - 1]
       state.trip.departure_address = state.trip.stops[0]
@@ -47,7 +54,9 @@ export default class CurrentTrip extends Component {
     this.setState(state => {
       state.trip.stops.splice(index, 1);
       state.trip.waypoints.splice(index, 1);
+      return state
     })
+    this.updateTrip()
   }
 
   setComment = (e) => {
@@ -77,6 +86,7 @@ export default class CurrentTrip extends Component {
     axios.post('trips', {trip: component.state.trip}).then((res) => {
       localStorage.setItem('trip', res.data.id)
       component.setState({trip: res.data})
+      history.pushState('', '', '#')
     }).catch((error) => {
       if (!error.response) return;
       alert(error.response.data.errors)
@@ -84,11 +94,12 @@ export default class CurrentTrip extends Component {
   }
 
   render() {
+    let trip = this.state.trip
     if (!this.state.new && !this.state.trip.id) {
       return(
         <section class="home">
           <header>{i18n.current_trip.header}</header>
-          <form action='#'>
+          <form action='#' onSubmit={(e) => e.preventDefault()}>
             <div class='addresses'>
               { this.state.trip.stops.map((e, i) => {
                 return(<AddressInput setAddress = {this.setAddress.bind(this)} removeAddress = { this.removeAddress.bind(this) } index = {i} />)
@@ -124,7 +135,11 @@ export default class CurrentTrip extends Component {
       )
     } else {
       return(
-        <button type='button' class='submit' onClick={this.create}>Go</button>
+        <section>
+          <header>{i18n.current_trip.header}</header>
+          <img src={'https://api.mapbox.com/styles/v1/mapbox/streets-v10/static/pin-s-s+188753(' + trip.departure.join(',') + '),' + trip.waypoints.map((w) => 'pin-s-w+facc1f(' + w + '),').join('') + 'pin-s-f+312d50('+  trip.destination.join(',') + '),path-5+188753-0.8(' + encodeURIComponent(trip.path) + ')/auto/500x500?access_token=pk.eyJ1IjoidHVwaWNraXl2IiwiYSI6ImNqcmJ1YjJsNDE2eTEzeXM3dnc4NGljZDIifQ.N5aaBOWqp1mCTjlxXrWzOQ'}/>
+          <button type='button' class='submit' onClick={this.create}>Go</button>
+        </section>
       )
     }
   }

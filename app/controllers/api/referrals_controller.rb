@@ -4,7 +4,7 @@ module Api
 
     def index
       parent_bonus = BonusTrip.where(friend_id: current_user.id)
-      bonus_trips = BonusTrip.where(user_id: current_user.id)
+      bonus_trips = BonusTrip.includes(:user, :friend).where(user_id: current_user.id)
       render(
         json: {
           parent_bonus: Presenters::BonusTrips::Collection.new(parent_bonus),

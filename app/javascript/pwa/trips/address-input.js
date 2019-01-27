@@ -55,13 +55,31 @@ export default class AddressInput extends Component {
     )
   }
 
-  renderGetMyLocation = () => {
-    return(
-      <li class='prediction'>
-        <Location width='32px'/>
-        <b>{i18n.address_input.location}</b>
-      </li>
-    )
+  getLocation = (e) => {
+    let component = this
+    if (navigator.geolocation) {
+      e.target.classList.add('running')
+      navigator.geolocation.getCurrentPosition((result) => {
+        let geocoder = new google.maps.Geocoder()
+        let location = new google.maps.LatLng(result.coords.latitude, result.coords.longitude)
+        geocoder.geocode( { 'location': location}, function(res, status) {
+          if (status == 'OK') {
+            let place = res[0]
+            component.setState({ address: place.formatted_address, predictions: [], isValid: true });
+            component.props.setAddress(place.formatted_address, `${place.geometry.location.lng()},${place.geometry.location.lat()}`, component.props.index);
+            component.input.setCustomValidity('')
+          } else {
+            alert(status)
+          }
+        })
+        e.target.classList.remove('running')
+      },
+        (error) => {
+          e.target.classList.remove('running')
+          alert(error.message)
+        }
+      )
+    }
   }
 
   setLocation = (place) => {
@@ -142,12 +160,11 @@ export default class AddressInput extends Component {
     return (
       <fieldset class='address'>
         {(this.props.index > 1) && (<button class='remove-address' type='button' onClick={this.props.removeAddress}>×</button>)}
-        {(this.props.index === 0) && <Location width='32px' class='get-location'/>}
+        {(this.props.index === 0) && <Location width='32px' class='get-location' onClick={this.getLocation}/>}
         <Pin onClick={this.openMap} height='24px' class='map-pick'/>
         {this.state.isShowMap && <MapPicker onCloseMap={this.closeMap} />}
         <input required class='address' placeholder={placeholder} type='text' onKeyDown={this.keydown} onFocus={this.focus} onBlur={this.blur} onInput={this.autocomplete} value={this.state.address} ref={input => this.input = input} />
         <ul class='predictions'>
-          {(this.props.index == 0) && this.renderGetMyLocation()}
           {this.state.predictions.map(this.renderPrediction)}
         </ul>
       </fieldset>

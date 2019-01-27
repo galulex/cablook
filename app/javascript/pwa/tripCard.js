@@ -78,7 +78,7 @@ export default class TripCard extends Component {
             <span style={button}>Reverse Trip</span>
           </div>
           <div class='trip-details-content'><TripPrice/>{`${trip.cost} UAH`}</div>
-          <div class='trip-details-content'><TripStatus/>{`Status - ${trip.human_status}`}</div>
+          <div class='trip-details-content'><TripStatus/>{`Status - ${trip.status}`}</div>
           <div class='trip-details-content'>
             <address>{trip.departure_address}</address>
             <address>{trip.destination_address}</address>
@@ -97,7 +97,7 @@ export default class TripCard extends Component {
           <address>{trip.departure_address}</address>
           <address>{trip.destination_address}</address>
         </div>
-        <p>{[`${trip.cost} UAH`, trip.formatted_date, trip.human_status].join(", ")}</p>
+        <p>{[`${trip.cost} UAH`, trip.formatted_date, trip.status].join(", ")}</p>
         {this.state.showDetails && this.renderDetails()}
       </li>
     );
