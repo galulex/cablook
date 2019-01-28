@@ -1,0 +1,54 @@
+ul.cards li {
+  border-bottom: 1px solid #d1d1d1;
+  position: relative;
+}
+
+ul.cards svg {
+  vertical-align: middle;
+  margin-right: 20px;
+  width: 64px;
+  height: 64px;
+}
+
+button.x-card {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  border-radius: 50%;
+  border: none;
+  background: #a925ad;
+  color: white;
+  width: 24px;
+  height: 24px;
+  outline: none;
+  line-height: 1;
+  font-size: 22px;
+}
+
+button.add-card {
+  position: fixed;
+  bottom: 0;
+  left: 10%;
+  width: 80%;
+}
+
+body.wfp-widget-open main {
+  margin-right: -15px;
+}
+
+h1.nocards {
+  text-align: center;
+  color: white;
+  font-weight: 300;
+}
+
+svg.nocards {
+  width: 75%;
+  display: block;
+  margin: 0 auto;
+}
+
+svg.nocards path {
+  fill: white;
+}

@@ -22,6 +22,10 @@ const en = {
     location: 'My Location',
     from: 'From',
     where: 'Where',
+  },
+  cards: {
+    add: 'Add Card',
+    no_cards: 'You have no cards'
   }
 }
 

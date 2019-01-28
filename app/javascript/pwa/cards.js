@@ -2,6 +2,12 @@ import { h, render, Component } from 'preact';
 import md5 from 'crypto-js/hmac-md5';
 import axios from 'axios';
 
+import i18n from './i18n.js';
+import './css/cards.css'
+import CardsIcon from './images/credit-cards-payment.svg'
+import Visa from './images/visa.svg'
+import MasterCard from './images/mastercard.svg'
+
 export default class Cards extends Component {
   constructor(props) {
     super(props)
@@ -30,21 +36,36 @@ export default class Cards extends Component {
     }
   }
 
+  renderCardType = (type) => {
+    if (type === 'Visa') {
+      return(<Visa/>)
+    } else {
+      return(<MasterCard/>)
+    }
+  }
+
   render() {
-    return (
-      <section>
-        <header>Cards</header>
-        <ul>
+    let cardList = (<div><h1 class='nocards'>{i18n.cards.no_cards}</h1><CardsIcon class='nocards'/></div>)
+    if (this.state.cards.length > 0) {
+      cardList = (
+        <ul class='cards'>
           { this.state.cards.map((card, i) => {
             return(
               <li>
-                {card.type} {card.pan}
-                <button type='button' onClick={() => this.delete(card.id, i)}>x</button>
+                { this.renderCardType(card.type) }
+                <span>{card.pan}</span>
+                <button class='x-card' type='button' onClick={() => this.delete(card.id, i)}>×</button>
               </li>
             )
           })}
         </ul>
-        <button type='button' onClick={this.new}>+ Add Card</button>
+      )
+    }
+    return (
+      <section>
+        <header>Cards</header>
+        { cardList }
+        <button class='add-card' type='button' onClick={this.new}>+ {i18n.cards.add}</button>
       </section>
     )
   }
@@ -88,7 +109,7 @@ export default class Cards extends Component {
     this.productName = 'Удержание за добавление карты'
     this.productPrice = '1'
     this.transactionType = 'VERIFY'
-    this.clientPhone = localStorage.number
+    this.clientPhone = localStorage.phone
     this.clientEmail = localStorage.email
     this.productCount = '1'
     this.paymentSystem = 'card'
@@ -113,9 +134,9 @@ export default class Cards extends Component {
     if (!confirm('Are you sure?')) return;
     let component = this
     let cards = this.state.cards
-    cards.splice(index, 1)
 
     axios.delete(`cards/${id}`).then((card) => {
+      cards.splice(index, 1)
       component.setState({cards: cards})
     }).catch((error) => {
       if (!error.response) return;
