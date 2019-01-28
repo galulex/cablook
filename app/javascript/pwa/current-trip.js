@@ -20,7 +20,8 @@ export default class CurrentTrip extends Component {
         osrm: true
       },
       entrance: Array.from({length: 15}, (v, k) => `${k + 1} ${i18n.current_trip.entrance}`),
-      new: false
+      new: false,
+      isValid: false
     }
     this.setAddress = this.setAddress.bind(this)
   }
@@ -95,6 +96,7 @@ export default class CurrentTrip extends Component {
 
   render() {
     let trip = this.state.trip
+    let isValid =  (this.state.trip.stops.includes(''))
     if (!this.state.new && !this.state.trip.id) {
       return(
         <section class="home">
@@ -105,8 +107,8 @@ export default class CurrentTrip extends Component {
                 return(<AddressInput setAddress = {this.setAddress.bind(this)} removeAddress = { this.removeAddress.bind(this) } index = {i} />)
               })}
               <div>
-                <Add width='32px' class='add-address' onClick={this.addAddress}/>
-                <button type='button' onClick={this.addAddress} class='add-address'>{ i18n.current_trip.add_address }</button>
+                <Add width='32px' class='add-address' onClick={this.addAddress} disabled={isValid}/>
+                <button type='button' onClick={this.addAddress} class='add-address' disabled={isValid}>{ i18n.current_trip.add_address }</button>
               </div>
             </div>
             <div class='nocall'>

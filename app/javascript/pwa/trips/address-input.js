@@ -14,34 +14,13 @@ export default class AddressInput extends Component {
       predictions: [],
       address: '',
       isValid: false,
-      isShowMap: false
+      isShowMap: false,
+      geocoded: false
     }
   }
 
   componentDidMount() {
     this.input.setCustomValidity('Choose address from a list')
-  }
-
-  renderLocationButton = (i) => {
-    if (i == 0) return(<button type='button' onClick={this.getCurrentLocation}>^</button>)
-  }
-
-  getCurrentLocation = () => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(result => {
-        var location = new google.maps.LatLng(result.latitude, result.longitude);
-        var geocoder = new google.maps.Geocoder();
-        console.log(result)
-        geocoder.geocode({ 'location': location }, (result, status) => {
-          console.log(status)
-        })
-      },
-        (error) => { console.log(error.message) },
-        { enableHighAccuracy: true }
-      );
-    } else {
-       alert("Geolocation is not supported by this browser.");
-    }
   }
 
   renderPrediction = (prediction) => {
@@ -65,7 +44,7 @@ export default class AddressInput extends Component {
         geocoder.geocode( { 'location': location}, function(res, status) {
           if (status == 'OK') {
             let place = res[0]
-            component.setState({ address: place.formatted_address, predictions: [], isValid: true });
+            component.setState({ address: place.formatted_address, predictions: [], isValid: true, geocoded: true });
             component.props.setAddress(place.formatted_address, `${place.geometry.location.lng()},${place.geometry.location.lat()}`, component.props.index);
             component.input.setCustomValidity('')
           } else {
@@ -160,7 +139,7 @@ export default class AddressInput extends Component {
     return (
       <fieldset class='address'>
         {(this.props.index > 1) && (<button class='remove-address' type='button' onClick={this.props.removeAddress}>×</button>)}
-        {(this.props.index === 0) && <Location width='32px' class='get-location' onClick={this.getLocation}/>}
+        {(this.props.index === 0) && <Location width='32px' class='get-location' onClick={this.getLocation} disabled={this.state.geocoded}/>}
         <Pin onClick={this.openMap} height='24px' class='map-pick'/>
         {this.state.isShowMap && <MapPicker onCloseMap={this.closeMap} />}
         <input required class='address' placeholder={placeholder} type='text' onKeyDown={this.keydown} onFocus={this.focus} onBlur={this.blur} onInput={this.autocomplete} value={this.state.address} ref={input => this.input = input} />
