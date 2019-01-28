@@ -51,7 +51,7 @@ export default class Trips extends Component {
 
   handleScroll = () => {
     if (this.state.isLoading || !this.state.hasMore) return;
-    if ((window.innerHeight + document.body.scrollTop >= document.body.scrollHeight) && this.state.trips.length) {
+    if ((window.innerHeight + document.documentElement.scrollTop >= document.body.scrollHeight) && this.state.trips.length) {
       this.loadTrips()
     }
   };
@@ -69,13 +69,11 @@ export default class Trips extends Component {
   };
 
   upcomingActive = () => {
-    this.setState({upcoming: true});
-    this.setState({previous: false});
+    this.setState({upcoming: true, previous: false});
   }
 
   previousActive = () => {
-    this.setState({upcoming: false});
-    this.setState({previous: true});
+    this.setState({upcoming: false, previous: true});
   }
 
   render() {
