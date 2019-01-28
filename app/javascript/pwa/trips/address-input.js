@@ -123,14 +123,13 @@ export default class AddressInput extends Component {
   blur = (e) => {
     if (e.target.value === '' ||  e.target.checkValidity()) return;
     let prediction = this.state.predictions[0]
-    if (prediction && prediction.structured_formatting) prediction = prediction.structured_formatting.main_text
-    this.setState({ address: prediction });
-    this.setLocation(this.state.predictions[0])
-    if (!e.target.checkValidity()) e.preventDefault()
+    this.setLocation(prediction)
   }
 
   keydown = (e) => {
-    if (e.which !== 13 || !this.state.predictions[0]) return;
+    let prediction = this.state.predictions[0]
+    if (e.which !== 13 || !prediction.place_id) return;
+    console.log(!this.state.predictions[0])
     this.setLocation(this.state.predictions[0])
   }
 
@@ -138,7 +137,7 @@ export default class AddressInput extends Component {
     let placeholder = (this.props.index !== 0) ? i18n.address_input.where : i18n.address_input.from
     return (
       <fieldset class='address'>
-        {(this.props.index > 1) && (<button class='remove-address' type='button' onClick={this.props.removeAddress}>×</button>)}
+        {(this.props.index > 1) && (<button class='remove-address' type='button' onClick={() => this.props.removeAddress(this.props.index)}>×</button>)}
         {(this.props.index === 0) && <Location width='32px' class='get-location' onClick={this.getLocation} disabled={this.state.geocoded}/>}
         <Pin onClick={this.openMap} height='24px' class='map-pick'/>
         {this.state.isShowMap && <MapPicker onCloseMap={this.closeMap} />}
