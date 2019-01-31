@@ -1,7 +1,14 @@
 import { h, render, Component } from 'preact';
 import axios from 'axios';
 
-import Logo from './images/logo.svg';
+import i18n from './i18n.js';
+import Phone from './images/green_phone.svg';
+import Logo from './images/logo_light.svg';
+import Lock from './images/lock.svg';
+import City from './images/city.svg';
+import Road from './images/road.svg';
+import Nissan from './images/nissan.svg';
+import './css/session.css';
 
 export default class Session extends Component {
   constructor(props) {
@@ -17,13 +24,18 @@ export default class Session extends Component {
     return (
       <main id='app' class='login'>
         <section>
-          <Logo />
-          <h1><b>CAB</b>LOOK</h1>
+          <Logo class='logo'/>
+          <div><b>CAB</b>LOOK</div>
           { this.state.isCodeSent
             ? this.renderCode()
             : this.renderNumber()
           }
         </section>
+      <div class='city_road'>
+        <City class='city'/>
+        <Nissan class='nissan'/>
+        <Road class='road'/>
+      </div>
       </main>
     )
 }
@@ -31,9 +43,11 @@ export default class Session extends Component {
   renderNumber = () => {
     return(
       <form onSubmit={this.createSession}>
+        <Phone class='phone'/>
         <label for='number'>+380</label>
-        <input id='number' title='7 digits' pattern='[0-9]*' maxlength='9' minlength='9' placeholder='932225665' required type='tel' autoFocus onInput={this.updateNumber}/>
-        <button type='submit'>OK</button>
+        <input id='number' title='7 digits' pattern='[0-9]*' maxlength='9' minlength='9' placeholder='_ _  _ _ _  _ _ _ _' required type='tel' autocomplete='off' autoFocus onInput={this.updateNumber}/>
+        <button type='submit'>{i18n.session.number}</button>
+        <p><i>{i18n.session.policy} <a href='#'>{i18n.session.policy_link}</a></i></p>
       </form>
     )
   }
@@ -41,10 +55,11 @@ export default class Session extends Component {
   renderCode = () => {
     return(
       <form onSubmit={this.updateSession}>
-        <label for='code'>Enter SMS code</label>
-        <input id='code' title='4 digits' pattern='\d*' placeholder='1234' maxlength='4' minlength='4' required type='tel' value={this.state.code} autoFocus onInput={this.updateCode}/>
-        <button type='button' onClick={this.resetNumber}>Change phone number</button>
-        <button type='submit'>OK</button>
+        <Lock class='lock'/>
+        <label for='code'>{i18n.session.code}</label>
+        <input id='code' title='4 digits' pattern='\d*' placeholder='_ _ _ _' maxlength='4' minlength='4' required type='tel' value={this.state.code} autocomplete='off' autoFocus onInput={this.updateCode}/>
+        <button type='button' onClick={this.resetNumber}>{i18n.session.change}</button>
+        <button type='submit'>{i18n.session.code_button}</button>
       </form>
     )
   }

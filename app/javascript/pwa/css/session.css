@@ -1,0 +1,144 @@
+main.login section {
+  padding: 30px 30px 0 30px;
+}
+
+main.login div.city_road {
+  padding-top: 5px;
+  position: relative;
+}
+
+main.login div {
+  font-size: 1.6rem;
+}
+
+main.login div, 
+main.login form {
+  text-align: center;
+  color: white;
+}
+
+label[for='number'] {
+  display: inline-block;
+  position: absolute;
+  top: 15px;
+  left: 40px;
+  color: #19a160;
+}
+
+label[for='code'] {
+  color: white;
+  top: 15px;
+  font-weight: 100;
+}
+
+main.login input {
+  width: 100%;
+  display: block;
+  border: none;
+  background: transparent;
+  box-shadow: inset 0px 0px 15px 0px rgba(15,14,15,0.7);
+  color: white;
+  border: 2px solid white;
+  font-size: 1.1rem;
+  padding: 12px 12px 12px 45px;
+  margin: 15px 0;
+  outline: none;
+  position: relative;
+  box-sizing: border-box;
+}
+
+main.login input#number {
+  border: 2px solid #a925ad;
+  padding: 12px 12px 12px 85px;
+}
+
+main.login input#number:valid {
+  border: 2px solid white;
+}
+
+main.login p {
+  font-size: 1rem;
+}
+
+main.login a:link, 
+main.login a:visited, 
+main.login input::placeholder {
+  color: white;
+}
+
+main.login button {
+  background: #19a160;
+  color: white;
+  font-weight: 500;
+  font-size: 1em;
+  border: none;
+  padding: 11px 0;
+  display: block;
+  width: 100%;
+  margin: 15px 0;
+  cursor: pointer;
+  transition: .3s;
+  position: relative;
+  outline: none;
+}
+
+main.login svg.logo {
+  margin: 0 30%;
+}
+
+main.login svg.phone {
+  display: inline-block;
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  max-width: 20px;
+  top: 15px;
+  left: 15px;
+}
+
+main.login svg.lock {
+  display: inline-block;
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  max-width: 20px;
+  top: 50px;
+  left: 15px;
+}
+
+main.login svg.city {
+  width: 114%;
+  margin-left: -7%;
+  min-width: 700px;
+  position: relative;
+  max-height: 250px;
+}
+
+main.login svg.nissan {
+  width: 40%;
+  transition: -webkit-transform 2s;
+  transition: transform 2s;
+  transition: transform 2s, -webkit-transform 2s;
+  max-height: 150px;
+}
+
+main.login svg.road {
+  width: 114%;
+  position: absolute;
+  bottom: 0;
+  top: auto;
+  left: -7%;
+  right: 0;
+  max-height: 150px;
+}
+
+@keyframes dash {
+  to {
+    stroke-dashoffset: -48;
+  }
+}
+
+ellipse[stroke-dasharray] {
+  stroke-dashoffset: 0;
+  animation: dash .3s linear infinite;
+}

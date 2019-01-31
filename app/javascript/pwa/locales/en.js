@@ -29,6 +29,14 @@ const en = {
   },
   find_driver: {
     cancel: 'Cancel'
+  },
+  session: {
+    number: 'Sign up',
+    code: 'Enter SMS code',
+    code_button: 'Next',
+    change: 'Change phone number',
+    policy: "By pressing sign up you're accepting",
+    policy_link: 'privacy policy'
   }
 }
 
