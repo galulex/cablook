@@ -11,19 +11,21 @@ export default class Trips extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      trips: [],
+      trips: this.props.trips || [],
       trip: null,
       isLoading: true,
       page: 0,
       hasMore: true,
-      upcoming: true,
-      previous: false
+      upcoming: true
     }
   }
 
   componentDidMount() {
+    console.log(this.props)
+    if (this.props.trips && this.props.trips.length > 0) return;
     axios.get(`trips?page=${this.state.page}&per=${PER_PAGE}`).then((res) => {
       this.setState(this.applySetResult(res.data))
+      this.props.updateTrips(res.data.trips)
     }).catch((error) => {
       this.setState({isLoading: false});
       if (!error.response) return;
@@ -40,13 +42,15 @@ export default class Trips extends Component {
     trips: [...prevState.trips, ...result.trips],
     page: prevState.page + 1,
     isLoading: false,
-    hasMore: !!result.trips.length
+    hasMore: !!result.trips.length,
+    upcoming: false
   });
 
   applySetResult = (result) => () => ({
     trips: result.trips,
     isLoading: false,
-    hasMore: !!result.trips.length
+    hasMore: !!result.trips.length,
+    upcoming: true
   });
 
   handleScroll = () => {
@@ -68,20 +72,16 @@ export default class Trips extends Component {
     });
   };
 
-  upcomingActive = () => {
-    this.setState({upcoming: true, previous: false});
-  }
-
-  previousActive = () => {
-    this.setState({upcoming: false, previous: true});
+  upcomingTab = (val) => {
+    this.setState({upcoming: val});
   }
 
   render() {
     return (
       <section class='trips'>
         <header>{i18n.trips.header}</header>
-        <label for='upcoming_trips' onClick={this.upcomingActive.bind(this)} class={this.state.upcoming ? 'active': ''}>Upcoming</label>
-        <label for='previous_trips' onClick={this.previousActive.bind(this)} class={this.state.previous ? 'active': ''}>Previous</label>
+        <label for='upcoming_trips' onClick={() => this.upcomingTab(true)} class={this.state.upcoming ? 'active': ''}>Upcoming</label>
+        <label for='previous_trips' onClick={() => this.upcomingTab(false)} class={!this.state.upcoming ? 'active': ''}>Previous</label>
 
         <input id='upcoming_trips' type='radio' name='trips' class='trips-radio' checked/>
         <div class='trips-content'>

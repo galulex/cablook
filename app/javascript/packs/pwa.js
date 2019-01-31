@@ -29,13 +29,26 @@ export default class App extends Component {
     super(props)
     this.state = {
       currentUser: localStorage.token,
-      drawer: false
+      drawer: false,
+      cards: []
     }
+  }
+
+  componentDidMount() {
+    if (this.state.currentUser) this.fetchCards()
   }
 
   handleRoute = e => {
     this.currentUrl = e.url;
   };
+
+  fetchCards = () => {
+    axios.get('cards').then((res) => {
+      this.setState({cards: res.data.cards})
+    }).catch((error) => {
+      if (error.response) alert(error.response.data.errors)
+    })
+  }
 
   logIn = (data) => {
     this.setState({currentUser: data.auth_token})
@@ -45,6 +58,7 @@ export default class App extends Component {
     localStorage.setItem('email', data.email)
     localStorage.setItem('phone', data.phone_number)
     axios.defaults.headers.common['Auth-Token'] = data.auth_token;
+    this.fetchCards()
   }
 
   logOut = () => {
@@ -57,24 +71,28 @@ export default class App extends Component {
     this.setState({drawer: open})
   }
 
+  updateCards = (cards) => {
+    this.setState({cards: cards, drawer: this.state.drawer})
+  }
+
   render() {
     if (this.state.currentUser) {
       return(
         <main id="app">
-          <Drawer active={this.state.drawer} triggerDrawer = {this.triggerDrawer.bind(this)} logOut={this.logOut.bind(this)}/>
+          <Drawer active={this.state.drawer} triggerDrawer = {this.triggerDrawer} logOut={this.logOut}/>
           <button class='burger' onClick={() => this.triggerDrawer(true)}>☰</button>
           <Router>
             <CurrentTrip path='/pwa' />
             <Trips path='/pwa/trips' />
             <Bonus path='/pwa/bonus_trips' />
-            <Cards path='/pwa/cards' />
+            <Cards path='/pwa/cards' cards={() => this.state.cards} updateCards={this.updateCards} />
             <Contacts path='/pwa/contacts' />
           </Router>
         </main>
       )
     } else {
       return(
-        <Session login = {this.logIn.bind(this)} ></Session>
+        <Session login = {this.logIn} ></Session>
       )
     }
   }

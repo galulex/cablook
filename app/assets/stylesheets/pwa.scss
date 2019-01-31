@@ -45,6 +45,14 @@ aside.active:before {
 }
 
 aside a {
+  transition: background .3s;
+}
+
+aside a:hover {
+  background: rgba(0,0,0,.05);
+}
+
+aside a {
   border-bottom: 1px solid grey;
   margin: 0 3% 0 5%;
   display: block;

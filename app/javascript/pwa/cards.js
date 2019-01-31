@@ -12,19 +12,16 @@ export default class Cards extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      cards: []
+      cards: this.props.cards()
     }
   }
 
   componentDidMount() {
-    let component = this
     this.loadWidget()
-    axios.get('cards').then((res) => {
-      component.setState({cards: res.data.cards})
-    }).catch((error) => {
-      if (!error.response) return;
-      alert(error.response.data.errors)
-    })
+  }
+
+  componentWillReceiveProps() {
+    this.setState({cards: this.props.cards()})
   }
 
   loadWidget = () => {
@@ -81,7 +78,6 @@ export default class Cards extends Component {
         }, 1000)
       },
       response =>{
-        alert(response)
       },
       response =>{
         setTimeout(function(){
@@ -118,29 +114,27 @@ export default class Cards extends Component {
   }
 
   create = (data) => {
-    const component = this
     let cards = this.state.cards
 
     axios.post('cards', data).then((res) => {
       cards.push(res.data)
-      component.setState({cards: cards})
+      this.setState({cards: cards})
+      this.props.updateCards(cards)
     }).catch((error) => {
-      if (!error.response) return;
-      alert(error.response.data.errors)
+      if (error.response) alert(error.response.data.errors)
     })
   }
 
   delete = (id, index) => {
     if (!confirm('Are you sure?')) return;
-    let component = this
     let cards = this.state.cards
 
     axios.delete(`cards/${id}`).then((card) => {
       cards.splice(index, 1)
-      component.setState({cards: cards})
+      this.setState({cards: cards})
+      this.props.updateCards(cards)
     }).catch((error) => {
-      if (!error.response) return;
-      alert(error.response.data.errors)
+      if (error.response) alert(error.response.data.errors)
     })
   }
 }
