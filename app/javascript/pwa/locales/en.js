@@ -26,6 +26,9 @@ const en = {
   cards: {
     add: 'Add Card',
     no_cards: 'You have no cards'
+  },
+  find_driver: {
+    cancel: 'Cancel'
   }
 }
 
