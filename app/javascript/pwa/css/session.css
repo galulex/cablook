@@ -1,12 +1,6 @@
 main.login section {
   padding: 30px 30px 0 30px;
 }
-
-main.login div.city_road {
-  padding-top: 5px;
-  position: relative;
-}
-
 main.login div {
   font-size: 1.6rem;
 }
@@ -116,9 +110,6 @@ main.login svg.city {
 
 main.login svg.nissan {
   width: 40%;
-  transition: -webkit-transform 2s;
-  transition: transform 2s;
-  transition: transform 2s, -webkit-transform 2s;
   max-height: 150px;
 }
 
@@ -130,6 +121,11 @@ main.login svg.road {
   left: -7%;
   right: 0;
   max-height: 150px;
+}
+
+main.login div.city_road {
+  padding-top: 5px;
+  position: relative;
 }
 
 @keyframes dash {
