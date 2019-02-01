@@ -8,6 +8,7 @@ import Bonus from './images/bonus.svg'
 import Card from './images/credit-cards-payment.svg'
 import Contact from './images/manual.svg'
 import LogOut from './images/sign-out.svg'
+import './css/drawer.css'
 
 export default class Drawer extends Component {
   constructor(props) {

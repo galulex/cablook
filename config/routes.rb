@@ -54,7 +54,7 @@ Rails.application.routes.draw do
   end
 
   # scope '(:locale)', locale: /(ru)/, defaults: { locale: :uk } do
-  get 'pwa(/:page)' => 'welcome#pwa', as: :pwa
+  get '/pwa(/*all)' => 'welcome#pwa', as: :pwa
   get ':page' => 'welcome#index', constraints: { page: /(about|faq|why|benefits|contacts)/ }, defaults: { page: 'index' }, as: :page
   get 'benefits/ext_opportunities', to: 'welcome#index', defaults: { page: 'ext_opportunities' }, as: :ext_opp
   # end
