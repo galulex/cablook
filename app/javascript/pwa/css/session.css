@@ -1,9 +1,5 @@
-main.login section {
-  padding: 30px 30px 0 30px;
-}
-main.login div {
-  font-size: 1.6rem;
-}
+main.login section { padding: 30px 30px 0 30px; }
+main.login div { font-size: 1.6rem; }
 
 main.login div, 
 main.login form {
@@ -26,9 +22,7 @@ label[for='code'] {
   font-weight: 100;
 }
 
-main.number_input {
-  position: relative;
-}
+main.number_input { position: relative; }
 
 main.login input {
   width: 100%;
@@ -51,13 +45,9 @@ main.login input#number {
   padding: 12px 12px 12px 77px;
 }
 
-main.login input#number:valid {
-  border: 2px solid white;
-}
+main.login input#number:valid { border: 2px solid white; }
 
-main.login p {
-  font-size: 1rem;
-}
+main.login p { font-size: 1rem; }
 
 main.login a:link, 
 main.login a:visited, 
@@ -81,13 +71,9 @@ main.login button {
   outline: none;
 }
 
-main.login button.change {
-  background: #efcc3a;
-}
+main.login button.change { background: #efcc3a; }
 
-main.login svg.logo {
-  margin: 0 30%;
-}
+main.login svg.logo { margin: 0 30%; }
 
 main.login svg.phone {
   width: 20px;
@@ -130,9 +116,7 @@ main.login svg.nissan {
 }
 
 @keyframes dash {
-  to {
-    stroke-dashoffset: -48;
-  }
+  to { stroke-dashoffset: -48; }
 }
 
 ellipse[stroke-dasharray] {
