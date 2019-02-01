@@ -21,16 +21,8 @@ export default class Trips extends Component {
   }
 
   componentDidMount() {
-    console.log(this.props)
     if (this.props.trips && this.props.trips.length > 0) return;
-    axios.get(`trips?page=${this.state.page}&per=${PER_PAGE}`).then((res) => {
-      this.setState(this.applySetResult(res.data))
-      this.props.updateTrips(res.data.trips)
-    }).catch((error) => {
-      this.setState({isLoading: false});
-      if (!error.response) return;
-      alert(error.response.data.errors)
-    });
+    this.loadTrips()
     window.addEventListener('scroll', this.handleScroll, true);
   }
 
@@ -43,31 +35,23 @@ export default class Trips extends Component {
     page: prevState.page + 1,
     isLoading: false,
     hasMore: !!result.trips.length,
-    upcoming: false
-  });
-
-  applySetResult = (result) => () => ({
-    trips: result.trips,
-    isLoading: false,
-    hasMore: !!result.trips.length,
-    upcoming: true
+    upcoming: prevState.upcoming
   });
 
   handleScroll = () => {
     if (this.state.isLoading || !this.state.hasMore) return;
-    if ((window.innerHeight + document.documentElement.scrollTop >= document.body.scrollHeight) && this.state.trips.length) {
+    if ((window.innerHeight + window.scrollY >= (document.body.scrollHeight - 300)) && this.state.trips.length) {
       this.loadTrips()
     }
   };
 
   loadTrips = () => {
     this.setState({ isLoading: true }, () => {
-      axios.get(`trips?page=${this.state.page + 1}&per=${PER_PAGE}`).then((res) => {
+      axios.get(`trips?page=${this.state.page}&per=${PER_PAGE}`).then((res) => {
         this.setState(this.applyUpdateResult(res.data))
       }).catch((error) => {
         this.setState({isLoading: false});
-        if (!error.response) return;
-        alert(error.response.data.errors)
+        if (error.response) alert(error.response.data.errors)
       });
     });
   };
@@ -80,8 +64,10 @@ export default class Trips extends Component {
     return (
       <section class='trips'>
         <header>{i18n.trips.header}</header>
-        <label for='upcoming_trips' onClick={() => this.upcomingTab(true)} class={this.state.upcoming ? 'active': ''}>Upcoming</label>
-        <label for='previous_trips' onClick={() => this.upcomingTab(false)} class={!this.state.upcoming ? 'active': ''}>Previous</label>
+        <nav>
+          <label for='upcoming_trips' onClick={() => this.upcomingTab(true)} class={this.state.upcoming ? 'active': ''}>{i18n.trips.upcoming}</label>
+          <label for='previous_trips' onClick={() => this.upcomingTab(false)} class={!this.state.upcoming ? 'active': ''}>{i18n.trips.past}</label>
+        </nav>
 
         <input id='upcoming_trips' type='radio' name='trips' class='trips-radio' checked/>
         <div class='trips-content'>
@@ -90,14 +76,14 @@ export default class Trips extends Component {
           </ul>
         </div>
 
-        <input id='previous_trips' type='radio' name='trips' class='trips-radio'/>
+        <input id='previous_trips' type='radio' name='trips' class='trips-radio' checked={!this.state.upcoming}/>
         <div class='trips-content'>
           <ul>
             {this.state.trips.filter((e) => e.status > 3).map((trip) => <TripCard trip={trip} />)}
           </ul>
         </div>
 
-        {this.state.isLoading && <div class="loader">i18n.trips.loading</div>}
+        {this.state.isLoading && <div class="loader">{i18n.trips.loading}</div>}
       </section>
     );
   }

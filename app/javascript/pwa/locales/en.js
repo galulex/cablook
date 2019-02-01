@@ -1,7 +1,24 @@
 const en = {
+  trip: {
+    header: 'Trip Details',
+    currency: 'UAH'
+  },
   trips: {
     header: 'Trips',
-    loading: 'Loading...'
+    loading: 'Loading...',
+    status: 'Status',
+    statuses: {
+      0: 'pending',
+      1: 'on_the_way',
+      2: 'waiting_client',
+      3: 'driving',
+      4: 'finished',
+      5: 'canceled',
+      6: 'declined',
+      7: 'canceled_by_driver'
+    },
+    upcoming: 'Upcoming',
+    past: 'Past'
   },
   current_trip: {
     header: 'Search',
@@ -35,7 +52,7 @@ const en = {
     code: 'Enter SMS code',
     code_button: 'Next',
     change: 'Change phone number',
-    policy: "By pressing sign up you're accepting",
+    policy: 'By pressing sign up you\'re accepting',
     policy_link: 'privacy policy'
   }
 }

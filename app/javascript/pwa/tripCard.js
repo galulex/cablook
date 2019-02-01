@@ -4,6 +4,8 @@ import './css/trips.css'
 import TripPrice from './images/trip_price.svg'
 import TripStatus from './images/trip_status.svg'
 import TripTime from './images/trip_time.svg'
+import Back from './images/arrow-left.svg'
+import i18n from './i18n.js'
 
 export default class TripCard extends Component {
   constructor(props) {
@@ -15,34 +17,19 @@ export default class TripCard extends Component {
 
   showDetails = () => {
     if (this.state.showDetails) return;
+    history.pushState(null, 'Trip Details','/pwa/trips');
     this.setState({showDetails: true})
+    window.addEventListener('popstate', this.handleBack, true);
   };
 
-  closeDetails = (e) => {
-    e.stopPropagation();
+  handleBack = (event) => {
     this.setState({showDetails: false})
+    window.removeEventListener('popstate', this.handleBack, true);
+    event.stopPropagation();
   };
 
   renderDetails = () => {
     const { trip } = this.props;
-    const style = {
-      width: "100%",
-      position: "fixed",
-      height: "100%",
-      background: "white",
-      left: "0",
-      top: "0",
-      zIndex: "10001"
-    };
-
-    const backStyle = {
-      background: "#19A160",
-      height: "100%",
-      position: "absolute",
-      left: "0",
-      top: "0",
-      padding: "1rem"
-    };
 
     const button = {
       background: "#19A160",
@@ -63,13 +50,13 @@ export default class TripCard extends Component {
     trip.waypoints.map((w, index) => {
       waypoints[index] = w.split(',').reverse().join(',')
     })
-    localStorage.mapURL = 'https://api.mapbox.com/styles/v1/mapbox/streets-v10/static/pin-s-s+188753(' + departure.join(',') + '),' + waypoints.map((w) => 'pin-s-w+facc1f(' + w + '),').join('') + 'pin-s-f+312d50('+  destination.join(',') + '),path-5+188753-0.8(' + encodeURIComponent(trip.path) + ')/auto/500x500?access_token=pk.eyJ1IjoidHVwaWNraXl2IiwiYSI6ImNqcmJ1YjJsNDE2eTEzeXM3dnc4NGljZDIifQ.N5aaBOWqp1mCTjlxXrWzOQ'
+    localStorage.mapURL = 'https://api.mapbox.com/styles/v1/mapbox/streets-v10/static/pin-s-s+188753(' + departure.join(',') + '),' + waypoints.map((w) => 'pin-s-w+facc1f(' + w + '),').join('') + 'pin-s-f+312d50('+  destination.join(',') + '),path-5+188753-0.8(' + encodeURIComponent(trip.path) + ')/auto/600x600?access_token=pk.eyJ1IjoidHVwaWNraXl2IiwiYSI6ImNqcmJ1YjJsNDE2eTEzeXM3dnc4NGljZDIifQ.N5aaBOWqp1mCTjlxXrWzOQ'
 
     return (
-      <div class="trip-details" style={style}>
+      <div class="trip-details">
         <header>
-          Trip Details
-          <span onClick={this.closeDetails} style={backStyle}>&lArr;</span>
+          {i18n.trip.header}
+          <button type='button' class='burger' onClick={() => window.history.back()}><Back fill='#132d50'/></button>
         </header>
         <section>
           <img src={localStorage.mapURL}/>
@@ -77,8 +64,8 @@ export default class TripCard extends Component {
             <span style={{...button, marginRight: "2%"}}>Repeat Trip</span>
             <span style={button}>Reverse Trip</span>
           </div>
-          <div class='trip-details-content'><TripPrice/>{`${trip.cost} UAH`}</div>
-          <div class='trip-details-content'><TripStatus/>{`Status - ${trip.status}`}</div>
+          <div class='trip-details-content'><TripPrice/>{`${trip.cost} ${i18n.trip.currency}`}</div>
+          <div class='trip-details-content'><TripStatus/>{`${i18n.trips.status} - ${i18n.trips.statuses[trip.status]}`}</div>
           <div class='trip-details-content'>
             <address>{trip.departure_address}</address>
             <address>{trip.destination_address}</address>
@@ -97,7 +84,7 @@ export default class TripCard extends Component {
           <address>{trip.departure_address}</address>
           <address>{trip.destination_address}</address>
         </div>
-        <p>{[`${trip.cost} UAH`, trip.formatted_date, trip.status].join(", ")}</p>
+        <p>{[`${trip.cost} ${i18n.trip.currency}`, trip.formatted_date, i18n.trips.statuses[trip.status]].join(", ")}</p>
         {this.state.showDetails && this.renderDetails()}
       </li>
     );

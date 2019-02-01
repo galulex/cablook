@@ -121,16 +121,18 @@ export default class AddressInput extends Component {
   }
 
   blur = (e) => {
-    if (e.target.value === '' ||  e.target.checkValidity()) return;
-    let prediction = this.state.predictions[0]
-    this.setLocation(prediction)
+    setTimeout(() => {
+      if (e.target.value === '' ||  e.target.checkValidity()) return;
+      let prediction = this.state.predictions[0]
+      if (prediction) this.setLocation(prediction)
+    }, 300)
   }
 
   keydown = (e) => {
     let prediction = this.state.predictions[0]
-    if (e.which !== 13 || !prediction.place_id) return;
-    console.log(!this.state.predictions[0])
-    this.setLocation(this.state.predictions[0])
+    if (![13, 9].includes(e.which) || !prediction) return;
+    this.setLocation(prediction)
+    if (!prediction.place_id) e.preventDefault()
   }
 
   render() {

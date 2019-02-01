@@ -42,13 +42,14 @@ address:last-of-type {
 }
 .trip-card .address-block {
   padding: 10px;
-  border-bottom: 2px solid #a7a5af;
+  border-bottom: 1px solid #a7a5af;
 }
 .trip-card p {
   font-style: italic;
   margin: 0 auto;
   padding: 7px 20px;
   font-size: 12px;
+  cursor: pointer;
 }
 .trips {
   padding: 54px 0 0;
@@ -82,6 +83,10 @@ address:last-of-type {
 }
 .trip-details img {
   width: 100%;
+  background: #E6E4E0;
+  height: 63vh;
+  max-height: 100vw;
+  object-fit: cover;
 }
 .trip-details .buttons {
   margin-bottom: 20px;
@@ -108,4 +113,28 @@ address:last-of-type {
 }
 .trip-details-content:last-of-type {
   border: none;
+}
+
+nav {
+  position: fixed;
+  top: 54px;
+  width: 100%;
+  left: 0;
+  z-index: 10;
+}
+
+.trips-content {
+  margin-top: 70px;
+}
+
+.trip-details {
+  width: 100%;
+  position: fixed;
+  height: 100%;
+  background: linear-gradient(to bottom, #D9D9DA, white);
+  left: 0px;
+  top: 0px;
+  z-index: 10001;
+  overflow-y: auto;
+  overscroll-behavior-y: none;
 }
