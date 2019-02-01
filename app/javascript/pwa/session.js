@@ -6,7 +6,6 @@ import Phone from './images/green_phone.svg';
 import Logo from './images/logo_light.svg';
 import Lock from './images/lock.svg';
 import City from './images/city.svg';
-import Road from './images/road.svg';
 import Nissan from './images/nissan.svg';
 import './css/session.css';
 
@@ -40,7 +39,6 @@ export default class Session extends Component {
       <div class='city_road'>
         <City class='city'/>
         <Nissan class='nissan'/>
-        <Road class='road'/>
       </div>
       </main>
     )

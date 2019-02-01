@@ -106,32 +106,27 @@ main.login svg.lock {
   left: 15px;
 }
 
+main.login div.city_road {
+  padding-top: 5px;
+  position: relative;
+}
+
 main.login svg.city {
   width: 114%;
   margin-left: -7%;
   min-width: 700px;
-  position: relative;
-  max-height: 250px;
+  max-height: 325px;
+  position: fixed;
+  bottom: 0;
+  left: 0;
 }
 
 main.login svg.nissan {
-  width: 40%;
-  max-height: 150px;
-}
-
-main.login svg.road {
-  width: 114%;
-  position: absolute;
+  width: 35%;
+  max-height: 125px;
+  position: fixed;
   bottom: 0;
-  top: auto;
-  left: -7%;
-  right: 0;
-  max-height: 150px;
-}
-
-main.login div.city_road {
-  padding-top: 5px;
-  position: relative;
+  transform: translateX(-50%);
 }
 
 @keyframes dash {
