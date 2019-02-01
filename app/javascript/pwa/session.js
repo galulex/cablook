@@ -54,7 +54,7 @@ export default class Session extends Component {
           <input id='number' title='7 digits' pattern='[0-9]*' maxlength='9' minlength='9' placeholder='_ _  _ _ _  _ _ _ _' required type='tel' autocomplete='off' autoFocus onInput={this.updateNumber}/>
         </div>
         <button type='submit'>{i18n.session.number}</button>
-        <p><i>{i18n.session.policy} <a href='#'>{i18n.session.policy_link}</a></i></p>
+        <p><i>{i18n.session.policy} <a href='/privacy-policy'>{i18n.session.policy_link}</a></i></p>
       </form>
     )
   }
