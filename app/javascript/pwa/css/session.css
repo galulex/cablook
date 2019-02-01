@@ -12,17 +12,22 @@ main.login form {
 }
 
 label[for='number'] {
-  display: inline-block;
   position: absolute;
-  top: 15px;
-  left: 40px;
+  height: 40%;
+  top: 50%;
+  left: 15px;
   color: #19a160;
+  transform: translateY(-50%);
 }
 
 label[for='code'] {
   color: white;
   top: 15px;
   font-weight: 100;
+}
+
+main.number_input {
+  position: relative;
 }
 
 main.login input {
@@ -43,7 +48,7 @@ main.login input {
 
 main.login input#number {
   border: 2px solid #a925ad;
-  padding: 12px 12px 12px 85px;
+  padding: 12px 12px 12px 77px;
 }
 
 main.login input#number:valid {
@@ -76,18 +81,19 @@ main.login button {
   outline: none;
 }
 
+main.login button.change {
+  background: #efcc3a;
+}
+
 main.login svg.logo {
   margin: 0 30%;
 }
 
 main.login svg.phone {
-  display: inline-block;
-  position: absolute;
   width: 20px;
   height: 20px;
   max-width: 20px;
-  top: 15px;
-  left: 15px;
+  vertical-align: middle;
 }
 
 main.login svg.lock {

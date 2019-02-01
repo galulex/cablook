@@ -20,6 +20,12 @@ export default class Session extends Component {
     }
   }
 
+  componentDidUpdate() {
+    if (this.state.isCodeSent == true) {
+      this.codeInput.focus();
+    }
+  }
+
   render() {
     return (
       <main id='app' class='login'>
@@ -43,9 +49,10 @@ export default class Session extends Component {
   renderNumber = () => {
     return(
       <form onSubmit={this.createSession}>
-        <Phone class='phone'/>
-        <label for='number'>+380</label>
-        <input id='number' title='7 digits' pattern='[0-9]*' maxlength='9' minlength='9' placeholder='_ _  _ _ _  _ _ _ _' required type='tel' autocomplete='off' autoFocus onInput={this.updateNumber}/>
+        <div class='number_input'>
+          <label for='number'><Phone class='phone'/>+380</label>
+          <input id='number' title='7 digits' pattern='[0-9]*' maxlength='9' minlength='9' placeholder='_ _  _ _ _  _ _ _ _' required type='tel' autocomplete='off' autoFocus onInput={this.updateNumber}/>
+        </div>
         <button type='submit'>{i18n.session.number}</button>
         <p><i>{i18n.session.policy} <a href='#'>{i18n.session.policy_link}</a></i></p>
       </form>
@@ -57,8 +64,8 @@ export default class Session extends Component {
       <form onSubmit={this.updateSession}>
         <Lock class='lock'/>
         <label for='code'>{i18n.session.code}</label>
-        <input id='code' title='4 digits' pattern='\d*' placeholder='_ _ _ _' maxlength='4' minlength='4' required type='tel' value={this.state.code} autocomplete='off' autoFocus onInput={this.updateCode}/>
-        <button type='button' onClick={this.resetNumber}>{i18n.session.change}</button>
+        <input id='code' title='4 digits' pattern='\d*' placeholder='_ _ _ _' maxlength='4' minlength='4' required type='tel' value={this.state.code} autocomplete='off' autoFocus onInput={this.updateCode} ref={input => this.codeInput = input}/>
+        <button class='change' type='button' onClick={this.resetNumber}>{i18n.session.change}</button>
         <button type='submit'>{i18n.session.code_button}</button>
       </form>
     )
