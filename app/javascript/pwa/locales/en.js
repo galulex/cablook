@@ -27,6 +27,10 @@ const en = {
     select_entrance: 'Select Entrance',
     comment: 'Comment'
   },
+  confirm_trip: {
+    header: 'Confirm Trip',
+    go: 'Go'
+  },
   drawer: {
     home: 'Home',
     trips: 'Trips',
@@ -45,7 +49,8 @@ const en = {
     no_cards: 'You have no cards'
   },
   find_driver: {
-    cancel: 'Cancel'
+    cancel: 'Cancel',
+    confirm_cancel: 'Do you want to cancel this trip?'
   },
   session: {
     number: 'Sign up',

@@ -10,18 +10,27 @@ export default class FindDriver extends Component {
     super(props)
   }
 
+  cancel = (e) => {
+    if (!confirm(i18n.find_driver.confirm_cancel)) return;
+    const params = this.props.trip
+    axios.patch(`trips/${params.id}/cancel`).then((res) => {
+      // localStorage.setItem('trip', res.data.id)
+      this.props.updateTrip(null)
+    }).catch((error) => {
+      if (error.response) alert(error.response.data.errors)
+    })
+  }
+
   render() {
     return(
       <div class='find_driver'>
         <section>
           <div class='address-block'>
-            <address>вул. Рози Люксембург, 202</address>
-            <address>Active Bridge, Маршала Красовського, 8</address>
+            <address>{this.props.trip.departure_address}</address>
+            <address>{this.props.trip.destination_address}</address>
           </div>
           <SearchLogo class='search_logo'/>
-          <form class='form'>
-            <button class='cancel' type='button'>{i18n.find_driver.cancel}</button>
-          </form>
+          <button class='cancel' type='button' onClick={this.cancel}>{i18n.find_driver.cancel}</button>
         </section>
       </div>
     )

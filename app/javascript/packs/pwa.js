@@ -5,7 +5,7 @@ import { createContext } from "preact-context";
 // import ReactMapboxGl, { Layer, Feature } from 'react-mapbox-gl';
 import { Map } from 'mapbox-gl';
 
-import CurrentTrip from '../pwa/current-trip.js';
+import Home from '../pwa/home.js';
 import Session from '../pwa/session.js';
 import Cards from '../pwa/cards.js';
 import Bonus from '../pwa/bonus_trips.js';
@@ -82,7 +82,7 @@ export default class App extends Component {
           <Drawer active={this.state.drawer} triggerDrawer = {this.triggerDrawer} logOut={this.logOut}/>
           <button class='burger' onClick={() => this.triggerDrawer(true)}>☰</button>
           <Router>
-            <CurrentTrip path='/pwa' />
+            <Home path='/pwa' />
             <Trips path='/pwa/trips' />
             <Bonus path='/pwa/bonus_trips' />
             <Cards path='/pwa/cards' cards={() => this.state.cards} updateCards={this.updateCards} />
@@ -97,18 +97,5 @@ export default class App extends Component {
     }
   }
 }
-
-// class Map extends Component {
-//   render() {
-//     let trip = this.props.trip
-//     let src = '';
-//     let width = (window.innerWidth > 1280) ? 1280 : window.innerWidth
-//     let height = (window.innerHeight > 1280) ? 1280 : window.innerHeight
-//     src = `https://api.mapbox.com/styles/v1/mapbox/streets-v10/static/pin-s-s+188753(${trip.departure}),${trip.waypoints}pin-s-f+312d50(${trip.destination}),path-5+188753-0.8(${encodeURIComponent(trip.path)})/auto/${width}x${height}?access_token=pk.eyJ1IjoiZ2FsdWxleCIsImEiOiJjamx6ampoZjgyMnYxM3FvZ2ppNjV2M2x5In0.bPgk2WI9NT-DJwnE-OtiLA`
-//     return (
-//       <img src={src} class='map'/>
-//     );
-//   }
-// }
 
 render(<App />, document.body);

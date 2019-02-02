@@ -20,8 +20,6 @@ export default class CurrentTrip extends Component {
         osrm: true
       },
       entrance: Array.from({length: 15}, (v, k) => `${k + 1} ${i18n.current_trip.entrance}`),
-      new: false,
-      isValid: false
     }
     this.setAddress = this.setAddress.bind(this)
   }
@@ -67,82 +65,65 @@ export default class CurrentTrip extends Component {
   }
 
   build = (e) => {
-    let component = this
     const params = this.state.trip
     if (!e.target.form.checkValidity()) return e.target.form.reportValidity();
     params.waypoints = params.waypoints.slice(1, -2)
     params.stops = params.stops.slice(1, -2)
 
     axios.post('trips/new', {trip: params}).then((res) => {
-      component.setState({trip: res.data, new: true})
+      console.log(this.props)
+      this.props.updateTrip(res.data)
+      history.pushState(null, 'Confirm Trip','/pwa');
+      window.addEventListener('popstate', this.handleBack, {once: true});
     }).catch((error) => {
-      if (!error.response) return;
-      alert(error.response.data.errors)
+      if (error.response) alert(error.response.data.errors)
     })
   }
 
-  create = (e) => {
-    const params = this.state.trip
-    let component = this
-    axios.post('trips', {trip: component.state.trip}).then((res) => {
-      localStorage.setItem('trip', res.data.id)
-      component.setState({trip: res.data})
-      history.pushState('', '', '#')
-    }).catch((error) => {
-      if (!error.response) return;
-      alert(error.response.data.errors)
-    })
+  handleBack = (event) => {
+    event.stopPropagation()
+    this.props.updateTrip(null)
   }
 
   render() {
     let trip = this.state.trip
     let isValid =  (this.state.trip.stops.includes(''))
-    if (!this.state.new && !this.state.trip.id) {
-      return(
-        <section class="home">
-          <header>{i18n.current_trip.header}</header>
-          <form action='#' onSubmit={(e) => e.preventDefault()}>
-            <div class='addresses'>
-              { this.state.trip.stops.map((e, i) => {
-                return(<AddressInput setAddress = {this.setAddress.bind(this)} removeAddress = { this.removeAddress.bind(this) } index = {i} />)
+    return(
+      <section class="home">
+        <header>{i18n.current_trip.header}</header>
+        <form action='#' onSubmit={(e) => e.preventDefault()}>
+          <div class='addresses'>
+            { this.state.trip.stops.map((e, i) => {
+              return(<AddressInput setAddress = {this.setAddress.bind(this)} removeAddress = { this.removeAddress.bind(this) } index = {i} />)
+            })}
+            <div>
+              <Add width='32px' class='add-address' onClick={this.addAddress} disabled={isValid}/>
+              <button type='button' onClick={this.addAddress} class='add-address' disabled={isValid}>{ i18n.current_trip.add_address }</button>
+            </div>
+          </div>
+          <div class='nocall'>
+            <input id='nocall' type='checkbox'/>
+            <label for='nocall'>
+              No Call
+            </label>
+          </div>
+          <label for='entrance'>
+            <span>Where to pick?</span>
+            <select id='entrance'>
+              <option value=''>{i18n.current_trip.select_entrance}</option>
+              {this.state.entrance.map((el) => {
+                return(<option value={el}>{el}</option>)
               })}
-              <div>
-                <Add width='32px' class='add-address' onClick={this.addAddress} disabled={isValid}/>
-                <button type='button' onClick={this.addAddress} class='add-address' disabled={isValid}>{ i18n.current_trip.add_address }</button>
-              </div>
-            </div>
-            <div class='nocall'>
-              <input id='nocall' type='checkbox'/>
-              <label for='nocall'>
-                No Call
-              </label>
-            </div>
-            <label for='entrance'>
-              <span>Where to pick?</span>
-              <select id='entrance'>
-                <option value=''>{i18n.current_trip.select_entrance}</option>
-                {this.state.entrance.map((el) => {
-                  return(<option value={el}>{el}</option>)
-                })}
-              </select>
-            </label>
-            <label for='time'>
-              <span>When?</span>
-              <input id='time' type='time' step='600' placeholder='Now'/>
-            </label>
-            <input type='text' class='comment' placeholder={i18n.current_trip.comment} onInput={this.setComment}/>
-            <input type='submit' class='submit' onClick={this.build} value='OK'/>
-          </form>
-        </section>
-      )
-    } else {
-      return(
-        <section>
-          <header>{i18n.current_trip.header}</header>
-          <img src={'https://api.mapbox.com/styles/v1/mapbox/streets-v10/static/pin-s-s+188753(' + trip.departure.join(',') + '),' + trip.waypoints.map((w) => 'pin-s-w+facc1f(' + w + '),').join('') + 'pin-s-f+312d50('+  trip.destination.join(',') + '),path-5+188753-0.8(' + encodeURIComponent(trip.path) + ')/auto/500x500?access_token=pk.eyJ1IjoidHVwaWNraXl2IiwiYSI6ImNqcmJ1YjJsNDE2eTEzeXM3dnc4NGljZDIifQ.N5aaBOWqp1mCTjlxXrWzOQ'}/>
-          <button type='button' class='submit' onClick={this.create}>Go</button>
-        </section>
-      )
-    }
+            </select>
+          </label>
+          <label for='time'>
+            <span>When?</span>
+            <input id='time' type='time' step='600' placeholder='Now'/>
+          </label>
+          <input type='text' class='comment' placeholder={i18n.current_trip.comment} onInput={this.setComment}/>
+          <input type='submit' class='submit' onClick={this.build} value='OK'/>
+        </form>
+      </section>
+    )
   }
 }

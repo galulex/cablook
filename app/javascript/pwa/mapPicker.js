@@ -3,7 +3,7 @@ import 'mapbox-gl/dist/mapbox-gl.css'
 import mapboxgl from 'mapbox-gl'
 import Pin from './images/pin'
 
-mapboxgl.accessToken = 'pk.eyJ1IjoiZ2FsdWxleCIsImEiOiJjamx6ampoZjgyMnYxM3FvZ2ppNjV2M2x5In0.bPgk2WI9NT-DJwnE-OtiLA';
+mapboxgl.accessToken = 'pk.eyJ1Ijoib2t1bmlldmEiLCJhIjoiY2pybHc3dDY2MGJ4aTN6bWZjMGxlOWhrMiJ9.bk9lWZM6sHClogdqthjHSA';
 
 export default class MapPicker extends Component {
   constructor(props) {
@@ -21,7 +21,7 @@ export default class MapPicker extends Component {
 
     this.map = new mapboxgl.Map({
       container: this.mapContainer,
-      style: 'mapbox://styles/mapbox/streets-v8',
+      style: 'mapbox://styles/okunieva/cjrlxcvzu2osh2spcikwl1zhl',
       center: [lng, lat],
       zoom
     });

@@ -19,12 +19,11 @@ export default class TripCard extends Component {
     if (this.state.showDetails) return;
     history.pushState(null, 'Trip Details','/pwa/trips');
     this.setState({showDetails: true})
-    window.addEventListener('popstate', this.handleBack, true);
+    window.addEventListener('popstate', this.handleBack, {once: true});
   };
 
   handleBack = (event) => {
     this.setState({showDetails: false})
-    window.removeEventListener('popstate', this.handleBack, true);
     event.stopPropagation();
   };
 

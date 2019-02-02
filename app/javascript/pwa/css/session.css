@@ -1,7 +1,7 @@
 main.login section { padding: 30px 30px 0 30px; }
 main.login div { font-size: 1.6rem; }
 
-main.login div, 
+main.login div,
 main.login form {
   text-align: center;
   color: white;
@@ -49,8 +49,8 @@ main.login input#number:valid { border: 2px solid white; }
 
 main.login p { font-size: 1rem; }
 
-main.login a:link, 
-main.login a:visited, 
+main.login a:link,
+main.login a:visited,
 main.login input::placeholder {
   color: white;
 }

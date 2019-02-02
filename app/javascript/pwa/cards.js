@@ -7,6 +7,7 @@ import './css/cards.css'
 import CardsIcon from './images/credit-cards-payment.svg'
 import Visa from './images/visa.svg'
 import MasterCard from './images/mastercard.svg'
+import Close from './images/times-circle.svg'
 
 export default class Cards extends Component {
   constructor(props) {
@@ -51,7 +52,7 @@ export default class Cards extends Component {
               <li>
                 { this.renderCardType(card.type) }
                 <span>{card.pan}</span>
-                <button class='x-card' type='button' onClick={() => this.delete(card.id, i)}>×</button>
+                <button class='x-card' type='button' onClick={() => this.delete(card.id, i)}><Close fill='#a925ad'/></button>
               </li>
             )
           })}

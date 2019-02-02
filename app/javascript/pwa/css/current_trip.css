@@ -150,7 +150,7 @@ svg.running {
 button.add-address {
   background: none;
   font-size: 18px;
-  font-weight: 700;
+  font-weight: 500;
   color: #312d50;
   border: none;
   margin: 5px 0;
@@ -182,7 +182,7 @@ input[type='checkbox'] {
 
 label {
   font-size: 18px;
-  font-weight: 700;
+  font-weight: 500;
   position: relative;
   cursor: pointer
 }
@@ -303,7 +303,7 @@ input.submit, button.add-card {
   border: none;
   color: white;
   font-size: 18px;
-  font-weight: 700;
+  font-weight: 500;
   transition: box-shadow .3s;
   box-shadow: 0 3px 6px rgba(0,0,0,0.16);
   padding: 10px 0;
@@ -313,6 +313,7 @@ input.submit, button.add-card {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
+  cursor: pointer;
 }
 
 input.submit:focus {
