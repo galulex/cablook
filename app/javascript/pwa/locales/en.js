@@ -45,6 +45,8 @@ const en = {
     location: 'My Location',
     from: 'From',
     where: 'Where',
+    loading: 'Loading...',
+    no_result: 'No Results'
   },
   cards: {
     add: 'Add Card',

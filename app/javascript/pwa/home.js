@@ -15,18 +15,26 @@ export default class Home extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      trip: JSON.parse(localStorage.getItem('trip'))
+      trip: JSON.parse(localStorage.getItem('trip')),
+      subscription: null
     }
   }
 
   componentDidMount() {
     if (!!this.state.trip) this.subscribe()
+    this.getTrip()
+  }
+
+  componentWillUnmount() {
+    this.unsubscribe()
   }
 
   subscribe = () => {
-    console.log(this.state)
+    console.log(this.state.subscription)
+    if (this.state.subscription) return this.state.subscription
+    console.log('Subscribe')
     let component = this
-    cable.subscriptions.create(
+    this.setState({subscription: cable.subscriptions.create(
       { channel: 'TripChannel', trip_id: this.state.trip.id },
       {
         received: data => {
@@ -34,7 +42,12 @@ export default class Home extends Component {
           component[data['action']](data)
         }
       }
-    )
+    )})
+  }
+
+  unsubscribe = () => {
+    if (this.state.subscription) this.state.subscription.unsubscribe()
+    this.setState({subscription: null})
   }
 
   updateTrip = (trip) => {
@@ -45,9 +58,10 @@ export default class Home extends Component {
   TripDeclined = (data) => {
     if (navigator.vibrate) navigator.vibrate([200, 100, 200])
     setTimeout(() => {
-      if (confirm(i18n.trip.car_not_fond)) {
+      if (confirm(i18n.trip.car_not_found)) {
         this.retry()
       } else {
+        this.unsubscribe()
         this.updateTrip(null)
       }
     }, 500)
@@ -59,6 +73,7 @@ export default class Home extends Component {
   }
 
   TripUnavailable = (data) => {
+    this.unsubscribe()
     this.updateTrip(null)
     alert(i18n.trip.canceled)
   }
@@ -83,6 +98,15 @@ export default class Home extends Component {
     })
   }
 
+  getTrip = () => {
+    if (!this.state.trip || !this.state.trip.id) return;
+    axios.get(`trips/${this.state.trip.id}`).then((res) => {
+      this.updateTrip(res.data)
+    }).catch((error) => {
+      if (error.response) alert(error.response.data.errors)
+    })
+  }
+
   retry = () => {
     axios.patch(`trips/${this.state.trip.id}/retry`).then((res) => {
     }).catch((error) => {
@@ -96,10 +120,9 @@ export default class Home extends Component {
   }
 
   render() {
-    console.log(this.state.trip)
     if (!this.state.trip) return(<CurrentTrip updateTrip={this.updateTrip} handleBack={this.handleBack}/>)
     if (this.state.trip && !this.state.trip.id) return(<ConfirmTrip trip={this.state.trip} updateTrip={this.updateTrip} handleBack={this.handleBack}/>)
-    if (this.state.trip && this.state.trip.id && this.state.trip.status == 0) return(<FindDriver trip={this.state.trip} updateTrip={this.updateTrip} subscribe={this.subscribe} cancel={this.cancel}/>)
+    if (this.state.trip && this.state.trip.id && [0,6].includes(this.state.trip.status)) return(<FindDriver trip={this.state.trip} updateTrip={this.updateTrip} TripDeclined={this.TripDeclined} subscribe={this.subscribe} cancel={this.cancel}/>)
     if (this.state.trip && [1,2,3].includes(this.state.trip.status)) return(<Trip trip={this.state.trip} updateTrip={this.updateTrip} cancel={this.cancel}/>)
     if (this.state.trip && this.state.trip.status == 4) return(<Feedback trip={this.state.trip} updateTrip={this.updateTrip} />)
     return(<Trip updateTrip={this.updateTrip}/>)

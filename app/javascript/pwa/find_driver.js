@@ -11,8 +11,10 @@ export default class FindDriver extends Component {
   }
 
   componentDidMount() {
-    console.log(this.props)
     this.props.subscribe()
+    this.declined()
+    if (this.props.trip.status !== 6) return;
+    this.props.TripDeclined()
   }
 
   render() {

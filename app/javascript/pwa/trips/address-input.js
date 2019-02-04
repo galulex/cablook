@@ -15,7 +15,8 @@ export default class AddressInput extends Component {
       address: '',
       isValid: false,
       isShowMap: false,
-      geocoded: false
+      geocoded: false,
+      disabled: false
     }
   }
 
@@ -25,7 +26,7 @@ export default class AddressInput extends Component {
 
   renderPrediction = (prediction) => {
     return(
-      <li onClick={() => this.setLocation(prediction)} class='prediction'>
+      <li disabled={this.state.disabled} onClick={() => this.setLocation(prediction)} class='prediction'>
         <Cablook width='32px'/>
         <b>{(prediction.structured_formatting) ? prediction.structured_formatting.main_text : prediction}</b>
         <br/>
@@ -83,6 +84,7 @@ export default class AddressInput extends Component {
         if (results[0]) {
           this.setState({ address: results[0].formatted_address, predictions: [], isValid: true });
           this.props.setAddress(results[0].formatted_address, `${lat},${lng}`, this.props.index);
+          this.input.setCustomValidity('')
         } else {
           window.alert('No results found');
         }
@@ -97,13 +99,14 @@ export default class AddressInput extends Component {
     this.input.setCustomValidity('Choose address from a list')
     let hits = streets.filter(function(s) { return s.toLowerCase().indexOf(e.target.value.toLowerCase()) != -1 }).slice(0, 5)
     if (hits.length > 0) {
-      this.setState({ predictions: hits, address: e.target.value });
+      this.setState({ predictions: hits, address: e.target.value, disabled: false });
       return false
     }
     let autocomplete = new google.maps.places.AutocompleteService()
+    this.setState({ predictions: [i18n.address_input.loading], address: e.target.value, disabled: true })
     autocomplete.getPlacePredictions({input: e.target.value + ' Cherkasy', componentRestrictions: {country: 'ua'}, location: new google.maps.LatLng(49.4311119, 31.9791903), radius: 100000, strictbounds: true, offset: 2}, data => {
-      if (!data) return this.setState({ predictions: [], address: e.target.value })
-      this.setState({ predictions: data, address: e.target.value });
+      if (!data) return this.setState({ predictions: [i18n.address_input.no_result], address: e.target.value, disabled: true })
+      this.setState({ predictions: data, address: e.target.value, disabled: false });
     })
   }
 
@@ -122,7 +125,7 @@ export default class AddressInput extends Component {
 
   blur = (e) => {
     setTimeout(() => {
-      if (e.target.value === '' ||  e.target.checkValidity()) return;
+      if (e.target.value === '' ||  e.target.checkValidity() || this.state.disabled) return;
       let prediction = this.state.predictions[0]
       if (prediction) this.setLocation(prediction)
     }, 300)
@@ -130,13 +133,14 @@ export default class AddressInput extends Component {
 
   keydown = (e) => {
     let prediction = this.state.predictions[0]
-    if (![13, 9].includes(e.which) || !prediction) return;
+    if (![13, 9].includes(e.which) || !prediction || this.state.disabled) return;
     this.setLocation(prediction)
     if (!prediction.place_id) e.preventDefault()
   }
 
   render() {
     let placeholder = (this.props.index !== 0) ? i18n.address_input.where : i18n.address_input.from
+
     return (
       <fieldset class='address'>
         {(this.props.index > 1) && (<button class='remove-address' type='button' onClick={() => this.props.removeAddress(this.props.index)}>×</button>)}
@@ -145,7 +149,7 @@ export default class AddressInput extends Component {
         {this.state.isShowMap && <MapPicker onCloseMap={this.closeMap} />}
         <input required class='address' placeholder={placeholder} type='text' onKeyDown={this.keydown} onFocus={this.focus} onBlur={this.blur} onInput={this.autocomplete} value={this.state.address} ref={input => this.input = input} />
         <ul class='predictions'>
-          {this.state.predictions.map(this.renderPrediction)}
+          { this.state.predictions.map(this.renderPrediction) }
         </ul>
       </fieldset>
     );

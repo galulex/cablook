@@ -27,7 +27,6 @@ export default class CurrentTrip extends Component {
 
   componentDidMount(){
     window.history.replaceState(null, 'Search','/pwa')
-    console.log(this.state)
   }
 
   setAddress = (text, coords, index) => {
