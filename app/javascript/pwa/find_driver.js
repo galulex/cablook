@@ -12,7 +12,6 @@ export default class FindDriver extends Component {
 
   componentDidMount() {
     this.props.subscribe()
-    this.declined()
     if (this.props.trip.status !== 6) return;
     this.props.TripDeclined()
   }
