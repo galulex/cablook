@@ -2,6 +2,7 @@ import { h, render, Component } from 'preact';
 import axios from 'axios';
 
 import i18n from './i18n.js'
+import './css/confirm_trip.css'
 import Back from './images/arrow-left.svg'
 
 export default class ConfirmTrip extends Component {
@@ -37,12 +38,22 @@ export default class ConfirmTrip extends Component {
 
   render() {
     return (
-      <section>
+      <section class ='confirm_trip'>
         <header>{i18n.confirm_trip.header}</header>
         <button type='button' class='burger' onClick={() => window.history.back()}><Back fill='#132d50'/></button>
-        <h1>Confirm Trip</h1>
-        <h2>{this.props.trip.cost}</h2>
-        <button class='add-card' type='button' onClick={this.create}>{i18n.confirm_trip.go}</button>
+        <div class='container'>
+          <div class='details'>
+            <br/>{i18n.confirm_trip.cost}{i18n.confirm_trip.dots}<b id='trip_cost'>{this.props.trip.cost}{i18n.confirm_trip.currency}</b>
+            <br/>{i18n.confirm_trip.distance}{i18n.confirm_trip.dots}<b id='trip_distance'>{(this.props.trip.distance/1000).toFixed(1)}{i18n.confirm_trip.km}</b>
+          </div>
+          <div class='card_select'>
+            <label for='card'>{i18n.confirm_trip.card}</label> 
+          </div>
+          <div class='map'>
+            <button class='add-card' type='button'>{i18n.confirm_trip.bonus}</button>
+            <button class='add-card' type='button' onClick={this.create}>{i18n.confirm_trip.go}</button>
+          </div>
+        </div>
       </section>
     )
   }

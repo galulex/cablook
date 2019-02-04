@@ -31,7 +31,16 @@ const en = {
   },
   confirm_trip: {
     header: 'Confirm Trip',
-    go: 'Go'
+    go: 'Go',
+    add_card: "Add a card",
+    bonus: "Use bonus trip",
+    cancel: "Cancel",
+    card: "Choose a card",
+    cost: "Cost",
+    currency: "uah",
+    distance: "Distance",
+    km: "km",
+    dots: "............"
   },
   drawer: {
     home: 'Home',
