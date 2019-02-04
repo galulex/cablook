@@ -100,7 +100,7 @@ address:last-of-type {
 .trip-details address:after {
   left: calc(1% - 35px);
 }
-.trip-details svg {
+.trip-details section svg {
   margin: 0 10px;
   width: 25px;
   height: 25px;

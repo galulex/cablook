@@ -19,9 +19,15 @@ export default class CurrentTrip extends Component {
         destination_address: '',
         osrm: true
       },
+      submitDisabled: false,
       entrance: Array.from({length: 15}, (v, k) => `${k + 1} ${i18n.current_trip.entrance}`),
     }
     this.setAddress = this.setAddress.bind(this)
+  }
+
+  componentDidMount(){
+    window.history.replaceState(null, 'Search','/pwa')
+    console.log(this.state)
   }
 
   setAddress = (text, coords, index) => {
@@ -65,24 +71,25 @@ export default class CurrentTrip extends Component {
   }
 
   build = (e) => {
-    const params = this.state.trip
+    let params = {...this.state.trip}
     if (!e.target.form.checkValidity()) return e.target.form.reportValidity();
+    this.submitDisabled(true)
     params.waypoints = params.waypoints.slice(1, -2)
     params.stops = params.stops.slice(1, -2)
 
     axios.post('trips/new', {trip: params}).then((res) => {
-      console.log(this.props)
       this.props.updateTrip(res.data)
-      history.pushState(null, 'Confirm Trip','/pwa');
-      window.addEventListener('popstate', this.handleBack, {once: true});
     }).catch((error) => {
+      this.submitDisabled(false)
       if (error.response) alert(error.response.data.errors)
     })
   }
 
-  handleBack = (event) => {
-    event.stopPropagation()
-    this.props.updateTrip(null)
+  submitDisabled = val => {
+    this.setState(state => {
+      state.submitDisabled = val
+      return state
+    })
   }
 
   render() {
@@ -121,7 +128,7 @@ export default class CurrentTrip extends Component {
             <input id='time' type='time' step='600' placeholder='Now'/>
           </label>
           <input type='text' class='comment' placeholder={i18n.current_trip.comment} onInput={this.setComment}/>
-          <input type='submit' class='submit' onClick={this.build} value='OK'/>
+          <input type='submit' disabled={this.state.submitDisabled} class='submit' onClick={this.build} value='OK'/>
         </form>
       </section>
     )

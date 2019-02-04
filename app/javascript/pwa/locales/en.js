@@ -1,7 +1,9 @@
 const en = {
   trip: {
     header: 'Trip Details',
-    currency: 'UAH'
+    currency: 'UAH',
+    car_not_found: 'No cars available right now.\nDo you want to try one more time?',
+    canceled: 'Trip is canceled'
   },
   trips: {
     header: 'Trips',
@@ -51,6 +53,9 @@ const en = {
   find_driver: {
     cancel: 'Cancel',
     confirm_cancel: 'Do you want to cancel this trip?'
+  },
+  feedback: {
+    ok: 'OK'
   },
   session: {
     number: 'Sign up',

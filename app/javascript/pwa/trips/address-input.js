@@ -70,7 +70,7 @@ export default class AddressInput extends Component {
     let placeService = new google.maps.places.PlacesService(document.createElement('div'));
     placeService.getDetails({placeId: place.place_id}, (result) => {
       this.setState({ address: place.structured_formatting.main_text, predictions: [], isValid: true });
-      this.props.setAddress(place.structured_formatting.main_text, `${result.geometry.location.lng()},${result.geometry.location.lat()}`, this.props.index);
+      this.props.setAddress(place.structured_formatting.main_text, `${result.geometry.location.lat()},${result.geometry.location.lng()}`, this.props.index);
       this.input.setCustomValidity('')
     })
   }
@@ -82,7 +82,7 @@ export default class AddressInput extends Component {
       if (status === 'OK') {
         if (results[0]) {
           this.setState({ address: results[0].formatted_address, predictions: [], isValid: true });
-          this.props.setAddress(results[0].formatted_address, `${lng},${lat}`, this.props.index);
+          this.props.setAddress(results[0].formatted_address, `${lat},${lng}`, this.props.index);
         } else {
           window.alert('No results found');
         }
