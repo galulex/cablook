@@ -32,12 +32,16 @@ export default class App extends Component {
     this.state = {
       currentUser: localStorage.token,
       drawer: false,
-      cards: []
+      cards: [],
+      bonus_trips: []
     }
   }
 
   componentDidMount() {
-    if (this.state.currentUser) this.fetchCards()
+    if (this.state.currentUser) {
+      this.fetchCards()
+      this.fetchBonus()
+    }
   }
 
   handleRoute = e => {
@@ -47,6 +51,14 @@ export default class App extends Component {
   fetchCards = () => {
     axios.get('cards').then((res) => {
       this.setState({cards: res.data.cards})
+    }).catch((error) => {
+      if (error.response) alert(error.response.data.errors)
+    })
+  }
+
+  fetchBonus = () => {
+    axios.get('bonus_trips').then((res) => {
+      this.setState({bonus_trips: res.data.bonus_trips})
     }).catch((error) => {
       if (error.response) alert(error.response.data.errors)
     })
@@ -84,7 +96,7 @@ export default class App extends Component {
           <Drawer active={this.state.drawer} triggerDrawer = {this.triggerDrawer} logOut={this.logOut}/>
           <button class='burger' onClick={() => this.triggerDrawer(true)}>☰</button>
           <Router>
-            <Home path='/pwa' cards={() => this.state.cards} />
+            <Home path='/pwa' cards={() => this.state.cards} bonus_trips={() => this.state.bonus_trips} />
             <Trips path='/pwa/trips' />
             <Bonus path='/pwa/bonus_trips' />
             <Cards path='/pwa/cards' cards={() => this.state.cards} updateCards={this.updateCards} />

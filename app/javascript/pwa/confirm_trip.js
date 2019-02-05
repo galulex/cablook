@@ -59,10 +59,10 @@ export default class ConfirmTrip extends Component {
             {this.state.cards.map((el) => this.renderCard(el))}
           </select>
         </div>
-        <div class='map'>
-          <MapImg trip={() => this.props.trip} />
-          <button class='add-card' type='button'>{i18n.confirm_trip.bonus}</button>
-          <button class='add-card' type='button' onClick={this.create}>{i18n.confirm_trip.go}</button>
+        <MapImg trip={() => this.props.trip} />
+        <div class='buttons'>
+          { this.renderBonus() }
+          <button type='button' onClick={this.create}>{i18n.confirm_trip.go}</button>
         </div>
       </section>
     )
@@ -74,5 +74,11 @@ export default class ConfirmTrip extends Component {
 
   selectCard = (event) => {
     this.setState({card_id: event.target.value})
+  }
+
+  renderBonus = () => {
+    if (this.props.bonus_trips().some((e) => e.status == 1)) {
+      return(<button class='bonus' type='button'>{i18n.confirm_trip.bonus}</button>)
+    }
   }
 }
