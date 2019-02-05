@@ -125,7 +125,7 @@ export default class Home extends Component {
 
   render() {
     if (!this.state.trip) return(<CurrentTrip updateTrip={this.updateTrip} handleBack={this.handleBack}/>)
-    if (this.state.trip && !this.state.trip.id) return(<ConfirmTrip trip={this.state.trip} updateTrip={this.updateTrip} handleBack={this.handleBack}/>)
+    if (this.state.trip && !this.state.trip.id) return(<ConfirmTrip cards={this.props.cards} trip={this.state.trip} updateTrip={this.updateTrip} handleBack={this.handleBack}/>)
     if (this.state.trip && this.state.trip.id && [0,6].includes(this.state.trip.status)) return(<FindDriver trip={this.state.trip} updateTrip={this.updateTrip} TripDeclined={this.TripDeclined} subscribe={this.subscribe} cancel={this.cancel}/>)
     if (this.state.trip && [1,2,3].includes(this.state.trip.status)) return(<Trip trip={this.state.trip} updateTrip={this.updateTrip} cancel={this.cancel}/>)
     if (this.state.trip && this.state.trip.status == 4) return(<Feedback trip={this.state.trip} updateTrip={this.updateTrip} />)
