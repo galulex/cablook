@@ -10,7 +10,7 @@ export default class Bonus extends Component {
     this.state = {
       bonus_trips: [],
       parent_bonus: [],
-      referralCode: localStorage.referralCode,
+      referralCode: localStorage.referral,
       friend_code: ''
     }
   }

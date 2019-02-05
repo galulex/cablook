@@ -56,7 +56,7 @@ export default class Home extends Component {
   }
 
   TripDeclined = (data) => {
-    if (navigator.vibrate) navigator.vibrate([200, 100, 200])
+    this.vibrate()
     setTimeout(() => {
       if (confirm(i18n.trip.car_not_found)) {
         this.retry()
@@ -68,7 +68,7 @@ export default class Home extends Component {
   }
 
   TripAccepted = (data) => {
-    if (navigator.vibrate) navigator.vibrate([200, 100, 200])
+    this.vibrate()
     this.updateTrip(data.trip)
   }
 
@@ -78,8 +78,12 @@ export default class Home extends Component {
     alert(i18n.trip.canceled)
   }
 
-  finish_trip = (data) => {
+  vibrate = () => {
     if (navigator.vibrate) navigator.vibrate([200, 100, 200])
+  }
+
+  finish_trip = (data) => {
+    this.vibrate()
     let trip = this.state.trip
     trip.status = 4
     this.updateTrip(trip)

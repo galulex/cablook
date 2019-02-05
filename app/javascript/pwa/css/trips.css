@@ -84,7 +84,7 @@ address:last-of-type {
 .trip-details img {
   width: 100%;
   background: #E6E4E0;
-  height: 63vh;
+  height: 59vh;
   max-height: 100vw;
   object-fit: cover;
 }
@@ -137,4 +137,8 @@ nav {
   z-index: 10001;
   overflow-y: auto;
   overscroll-behavior-y: none;
+}
+
+div.map {
+  height: 500px;
 }

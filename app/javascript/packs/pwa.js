@@ -101,3 +101,6 @@ export default class App extends Component {
 render(<App />, document.body);
 
 document.documentElement.style.setProperty('--vh', `${window.innerHeight * 0.01}px`);
+window.addEventListener('resize', () => {
+  document.documentElement.style.setProperty('--vh', `${window.innerHeight * 0.01}px`);
+});

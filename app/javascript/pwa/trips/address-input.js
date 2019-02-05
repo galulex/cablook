@@ -46,7 +46,7 @@ export default class AddressInput extends Component {
           if (status == 'OK') {
             let place = res[0]
             component.setState({ address: place.formatted_address, predictions: [], isValid: true, geocoded: true });
-            component.props.setAddress(place.formatted_address, `${place.geometry.location.lng()},${place.geometry.location.lat()}`, component.props.index);
+            component.props.setAddress(place.formatted_address, `${place.geometry.location.lat()},${place.geometry.location.lng()}`, component.props.index);
             component.input.setCustomValidity('')
           } else {
             alert(status)
@@ -83,7 +83,7 @@ export default class AddressInput extends Component {
       if (status === 'OK') {
         if (results[0]) {
           this.setState({ address: results[0].formatted_address, predictions: [], isValid: true });
-          this.props.setAddress(results[0].formatted_address, `${lat},${lng}`, this.props.index);
+          this.props.setAddress(results[0].formatted_address, `${lng},${lat}`, this.props.index);
           this.input.setCustomValidity('')
         } else {
           window.alert('No results found');
@@ -95,7 +95,10 @@ export default class AddressInput extends Component {
   }
 
   autocomplete = e => {
-    if (e.target.value === '') return false
+    if (e.target.value === '') {
+      this.setState({ predictions: [], address: e.target.value});
+      return false
+    }
     this.input.setCustomValidity('Choose address from a list')
     let hits = streets.filter(function(s) { return s.toLowerCase().indexOf(e.target.value.toLowerCase()) != -1 }).slice(0, 5)
     if (hits.length > 0) {
@@ -120,7 +123,8 @@ export default class AddressInput extends Component {
   }
 
   focus = (e) => {
-    e.target.select()
+    e.target.focus()
+    e.target.setSelectionRange(0, 9999)
   }
 
   blur = (e) => {
@@ -147,7 +151,7 @@ export default class AddressInput extends Component {
         {(this.props.index === 0) && <Location width='32px' class='get-location' onClick={this.getLocation} disabled={this.state.geocoded}/>}
         <Pin onClick={this.openMap} height='24px' class='map-pick'/>
         {this.state.isShowMap && <MapPicker onCloseMap={this.closeMap} />}
-        <input required class='address' placeholder={placeholder} type='text' onKeyDown={this.keydown} onFocus={this.focus} onBlur={this.blur} onInput={this.autocomplete} value={this.state.address} ref={input => this.input = input} />
+        <input required class='address' placeholder={placeholder} type='text' onClick={this.focus} onKeyDown={this.keydown} onBlur={this.blur} onInput={this.autocomplete} value={this.state.address} ref={input => this.input = input} />
         <ul class='predictions'>
           { this.state.predictions.map(this.renderPrediction) }
         </ul>

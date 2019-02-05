@@ -52,7 +52,16 @@ export default class MapPicker extends Component {
   }
 
   render() {
-    const style = { position: "fixed", left: "0", right: "0", top: "54px", bottom: "0", zIndex: "1" };
+    const style = {
+      position: "fixed",
+      left: "0",
+      right: "0",
+      top: "54px",
+      bottom: "0",
+      zIndex: "1",
+      background: '#ECE0CA'
+    };
+
     const buttonStyle = {
       background: "#19A160",
       padding: "1rem",
