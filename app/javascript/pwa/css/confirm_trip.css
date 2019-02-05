@@ -1,40 +1,6 @@
 section.confirm_trip {
-  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   height: 100vh;
-  max-width: none;
-  margin: 0;
-  padding: 54px 0 0 0;
 }
-
-div.container {
-  display: grid;
-  height: 100%;
-  grid-template-rows: 15% 15% 70%;
-}
-
-div.container div.details {
-  text-align: center;
-  letter-spacing: 1px;
-  border-bottom: 1px solid #132d50;
-}
-
-div.container div.card_select {
-  display: grid;
-  grid-template-columns: 30% 70%;
-  border-bottom: 1px solid #19a160;
-}
-
-div.container div.map {
-
-}
-
-/* 
-
-            <div class='select'>
-              <select id='card' name='trip[card_id]' onChange={(e) => UI.selectCard(e, this)}>
-                {this.props.cards.map((el) => UI.renderCard(el))}
-                <option value=''>{i18n.confirm_trip.add_card}</option>
-              </select>
-            </div>
-
-*/

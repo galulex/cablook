@@ -84,7 +84,7 @@ export default class App extends Component {
           <Drawer active={this.state.drawer} triggerDrawer = {this.triggerDrawer} logOut={this.logOut}/>
           <button class='burger' onClick={() => this.triggerDrawer(true)}>☰</button>
           <Router>
-            <Home path='/pwa' />
+            <Home path='/pwa' cards={() => this.state.cards} />
             <Trips path='/pwa/trips' />
             <Bonus path='/pwa/bonus_trips' />
             <Cards path='/pwa/cards' cards={() => this.state.cards} updateCards={this.updateCards} />
