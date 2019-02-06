@@ -11,7 +11,9 @@ export default class ConfirmTrip extends Component {
     super(props)
     this.state = {
       cards: this.props.cards(),
-      card_id: null
+      card_id: null,
+      bonus: null,
+      submitDisabled: false
     }
   }
 
@@ -33,13 +35,16 @@ export default class ConfirmTrip extends Component {
 
   create = (e) => {
     let params = this.props.trip
+    this.submitDisabled(true)
     params.card_id = this.state.card_id
+    params.bonus = this.state.bonus
     axios.post('trips', {trip: params}).then((res) => {
       // localStorage.setItem('trip', res.data.id)
       this.props.updateTrip(res.data)
       window.removeEventListener('popstate', this.props.handleBack, true);
       // window.history.back()
     }).catch((error) => {
+      this.submitDisabled(false)
       if (error.response) alert(error.response.data.errors)
     })
   }
@@ -62,10 +67,17 @@ export default class ConfirmTrip extends Component {
         <MapImg trip={() => this.props.trip} />
         <div class='buttons'>
           { this.renderBonus() }
-          <button type='button' onClick={this.create}>{i18n.confirm_trip.go}</button>
+          <button type='button' disabled={this.state.submitDisabled} onClick={this.create}>{i18n.confirm_trip.go}</button>
         </div>
       </section>
     )
+  }
+
+  submitDisabled = (val) => {
+    this.setState(state => {
+      state.submitDisabled = val
+      return state
+    })
   }
 
   renderCard = (card) => {
@@ -78,7 +90,12 @@ export default class ConfirmTrip extends Component {
 
   renderBonus = () => {
     if (this.props.bonus_trips().some((e) => e.status == 1)) {
-      return(<button class='bonus' type='button'>{i18n.confirm_trip.bonus}</button>)
+      return(<button class='bonus' type='button' disabled={this.state.submitDisabled} onClick={(e) => this.bonusTrip(e)} value='true'>{i18n.confirm_trip.bonus}</button>)
     }
+  }
+
+  bonusTrip = (event) => {
+    this.setState({bonus: event.target.value})
+    this.create()
   }
 }
