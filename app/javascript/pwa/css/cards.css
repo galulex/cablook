@@ -1,5 +1,5 @@
 ul.cards li {
-  border-bottom: 1px solid #d1d1d1;
+  border-bottom: 1px solid var(--grey);
   position: relative;
 }
 
@@ -33,20 +33,13 @@ button.x-card svg {
   margin: 0;
 }
 
-button.add-card {
-  position: fixed;
-  bottom: 0;
-  left: 10%;
-  width: 80%;
-}
-
 body.wfp-widget-open main {
   margin-right: -15px;
 }
 
 h1.nocards {
   text-align: center;
-  color: white;
+  color: var(--white);
   font-weight: 300;
 }
 
@@ -57,5 +50,5 @@ svg.nocards {
 }
 
 svg.nocards path {
-  fill: white;
+  fill: var(--white);
 }

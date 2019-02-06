@@ -127,7 +127,7 @@ export default class CurrentTrip extends Component {
             <input id='time' type='time' step='600' placeholder='Now'/>
           </label>
           <input type='text' class='comment' placeholder={i18n.current_trip.comment} onInput={this.setComment}/>
-          <input type='submit' disabled={this.state.submitDisabled} class='submit' onClick={this.build} value='OK'/>
+          <input type='submit' disabled={this.state.submitDisabled} class='button' onClick={this.build} value='OK'/>
         </form>
       </section>
     )

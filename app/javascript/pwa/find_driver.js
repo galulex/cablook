@@ -25,7 +25,7 @@ export default class FindDriver extends Component {
             <address>{this.props.trip.destination_address}</address>
           </div>
           <SearchLogo class='search_logo'/>
-          <button class='cancel' type='button' onClick={this.props.cancel}>{i18n.find_driver.cancel}</button>
+          <button class='button fixed cancel' type='button' onClick={this.props.cancel}>{i18n.find_driver.cancel}</button>
         </section>
       </div>
     )

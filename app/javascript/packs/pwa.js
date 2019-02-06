@@ -14,6 +14,8 @@ import Trips from '../pwa/trips.js';
 import Drawer from '../pwa/drawer.js';
 import FindDriver from '../pwa/find_driver.js';
 
+import '../pwa/css/buttons.css';
+
 // const Map = ReactMapboxGl({
 //   accessToken: 'pk.eyJ1IjoiYnJ1Y2VsaWF0b3IiLCJhIjoiY2oxcTJ5dDNzMDA2ajMybnR6M3V5cGVubiJ9.qjyqnH72UUVnsaY63OzMGg'
 // });

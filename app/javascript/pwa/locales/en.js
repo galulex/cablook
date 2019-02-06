@@ -66,6 +66,9 @@ const en = {
     change: 'Change phone number',
     policy: 'By pressing sign up you\'re accepting',
     policy_link: 'privacy policy'
+  },
+  map_picker: {
+    header: 'Pick Location'
   }
 }
 

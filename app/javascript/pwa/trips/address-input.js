@@ -115,6 +115,8 @@ export default class AddressInput extends Component {
 
   openMap = () => {
     this.setState({isShowMap: true});
+    history.pushState(null, 'Trip Details','/pwa');
+    window.addEventListener('popstate', this.handleBack, {once: true});
   }
 
   closeMap = (coords) => () => {
@@ -134,6 +136,11 @@ export default class AddressInput extends Component {
       if (prediction) this.setLocation(prediction)
     }, 300)
   }
+
+  handleBack = (event) => {
+    this.setState({isShowMap: false})
+    event.stopPropagation()
+  };
 
   keydown = (e) => {
     let prediction = this.state.predictions[0]

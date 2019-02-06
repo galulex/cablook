@@ -1,6 +1,9 @@
 import { h, render, Component } from 'preact';
 import 'mapbox-gl/dist/mapbox-gl.css'
 import mapboxgl from 'mapbox-gl'
+
+import i18n from './i18n.js'
+import Back from './images/arrow-left.svg'
 import Pin from './images/pin'
 
 mapboxgl.accessToken = 'pk.eyJ1Ijoib2t1bmlldmEiLCJhIjoiY2pybHc3dDY2MGJ4aTN6bWZjMGxlOWhrMiJ9.bk9lWZM6sHClogdqthjHSA';
@@ -58,7 +61,6 @@ export default class MapPicker extends Component {
       right: "0",
       top: "54px",
       bottom: "0",
-      zIndex: "1",
       background: '#ECE0CA'
     };
 
@@ -88,10 +90,14 @@ export default class MapPicker extends Component {
     };
 
     return (
-      <div>
+      <div class='trip-details'>
+        <header>
+          {i18n.map_picker.header}
+          <button type='button' class='burger' onClick={() => window.history.back()}><Back fill='#132d50'/></button>
+        </header>
         <div ref={el => this.mapContainer = el} style={style}  />
         <Pin color={"#19A160"} fillColor={"#19A160"} style={pinStyle}/>
-        <div onClick={this.props.onCloseMap([this.state.lng, this.state.lat])} style={buttonStyle}>Ok</div>
+        <button type='button' class='button fixed' onClick={this.props.onCloseMap([this.state.lng, this.state.lat])}>OK</button>
       </div>
     );
   }

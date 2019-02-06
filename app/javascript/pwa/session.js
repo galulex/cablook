@@ -35,11 +35,11 @@ export default class Session extends Component {
             ? this.renderCode()
             : this.renderNumber()
           }
+          <div class='city_road'>
+            <City class='city'/>
+            <Nissan class='nissan'/>
+          </div>
         </section>
-      <div class='city_road'>
-        <City class='city'/>
-        <Nissan class='nissan'/>
-      </div>
       </main>
     )
 }

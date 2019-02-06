@@ -63,7 +63,7 @@ export default class Cards extends Component {
       <section>
         <header>Cards</header>
         { cardList }
-        <button class='add-card' type='button' onClick={this.new}>+ {i18n.cards.add}</button>
+        <button class='button fixed' type='button' onClick={this.new}>+ {i18n.cards.add}</button>
       </section>
     )
   }
