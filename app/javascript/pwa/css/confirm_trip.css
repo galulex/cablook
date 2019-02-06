@@ -1,62 +1,104 @@
-/* section.confirm_trip {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  height: 100vh;
-  padding: 50px 30px 0;
-}
-
-section.confirm_trip div.card_select {
-  flex-grow: 2;
-  display: flex;
-}
-
-section.confirm_trip select {
-  width: 100%;
-  display: block;
-  border: none;
-  color: #19a160;
-  font-size: 1.1rem;
-  padding: 20px 5px;
-  outline: none;
-  position: relative;
-  box-sizing: border-box;
-} */
-
-section.confirm_trip {
+section.confirm-trip {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
+  height: 100vh;
   padding: 54px 0 0;
-}
-section.confirm_trip .buttons button {
-  background: #19A160;
-  border: none;
-  color: white;
-  font-size: 18px;
-  font-weight: 500;
-  transition: box-shadow .3s;
-  box-shadow: 0 3px 6px rgba(0,0,0,0.16);
-  padding: 10px 0;
-  margin-bottom: 20px;
-  width: 100%;
-  border-radius: 0;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  cursor: pointer;
+  background: white;
+  overflow-x: hidden;
 }
 
-section.confirm_trip .buttons button.bonus {
+section.confirm-trip div.details {
+  flex-grow: 2;
+  width: 100%;
+  min-width: 400px;
+  padding: 0 50px;
+  background: white;
+}
+
+section.confirm-trip div.details svg {
+  width: 24px;
+  height: 24px;
+  vertical-align: middle;
+  background: white;
+}
+
+section.confirm-trip div.card-section {
+  display: flex;
+  flex-grow: 2;
+  width: 100%;
+  max-width: 600px;
+  background: white;
+  border-top: 2px solid #312d50;
+  border-bottom: 2px solid #19A160;
+}
+
+section.confirm-trip div.card-section label {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-grow: 4;
+  background: #19A160;
+}
+
+section.confirm-trip div.card-section div.select {
+  position: relative;
+  display: inline-block;
+  flex-grow: 6;
+}
+
+section.confirm-trip div.card-section div.select::before {
+  position: absolute;
+  color: #19A160;
+  content: '▼';
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+section.confirm-trip select {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: none;
+  border-radius: 0;
+  margin: 0;
+  padding: 20px 30px 20px 5px;
+  color: #19a160;
+  background: transparent;
+  font-size: 1.1rem;
+  outline: none;
+  box-sizing: border-box;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -o-appearance: none;
+  appearance: none;
+}
+
+section.confirm-trip img {
+  width: 100%;
+  background: white;
+  height: 63vh;
+  object-fit: cover;
+  flex-grow: 10;
+  min-height: 0;
+}
+
+section.confirm-trip .buttons .add-card {
+  position: unset;
+  bottom: unset;
+  left: unset;
+  width: 100%;
+  background: #19A160;
+}
+
+section.confirm-trip .buttons button.bonus {
   background: #efcc3a;
 }
 
-section.confirm_trip div.details {
-  margin-bottom: 20px;
-}
-
-section.confirm_trip .buttons {
+section.confirm-trip .buttons {
   position: fixed;
   left: 0;
   right: 0;
@@ -66,10 +108,39 @@ section.confirm_trip .buttons {
   max-width: 560px;
 } 
 
-section.confirm_trip img {
-  width: 100%;
-  background: #E6E4E0;
-  height: 63vh;
-  max-height: 100vw;
-  object-fit: cover;
+/* Details dots */
+ul.details-list {
+  max-width: 37em;
+  padding: 0;
+  overflow-x: hidden;
+  list-style: none;
+  padding: 20px 0;
+}
+
+ul.details-list li:before {
+  float: left;
+  width: 0;
+  white-space: nowrap;
+  content: 
+  ". . . . . . . . . . . . . . . . . . . . "
+  ". . . . . . . . . . . . . . . . . . . . "
+  ". . . . . . . . . . . . . . . . . . . . "
+  ". . . . . . . . . . . . . . . . . . . . ";
+}
+
+ul.details-list li:first-child {
+  margin-bottom: 10px;
+}
+
+ul.details-list span{
+  font-weight: 600;
+  letter-spacing: 2px;
+  padding-right: 0.33em;
+  background: white;
+}
+
+ul.details-list span + span {
+  float: right;
+  padding-left: 0.33em;
+  background: white;
 }

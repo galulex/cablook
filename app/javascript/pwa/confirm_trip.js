@@ -4,6 +4,8 @@ import axios from 'axios';
 import MapImg from './map_img.js'
 import i18n from './i18n.js'
 import './css/confirm_trip.css'
+import TripPrice from './images/trip_price.svg'
+import Pin from './images/pin.svg'
 import Back from './images/arrow-left.svg'
 
 export default class ConfirmTrip extends Component {
@@ -51,23 +53,35 @@ export default class ConfirmTrip extends Component {
 
   render() {
     return (
-      <section class='confirm_trip'>
+      <section class='confirm-trip'>
         <header>{i18n.confirm_trip.header}</header>
         <button type='button' class='burger' onClick={() => window.history.back()}><Back fill='#132d50'/></button>
         <div class='details'>
-          <br/>{i18n.confirm_trip.cost}{i18n.confirm_trip.dots}<b id='trip_cost'>{this.props.trip.cost}{i18n.confirm_trip.currency}</b>
-          <br/>{i18n.confirm_trip.distance}{i18n.confirm_trip.dots}<b id='trip_distance'>{(this.props.trip.distance/1000).toFixed(1)}{i18n.confirm_trip.km}</b>
+          <ul class='details-list'>
+            <li>
+              <TripPrice />
+              <span>{i18n.confirm_trip.cost}</span>
+              <span><b id='trip_cost'>{this.props.trip.cost} {i18n.confirm_trip.currency}</b></span>
+            </li>
+            <li>
+              <Pin />
+              <span>{i18n.confirm_trip.distance}</span>
+              <span><b id='trip_distance'>{(this.props.trip.distance/1000).toFixed(1)} {i18n.confirm_trip.km}</b></span>
+            </li>
+          </ul>
         </div>
-        <div class='card_select'>
+        <div class='card-section'>
           <label for='card'>{i18n.confirm_trip.card}</label>
-          <select onChange={(e) => this.selectCard(e)}> 
-            {this.state.cards.map((el) => this.renderCard(el))}
-          </select>
+          <div class='select'>
+            <select id='card' onChange={(e) => this.selectCard(e)}> 
+              {this.state.cards.map((el) => this.renderCard(el))}
+            </select>
+          </div>
         </div>
         <MapImg trip={() => this.props.trip} />
         <div class='buttons'>
           { this.renderBonus() }
-          <button type='button' disabled={this.state.submitDisabled} onClick={this.create}>{i18n.confirm_trip.go}</button>
+          <button class='add-card' type='button' disabled={this.state.submitDisabled} onClick={this.create}>{i18n.confirm_trip.go}</button>
         </div>
       </section>
     )
@@ -90,7 +104,7 @@ export default class ConfirmTrip extends Component {
 
   renderBonus = () => {
     if (this.props.bonus_trips().some((e) => e.status == 1)) {
-      return(<button class='bonus' type='button' disabled={this.state.submitDisabled} onClick={(e) => this.bonusTrip(e)} value='true'>{i18n.confirm_trip.bonus}</button>)
+      return(<button class='add-card bonus' type='button' disabled={this.state.submitDisabled} onClick={(e) => this.bonusTrip(e)} value='true'>{i18n.confirm_trip.bonus}</button>)
     }
   }
 
