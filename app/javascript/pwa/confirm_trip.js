@@ -73,7 +73,7 @@ export default class ConfirmTrip extends Component {
         <div class='card-section'>
           <label for='card'>{i18n.confirm_trip.card}</label>
           <div class='select'>
-            <select id='card' onChange={(e) => this.selectCard(e)}> 
+            <select id='card' onChange={(e) => this.selectCard(e)}>
               {this.state.cards.map((el) => this.renderCard(el))}
             </select>
           </div>
@@ -81,7 +81,7 @@ export default class ConfirmTrip extends Component {
         <MapImg trip={() => this.props.trip} />
         <div class='buttons'>
           { this.renderBonus() }
-          <button class='add-card' type='button' disabled={this.state.submitDisabled} onClick={this.create}>{i18n.confirm_trip.go}</button>
+          <button class='button fixed' type='button' disabled={this.state.submitDisabled} onClick={this.create}>{i18n.confirm_trip.go}</button>
         </div>
       </section>
     )
@@ -104,7 +104,7 @@ export default class ConfirmTrip extends Component {
 
   renderBonus = () => {
     if (this.props.bonus_trips().some((e) => e.status == 1)) {
-      return(<button class='add-card bonus' type='button' disabled={this.state.submitDisabled} onClick={(e) => this.bonusTrip(e)} value='true'>{i18n.confirm_trip.bonus}</button>)
+      return(<button class='button fixed bonus' type='button' disabled={this.state.submitDisabled} onClick={(e) => this.bonusTrip(e)} value='true'>{i18n.confirm_trip.bonus}</button>)
     }
   }
 

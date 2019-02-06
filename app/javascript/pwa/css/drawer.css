@@ -21,7 +21,7 @@ aside:before {
   top: 54px;
   background: rgba(0,0,0,0.5);
   opacity: 0;
-  z-index: -2
+  z-index: -2;
 }
 
 aside.active:before {

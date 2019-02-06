@@ -15,7 +15,8 @@ export default class Session extends Component {
     this.state = {
       number: '',
       code: '',
-      isCodeSent: false
+      isCodeSent: false,
+      disabled: false
     }
   }
 
@@ -51,7 +52,7 @@ export default class Session extends Component {
           <label for='number'><Phone class='phone'/>+380</label>
           <input id='number' title='7 digits' pattern='[0-9]*' maxlength='9' minlength='9' placeholder='_ _  _ _ _  _ _ _ _' required type='tel' autocomplete='off' autoFocus onInput={this.updateNumber}/>
         </div>
-        <button type='submit'>{i18n.session.number}</button>
+        <button class='button' disabled={this.state.disabled} type='submit'>{i18n.session.number}</button>
         <p><i>{i18n.session.policy} <a href='/privacy-policy' target='_blank'>{i18n.session.policy_link}</a></i></p>
       </form>
     )
@@ -63,8 +64,8 @@ export default class Session extends Component {
         <Lock class='lock'/>
         <label for='code'>{i18n.session.code}</label>
         <input id='code' title='4 digits' pattern='\d*' placeholder='_ _ _ _' maxlength='4' minlength='4' required type='tel' value={this.state.code} autocomplete='off' autoFocus onInput={this.updateCode} ref={input => this.codeInput = input}/>
-        <button class='change' type='button' onClick={this.resetNumber}>{i18n.session.change}</button>
-        <button type='submit'>{i18n.session.code_button}</button>
+        <button class='button change' disabled={this.state.disabled} type='button' onClick={this.resetNumber}>{i18n.session.change}</button>
+        <button class='button' type='submit' disabled={this.state.disabled}>{i18n.session.code_button}</button>
       </form>
     )
   }
@@ -84,14 +85,12 @@ export default class Session extends Component {
   createSession = (e) => {
     e.preventDefault()
     if (!e.target.checkValidity) return;
-    const params = { phone_number: this.state.number }
-    let component = this
-
-    axios.post('session', params).then((res) => {
-      component.setState({isCodeSent: true})
+    this.setState({disabled: true})
+    axios.post('session', { phone_number: this.state.number }).then((res) => {
+      this.setState({isCodeSent: true, disabled: false})
     }).catch((error) => {
-      if (!error.response) return;
-      alert(error.response.data.errors)
+      this.setState({disabled: false})
+      if (error.response) alert(error.response.data.errors)
     })
   }
 
@@ -99,13 +98,13 @@ export default class Session extends Component {
     e.preventDefault()
     if (!e.target.checkValidity) return;
     const params = { phone_number: this.state.number, token: this.state.code }
-    let component = this
 
+    this.setState({disabled: true})
     axios.patch('session', params).then((res) => {
-      component.props.login(res.data)
+      this.props.login(res.data)
     }).catch((error) => {
-      if (!error.response) return;
-      alert(error.response.data.errors)
+      this.setState({disabled: false})
+      if (error.response) alert(error.response.data.errors)
     })
   }
 }

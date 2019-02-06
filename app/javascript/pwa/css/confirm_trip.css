@@ -96,6 +96,7 @@ section.confirm-trip .buttons .add-card {
 
 section.confirm-trip .buttons button.bonus {
   background: #efcc3a;
+  bottom: 80px;
 }
 
 section.confirm-trip .buttons {
@@ -106,7 +107,7 @@ section.confirm-trip .buttons {
   margin: 0 auto;
   width: 80%;
   max-width: 560px;
-} 
+}
 
 /* Details dots */
 ul.details-list {
@@ -121,7 +122,7 @@ ul.details-list li:before {
   float: left;
   width: 0;
   white-space: nowrap;
-  content: 
+  content:
   ". . . . . . . . . . . . . . . . . . . . "
   ". . . . . . . . . . . . . . . . . . . . "
   ". . . . . . . . . . . . . . . . . . . . "
