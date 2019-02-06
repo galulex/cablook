@@ -39,8 +39,7 @@ const en = {
     cost: "Cost",
     currency: "uah",
     distance: "Distance",
-    km: "km",
-    dots: "............"
+    km: "km"
   },
   drawer: {
     home: 'Home',
