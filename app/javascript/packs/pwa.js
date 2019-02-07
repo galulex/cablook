@@ -86,7 +86,7 @@ export default class App extends Component {
   }
 
   updateCards = (cards) => {
-    this.setState({cards: cards, drawer: this.state.drawer})
+    this.setState({cards: cards})
   }
 
   render() {

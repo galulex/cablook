@@ -31,7 +31,7 @@ const en = {
   },
   confirm_trip: {
     header: 'Confirm Trip',
-    go: 'Go',
+    go: 'GO',
     add_card: "Add a card",
     bonus: "Use bonus trip",
     cancel: "Cancel",

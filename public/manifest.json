@@ -1,26 +1,26 @@
 {
   "short_name": "CabLook",
   "name": "CabLook TAXI",
-  "background_color": "#19a160",
+  "background_color": "#252424",
   "theme_color": "#19a160",
   "icons": [
     {
-      "src": "favicon-96x96.png",
+      "src": "icon_96x96.png",
       "sizes": "96x96",
       "type": "image/png"
     },
     {
-      "src": "mstile-144x144.png",
+      "src": "icon_144x144.png",
       "sizes": "144x144",
       "type": "image/png"
     },
     {
-      "src": "mstile-512x512.png",
+      "src": "icon_512x512.png",
       "sizes": "512x512",
       "type": "image/png"
     },
     {
-      "src": "favicon-192x192.png",
+      "src": "icon-_92x192.png",
       "sizes": "192x192",
       "type": "image/png"
     }

@@ -6,6 +6,10 @@ div.find_driver {
   z-index: 300;
 }
 
+div.find_driver section {
+  background: transparent;
+}
+
 div.find_driver address {
   color: white;
 }
