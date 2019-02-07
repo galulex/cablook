@@ -7,7 +7,8 @@ Rails.application.configure do
     'https://staging.cablook.taxi/',
     'https://cablook.taxi',
     'https://cablook.taxi/',
-    'http://cablook.taxi'
+    'http://cablook.taxi',
+    'https://app.cablook.taxi'
   ]
 
   config.secret_key_base = ENV['SECRET_KEY_BASE'] unless config.secret_key_base
