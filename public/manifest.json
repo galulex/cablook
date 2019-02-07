@@ -25,6 +25,6 @@
       "type": "image/png"
     }
   ],
-  "start_url": "/pwa",
+  "start_url": "/",
   "display": "standalone"
 }
