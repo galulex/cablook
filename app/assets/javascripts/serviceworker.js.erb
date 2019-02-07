@@ -1,6 +1,5 @@
 var CACHE_VERSION = 'v1';
 var CACHE_NAME = CACHE_VERSION + ':sw-cache-';
-<% helpers = ActionController::Base.helpers %>
 
 function onInstall(event) {
   console.log('[Serviceworker]', "Installing!", event);
@@ -8,12 +7,10 @@ function onInstall(event) {
     caches.open(CACHE_NAME).then(function prefill(cache) {
       // make sure serviceworker.js is not required by application.js
       // if you want to reference application.js from here
-      var urls = ['<%= asset_path "application.css" %>',
-                 '<%= asset_path "pwa.css" %>',
-                 '<%= asset_path "Gilroy-Bold.woff2" %>',
+      var urls = ['<%= asset_path "Gilroy-Bold.woff2" %>',
                  '<%= asset_path "Gilroy-ExtraBold.woff2" %>',
                  '<%= asset_path "Gilroy-Light.woff2" %>',
-                 '<%= helpers.asset_pack_path "pwa.js" %>',
+                 '<%= Webpacker.manifest.lookup 'pwa.js' %>',
                  '/offline.html'];
       var req_objects = [];
       for (var i = 0; i < urls.length; i++) {
