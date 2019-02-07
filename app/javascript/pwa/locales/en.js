@@ -5,8 +5,8 @@ const en = {
     add: ' Add to homescreen'
   },
   trip: {
-    header: 'Trip Details',
-    currency: 'UAH',
+    cancel: 'Cancel',
+    canceled: 'Trip is canceled',
     car_not_found: 'No cars available right now.\nDo you want to try one more time?',
     canceled: 'Trip is canceled',
     no_cars_notice: 'No cars available'

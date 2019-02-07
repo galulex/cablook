@@ -143,3 +143,15 @@ nav {
 div.map {
   height: 500px;
 }
+
+/* Trip component */
+.trips svg {
+  margin: 0 10px;
+  width: 25px;
+  height: 25px;
+  vertical-align: middle;
+}
+
+.trips div.map {
+  height: 70vh;
+}

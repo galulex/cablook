@@ -112,7 +112,10 @@ export default class Home extends Component {
   }
 
   waiting_client = () => {
-    alert(i18n.trip.canceled)
+    this.vibrate()
+    let trip = this.state.trip
+    trip.status = 2
+    this.updateTrip(trip)
   }
 
   cancel = (e) => {
