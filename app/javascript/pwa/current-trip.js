@@ -17,6 +17,7 @@ export default class CurrentTrip extends Component {
         destination: '',
         departure_address: '',
         destination_address: '',
+        time: null,
         osrm: true
       },
       submitDisabled: false,
@@ -70,6 +71,21 @@ export default class CurrentTrip extends Component {
     this.setState(state);
   }
 
+  setNoCall = (e) => {
+    (e.target.checked == true) ? this.state.trip.no_call = true : this.state.trip.no_call = false
+    this.setState(this.state);
+  }
+
+  setEntrance = (e) => {
+    this.state.trip.entrance = e.target.value
+    this.setState(this.state);
+  }
+
+  setOrderTime = (e) => {
+    this.state.trip.time = e.target.value
+    this.setState(this.state);
+  }
+
   build = (e) => {
     let params = {...this.state.trip}
     if (!e.target.form.checkValidity()) return e.target.form.reportValidity();
@@ -94,7 +110,7 @@ export default class CurrentTrip extends Component {
 
   render() {
     let trip = this.state.trip
-    let isValid =  (this.state.trip.stops.includes(''))
+    let isValid = (this.state.trip.stops.includes(''))
     return(
       <section class="home">
         <header>{i18n.current_trip.header}</header>
@@ -109,14 +125,14 @@ export default class CurrentTrip extends Component {
             </div>
           </div>
           <div class='nocall'>
-            <input id='nocall' type='checkbox'/>
+            <input id='nocall' type='checkbox' onChange={this.setNoCall}/>
             <label for='nocall'>
               No Call
             </label>
           </div>
           <label for='entrance'>
             <span>Where to pick?</span>
-            <select id='entrance'>
+            <select id='entrance' onChange={(e) => this.setEntrance(e)}>
               <option value=''>{i18n.current_trip.select_entrance}</option>
               {this.state.entrance.map((el) => {
                 return(<option value={el}>{el}</option>)
@@ -125,9 +141,9 @@ export default class CurrentTrip extends Component {
           </label>
           <label for='time'>
             <span>When?</span>
-            <input id='time' type='time' step='600' placeholder='Now'/>
+            <input id='time' type='time' step='600' placeholder='Now' onChange={this.setOrderTime}/>
           </label>
-          <input type='text' class='comment' placeholder={i18n.current_trip.comment} onInput={this.setComment}/>
+          <input type='text' class='comment' placeholder={i18n.current_trip.comment} onChange={this.setComment}/>
           <input type='submit' disabled={this.state.submitDisabled} class='button' onClick={this.build} value='OK'/>
         </form>
       </section>

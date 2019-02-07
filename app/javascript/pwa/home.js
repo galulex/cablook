@@ -118,6 +118,13 @@ export default class Home extends Component {
     this.updateTrip(trip)
   }
 
+  start_trip = () => {
+    this.vibrate()
+    let trip = this.state.trip
+    trip.status = 3
+    this.updateTrip(trip)
+  }
+
   cancel = (e) => {
     // if (!confirm(i18n.find_driver.confirm_cancel)) return;
     axios.patch(`trips/${this.state.trip.id}/cancel`).then((res) => {
