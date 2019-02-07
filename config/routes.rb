@@ -54,12 +54,14 @@ Rails.application.routes.draw do
   end
 
   # scope '(:locale)', locale: /(ru)/, defaults: { locale: :uk } do
-  get '/pwa(/*all)' => 'welcome#pwa', as: :pwa
+  get '/pwa(/*all)', to: redirect(subdomain: :app, path: '/')
   get ':page' => 'welcome#index', constraints: { page: /(about|faq|why|benefits|contacts)/ }, defaults: { page: 'index' }, as: :page
   get 'benefits/ext_opportunities', to: 'welcome#index', defaults: { page: 'ext_opportunities' }, as: :ext_opp
   # end
 
   resources :locales, only: :show, constraints: { id: /(en|uk|ru)/ }
+
+  get '/', constraints: { subdomain: 'app' }, defaults: { subdomain: :app }, to: 'welcome#pwa', as: :pwa
 
   root to: 'welcome#index'
 end

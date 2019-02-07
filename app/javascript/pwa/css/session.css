@@ -24,6 +24,10 @@ label[for='code'] {
 
 main.number_input { position: relative; }
 
+main.login {
+  background: linear-gradient(to top, var(--green), 20%, var(--navy));
+}
+
 main.login input {
   width: 100%;
   display: block;

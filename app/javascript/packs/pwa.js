@@ -96,11 +96,11 @@ export default class App extends Component {
           <Drawer active={this.state.drawer} triggerDrawer = {this.triggerDrawer} logOut={this.logOut}/>
           <button class='burger' onClick={() => this.triggerDrawer(true)}>☰</button>
           <Router>
-            <Home path='/pwa' cards={() => this.state.cards} bonus_trips={() => this.state.bonus_trips} />
-            <Trips path='/pwa/trips' />
-            <Bonus path='/pwa/bonus_trips' />
-            <Cards path='/pwa/cards' cards={() => this.state.cards} updateCards={this.updateCards} />
-            <Contacts path='/pwa/contacts' />
+            <Home path='/' cards={() => this.state.cards} bonus_trips={() => this.state.bonus_trips} />
+            <Trips path='/trips' />
+            <Bonus path='/bonus_trips' />
+            <Cards path='/cards' cards={() => this.state.cards} updateCards={this.updateCards} />
+            <Contacts path='/contacts' />
           </Router>
         </main>
       )

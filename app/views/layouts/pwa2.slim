@@ -39,6 +39,7 @@ html lang="#{I18n.locale}"
         font-weight: 100;
         font-size: 18px;
         background: linear-gradient(to bottom, var(--grey), var(--white));
+        background-attachment: fixed;
         color: #312d50;
         -webkit-overflow-scrolling: touch;
         overscroll-behavior-x: none;
@@ -70,7 +71,6 @@ html lang="#{I18n.locale}"
         padding: 70px 30px 0;
         min-height: 100vh;
         min-height: calc(var(--vh, 1vh) * 100);
-        background: linear-gradient(to bottom, #D9D9DA, white);
       }
 
       ul {
@@ -87,7 +87,7 @@ html lang="#{I18n.locale}"
         background: white;
       }
 
-      main.login section, div.loader {
+      div.loader {
         background: var(--navy);
         background: linear-gradient(to top, var(--green), 20%, var(--navy));
       }
@@ -196,6 +196,13 @@ html lang="#{I18n.locale}"
     noscript
       h1 JavaScript is disabled :(
       css:
-        .search-logo path {
+        .search_logo path {
           animation: none !important;
+        }
+
+        h1 {
+          position: relative;
+          text-align: center;
+          z-index: 100000;
+          color: var(--white);
         }

@@ -26,7 +26,8 @@ export default class CurrentTrip extends Component {
   }
 
   componentDidMount(){
-    window.history.replaceState(null, 'Search','/pwa')
+    window.history.replaceState(null, 'Search','/')
+    console.log(i18n.setLanguage('uk'))
   }
 
   setAddress = (text, coords, index) => {
