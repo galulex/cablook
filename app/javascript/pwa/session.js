@@ -28,22 +28,20 @@ export default class Session extends Component {
 
   render() {
     return (
-      <main id='app' class='login'>
-        <section>
-          <Logo class='logo'/>
-          <div><b>CAB</b>LOOK</div>
-          { this.state.isCodeSent
+      <section>
+        <Logo class='logo'/>
+        <div><b>CAB</b>LOOK</div>
+        { this.state.isCodeSent
             ? this.renderCode()
             : this.renderNumber()
-          }
-          <div class='city_road'>
-            <City class='city'/>
-            <Nissan class='nissan'/>
-          </div>
-        </section>
-      </main>
+        }
+        <div class='city_road'>
+          <City class='city'/>
+          <Nissan class='nissan'/>
+        </div>
+      </section>
     )
-}
+  }
 
   renderNumber = () => {
     return(

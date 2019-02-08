@@ -1,0 +1,32 @@
+main div.prompt {
+  background: var(--grey);
+  border-radius: 5px;
+  position: fixed;
+  bottom: 20px;
+  left: 0;
+  right: 0;
+  padding: 10px 20px;
+  font-size: 20px;
+  color: var(--navy);
+  text-align: left;
+  max-width: 360px;
+  margin: 0 auto;
+  cursor: pointer;
+}
+
+div.prompt:before {
+  content: '';
+  position: absolute;
+  transform: rotate(45deg);
+  width: 20px;
+  height: 20px;
+  bottom: -10px;
+  left: 49%;
+  background: var(--grey);
+  z-index: -1;
+}
+
+main div.prompt svg {
+  display: inline-block;
+  vertical-align: middle;
+}

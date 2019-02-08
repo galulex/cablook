@@ -1,4 +1,8 @@
 const en = {
+  pwa: {
+    install: 'Install this app: Tap ',
+    add: ' and then Add to homescreen'
+  },
   trip: {
     header: 'Trip Details',
     currency: 'UAH',

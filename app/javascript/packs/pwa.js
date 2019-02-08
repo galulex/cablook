@@ -1,9 +1,6 @@
 import { h, render, Component } from 'preact';
 import { Router } from 'preact-router';
-import { route } from 'preact-router';
 import { createContext } from "preact-context";
-// import ReactMapboxGl, { Layer, Feature } from 'react-mapbox-gl';
-import { Map } from 'mapbox-gl';
 
 import Home from '../pwa/home.js';
 import Session from '../pwa/session.js';
@@ -13,13 +10,10 @@ import Contacts from '../pwa/contacts.js';
 import Trips from '../pwa/trips.js';
 import Drawer from '../pwa/drawer.js';
 import FindDriver from '../pwa/find_driver.js';
+import Prompt from '../pwa/prompt.js';
 
 import '../pwa/css/buttons.css';
 
-// const Map = ReactMapboxGl({
-//   accessToken: 'pk.eyJ1IjoiYnJ1Y2VsaWF0b3IiLCJhIjoiY2oxcTJ5dDNzMDA2ajMybnR6M3V5cGVubiJ9.qjyqnH72UUVnsaY63OzMGg'
-// });
-//
 import axios from 'axios';
 axios.defaults.baseURL = '/api';
 axios.defaults.headers.common['Auth-Token'] = localStorage.token;
@@ -38,7 +32,7 @@ export default class App extends Component {
   }
 
   componentDidMount() {
-    if (this.state.currentUser) {
+    if (axios.defaults.headers.common['Auth-Token']) {
       this.fetchCards()
       this.fetchBonus()
     }
@@ -102,11 +96,15 @@ export default class App extends Component {
             <Cards path='/cards' cards={() => this.state.cards} updateCards={this.updateCards} />
             <Contacts path='/contacts' />
           </Router>
+          <Prompt />
         </main>
       )
     } else {
       return(
-        <Session login = {this.logIn} ></Session>
+        <main id='app' class='login'>
+          <Session login = {this.logIn} />
+          <Prompt />
+        </main>
       )
     }
   }
