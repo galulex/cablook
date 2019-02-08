@@ -1,7 +1,8 @@
 const en = {
-  pwa: {
+  prompt: {
     install: 'Install this app: Tap ',
-    add: ' and then Add to homescreen'
+    and: ' and then',
+    add: ' Add to homescreen'
   },
   trip: {
     header: 'Trip Details',
