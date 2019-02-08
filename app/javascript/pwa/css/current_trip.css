@@ -233,9 +233,10 @@ input[type='checkbox'] + label:before {
 
 svg.map-pick {
   position: absolute;
-  right: 15px;
+  right: 10px;
   top: 50%;
   transform: translateY(-50%);
+  width: 25px;
   cursor: pointer;
 }
 
