@@ -10,7 +10,7 @@ address:after {
   border-radius: 50%;
   width: 0;
   height: 0;
-  border: 6px solid #efcc3a;
+  border: 6px solid var(--orange);
   top: calc(50% - 6px);
   left: calc(1% - 30px);
   transition: border-color 0.3s;
@@ -35,7 +35,6 @@ address:last-of-type:before {
 }
 address:last-of-type {
   color: #19a160;
-  margin-top: 10px;
 }
 .trip-card {
   background: #d3d3d3;
@@ -157,4 +156,16 @@ div.map {
 
 .trips div.map {
   height: 70vh;
+}
+
+.trips .pins {
+  display: none;
+}
+
+.trips svg.departure path {
+  fill: var(--navy)
+}
+
+.trips svg.waypoint path {
+  fill: var(--orange)
 }

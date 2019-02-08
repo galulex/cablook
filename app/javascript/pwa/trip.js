@@ -12,9 +12,7 @@ import TripTime from './images/trip_time.svg'
 import Phone from './images/green_phone.svg'
 import Cards from './images/credit-cards-payment.svg'
 import Car from './images/car.svg'
-import PinGreen from './images/pin_green.svg'
-import PinViolet from './images/pin_violet.svg'
-import PinYellow from './images/pin_yellow.svg'
+import Pin from './images/pin.svg'
 
 const polyline = require('@mapbox/polyline')
 
@@ -77,6 +75,7 @@ export default class Trip extends Component {
       });
     window.map = this.map
     });
+    this.setMarker()
   }
 
   render() {
@@ -86,18 +85,18 @@ export default class Trip extends Component {
       <section class='trips'>
         <header>{i18n.trip.header}</header>
         <div class='map' ref={el => this.mapContainer = el} />
-        { this.renderButton() }
+        {this.renderButton()}
         <div class='trip-details-content'><Car/>{`${trip.driver_name} ${i18n.trip.on} ${trip.car_number}`}</div>
         <div class='trip-details-content'><TripTime/>{trip.start_time}</div>
         <div class='trip-details-content'><Phone/>{trip.car_phone_number}</div>
         <div class='trip-details-content'>
           <address>{trip.departure_address}</address>
-          { this.renderStops() }
+          {this.renderStops()}
           <address>{trip.destination_address}</address>
         </div>
         <div class='trip-details-content'><TripPrice/>{`${trip.cost} ${i18n.trip.currency}`}</div>
         <div class='trip-details-content'><TripStatus/>{`${i18n.trips.status} - ${i18n.trips.statuses[trip.status]}`}</div>
-        <div class='trip-details-content'><Cards/>{`${i18n.trip.status} - ${i18n.trip.payment_statuses[trip.payment_status]}`}</div>
+        {this.renderPin()}
       </section>
     );
   }
@@ -109,5 +108,23 @@ export default class Trip extends Component {
   renderStops = () => {
     let stops = this.props.trip.stops
     return(stops.map(stop => (<address>{stop}</address>)))
+  }
+
+  renderPin = () => {
+    return(
+      <div class='pins'>
+        <div ref={el => this.departurePin = el}><Pin class='departure'/></div>
+        <div ref={el => this.destinationPin = el}><Pin class='destination'/></div>
+        {this.props.trip.waypoints.map(() => (<div><Pin class='waypoint'/></div>))}
+      </div>
+    )
+  }
+
+  setMarker = () => {
+    new mapboxgl.Marker(this.departurePin).setLngLat(this.props.trip.departure).addTo(this.map);
+    new mapboxgl.Marker(this.destinationPin).setLngLat(this.props.trip.destination.reverse()).addTo(this.map);
+    this.props.trip.waypoints.forEach((el, index) => {
+      new mapboxgl.Marker(document.getElementsByClassName('waypoint')[index].parentNode).setLngLat(el.split(',').reverse()).addTo(this.map);
+    })
   }
 }
