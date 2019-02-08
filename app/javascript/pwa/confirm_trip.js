@@ -20,7 +20,7 @@ export default class ConfirmTrip extends Component {
   }
 
   componentDidMount() {
-    history.pushState(null, 'Confirm Trip','/pwa')
+    history.pushState(null, 'Confirm Trip','/')
     window.addEventListener('popstate', this.props.handleBack, {once: true})
     window.onbeforeunload = (event) => {
       window.removeEventListener('popstate', this.props.handleBack, true)
