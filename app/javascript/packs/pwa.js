@@ -27,12 +27,13 @@ export default class App extends Component {
       currentUser: localStorage.token,
       drawer: false,
       cards: [],
-      bonus_trips: []
+      bonus_trips: [],
+      parent_bonus: [],
     }
   }
 
   componentDidMount() {
-    if (axios.defaults.headers.common['Auth-Token']) {
+    if (this.state.currentUser) {
       this.fetchCards()
       this.fetchBonus()
     }
@@ -51,8 +52,8 @@ export default class App extends Component {
   }
 
   fetchBonus = () => {
-    axios.get('bonus_trips').then((res) => {
-      this.setState({bonus_trips: res.data.bonus_trips})
+    axios.get('referrals').then((res) => {
+      this.setState({bonus_trips: res.data.bonus_trips, parent_bonus: res.data.parent_bonus})
     }).catch((error) => {
       if (error.response) alert(error.response.data.errors)
     })
@@ -92,7 +93,7 @@ export default class App extends Component {
           <Router>
             <Home path='/' cards={() => this.state.cards} bonus_trips={() => this.state.bonus_trips} />
             <Trips path='/trips' />
-            <Bonus path='/bonus_trips' />
+            <Bonus path='/bonus_trips' bonus_trips={() => this.state.bonus_trips} parent_bonus={() => this.state.parent_bonus} />
             <Cards path='/cards' cards={() => this.state.cards} updateCards={this.updateCards} />
             <Contacts path='/contacts' />
           </Router>

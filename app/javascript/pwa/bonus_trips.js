@@ -1,27 +1,24 @@
 import { h, render, Component } from 'preact';
 import L from 'lodash'
-import { Statuses } from './constants/statuses'
 import axios from 'axios';
+import i18n from './i18n.js'
+import Copy from './images/copy.svg'
 import './css/bonus.css'
 
 export default class Bonus extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      bonus_trips: [],
-      parent_bonus: [],
+      bonus_trips: this.props.bonus_trips(),
+      parent_bonus: this.props.parent_bonus(),
       referralCode: localStorage.referral,
-      friend_code: ''
+      disabled: false,
+      copied: false
     }
   }
 
-  componentDidMount() {
-    axios.get('referrals').then((res) => {
-      this.setState({bonus_trips: res.data.bonus_trips, parent_bonus: res.data.parent_bonus})
-    }).catch((error) => {
-      if (!error.response) return;
-      alert(error.response.data.errors)
-    })
+  componentWillReceiveProps() {
+    this.setState({bonus_trips: this.props.bonus_trips(), parent_bonus: this.props.parent_bonus()})
   }
 
   render() {
@@ -29,65 +26,56 @@ export default class Bonus extends Component {
     const bonusTrips = Object.keys(groupByStatus).map(el => ({ status: el, count: groupByStatus[el].length }))
     return (
       <section>
-        <header>Bonus</header>
-        { this.renderFriendCodeField() }
-        <h1> Ваш реферальный код </h1>
-        {
-          document.queryCommandSupported('copy') &&
-          <div>
-            <div class='referral-code'>
-              <input
-                ref={(textarea) => this.textArea = textarea}
-                value= {this.state.referralCode}
-                readOnly
-              />
-              <button onClick={this.copyToClipboard} class='purple-btn'>Скопировать</button>
-            </div>
-            <ul class='bonus-trips-list'>
-              { bonusTrips.map((bonus, i) => {
-                return(
-                  <li>
-                    <em>{Statuses[bonus.status]}</em>
-                    <span>{bonus.count}</span>
-                  </li>
-                )
-              })}
-            </ul>
-          </div>
-        }
+        <header>{i18n.bonuses.header}</header>
+        <div class='referral-code'>
+          <label for='referral'>{i18n.bonuses.your_code}</label>
+          <input id='referral' ref={(textarea) => this.textArea = textarea} value= {this.state.referralCode} readOnly />
+          <button disabled={this.state.copied} type='button' onClick={this.copy}>
+            <Copy fill='#312d50'/>
+          </button>
+        </div>
+        <br/>
+        <details>
+          <summary>{i18n.bonuses.how}</summary>
+          <p>
+            {i18n.bonuses.details}
+            <br/>
+            {i18n.bonuses.notice}
+          </p>
+        </details>
+        <ul class='bonus-trips-list'>
+          { bonusTrips.map((bonus, i) => {
+            return(
+              <li class={`bonus-${bonus.status}`}>
+                <em>{i18n.bonuses.statuses[bonus.status]}</em>
+                <span>{bonus.count}</span>
+              </li>
+            )
+          })}
+        </ul>
+        { (this.state.parent_bonus.length == 0) && <button type='button' disabled={this.state.disabled} onClick={this.apply} class='button fixed'>{i18n.bonuses.apply_code}</button> }
       </section>
     );
   };
 
-  renderFriendCodeField = () =>{
-    if (this.state.parent_bonus.length == 0) {
-      return(
-        <form onSubmit={this.applyFriendCode} class='referral-code'>
-          <input id='friend_code' onInput={this.updateCode}/>
-          <button type='submit' class='purple-btn'>Применить код друга</button>
-        </form>
-      )
-    }
-  }
-
-  copyToClipboard = (e) => {
-    this.textArea.select();
+  copy = (e) => {
+    this.textArea.setSelectionRange(0, 9999);
+    this.textArea.focus()
     document.execCommand('copy');
-    e.target.focus();
+    if (navigator.vibrate) navigator.vibrate(200)
+    this.setState({copied: true})
   };
 
-  updateCode = (e) => {
-    this.setState({friend_code: e.target.value})
-  }
-
-  applyFriendCode = (e) => {
-    e.preventDefault()
-    const params = { referral_code: this.state.friend_code }
-    axios.post('referrals', params).then((res) => {
-      alert('OK')
+  apply = () => {
+    var code = prompt(i18n.bonuses.apply_code, '');
+    if (code === '' || code === null) return
+    this.setState({disabled: true})
+    axios.post('referrals', {referral_code: code}).then((res) => {
+      this.setState({disabled: false, parent_bonus: [true]})
+      alert(i18n.bonuses.success)
     }).catch((error) => {
-      if (!error.response) return;
-      alert(error.response.data.errors)
+      this.setState({disabled: false})
+      if (error.response) alert(error.response.data.errors)
     })
   }
 }

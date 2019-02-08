@@ -3,28 +3,61 @@ ul.bonus-trips-list {
 }
 ul.bonus-trips-list li {
   border-bottom: 1px dotted #000;
-  padding: 1px 0 1px 5px;
+  padding: 10px 0;
 }
+
+ul.bonus-trips-list li.bonus-0 span {
+  background: var(--orange);
+  color: var(--navy);
+}
+
+ul.bonus-trips-list li.bonus-1 span {
+  background: var(--green);
+}
+
 ul.bonus-trips-list li span {
-  background: #a925ad;
+  background: var(--purple);
   border-radius: 50px;
   color: white;
   float: right;
-  height: 22px;
+  height: 30px;
   position: relative;
   text-align: center;
-  width: 22px;
+  width: 30px;
+  font-weight: bold;
+  line-height: 1.7;
 }
+
 .referral-code {
-  display: flex;
-}
-button.purple-btn {
-  background-color: #a925ad;
-  border: none;
-  color: white;
-  padding: 10px;
   text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 15px;
+}
+
+.referral-code button {
+  position: absolute;
+  right: 0;
+  cursor: pointer;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  border: none;
+  background: none;
+}
+
+.referral-code input {
+  text-align: center;
+  background: none;
+  border: none;
+  border-bottom: 2px solid var(--grey);
+  width: 100%;
+  color: var(--green);
+  font-size: 32px;
+}
+
+summary {
+  outline: none;
+  border: 2px solid var(--navy);
+  padding: 5px 10px;
+  text-align: center;
+  font-weight: 600;
+  cursor: pointer;
 }
