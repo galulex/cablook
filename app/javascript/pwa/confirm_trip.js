@@ -36,8 +36,10 @@ export default class ConfirmTrip extends Component {
   }
 
   create = (e) => {
-    let params = this.props.trip
+    let params = {...this.props.trip}
     this.submitDisabled(true)
+    params.departure = params.departure.join(',')
+    params.destination = params.destination.join(',')
     params.card_id = this.state.card_id
     params.bonus = this.state.bonus
     axios.post('trips', {trip: params}).then((res) => {

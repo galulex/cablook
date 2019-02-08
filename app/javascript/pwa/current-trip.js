@@ -90,8 +90,8 @@ export default class CurrentTrip extends Component {
     let params = {...this.state.trip}
     if (!e.target.form.checkValidity()) return e.target.form.reportValidity();
     this.submitDisabled(true)
-    params.waypoints = params.waypoints.slice(1, -2)
-    params.stops = params.stops.slice(1, -2)
+    params.waypoints = params.waypoints.slice(1, -1)
+    params.stops = params.stops.slice(1, -1)
 
     axios.post('trips/new', {trip: params}).then((res) => {
       this.props.updateTrip(res.data)
