@@ -10,7 +10,7 @@ address:after {
   border-radius: 50%;
   width: 0;
   height: 0;
-  border: 6px solid black;
+  border: 6px solid #efcc3a;
   top: calc(50% - 6px);
   left: calc(1% - 30px);
   transition: border-color 0.3s;
@@ -23,6 +23,9 @@ address:before {
   border: 1px solid white;
   left: calc(1% - 25px);
   position: absolute;
+}
+address:first-of-type:after {
+  border-color: black;
 }
 address:last-of-type:after {
   border-color: #19a160;

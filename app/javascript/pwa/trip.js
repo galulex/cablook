@@ -12,6 +12,9 @@ import TripTime from './images/trip_time.svg'
 import Phone from './images/green_phone.svg'
 import Cards from './images/credit-cards-payment.svg'
 import Car from './images/car.svg'
+import PinGreen from './images/pin_green.svg'
+import PinViolet from './images/pin_violet.svg'
+import PinYellow from './images/pin_yellow.svg'
 
 const polyline = require('@mapbox/polyline')
 
@@ -89,6 +92,7 @@ export default class Trip extends Component {
         <div class='trip-details-content'><Phone/>{trip.car_phone_number}</div>
         <div class='trip-details-content'>
           <address>{trip.departure_address}</address>
+          { this.renderStops() }
           <address>{trip.destination_address}</address>
         </div>
         <div class='trip-details-content'><TripPrice/>{`${trip.cost} ${i18n.trip.currency}`}</div>
@@ -100,5 +104,10 @@ export default class Trip extends Component {
 
   renderButton = () => {
     if (this.props.trip.status == 1) return(<button class='button cancel' onClick={this.props.cancel}>{i18n.trip.cancel}</button>)
+  }
+
+  renderStops = () => {
+    let stops = this.props.trip.stops
+    return(stops.map(stop => (<address>{stop}</address>)))
   }
 }
