@@ -26,6 +26,14 @@ export default class Session extends Component {
     }
   }
 
+  componentDidMount() {
+    document.documentElement.style.setProperty('--body-bg', '#132d50');
+  }
+
+  componentWillUnmount() {
+    document.documentElement.style.setProperty('--body-bg', '#19a160');
+  }
+
   render() {
     return (
       <section>

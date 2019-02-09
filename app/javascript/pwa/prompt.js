@@ -11,7 +11,6 @@ export default class Prompt extends Component {
     super(props)
     this.state = {
       prompt: (['iPhone', 'iPad', 'iPod'].includes(navigator.platform) && ('standalone' in window.navigator && !window.navigator.standalone) && !localStorage.getItem('prompt'))
-      // prompt: true
     }
   }
 

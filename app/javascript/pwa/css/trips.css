@@ -137,6 +137,7 @@ nav {
   z-index: 10001;
   overflow-y: auto;
   overscroll-behavior-y: none;
+  -webkit-overflow-scrolling: touch;
 }
 
 div.map {

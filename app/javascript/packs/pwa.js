@@ -36,12 +36,25 @@ export default class App extends Component {
     if (this.state.currentUser) {
       this.fetchCards()
       this.fetchBonus()
+      document.documentElement.style.setProperty('--body-bg', '#19a160')
     }
+    window.addEventListener('offline', this.offline)
+    window.addEventListener('online', this.online)
   }
 
   handleRoute = e => {
     this.currentUrl = e.url;
   };
+
+  offline = () => {
+    document.documentElement.style.setProperty('--body-bg', 'red')
+    document.body.className = 'offline'
+  }
+
+  online = () => {
+    document.documentElement.style.setProperty('--body-bg', '#19a160')
+    document.body.className = ''
+  }
 
   fetchCards = () => {
     axios.get('cards').then((res) => {
