@@ -76,9 +76,8 @@ export default class App extends Component {
   logIn = (data) => {
     this.setState({currentUser: data.auth_token})
     localStorage.setItem('token', data.auth_token)
-    localStorage.setItem('email', data.email)
     localStorage.setItem('referral', data.referral_code)
-    localStorage.setItem('email', data.email)
+    if (data.email !== undefined) localStorage.setItem('email', data.email)
     localStorage.setItem('phone', data.phone_number)
     axios.defaults.headers.common['Auth-Token'] = data.auth_token;
     this.fetchCards()
@@ -102,7 +101,7 @@ export default class App extends Component {
     if (this.state.currentUser) {
       return(
         <main id="app">
-          <Drawer active={this.state.drawer} triggerDrawer = {this.triggerDrawer} logOut={this.logOut}/>
+          <Drawer active={this.state.drawer} triggerDrawer = {this.triggerDrawer} logOut={this.logOut} bonuses={() => this.state.bonus_trips.filter(e => { return e.status === 1 }).length }/>
           <button class='burger' onClick={() => this.triggerDrawer(true)}>☰</button>
           <Router>
             <Home path='/' cards={() => this.state.cards} bonus_trips={() => this.state.bonus_trips} />

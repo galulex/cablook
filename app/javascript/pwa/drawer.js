@@ -41,7 +41,11 @@ export default class Drawer extends Component {
         </div>
         <Link activeClassName='active' href='/' onClick={this.close}><Home/>{i18n.drawer.home}</Link>
         <Link activeClassName='active' href='/trips' onClick={this.close}><Trip/>{i18n.drawer.trips}</Link>
-        <Link activeClassName='active' href='/bonus_trips' onClick={this.close}><Bonus/>{i18n.drawer.bonuses}</Link>
+        <Link activeClassName='active' href='/bonus_trips' onClick={this.close}>
+          <Bonus/>
+          {i18n.drawer.bonuses}
+          { this.props.bonuses() > 0 && <span>{this.props.bonuses()}</span>}
+        </Link>
         <Link activeClassName='active' href='/cards' onClick={this.close}><Card/>{i18n.drawer.cards}</Link>
         <Link activeClassName='active' href='/contacts' onClick={this.close}><Contact/>{i18n.drawer.contacts}</Link>
         <Link activeClassName='active' href='' onClick={this.props.logOut}><LogOut/>{i18n.drawer.logout}</Link>

@@ -11,11 +11,11 @@ ul.bonus-trips-list li.bonus-0 span {
   color: var(--navy);
 }
 
-ul.bonus-trips-list li.bonus-1 span {
-  background: var(--green);
+ul.bonus-trips-list li.bonus-1 span, aside span {
+  background: var(--green) !important;
 }
 
-ul.bonus-trips-list li span {
+ul.bonus-trips-list li span, aside span {
   background: var(--purple);
   border-radius: 50px;
   color: white;
@@ -25,7 +25,8 @@ ul.bonus-trips-list li span {
   text-align: center;
   width: 30px;
   font-weight: bold;
-  line-height: 1.7;
+  line-height: 1.8;
+  font-size: 18px;
 }
 
 .referral-code {
