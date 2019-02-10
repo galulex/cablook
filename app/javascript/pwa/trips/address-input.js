@@ -83,7 +83,7 @@ export default class AddressInput extends Component {
       if (status === 'OK') {
         if (results[0]) {
           this.setState({ address: results[0].formatted_address, predictions: [], isValid: true });
-          this.props.setAddress(results[0].formatted_address, `${lng},${lat}`, this.props.index);
+          this.props.setAddress(results[0].formatted_address, `${lat},${lng}`, this.props.index);
           this.input.setCustomValidity('')
         } else {
           window.alert('No results found');
