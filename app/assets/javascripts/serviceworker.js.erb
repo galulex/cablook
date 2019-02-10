@@ -63,3 +63,21 @@ function onFetch(event) {
 self.addEventListener('install', onInstall);
 self.addEventListener('activate', onActivate);
 self.addEventListener('fetch', onFetch);
+
+self.addEventListener('notificationclick', function(event) {
+  var messageId = event.notification.data;
+
+  event.notification.close();
+
+  if (event.action) {
+    action(event.notification.data, event.action)
+  }
+}, false);
+
+function action(data, action) {
+  fetch(`api/trips/${data.id}/${action}`, { method: "PATCH",
+    headers: {
+      "Content-Type": "application/json", "Auth-Token": data.token
+    }
+  })
+}

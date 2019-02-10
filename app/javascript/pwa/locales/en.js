@@ -8,7 +8,8 @@ const en = {
     header: 'Trip Details',
     currency: 'UAH',
     car_not_found: 'No cars available right now.\nDo you want to try one more time?',
-    canceled: 'Trip is canceled'
+    canceled: 'Trip is canceled',
+    no_cars_notice: 'No cars available'
   },
   trips: {
     header: 'Trips',

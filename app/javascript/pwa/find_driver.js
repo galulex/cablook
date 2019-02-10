@@ -8,12 +8,18 @@ import './css/find_driver.css'
 export default class FindDriver extends Component {
   constructor(props){
     super(props)
+    this.state = {
+      disabled: false
+    }
+  }
+
+  cancel = () => {
+    this.setState({disabled: true})
+    this.props.cancel()
   }
 
   componentDidMount() {
     this.props.subscribe()
-    if (this.props.trip.status !== 6) return;
-    this.props.TripDeclined()
   }
 
   render() {
@@ -25,7 +31,7 @@ export default class FindDriver extends Component {
             <address>{this.props.trip.destination_address}</address>
           </div>
           <SearchLogo class='search_logo'/>
-          <button class='button fixed cancel' type='button' onClick={this.props.cancel}>{i18n.find_driver.cancel}</button>
+          <button disabled={this.state.disabled} class='button fixed cancel' type='button' onClick={this.cancel}>{i18n.find_driver.cancel}</button>
         </section>
       </div>
     )

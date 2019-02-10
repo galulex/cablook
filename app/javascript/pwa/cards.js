@@ -13,12 +13,16 @@ export default class Cards extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      cards: this.props.cards()
+      cards: this.props.cards(),
+      disabled: false
     }
   }
 
   componentDidMount() {
     this.loadWidget()
+    window.addEventListener("message", (event) => {
+      if (event.data === 'WfpWidgetEventClose') this.setState({disabled: false})
+    })
   }
 
   componentWillReceiveProps() {
@@ -63,7 +67,7 @@ export default class Cards extends Component {
       <section>
         <header>Cards</header>
         { cardList }
-        <button class='button fixed' type='button' onClick={this.new}>+ {i18n.cards.add}</button>
+        <button class='button fixed' disabled={this.state.disabled} type='button' onClick={this.new}>+ {i18n.cards.add}</button>
       </section>
     )
   }
@@ -71,6 +75,7 @@ export default class Cards extends Component {
   new = () => {
     const component = this
     const wayforpay = new Wayforpay();
+    this.setState({disabled: true})
     wayforpay.run((this.WFP()),
       response =>{
         setTimeout(function(){
@@ -79,6 +84,7 @@ export default class Cards extends Component {
         }, 1000)
       },
       response =>{
+        component.setState({disabled: false})
       },
       response =>{
         setTimeout(function(){
@@ -119,9 +125,10 @@ export default class Cards extends Component {
 
     axios.post('cards', data).then((res) => {
       cards.push(res.data)
-      this.setState({cards: cards})
+      this.setState({cards: cards, disabled: false})
       this.props.updateCards(cards)
     }).catch((error) => {
+      this.setState({disabled: false})
       if (error.response) alert(error.response.data.errors)
     })
   }

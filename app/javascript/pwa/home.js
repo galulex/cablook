@@ -23,6 +23,7 @@ export default class Home extends Component {
   componentDidMount() {
     if (!!this.state.trip) this.subscribe()
     this.getTrip()
+    document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') this.getTrip() }, false);
   }
 
   componentWillUnmount() {
@@ -53,18 +54,39 @@ export default class Home extends Component {
   updateTrip = (trip) => {
     localStorage.setItem('trip', JSON.stringify(trip))
     this.setState({trip: trip})
+    console.log(this.state)
   }
 
   TripDeclined = (data) => {
-    this.vibrate()
-    setTimeout(() => {
-      if (confirm(i18n.trip.car_not_found)) {
-        this.retry()
-      } else {
-        this.unsubscribe()
-        this.updateTrip(null)
-      }
-    }, 500)
+    if (document.visibilityState !== 'hidden') {
+      this.vibrate()
+      setTimeout(() => {
+        if (confirm(i18n.trip.car_not_found)) {
+          this.retry()
+        } else {
+          this.unsubscribe()
+          this.updateTrip(null)
+        }
+      }, 500)
+      return
+    }
+    this.notify()
+  }
+
+  notify = () => {
+    let component = this
+    navigator.serviceWorker.getRegistrations().then(function(registrations) {
+      registrations[0].showNotification('CabLook', {
+        icon: '/icon_128x128.png',
+        data: {id: component.state.trip.id, token: localStorage.token},
+        badge: '/icon_96x96.png',
+        body: i18n.trip.no_cars_notice,
+        actions: [
+          {action: 'retry', title: '🔄 Retry'},
+          {action: 'cancel', title: '❌ Cancel'}
+        ]
+      })
+    })
   }
 
   TripAccepted = (data) => {
@@ -104,8 +126,10 @@ export default class Home extends Component {
 
   getTrip = () => {
     if (!this.state.trip || !this.state.trip.id) return;
+    console.log('GET TRIP')
     axios.get(`trips/${this.state.trip.id}`).then((res) => {
       this.updateTrip(res.data)
+      if (res.data.status == 6) this.TripDeclined()
     }).catch((error) => {
       if (error.response) alert(error.response.data.errors)
     })
@@ -113,6 +137,7 @@ export default class Home extends Component {
 
   retry = () => {
     axios.patch(`trips/${this.state.trip.id}/retry`).then((res) => {
+      this.updateTrip(res.data)
     }).catch((error) => {
       if (error.response) alert(error.response.data.errors)
     })

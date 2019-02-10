@@ -41,10 +41,8 @@ export default class ConfirmTrip extends Component {
     params.card_id = this.state.card_id
     params.bonus = this.state.bonus
     axios.post('trips', {trip: params}).then((res) => {
-      // localStorage.setItem('trip', res.data.id)
       this.props.updateTrip(res.data)
       window.removeEventListener('popstate', this.props.handleBack, true);
-      // window.history.back()
     }).catch((error) => {
       this.submitDisabled(false)
       if (error.response) alert(error.response.data.errors)
