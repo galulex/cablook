@@ -69,13 +69,26 @@ self.addEventListener('notificationclick', function(event) {
 
   event.notification.close();
 
-  if (event.action) {
-    action(event.notification.data, event.action)
+  if (event.action === 'retry') {
+    retry(event.notification.data, event.action)
+  } else if (event.action === 'cancel') {
+    return
+  } else {
+    event.waitUntil(clients.matchAll({
+      type: "window"
+    }).then(function(clientList) {
+      for (var i = 0; i < clientList.length; i++) {
+        var client = clientList[i];
+        if (client.url == '/' && 'focus' in client)
+          return client.focus();
+      }
+      if (clients.openWindow) return clients.openWindow('/');
+    }));
   }
 }, false);
 
-function action(data, action) {
-  fetch(`api/trips/${data.id}/${action}`, { method: "PATCH",
+function retry(data) {
+  fetch('api/trips/' + data.id + '/retry', { method: "PATCH",
     headers: {
       "Content-Type": "application/json", "Auth-Token": data.token
     }
