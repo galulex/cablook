@@ -142,6 +142,10 @@ nav {
   -webkit-overflow-scrolling: touch;
 }
 
+.trip-details-content address {
+  margin-left: 40px;
+}
+
 div.map {
   height: 500px;
 }
