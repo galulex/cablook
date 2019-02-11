@@ -12,8 +12,7 @@ export default class Feedback extends Component {
     this.state = {
       feedback: {
         rate: 5,
-        tip: 0,
-        description: null
+        tips: 0
       },
       submitDisabled: false
     }
@@ -38,7 +37,7 @@ export default class Feedback extends Component {
     let params = {...this.state.feedback}
     this.submitDisabled(true)
     params.trip_id = this.props.trip.id
-    axios.post(`trips/${params.trip_id}/feedbacks`, {feedback: params}).then((res) => {
+    axios.post(`trips/${params.trip_id}/feedbacks`, {feedback: params, tip: params.tips}).then((res) => {
       this.props.updateTrip(null)
     }).catch((error) => {
       this.submitDisabled(false)
@@ -63,7 +62,7 @@ export default class Feedback extends Component {
     this.setState(state)
   }
 
-  setTip = (e) => {
+  setTips = (e) => {
     let state = this.state.feedback
     state.tip = parseInt(e.target.value)
     this.setState(state)
@@ -76,9 +75,9 @@ export default class Feedback extends Component {
     ]
   }
 
-  renderTip = (i) => {
+  renderTips = (i) => {
     return [
-      <input id={`tip_${i}`} type='radio' value={i} name='tip' onChange={event => this.setTip(event)} checked={this.state.feedback.tip == i}/>,
+      <input id={`tip_${i}`} type='radio' value={i} name='tip' onChange={event => this.setTips(event)} checked={this.state.feedback.tips == i}/>,
       <label class='tip' for={`tip_${i}`}>{i}$</label>
     ]
   }
@@ -96,7 +95,7 @@ export default class Feedback extends Component {
           <Driver class='driver'/>
           <h4>{i18n.feedback.tips}</h4>
           <div class='tips-container'>
-            {[0,3,5,10,20].map(i => this.renderTip(i))}
+            {[0,3,5,10,20].map(i => this.renderTips(i))}
           </div>
           <button class='button fixed warning' type='button' disabled={this.state.submitDisabled} onClick={this.create}>{i18n.feedback.ok}</button>
         </section>

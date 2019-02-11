@@ -52,7 +52,7 @@ section.feedback .star-container {
 
 section.feedback svg.driver {
   max-width: 300px;
-  margin: 0 20%;
+  margin: 0 25%;
 }
 
 section.feedback h4 {
@@ -71,10 +71,10 @@ section.feedback .comment::placeholder {
 }
 
 section.feedback .tips-container label.tip {
-  border-left: none
+  border-left: none;
 }
 
 section.feedback .tips-container label.tip:nth-of-type(1) {
-  border-left: 2px solid var(--orange)
+  border-left: 2px solid var(--orange);
 }
 
