@@ -2,13 +2,21 @@ import { h, render, Component } from 'preact';
 import axios from 'axios';
 
 import i18n from './i18n.js';
-import Star from './images/star.svg'
 import Back from './images/arrow-left.svg'
+import Driver from './images/feedback_driver.svg'
 import './css/feedback.css'
 
 export default class Feedback extends Component {
   constructor(props){
     super(props)
+    this.state = {
+      feedback: {
+        rate: 5,
+        tip: 0,
+        description: null
+      },
+      submitDisabled: false
+    }
   }
 
   componentDidMount() {
@@ -19,31 +27,78 @@ export default class Feedback extends Component {
     }
   }
 
+  submitDisabled = (val) => {
+    this.setState(state => {
+      state.submitDisabled = val
+      return state
+    })
+  }
+
+  create = (e) => {
+    let params = {...this.state.feedback}
+    this.submitDisabled(true)
+    params.trip_id = this.props.trip.id
+    axios.post(`trips/${params.trip_id}/feedbacks`, {feedback: params}).then((res) => {
+      this.props.updateTrip(null)
+    }).catch((error) => {
+      this.submitDisabled(false)
+      if (error.response) alert(error.response.data.errors)
+    })
+  }
+
   handleBack = (event) => {
     this.props.updateTrip(null)
     event.stopPropagation()
   };
 
-  create = () => {
-    this.props.updateTrip(null)
+  setRate = (e) => {
+    let state = this.state.feedback
+    state.rate = parseInt(e.target.value)
+    this.setState(state)
   }
 
-  renderStart = (i) => {
+  setDescription = (e) => {
+    let state = this.state.feedback
+    state.description = e.target.value
+    this.setState(state)
+  }
+
+  setTip = (e) => {
+    let state = this.state.feedback
+    state.tip = parseInt(e.target.value)
+    this.setState(state)
+  }
+
+  renderStar = (i) => {
     return [
-      <label class='star' for={`start_${i}`}/>,
-      <input id={`start_${i}`} type='radio' value={i} name='rate' checked/>
+      <label class='star' for={`star_${i}`}/>,
+      <input id={`star_${i}`} type='radio' value={i} name='rate' onChange={event => this.setRate(event)} checked={this.state.feedback.rate == i}/>
+    ]
+  }
+
+  renderTip = (i) => {
+    return [
+      <input id={`tip_${i}`} type='radio' value={i} name='tip' onChange={event => this.setTip(event)} checked={this.state.feedback.tip == i}/>,
+      <label class='tip' for={`tip_${i}`}>{i}$</label>
     ]
   }
 
   render() {
     return(
       <div class='find_driver'>
-        <section>
-          <header>{i18n.confirm_trip.header}</header>
+        <section class='feedback'>
+          <header>{i18n.feedback.header}</header>
           <button type='button' class='burger' onClick={() => window.history.back()}><Back fill='#132d50'/></button>
-          <h1>Feedback form</h1>
-          { [1,2,3,4,5].map(i => this.renderStart(i) ) }
-          <button class='button fixed warning' type='button' onClick={this.create}>{i18n.feedback.ok}</button>
+          <div class='star-container'>
+            {[1,2,3,4,5].map(i => this.renderStar(i))}
+          </div>
+          <input type='text' class='comment' placeholder={i18n.current_trip.comment} onInput={this.setDescription}/>
+          <Driver class='driver'/>
+          <h4>{i18n.feedback.tips}</h4>
+          <div class='tips-container'>
+            {[0,3,5,10,20].map(i => this.renderTip(i))}
+          </div>
+          <button class='button fixed warning' type='button' disabled={this.state.submitDisabled} onClick={this.create}>{i18n.feedback.ok}</button>
         </section>
       </div>
     )
