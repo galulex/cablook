@@ -40,7 +40,7 @@ export default class Trips extends Component {
 
   handleScroll = () => {
     if (this.state.isLoading || !this.state.hasMore) return;
-    if ((window.innerHeight + window.scrollY >= (document.body.scrollHeight - 300)) && this.state.trips.length) {
+    if ((window.innerHeight + document.body.scrollTop >= (document.body.scrollHeight - 300)) && this.state.trips.length) {
       this.loadTrips()
     }
   };
