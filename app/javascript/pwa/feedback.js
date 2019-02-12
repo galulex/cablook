@@ -54,7 +54,6 @@ export default class Feedback extends Component {
     let state = this.state.feedback
     state.rate = parseInt(e.target.value)
     this.setState(state)
-    console.log(this.state)
   }
 
   setDescription = (e) => {
@@ -67,7 +66,6 @@ export default class Feedback extends Component {
     let state = this.state.feedback
     state.tips = parseInt(e.target.value)
     this.setState(state)
-    console.log(this.state)
   }
 
   renderStar = (i) => {

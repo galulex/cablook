@@ -6,6 +6,7 @@ import TripPrice from './images/trip_price.svg'
 import TripStatus from './images/trip_status.svg'
 import TripTime from './images/trip_time.svg'
 import Back from './images/arrow-left.svg'
+import Star from './images/star.svg'
 import i18n from './i18n.js'
 
 export default class TripCard extends Component {
@@ -78,6 +79,7 @@ export default class TripCard extends Component {
             <span style={{...button, marginRight: "2%"}}>Repeat Trip</span>
             <span style={button}>Reverse Trip</span>
           </div>
+          {this.renderRateButton()}
           <div class='trip-details-content'><TripPrice/>{`${trip.cost} ${i18n.trip.currency}`}</div>
           <div class='trip-details-content'><TripStatus/>{`${i18n.trips.status} - ${i18n.trips.statuses[trip.status]}`}</div>
           <div class='trip-details-content'>
@@ -85,9 +87,7 @@ export default class TripCard extends Component {
             <address>{trip.destination_address}</address>
           </div>
           <div class='trip-details-content'><TripTime/>{trip.formatted_date}</div>
-          <div class="buttons">
-            <span onClick={this.showFeedbacks} style={button}>Reverse Trip</span>
-          </div>
+          <div class='trip-details-content'>{this.renderRate()}</div>
         </section>
         {this.state.isFeedbackVisible && <Feedback trip={this.props.trip}/>}
       </div>
@@ -106,5 +106,17 @@ export default class TripCard extends Component {
         {this.state.showDetails && this.renderDetails()}
       </li>
     );
+  }
+
+  renderRate = () => {
+    if (this.props.trip.feedbacks.length >= 1) {
+      return Array(this.props.trip.feedbacks[0].rate).fill(<Star />)
+    }
+  }
+
+  renderRateButton = () => {
+    if (!this.props.trip.feedbacks.length >= 1) {
+      return(<button class='button cancel' onClick={this.showFeedbacks}>{i18n.trips.rate}</button>)
+    }
   }
 }
