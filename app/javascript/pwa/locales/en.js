@@ -97,6 +97,10 @@ const en = {
       1: 'Ready',
       2: 'Used'
     }
+  },
+  contacts: {
+    header: 'Contacts',
+    message: 'Phone is only for support. Order by phone are not accepted. Technical support works since 9:00 to 18:00, Mon-Fri'
   }
 }
 

@@ -2,6 +2,7 @@ import { h, render, Component } from 'preact';
 import { Router } from 'preact-router';
 import { createContext } from "preact-context";
 
+import i18n from '../pwa/i18n.js'
 import Home from '../pwa/home.js';
 import Session from '../pwa/session.js';
 import Cards from '../pwa/cards.js';
@@ -18,6 +19,8 @@ import axios from 'axios';
 axios.defaults.baseURL = '/api';
 axios.defaults.headers.common['Auth-Token'] = localStorage.token;
 axios.defaults.headers.common['Content-Type'] = 'application/json';
+
+i18n.setLanguage(i18n.getInterfaceLanguage())
 
 export default class App extends Component {
 

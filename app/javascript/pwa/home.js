@@ -85,7 +85,6 @@ export default class Home extends Component {
         body: i18n.trip.no_cars_notice,
         actions: [
           {action: 'retry', title: '🔄 Retry'},
-          {action: 'cancel', title: '❌ Cancel'}
         ]
       })
     })

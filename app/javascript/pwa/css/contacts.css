@@ -1,11 +1,16 @@
-ul.contacts li a label {
+ul.contacts li a {
   cursor: pointer;
-  display: table-caption;
+  display: block;
+  color: var(--navy);
+  text-decoration: none;
+  padding: 5px;
+  margin: 5px;
 }
+
 ul.contacts li a svg {
+  vertical-align: middle;
   display: inline-block;
   height: 30px;
   margin-right: 5%;
   width: 30px;
-  margin-top: 2%;
 }
