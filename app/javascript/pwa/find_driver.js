@@ -20,6 +20,17 @@ export default class FindDriver extends Component {
 
   componentDidMount() {
     this.props.subscribe()
+
+    history.pushState(null, null, document.URL)
+    window.addEventListener('popstate', this.handleBack)
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('popstate', this.handleBack);
+  }
+
+  handleBack = (event) => {
+    history.pushState(null, null, document.URL)
   }
 
   render() {

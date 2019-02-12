@@ -23,7 +23,7 @@ export default class ConfirmTrip extends Component {
     history.pushState(null, 'Confirm Trip','/')
     window.addEventListener('popstate', this.props.handleBack, {once: true})
     window.onbeforeunload = (event) => {
-      window.removeEventListener('popstate', this.props.handleBack, true)
+      window.removeEventListener('popstate', this.props.handleBack)
     }
   }
 
@@ -32,7 +32,7 @@ export default class ConfirmTrip extends Component {
   }
 
   componentWillUnmount() {
-    window.removeEventListener('popstate', this.props.handleBack, true);
+    window.removeEventListener('popstate', this.props.handleBack);
   }
 
   create = (e) => {
@@ -44,7 +44,7 @@ export default class ConfirmTrip extends Component {
     params.bonus = this.state.bonus
     axios.post('trips', {trip: params}).then((res) => {
       this.props.updateTrip(res.data)
-      window.removeEventListener('popstate', this.props.handleBack, true);
+      window.removeEventListener('popstate', this.props.handleBack);
     }).catch((error) => {
       this.submitDisabled(false)
       if (error.response) alert(error.response.data.errors)
