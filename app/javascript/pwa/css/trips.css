@@ -173,3 +173,17 @@ div.map {
 .trips svg.waypoint path {
   fill: var(--orange)
 }
+
+.trips svg.nissan {
+  width: 30px;
+  height: 30px;
+}
+
+.trips svg.nissan[fill='white'] path:not(:first-child), .trips svg.nissan[fill='white'] ellipse {
+  fill: #111 !important;
+}
+
+.trips svg.nissan[fill='white'] path:first-child {
+  stroke: #111;
+  stroke-width: 3;
+}

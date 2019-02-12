@@ -12,6 +12,7 @@ import TripTime from './images/trip_time.svg'
 import Phone from './images/green_phone.svg'
 import Car from './images/car.svg'
 import Pin from './images/pin.svg'
+import Nissan from './images/leaf.svg'
 
 const polyline = require('@mapbox/polyline')
 
@@ -22,14 +23,14 @@ export default class Trip extends Component {
     this.state = {
       lng: 32.059769,
       lat: 49.444431,
-      zoom: 12
+      zoom: 12,
     }
   }
 
   componentDidMount() {
+    this.car = new mapboxgl.Marker(this.nissan)
     const { lng, lat, zoom } = this.state;
     let geoJSON = polyline.decode(this.props.trip.path)
-    console.log(geoJSON)
     this.map = new mapboxgl.Map({
       container: this.mapContainer,
       // style: 'mapbox://styles/okunieva/cjrlxcvzu2osh2spcikwl1zhl',
@@ -77,9 +78,18 @@ export default class Trip extends Component {
     this.setMarker()
   }
 
+  componentDidUpdate() {
+    this.renderCar()
+  }
+
+  renderCar = () => {
+    if (this.props.location.length === 0) return
+    this.car.setLngLat(this.props.location)
+    this.car.addTo(this.map)
+  }
+
   render() {
     const { trip } = this.props;
-    console.log(this.props)
     return (
       <section class='trips'>
         <header>{i18n.trip.header}</header>
@@ -112,6 +122,7 @@ export default class Trip extends Component {
   renderPin = () => {
     return(
       <div class='pins'>
+        <div ref={el => this.nissan = el}><Nissan class='nissan' fill={this.props.trip.car_color}/></div>
         <div ref={el => this.departurePin = el}><Pin class='departure'/></div>
         <div ref={el => this.destinationPin = el}><Pin class='destination'/></div>
         {this.props.trip.waypoints.map(() => (<div><Pin class='waypoint'/></div>))}

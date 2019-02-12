@@ -16,7 +16,8 @@ export default class Home extends Component {
     super(props)
     this.state = {
       trip: JSON.parse(localStorage.getItem('trip')),
-      subscription: null
+      subscription: null,
+      car_location: []
     }
   }
 
@@ -101,6 +102,10 @@ export default class Home extends Component {
     alert(i18n.trip.canceled)
   }
 
+  DriverLocationUpdated = (data) => {
+    this.setState({car_location: [data.location.longitude, data.location.latitude]})
+  }
+
   vibrate = () => {
     if (navigator.vibrate) navigator.vibrate([200, 100, 200])
   }
@@ -163,7 +168,7 @@ export default class Home extends Component {
     if (!this.state.trip) return(<CurrentTrip updateTrip={this.updateTrip} handleBack={this.handleBack}/>)
     if (this.state.trip && !this.state.trip.id) return(<ConfirmTrip cards={this.props.cards} bonus_trips={this.props.bonus_trips} trip={this.state.trip} updateTrip={this.updateTrip} handleBack={this.handleBack}/>)
     if (this.state.trip && this.state.trip.id && [0,6].includes(this.state.trip.status)) return(<FindDriver trip={this.state.trip} updateTrip={this.updateTrip} TripDeclined={this.TripDeclined} subscribe={this.subscribe} cancel={this.cancel}/>)
-    if (this.state.trip && [1,2,3].includes(this.state.trip.status)) return(<Trip trip={this.state.trip} updateTrip={this.updateTrip} cancel={this.cancel}/>)
+    if (this.state.trip && [1,2,3].includes(this.state.trip.status)) return(<Trip trip={this.state.trip} updateTrip={this.updateTrip} cancel={this.cancel} location={this.state.car_location}/>)
     if (this.state.trip && this.state.trip.status == 4) return(<Feedback trip={this.state.trip} updateTrip={this.updateTrip} />)
     return(<Trip updateTrip={this.updateTrip}/>)
   }
