@@ -59,7 +59,7 @@ address:last-of-type {
 .trips input[type='radio'] {
   display: none;
 }
-.trips label {
+.trips nav label {
   color: grey;
   background: #312d50;
   cursor: pointer;
@@ -68,7 +68,7 @@ address:last-of-type {
   display: inline-block;
   width: 50%;
 }
-.trips label:first-of-type {
+.trips nav label:first-of-type {
   border-right: 1px solid grey;
 }
 .trips .active {
@@ -102,7 +102,7 @@ address:last-of-type {
 .trip-details address:after {
   left: calc(1% - 35px);
 }
-.trip-details section svg {
+.trip-details.trip-details-content section svg {
   margin: 0 10px;
   width: 25px;
   height: 25px;
@@ -142,12 +142,12 @@ nav {
   -webkit-overflow-scrolling: touch;
 }
 
-.trip-details-content address {
-  margin-left: 40px;
-}
-
 div.map {
   height: 500px;
+}
+
+.trip-details address {
+  margin-left: 47px;
 }
 
 /* Trip component */
@@ -174,6 +174,13 @@ div.map {
   fill: var(--orange)
 }
 
+.trips.trip-details-content address {
+  margin-left: 40px;
+}
+
+.trip-details .buttons {
+  margin-bottom: 5px;
+}
 .trips svg.nissan {
   width: 30px;
   height: 30px;

@@ -1,6 +1,7 @@
 import { h, render, Component } from 'preact';
 import './css/trips.css'
 
+import Feedback from './feedback.js'
 import TripPrice from './images/trip_price.svg'
 import TripStatus from './images/trip_status.svg'
 import TripTime from './images/trip_time.svg'
@@ -11,7 +12,8 @@ export default class TripCard extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      showDetails: false
+      showDetails: false,
+      isFeedbackVisible: false
     }
   }
 
@@ -22,8 +24,21 @@ export default class TripCard extends Component {
     window.addEventListener('popstate', this.handleBack, {once: true});
   };
 
+  showFeedbacks = () => {
+    if (this.state.isFeedbackVisible) return;
+    history.pushState(null, 'Trip Details','/trips');
+    this.setState({isFeedbackVisible: true})
+    window.addEventListener('popstate', this.handleBackToDetails, {once: true});
+  };
+
+
   handleBack = (event) => {
     this.setState({showDetails: false})
+    event.stopPropagation();
+  };
+
+  handleBackToDetails = (event) => {
+    this.setState({showDetails: true, isFeedbackVisible: false})
     event.stopPropagation();
   };
 
@@ -70,7 +85,11 @@ export default class TripCard extends Component {
             <address>{trip.destination_address}</address>
           </div>
           <div class='trip-details-content'><TripTime/>{trip.formatted_date}</div>
+          <div class="buttons">
+            <span onClick={this.showFeedbacks} style={button}>Reverse Trip</span>
+          </div>
         </section>
+        {this.state.isFeedbackVisible && <Feedback trip={this.props.trip}/>}
       </div>
     )
   };

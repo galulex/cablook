@@ -4,6 +4,7 @@ div.find_driver {
   width: 100%;
   background: linear-gradient(to top, #19A160, 20%, #132d50);
   z-index: 300;
+  top: 0;
 }
 
 div.find_driver section {

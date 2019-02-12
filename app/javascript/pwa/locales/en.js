@@ -9,7 +9,9 @@ const en = {
     canceled: 'Trip is canceled',
     car_not_found: 'No cars available right now.\nDo you want to try one more time?',
     canceled: 'Trip is canceled',
-    no_cars_notice: 'No cars available'
+    no_cars_notice: 'No cars available',
+    currency: 'uah',
+    on: 'on'
   },
   trips: {
     header: 'Trips',
@@ -26,7 +28,8 @@ const en = {
       7: 'canceled_by_driver'
     },
     upcoming: 'Upcoming',
-    past: 'Past'
+    past: 'Past',
+    rate: 'Rate trip'
   },
   current_trip: {
     header: 'Search',
