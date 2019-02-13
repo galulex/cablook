@@ -25,7 +25,7 @@ export default class TripCard extends Component {
   showDetails = () => {
     if (this.state.showDetails) return;
     history.pushState(null, 'Trip Details','/trips');
-    this.setState({showDetails: true, isFeedbackVisible: false})
+    this.setState({showDetails: true})
     window.addEventListener('popstate', this.handleBack, {once: true});
   };
 

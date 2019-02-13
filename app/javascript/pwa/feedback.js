@@ -95,7 +95,7 @@ export default class Feedback extends Component {
           <div class='star-container'>
             {[1,2,3,4,5].map(i => this.renderStar(i))}
           </div>
-          <input type='text' class='comment' placeholder={i18n.current_trip.comment} onInput={this.setDescription}/>
+          <textarea spellcheck="false" placeholder={i18n.current_trip.comment} onInput={this.setDescription}/>
           <Driver class='driver'/>
           <h4>{i18n.feedback.tips}</h4>
           <div class='tips-container'>
