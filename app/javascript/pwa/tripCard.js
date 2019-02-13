@@ -18,28 +18,31 @@ export default class TripCard extends Component {
     }
   }
 
+  componentDidMount() {
+    this.setRate()
+  }
+
   showDetails = () => {
     if (this.state.showDetails) return;
     history.pushState(null, 'Trip Details','/trips');
-    this.setState({showDetails: true})
+    this.setState({showDetails: true, isFeedbackVisible: false})
     window.addEventListener('popstate', this.handleBack, {once: true});
   };
 
-  showFeedbacks = () => {
+  showFeedback = () => {
     if (this.state.isFeedbackVisible) return;
-    history.pushState(null, 'Trip Details','/trips');
     this.setState({isFeedbackVisible: true})
-    window.addEventListener('popstate', this.handleBackToDetails, {once: true});
+    window.removeEventListener('popstate', this.handleBack)
   };
-
 
   handleBack = (event) => {
     this.setState({showDetails: false})
     event.stopPropagation();
   };
 
-  handleBackToDetails = (event) => {
-    this.setState({showDetails: true, isFeedbackVisible: false})
+  handleFeedbackBack = (event) => {
+    this.setState({isFeedbackVisible: false})
+    window.addEventListener('popstate', this.handleBack, {once: true});
     event.stopPropagation();
   };
 
@@ -79,7 +82,6 @@ export default class TripCard extends Component {
             <span style={{...button, marginRight: "2%"}}>Repeat Trip</span>
             <span style={button}>Reverse Trip</span>
           </div>
-          {this.renderRateButton()}
           <div class='trip-details-content'><TripPrice/>{`${trip.cost} ${i18n.trip.currency}`}</div>
           <div class='trip-details-content'><TripStatus/>{`${i18n.trips.status} - ${i18n.trips.statuses[trip.status]}`}</div>
           <div class='trip-details-content'>
@@ -89,7 +91,7 @@ export default class TripCard extends Component {
           <div class='trip-details-content'><TripTime/>{trip.formatted_date}</div>
           <div class='trip-details-content'>{this.renderRate()}</div>
         </section>
-        {this.state.isFeedbackVisible && <Feedback trip={this.props.trip}/>}
+        {this.state.isFeedbackVisible && <Feedback trip={this.props.trip} handleBack={this.handleFeedbackBack} isFeedbackVisible={this.state.isFeedbackVisible} getRate={this.getRate}/>}
       </div>
     )
   };
@@ -108,15 +110,21 @@ export default class TripCard extends Component {
     );
   }
 
-  renderRate = () => {
-    if (this.props.trip.feedbacks.length >= 1) {
-      return Array(this.props.trip.feedbacks[0].rate).fill(<Star />)
-    }
+  getRate = (value) => {
+    this.setState({rate: value})
   }
 
-  renderRateButton = () => {
-    if (!this.props.trip.feedbacks.length >= 1) {
-      return(<button class='button cancel' onClick={this.showFeedbacks}>{i18n.trips.rate}</button>)
+  setRate = () => {
+    if (this.props.trip.feedbacks.length >= 1) {
+      this.setState({rate: this.props.trip.feedbacks[0].rate})
+    } 
+  }
+
+  renderRate = () => {
+    if (this.state.rate) {
+      return(Array(this.state.rate).fill(<Star />))
+    } else {
+      return(<button class='button cancel' onClick={this.showFeedback}>{i18n.trips.rate}</button>)
     }
   }
 }

@@ -19,11 +19,15 @@ export default class Feedback extends Component {
   }
 
   componentDidMount() {
-    history.pushState(null, 'Leave Feedback','/pwa')
-    window.addEventListener('popstate', this.handleBack, {once: true})
+    history.pushState(null, 'Leave Feedback','/')
+    window.addEventListener('popstate', this.props.handleBack, {once: true})
     window.onbeforeunload = (event) => {
-      window.removeEventListener('popstate', this.handleBack, true)
+      window.removeEventListener('popstate', this.props.handleBack, true)
     }
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('popstate', this.props.handleBack, true);
   }
 
   submitDisabled = (val) => {
@@ -38,17 +42,12 @@ export default class Feedback extends Component {
     this.submitDisabled(true)
     params.trip_id = this.props.trip.id
     axios.post(`trips/${params.trip_id}/feedbacks`, {feedback: params, tip: params.tips}).then((res) => {
-      this.props.updateTrip(null)
+      this.props.isFeedbackVisible ? this.returnRate() : this.props.updateTrip()
     }).catch((error) => {
       this.submitDisabled(false)
       if (error.response) alert(error.response.data.errors)
     })
   }
-
-  handleBack = (event) => {
-    this.props.updateTrip(null)
-    event.stopPropagation()
-  };
 
   setRate = (e) => {
     let state = this.state.feedback
@@ -66,6 +65,11 @@ export default class Feedback extends Component {
     let state = this.state.feedback
     state.tips = parseInt(e.target.value)
     this.setState(state)
+  }
+
+  returnRate = () => {
+    this.props.getRate(this.state.feedback.rate)
+    this.props.handleBack()
   }
 
   renderStar = (i) => {
