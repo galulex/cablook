@@ -126,11 +126,11 @@ export default class CurrentTrip extends Component {
           <div class='nocall'>
             <input id='nocall' type='checkbox' onChange={this.setNoCall}/>
             <label for='nocall'>
-              No Call
+              {i18n.current_trip.no_call}
             </label>
           </div>
           <label for='entrance'>
-            <span>Where to pick?</span>
+            <span>{i18n.current_trip.where_to_pick}</span>
             <select id='entrance' onChange={(e) => this.setEntrance(e)}>
               <option value=''>{i18n.current_trip.select_entrance}</option>
               {this.state.entrance.map((el) => {
@@ -139,7 +139,7 @@ export default class CurrentTrip extends Component {
             </select>
           </label>
           <label for='time'>
-            <span>When?</span>
+            <span>{i18n.current_trip.when}</span>
             <input id='time' type='time' step='600' placeholder='Now' onChange={this.setOrderTime}/>
           </label>
           <input type='text' class='comment' placeholder={i18n.current_trip.comment} onChange={this.setComment}/>

@@ -35,7 +35,10 @@ const uk = {
     comment: 'Коментар',
     entrance: 'під\'їзд',
     header: 'Пошук',
-    select_entrance: 'Вибрати під\'їзд'
+    select_entrance: 'Вибрати під\'їзд',
+    no_call: 'Без дзвінка',
+    where_to_pick: 'Де підібрати?',
+    when: 'Коли?',
   },
   confirm_trip: {
     add_card: 'Додати карту',
