@@ -42,7 +42,7 @@ export default class Feedback extends Component {
     this.submitDisabled(true)
     params.trip_id = this.props.trip.id
     axios.post(`trips/${params.trip_id}/feedbacks`, {feedback: params, tip: params.tips}).then((res) => {
-      this.props.isFeedbackVisible ? this.returnRate() : this.props.updateTrip()
+      this.props.isFeedbackVisible ? this.returnRate() : this.props.updateTrip(null)
     }).catch((error) => {
       this.submitDisabled(false)
       if (error.response) alert(error.response.data.errors)

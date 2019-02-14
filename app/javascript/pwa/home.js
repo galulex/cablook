@@ -26,10 +26,12 @@ export default class Home extends Component {
     this.getTrip()
     if (window.Notification) Notification.requestPermission()
     document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') this.getTrip() }, false);
+    window.addEventListener('online', this.getTrip)
   }
 
   componentWillUnmount() {
     this.unsubscribe()
+    window.removeEventListener('online', this.getTrip)
   }
 
   subscribe = () => {
