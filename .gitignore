@@ -13,6 +13,7 @@
 !/log/.keep
 !/tmp/.keep
 /coverage
+/config/secrets.yml
 /config/database.yml
 /node_modules
 /public/packs
