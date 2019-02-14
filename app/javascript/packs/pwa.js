@@ -85,10 +85,11 @@ export default class App extends Component {
     this.fetchCards()
   }
 
-  logOut = () => {
+  logOut = (e) => {
     if (!confirm('Are you sure?')) return;
     this.setState({currentUser: null})
     localStorage.removeItem('token')
+    e.preventDefault()
   }
 
   triggerDrawer = (open) => {

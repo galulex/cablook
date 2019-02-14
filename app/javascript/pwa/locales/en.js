@@ -29,7 +29,9 @@ const en = {
     },
     upcoming: 'Upcoming',
     past: 'Past',
-    rate: 'Rate trip'
+    rate: 'Rate trip',
+    reverse: 'Reverse Trip',
+    repeat: 'Repeat Trip'
   },
   current_trip: {
     header: 'Search',

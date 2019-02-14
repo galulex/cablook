@@ -181,6 +181,16 @@ div.map {
 .trip-details .buttons {
   margin-bottom: 5px;
 }
+
+.trip-details .buttons .button {
+  max-width: 48%;
+  margin: 0;
+}
+
+.trip-details .buttons .button:last-of-type {
+  float: right;
+}
+
 .trips svg.nissan {
   width: 30px;
   height: 30px;

@@ -24,7 +24,7 @@ export default class Home extends Component {
   componentDidMount() {
     if (!!this.state.trip) this.subscribe()
     this.getTrip()
-    Notification.requestPermission()
+    if (window.Notification) Notification.requestPermission()
     document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') this.getTrip() }, false);
   }
 

@@ -1,5 +1,5 @@
 import { h, render, Component } from 'preact';
-import './css/trips.css'
+import { route } from 'preact-router';
 
 import Feedback from './feedback.js'
 import TripPrice from './images/trip_price.svg'
@@ -49,15 +49,6 @@ export default class TripCard extends Component {
   renderDetails = () => {
     const { trip } = this.props;
 
-    const button = {
-      background: "#19A160",
-      padding: "10px",
-      display: "inline-block",
-      width: "49%",
-      color: "white",
-      textAlign: "center"
-    };
-
     const departure = []
     const destination = []
     const waypoints = []
@@ -72,15 +63,15 @@ export default class TripCard extends Component {
 
     return (
       <div class="trip-details">
+        <button type='button' class='burger' onClick={() => window.history.back()}><Back fill='#132d50'/></button>
         <header>
           {i18n.trip.header}
-          <button type='button' class='burger' onClick={() => window.history.back()}><Back fill='#132d50'/></button>
         </header>
         <section>
           <img src={localStorage.mapURL}/>
           <div class="buttons">
-            <span style={{...button, marginRight: "2%"}}>Repeat Trip</span>
-            <span style={button}>Reverse Trip</span>
+            <button type='button' class= 'button' onClick={this.repeatTrip}>{i18n.trips.repeat}</button>
+            <button type='button' class= 'button' onClick={this.reverseTrip}>{i18n.trips.reverse}</button>
           </div>
           <div class='trip-details-content'><TripPrice/>{`${trip.cost} ${i18n.trip.currency}`}</div>
           <div class='trip-details-content'><TripStatus/>{`${i18n.trips.status} - ${i18n.trips.statuses[trip.status]}`}</div>
@@ -94,7 +85,33 @@ export default class TripCard extends Component {
         {this.state.isFeedbackVisible && <Feedback trip={this.props.trip} handleBack={this.handleFeedbackBack} isFeedbackVisible={this.state.isFeedbackVisible} getRate={this.getRate}/>}
       </div>
     )
-  };
+  }
+
+  repeatTrip = () => {
+    const { trip } = this.props
+    trip.status = 0
+    trip.id = null
+    delete trip.formatted_date
+    localStorage.setItem('trip', JSON.stringify(trip))
+    route('/', true)
+  }
+
+  reverseTrip = () => {
+    const { trip } = this.props;
+    trip.status = 0
+    trip.id = null
+    delete trip.formatted_date
+    let start = trip.departure
+    let address = trip.departure_address
+    trip.departure_address = trip.destination_address
+    trip.departure = trip.destination
+    trip.destination_address = address
+    trip.destination = start
+    trip.waypoints = trip.waypoints.reverse()
+    trip.stops = trip.stops.reverse()
+    localStorage.setItem('trip', JSON.stringify(trip))
+    route('/', true)
+  }
 
   render() {
     const { trip } = this.props;
@@ -117,7 +134,7 @@ export default class TripCard extends Component {
   setRate = () => {
     if (this.props.trip.feedbacks.length >= 1) {
       this.setState({rate: this.props.trip.feedbacks[0].rate})
-    } 
+    }
   }
 
   renderRate = () => {
