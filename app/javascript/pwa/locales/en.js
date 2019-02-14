@@ -1,16 +1,15 @@
 const en = {
   prompt: {
-    install: 'Install this app: Tap ',
+    add: ' Add to homescreen',
     and: ' and then',
-    add: ' Add to homescreen'
+    install: 'Install this app: Tap '
   },
   trip: {
     cancel: 'Cancel',
     canceled: 'Trip is canceled',
     car_not_found: 'No cars available right now.\nDo you want to try one more time?',
-    canceled: 'Trip is canceled',
-    no_cars_notice: 'No cars available',
     currency: 'uah',
+    no_cars_notice: 'No cars available',
     on: 'on'
   },
   trips: {
@@ -34,15 +33,13 @@ const en = {
     repeat: 'Repeat Trip'
   },
   current_trip: {
-    header: 'Search',
     add_address: 'Add address',
+    comment: 'Comment',
     entrance: 'Entrance',
-    select_entrance: 'Select Entrance',
-    comment: 'Comment'
+    header: 'Search',
+    select_entrance: 'Select Entrance'
   },
   confirm_trip: {
-    header: 'Confirm Trip',
-    go: 'GO',
     add_card: "Add a card",
     bonus: "Use bonus trip",
     cancel: "Cancel",
@@ -50,22 +47,24 @@ const en = {
     cost: "Cost",
     currency: "uah",
     distance: "Distance",
+    go: 'GO',
+    header: 'Confirm Trip',
     km: "km"
   },
   drawer: {
-    home: 'Home',
-    trips: 'Trips',
     bonuses: 'Bonuses',
     cards: 'Cards',
     contacts: 'Contacts',
-    logout: 'Log Out'
+    home: 'Home',
+    logout: 'Log Out',
+    trips: 'Trips'
   },
   address_input: {
-    location: 'My Location',
     from: 'From',
-    where: 'Where',
     loading: 'Loading...',
-    no_result: 'No Results'
+    location: 'My Location',
+    no_result: 'No Results',
+    where: 'Where'
   },
   cards: {
     add: 'Add Card',
@@ -79,24 +78,24 @@ const en = {
     ok: 'OK'
   },
   session: {
-    number: 'Sign up',
-    code: 'Enter SMS code',
-    code_button: 'Next',
     change: 'Change phone number',
-    policy: 'By pressing sign up you\'re accepting',
-    policy_link: 'privacy policy'
+    code_button: 'Next',
+    code: 'Enter SMS code',
+    number: 'Sign in',
+    policy_link: 'privacy policy',
+    policy: 'By pressing sign in you\'re accepting'
   },
   map_picker: {
     header: 'Pick Location'
   },
   bonuses: {
-    header: 'Bonuses',
     apply_code: 'Apply Referral Code',
+    details: 'Copy your referral code and share it with your friends. If someone applies your code and makes a trip you will get a bonus',
+    header: 'Bonuses',
+    how: 'How bonus works?',
+    notice: 'Notice: You can apply someone`s code only once',
     success: 'Referral code is applied. Your friend will receive a free trip as soon as you make a trip',
     your_code: 'Your referral code:',
-    how: 'How bonus works?',
-    details: 'Copy your referral code and share it with your friends. If someone applies your code and makes a trip you will get a bonus',
-    notice: 'Notice: You can apply someone`s code only once',
     statuses: {
       0: 'Frozzen',
       1: 'Ready',
@@ -109,8 +108,8 @@ const en = {
   },
   feedback: {
     header: 'Rate trip',
-    tips: 'Tips',
-    ok: 'OK'
+    ok: 'OK',
+    tips: 'Tips'
   }
 }
 
