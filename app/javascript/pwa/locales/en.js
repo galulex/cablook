@@ -1,7 +1,7 @@
 const en = {
   prompt: {
     add: ' Add to homescreen',
-    and: ' and then',
+    and: ' and then ',
     install: 'Install this app: Tap '
   },
   trip: {

@@ -174,7 +174,7 @@ div.map {
   fill: var(--orange)
 }
 
-.trips.trip-details-content address {
+.trip-details-content address.details-address {
   margin-left: 40px;
 }
 

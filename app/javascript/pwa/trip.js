@@ -99,9 +99,9 @@ export default class Trip extends Component {
         <div class='trip-details-content'><TripTime/>{trip.start_time}</div>
         <div class='trip-details-content'><Phone/>{trip.car_phone_number}</div>
         <div class='trip-details-content'>
-          <address>{trip.departure_address}</address>
+          <address class='details-address'>{trip.departure_address}</address>
           {this.renderStops()}
-          <address>{trip.destination_address}</address>
+          <address class='details-address'>{trip.destination_address}</address>
         </div>
         <div class='trip-details-content'><TripPrice/>{`${trip.cost} ${i18n.trip.currency}`}</div>
         <div class='trip-details-content'><TripStatus/>{`${i18n.trips.status} - ${i18n.trips.statuses[trip.status]}`}</div>
@@ -116,7 +116,7 @@ export default class Trip extends Component {
 
   renderStops = () => {
     let stops = this.props.trip.stops
-    return(stops.map(stop => (<address>{stop}</address>)))
+    return(stops.map(stop => (<address class='details-address'>{stop}</address>)))
   }
 
   renderPin = () => {
