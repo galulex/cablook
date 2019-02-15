@@ -17,7 +17,7 @@ address:after {
 }
 address:before {
   content: '';
-  height: 90%;
+  height: 50%;
   width: 0;
   top: calc(50% + 5px);
   border: 1px solid white;
@@ -31,7 +31,12 @@ address:last-of-type:after {
   border-color: #19a160;
 }
 address:last-of-type:before {
-  border: none;
+  height: 50%;
+  width: 0;
+  top: 0;
+  border: 1px solid var(--white);
+  left: calc(1% - 25px);
+  position: absolute;
 }
 address:last-of-type {
   color: #19a160;
@@ -176,6 +181,20 @@ div.map {
 
 .trip-details-content address.details-address {
   margin-left: 40px;
+}
+
+.trip-details-content address.details-address::before {
+  content: '';
+  height: 90%;
+  width: 0;
+  top: calc(50% + 5px);
+  border: 1px solid white;
+  left: calc(1% - 25px);
+  position: absolute;
+}
+
+.trip-details-content address.details-address:last-of-type:before {
+  border: none;
 }
 
 .trip-details .buttons {

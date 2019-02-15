@@ -18,16 +18,3 @@ div.find_driver address {
 div.find_driver address::after {
   border-color: var(--white);
 }
-
-div.find_driver address::before {
-  height: 50%;
-}
-
-div.find_driver address:last-of-type:before {
-  height: 50%;
-  width: 0;
-  top: 0;
-  border: 1px solid var(--white);
-  left: calc(1% - 25px);
-  position: absolute;
-}
