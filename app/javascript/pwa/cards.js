@@ -22,7 +22,6 @@ export default class Cards extends Component {
     this.loadWidget()
     window.addEventListener("message", (event) => {
       if (event.data === 'WfpWidgetEventClose') {
-        this.setState({disabled: false})
         location.reload()
       }
     })
