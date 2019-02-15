@@ -27,6 +27,7 @@ export default class Home extends Component {
     if (window.Notification) Notification.requestPermission()
     document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') this.getTrip() }, false);
     window.addEventListener('online', this.getTrip)
+    setInterval(this.getTrip, 70000)
   }
 
   componentWillUnmount() {
@@ -35,15 +36,13 @@ export default class Home extends Component {
   }
 
   subscribe = () => {
-    console.log(this.state.subscription)
+    if (!this.state.trip.id) return;
     if (this.state.subscription) return this.state.subscription
-    console.log('Subscribe')
     let component = this
     this.setState({subscription: cable.subscriptions.create(
       { channel: 'TripChannel', trip_id: this.state.trip.id },
       {
         received: data => {
-          console.log(data)
           component[data['action']](data)
         }
       }
@@ -58,7 +57,6 @@ export default class Home extends Component {
   updateTrip = (trip) => {
     localStorage.setItem('trip', JSON.stringify(trip))
     this.setState({trip: trip})
-    console.log(this.state)
   }
 
   TripDeclined = (data) => {
@@ -143,7 +141,6 @@ export default class Home extends Component {
 
   getTrip = () => {
     if (!this.state.trip || !this.state.trip.id) return;
-    console.log('GET TRIP')
     axios.get(`trips/${this.state.trip.id}`).then((res) => {
       this.updateTrip(res.data)
       if (res.data.status == 6) this.TripDeclined()

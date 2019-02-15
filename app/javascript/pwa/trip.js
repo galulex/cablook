@@ -76,6 +76,16 @@ export default class Trip extends Component {
     window.map = this.map
     });
     this.setMarker()
+    history.pushState(null, null, document.URL)
+    window.addEventListener('popstate', this.handleBack)
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('popstate', this.handleBack);
+  }
+
+  handleBack = (event) => {
+    history.pushState(null, null, document.URL)
   }
 
   componentDidUpdate() {
