@@ -70,6 +70,7 @@ aside div {
   padding: 15px 0;
   text-align: center;
   color: white;
+  word-wrap: break-word;
 }
 
 .burger {

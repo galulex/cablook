@@ -1,4 +1,5 @@
 section.confirm-trip {
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -7,6 +8,7 @@ section.confirm-trip {
   padding: 54px 0 0;
   background: white;
   overflow-x: hidden;
+  z-index: 1001;
 }
 
 section.confirm-trip div.details {
