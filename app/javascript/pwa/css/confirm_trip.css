@@ -81,7 +81,7 @@ section.confirm-trip select {
 
 section.confirm-trip img {
   width: 100%;
-  background: white;
+  background: #eae6e0;
   height: 63vh;
   object-fit: cover;
   flex-grow: 10;

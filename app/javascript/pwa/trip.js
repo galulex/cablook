@@ -2,7 +2,7 @@ import { h, render, Component } from 'preact'
 import axios from 'axios'
 import mapboxgl from 'mapbox-gl'
 
-mapboxgl.accessToken = 'pk.eyJ1Ijoib2t1bmlldmEiLCJhIjoiY2pybHc3dDY2MGJ4aTN6bWZjMGxlOWhrMiJ9.bk9lWZM6sHClogdqthjHSA'
+mapboxgl.accessToken = 'pk.eyJ1IjoiZ2FsdWxleCIsImEiOiJjamx6ampoZjgyMnYxM3FvZ2ppNjV2M2x5In0.bPgk2WI9NT-DJwnE-OtiLA'
 
 import i18n from './i18n.js'
 import './css/trips.css'

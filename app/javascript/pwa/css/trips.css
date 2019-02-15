@@ -165,6 +165,7 @@ div.map {
 
 .trips div.map {
   height: 70vh;
+  background: #ECE0CA;
 }
 
 .trips .pins {

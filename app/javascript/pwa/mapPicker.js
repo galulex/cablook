@@ -6,7 +6,7 @@ import i18n from './i18n.js'
 import Back from './images/arrow-left.svg'
 import Pin from './images/pin'
 
-mapboxgl.accessToken = 'pk.eyJ1Ijoib2t1bmlldmEiLCJhIjoiY2pybHc3dDY2MGJ4aTN6bWZjMGxlOWhrMiJ9.bk9lWZM6sHClogdqthjHSA';
+mapboxgl.accessToken = 'pk.eyJ1IjoiZ2FsdWxleCIsImEiOiJjamx6ampoZjgyMnYxM3FvZ2ppNjV2M2x5In0.bPgk2WI9NT-DJwnE-OtiLA';
 
 export default class MapPicker extends Component {
   constructor(props) {
@@ -24,7 +24,7 @@ export default class MapPicker extends Component {
 
     this.map = new mapboxgl.Map({
       container: this.mapContainer,
-      style: 'mapbox://styles/okunieva/cjrlxcvzu2osh2spcikwl1zhl',
+      style: 'mapbox://styles/mapbox/streets-v10',
       center: [lng, lat],
       zoom
     });
@@ -61,7 +61,7 @@ export default class MapPicker extends Component {
       right: "0",
       top: "54px",
       bottom: "0",
-      background: '#ECE0CA'
+      background: '#eae6e0'
     };
 
     const buttonStyle = {
