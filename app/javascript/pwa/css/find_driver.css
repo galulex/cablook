@@ -2,7 +2,7 @@ div.find_driver {
   position: fixed;
   height: 100vh;
   width: 100%;
-  background: linear-gradient(to top, #19A160, 20%, #132d50);
+  background: linear-gradient(to top, var(--green), 20%, var(--navy));
   z-index: 300;
   top: 0;
 }
@@ -12,17 +12,22 @@ div.find_driver section {
 }
 
 div.find_driver address {
-  color: white;
+  color: var(--white);
 }
 
 div.find_driver address::after {
-  border-color: white;
+  border-color: var(--white);
 }
 
 div.find_driver address::before {
-  height: calc(90% + 10px);
+  height: 50%;
 }
 
-svg.search_logo {
-  margin: 20%;
+div.find_driver address:last-of-type:before {
+  height: 50%;
+  width: 0;
+  top: 0;
+  border: 1px solid var(--white);
+  left: calc(1% - 25px);
+  position: absolute;
 }
