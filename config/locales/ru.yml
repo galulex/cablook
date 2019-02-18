@@ -35,7 +35,6 @@ ru:
     assigned_or_canceled: Поездка отменена или взята другим водителем
     cancel_impossible: Невозможно отменить законченую или отменуную поездку
     canceled: Поездка успешно отменена
-    invalid: Адрес введен не верно
     invalid: Адрес введен не верно. Ви указали номер дома?
     invalid_preorder: Предзаказ можно сделать минимум за 30 минут.
     pay_off_debt: У вас остались неоплаченные поездки. Оплатите их, пожалуйста
@@ -64,3 +63,157 @@ ru:
     car_not_found: К сожалению машинка не найдена.
     will_arrive: '%{name} на %{car} приедет в %{time}'
     waiting: Водитель уже ожидает вас.
+  bot:
+    request_contact:
+      text: 'Мне нужно знать, кто вы. Не могли бы вы, пожалуйста, поделиться своим номером телефона?'
+      reply_markup:
+        keyboard:
+          -
+            - text: Поделиться номером телефона
+              request_contact: true
+        one_time_keyboard: true
+        resize_keyboard: true
+    request_departure_address:
+      text: 'Адрес отправления?'
+      reply_markup:
+        remove_reply_keyboard:
+          keyboard_remove: true
+    request_destination_address:
+      text: 'Адрес назначения?'
+      reply_markup:
+        remove_reply_keyboard:
+          keyboard_remove: true
+    request_waypoint_address:
+      text: 'Адрес остановки?'
+      reply_markup:
+        remove_reply_keyboard:
+          keyboard_remove: true
+    start:
+      text: "Привет, я CabLook бот. Я могу заказать такси для вас. Нажмите \"Заказать\", если вам нужна поездка"
+      reply_markup:
+        keyboard:
+          -
+            - text: "\U0001F696 ЗАКАЗАТЬ"
+        one_time_keyboard: true
+        resize_keyboard: true
+        remove_reply_keyboard:
+          remove_keyboard: true
+    request_card:
+      text: "У вас нет карт! Пожалуйста, добавьте карту."
+    card_added:
+      text: "Карта успешно добавлена!"
+    select_card:
+      text: "Выберете карту."
+    trip_info:
+      text: "Стоимость: %{cost} UAN. Расстояние: %{distance} km."
+      caption: "Стоимость: %{cost} UAN. Расстояние: %{distance} km."
+    confirm_trip:
+      text: Подтвердите поездку, пожалуйста
+      caption: Подтвердите поездку, пожалуйста
+      reply_markup:
+        keyboard:
+          -
+            - text: "\U0001F197 ПОЕХАЛИ"
+            - text: "\U0001F6AB ОТМЕНА"
+        one_time_keyboard: true
+        resize_keyboard: true
+    confirm_address:
+      caption: Пожалуйста, подтвердите адрес или введите другой
+      reply_markup:
+        keyboard:
+          -
+            - text: "\U0001F44C ВЕРНО"
+            - text: "\U0001F6AB ОТМЕНА"
+        one_time_keyboard: true
+        resize_keyboard: true
+    send_location:
+      reply_markup:
+        keyboard:
+          -
+            - text: "\U0001F44D да"
+            - text: "\U0001F44E нет"
+            - text: "\U0001F6AB отмена"
+        one_time_keyboard: true
+        resize_keyboard: true
+        remove_reply_keyboard:
+    waypoints_confirmation:
+      text: 'Заехать еще куда-нибудь?'
+      reply_markup:
+        keyboard:
+          -
+            - text: "\U0001F44D ДА"
+            - text: "\U0001F44E НЕТ"
+        one_time_keyboard: true
+        resize_keyboard: true
+    comment_confirmation:
+      text: 'Желаете оставить отзыв?'
+      reply_markup:
+        keyboard:
+          -
+            - text: "\U0001F44D ДА"
+            - text: "\U0001F44E НЕТ"
+        one_time_keyboard: true
+        resize_keyboard: true
+    comment:
+      text: Ваш отзыв
+    incorrect_address:
+      text: Неверный адрес
+    looking_for_car:
+      text: Позвольте мне найти машину для вас. Это может занять до одной минуты
+    accept:
+      text: "Водитель найден. Имя: %{name}, номер: %{phone_number}."
+    waiting_client:
+      text: Водитель ждет вас.
+      reply_markup:
+        remove_reply_keyboard:
+          remove_keyboard: true
+    incorrect_rating:
+      text: Неверный рейтинг, попробуйте еще раз.
+    tips:
+      text: Желаете оставить чаевые?
+      reply_markup:
+        keyboard:
+          -
+            - text: "\U0001F44E НЕТ"
+            - text: 3
+            - text: 5
+            - text: 10
+            - text: 20
+        one_time_keyboard: true
+        resize_keyboard: true
+    tips_accept:
+      text: Спасибо за чаевые!
+    rate_trip:
+      text: Оцените вашу поездку
+      reply_markup:
+        keyboard:
+          -
+            - text: 1
+            - text: 2
+            - text: 3
+            - text: 4
+            - text: 5
+        one_time_keyboard: true
+        resize_keyboard: true
+    no_car_found:
+      text: В настоящее время нет доступных автомобилей. Хотите попробовать еще раз?
+      reply_markup:
+        keyboard:
+          -
+            - text: "\U0001F504 ПОПРОБОВАТЬ ЕЩЕ"
+            - text: "\U0001F6AB ОТМЕНА"
+        one_time_keyboard: true
+        resize_keyboard: true
+        remove_reply_keyboard:
+          remove_keyboard: true
+    unpaid_trips:
+      text: У вас остались неоплаченные поездки. Попробовать оплатить сейчас?
+      reply_markup:
+        keyboard:
+          -
+            - text: "\U0001F44D ДА"
+            - text: "\U0001F44E НЕТ"
+        one_time_keyboard: true
+        resize_keyboard: true
+    no_trip_payment:
+      text: К сожалению, заказ возможен только после оплаты долга.

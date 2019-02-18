@@ -1,8 +1,15 @@
 module Events
   module Bot
     class Reply < BaseEvent
-      COMMANDS = %w[/start BOOK CORRECT INCORRECT CANCEL GO TRY\ AGAIN YES NO].freeze
-      COMMANDLESS_STEPS = %w[waypoints_confirmation comment_confirmation comment rate_trip tips].freeze
+      COMMANDS =  { start: "start",
+                    U0001F696: "book",
+                    U0001F44C: "correct",
+                    U0001F6AB: "cancel",
+                    U0001F197: "go",
+                    U0001F504: "try_again",
+                    U0001F44D: "yes",
+                    U0001F44E: "no" }.freeze
+      COMMANDLESS_STEPS = %w[waypoints_confirmation comment_confirmation comment rate_trip tips trips_payment].freeze
       TIPS_REGEXP = /3|5|10|20/
 
       def schema
@@ -12,10 +19,11 @@ module Events
       end
 
       def run
+        set_locale
         return register(data[:cards_url]) if data['contact']
         @text = data[:text]
         @command ||= parse_command(@text)
-        return telegram_order.perform(@command) if COMMANDLESS_STEPS.exclude?(step) && @command
+        return telegram_order.perform(@command) if correct_command
         send(step) if respond_to?(step, true)
       end
 
@@ -53,7 +61,7 @@ module Events
 
       def process_address(address, field, initial = nil)
         location = Places.new(address).location
-        return telegram_order.send_message(:incorect_address) unless location
+        return telegram_order.send_message(:incorrect_address) unless location
         field == 'waypoint' ? update_waypoint(address, location, initial) : update_address(address, location, field)
       end
 
@@ -92,7 +100,8 @@ module Events
       end
 
       def parse_command(text)
-        text.downcase.tr(' ', '_').remove('/') if COMMANDS.include?(text)
+        key = text.eql?("/start") ? "start" : text[0].to_yaml.gsub!(/[^0-9A-Za-z]/, '')
+        COMMANDS[key.to_sym] if COMMANDS.keys.include?(key.to_sym)
       end
 
       def register(cards_url)
@@ -106,7 +115,7 @@ module Events
       end
 
       def add_card_button(cards_url)
-        { inline_keyboard: [[{ text: '+', url: "#{cards_url}?auth=#{telegram_order.user.auth_token}" }]] }
+        { inline_keyboard: [[{ text: '+', url: "#{cards_url}?auth=#{telegram_order.user.auth_token}&locale=#{I18n.locale}" }]] }
       end
 
       def current_user
@@ -123,6 +132,20 @@ module Events
 
       def location_string(location)
         "#{location['lat']},#{location['lng']}"
+      end
+
+      def set_locale
+        I18n.locale = @data.dig(:from, :language_code)&.to_sym || @data[:locale]
+      end
+
+      def correct_command
+        @command.present? && COMMANDLESS_STEPS.exclude?(step)
+      end
+
+      def trips_payment
+        return telegram_order.no_trip_payment if @command == 'no'
+        trip_id = Trip.unpaid.where(user_id: current_user.id).first.id
+        Operations::Wayforpay.settle(trip_id)
       end
     end
   end

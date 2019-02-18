@@ -39,13 +39,13 @@ class Directions
 
   private
 
-    def direction_by_place_id
-      @url = URL + "&origin=place_id:#{@origin}&destination=place_id:#{@destination}&waypoints="
-      @url << @waypoints.map { |point| "place_id:#{point}" }.join('|')
-    end
+  def direction_by_place_id
+    @url = URL + "&origin=place_id:#{@origin}&destination=place_id:#{@destination}&waypoints="
+    @url << @waypoints.map { |point| "place_id:#{point}" }.join('|')
+  end
 
-    def direction_by_coordinates
-      @url = URL + "&origin=#{@origin.split(',').flatten.join(',')}&destination=#{@destination.split(',').flatten.join(',')}&waypoints="
-      @url << @waypoints.map { |point| "#{point}" }.join('|')
-    end
+  def direction_by_coordinates
+    @url = URL + "&origin=#{@origin&.split(',')&.flatten&.join(',')}&destination=#{@destination&.split(',')&.flatten&.join(',')}&waypoints="
+    @url << @waypoints.map { |point| "#{point}" }.join('|')
+  end
 end

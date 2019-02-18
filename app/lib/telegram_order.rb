@@ -2,6 +2,8 @@ class TelegramOrder
   UPDATABLE_STEPS = { request_departure_address: :request_destination_address,
                       request_destination_address: :waypoints_confirmation,
                       waypoint: :waypoints_confirmation }.freeze
+  METERS_IN_KILOMETERS = 1000
+
   attr_reader :user
 
   def initialize(user)
@@ -13,7 +15,10 @@ class TelegramOrder
   end
 
   def start
-    send_message(@user.persisted? ? :start : :request_contact)
+    return send_message(:request_contact) unless @user.persisted?
+    return send_message(:start) unless unpaid_trips?
+    self.step = :trips_payment
+    send_message(:unpaid_trips)
   end
 
   def send_message(action)
@@ -44,7 +49,8 @@ class TelegramOrder
   end
 
   def confirmation
-    reply(:send_photo, :confirm_trip, photo: trip[:image])
+    distance = trip[:distance] / METERS_IN_KILOMETERS
+    reply(:send_photo, :trip_info, photo: trip[:image], message_options: { cost: trip[:cost], distance: distance })
     update_step(:confirm_trip)
   end
 
@@ -65,6 +71,7 @@ class TelegramOrder
   def cancel
     self.trip = {}
     self.feedback = {}
+    self.step = :start
     start
   end
 
@@ -144,6 +151,20 @@ class TelegramOrder
   end
 
   def step
-    Redis.current.get("user_#{@user.id}_step") || 'start'
+    @user.persisted? ? Redis.current.get("user_#{@user.id}_step") : 'start'
+  end
+
+  def driver_found(action, name, phone)
+    self.step = action
+    reply(:send_message, action, message_options: { name: name, phone_number: phone })
+  end
+
+  def unpaid_trips?
+    Trip.unpaid.where(user_id: @user.user_id).any?
+  end
+
+  def no_trip_payment
+    send_message(:no_trip_payment)
+    self.step = :start
   end
 end

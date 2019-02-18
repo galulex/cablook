@@ -13,6 +13,7 @@ module Operations
           update_payment
           update_bonus_trip_if_necessary
           update_trip_total
+          telegram_message
         else
           update_payment_response
         end
@@ -60,6 +61,11 @@ module Operations
 
       def count_of_finished_trips
         Trip.where(user_id: trip.user_id, status: Constants::Trip::FINISHED).count
+      end
+
+      def telegram_message
+        return if trip.telegram.blank?
+        TelegramOrder.new(trip.telegram).update_step(:start)
       end
     end
   end

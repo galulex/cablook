@@ -82,11 +82,11 @@ en:
         remove_reply_keyboard:
           keyboard_remove: true
     start:
-      text: 'Hi there, I am a CabLook Bot . I can book a taxi for you. Click BOOK if you need a ride'
+      text: 'Hi there, I am a CabLook Bot. I can book a taxi for you. Click BOOK if you need a ride'
       reply_markup:
         keyboard:
           -
-            - text: BOOK
+            - text: "\U0001F696 BOOK"
         one_time_keyboard: true
         resize_keyboard: true
         remove_reply_keyboard:
@@ -97,14 +97,17 @@ en:
       text: "The card has been added!"
     select_card:
       text: "Select the card."
+    trip_info:
+      text: "Cost: %{cost} UAN. Distance: %{distance} km."
+      caption: "Cost: %{cost} UAN. Distance: %{distance} km."
     confirm_trip:
       text: Confirm Trip please
       caption: Confirm Trip please
       reply_markup:
         keyboard:
           -
-            - text: GO
-            - text: CANCEL
+            - text: "\U0001F197 GO"
+            - text: "\U0001F6AB CANCEL"
         one_time_keyboard: true
         resize_keyboard: true
     confirm_address:
@@ -112,17 +115,17 @@ en:
       reply_markup:
         keyboard:
           -
-            - text: CORRECT
-            - text: CANCEL
+            - text: "\U0001F44C CORRECT"
+            - text: "\U0001F6AB CANCEL"
         one_time_keyboard: true
         resize_keyboard: true
     send_location:
       reply_markup:
         keyboard:
           -
-            - text: 'yes'
-            - text: 'no'
-            - text: cancel
+            - text: "\U0001F44D yes"
+            - text: "\U0001F44E no"
+            - text: "\U0001F6AB cancel"
         one_time_keyboard: true
         resize_keyboard: true
         remove_reply_keyboard:
@@ -131,8 +134,8 @@ en:
       reply_markup:
         keyboard:
           -
-            - text: 'YES'
-            - text: 'NO'
+            - text: "\U0001F44D YES"
+            - text: "\U0001F44E NO"
         one_time_keyboard: true
         resize_keyboard: true
     comment_confirmation:
@@ -140,18 +143,18 @@ en:
       reply_markup:
         keyboard:
           -
-            - text: 'YES'
-            - text: 'NO'
+            - text: "\U0001F44D YES"
+            - text: "\U0001F44E NO"
         one_time_keyboard: true
         resize_keyboard: true
     comment:
       text: Enter your comment
-    incorect_address:
-      text: Incorect Address
+    incorrect_address:
+      text: Incorrect Address
     looking_for_car:
       text: Let me find a car for you. It may take up to one minute
     accept:
-      text: Driver found.
+      text: "Driver found. Name: %{name}, phone: %{phone_number}"
     waiting_client:
       text: The driver is waiting for you.
       reply_markup:
@@ -164,7 +167,7 @@ en:
       reply_markup:
         keyboard:
           -
-            - text: 'NO'
+            - text: "\U0001F44E NO"
             - text: 3
             - text: 5
             - text: 10
@@ -190,9 +193,23 @@ en:
       reply_markup:
         keyboard:
           -
-            - text: TRY AGAIN
-            - text: CANCEL
+            - text: "\U0001F504 TRY AGAIN"
+            - text: "\U0001F6AB CANCEL"
         one_time_keyboard: true
         resize_keyboard: true
         remove_reply_keyboard:
           remove_keyboard: true
+    trips:
+      pay_off_debt:
+        text: Pay off debt for previous trips, please
+    unpaid_trips:
+      text: You have unpaid trips. Try to pay now?
+      reply_markup:
+        keyboard:
+          -
+            - text: "\U0001F44D YES"
+            - text: "\U0001F44E NO"
+        one_time_keyboard: true
+        resize_keyboard: true
+    no_trip_payment:
+      text: Unfortunately, the order is possible only after payment of the debt.
