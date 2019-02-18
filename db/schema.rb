@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_11_14_090030) do
+ActiveRecord::Schema.define(version: 2019_02_18_113043) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -142,7 +142,6 @@ ActiveRecord::Schema.define(version: 2018_11_14_090030) do
     t.text "stops", default: [], array: true
     t.integer "idle", default: 0
     t.integer "total", default: 0
-    t.datetime "start_time"
     t.boolean "no_call", default: false
     t.datetime "preorder_time"
     t.index ["car_id"], name: "index_trips_on_car_id"
@@ -160,6 +159,7 @@ ActiveRecord::Schema.define(version: 2018_11_14_090030) do
     t.string "referral_code"
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }
     t.integer "trips_count", default: 0
+    t.boolean "vip", default: false
   end
 
   add_foreign_key "bonus_trips", "trips"

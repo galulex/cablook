@@ -16,6 +16,7 @@ class Trip < ApplicationRecord
   enum status: Constants::Trip::STATUS_CODES.invert
 
   delegate :phone_number, to: :user, prefix: true
+  delegate :vip, to: :user, allow_nil: true
 
   # Time for pre-order trip
   attr_reader :time, :entrance

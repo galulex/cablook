@@ -32,7 +32,7 @@ ActiveAdmin.register User do
   form do |f|
     semantic_errors
     inputs do
-      %w[email phone_number referral_code].each { |title| input title }
+      %w[email phone_number referral_code vip].each { |title| input title }
     end
     actions
   end
