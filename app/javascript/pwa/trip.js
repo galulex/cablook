@@ -46,6 +46,18 @@ export default class Trip extends Component {
       trackUserLocation: false
     });
 
+    let point = {
+      "type": "FeatureCollection",
+      "features": [{
+      "type": "Feature",
+      "properties": {},
+      "geometry": {
+      "type": "Point",
+      "coordinates": [-77.032, 38.913]
+      }
+      }]
+    };
+
     this.map.addControl(geolocate);
     this.map.on('load', () => {
       // geolocate.trigger()
@@ -59,7 +71,7 @@ export default class Trip extends Component {
             properties: {},
             geometry: {
               type: 'LineString',
-              coordinates: geoJSON.map(e => { return e.reverse() })
+              coordinates: geoJSON.map(e => { return e.reverse() }),
             }
           }
         },
@@ -71,6 +83,35 @@ export default class Trip extends Component {
           'line-width': 4,
           'line-color': '#19a169',
           'line-opacity': 1
+        }
+      });
+      this.map.addSource('point', {
+        "type": "geojson",
+        "data": point
+        });
+      this.map.addLayer({
+        id: 'point',
+        source: {
+          type: 'geojson',
+          data: {
+            type: "FeatureCollection",
+            features: [{
+              type: "Feature",
+              properties: {},
+              geometry: {
+                type: "Point",
+                coordinates: [-77.032, 38.913]
+              }
+            }]
+          }
+        },
+        "type": "symbol",
+        "layout": {
+        "icon-image": "airport-15",
+        "icon-rotate": ["get", "bearing"],
+        "icon-rotation-alignment": "map",
+        "icon-allow-overlap": true,
+        "icon-ignore-placement": true
         }
       });
     window.map = this.map
