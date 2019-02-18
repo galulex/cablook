@@ -1,8 +1,9 @@
 class WelcomeController < ApplicationController
   layout 'pwa2', only: :pwa
+  layout 'driver', only: :driver
 
   caches_action :index, cache_path: -> { "#{params[:page]}_#{session[:locale]}" }
-  caches_action :pwa
+  caches_action :pwa, :driver
 
   def index
     render params[:page]
