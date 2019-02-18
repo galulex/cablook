@@ -28,6 +28,7 @@ en:
     cancel_impossible: Impossible to cancel finished/canceled trip
     canceled: Trip successfully canceled
     invalid: Address is not correct
+    invalid_preorder: Pre-order can be done in at least 30 minutes.
     pay_off_debt: Pay off debt for previous trips, please
     pending_trip_exists: There is one order already in progress
     start_at_invalid: Time entered incorrectly
