@@ -35,7 +35,7 @@ class User < ApplicationRecord
   end
 
   def self.from_telegram(number, username, chat_id)
-    user = User.find_or_initialize_by(phone_number: "+#{number}")
+    user = User.find_or_initialize_by(phone_number: "+#{sanitize_phone(number)}")
     user.update(telegram_attributes: { username: username, chat_id: chat_id })
   end
 
@@ -47,5 +47,9 @@ class User < ApplicationRecord
 
   def generate_referral
     self.referral_code = SecureRandom.base58(6)
+  end
+
+  def self.sanitize_phone(number)
+    number.tr('^0-9', '')
   end
 end
