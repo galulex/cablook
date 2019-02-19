@@ -10,7 +10,9 @@ const en = {
     car_not_found: 'No cars available right now.\nDo you want to try one more time?',
     currency: 'uah',
     no_cars_notice: 'No cars available',
-    on: 'on'
+    on: 'on',
+    will_arrive: 'will arrive at',
+    waiting_notice: 'Driver is already waiting for you'
   },
   trips: {
     header: 'Trips',

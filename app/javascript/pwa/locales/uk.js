@@ -10,7 +10,9 @@ const uk = {
     car_not_found: 'На жаль машинку не знайдено.\nСпробувати ще?',
     currency: 'грн',
     no_cars_notice: 'Немає вільних машинок',
-    on: 'на'
+    on: 'на',
+    will_arrive: 'приїде в',
+    waiting_notice: 'Водій вже чекає вас'
   },
   trips: {
     header: 'Поїздки',

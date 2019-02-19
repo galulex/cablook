@@ -84,7 +84,7 @@ export default class Home extends Component {
   TripAccepted = (data) => {
     this.vibrate()
     this.updateTrip(data.trip)
-    if (document.visibilityState == 'hidden') this.notify(this.acceptData())
+    this.notify(this.acceptData())
   }
 
   TripUnavailable = (data) => {
@@ -113,7 +113,7 @@ export default class Home extends Component {
     let trip = this.state.trip
     trip.status = 2
     this.updateTrip(trip)
-    if (document.visibilityState == 'hidden') this.notify(this.waitingData())
+    this.notify(this.waitingData())
   }
 
   start_trip = () => {
@@ -159,7 +159,7 @@ export default class Home extends Component {
     let data = {icon: '/icon_128x128.png',
                 data: {id: this.state.trip.id, token: localStorage.token},
                 badge: '/icon_96x96.png',
-                body: i18n.trip.no_cars_notice}
+                body: `${this.state.trip.driver_name} ${i18n.trip.will_arrive} ${this.state.trip.start_time} ${i18n.trip.on} ${this.state.trip.car_number}`}
     return data
   }
 
@@ -167,7 +167,7 @@ export default class Home extends Component {
     let data = {icon: '/icon_128x128.png',
                 data: {id: this.state.trip.id, token: localStorage.token},
                 badge: '/icon_96x96.png',
-                body: i18n.trip.no_cars_notice}
+                body: i18n.trip.waiting_notice}
     return data
   }
 
