@@ -72,27 +72,19 @@ export default class Home extends Component {
       }, 500)
       return
     }
-    this.notify()
+    this.notify(this.declineData())
   }
 
-  notify = () => {
-    let component = this
-    navigator.serviceWorker.getRegistrations().then(function(registrations) {
-      registrations[0].showNotification('CabLook', {
-        icon: '/icon_128x128.png',
-        data: {id: component.state.trip.id, token: localStorage.token},
-        badge: '/icon_96x96.png',
-        body: i18n.trip.no_cars_notice,
-        actions: [
-          {action: 'retry', title: '🔄 Retry'},
-        ]
-      })
+  notify = (data) => {
+    navigator.serviceWorker.getRegistrations().then(registrations => {
+      registrations[0].showNotification('CabLook', data)
     })
   }
 
   TripAccepted = (data) => {
     this.vibrate()
     this.updateTrip(data.trip)
+    if (document.visibilityState == 'hidden') this.notify(this.acceptData())
   }
 
   TripUnavailable = (data) => {
@@ -121,6 +113,7 @@ export default class Home extends Component {
     let trip = this.state.trip
     trip.status = 2
     this.updateTrip(trip)
+    if (document.visibilityState == 'hidden') this.notify(this.waitingData())
   }
 
   start_trip = () => {
@@ -160,6 +153,31 @@ export default class Home extends Component {
   handleBack = (event) => {
     event.stopPropagation()
     this.updateTrip(null)
+  }
+
+  acceptData = () => {
+    let data = {icon: '/icon_128x128.png',
+                data: {id: this.state.trip.id, token: localStorage.token},
+                badge: '/icon_96x96.png',
+                body: i18n.trip.no_cars_notice}
+    return data
+  }
+
+  waitingData = () => {
+    let data = {icon: '/icon_128x128.png',
+                data: {id: this.state.trip.id, token: localStorage.token},
+                badge: '/icon_96x96.png',
+                body: i18n.trip.no_cars_notice}
+    return data
+  }
+
+  declineData = () => {
+    let data = {icon: '/icon_128x128.png',
+                data: {id: this.state.trip.id, token: localStorage.token},
+                badge: '/icon_96x96.png',
+                body: i18n.trip.no_cars_notice,
+                actions: [{action: 'retry', title: '🔄 Retry'}]}
+    return data
   }
 
   render() {
