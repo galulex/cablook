@@ -84,7 +84,7 @@ export default class Home extends Component {
   TripAccepted = (data) => {
     this.vibrate()
     this.updateTrip(data.trip)
-    this.notify(this.acceptData())
+    if (document.visibilityState == 'hidden') this.notify(this.acceptData())
   }
 
   TripUnavailable = (data) => {
@@ -113,7 +113,7 @@ export default class Home extends Component {
     let trip = this.state.trip
     trip.status = 2
     this.updateTrip(trip)
-    this.notify(this.waitingData())
+    if (document.visibilityState == 'hidden') this.notify(this.waitingData())
   }
 
   start_trip = () => {
