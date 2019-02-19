@@ -24,18 +24,22 @@ export default class Trip extends Component {
       lng: 32.059769,
       lat: 49.444431,
       zoom: 12,
+      departure: null,
+      destination: null,
+      waypoints: []
     }
   }
 
   componentDidMount() {
     this.car = new mapboxgl.Marker(this.nissan)
+    this.setWaypoints()
     const { lng, lat, zoom } = this.state;
     let geoJSON = polyline.decode(this.props.trip.path)
     this.map = new mapboxgl.Map({
       container: this.mapContainer,
       // style: 'mapbox://styles/okunieva/cjrlxcvzu2osh2spcikwl1zhl',
       style: 'mapbox://styles/mapbox/streets-v9',
-      center: this.props.trip.departure.reverse(),
+      center: this.state.departure,
       zoom
     });
 
@@ -45,18 +49,6 @@ export default class Trip extends Component {
       },
       trackUserLocation: false
     });
-
-    let point = {
-      "type": "FeatureCollection",
-      "features": [{
-      "type": "Feature",
-      "properties": {},
-      "geometry": {
-      "type": "Point",
-      "coordinates": [-77.032, 38.913]
-      }
-      }]
-    };
 
     this.map.addControl(geolocate);
     this.map.on('load', () => {
@@ -85,35 +77,7 @@ export default class Trip extends Component {
           'line-opacity': 1
         }
       });
-      this.map.addSource('point', {
-        "type": "geojson",
-        "data": point
-        });
-      this.map.addLayer({
-        id: 'point',
-        source: {
-          type: 'geojson',
-          data: {
-            type: "FeatureCollection",
-            features: [{
-              type: "Feature",
-              properties: {},
-              geometry: {
-                type: "Point",
-                coordinates: [-77.032, 38.913]
-              }
-            }]
-          }
-        },
-        "type": "symbol",
-        "layout": {
-        "icon-image": "airport-15",
-        "icon-rotate": ["get", "bearing"],
-        "icon-rotation-alignment": "map",
-        "icon-allow-overlap": true,
-        "icon-ignore-placement": true
-        }
-      });
+
     window.map = this.map
     });
     this.setMarker()
@@ -174,18 +138,25 @@ export default class Trip extends Component {
     return(
       <div class='pins'>
         <div ref={el => this.nissan = el}><Nissan class='nissan' fill={this.props.trip.car_color}/></div>
-        <div ref={el => this.departurePin = el}><Pin class='departure'/></div>
-        <div ref={el => this.destinationPin = el}><Pin class='destination'/></div>
+        <div ref={el => this.departure = el}><Pin class='departure'/></div>
+        <div ref={el => this.destination = el}><Pin class='destination'/></div>
         {this.props.trip.waypoints.map(() => (<div><Pin class='waypoint'/></div>))}
       </div>
     )
   }
 
+  setWaypoints = () => {
+    this.setState({departure: this.props.trip.departure.reverse(), destination: this.props.trip.destination.reverse()})
+    this.setState(state => {
+      this.props.trip.waypoints.map(waypoint => {state.waypoints.push(waypoint.split(',').reverse())})
+    })
+  }
+
   setMarker = () => {
-    new mapboxgl.Marker(this.departurePin).setLngLat(this.props.trip.departure).addTo(this.map);
-    new mapboxgl.Marker(this.destinationPin).setLngLat(this.props.trip.destination.reverse()).addTo(this.map);
-    this.props.trip.waypoints.forEach((el, index) => {
-      new mapboxgl.Marker(document.getElementsByClassName('waypoint')[index].parentNode).setLngLat(el.split(',').reverse()).addTo(this.map);
+    new mapboxgl.Marker(this.departure).setLngLat(this.state.departure).addTo(this.map);
+    new mapboxgl.Marker(this.destination).setLngLat(this.state.destination).addTo(this.map);
+    this.state.waypoints.forEach((el, index) => {
+      new mapboxgl.Marker(document.getElementsByClassName('waypoint')[index].parentNode).setLngLat(el).addTo(this.map);
     })
   }
 }
