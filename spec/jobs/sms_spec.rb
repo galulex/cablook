@@ -9,7 +9,7 @@ describe Jobs::Sms do
   subject { -> { described_class.new.perform('+380661234567', 'test') } }
 
   before do
-    stub_request(:any, 'http://svitsms.com/api/api.php')
+    stub_request(:any, Constants::Sms::URL.to_s)
       .to_return(body: body, status: 200, headers: { 'Content-Length' => 3 })
   end
 
