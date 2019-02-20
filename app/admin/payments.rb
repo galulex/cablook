@@ -36,13 +36,6 @@ ActiveAdmin.register Payment do
     end
   end
 
-  show do
-    attributes_table do
-      Payment.column_names.each { |title| row title }
-    end
-    render 'custom_actions'
-  end
-
   index do
     %w[id amount status type trip user card_pan response].each { |title| column title }
     column 'driver_id' do |payment|
@@ -58,6 +51,22 @@ ActiveAdmin.register Payment do
     div class: 'panel' do
       h4 "Total: #{Payment.search(params[:q]).result.sum(:amount)}"
     end
+  end
+
+  show do
+    attributes_table do
+      Payment.column_names.each { |title| row title }
+    end
+    render 'custom_actions'
+  end
+
+  form do |f|
+    semantic_errors
+    inputs do
+      f.input :card, label: 'Card', as: :select, collection: Card.where(user_id: payment.user_id).map { |c| [c.pan, c.id] }
+      %w[amount status order_reference response].each { |title| input title }
+    end
+    actions
   end
 
   action_item(:retry) { link_to 'Retry All', retry_all_without_sms_admin_payments_path, method: :post }
