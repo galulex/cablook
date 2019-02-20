@@ -15,6 +15,7 @@ input.address {
   font-weight: 900;
   margin: 0 3% 0 7%;
   border-radius: 0;
+  box-shadow: none;
 }
 
 input.address:invalid {

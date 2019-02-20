@@ -108,7 +108,7 @@ export default class App extends Component {
           <button class='burger' onClick={() => this.triggerDrawer(true)}>☰</button>
           <Router>
             <Home path='/' cards={() => this.state.cards} bonus_trips={() => this.state.bonus_trips} />
-            <Trips path='/trips' />
+            <Trips path='/trips/:id?' />
             <Bonus path='/bonus_trips' bonus_trips={() => this.state.bonus_trips} parent_bonus={() => this.state.parent_bonus} />
             <Cards path='/cards' cards={() => this.state.cards} updateCards={this.updateCards} />
             <Contacts path='/contacts' />

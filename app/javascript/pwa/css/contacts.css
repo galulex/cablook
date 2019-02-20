@@ -14,3 +14,8 @@ ul.contacts li a svg {
   margin-right: 5%;
   width: 30px;
 }
+
+h1.notice {
+  margin: 0;
+  padding-top: 10px;
+}
