@@ -20,7 +20,6 @@ export default class TripCard extends Component {
 
   componentDidMount() {
     this.setRate()
-    console.log('SHOW')
     history.pushState(null, 'Trip Details',`/trips/${this.props.trip.id}`);
     this.setState({showDetails: true})
     window.addEventListener('popstate', this.handleBack, {once: true});
