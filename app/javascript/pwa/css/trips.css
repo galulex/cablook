@@ -184,6 +184,11 @@ div.map {
   margin-left: 40px;
 }
 
+.trip-details-content a, a:visited {
+  color: var(--navy);
+  text-decoration: none;
+}
+
 .trip-details-content address.details-address::before {
   content: '';
   height: 90%;

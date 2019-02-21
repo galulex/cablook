@@ -8,7 +8,6 @@ section.confirm-trip {
   padding: 54px 0 0;
   background: white;
   overflow-x: hidden;
-  z-index: 1001;
 }
 
 section.confirm-trip div.details {
@@ -146,4 +145,12 @@ ul.details-list span + span {
   float: right;
   padding-left: 0.33em;
   background: white;
+}
+
+.confirm-container header {
+  z-index: 300;
+}
+
+.burger#arrow {
+  z-index: 310;
 }

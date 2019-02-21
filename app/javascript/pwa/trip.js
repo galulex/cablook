@@ -112,7 +112,7 @@ export default class Trip extends Component {
         {this.renderButton()}
         <div class='trip-details-content'><Car/>{`${trip.driver_name} ${i18n.trip.on} ${trip.car_number}`}</div>
         <div class='trip-details-content'><TripTime/>{trip.start_time}</div>
-        <div class='trip-details-content'><Phone/>{trip.car_phone_number}</div>
+        <div class='trip-details-content'><a href={`tel:${trip.car_phone_number}`}><Phone/>{trip.car_phone_number}</a></div>
         <div class='trip-details-content'>
           <address class='details-address'>{trip.departure_address}</address>
           {this.renderStops()}

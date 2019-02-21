@@ -20,7 +20,6 @@ export default class TripCard extends Component {
 
   componentDidMount() {
     this.setRate()
-    console.log('SHOW')
     history.pushState(null, 'Trip Details',`/trips/${this.props.trip.id}`);
     this.setState({showDetails: true})
     window.addEventListener('popstate', this.handleBack, {once: true});
@@ -81,7 +80,7 @@ export default class TripCard extends Component {
             <address>{trip.destination_address}</address>
           </div>
           <div class='trip-details-content'><TripTime/>{trip.formatted_date}</div>
-          <div class='trip-details-content'>{this.renderRate()}</div>
+          {this.renderRate()}
         </section>
         {this.state.isFeedbackVisible && <Feedback trip={this.props.trip} handleBack={this.handleFeedbackBack} isFeedbackVisible={this.state.isFeedbackVisible} getRate={this.getRate}/>}
       </div>
@@ -124,11 +123,22 @@ export default class TripCard extends Component {
     }
   }
 
+  renderRepeatReverse = () => {
+    if ([1,2,3].includes(this.props.trip.status)) return;
+    return(
+      <div class="buttons">
+        <button type='button' class= 'button' onClick={this.repeatTrip}>{i18n.trips.repeat}</button>
+        <button type='button' class= 'button' onClick={this.reverseTrip}>{i18n.trips.reverse}</button>
+      </div>
+    )
+  }
+
   renderRate = () => {
+    if (this.props.trip.status !== 4) return;
     if (this.state.rate) {
-      return(Array(this.state.rate).fill(<Star />))
+      return(<div class='trip-details-content'>{Array(this.state.rate).fill(<Star />)}</div>)
     } else {
-      return(<button class='button cancel' onClick={this.showFeedback}>{i18n.trips.rate}</button>)
+      return(<div class='trip-details-content'><button class='button cancel' onClick={this.showFeedback}>{i18n.trips.rate}</button></div>)
     }
   }
 }
