@@ -154,3 +154,12 @@ ul.details-list span + span {
 .burger#arrow {
   z-index: 310;
 }
+
+.burger#arrow .back-wrap {
+  position: relative;
+  height: 50px;
+}
+
+.burger#arrow .back-wrap svg {
+  height: 25px;
+}

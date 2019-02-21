@@ -93,7 +93,7 @@ export default class MapPicker extends Component {
       <div class='trip-details'>
         <header>
           {i18n.map_picker.header}
-          <button type='button' class='burger' onClick={() => window.history.back()}><Back fill='#132d50'/></button>
+          <button type='button' id='arrow' class='burger' onClick={() => window.history.back()}><div class='back-wrap'><Back fill='#132d50'/></div></button>
         </header>
         <div ref={el => this.mapContainer = el} style={style}  />
         <Pin color={"#19A160"} fillColor={"#19A160"} style={pinStyle}/>
