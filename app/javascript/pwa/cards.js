@@ -1,8 +1,8 @@
 import { h, render, Component } from 'preact';
-import md5 from 'crypto-js/hmac-md5';
 import axios from 'axios';
 
 import i18n from './i18n.js';
+import Widget from './widget.js';
 import './css/cards.css'
 import CardsIcon from './images/credit-cards-payment.svg'
 import Visa from './images/visa.svg'
@@ -14,30 +14,17 @@ export default class Cards extends Component {
     super(props)
     this.state = {
       cards: this.props.cards(),
-      disabled: false
+      disabled: false,
+      showWidget: false
     }
   }
 
-  componentDidMount() {
-    this.loadWidget()
-    window.addEventListener("message", (event) => {
-      if (event.data === 'WfpWidgetEventClose') {
-        location.reload()
-      }
-    })
+  showWidget = (val) => {
+    this.setState({showWidget: val})
   }
 
   componentWillReceiveProps() {
     this.setState({cards: this.props.cards()})
-  }
-
-  loadWidget = () => {
-    if (document.getElementById('widget-wfp-script') === null) {
-      let script = document.createElement('script');
-      script.setAttribute('id', 'widget-wfp-script');
-      script.setAttribute('src', 'https://secure.wayforpay.com/server/pay-widget.js');
-      document.body.appendChild(script);
-    }
   }
 
   renderCardType = (type) => {
@@ -69,70 +56,15 @@ export default class Cards extends Component {
       <section>
         <header>Cards</header>
         { cardList }
-        <button class='button fixed' disabled={this.state.disabled} type='button' onClick={this.new}>+ {i18n.cards.add}</button>
+        <button class='button fixed' disabled={this.state.showWidget} type='button' onClick={() => this.showWidget(true)}>+ {i18n.cards.add}</button>
+        { this.state.showWidget && <Widget createCard={this.create} /> }
       </section>
     )
   }
 
-  new = () => {
-    const component = this
-    const wayforpay = new Wayforpay();
-    this.setState({disabled: true})
-    wayforpay.run((this.WFP()),
-      response =>{
-        setTimeout(function(){
-          wayforpay.closeit()
-          component.create(response)
-        }, 1000)
-      },
-      response =>{
-        component.setState({disabled: false})
-      },
-      response =>{
-        setTimeout(function(){
-          wayforpay.closeit()
-          component.create(response)
-        }, 1000)
-      }
-    );
-  }
-
-  WFP = () => {
-    let date = Date.now()
-    let orderReference = md5(date.toString(), localStorage.token).toString()
-    this.straightWidget = true
-    this.merchantAccount = window._MERCHANT
-    this.merchantDomainName = 'cablook.taxi'
-    this.merchantTransactionType = 'AUTH'
-    this.holdTimeout = 60
-    this.authorizationType = 'SimpleSignature'
-    this.orderReference = orderReference
-    this.serviceUrl = `https://${window.location.hostname}/api/cards/update`
-    this.orderDate = date
-    this.amount = '1'
-    this.currency = 'UAH'
-    this.productName = 'Удержание за добавление карты'
-    this.productPrice = '1'
-    this.transactionType = 'VERIFY'
-    this.clientPhone = localStorage.phone
-    this.clientEmail = localStorage.email
-    this.productCount = '1'
-    this.paymentSystem = 'card'
-    this.merchantSignature = md5(`${this.merchantAccount};${this.merchantDomainName};${orderReference};${date};${this.amount};${this.currency};${this.productName};1;1`, window._TOKEN).toString()
-    return this
-  }
-
   create = (data) => {
-    let cards = this.state.cards
-
-    axios.post('cards', data).then((res) => {
-      cards.push(res.data)
-      this.setState({cards: cards, disabled: false})
-      this.props.updateCards(cards)
-    }).catch((error) => {
-      this.setState({disabled: false})
-      if (error.response) alert(error.response.data.errors)
-    })
+    this.props.create(data)
+    this.setState({showWidget: false})
   }
 
   delete = (id, index) => {

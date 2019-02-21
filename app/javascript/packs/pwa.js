@@ -100,6 +100,17 @@ export default class App extends Component {
     this.setState({cards: cards})
   }
 
+  createCard = (data) => {
+    let cards = this.state.cards
+
+    axios.post('cards', data).then((res) => {
+      cards.push(res.data)
+      this.setState({cards: cards})
+    }).catch((error) => {
+      if (error.response) alert(error.response.data.errors)
+    })
+  }
+
   render() {
     if (this.state.currentUser) {
       return(
@@ -107,10 +118,10 @@ export default class App extends Component {
           <Drawer active={this.state.drawer} triggerDrawer = {this.triggerDrawer} logOut={this.logOut} bonuses={() => this.state.bonus_trips.filter(e => { return e.status === 1 }).length }/>
           <button class='burger' onClick={() => this.triggerDrawer(true)}>☰</button>
           <Router>
-            <Home path='/' cards={() => this.state.cards} bonus_trips={() => this.state.bonus_trips} />
+            <Home path='/' cards={() => this.state.cards} bonus_trips={() => this.state.bonus_trips} createCard={this.createCard} />
             <Trips path='/trips/:id?' />
             <Bonus path='/bonus_trips' bonus_trips={() => this.state.bonus_trips} parent_bonus={() => this.state.parent_bonus} />
-            <Cards path='/cards' cards={() => this.state.cards} updateCards={this.updateCards} />
+            <Cards path='/cards' cards={() => this.state.cards} create={this.createCard} />
             <Contacts path='/contacts' />
           </Router>
           <Prompt />

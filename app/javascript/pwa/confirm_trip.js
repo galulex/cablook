@@ -2,6 +2,7 @@ import { h, render, Component } from 'preact';
 import axios from 'axios';
 
 import MapImg from './map_img.js'
+import Widget from './widget.js'
 import i18n from './i18n.js'
 import './css/confirm_trip.css'
 import TripPrice from './images/trip_price.svg'
@@ -15,7 +16,8 @@ export default class ConfirmTrip extends Component {
       cards: this.props.cards(),
       card_id: null,
       bonus: null,
-      submitDisabled: false
+      submitDisabled: false,
+      showWidget: false
     }
   }
 
@@ -51,6 +53,11 @@ export default class ConfirmTrip extends Component {
     })
   }
 
+  createCard = (data) => {
+    this.props.createCard(data)
+    this.setState({showWidget: false})
+  }
+
   render() {
     return (
       <div class='confirm-container'>
@@ -71,18 +78,26 @@ export default class ConfirmTrip extends Component {
               </li>
             </ul>
           </div>
-          <div class='card-section'>
-            <label for='card'>{i18n.confirm_trip.card}</label>
-            <div class='select'>
-              <select id='card' onChange={(e) => this.selectCard(e)}>
-                {this.state.cards.map((el) => this.renderCard(el))}
-              </select>
+          { (this.state.cards.length > 0) &&
+            <div class='card-section'>
+              <label for='card'>{i18n.confirm_trip.card}</label>
+              <div class='select'>
+                <select id='card' onChange={(e) => this.selectCard(e)}>
+                  {this.state.cards.map((el) => this.renderCard(el))}
+                </select>
+              </div>
             </div>
-          </div>
+          }
+          { (this.state.cards.length < 1) &&
+              <button class='button fixed' type='button' disabled={this.state.showWidget} onClick={() => this.setState({showWidget: true}) }>+ {i18n.cards.add}</button>
+          }
           <MapImg trip={() => this.props.trip} />
           <div class='buttons'>
             { this.renderBonus() }
-            <button class='button fixed' type='button' disabled={this.state.submitDisabled} onClick={this.create}>{i18n.confirm_trip.go}</button>
+            { (this.state.cards.length > 0) &&
+              <button class='button fixed' type='button' disabled={this.state.submitDisabled} onClick={this.create}>{i18n.confirm_trip.go}</button>
+            }
+            { this.state.showWidget && <Widget createCard={this.createCard}/> }
           </div>
         </section>
       </div>
