@@ -91,7 +91,7 @@ export default class Feedback extends Component {
       <div class='find_driver'>
         <section class='feedback'>
           <header>{i18n.feedback.header}</header>
-          <button type='button' id='arrow' class='burger' onClick={() => window.history.back()}><div class='back-wrap'><Back fill='#132d50'/></div></button>
+          <button type='button' class='burger' onClick={() => window.history.back()}><Back fill='#132d50'/></button>
           <div class='star-container'>
             {[1,2,3,4,5].map(i => this.renderStar(i))}
           </div>

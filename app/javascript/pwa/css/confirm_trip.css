@@ -155,11 +155,6 @@ ul.details-list span + span {
   z-index: 310;
 }
 
-.burger#arrow .back-wrap {
-  position: relative;
-  height: 50px;
-}
-
-.burger#arrow .back-wrap svg {
+.burger svg {
   height: 25px;
 }

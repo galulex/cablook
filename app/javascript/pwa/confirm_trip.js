@@ -54,7 +54,7 @@ export default class ConfirmTrip extends Component {
   render() {
     return (
       <div class='confirm-container'>
-        <button type='button' id='arrow' class='burger' onClick={() => window.history.back()}><div class='back-wrap'><Back fill='#132d50'/></div></button>
+        <button type='button' id='arrow' class='burger' onClick={() => window.history.back()}><Back fill='#132d50'/></button>
         <header>{i18n.confirm_trip.header}</header>
         <section class='confirm-trip'>
           <div class='details'>
