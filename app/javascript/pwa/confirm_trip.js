@@ -53,37 +53,39 @@ export default class ConfirmTrip extends Component {
 
   render() {
     return (
-      <section class='confirm-trip'>
+      <div class='confirm-container'>
+        <button type='button' id='arrow' class='burger' onClick={() => window.history.back()}><Back fill='#132d50'/></button>
         <header>{i18n.confirm_trip.header}</header>
-        <button type='button' class='burger' onClick={() => window.history.back()}><Back fill='#132d50'/></button>
-        <div class='details'>
-          <ul class='details-list'>
-            <li>
-              <TripPrice />
-              <span>{i18n.confirm_trip.cost}</span>
-              <span><b id='trip_cost'>{this.props.trip.cost} {i18n.confirm_trip.currency}</b></span>
-            </li>
-            <li>
-              <Pin />
-              <span>{i18n.confirm_trip.distance}</span>
-              <span><b id='trip_distance'>{(this.props.trip.distance/1000).toFixed(1)} {i18n.confirm_trip.km}</b></span>
-            </li>
-          </ul>
-        </div>
-        <div class='card-section'>
-          <label for='card'>{i18n.confirm_trip.card}</label>
-          <div class='select'>
-            <select id='card' onChange={(e) => this.selectCard(e)}>
-              {this.state.cards.map((el) => this.renderCard(el))}
-            </select>
+        <section class='confirm-trip'>
+          <div class='details'>
+            <ul class='details-list'>
+              <li>
+                <TripPrice />
+                <span>{i18n.confirm_trip.cost}</span>
+                <span><b id='trip_cost'>{this.props.trip.cost} {i18n.confirm_trip.currency}</b></span>
+              </li>
+              <li>
+                <Pin />
+                <span>{i18n.confirm_trip.distance}</span>
+                <span><b id='trip_distance'>{(this.props.trip.distance/1000).toFixed(1)} {i18n.confirm_trip.km}</b></span>
+              </li>
+            </ul>
           </div>
-        </div>
-        <MapImg trip={() => this.props.trip} />
-        <div class='buttons'>
-          { this.renderBonus() }
-          <button class='button fixed' type='button' disabled={this.state.submitDisabled} onClick={this.create}>{i18n.confirm_trip.go}</button>
-        </div>
-      </section>
+          <div class='card-section'>
+            <label for='card'>{i18n.confirm_trip.card}</label>
+            <div class='select'>
+              <select id='card' onChange={(e) => this.selectCard(e)}>
+                {this.state.cards.map((el) => this.renderCard(el))}
+              </select>
+            </div>
+          </div>
+          <MapImg trip={() => this.props.trip} />
+          <div class='buttons'>
+            { this.renderBonus() }
+            <button class='button fixed' type='button' disabled={this.state.submitDisabled} onClick={this.create}>{i18n.confirm_trip.go}</button>
+          </div>
+        </section>
+      </div>
     )
   }
 
