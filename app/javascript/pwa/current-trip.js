@@ -17,9 +17,12 @@ export default class CurrentTrip extends Component {
         destination: '',
         departure_address: '',
         destination_address: '',
+        no_call: false,
+        entrance: null,
         time: null,
         osrm: true
       },
+      comment: null,
       submitDisabled: false,
       entrance: Array.from({length: 15}, (v, k) => `${k + 1} ${i18n.current_trip.entrance}`),
     }
@@ -124,14 +127,14 @@ export default class CurrentTrip extends Component {
             </div>
           </div>
           <div class='nocall'>
-            <input id='nocall' type='checkbox' onChange={this.setNoCall}/>
+            <input id='nocall' type='checkbox' checked={this.state.trip.no_call} onChange={this.setNoCall}/>
             <label for='nocall'>
               {i18n.current_trip.no_call}
             </label>
           </div>
           <label for='entrance'>
             <span>{i18n.current_trip.where_to_pick}</span>
-            <select id='entrance' onChange={(e) => this.setEntrance(e)}>
+            <select id='entrance' value={this.state.trip.entrance} onChange={(e) => this.setEntrance(e)}>
               <option value=''>{i18n.current_trip.select_entrance}</option>
               {this.state.entrance.map((el) => {
                 return(<option value={el}>{el}</option>)
@@ -140,9 +143,9 @@ export default class CurrentTrip extends Component {
           </label>
           <label for='time'>
             <span>{i18n.current_trip.when}</span>
-            <input id='time' type='time' step='600' title='HH:MM' pattern='([01]?[0-9]|2[0-3]):[0-5][0-9]' placeholder='Now' onChange={this.setOrderTime}/>
+            <input id='time' type='time' step='600' title='HH:MM' pattern='([01]?[0-9]|2[0-3]):[0-5][0-9]' value={this.state.trip.time} placeholder='Now' onChange={this.setOrderTime}/>
           </label>
-          <input type='text' class='comment' placeholder={i18n.current_trip.comment} onChange={this.setComment}/>
+          <input type='text' class='comment' value={this.state.comment} placeholder={i18n.current_trip.comment} onChange={this.setComment}/>
           <input type='submit' disabled={this.state.submitDisabled} class='button' onClick={this.build} value='OK'/>
         </form>
       </section>
