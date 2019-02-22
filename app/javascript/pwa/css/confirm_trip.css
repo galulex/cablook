@@ -154,3 +154,7 @@ ul.details-list span + span {
 .burger#arrow {
   z-index: 310;
 }
+
+.burger svg {
+  height: 25px;
+}
