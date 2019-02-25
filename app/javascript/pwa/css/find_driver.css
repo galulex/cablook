@@ -1,0 +1,20 @@
+div.find_driver {
+  position: fixed;
+  height: 100vh;
+  width: 100%;
+  background: linear-gradient(to top, var(--green), 20%, var(--navy));
+  z-index: 300;
+  top: 0;
+}
+
+div.find_driver section {
+  background: transparent;
+}
+
+div.find_driver address {
+  color: var(--white);
+}
+
+div.find_driver address::after {
+  border-color: var(--white);
+}

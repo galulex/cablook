@@ -1,10 +1,8 @@
 Rails.application.configure do
   config.action_cable.allowed_request_origins = [
     'https://cablook.herokuapp.com',
-    'http://cablook.herokuapp.com',
     'https://staging.cablook.taxi',
-    'http://staging.cablook.taxi',
-    'https://staging.cablook.taxi/'
+    'https://app.cablook.taxi'
   ]
 
   config.secret_key_base = ENV['SECRET_KEY_BASE'] unless config.secret_key_base

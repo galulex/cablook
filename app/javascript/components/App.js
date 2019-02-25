@@ -117,7 +117,7 @@ export default class App extends Component {
 
   renderComponent = () => {
     const { step, number, cards, bonus_trips, path } = this.state
-    switch(this.state.step){
+    switch(step){
       case 1:
         return (
           <NumberForm

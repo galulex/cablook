@@ -1,0 +1,21 @@
+ul.contacts li a {
+  cursor: pointer;
+  display: block;
+  color: var(--navy);
+  text-decoration: none;
+  padding: 5px;
+  margin: 5px;
+}
+
+ul.contacts li a svg {
+  vertical-align: middle;
+  display: inline-block;
+  height: 30px;
+  margin-right: 5%;
+  width: 30px;
+}
+
+h1.notice {
+  margin: 0;
+  padding-top: 10px;
+}

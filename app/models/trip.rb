@@ -18,6 +18,18 @@ class Trip < ApplicationRecord
   delegate :phone_number, to: :user, prefix: true
   delegate :vip, to: :user, allow_nil: true
 
+  scope :sum_cost, -> do
+    joins(:driver)
+      .joins("LEFT JOIN payments ON trips.id = payments.trip_id AND payments.type = 'Payments::Tip'")
+      .select('COUNT(trips.id) AS trips_count, SUM(trips.cost) AS trips_sum, MIN(drivers.username) AS username')
+      .select('SUM(payments.amount) AS tips_sum')
+      .group(:driver_id)
+      .order(:driver_id)
+  end
+  scope :beetwen, ->(from, to) { where('created_at BETWEEN ? AND ?', from, to) }
+  scope :by_status, ->(status) { where(status: status) }
+  scope :unpaid, -> { joins(:trip_payment).where('payments.status = ? AND trips.status = ?', Constants::Payments::PENDING, Constants::Trip::FINISHED) }
+
   # Time for pre-order trip
   attr_reader :time, :entrance
   attr_writer :pre_order, :vip
@@ -52,16 +64,4 @@ class Trip < ApplicationRecord
     self.preorder_time = Time.now.in_time_zone < date ? date : (date + 1.day)
     @time = val
   end
-
-  scope :sum_cost, -> do
-    joins(:driver)
-      .joins("LEFT JOIN payments ON trips.id = payments.trip_id AND payments.type = 'Payments::Tip'")
-      .select('COUNT(trips.id) AS trips_count, SUM(trips.cost) AS trips_sum, MIN(drivers.username) AS username')
-      .select('SUM(payments.amount) AS tips_sum')
-      .group(:driver_id)
-      .order(:driver_id)
-  end
-  scope :beetwen, ->(from, to) { where('created_at BETWEEN ? AND ?', from, to) }
-  scope :by_status, ->(status) { where(status: status) }
-  scope :unpaid, -> { joins(:trip_payment).where('payments.status = ? AND trips.status = ?', Constants::Payments::PENDING, Constants::Trip::FINISHED) }
 end

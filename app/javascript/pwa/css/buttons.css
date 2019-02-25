@@ -1,0 +1,41 @@
+.button {
+  background: var(--green);
+  border: none;
+  color: white;
+  font-size: 18px;
+  font-weight: 500;
+  transition: box-shadow .3s;
+  box-shadow: var(--shadow);
+  padding: 10px 0;
+  margin-bottom: 20px;
+  width: 100%;
+  border-radius: 0;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  cursor: pointer;
+}
+
+.button:focus {
+  outline:  none;
+  box-shadow: var(--focus-shadow);
+}
+
+.button.fixed {
+  position: fixed;
+  bottom: 20px;
+  left: 0;
+  right: 0;
+  width: 100%;
+  margin: 0 auto;
+  width: calc(100% - 60px);
+  max-width: 540px;
+}
+
+.button.cancel {
+  background: var(--purple);
+}
+
+.button.warning {
+  background: var(--orange);
+}

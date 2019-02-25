@@ -7,11 +7,26 @@ function onInstall(event) {
     caches.open(CACHE_NAME).then(function prefill(cache) {
       // make sure serviceworker.js is not required by application.js
       // if you want to reference application.js from here
-      var urls = ['<%= asset_path "application.css" %>',
-                 '<%= asset_path "pwa.css" %>',
-                 '<%= asset_path "Gilroy-Bold.woff2" %>',
+      var urls = ['<%= asset_path "Gilroy-Bold.woff2" %>',
                  '<%= asset_path "Gilroy-ExtraBold.woff2" %>',
                  '<%= asset_path "Gilroy-Light.woff2" %>',
+                 '<%= Webpacker.manifest.lookup 'pwa.js' %>',
+                 'favicon.ico',
+                 'icon_16x16.png',
+                 'icon_32x32.png',
+                 'icon_57x57.png',
+                 'icon_60x60.png',
+                 'icon_70x70.png',
+                 'icon_72x72.png',
+                 'icon_76x76.png',
+                 'icon_96x96.png',
+                 'icon_128x128.png',
+                 'icon_144x144.png',
+                 'icon_150x150.png',
+                 'icon_196x196.png',
+                 'icon_310x150.png',
+                 'icon_310x310.png',
+                 '/',
                  '/offline.html'];
       var req_objects = [];
       for (var i = 0; i < urls.length; i++) {
@@ -64,3 +79,34 @@ function onFetch(event) {
 self.addEventListener('install', onInstall);
 self.addEventListener('activate', onActivate);
 self.addEventListener('fetch', onFetch);
+
+self.addEventListener('notificationclick', function(event) {
+  var messageId = event.notification.data;
+
+  event.notification.close();
+
+  if (event.action === 'retry') {
+    retry(event.notification.data, event.action)
+  } else if (event.action === 'cancel') {
+    return
+  } else {
+    event.waitUntil(clients.matchAll({
+      type: "window"
+    }).then(function(clientList) {
+      for (var i = 0; i < clientList.length; i++) {
+        var client = clientList[i];
+        if (client.url == '/' && 'focus' in client)
+          return client.focus();
+      }
+      if (clients.openWindow) return clients.openWindow('/');
+    }));
+  }
+}, false);
+
+function retry(data) {
+  fetch('api/trips/' + data.id + '/retry', { method: "PATCH",
+    headers: {
+      "Content-Type": "application/json", "Auth-Token": data.token
+    }
+  })
+}

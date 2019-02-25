@@ -1,0 +1,9 @@
+[{
+  "relation": ["delegate_permission/common.handle_all_urls"],
+  "target": {
+    "namespace": "android_app",
+    "package_name": "taxi.cablook.app",
+    "sha256_cert_fingerprints":
+    ["84:FF:86:E1:20:28:B2:E4:CF:C0:1F:85:64:9F:D7:29:97:BD:B0:40:E3:D1:DA:23:3E:09:F7:06:38:D3:13:FE"]
+  }
+}]

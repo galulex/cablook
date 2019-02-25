@@ -1,0 +1,111 @@
+main.login section { padding: 30px 30px 0 30px; }
+main.login div { font-size: 1.6rem; }
+
+main.login div,
+main.login form {
+  text-align: center;
+  color: white;
+}
+
+label[for='number'] {
+  position: absolute;
+  height: 40%;
+  top: 50%;
+  left: 15px;
+  color: #19a160;
+  transform: translateY(-50%);
+}
+
+label[for='code'] {
+  color: white;
+  top: 15px;
+  font-weight: 100;
+}
+
+main.number_input { position: relative; }
+
+main.login {
+  background: linear-gradient(to top, var(--green), 20%, var(--navy));
+}
+
+main.login input {
+  width: 100%;
+  display: block;
+  border: none;
+  background: transparent;
+  box-shadow: inset 0px 0px 15px 0px rgba(15,14,15,0.7);
+  color: white;
+  border: 2px solid #a925ad;
+  font-size: 1.1rem;
+  padding: 12px 12px 12px 45px;
+  margin: 15px 0;
+  outline: none;
+  position: relative;
+  box-sizing: border-box;
+}
+
+main.login input#number {
+  padding: 12px 12px 12px 77px;
+}
+
+main.login input:valid { border: 2px solid white; }
+
+main.login p { font-size: 1rem; }
+
+main.login a:link,
+main.login a:visited,
+main.login input::placeholder {
+  color: white;
+}
+
+main.login button.change { background: #efcc3a; }
+
+main.login svg.logo { 
+  max-width: 200px;
+  margin: 0 30%; 
+}
+
+main.login svg.phone {
+  width: 20px;
+  height: 20px;
+  max-width: 20px;
+  vertical-align: middle;
+}
+
+main.login svg.lock {
+  display: inline-block;
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  max-width: 20px;
+  top: 50px;
+  left: 15px;
+}
+
+
+main.login svg.city {
+  width: 110%;
+  margin-left: -7%;
+  min-width: 700px;
+  max-height: 325px;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+}
+
+main.login form {
+  z-index: 100;
+}
+
+main.login p {
+  margin-block-end: 0;
+}
+
+@keyframes dash {
+  to { stroke-dashoffset: -48; }
+}
+
+ellipse[stroke-dasharray] {
+  stroke-dashoffset: 0;
+  animation: dash .3s linear infinite;
+}

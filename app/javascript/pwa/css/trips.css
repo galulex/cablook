@@ -1,0 +1,232 @@
+address {
+  border: none;
+  font-style: normal;
+  margin-left: 10%;
+  position: relative;
+}
+address:after {
+  position: absolute;
+  content: '';
+  border-radius: 50%;
+  width: 0;
+  height: 0;
+  border: 6px solid var(--orange);
+  top: calc(50% - 6px);
+  left: calc(1% - 30px);
+  transition: border-color 0.3s;
+}
+address:before {
+  content: '';
+  height: 50%;
+  width: 0;
+  top: calc(50% + 5px);
+  border: 1px solid white;
+  left: calc(1% - 25px);
+  position: absolute;
+}
+address:first-of-type:after {
+  border-color: black;
+}
+address:last-of-type:after {
+  border-color: #19a160;
+}
+address:last-of-type:before {
+  height: 50%;
+  width: 0;
+  top: 0;
+  border: 1px solid var(--white);
+  left: calc(1% - 25px);
+  position: absolute;
+}
+address:last-of-type {
+  color: #19a160;
+}
+.trip-card {
+  background: #d3d3d3;
+  margin: 20px 10px;
+  font-size: 17px;
+  border-bottom: none;
+  cursor: pointer;
+}
+.trip-card .address-block {
+  padding: 10px;
+  border-bottom: 1px solid #a7a5af;
+}
+.trip-card p {
+  font-style: italic;
+  margin: 0 auto;
+  padding: 7px 20px;
+  font-size: 12px;
+  cursor: pointer;
+}
+.trips {
+  padding: 54px 0 0;
+}
+.trips input[type='radio'] {
+  display: none;
+}
+.trips nav label {
+  color: grey;
+  background: #312d50;
+  cursor: pointer;
+  padding: 15px;
+  text-align: center;
+  display: inline-block;
+  width: 50%;
+}
+.trips nav label:first-of-type {
+  border-right: 1px solid grey;
+}
+.trips .active {
+  color: white;
+}
+.trips-content {
+  display: none;
+}
+.trips-radio:checked + .trips-content {
+  display: block;
+}
+.trip-details section {
+  padding: 54px 0 0;
+}
+.trip-details img {
+  width: 100%;
+  background: #E6E4E0;
+  height: 59vh;
+  max-height: 100vw;
+  object-fit: cover;
+}
+.trip-details .buttons {
+  margin-bottom: 20px;
+}
+.trip-details address {
+  margin-left: 47px;
+}
+.trip-details address:before {
+  left: calc(1% - 30px);
+}
+.trip-details address:after {
+  left: calc(1% - 35px);
+}
+.trip-details.trip-details-content section svg {
+  margin: 0 10px;
+  width: 25px;
+  height: 25px;
+  vertical-align: middle;
+}
+.trip-details-content {
+  border-bottom: 1px solid #8080806b;
+  margin: -1px 10px;
+  padding: 8px 2px;
+}
+.trip-details-content:last-of-type {
+  border: none;
+}
+
+nav {
+  position: fixed;
+  top: 54px;
+  width: 100%;
+  left: 0;
+  z-index: 10;
+}
+
+.trips-content {
+  margin-top: 70px;
+}
+
+.trip-details {
+  width: 100%;
+  position: fixed;
+  height: 100%;
+  background: linear-gradient(to bottom, #D9D9DA, white);
+  left: 0px;
+  top: 0px;
+  z-index: 10001;
+  overflow-y: auto;
+  overscroll-behavior-y: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+div.map {
+  height: 500px;
+}
+
+.trip-details address {
+  margin-left: 47px;
+}
+
+/* Trip component */
+.trips svg {
+  margin: 0 10px;
+  width: 25px;
+  height: 25px;
+  vertical-align: middle;
+}
+
+.trips div.map {
+  height: 70vh;
+  background: #ECE0CA;
+}
+
+.trips .pins {
+  display: none;
+}
+
+.trips svg.departure path {
+  fill: var(--navy)
+}
+
+.trips svg.waypoint path {
+  fill: var(--orange)
+}
+
+.trip-details-content address.details-address {
+  margin-left: 40px;
+}
+
+.trip-details-content a, a:visited {
+  color: var(--navy);
+  text-decoration: none;
+}
+
+.trip-details-content address.details-address::before {
+  content: '';
+  height: 90%;
+  width: 0;
+  top: calc(50% + 5px);
+  border: 1px solid white;
+  left: calc(1% - 25px);
+  position: absolute;
+}
+
+.trip-details-content address.details-address:last-of-type:before {
+  border: none;
+}
+
+.trip-details .buttons {
+  margin-bottom: 5px;
+}
+
+.trip-details .buttons .button {
+  max-width: 48%;
+  margin: 0;
+}
+
+.trip-details .buttons .button:last-of-type {
+  float: right;
+}
+
+.trips svg.nissan {
+  width: 30px;
+  height: 30px;
+}
+
+.trips svg.nissan[fill='white'] path:not(:first-child), .trips svg.nissan[fill='white'] ellipse {
+  fill: #111 !important;
+}
+
+.trips svg.nissan[fill='white'] path:first-child {
+  stroke: #111;
+  stroke-width: 3;
+}

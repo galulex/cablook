@@ -1,0 +1,168 @@
+import { h, render, Component } from 'preact';
+
+import { streets } from '../streets.js'
+import Pin from '../images/pin.svg'
+import MapPicker from '../mapPicker'
+import i18n from '../i18n.js'
+import Cablook  from '../images/cablook.svg'
+import Location  from '../images/target.svg'
+
+export default class AddressInput extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      predictions: [],
+      address: '',
+      isValid: false,
+      isShowMap: false,
+      geocoded: false,
+      disabled: false
+    }
+  }
+
+  componentDidMount() {
+    this.input.setCustomValidity('Choose address from a list')
+  }
+
+  renderPrediction = (prediction) => {
+    return(
+      <li disabled={this.state.disabled} onClick={() => this.setLocation(prediction)} class='prediction'>
+        <Cablook width='32px'/>
+        <b>{(prediction.structured_formatting) ? prediction.structured_formatting.main_text : prediction}</b>
+        <br/>
+        <sub>{(prediction.structured_formatting) ? prediction.structured_formatting.secondary_text : 'Cherkasy'}</sub>
+      </li>
+    )
+  }
+
+  getLocation = (e) => {
+    let component = this
+    if (navigator.geolocation) {
+      e.target.classList.add('running')
+      navigator.geolocation.getCurrentPosition((result) => {
+        let geocoder = new google.maps.Geocoder()
+        let location = new google.maps.LatLng(result.coords.latitude, result.coords.longitude)
+        geocoder.geocode( { 'location': location}, function(res, status) {
+          if (status == 'OK') {
+            let place = res[0]
+            component.setState({ address: place.formatted_address, predictions: [], isValid: true, geocoded: true });
+            component.props.setAddress(place.formatted_address, `${place.geometry.location.lat()},${place.geometry.location.lng()}`, component.props.index);
+            component.input.setCustomValidity('')
+          } else {
+            alert(status)
+          }
+        })
+        e.target.classList.remove('running')
+      },
+        (error) => {
+          e.target.classList.remove('running')
+          alert(error.message)
+        }
+      )
+    }
+  }
+
+  setLocation = (place) => {
+    if (!place.place_id) {
+      this.setState({ address: `${place}, `, predictions: [], isValid: false });
+      this.input.focus();
+      return;
+    }
+    let placeService = new google.maps.places.PlacesService(document.createElement('div'));
+    placeService.getDetails({placeId: place.place_id}, (result) => {
+      this.setState({ address: place.structured_formatting.main_text, predictions: [], isValid: true });
+      this.props.setAddress(place.structured_formatting.main_text, `${result.geometry.location.lat()},${result.geometry.location.lng()}`, this.props.index);
+      this.input.setCustomValidity('')
+    })
+  }
+
+  setLocationFromMap = ([lng, lat]) => {
+    const latlng = {lat, lng};
+    const geocoder = new google.maps.Geocoder();
+    geocoder.geocode({'location': latlng}, (results, status) => {
+      if (status === 'OK') {
+        if (results[0]) {
+          this.setState({ address: results[0].formatted_address, predictions: [], isValid: true });
+          this.props.setAddress(results[0].formatted_address, `${lat},${lng}`, this.props.index);
+          this.input.setCustomValidity('')
+        } else {
+          window.alert('No results found');
+        }
+      } else {
+        window.alert('Geocoder failed due to: ' + status);
+      }
+    });
+  }
+
+  autocomplete = e => {
+    if (e.target.value === '') {
+      this.setState({ predictions: [], address: e.target.value});
+      return false
+    }
+    this.input.setCustomValidity('Choose address from a list')
+    let hits = streets.filter(function(s) { return s.toLowerCase().indexOf(e.target.value.toLowerCase()) != -1 }).slice(0, 5)
+    if (hits.length > 0) {
+      this.setState({ predictions: hits, address: e.target.value, disabled: false });
+      return false
+    }
+    let autocomplete = new google.maps.places.AutocompleteService()
+    this.setState({ predictions: [i18n.address_input.loading], address: e.target.value, disabled: true })
+    autocomplete.getPlacePredictions({input: e.target.value + ' Cherkasy', componentRestrictions: {country: 'ua'}, location: new google.maps.LatLng(49.4311119, 31.9791903), radius: 100000, strictbounds: true, offset: 2}, data => {
+      if (!data) return this.setState({ predictions: [i18n.address_input.no_result], address: e.target.value, disabled: true })
+      this.setState({ predictions: data, address: e.target.value, disabled: false });
+    })
+  }
+
+  openMap = () => {
+    this.setState({isShowMap: true});
+    history.pushState(null, 'Pick Location','/');
+    window.addEventListener('popstate', this.handleBack, {once: true});
+  }
+
+  closeMap = (coords) => () => {
+    this.setLocationFromMap(coords);
+    this.setState({isShowMap: false});
+  }
+
+  focus = (e) => {
+    e.target.focus()
+    e.target.setSelectionRange(0, 9999)
+  }
+
+  blur = (e) => {
+    setTimeout(() => {
+      if (e.target.value === '' ||  e.target.checkValidity() || this.state.disabled) return;
+      let prediction = this.state.predictions[0]
+      if (prediction) this.setLocation(prediction)
+    }, 300)
+  }
+
+  handleBack = (event) => {
+    this.setState({isShowMap: false})
+    event.stopPropagation()
+  };
+
+  keydown = (e) => {
+    let prediction = this.state.predictions[0]
+    if (![13, 9].includes(e.which) || !prediction || this.state.disabled) return;
+    this.setLocation(prediction)
+    if (!prediction.place_id) e.preventDefault()
+  }
+
+  render() {
+    let placeholder = (this.props.index !== 0) ? i18n.address_input.where : i18n.address_input.from
+
+    return (
+      <fieldset class='address'>
+        {(this.props.index > 1) && (<button class='remove-address' type='button' onClick={() => this.props.removeAddress(this.props.index)}>×</button>)}
+        {(this.props.index === 0) && <Location width='32px' class='get-location' onClick={this.getLocation} disabled={this.state.geocoded}/>}
+        <Pin onClick={this.openMap} height='24px' class='map-pick'/>
+        {this.state.isShowMap && <MapPicker onCloseMap={this.closeMap} />}
+        <input required class='address' placeholder={placeholder} type='text' onClick={this.focus} onKeyDown={this.keydown} onBlur={this.blur} onInput={this.autocomplete} value={this.state.address} ref={input => this.input = input} />
+        <ul class='predictions'>
+          { this.state.predictions.map(this.renderPrediction) }
+        </ul>
+      </fieldset>
+    );
+  }
+}

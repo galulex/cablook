@@ -1,0 +1,45 @@
+main div.prompt {
+  background: rgba(209, 209, 209, 0.8);
+  border-radius: 5px;
+  position: fixed;
+  bottom: 25px;
+  left: 0;
+  right: 0;
+  padding: 10px 20px;
+  font-size: 20px;
+  color: var(--navy);
+  text-align: left;
+  max-width: 360px;
+  margin: 0 auto;
+  cursor: pointer;
+}
+
+div.prompt:before {
+  content: '';
+  position: absolute;
+  transform: rotate(45deg);
+  bottom: -12px;
+  left: 46.5%;
+  background: ;
+  z-index: -1;
+  width: 0;
+  height: 0;
+  border: 12px solid rgba(209, 209, 209, 0.8);
+  border-top-color: transparent;
+  border-left-color: transparent
+}
+
+main div.prompt svg {
+  display: inline-block;
+  vertical-align: middle;
+  width: 28px;
+  height: 28px;
+}
+
+main div.prompt svg.addthis {
+  background: white;
+  padding: 7px;
+  border-radius: 5px;
+  width: 40px;
+  height: 40px;
+}
