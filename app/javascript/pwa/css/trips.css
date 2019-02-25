@@ -46,6 +46,7 @@ address:last-of-type {
   margin: 20px 10px;
   font-size: 17px;
   border-bottom: none;
+  cursor: pointer;
 }
 .trip-card .address-block {
   padding: 10px;
