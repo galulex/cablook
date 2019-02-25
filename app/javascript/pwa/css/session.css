@@ -61,7 +61,10 @@ main.login input::placeholder {
 
 main.login button.change { background: #efcc3a; }
 
-main.login svg.logo { margin: 0 30%; }
+main.login svg.logo { 
+  max-width: 200px;
+  margin: 0 30%; 
+}
 
 main.login svg.phone {
   width: 20px;
