@@ -35,7 +35,7 @@ main.login input {
   background: transparent;
   box-shadow: inset 0px 0px 15px 0px rgba(15,14,15,0.7);
   color: white;
-  border: 2px solid white;
+  border: 2px solid #a925ad;
   font-size: 1.1rem;
   padding: 12px 12px 12px 45px;
   margin: 15px 0;
@@ -45,11 +45,10 @@ main.login input {
 }
 
 main.login input#number {
-  border: 2px solid #a925ad;
   padding: 12px 12px 12px 77px;
 }
 
-main.login input#number:valid { border: 2px solid white; }
+main.login input:valid { border: 2px solid white; }
 
 main.login p { font-size: 1rem; }
 
@@ -83,27 +82,15 @@ main.login svg.lock {
   left: 15px;
 }
 
-main.login div.city_road {
-  padding-top: 5px;
-  position: relative;
-}
 
 main.login svg.city {
-  width: 114%;
+  width: 110%;
   margin-left: -7%;
   min-width: 700px;
   max-height: 325px;
   position: fixed;
   bottom: 0;
   left: 0;
-}
-
-main.login svg.nissan {
-  width: 35%;
-  max-height: 125px;
-  position: fixed;
-  bottom: 0;
-  transform: translateX(-50%);
 }
 
 @keyframes dash {
