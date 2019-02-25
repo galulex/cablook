@@ -10,7 +10,6 @@ class Trip < ApplicationRecord
 
   has_one :card, through: :payments
   has_many :feedbacks
-  has_one :job, dependent: :destroy, class_name: 'TripJob'
   has_one :bonus_trip, dependent: :destroy
 
   enum status: Constants::Trip::STATUS_CODES.invert
