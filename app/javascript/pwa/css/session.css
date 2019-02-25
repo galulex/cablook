@@ -93,6 +93,14 @@ main.login svg.city {
   left: 0;
 }
 
+main.login form {
+  z-index: 100;
+}
+
+main.login p {
+  margin-block-end: 0;
+}
+
 @keyframes dash {
   to { stroke-dashoffset: -48; }
 }
