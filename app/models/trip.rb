@@ -32,7 +32,7 @@ class Trip < ApplicationRecord
   # Time for pre-order trip
   attr_reader :time, :entrance
   attr_writer :pre_order, :vip
-  attr_accessor :osrm
+  attr_accessor :osrm, :formatted_date
 
   def start_at
     super || preorder_time
