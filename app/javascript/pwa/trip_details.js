@@ -63,7 +63,7 @@ export default class TripCard extends Component {
 
     return (
       <div class="trip-details">
-        <button type='button' class='burger' onFocus={(event) => window.history.back()} onClick={(event) => window.history.back()}><Back fill='#132d50'/></button>
+        <button type='button' class='burger' onClick={(event) => window.history.back()}><Back fill='#132d50'/></button>
         <header>
           {i18n.trip.header}
         </header>
