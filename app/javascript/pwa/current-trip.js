@@ -70,6 +70,7 @@ export default class CurrentTrip extends Component {
   setComment = (e) => {
     let state = this.state
     state.trip.comment = e.target.value
+    state.comment = e.target.value
     this.setState(state);
   }
 
