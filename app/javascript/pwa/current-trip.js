@@ -85,7 +85,7 @@ export default class CurrentTrip extends Component {
   }
 
   setOrderTime = (e) => {
-    this.state.trip.time = e.target.value
+    this.state.trip.time = (e.target.value == '' ? null : e.target.value)
     this.setState(this.state);
   }
 
