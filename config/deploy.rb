@@ -2,7 +2,7 @@
 lock '3.10.2'
 
 set :application, 'cablook'
-set :repo_url, 'git@bitbucket.org:activebridge/cablook-backend.git'
+set :repo_url, 'git@github.com:galulex/cablook.git'
 
 set :deploy_to, '/home/deploy/'
 
