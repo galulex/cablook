@@ -62,7 +62,8 @@ const en = {
     contacts: 'Contacts',
     home: 'Home',
     logout: 'Log Out',
-    trips: 'Trips'
+    trips: 'Trips',
+    statistic: 'Statistic'
   },
   address_input: {
     from: 'From',

@@ -62,7 +62,8 @@ const ru = {
     contacts: 'Контакты',
     home: 'Вызвать такси',
     logout: 'Выйти',
-    trips: 'Поездки'
+    trips: 'Поездки',
+    statistic: 'Статистика'
   },
   address_input: {
     from: 'Откуда',
