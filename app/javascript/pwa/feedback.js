@@ -27,6 +27,7 @@ export default class Feedback extends Component {
   }
 
   componentWillUnmount() {
+    this.feedbackForm.reset()
     window.removeEventListener('popstate', this.props.handleBack, true);
   }
 
@@ -50,9 +51,9 @@ export default class Feedback extends Component {
   }
 
   setRate = (e) => {
-    let state = this.state.feedback
-    state.rate = parseInt(e.target.value)
-    this.setState(state)
+    this.setState({
+      feedback: {...this.state.feedback, rate: parseInt(e.target.value)}
+    })
   }
 
   setDescription = (e) => {
@@ -62,9 +63,9 @@ export default class Feedback extends Component {
   }
 
   setTips = (e) => {
-    let state = this.state.feedback
-    state.tips = parseInt(e.target.value)
-    this.setState(state)
+    this.setState({
+      feedback: {...this.state.feedback, tips: parseInt(e.target.value)}
+    })
   }
 
   returnRate = () => {
@@ -75,13 +76,13 @@ export default class Feedback extends Component {
   renderStar = (i) => {
     return [
       <label class='star' for={`star_${i}`}/>,
-      <input id={`star_${i}`} type='radio' value={i} name='rate' onChange={event => this.setRate(event)} checked={this.state.feedback.rate == i}/>
+      <input id={`star_${i}`} type='radio' value={i} name='rate' onChange={this.setRate} defaultChecked={this.state.feedback.rate == i}/>
     ]
   }
 
   renderTips = (i) => {
     return [
-      <input id={`tip_${i}`} type='radio' value={i} name='tip' onChange={event => this.setTips(event)} checked={this.state.feedback.tips == i}/>,
+      <input id={`tip_${i}`} type='radio' value={i} name='tip' onChange={this.setTips} defaultChecked={this.state.feedback.tips == i}/>,
       <label class='tip' for={`tip_${i}`}>{i}$</label>
     ]
   }
@@ -92,15 +93,17 @@ export default class Feedback extends Component {
         <section class='feedback'>
           <header>{i18n.feedback.header}</header>
           <button type='button' class='burger' onClick={() => window.history.back()}><Back fill='#132d50'/></button>
-          <div class='star-container'>
-            {[1,2,3,4,5].map(i => this.renderStar(i))}
-          </div>
-          <textarea spellcheck="false" placeholder={i18n.current_trip.comment} onInput={this.setDescription}/>
-          <Driver class='driver'/>
-          <h4>{i18n.feedback.tips}</h4>
-          <div class='tips-container'>
-            {[0,3,5,10,20].map(i => this.renderTips(i))}
-          </div>
+          <form ref={form => this.feedbackForm = form}>
+            <div class='star-container'>
+              {[1,2,3,4,5].map(i => this.renderStar(i))}
+            </div>
+            <textarea spellcheck="false" placeholder={i18n.current_trip.comment} onInput={this.setDescription}/>
+            <Driver class='driver'/>
+            <h4>{i18n.feedback.tips}</h4>
+            <div class='tips-container'>
+              {[0,3,5,10,20].map(i => this.renderTips(i))}
+            </div>
+          </form> 
           <button class='button fixed warning' type='button' disabled={this.state.submitDisabled} onClick={this.create}>{i18n.feedback.ok}</button>
         </section>
       </div>

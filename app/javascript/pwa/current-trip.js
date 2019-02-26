@@ -70,6 +70,7 @@ export default class CurrentTrip extends Component {
   setComment = (e) => {
     let state = this.state
     state.trip.comment = e.target.value
+    state.comment = e.target.value
     this.setState(state);
   }
 
@@ -84,7 +85,7 @@ export default class CurrentTrip extends Component {
   }
 
   setOrderTime = (e) => {
-    this.state.trip.time = e.target.value
+    this.state.trip.time = (e.target.value == '' ? null : e.target.value)
     this.setState(this.state);
   }
 
