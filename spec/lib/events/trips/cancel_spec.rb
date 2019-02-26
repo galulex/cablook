@@ -11,15 +11,6 @@ describe Events::Trips::Cancel do
 
     it { is_expected.to change { trip.reload.status }.to(Constants::Trip::STATUS_CODES[Constants::Trip::CANCELED]) }
 
-    context 'and job deleted' do
-      before do
-        job = Jobs::SearchCarForTrip.perform_later(trip.id)
-        create(:trip_job, trip_id: trip.id, activejob_id: job.job_id, sidekiq_id: job.provider_job_id)
-      end
-
-      it { is_expected.not_to have_enqueued_job(Jobs::SearchCarForTrip).with(trip.id) }
-    end
-
     context 'and payment status is changed' do
       it { is_expected.to change { payment.reload.status }.to(Constants::Payments::DECLINE) }
     end

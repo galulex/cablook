@@ -14,10 +14,6 @@ describe Events::Trips::Create do
       it { is_expected.to have_enqueued_job(Jobs::DeclineTrip).with(data[:id]) }
     end
 
-    context 'and trip_job is created' do
-      it { is_expected.to change { TripJob.count }.by(+1) }
-    end
-
     context 'and user trips_count updated' do
       it { is_expected.to change { user.reload.trips_count }.from(0).to(1) }
     end

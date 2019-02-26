@@ -23,7 +23,6 @@ module Events
       private
 
       def run_methods
-        delete_from_jobs
         update_car if trip.car
         update_payment_status
         fake_taxi_payment
@@ -49,11 +48,6 @@ module Events
         return if trip.status == Constants::Trip::STATUS_CODES[Constants::Trip::DECLINED]
         status = data[:by_driver] ? Constants::Trip::CANCELED_BY_DRIVER : Constants::Trip::CANCELED
         trip.update(status: status)
-      end
-
-      def delete_from_jobs
-        trip_job = TripJob.find_by(trip_id: data[:trip_id])
-        Jobs::SearchCarForTrip.cancel(trip_job.activejob_id) if trip_job
       end
 
       def update_payment_status

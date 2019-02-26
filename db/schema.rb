@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_02_18_113043) do
+ActiveRecord::Schema.define(version: 2019_02_25_174218) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -110,13 +110,6 @@ ActiveRecord::Schema.define(version: 2019_02_18_113043) do
     t.float "coefficient", default: 1.0
   end
 
-  create_table "trip_jobs", force: :cascade do |t|
-    t.string "activejob_id"
-    t.string "sidekiq_id"
-    t.bigint "trip_id"
-    t.index ["trip_id"], name: "index_trip_jobs_on_trip_id"
-  end
-
   create_table "trips", force: :cascade do |t|
     t.integer "status", default: 0
     t.string "path"
@@ -173,7 +166,6 @@ ActiveRecord::Schema.define(version: 2019_02_18_113043) do
   add_foreign_key "feedbacks", "users"
   add_foreign_key "payments", "cards"
   add_foreign_key "payments", "trips"
-  add_foreign_key "trip_jobs", "trips"
   add_foreign_key "trips", "cars"
   add_foreign_key "trips", "drivers"
   add_foreign_key "trips", "users"

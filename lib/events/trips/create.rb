@@ -95,12 +95,7 @@ module Events
 
       def create_trip_job(trip_id)
         Jobs::DeclineTrip.set(wait: Constants::Trip::EXPIRES_IN).perform_later(trip_id)
-        job = Jobs::SearchCarForTrip.perform_later(trip_id)
-        TripJob.create(
-          activejob_id: job.job_id,
-          sidekiq_id: job.provider_job_id,
-          trip_id: trip_id
-        )
+        Jobs::SearchCarForTrip.perform_later(trip_id)
       end
 
       def assign_attrs
