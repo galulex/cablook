@@ -18,7 +18,7 @@ class Card < ApplicationRecord
       .order('property ASC, id DESC')
   end)
 
-  def to_json
+  def as_json(*)
     super(except: :token)
   end
 end

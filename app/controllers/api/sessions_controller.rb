@@ -3,7 +3,7 @@ module Api
     def create
       user = Events::Users::Authorize.(phone_number: params[:phone_number])
       Operations::UpdateUserDevice.(user.id, device_params) if params[:device]
-      render json: Presenters::Users::SinglePrivate.new(user).to_json, status: 201
+      render json: user.as_json(except: %i[auth_token verification_token]), status: 201
     end
 
     def update
