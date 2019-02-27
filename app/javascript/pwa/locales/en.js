@@ -116,6 +116,9 @@ const en = {
     header: 'Rate trip',
     ok: 'OK',
     tips: 'Tips'
+  },
+  statistic: {
+    header: 'Statistic'
   }
 }
 
