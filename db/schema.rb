@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_02_25_174218) do
+ActiveRecord::Schema.define(version: 2019_02_26_125847) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -78,6 +78,13 @@ ActiveRecord::Schema.define(version: 2019_02_25_174218) do
     t.index ["car_id"], name: "index_drivers_on_car_id"
   end
 
+  create_table "favorite_addresses", force: :cascade do |t|
+    t.string "name"
+    t.string "location"
+    t.bigint "user_id"
+    t.index ["user_id"], name: "index_favorite_addresses_on_user_id"
+  end
+
   create_table "feedbacks", force: :cascade do |t|
     t.integer "rate", default: 0
     t.text "description"
@@ -122,7 +129,7 @@ ActiveRecord::Schema.define(version: 2019_02_25_174218) do
     t.bigint "car_id"
     t.bigint "driver_id"
     t.bigint "user_id"
-    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }
+    t.datetime "created_at", default: -> { "now()" }
     t.integer "distance"
     t.integer "duration"
     t.datetime "start_at"
@@ -150,7 +157,7 @@ ActiveRecord::Schema.define(version: 2019_02_25_174218) do
     t.string "verification_token"
     t.string "confirmation_token"
     t.string "referral_code"
-    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }
+    t.datetime "created_at", default: -> { "now()" }
     t.integer "trips_count", default: 0
     t.boolean "vip", default: false
   end
@@ -162,6 +169,7 @@ ActiveRecord::Schema.define(version: 2019_02_25_174218) do
   add_foreign_key "cards", "users"
   add_foreign_key "devices", "users"
   add_foreign_key "drivers", "cars"
+  add_foreign_key "favorite_addresses", "users"
   add_foreign_key "feedbacks", "trips"
   add_foreign_key "feedbacks", "users"
   add_foreign_key "payments", "cards"

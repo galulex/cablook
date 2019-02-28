@@ -14,6 +14,7 @@ Rails.application.routes.draw do
       post 'retry_pendings', on: :collection
       get 'pending', on: :collection
     end
+    resources :favorite_addresses, only: %i[index create destroy]
 
     post 'cards/update', to: 'cards#update'
 
