@@ -43,7 +43,7 @@ export default class Home extends Component {
       { channel: 'TripChannel', trip_id: this.state.trip.id },
       {
         received: data => {
-          component[data['action'] || data['action']['body']](data)
+          component[data['action'] || data['body']['action']](data)
         }
       }
     )})
