@@ -1,6 +1,11 @@
 import { h, render, Component } from 'preact';
 import axios from 'axios';
 
+import Star from './images/star.svg'
+import Tips from './images/tips.svg'
+import Pin from './images/pin.svg'
+import Price from './images/trip_price.svg'
+import Leaf from './images/leaf_icon.svg'
 import i18n from './i18n.js'
 import './css/statistics.css'
 
@@ -32,6 +37,11 @@ export default class Statistics extends Component {
           </select>
         </div>
       </div>
+      <div class='trip-details-content'><Pin/></div>
+      <div class='trip-details-content'><Price/></div>
+      <div class='trip-details-content'><Leaf/></div>
+      <div class='trip-details-content'><Star/></div>
+      <div class='trip-details-content'><Tips/></div>
       </section>
     )
   }
