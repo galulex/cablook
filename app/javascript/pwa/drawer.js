@@ -7,6 +7,7 @@ import Trip from './images/vehicle-wheel.svg'
 import Bonus from './images/bonus.svg'
 import Card from './images/credit-cards-payment.svg'
 import Contact from './images/manual.svg'
+import Statistics from './images/statistics.svg'
 import LogOut from './images/sign-out.svg'
 import './css/drawer.css'
 
@@ -48,7 +49,7 @@ export default class Drawer extends Component {
         </Link>
         <Link activeClassName='active' href='/cards' onClick={this.close}><Card/>{i18n.drawer.cards}</Link>
         <Link activeClassName='active' href='/contacts' onClick={this.close}><Contact/>{i18n.drawer.contacts}</Link>
-        <Link activeClassName='active' href='/statistic' onClick={this.close}><Contact/>{i18n.drawer.statistic}</Link>
+        <Link activeClassName='active' href='/statistics' onClick={this.close}><Statistics/>{i18n.drawer.statistic}</Link>
         <Link activeClassName='active' href='' onClick={this.props.logOut}><LogOut/>{i18n.drawer.logout}</Link>
       </aside>
     );

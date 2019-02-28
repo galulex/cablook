@@ -1,8 +1,8 @@
-section.statistic {
+section.statistics {
   padding-top: 54px;
 }
 
-.statistic .select-section {
+.statistics .select-section {
   display: flex;
   width: 100%;
   max-width: 600px;
@@ -11,7 +11,7 @@ section.statistic {
   z-index: 100;
 }
 
-.statistic .select-section label {
+.statistics .select-section label {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -20,13 +20,13 @@ section.statistic {
 }
 
 
-.statistic .select-section .select {
+.statistics .select-section .select {
   position: relative;
   display: inline-block;
   flex-grow: 6;
 }
 
-.statistic .select-section .select::before {
+.statistics .select-section .select::before {
   position: absolute;
   color: var(--green);
   content: '▼';
@@ -35,7 +35,7 @@ section.statistic {
   transform: translateY(-50%);
 }
 
-.statistic select {
+.statistics select {
   position: relative;
   display: block;
   width: 100%;

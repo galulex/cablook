@@ -117,8 +117,8 @@ const en = {
     ok: 'OK',
     tips: 'Tips'
   },
-  statistic: {
-    header: 'Statistic',
+  statistics: {
+    header: 'Statistics',
     period: 'Select period'
   }
 }

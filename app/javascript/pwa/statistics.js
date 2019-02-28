@@ -2,7 +2,7 @@ import { h, render, Component } from 'preact';
 import axios from 'axios';
 
 import i18n from './i18n.js'
-import './css/statistic.css'
+import './css/statistics.css'
 
 const Ranges = [
   {name: 'All time', value: 'all_time'},
@@ -11,7 +11,7 @@ const Ranges = [
   {name: 'Last mount', value: 'last_mount'}
 ]
 
-export default class Statistic extends Component {
+export default class Statistics extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -22,10 +22,10 @@ export default class Statistic extends Component {
 
   render() {
     return (
-      <section class='statistic'>
-        <header>{i18n.statistic.header}</header>
+      <section class='statistics'>
+        <header>{i18n.statistics.header}</header>
         <div class='select-section'>
-        <label for='range'>{i18n.statistic.period}</label>
+        <label for='range'>{i18n.statistics.period}</label>
         <div class='select'>
           <select id='range' onChange={this.selectRange}>
             {this.state.ranges.map(el => this.renderRange(el))}
