@@ -7,7 +7,7 @@ module Api
     end
 
     def create
-      favorite_address = Events::FavoriteAddresses::Create.(params.merge(user_id: current_user.id))
+      favorite_address = Events::FavoriteAddresses::Create.(favorite_address_params.merge(user_id: current_user.id))
       favorite_address ? (render json: favorite_address, status: :created) : (status :unprocessable_entity)
     end
 

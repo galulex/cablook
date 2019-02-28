@@ -21,7 +21,7 @@ describe Api::FavoriteAddressesController, type: :controller do
   describe '#create' do
     subject { response }
 
-    let(:params) { { id: 1, name: 'test', location: '49.4241406,32.0362413', user_id: user.id } }
+    let(:params) { attributes_for :favorite_address }
 
     before { post :create, params: params }
 
