@@ -121,13 +121,13 @@ const en = {
     distance: 'Distance',
     header: 'Statistics',
     km: ' km',
-    money: 'Spent money',
+    amount: 'Spent money',
     orders: 'Number of orders',
     period: 'Select period',
     rating: 'Average rating',
     tips: 'Tips',
     uah: ' uah',
-    range: {
+    periods: {
       all_time: 'All time',
       last_month: 'Last month',
       last_week: 'Last week',

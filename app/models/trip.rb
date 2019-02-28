@@ -30,12 +30,12 @@ class Trip < ApplicationRecord
   scope :by_status, ->(status) { where(status: status) }
   scope :unpaid, -> { joins(:trip_payment).where('payments.status = ? AND trips.status = ?', Constants::Payments::PENDING, Constants::Trip::FINISHED) }
 
-  scope :stat, (lambda do
+  scope :statistics, (lambda do
     where(status: Constants::Trip::FINISHED)
       .left_joins(:tip_payment, :feedbacks, :required_payments)
       .select('COUNT(trips.id) AS trips_count, trips.user_id, SUM(required_payments_trips.amount) AS amount')
       .select('SUM(trips.distance) AS distance')
-      .select('SUM(payment.amount) AS tips')
+      .select('SUM(payments.amount) AS tips')
       .select('AVG(feedbacks.rate) AS rate')
       .group(:user_id)
       .order(:user_id)
