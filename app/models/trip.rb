@@ -7,6 +7,7 @@ class Trip < ApplicationRecord
   has_one :trip_payment, class_name: 'Payments::Trip'
   has_one :idle_payment, class_name: 'Payments::Idle'
   has_one :fake_taxi_payment, class_name: 'Payments::FakeTaxi'
+  has_many :required_payments, -> { where.not(type: 'Payments::Tip') }, class_name: 'Payment'
 
   has_one :card, through: :payments
   has_many :feedbacks
@@ -28,6 +29,17 @@ class Trip < ApplicationRecord
   scope :beetwen, ->(from, to) { where('created_at BETWEEN ? AND ?', from, to) }
   scope :by_status, ->(status) { where(status: status) }
   scope :unpaid, -> { joins(:trip_payment).where('payments.status = ? AND trips.status = ?', Constants::Payments::PENDING, Constants::Trip::FINISHED) }
+
+  scope :stat, (lambda do
+    where(status: Constants::Trip::FINISHED)
+      .left_joins(:tip_payment, :feedbacks, :required_payments)
+      .select('COUNT(trips.id) AS trips_count, trips.user_id, SUM(required_payments_trips.amount) AS amount')
+      .select('SUM(trips.distance) AS distance')
+      .select('SUM(payment.amount) AS tips')
+      .select('AVG(feedbacks.rate) AS rate')
+      .group(:user_id)
+      .order(:user_id)
+  end)
 
   # Time for pre-order trip
   attr_reader :time, :entrance
