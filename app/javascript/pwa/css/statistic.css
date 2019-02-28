@@ -1,0 +1,56 @@
+section.statistic {
+  padding-top: 54px;
+}
+
+.statistic .select-section {
+  display: flex;
+  width: 100%;
+  max-width: 600px;
+  background: var(--white);
+  border-bottom: 2px solid var(--green);
+  z-index: 100;
+}
+
+.statistic .select-section label {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-grow: 4;
+  background: var(--grey);
+}
+
+
+.statistic .select-section .select {
+  position: relative;
+  display: inline-block;
+  flex-grow: 6;
+}
+
+.statistic .select-section .select::before {
+  position: absolute;
+  color: var(--green);
+  content: '▼';
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.statistic select {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: none;
+  border-radius: 0;
+  margin: 0;
+  padding: 20px 30px 20px 5px;
+  color: var(--green);
+  background: transparent;
+  font-size: 1.1rem;
+  outline: none;
+  box-sizing: border-box;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -o-appearance: none;
+  appearance: none;
+}

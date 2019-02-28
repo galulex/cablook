@@ -118,7 +118,8 @@ const en = {
     tips: 'Tips'
   },
   statistic: {
-    header: 'Statistic'
+    header: 'Statistic',
+    period: 'Select period'
   }
 }
 
