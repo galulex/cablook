@@ -126,7 +126,13 @@ const en = {
     period: 'Select period',
     rating: 'Average rating',
     tips: 'Tips',
-    uah: ' uah'
+    uah: ' uah',
+    range: {
+      all_time: 'All time',
+      last_month: 'Last month',
+      last_week: 'Last week',
+      this_month: 'This month'
+    }
   }
 }
 

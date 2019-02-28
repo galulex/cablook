@@ -10,10 +10,10 @@ import i18n from './i18n.js'
 import './css/statistics.css'
 
 const Ranges = [
-  {name: 'All time', value: 'all_time'},
-  {name: 'This mounth', value: 'this_month'},
-  {name: 'Last week', value: 'last_week'},
-  {name: 'Last mount', value: 'last_mount'}
+  {name: i18n.statistics.range.all_time, value: 'all_time'},
+  {name: i18n.statistics.range.this_month, value: 'this_month'},
+  {name: i18n.statistics.range.last_week, value: 'last_week'},
+  {name: i18n.statistics.range.last_month, value: 'last_month'}
 ]
 
 export default class Statistics extends Component {
