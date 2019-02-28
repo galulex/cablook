@@ -6,6 +6,7 @@ class User < ApplicationRecord
   has_many :cards
   has_many :bonus_trips
   has_many :business_cards, through: :businesses, source: :card
+  has_many :favorite_addresses
 
   validates :phone_number, format: { with: Constants::Regex::PHONE_NUMBER }
 
@@ -20,4 +21,5 @@ class User < ApplicationRecord
   def display_name
     phone_number
   end
+
 end
