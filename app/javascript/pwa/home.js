@@ -43,7 +43,7 @@ export default class Home extends Component {
       { channel: 'TripChannel', trip_id: this.state.trip.id },
       {
         received: data => {
-          component[data['action']](data)
+          component[data['action'] || data['action']['body']](data)
         }
       }
     )})
@@ -94,7 +94,7 @@ export default class Home extends Component {
   }
 
   DriverLocationUpdated = (data) => {
-    this.setState({car_location: [data.location.longitude, data.location.latitude]})
+    this.setState({car_location: [data.body.location.longitude, data.body.location.latitude]})
   }
 
   vibrate = () => {
