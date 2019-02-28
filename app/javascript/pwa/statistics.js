@@ -37,11 +37,11 @@ export default class Statistics extends Component {
           </select>
         </div>
       </div>
-      <div class='trip-details-content'><Pin/></div>
-      <div class='trip-details-content'><Price/></div>
-      <div class='trip-details-content'><Leaf/></div>
-      <div class='trip-details-content'><Star/></div>
-      <div class='trip-details-content'><Tips/></div>
+      <div class='trip-details-content'><Pin/>{i18n.statistics.distance}<span>Statistics{i18n.statistics.km}</span></div>
+      <div class='trip-details-content'><Price/>{i18n.statistics.money}<span>Statistics{i18n.statistics.uah}</span></div>
+      <div class='trip-details-content'><Leaf/>{i18n.statistics.orders}<span>Statistics</span></div>
+      <div class='trip-details-content'><Star/>{i18n.statistics.rating}<span>Statistics</span></div>
+      <div class='trip-details-content'><Tips/>{i18n.statistics.tips}<span>Statistics{i18n.statistics.uah}</span></div>
       </section>
     )
   }

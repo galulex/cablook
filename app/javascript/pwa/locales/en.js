@@ -118,8 +118,15 @@ const en = {
     tips: 'Tips'
   },
   statistics: {
+    distance: 'Distance',
     header: 'Statistics',
-    period: 'Select period'
+    km: ' km',
+    money: 'Spent money',
+    orders: 'Number of orders',
+    period: 'Select period',
+    rating: 'Average rating',
+    tips: 'Tips',
+    uah: ' uah'
   }
 }
 
