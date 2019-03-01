@@ -32,10 +32,6 @@ export default class Statistics extends Component {
     this.getStatistics()
   }
 
-  componentWillUnmount() {
-    this.setState({period: 'all_time'})
-  }
-
   getStatistics = () => {
     axios.get('statistics', {params: {period: this.state.period}}).then((res) => {
       this.updateStatistics(res.data)
