@@ -116,6 +116,23 @@ const uk = {
     header: 'Оцінити поїздку',
     ok: 'ОК',
     tips: 'Чаюха'
+  },
+  statistics: {
+    distance: 'Проїхана відстань',
+    header: 'Статистика',
+    km: ' км',
+    amount: 'Витрачені кошти',
+    trips_count: 'Кількість замовлень',
+    period: 'Обрати період',
+    rate: 'Середня оцінка',
+    tips: 'Чаюха',
+    uah: ' грн',
+    periods: {
+      all_time: 'ВЕСЬ ЧАС',
+      last_month: 'ОСТАННІЙ МІСЯЦЬ',
+      last_week: 'ОСТАННІЙ ТИЖДЕНЬ',
+      this_month: 'ЦЕЙ МІСЯЦЬ'
+    }
   }
 }
 

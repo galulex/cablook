@@ -1,5 +1,5 @@
 section.statistics {
-  padding: 54px 0;
+  padding: 54px 0 0;
 }
 
 .statistics .select-section {
@@ -46,6 +46,7 @@ section.statistics {
   color: var(--green);
   background: transparent;
   font-size: 1.1rem;
+  text-decoration: underline var(--green);
   outline: none;
   box-sizing: border-box;
   -webkit-appearance: none;
@@ -55,13 +56,17 @@ section.statistics {
 }
 
 .statistics .trip-details-content {
-  font-size: 0.9rem; 
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: row;
+  align-items: center;
+  font-size: 1rem; 
   padding: 20px 2px;
   font-weight: 500; 
 }
 
 .statistics .trip-details-content svg {
-  margin: 0 10px;
+  margin-right: 10px;
   width: 25px;
   height: 25px;
   vertical-align: middle;
@@ -74,4 +79,5 @@ section.statistics {
 .statistics .trip-details-content span {
   float: right;
   color: var(--green);
+  margin-left: auto;
 }

@@ -32,10 +32,13 @@ export default class Statistics extends Component {
     this.getStatistics()
   }
 
+  componentWillUnmount() {
+    this.setState({period: 'all_time'})
+  }
+
   getStatistics = () => {
     axios.get('statistics', {params: {period: this.state.period}}).then((res) => {
       this.updateStatistics(res.data)
-      console.log(res.data)
     }).catch((error) => {
       if (error.response) alert(error.response.data.errors)
     })
@@ -45,34 +48,34 @@ export default class Statistics extends Component {
     (data.statistics == null) ? this.setState({statistics: initState}) : this.setState(data)
   }
 
-  render() {
-    return (
-      <section class='statistics'>
-        <header>{i18n.statistics.header}</header>
-        <div class='select-section'>
-        <label for='range'>{i18n.statistics.period}</label>
-        <div class='select'>
-          <select id='range' onChange={this.selectPeriod}>
-            {this.state.periods.map(el => this.renderPeriod(el))}
-          </select>
-        </div>
-      </div>
-      <div class='trip-details-content'><Pin/>{i18n.statistics.distance}<span>{this.state.statistics.distance / 1000}{i18n.statistics.km}</span></div>
-      <div class='trip-details-content'><Amount/>{i18n.statistics.amount}<span>{this.state.statistics.amount}{i18n.statistics.uah}</span></div>
-      <div class='trip-details-content'><Leaf/>{i18n.statistics.trips_count}<span>{this.state.statistics.trips_count}</span></div>
-      <div class='trip-details-content'><Star/>{i18n.statistics.rate}<span>{this.state.statistics.rate}</span></div>
-      <div class='trip-details-content'><Tips/>{i18n.statistics.tips}<span>{this.state.statistics.tips}{i18n.statistics.uah}</span></div>
-      </section>
-    )
-  }
-
   renderPeriod = (period) => {
     return(<option value={period.value} key={period.value}>{period.name}</option>)
   }
 
   selectPeriod = (e) => {
-    this.setState({period: event.target.value}, () => {
+    this.setState({period: e.target.value}, () => {
       this.getStatistics()
     })
+  }
+
+  render() {
+    return (
+      <section class='statistics'>
+        <header>{i18n.statistics.header}</header>
+        <div class='select-section'>
+        <label for='period'>{i18n.statistics.period}</label>
+          <div class='select'>
+            <select id='period' onChange={this.selectPeriod}>
+              {this.state.periods.map(el => this.renderPeriod(el))}
+            </select>
+          </div>
+        </div>
+        <div class='trip-details-content'><Pin/>{i18n.statistics.distance}<span>{this.state.statistics.distance / 1000}{i18n.statistics.km}</span></div>
+        <div class='trip-details-content'><Amount/>{i18n.statistics.amount}<span>{this.state.statistics.amount}{i18n.statistics.uah}</span></div>
+        <div class='trip-details-content'><Leaf/>{i18n.statistics.trips_count}<span>{this.state.statistics.trips_count}</span></div>
+        <div class='trip-details-content'><Star/>{i18n.statistics.rate}<span>{this.state.statistics.rate}</span></div>
+        <div class='trip-details-content'><Tips/>{i18n.statistics.tips}<span>{this.state.statistics.tips}{i18n.statistics.uah}</span></div>
+      </section>
+    )
   }
 }
