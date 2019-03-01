@@ -65,7 +65,8 @@ const uk = {
     home: 'Викликати таксі',
     logout: 'Вийти',
     trips: 'Поїздки',
-    statistic: 'Статистика'
+    statistic: 'Статистика',
+    profile: 'Профіль'
   },
   address_input: {
     from: 'Звідки',
