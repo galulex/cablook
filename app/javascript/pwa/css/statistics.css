@@ -8,7 +8,6 @@ section.statistics {
   max-width: 600px;
   background: var(--white);
   border-bottom: 2px solid var(--green);
-  z-index: 100;
 }
 
 .statistics .select-section label {

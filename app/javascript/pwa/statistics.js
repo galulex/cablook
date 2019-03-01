@@ -9,6 +9,8 @@ import Leaf from './images/leaf_icon.svg'
 import i18n from './i18n.js'
 import './css/statistics.css'
 
+const initState = {distance: 0, amount: 0, trips_count: 0, rate: 0, tips: 0}
+
 const Periods = [
   {name: i18n.statistics.periods.all_time, value: 'all_time'},
   {name: i18n.statistics.periods.this_month, value: 'this_month'},
@@ -22,13 +24,7 @@ export default class Statistics extends Component {
     this.state = {
       period: 'all_time',
       periods: Periods,
-      statistics: {
-        distance: 0,
-        amount: 0,
-        trip_count: 0,
-        rate: 0,
-        tips: 0
-      }
+      statistics: initState
     }
   }
 
@@ -46,7 +42,7 @@ export default class Statistics extends Component {
   }
 
   updateStatistics = (data) => {
-    this.setState(data)
+    (data.statistics == null) ? this.setState({statistics: initState}) : this.setState(data)
   }
 
   render() {
@@ -61,7 +57,7 @@ export default class Statistics extends Component {
           </select>
         </div>
       </div>
-      <div class='trip-details-content'><Pin/>{i18n.statistics.distance}<span>{this.state.statistics.distance}{i18n.statistics.km}</span></div>
+      <div class='trip-details-content'><Pin/>{i18n.statistics.distance}<span>{this.state.statistics.distance / 1000}{i18n.statistics.km}</span></div>
       <div class='trip-details-content'><Amount/>{i18n.statistics.amount}<span>{this.state.statistics.amount}{i18n.statistics.uah}</span></div>
       <div class='trip-details-content'><Leaf/>{i18n.statistics.trips_count}<span>{this.state.statistics.trips_count}</span></div>
       <div class='trip-details-content'><Star/>{i18n.statistics.rate}<span>{this.state.statistics.rate}</span></div>

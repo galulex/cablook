@@ -59,6 +59,10 @@ aside svg {
   vertical-align: middle;
 }
 
+aside a:last-of-type svg path {
+  fill: var(--green)
+}
+
 aside a.active {
   color: #19A160;
 }
