@@ -122,9 +122,9 @@ const en = {
     header: 'Statistics',
     km: ' km',
     amount: 'Spent money',
-    orders: 'Number of orders',
+    trips_count: 'Number of orders',
     period: 'Select period',
-    rating: 'Average rating',
+    rate: 'Average rating',
     tips: 'Tips',
     uah: ' uah',
     periods: {

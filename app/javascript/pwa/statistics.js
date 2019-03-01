@@ -39,6 +39,7 @@ export default class Statistics extends Component {
   getStatistics = () => {
     axios.get('statistics', {params: {period: this.state.period}}).then((res) => {
       this.updateStatistics(res.data)
+      console.log(res.data)
     }).catch((error) => {
       if (error.response) alert(error.response.data.errors)
     })
@@ -69,12 +70,12 @@ export default class Statistics extends Component {
     )
   }
 
-  renderPeriod = (range) => {
-    return(<option value={range.value} key={range.value}>{range.name}</option>)
+  renderPeriod = (period) => {
+    return(<option value={period.value} key={period.value}>{period.name}</option>)
   }
 
   selectPeriod = (e) => {
-    this.setState({time_period: event.target.value}, () => {
+    this.setState({period: event.target.value}, () => {
       this.getStatistics()
     })
   }

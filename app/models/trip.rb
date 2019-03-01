@@ -36,10 +36,14 @@ class Trip < ApplicationRecord
       .select('COUNT(trips.id) AS trips_count, trips.user_id, SUM(required_payments_trips.amount) AS amount')
       .select('SUM(trips.distance) AS distance')
       .select('SUM(payments.amount) AS tips')
-      .select('AVG(feedbacks.rate) AS rate')
+      .select('ROUND(AVG(feedbacks.rate), 1) AS rate')
       .group(:user_id)
       .order(:user_id)
   end)
+
+  scope :this_month, -> { where('created_at BETWEEN ? AND ?', Date.current.beginning_of_month, Date.current.end_of_month) }
+  scope :last_week, ->  { where('created_at BETWEEN ? AND ?', Date.current.beginning_of_week, Date.current.end_of_week) }
+  scope :last_month, -> { where('created_at BETWEEN ? AND ?', 1.month.ago.to_date.beginning_of_month, 1.month.ago.to_date.end_of_month) }
 
   # Time for pre-order trip
   attr_reader :time, :entrance
