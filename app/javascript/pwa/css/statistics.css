@@ -3,56 +3,15 @@ section.statistics {
 }
 
 .statistics .select-section {
-  display: flex;
-  width: 100%;
-  max-width: 600px;
-  background: var(--white);
-  border-bottom: 2px solid var(--green);
+  border-top: none;
 }
 
 .statistics .select-section label {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-grow: 4;
   background: var(--grey);
 }
 
-
-.statistics .select-section .select {
-  position: relative;
-  display: inline-block;
-  flex-grow: 6;
-}
-
-.statistics .select-section .select::before {
-  position: absolute;
-  color: var(--green);
-  content: '▼';
-  right: 10px;
-  top: 50%;
-  transform: translateY(-50%);
-}
-
 .statistics select {
-  position: relative;
-  display: block;
-  width: 100%;
-  height: 100%;
-  border: none;
-  border-radius: 0;
-  margin: 0;
-  padding: 20px 30px 20px 5px;
-  color: var(--green);
-  background: transparent;
-  font-size: 1.1rem;
   text-decoration: underline var(--green);
-  outline: none;
-  box-sizing: border-box;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  -o-appearance: none;
-  appearance: none;
 }
 
 .statistics .trip-details-content {

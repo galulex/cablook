@@ -79,7 +79,7 @@ export default class ConfirmTrip extends Component {
             </ul>
           </div>
           { (this.state.cards.length > 0) &&
-            <div class='card-section'>
+            <div class='select-section'>
               <label for='card'>{i18n.confirm_trip.card}</label>
               <div class='select'>
                 <select id='card' onChange={(e) => this.selectCard(e)}>
