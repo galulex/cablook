@@ -12,7 +12,7 @@ import './css/statistics.css'
 const initState = {distance: 0, amount: 0, trips_count: 0, rate: 0, tips: 0}
 
 const Periods = [
-  {name: i18n.statistics.periods.all_time, value: 'all_time'},
+  {name: i18n.statistics.periods.all_time, value: 'all'},
   {name: i18n.statistics.periods.this_month, value: 'this_month'},
   {name: i18n.statistics.periods.last_week, value: 'last_week'},
   {name: i18n.statistics.periods.last_month, value: 'last_month'}
@@ -22,7 +22,7 @@ export default class Statistics extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      period: 'all_time',
+      period: 'all',
       periods: Periods,
       statistics: initState
     }

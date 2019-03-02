@@ -128,10 +128,10 @@ const en = {
     tips: 'Tips',
     uah: ' uah',
     periods: {
-      all_time: 'All time',
-      last_month: 'Last month',
-      last_week: 'Last week',
-      this_month: 'This month'
+      all_time: 'ALL TIME',
+      last_month: 'LAST MONTH',
+      last_week: 'LAST WEEK',
+      this_month: 'THIS MONTH'
     }
   }
 }
