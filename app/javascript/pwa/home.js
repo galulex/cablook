@@ -123,8 +123,11 @@ export default class Home extends Component {
     this.updateTrip(trip)
   }
 
-  cancel = (e) => {
-    if (!confirm(i18n.find_driver.confirm_cancel)) return;
+  cancel = (e, callback = false) => {
+    if (!confirm(i18n.find_driver.confirm_cancel)) {
+      if (callback) callback()
+      return;
+    } 
     axios.patch(`trips/${this.state.trip.id}/cancel`).then((res) => {
       this.updateTrip(null)
     }).catch((error) => {

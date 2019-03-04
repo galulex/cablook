@@ -13,9 +13,9 @@ export default class FindDriver extends Component {
     }
   }
 
-  cancel = () => {
+  cancel = (e) => {
     this.setState({disabled: true})
-    this.props.cancel()
+    this.props.cancel(e, () => {this.setState({disabled: false})})
   }
 
   componentDidMount() {
