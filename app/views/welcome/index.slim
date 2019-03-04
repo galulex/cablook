@@ -4,7 +4,7 @@ main.welcome.content role='main'
     b CAB
     | LOOK
   h1.title= t('.title')
-  a.btn href=pwa_url target='_blank' = t('order')
+  a.btn href=pwa_url(host: 'cablook.taxi') target='_blank' = t('order')
   br
   a.pd href='https://itunes.apple.com/us/app/cablook-taxi/id1356063043?ls=1&mt=8' target=:_blank
     = inline_svg 'applestore.svg', class: 'icon-2x'
