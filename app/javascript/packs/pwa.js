@@ -12,7 +12,8 @@ import Trips from '../pwa/trips.js';
 import Drawer from '../pwa/drawer.js';
 import FindDriver from '../pwa/find_driver.js';
 import Prompt from '../pwa/prompt.js';
-import Statistics from '../pwa/statistics.js'
+import Statistics from '../pwa/statistics.js';
+import Profile from '../pwa/profile.js';
 
 import '../pwa/css/buttons.css';
 
@@ -140,6 +141,7 @@ export default class App extends Component {
             <Cards path='/cards' cards={() => this.state.cards} create={this.createCard} />
             <Contacts path='/contacts' />
             <Statistics path='/statistics' />
+            <Profile path='/profile' />
           </Router>
           <Prompt />
         </main>

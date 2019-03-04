@@ -136,6 +136,10 @@ const uk = {
       last_week: 'ОСТАННІЙ ТИЖДЕНЬ',
       this_month: 'ЦЕЙ МІСЯЦЬ'
     }
+  profile_page: {
+    header: 'Профіль',
+    favorite_addresses: 'Ваші улюблені адреси:',
+    no_addresses: 'У вас ще немає добавлених улюблених адрес'
   }
 }
 
