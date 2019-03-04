@@ -36,7 +36,7 @@ class Trip < ApplicationRecord
       .select('COUNT(trips.id) AS trips_count, SUM(COALESCE(required_payments_trips.amount, 0)) AS amount')
       .select('SUM(COALESCE(trips.distance, 0)) AS distance')
       .select('SUM(COALESCE(payments.amount, 0)) AS tips')
-      .select('ROUND(AVG(COALESCE(feedbacks.rate, 0)), 1) AS rate')
+      .select('ROUND(COALESCE(AVG(feedbacks.rate), 0), 1) AS rate')
       .group(:user_id)
       .order(:user_id)
   end)
