@@ -2,7 +2,7 @@ ActiveAdmin.register Trip do
   preserve_default_filters!
   remove_filter :payments, :card, :path, :departure, :destination, :estimated_end_time, :start_at,
                 :finish_at, :started_at, :finished_at, :arrived_at, :waypoints, :job, :bonus_trip, :feedbacks,
-                :tip_payment, :trip_payment, :idle_payment
+                :tip_payment, :trip_payment, :idle_payment, :required_payments, :fake_taxi_payment
   filter :user, as: :select, collection: proc { User.joins(:trips).group(:id).all }
   filter :status, as: :select, collection: proc { Trip.statuses }
 
@@ -77,7 +77,7 @@ def path(element)
     destination = trip.destination.reverse.join(',')
     if trip.waypoints?
       waypoints = trip.waypoints.map{ |w| 'pin-s-w+facc1f(' + w.split(',').reverse.join(',') +'),' }.join('')
-    end 
+    end
     image_tag("https://api.mapbox.com/styles/v1/mapbox/streets-v10/static/pin-s-s+188753(#{departure}),#{waypoints}pin-s-f+312d50(#{destination}),path-5+188753-0.8(#{URI.encode(trip.path, Regexp.new("[^#{URI::PATTERN::UNRESERVED}]"))})/auto/400x300?access_token=#{ENV["MAPBOX_KEY"]}")
   end
 end

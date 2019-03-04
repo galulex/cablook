@@ -20,7 +20,8 @@ module Events
 
       def run
         validate_directions
-        validate_preorder if data[:time]
+        # temporary disabled because of mobile app
+        #validate_preorder if data[:time]
         build_trip
         @trip
       end
