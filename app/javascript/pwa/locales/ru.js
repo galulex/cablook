@@ -139,7 +139,8 @@ const ru = {
   profile_page: {
     header: 'Профиль',
     favorite_addresses: 'Ваши любимые адреса:',
-    no_addresses: 'У вас еще нет добавленных любимых адресов'
+    no_addresses: 'У вас еще нет добавленных любимых адресов',
+    add_address: 'Добавить Адрес'
   }
 }
 

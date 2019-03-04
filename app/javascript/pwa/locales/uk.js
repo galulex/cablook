@@ -139,7 +139,8 @@ const uk = {
   profile_page: {
     header: 'Профіль',
     favorite_addresses: 'Ваші улюблені адреси:',
-    no_addresses: 'У вас ще немає добавлених улюблених адрес'
+    no_addresses: 'У вас ще немає добавлених улюблених адрес',
+    add_address: 'Додати адресу'
   }
 }
 

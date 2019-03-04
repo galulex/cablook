@@ -139,7 +139,8 @@ const en = {
   profile_page: {
     header: 'Profile',
     favorite_addresses: 'Your favorite addresses:',
-    no_addresses: 'You have no addresses'
+    no_addresses: 'You have no addresses',
+    add_address: 'Add Favorite Address'
   }
 }
 

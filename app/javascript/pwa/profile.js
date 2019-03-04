@@ -8,30 +8,41 @@ export default class FavoriteAddresses extends Component {
   constructor(props) {
     super(props)
       this.state = {
-      favorite_addresses: this.props.favorite_addresses || [],
+      showing: false,
+      favorite_addresses: [],
       id: null,
       name: null,
       location: null,
       user_id: null
     }
-  }
-
-  ComponentWillMount() {
+    this.handleChange = this.handleChange.bind(this);
   }
 
   componentDidMount() {
-    axios.get(`/favorite_addresses`, { headers: {'Auth-Token': localStorage.token} })
+    axios.get(`/favorite_addresses`)
       .then(res => {
-        this.setState(this.applyUpdateResult(res.data));
+        this.setState({favorite_addresses: res.data});
       })
   }
 
-  applyUpdateResult = (result) => (prevState) => ({
-    favorite_addresses: [...prevState.favorite_addresses, ...result.favorite_addresses]
-  });
+  handleChange(e) {
+    this.setState({ [e.target.name] : e.target.value });
+  }
 
   render() {
+    const { showing } = this.state;
     let favoriteAddressesList = (<div><h4 class='nocards'>{i18n.profile_page.no_addresses}</h4></div>)
+    
+    let newForm = (
+      <div id="newFavoriteAddressForm">
+        <form>
+          Name: <input type="text" name="name" value={this.state.name} onChange={this.handleChange.bind(this)} />
+          Location: <input type="text" name="location" value={this.state.location} onChange={this.handleChange.bind(this)} />
+          <button type="reset" onClick={() => this.create(this.state.name, this.state.location)}>+</button>
+        </form>
+      </div>
+    )
+
     if (this.state.favorite_addresses.length > 0) {
       favoriteAddressesList = (
         <ul class='cards'>
@@ -51,11 +62,23 @@ export default class FavoriteAddresses extends Component {
         <header>{i18n.profile_page.header}</header>
           <h2>{i18n.profile_page.favorite_addresses}</h2>
           { favoriteAddressesList }
-        <div>
-          <button>Add new</button>
-        </div>
+          { showing ? newForm : null }
+          <button class='button fixed' type='button' onClick={() => this.setState({ showing: !showing })}>+ {i18n.profile_page.add_address}</button>
       </section>
     )
+  }
+
+  create = (name, location) => {
+    axios.post('/favorite_addresses', {
+      name: name,
+      location: location
+    })
+    .then(function (response) {
+      console.log(response);
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
   }
 
   delete = (id, index) => {
