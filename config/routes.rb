@@ -16,6 +16,8 @@ Rails.application.routes.draw do
     end
     resources :favorite_addresses, only: %i[index create destroy]
 
+    resource :statistics, only: :show
+
     post 'cards/update', to: 'cards#update'
 
     resources :referrals, only: %i[index create]

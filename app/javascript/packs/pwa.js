@@ -12,6 +12,7 @@ import Trips from '../pwa/trips.js';
 import Drawer from '../pwa/drawer.js';
 import FindDriver from '../pwa/find_driver.js';
 import Prompt from '../pwa/prompt.js';
+import Statistics from '../pwa/statistics.js'
 
 import '../pwa/css/buttons.css';
 
@@ -123,6 +124,7 @@ export default class App extends Component {
             <Bonus path='/bonus_trips' bonus_trips={() => this.state.bonus_trips} parent_bonus={() => this.state.parent_bonus} />
             <Cards path='/cards' cards={() => this.state.cards} create={this.createCard} />
             <Contacts path='/contacts' />
+            <Statistics path='/statistics' />
           </Router>
           <Prompt />
         </main>

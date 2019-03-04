@@ -62,7 +62,8 @@ const en = {
     contacts: 'Contacts',
     home: 'Home',
     logout: 'Log Out',
-    trips: 'Trips'
+    trips: 'Trips',
+    statistic: 'Statistic'
   },
   address_input: {
     from: 'From',
@@ -115,6 +116,23 @@ const en = {
     header: 'Rate trip',
     ok: 'OK',
     tips: 'Tips'
+  },
+  statistics: {
+    distance: 'Distance',
+    header: 'Statistics',
+    km: ' km',
+    amount: 'Spent money',
+    trips_count: 'Number of orders',
+    period: 'Select period',
+    rate: 'Average rating',
+    tips: 'Tips',
+    uah: ' uah',
+    periods: {
+      all_time: 'ALL TIME',
+      last_month: 'LAST MONTH',
+      last_week: 'LAST WEEK',
+      this_month: 'THIS MONTH'
+    }
   }
 }
 

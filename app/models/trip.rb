@@ -7,6 +7,7 @@ class Trip < ApplicationRecord
   has_one :trip_payment, class_name: 'Payments::Trip'
   has_one :idle_payment, class_name: 'Payments::Idle'
   has_one :fake_taxi_payment, class_name: 'Payments::FakeTaxi'
+  has_many :required_payments, -> { where.not(type: 'Payments::Tip') }, class_name: 'Payment'
 
   has_one :card, through: :payments
   has_many :feedbacks
@@ -28,6 +29,21 @@ class Trip < ApplicationRecord
   scope :beetwen, ->(from, to) { where('created_at BETWEEN ? AND ?', from, to) }
   scope :by_status, ->(status) { where(status: status) }
   scope :unpaid, -> { joins(:trip_payment).where('payments.status = ? AND trips.status = ?', Constants::Payments::PENDING, Constants::Trip::FINISHED) }
+
+  scope :statistics, (lambda do
+    where(status: Constants::Trip::FINISHED)
+      .left_joins(:tip_payment, :feedbacks, :required_payments)
+      .select('COUNT(trips.id) AS trips_count, SUM(COALESCE(required_payments_trips.amount, 0)) AS amount')
+      .select('SUM(COALESCE(trips.distance, 0)) AS distance')
+      .select('SUM(COALESCE(payments.amount, 0)) AS tips')
+      .select('ROUND(AVG(COALESCE(feedbacks.rate, 0)), 1) AS rate')
+      .group(:user_id)
+      .order(:user_id)
+  end)
+
+  scope :this_month, -> { where('created_at BETWEEN ? AND ?', Date.current.beginning_of_month, Date.current.end_of_month) }
+  scope :last_week, ->  { where('created_at BETWEEN ? AND ?', Date.current.beginning_of_week, Date.current.end_of_week) }
+  scope :last_month, -> { where('created_at BETWEEN ? AND ?', 1.month.ago.to_date.beginning_of_month, 1.month.ago.to_date.end_of_month) }
 
   # Time for pre-order trip
   attr_reader :time, :entrance

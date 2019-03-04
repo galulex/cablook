@@ -62,7 +62,8 @@ const ru = {
     contacts: 'Контакты',
     home: 'Вызвать такси',
     logout: 'Выйти',
-    trips: 'Поездки'
+    trips: 'Поездки',
+    statistic: 'Статистика'
   },
   address_input: {
     from: 'Откуда',
@@ -115,6 +116,23 @@ const ru = {
     header: 'Оценить поездку',
     ok: 'ОК',
     tips: 'Чаюха'
+  },
+  statistics: {
+    distance: 'Проеханные расстояние',
+    header: 'Статистика',
+    km: ' км',
+    amount: 'Потраченные средства',
+    trips_count: 'Количество заказов',
+    period: 'Выбрать период',
+    rate: 'Средняя оценка',
+    tips: 'Чаюха',
+    uah: ' грн',
+    periods: {
+      all_time: 'ВСЁ ВРЕМЯ',
+      last_month: 'ПОСЛЕДНИЙ МЕСЯЦ',
+      last_week: 'ПОСЛЕДНЯЯ НЕДЕЛЯ',
+      this_month: 'ЭТОТ МЕСЯЦ'
+    }
   }
 }
 

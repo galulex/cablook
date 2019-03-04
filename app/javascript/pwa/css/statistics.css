@@ -1,0 +1,42 @@
+section.statistics {
+  padding: 54px 0 0;
+}
+
+.statistics .select-section {
+  border-top: none;
+}
+
+.statistics .select-section label {
+  background: var(--grey);
+}
+
+.statistics select {
+  text-decoration: underline var(--green);
+}
+
+.statistics .trip-details-content {
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: row;
+  align-items: center;
+  font-size: 1rem; 
+  padding: 20px 2px;
+  font-weight: 500; 
+}
+
+.statistics .trip-details-content svg {
+  margin-right: 10px;
+  width: 25px;
+  height: 25px;
+  vertical-align: middle;
+}
+
+.statistics .trip-details-content svg path {
+  fill: var(--green);
+}
+
+.statistics .trip-details-content span {
+  float: right;
+  color: var(--green);
+  margin-left: auto;
+}
