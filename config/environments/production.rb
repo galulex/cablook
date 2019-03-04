@@ -19,6 +19,7 @@ Rails.application.configure do
 
   config.consider_all_requests_local       = false
   config.action_controller.perform_caching = true
+  config.cache_store = :memory_store, { size: 64.megabytes }
 
   config.read_encrypted_secrets = true
 
