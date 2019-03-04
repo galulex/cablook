@@ -88,7 +88,7 @@ export default class App extends Component {
 
   logOut = (e) => {
     if (!confirm('Are you sure?')) return;
-    this.setState({currentUser: null})
+    this.setState({currentUser: null, drawer: false})
     localStorage.removeItem('token')
     e.preventDefault()
   }
