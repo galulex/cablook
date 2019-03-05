@@ -21,7 +21,7 @@ export default class Statistics extends Component {
     }
   }
 
-  componentWillMount() {
+  componentDidMount() {
     this.getStatistics()
   }
 
