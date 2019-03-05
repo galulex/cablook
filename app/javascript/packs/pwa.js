@@ -121,6 +121,7 @@ export default class App extends Component {
     this.setState({language: e.target.value})
     localStorage.setItem('language', e.target.value)
     i18n.setLanguage(this.state.language)
+    axios.defaults.headers.common['Pwa-Language'] = e.target.value
   }
 
   render() {
