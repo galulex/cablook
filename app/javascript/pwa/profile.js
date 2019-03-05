@@ -31,13 +31,13 @@ export default class FavoriteAddresses extends Component {
 
   render() {
     const { showing } = this.state;
-    let favoriteAddressesList = (<div><h4 class='nocards'>{i18n.profile_page.no_addresses}</h4></div>)
+    let favoriteAddressesList = (<div><h5 class='nocards'>{i18n.profile_page.no_addresses}</h5></div>)
     
     let newForm = (
       <div id="newFavoriteAddressForm">
         <form>
-          Name: <input type="text" name="name" value={this.state.name} onChange={this.handleChange.bind(this)} />
-          Location: <input type="text" name="location" value={this.state.location} onChange={this.handleChange.bind(this)} />
+          Name: <input type="text" name="name" value={this.state.name} onChange={this.handleChange} />
+          Location: <input type="text" name="location" value={this.state.location} onChange={this.handleChange} />
           <button type="reset" onClick={() => this.create(this.state.name, this.state.location)}>+</button>
         </form>
       </div>
@@ -60,10 +60,10 @@ export default class FavoriteAddresses extends Component {
     return (
       <section>
         <header>{i18n.profile_page.header}</header>
-          <h2>{i18n.profile_page.favorite_addresses}</h2>
+          <h4>{i18n.profile_page.favorite_addresses}</h4>
           { favoriteAddressesList }
           { showing ? newForm : null }
-          <button class='button fixed' type='button' onClick={() => this.setState({ showing: !showing })}>+ {i18n.profile_page.add_address}</button>
+          <button class='button' type='button' onClick={() => this.setState({ showing: !showing })}>+ {i18n.profile_page.add_address}</button>
       </section>
     )
   }
