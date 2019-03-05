@@ -4,7 +4,7 @@ aside {
   bottom: 0;
   left: 0;
   z-index: 1000;
-  background: white;
+  background: var(--white);
   width: 300px;
   overscroll-behavior-y: contain;
   -webkit-tap-highlight-color: rgba(0,0,0,0);
@@ -64,21 +64,21 @@ aside a:last-of-type svg path {
 }
 
 aside a.active {
-  color: #19A160;
+  color: var(--green);
 }
 
 aside div {
-  background :#19A160;
-  background: linear-gradient(to left, #19A160, #132d50);
+  background :var(--green);
+  background: linear-gradient(to left, var(--green), var(--navy));
   font-size: 24px;
   padding: 15px 0;
   text-align: center;
-  color: white;
+  color: var(--white);
   word-wrap: break-word;
 }
 
 .burger {
-  background: #19A160;
+  background: var(--green);
   position: fixed;
   left: 0;
   top: 0;
@@ -89,7 +89,7 @@ aside div {
   border: none;
   padding: 15px;
   font-size: 20px;
-  color: #132d50;
+  color: var(--navy);
   outline: none;
   cursor: pointer;
 }
@@ -99,3 +99,35 @@ aside div {
   max-height: 100%;
   margin: 0;
 }
+
+aside select {
+  position: fixed;
+  bottom: 10px;
+  left: 10px;
+  width: 40px;
+  height: 25px;
+  border: none;
+  border-radius: 0;
+  padding-right: 40px;
+  box-shadow: var(--focus-shadow);
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+aside select:focus {
+  outline: none;
+}
+
+aside select.uk {
+  background-image: linear-gradient(180deg, var(--uk-flag-blue) 0, var(--uk-flag-blue) 50%, var(--orange) 50%, var(--orange) 100%);
+}
+
+aside select.ru {
+  background-image: linear-gradient(180deg, var(--white) 0, var(--white) 33%, var(--ru-flag-blue) 33%, var(--ru-flag-blue) 67%, var(--ru-flag-red) 67%, var(--ru-flag-red) 100%);
+}
+
+aside select.en {
+  background: linear-gradient(90deg, transparent 46%, var(--en-flag-red) 46%, var(--en-flag-red) 56%, transparent 56%), linear-gradient(transparent 38%, var(--white) 38%, var(--white) 42%, var(--en-flag-red) 42%, var(--en-flag-red) 58%, var(--white) 58%, var(--white) 62%, transparent 62%), linear-gradient(90deg, transparent 44%, var(--white) 44%, var(--white) 46%, var(--en-flag-red) 46%, var(--en-flag-red) 56%, var(--white) 56%, var(--white) 58%, transparent 58%), linear-gradient(33deg, transparent 45%, var(--white) 45%, var(--white) 48%, var(--en-flag-red) 48%, var(--en-flag-red) 54%, var(--white) 54%, var(--white) 57%, transparent 57%), linear-gradient(-33deg, var(--en-flag-blue) 45%, var(--white) 45%, var(--white) 48%, var(--en-flag-red) 48%, var(--en-flag-red) 54%, var(--white) 54%, var(--white) 57%, var(--en-flag-blue) 57%);
+}
+

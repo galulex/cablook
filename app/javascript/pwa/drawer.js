@@ -52,7 +52,7 @@ export default class Drawer extends Component {
         <Link activeClassName='active' href='/contacts' onClick={this.close}><Contact/>{i18n.drawer.contacts}</Link>
         <Link activeClassName='active' href='/statistics' onClick={this.close}><Statistics/>{i18n.drawer.statistic}</Link>
         <Link activeClassName='active' href='' onClick={this.props.logOut}><LogOut/>{i18n.drawer.logout}</Link>
-        <select onChange={this.props.setLanguage}>
+        <select class={this.props.language} onChange={this.props.setLanguage}>
           {this.state.locales.map(el => {
             return(<option value={el} selected={el == this.props.language}>{el}</option>)
           })}
