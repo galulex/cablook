@@ -1,21 +1,24 @@
 import { h, render, Component } from 'preact';
 import axios from 'axios';
 
-import i18n from './i18n.js'
-import Close from './images/times-circle.svg'
+import i18n from './i18n.js';
+import AddressInput from '../pwa/trips/address-input.js';
+import CurrentTrip from './current-trip.js';
 
 export default class FavoriteAddresses extends Component {
   constructor(props) {
-    super(props)
+    super(props);
       this.state = {
       showing: false,
       favorite_addresses: [],
       id: null,
       name: null,
       location: null,
-      user_id: null
+      user_id: null,
+      address: ''
     }
     this.handleChange = this.handleChange.bind(this);
+    this.setAddress = this.setAddress.bind(this)
   }
 
   componentDidMount() {
@@ -27,18 +30,24 @@ export default class FavoriteAddresses extends Component {
 
   handleChange(e) {
     this.setState({ [e.target.name] : e.target.value });
+    console.log(this.state)
+  }
+
+
+  setAddress = (e) => {
+    this.setState({address: e});
   }
 
   render() {
     const { showing } = this.state;
     let favoriteAddressesList = (<div><h5 class='nocards'>{i18n.profile_page.no_addresses}</h5></div>)
-    
     let newForm = (
       <div id="newFavoriteAddressForm">
         <form>
           Name: <input type="text" name="name" value={this.state.name} onChange={this.handleChange} />
           Location: <input type="text" name="location" value={this.state.location} onChange={this.handleChange} />
-          <button type="reset" onClick={() => this.create(this.state.name, this.state.location)}>+</button>
+          <AddressInput setAddress = {this.setAddress} onChange={this.handleChange}/>
+          <button type="reset" onClick={() => this.create(this.state.name, this.state.location, this.state.address)}>+</button>
         </form>
       </div>
     )
@@ -68,10 +77,11 @@ export default class FavoriteAddresses extends Component {
     )
   }
 
-  create = (name, location) => {
+  create = (name, location, address) => {
     axios.post('/favorite_addresses', {
       name: name,
-      location: location
+      location: location,
+      address: address
     })
     .then(function (response) {
       console.log(response);
