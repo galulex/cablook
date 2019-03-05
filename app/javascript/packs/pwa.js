@@ -20,7 +20,7 @@ import axios from 'axios';
 axios.defaults.baseURL = '/api';
 axios.defaults.headers.common['Auth-Token'] = localStorage.token;
 axios.defaults.headers.common['Content-Type'] = 'application/json';
-axios.defaults.headers.common['Pwa-Language'] = (localStorage.language) ? localStorage.language : i18n.getInterfaceLanguage();
+axios.defaults.headers.common['Pwa-Language'] = (localStorage.language) ? localStorage.language : i18n.getInterfaceLanguage().split('-')[0];
 
 export default class App extends Component {
 
@@ -62,7 +62,7 @@ export default class App extends Component {
   }
 
   defaultLanguage = () => {
-    return (localStorage.language) ? localStorage.language : i18n.getInterfaceLanguage()
+    return (localStorage.language) ? localStorage.language : i18n.getInterfaceLanguage().split('-')[0]
   }
 
   fetchCards = () => {
