@@ -21,7 +21,8 @@ export default class Drawer extends Component {
       x: x,
       transition: 0,
       delay: 0,
-      class: ''
+      class: '',
+      locales: ['en', 'ru', 'uk']
     }
   }
 
@@ -51,6 +52,11 @@ export default class Drawer extends Component {
         <Link activeClassName='active' href='/contacts' onClick={this.close}><Contact/>{i18n.drawer.contacts}</Link>
         <Link activeClassName='active' href='/statistics' onClick={this.close}><Statistics/>{i18n.drawer.statistic}</Link>
         <Link activeClassName='active' href='' onClick={this.props.logOut}><LogOut/>{i18n.drawer.logout}</Link>
+        <select>
+          {this.state.locales.map(el => {
+            return(<option value={el}>{el}</option>)
+          })}
+        </select>
       </aside>
     );
   }
