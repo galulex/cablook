@@ -1,6 +1,7 @@
 import { h, render, Component } from 'preact'
 import axios from 'axios'
 import mapboxgl from 'mapbox-gl'
+import MapboxLanguage from '@mapbox/mapbox-gl-language';
 
 mapboxgl.accessToken = 'pk.eyJ1IjoiZ2FsdWxleCIsImEiOiJjamx6ampoZjgyMnYxM3FvZ2ppNjV2M2x5In0.bPgk2WI9NT-DJwnE-OtiLA'
 
@@ -50,6 +51,11 @@ export default class Trip extends Component {
       trackUserLocation: false
     });
 
+    const language = new MapboxLanguage({
+      defaultLanguage: this.setMapboxLangauge()
+    });
+
+    this.map.addControl(language);
     this.map.addControl(geolocate);
     this.map.on('load', () => {
       // geolocate.trigger()
@@ -101,6 +107,14 @@ export default class Trip extends Component {
     if (this.props.location.length === 0) return
     this.car.setLngLat(this.props.location)
     this.car.addTo(this.map)
+  }
+
+    setMapboxLangauge = () => {
+    if (this.props.language === 'uk') {
+      return 'ru'
+    } else {
+      return this.props.language
+    }
   }
 
   render() {

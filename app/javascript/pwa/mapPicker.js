@@ -48,7 +48,7 @@ export default class MapPicker extends Component {
     });
 
     const language = new MapboxLanguage({
-      defaultLanguage: this.props.language
+      defaultLanguage: this.setMapboxLangauge()
     });
 
     this.map.addControl(language);
@@ -58,6 +58,14 @@ export default class MapPicker extends Component {
 
   componentWillUnmount() {
     this.map.remove()
+  }
+
+  setMapboxLangauge = () => {
+    if (this.props.language === 'uk') {
+      return 'ru'
+    } else {
+      return this.props.language
+    }
   }
 
   render() {
