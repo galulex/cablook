@@ -117,7 +117,23 @@ export default class App extends Component {
     this.setState({language: e.target.value})
     localStorage.setItem('language', e.target.value)
     i18n.setLanguage(this.state.language)
+    this.setScriptLanguage()
     axios.defaults.headers.common['Pwa-Language'] = e.target.value
+  }
+
+  setScriptLanguage = () => {
+    let script = document.getElementById('google-script')
+    script.remove()
+    this.loadScript()
+  }
+
+  loadScript = () => {
+    if (document.getElementById('google-script') === null) {
+      let script = document.createElement('script');
+      script.setAttribute('id', 'google-script');
+      script.setAttribute('src', `https://maps.googleapis.com/maps/api/js?key=AIzaSyDx2cLwlAG3muHMV9DVYY3l2PupoYCS-Mk&libraries=places&language=${this.state.language}`);
+      document.body.appendChild(script);
+    } 
   }
 
   render() {
@@ -127,7 +143,7 @@ export default class App extends Component {
           <Drawer active={this.state.drawer} language = {this.state.language} setLanguage = {this.setLanguage} triggerDrawer = {this.triggerDrawer} logOut={this.logOut} bonuses={() => this.state.bonus_trips.filter(e => { return e.status === 1 }).length }/>
           <button class='burger' onClick={() => this.triggerDrawer(true)}>☰</button>
           <Router>
-            <Home path='/' cards={() => this.state.cards} bonus_trips={() => this.state.bonus_trips} createCard={this.createCard} />
+            <Home path='/' cards={() => this.state.cards} bonus_trips={() => this.state.bonus_trips} createCard={this.createCard} language={this.state.language}/>
             <Trips path='/trips/:id?' />
             <Bonus path='/bonus_trips' bonus_trips={() => this.state.bonus_trips} parent_bonus={() => this.state.parent_bonus} />
             <Cards path='/cards' cards={() => this.state.cards} create={this.createCard} />

@@ -30,6 +30,7 @@ export default class CurrentTrip extends Component {
   }
 
   componentDidMount(){
+    this.loadScript()
     window.history.replaceState(null, 'Search','/')
   }
 
@@ -109,6 +110,15 @@ export default class CurrentTrip extends Component {
       state.submitDisabled = val
       return state
     })
+  }
+
+  loadScript = () => {
+    if (document.getElementById('google-script') === null) {
+      let script = document.createElement('script');
+      script.setAttribute('id', 'google-script');
+      script.setAttribute('src', `https://maps.googleapis.com/maps/api/js?key=AIzaSyDx2cLwlAG3muHMV9DVYY3l2PupoYCS-Mk&libraries=places&language=${this.props.language}`);
+      document.body.appendChild(script);
+    } 
   }
 
   render() {
