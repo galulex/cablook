@@ -22,7 +22,7 @@ export default class Drawer extends Component {
       transition: 0,
       delay: 0,
       class: '',
-      locales: ['en', 'ru', 'uk']
+      locales: ['en', 'uk', 'ru']
     }
   }
 
