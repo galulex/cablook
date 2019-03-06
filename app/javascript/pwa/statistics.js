@@ -11,24 +11,17 @@ import './css/statistics.css'
 
 const initState = {distance: 0, amount: 0, trips_count: 0, rate: 0, tips: 0}
 
-const Periods = [
-  {name: i18n.statistics.periods.all_time, value: 'all'},
-  {name: i18n.statistics.periods.this_month, value: 'this_month'},
-  {name: i18n.statistics.periods.last_week, value: 'last_week'},
-  {name: i18n.statistics.periods.last_month, value: 'last_month'}
-]
 
 export default class Statistics extends Component {
   constructor(props) {
     super(props)
     this.state = {
       period: 'all',
-      periods: Periods,
       statistics: initState
     }
   }
 
-  componentWillMount() {
+  componentDidMount() {
     this.getStatistics()
   }
 
@@ -55,6 +48,12 @@ export default class Statistics extends Component {
   }
 
   render() {
+    let Periods = [
+      {name: i18n.statistics.periods.all_time, value: 'all'},
+      {name: i18n.statistics.periods.this_month, value: 'this_month'},
+      {name: i18n.statistics.periods.last_week, value: 'last_week'},
+      {name: i18n.statistics.periods.last_month, value: 'last_month'}
+    ]
     return (
       <section class='statistics'>
         <header>{i18n.statistics.header}</header>
@@ -62,7 +61,7 @@ export default class Statistics extends Component {
         <label for='period'>{i18n.statistics.period}</label>
           <div class='select'>
             <select id='period' onChange={this.selectPeriod}>
-              {this.state.periods.map(el => this.renderPeriod(el))}
+              {Periods.map(el => this.renderPeriod(el))}
             </select>
           </div>
         </div>

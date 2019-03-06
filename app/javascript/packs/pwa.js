@@ -21,8 +21,6 @@ axios.defaults.baseURL = '/api';
 axios.defaults.headers.common['Auth-Token'] = localStorage.token;
 axios.defaults.headers.common['Content-Type'] = 'application/json';
 
-i18n.setLanguage(i18n.getInterfaceLanguage())
-
 export default class App extends Component {
 
   constructor(props){
@@ -33,10 +31,13 @@ export default class App extends Component {
       cards: [],
       bonus_trips: [],
       parent_bonus: [],
+      language: localStorage.getItem('language') || i18n.getInterfaceLanguage().split('-')[0]
     }
+    axios.defaults.headers.common['Pwa-Language'] = this.state.language
   }
 
   componentDidMount() {
+    i18n.setLanguage(this.state.language)
     if (this.state.currentUser) {
       this.fetchCards()
       this.fetchBonus()
@@ -112,11 +113,18 @@ export default class App extends Component {
     })
   }
 
+  setLanguage = (e) => {
+    this.setState({language: e.target.value})
+    localStorage.setItem('language', e.target.value)
+    i18n.setLanguage(this.state.language)
+    axios.defaults.headers.common['Pwa-Language'] = e.target.value
+  }
+
   render() {
     if (this.state.currentUser) {
       return(
         <main id="app">
-          <Drawer active={this.state.drawer} triggerDrawer = {this.triggerDrawer} logOut={this.logOut} bonuses={() => this.state.bonus_trips.filter(e => { return e.status === 1 }).length }/>
+          <Drawer active={this.state.drawer} language = {this.state.language} setLanguage = {this.setLanguage} triggerDrawer = {this.triggerDrawer} logOut={this.logOut} bonuses={() => this.state.bonus_trips.filter(e => { return e.status === 1 }).length }/>
           <button class='burger' onClick={() => this.triggerDrawer(true)}>☰</button>
           <Router>
             <Home path='/' cards={() => this.state.cards} bonus_trips={() => this.state.bonus_trips} createCard={this.createCard} />
