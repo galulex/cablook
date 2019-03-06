@@ -123,7 +123,7 @@ export default class App extends Component {
 
   setScriptLanguage = () => {
     let script = document.getElementById('google-script')
-    script.remove()
+    if (script !== null) script.remove()
     this.loadScript()
   }
 
