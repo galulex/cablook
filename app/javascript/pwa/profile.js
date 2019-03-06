@@ -1,6 +1,7 @@
 import { h, render, Component } from 'preact';
 import axios from 'axios';
 
+import Close from './images/times-circle.svg';
 import i18n from './i18n.js';
 import AddressInput from '../pwa/trips/address-input.js';
 import CurrentTrip from './current-trip.js';
@@ -18,7 +19,8 @@ export default class FavoriteAddresses extends Component {
       address: ''
     }
     this.handleChange = this.handleChange.bind(this);
-    this.setAddress = this.setAddress.bind(this)
+    this.setAddress = this.setAddress.bind(this);
+    this.setLocation = this.setLocation.bind(this);
   }
 
   componentDidMount() {
@@ -30,12 +32,28 @@ export default class FavoriteAddresses extends Component {
 
   handleChange(e) {
     this.setState({ [e.target.name] : e.target.value });
-    console.log(this.state)
   }
 
 
   setAddress = (e) => {
-    this.setState({address: e});
+    this.setState({ address: e });
+    this.setLocation(e);
+  }
+
+  setLocation = (e) => {
+    let geocoder = new google.maps.Geocoder();
+    let address = `${e}, Cherkassy`;
+    var coordinates = '';
+    geocoder.geocode( { 'address': address }, (res, status) => {
+      if (status == 'OK') {
+        let place = res[0]
+        coordinates = `${place.geometry.location.lat()},${place.geometry.location.lng()}`
+        this.setState({ location: coordinates });
+        console.log(coordinates)
+        } else {
+          alert(status)
+      }
+    })
   }
 
   render() {
@@ -45,8 +63,7 @@ export default class FavoriteAddresses extends Component {
       <div id="newFavoriteAddressForm">
         <form>
           Name: <input type="text" name="name" value={this.state.name} onChange={this.handleChange} />
-          Location: <input type="text" name="location" value={this.state.location} onChange={this.handleChange} />
-          <AddressInput setAddress = {this.setAddress} onChange={this.handleChange}/>
+          <AddressInput setAddress = {this.setAddress} onChange={this.setAddress}/>
           <button type="reset" onClick={() => this.create(this.state.name, this.state.location, this.state.address)}>+</button>
         </form>
       </div>
