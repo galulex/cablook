@@ -61,11 +61,7 @@ export default class MapPicker extends Component {
   }
 
   setMapboxLangauge = () => {
-    if (this.props.language === 'uk') {
-      return 'ru'
-    } else {
-      return this.props.language
-    }
+    return (this.props.language === 'uk') ? 'ru' : this.props.language
   }
 
   render() {

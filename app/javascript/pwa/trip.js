@@ -109,12 +109,8 @@ export default class Trip extends Component {
     this.car.addTo(this.map)
   }
 
-    setMapboxLangauge = () => {
-    if (this.props.language === 'uk') {
-      return 'ru'
-    } else {
-      return this.props.language
-    }
+  setMapboxLangauge = () => {
+    return (this.props.language === 'uk') ? 'ru' : this.props.language
   }
 
   render() {
