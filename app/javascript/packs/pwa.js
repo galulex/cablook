@@ -45,6 +45,7 @@ export default class App extends Component {
     }
     window.addEventListener('offline', this.offline)
     window.addEventListener('online', this.online)
+    if (!navigator.onLine) this.offline()
   }
 
   handleRoute = e => {
