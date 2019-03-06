@@ -184,10 +184,10 @@ export default class Home extends Component {
   }
 
   render() {
-    if (!this.state.trip) return(<CurrentTrip updateTrip={this.updateTrip} handleBack={this.handleBack}/>)
+    if (!this.state.trip) return(<CurrentTrip updateTrip={this.updateTrip} handleBack={this.handleBack} language={this.props.language}/>)
     if (this.state.trip && !this.state.trip.id) return(<ConfirmTrip cards={this.props.cards} bonus_trips={this.props.bonus_trips} trip={this.state.trip} updateTrip={this.updateTrip} handleBack={this.handleBack} createCard={this.props.createCard}/>)
     if (this.state.trip && this.state.trip.id && [0,6].includes(this.state.trip.status)) return(<FindDriver trip={this.state.trip} updateTrip={this.updateTrip} TripDeclined={this.TripDeclined} subscribe={this.subscribe} cancel={this.cancel}/>)
-    if (this.state.trip && [1,2,3].includes(this.state.trip.status)) return(<Trip trip={this.state.trip} updateTrip={this.updateTrip} cancel={this.cancel} location={this.state.car_location}/>)
+    if (this.state.trip && [1,2,3].includes(this.state.trip.status)) return(<Trip trip={this.state.trip} updateTrip={this.updateTrip} cancel={this.cancel} location={this.state.car_location} language={this.props.language}/>)
     if (this.state.trip && this.state.trip.status == 4) return(<Feedback trip={this.state.trip} updateTrip={this.updateTrip} handleBack={this.handleBack} />)
     return(<Trip updateTrip={this.updateTrip}/>)
   }

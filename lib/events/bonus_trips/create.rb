@@ -18,7 +18,7 @@ module Events
       private
 
       def validate_to_similar
-        invalid!([I18n.t('bonuts_trips.disable_for_yourself')]) if data[:user_id] == data[:friend_id]
+        invalid!([I18n.t('bonus_trips.disable_for_yourself')]) if data[:user_id] == data[:friend_id]
       end
 
       def create_bonus_trip

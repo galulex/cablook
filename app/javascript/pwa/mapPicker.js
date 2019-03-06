@@ -1,6 +1,7 @@
 import { h, render, Component } from 'preact';
 import 'mapbox-gl/dist/mapbox-gl.css'
 import mapboxgl from 'mapbox-gl'
+import MapboxLanguage from '@mapbox/mapbox-gl-language';
 
 import i18n from './i18n.js'
 import Back from './images/arrow-left.svg'
@@ -46,12 +47,21 @@ export default class MapPicker extends Component {
       trackUserLocation: true
     });
 
+    const language = new MapboxLanguage({
+      defaultLanguage: this.setMapboxLangauge()
+    });
+
+    this.map.addControl(language);
     this.map.addControl(geolocate);
     this.map.on('load', () => geolocate.trigger());
   }
 
   componentWillUnmount() {
     this.map.remove()
+  }
+
+  setMapboxLangauge = () => {
+    return (this.props.language === 'uk') ? 'ru' : this.props.language
   }
 
   render() {
