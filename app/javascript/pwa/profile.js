@@ -49,7 +49,6 @@ export default class FavoriteAddresses extends Component {
         let place = res[0]
         coordinates = `${place.geometry.location.lat()},${place.geometry.location.lng()}`
         this.setState({ location: coordinates });
-        console.log(coordinates)
         } else {
           alert(status)
       }
@@ -60,8 +59,8 @@ export default class FavoriteAddresses extends Component {
     const { showing } = this.state;
     let favoriteAddressesList = (<div><h5 class='nocards'>{i18n.profile_page.no_addresses}</h5></div>)
     let newForm = (
-      <div id="newFavoriteAddressForm">
-        <form>
+      <div>
+        <form id="newFavoriteAddressForm">
           Name: <input type="text" name="name" value={this.state.name} onChange={this.handleChange} />
           <AddressInput setAddress = {this.setAddress} onChange={this.setAddress}/>
           <button type="reset" onClick={() => this.create(this.state.name, this.state.location, this.state.address)}>+</button>
@@ -75,7 +74,7 @@ export default class FavoriteAddresses extends Component {
           { this.state.favorite_addresses.map((address, i) => {
             return(
               <li>
-                <span>{address.name}</span>
+                <span>{address.name } ({address.address})</span>
                 <button class='x-card' type='button' onClick={() => this.delete(address.id, i)}><Close fill='#a925ad'/></button>
               </li>
             )
@@ -95,12 +94,19 @@ export default class FavoriteAddresses extends Component {
   }
 
   create = (name, location, address) => {
+    var self = this;
     axios.post('/favorite_addresses', {
       name: name,
       location: location,
       address: address
     })
     .then(function (response) {
+      self.setState({
+        favorite_addresses: [...self.state.favorite_addresses, response.data],
+        showing: false,
+        name: '',
+        address: ''
+      });
       console.log(response);
     })
     .catch(function (error) {
