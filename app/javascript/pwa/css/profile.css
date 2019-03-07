@@ -1,0 +1,13 @@
+#newFavoriteAddressForm {
+  margin-top: 20px;
+}
+
+ul.favorite_addresses li {
+  border-bottom: 1px solid var(--grey);
+  position: relative;
+  height: 6vh;
+}
+
+h4, h5 {
+  text-align: center;
+}

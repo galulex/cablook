@@ -5,6 +5,7 @@ import Close from './images/times-circle.svg';
 import i18n from './i18n.js';
 import AddressInput from '../pwa/trips/address-input.js';
 import CurrentTrip from './current-trip.js';
+import './css/profile.css'
 
 export default class FavoriteAddresses extends Component {
   constructor(props) {
@@ -18,9 +19,6 @@ export default class FavoriteAddresses extends Component {
       user_id: null,
       address: ''
     }
-    this.handleChange = this.handleChange.bind(this);
-    this.setAddress = this.setAddress.bind(this);
-    this.setLocation = this.setLocation.bind(this);
   }
 
   componentDidMount() {
@@ -30,7 +28,7 @@ export default class FavoriteAddresses extends Component {
       })
   }
 
-  handleChange(e) {
+  handleChange = (e) => {
     this.setState({ [e.target.name] : e.target.value });
   }
 
@@ -39,6 +37,7 @@ export default class FavoriteAddresses extends Component {
     this.setState({ address: e });
     this.setLocation(e);
   }
+
 
   setLocation = (e) => {
     let geocoder = new google.maps.Geocoder();
@@ -61,16 +60,16 @@ export default class FavoriteAddresses extends Component {
     let newForm = (
       <div>
         <form id="newFavoriteAddressForm">
-          Name: <input type="text" name="name" value={this.state.name} onChange={this.handleChange} />
-          <AddressInput setAddress = {this.setAddress} onChange={this.setAddress}/>
-          <button type="reset" onClick={() => this.create(this.state.name, this.state.location, this.state.address)}>+</button>
+          <input required class="address" type="text" name="name" placeholder={i18n.profile_page.type_name} value={this.state.name} onChange={this.handleChange} />
+          <AddressInput setAddress = {this.setAddress}  onChange={this.setAddress}/>
+          <button class="button add_fav_address" type="reset" onClick={() => this.create(this.state.name, this.state.location, this.state.address)}>+ {i18n.profile_page.add_address}</button>
         </form>
       </div>
     )
 
     if (this.state.favorite_addresses.length > 0) {
       favoriteAddressesList = (
-        <ul class='cards'>
+        <ul class='favorite_addresses'>
           { this.state.favorite_addresses.map((address, i) => {
             return(
               <li>
@@ -87,8 +86,7 @@ export default class FavoriteAddresses extends Component {
         <header>{i18n.profile_page.header}</header>
           <h4>{i18n.profile_page.favorite_addresses}</h4>
           { favoriteAddressesList }
-          { showing ? newForm : null }
-          <button class='button' type='button' onClick={() => this.setState({ showing: !showing })}>+ {i18n.profile_page.add_address}</button>
+          { showing ? newForm : <button class='button' type='button' onClick={() => this.setState({ showing: !showing })}>+ {i18n.profile_page.add_address}</button> }
       </section>
     )
   }

@@ -39,3 +39,7 @@
 .button.warning {
   background: var(--orange);
 }
+
+.button.add_fav_address {
+  margin-top: 20px; 
+}
