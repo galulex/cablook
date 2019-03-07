@@ -5,7 +5,7 @@ module Api
       Operations::UpdateUserDevice.(user.id, device_params) if params[:device]
       # Temoporari until mobile app update
       # render json: user.as_json(except: %i[auth_token verification_token]), status: 201
-      render json: user.as_json(except: %i[auth_token verification_token]), status: 201
+      render json: user.as_json, status: 201
     end
 
     def update
