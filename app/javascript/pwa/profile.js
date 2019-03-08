@@ -37,22 +37,6 @@ export default class FavoriteAddresses extends Component {
     this.setState({ address: name, location: location });
   }
 
-
-  setLocation = (e) => {
-    let geocoder = new google.maps.Geocoder();
-    let address = `${e}, Cherkassy`;
-    var coordinates = '';
-    geocoder.geocode( { 'address': address }, (res, status) => {
-      if (status == 'OK') {
-        let place = res[0]
-        coordinates = `${place.geometry.location.lat()},${place.geometry.location.lng()}`
-        this.setState({ location: coordinates });
-        } else {
-          alert(status)
-      }
-    })
-  }
-
   render() {
     const { showing } = this.state;
     let favoriteAddressesList = (<div><h5 class='nocards center'>{i18n.profile_page.no_addresses}</h5></div>)
