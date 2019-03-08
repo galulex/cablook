@@ -136,6 +136,7 @@ const en = {
       last_week: 'LAST WEEK',
       this_month: 'THIS MONTH'
     }
+  },
   profile_page: {
     header: 'Profile',
     favorite_addresses: 'Your favorite addresses:',

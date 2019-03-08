@@ -136,6 +136,7 @@ const ru = {
       last_week: 'ПОСЛЕДНЯЯ НЕДЕЛЯ',
       this_month: 'ЭТОТ МЕСЯЦ'
     }
+  },
   profile_page: {
     header: 'Профиль',
     favorite_addresses: 'Ваши любимые адреса:',
