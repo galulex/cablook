@@ -65,7 +65,7 @@ const ru = {
     home: 'Вызвать такси',
     logout: 'Выйти',
     trips: 'Поездки',
-    statistic: 'Статистика',
+    statistics: 'Статистика',
     profile: 'Профиль'
   },
   address_input: {
