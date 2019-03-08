@@ -44,6 +44,7 @@ export default class Drawer extends Component {
             { localStorage.phone }
           </div>
           <Link activeClassName='active' href='/' onClick={this.close}><Home/>{i18n.drawer.home}</Link>
+          <Link activeClassName='active' href='/profile' onClick={this.close}><Profile/>{i18n.drawer.profile}</Link>
           <Link activeClassName='active' href='/trips' onClick={this.close}><Trip/>{i18n.drawer.trips}</Link>
           <Link activeClassName='active' href='/profile' onClick={this.close}><Profile/>{i18n.drawer.profile}</Link>
           <Link activeClassName='active' href='/bonus_trips' onClick={this.close}>
