@@ -4,7 +4,6 @@ import axios from 'axios';
 import Close from './images/times-circle.svg';
 import i18n from './i18n.js';
 import AddressInput from '../pwa/trips/address-input.js';
-import CurrentTrip from './current-trip.js';
 import './css/profile.css'
 
 export default class FavoriteAddresses extends Component {
@@ -22,16 +21,19 @@ export default class FavoriteAddresses extends Component {
   }
 
   componentDidMount() {
-    axios.get(`/favorite_addresses`)
-      .then(res => {
-        this.setState({favorite_addresses: res.data});
-      })
+    this.getFavoriteAddresses();
+  }
+
+  getFavoriteAddresses = () => {
+   axios.get(`/favorite_addresses`)
+     .then(res => {
+     this.setState({ favorite_addresses: res.data });
+     })
   }
 
   handleChange = (e) => {
     this.setState({ [e.target.name] : e.target.value });
   }
-
 
   setAddress = (name, location) => {
     this.setState({ address: name, location: location });
@@ -39,19 +41,19 @@ export default class FavoriteAddresses extends Component {
 
   render() {
     const { showing } = this.state;
-    let favoriteAddressesList = (<div><h5 class='nocards center'>{i18n.profile_page.no_addresses}</h5></div>)
-    let newForm = (
-      <div>
-        <form id="newFavoriteAddressForm">
-          <input required class="address" type="text" name="name" placeholder={i18n.profile_page.type_name} value={this.state.name} onChange={this.handleChange} />
-          <AddressInput setAddress={this.setAddress}/>
-          <button class="button add_fav_address" type="reset" onClick={() => this.create(this.state.name, this.state.location, this.state.address)}>OK</button>
-        </form>
-      </div>
+    return (
+      <section class='profile'>
+        <header>{i18n.profile_page.header}</header>
+          <h4 class='center'>{i18n.profile_page.favorite_addresses}</h4>
+          { this.favoriteAddressesList() }
+          { showing ? this.newForm() : <button class='button' type='button' onClick={() => this.setState({ showing: !showing })}>+ {i18n.profile_page.add_address}</button> }
+      </section>
     )
+  }
 
+  favoriteAddressesList = () => {
     if (this.state.favorite_addresses.length > 0) {
-      favoriteAddressesList = (
+      return(
         <ul class='favorite_addresses'>
           { this.state.favorite_addresses.map((address, i) => {
             return(
@@ -63,25 +65,29 @@ export default class FavoriteAddresses extends Component {
           })}
         </ul>
       )
+    } else {
+      return(<div><h5 class='nocards center'>{i18n.profile_page.no_addresses}</h5></div>)
     }
-    return (
-      <section class='profile'>
-        <header>{i18n.profile_page.header}</header>
-          <h4 class='center'>{i18n.profile_page.favorite_addresses}</h4>
-          { favoriteAddressesList }
-          { showing ? newForm : <button class='button' type='button' onClick={() => this.setState({ showing: !showing })}>+ {i18n.profile_page.add_address}</button> }
-      </section>
+  }
+
+  newForm = () => {
+    return(
+      <form id="newFavoriteAddressForm">
+        <input required class="address" type="text" name="name" placeholder={i18n.profile_page.type_name} value={this.state.name} onChange={this.handleChange} />
+        <AddressInput setAddress={this.setAddress}/>
+        <button class="button add_fav_address" type="reset" onClick={() => this.create(this.state.name, this.state.location, this.state.address)}>OK</button>
+      </form>
     )
   }
 
   create = (name, location, address) => {
-    var self = this;
+    let self = this;
     axios.post('/favorite_addresses', {
       name: name,
       location: location,
       address: address
     })
-    .then(function (response) {
+    .then( response => {
       self.setState({
         favorite_addresses: [...self.state.favorite_addresses, response.data],
         showing: false,
@@ -90,7 +96,7 @@ export default class FavoriteAddresses extends Component {
       });
       console.log(response);
     })
-    .catch(function (error) {
+    .catch( error => {
       console.log(error);
     });
   }
