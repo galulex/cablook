@@ -126,7 +126,6 @@ export default class AddressInput extends Component {
 
   focus = (e) => {
     e.target.focus()
-    e.target.setSelectionRange(0, 9999)
   }
 
   blur = (e) => {
