@@ -43,7 +43,7 @@ export default class ConfirmTrip extends Component {
     params.departure = params.departure.join(',')
     params.destination = params.destination.join(',')
     params.card_id = this.state.card_id
-    if (this.state.bonus) params.bonus = this.state.bonus
+    if (this.state.bonus === 'true') params.bonus = this.state.bonus
     axios.post('trips', {trip: params}).then((res) => {
       this.props.updateTrip(res.data)
       window.removeEventListener('popstate', this.props.handleBack);
@@ -95,7 +95,7 @@ export default class ConfirmTrip extends Component {
           <div class='buttons'>
             { this.renderBonus() }
             { (this.state.cards.length > 0) &&
-              <button class='button fixed' type='button' disabled={this.state.submitDisabled} onClick={this.commonTrip}>{i18n.confirm_trip.go}</button>
+              <button class='button fixed' type='button' value='false' disabled={this.state.submitDisabled} onClick={this.createTrip}>{i18n.confirm_trip.go}</button>
             }
             { this.state.showWidget && <Widget createCard={this.createCard}/> }
           </div>
@@ -121,17 +121,11 @@ export default class ConfirmTrip extends Component {
 
   renderBonus = () => {
     if (this.props.bonus_trips().some((e) => e.status == 1)) {
-      return(<button class='button fixed bonus' type='button' disabled={this.state.submitDisabled} onClick={this.bonusTrip} value='true'>{i18n.confirm_trip.bonus}</button>)
+      return(<button class='button fixed bonus' type='button' disabled={this.state.submitDisabled} onClick={this.createTrip} value='true'>{i18n.confirm_trip.bonus}</button>)
     }
   }
 
-  commonTrip = (e) => {
-    this.setState({bonus: null}, () => {
-      this.create()
-    })
-  }
-
-  bonusTrip = (e) => {
+  createTrip = (e) => {
     this.setState({bonus: e.target.value}, () => {
       this.create()
     })
