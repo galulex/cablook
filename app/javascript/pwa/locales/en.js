@@ -54,7 +54,9 @@ const en = {
     distance: "Distance",
     go: 'GO',
     header: 'Confirm Trip',
-    km: "km"
+    km: "km",
+    retry_payment: "\nPay debt with selected card?",
+    payment_error: 'Payment failed'
   },
   drawer: {
     bonuses: 'Bonuses',

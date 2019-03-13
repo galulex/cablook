@@ -54,7 +54,9 @@ const uk = {
     distance: 'Відстань',
     go: 'Поїхали',
     header: 'Підтвердити поїздку',
-    km: 'км'
+    km: 'км',
+    retry_payment: "\nСплатити борг обраної картою?",
+    payment_error: 'Платіж не пройшов'
   },
   drawer: {
     bonuses: 'Халява',

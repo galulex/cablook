@@ -54,7 +54,9 @@ const ru = {
     distance: 'Расстояние',
     go: 'Поехали',
     header: 'Подтвердить поездку',
-    km: 'км'
+    km: 'км',
+    retry_payment: "\nОплатить долг выбранной картой?",
+    payment_error: 'Платеж не прошёл'
   },
   drawer: {
     bonuses: 'Халява',
