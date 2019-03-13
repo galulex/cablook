@@ -49,9 +49,23 @@ export default class ConfirmTrip extends Component {
       window.removeEventListener('popstate', this.props.handleBack);
     }).catch((error) => {
       this.submitDisabled(false)
+      if (error.response) {
+        if (!confirm(error.response.data.errors)) return;
+        this.retryPendingPayment()
+      } 
+    })
+  }
+
+  retryPendingPayment = () => {
+    axios.post('payments/retry_pendings', {card_id: 2}).then((res) => {
+      if (res.data.length === 0) {
+        this.create()
+      }
+    }).catch((error) => {
       if (error.response) alert(error.response.data.errors)
     })
   }
+
 
   createCard = (data) => {
     this.props.createCard(data)
