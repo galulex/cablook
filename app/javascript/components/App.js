@@ -46,6 +46,15 @@ export default class App extends Component {
         if (res.data['cards'].length > 0) localStorage.ready = true
         this.setState({ cards: res.data['cards'] })
         this.fetchBonusTrips()
+        this.fetchFavoriteAddresses()
+      }).catch(err =>
+        alert(err.response.data.errors)
+      )
+  }
+
+  fetchFavoriteAddresses = () => {
+    FavoriteAddresses.fetch().then(res => {
+        this.setState({ favorite_adresses: res.data })
       }).catch(err =>
         alert(err.response.data.errors)
       )

@@ -32,10 +32,11 @@ export default class CurrentTrip extends Component {
   componentDidMount(){
     this.loadScript()
     window.history.replaceState(null, 'Search','/')
-       axios.get(`/favorite_addresses`)
-     .then(res => {
-     this.setState({ favorite_addresses: res.data });
-     })
+    this.setState({favorite_addresses: this.props.favorite_addresses})
+  }
+
+  componentWillReceiveProps() {
+    this.setState({favorite_addresses: this.props.favorite_addresses})
   }
 
   setAddress = (text, coords, index) => {

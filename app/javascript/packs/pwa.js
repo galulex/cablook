@@ -32,7 +32,8 @@ export default class App extends Component {
       cards: [],
       bonus_trips: [],
       parent_bonus: [],
-      language: localStorage.getItem('language') || i18n.getInterfaceLanguage().split('-')[0]
+      language: localStorage.getItem('language') || i18n.getInterfaceLanguage().split('-')[0],
+      favorite_addresses: []
     }
     axios.defaults.headers.common['Pwa-Language'] = this.state.language
   }
@@ -40,6 +41,7 @@ export default class App extends Component {
   componentDidMount() {
     i18n.setLanguage(this.state.language)
     if (this.state.currentUser) {
+      this.fetchFavoriteAddresses()
       this.fetchCards()
       this.fetchBonus()
       document.documentElement.style.setProperty('--body-bg', '#19a160')
@@ -74,6 +76,14 @@ export default class App extends Component {
   fetchBonus = () => {
     axios.get('referrals').then((res) => {
       this.setState({bonus_trips: res.data.bonus_trips, parent_bonus: res.data.parent_bonus})
+    }).catch((error) => {
+      if (error.response) alert(error.response.data.errors)
+    })
+  }
+
+  fetchFavoriteAddresses = () => {
+    axios.get('favorite_addresses').then((res) => {
+      this.setState({favorite_addresses: res.data})
     }).catch((error) => {
       if (error.response) alert(error.response.data.errors)
     })
@@ -135,13 +145,13 @@ export default class App extends Component {
           <Drawer active={this.state.drawer} language = {this.state.language} setLanguage = {this.setLanguage} triggerDrawer = {this.triggerDrawer} logOut={this.logOut} bonuses={() => this.state.bonus_trips.filter(e => { return e.status === 1 }).length }/>
           <button class='burger' onClick={() => this.triggerDrawer(true)}>☰</button>
           <Router>
-            <Home path='/' cards={() => this.state.cards} bonus_trips={() => this.state.bonus_trips} createCard={this.createCard} language={this.state.language}/>
+            <Home path='/' cards={() => this.state.cards} bonus_trips={() => this.state.bonus_trips} createCard={this.createCard} language={this.state.language} favorite_addresses={() => this.state.favorite_addresses}/>
             <Trips path='/trips/:id?' />
             <Bonus path='/bonus_trips' bonus_trips={() => this.state.bonus_trips} parent_bonus={() => this.state.parent_bonus} />
             <Cards path='/cards' cards={() => this.state.cards} create={this.createCard} />
             <Contacts path='/contacts' />
             <Statistics path='/statistics' />
-            <Profile path='/profile' />
+            <Profile path='/profile' favorite_addresses={() => this.state.favorite_addresses} />
           </Router>
           <Prompt />
         </main>

@@ -21,14 +21,11 @@ export default class FavoriteAddresses extends Component {
   }
 
   componentDidMount() {
-    this.getFavoriteAddresses();
+    this.setState({favorite_addresses: this.props.favorite_addresses()})
   }
 
-  getFavoriteAddresses = () => {
-   axios.get(`/favorite_addresses`)
-     .then(res => {
-     this.setState({ favorite_addresses: res.data });
-     })
+  componentWillReceiveProps() {
+    this.setState({favorite_addresses: this.props.favorite_addresses()})
   }
 
   handleChange = (e) => {
@@ -94,10 +91,9 @@ export default class FavoriteAddresses extends Component {
         name: '',
         address: ''
       });
-      console.log(response);
     })
     .catch( error => {
-      console.log(error);
+      if (error.response) alert(error.response.data.errors)
     });
   }
 
