@@ -23,15 +23,13 @@ export default class AddressInput extends Component {
   }
 
   componentDidMount() {
-    this.input.setCustomValidity('Choose address from a list');
+    this.input.setCustomValidity(i18n.choose_address);
   }
 
   favoriteAddressesPredictions = () => {
     this.setState({favorite_addresses: this.props.favorite_addresses()})
     let fav = [];
-    {this.props.favorite_addresses().map((el) => {
-      fav.push(el.name)
-              })};
+    {this.props.favorite_addresses().map((el) => { fav.push(el.name) })};
     this.setState({predictions: fav})
   }
 
@@ -130,7 +128,7 @@ export default class AddressInput extends Component {
       this.setState({ predictions: [], address: e.target.value});
       return false
     }
-    this.input.setCustomValidity('Choose address from a list')
+    this.input.setCustomValidity(i18n.choose_address)
     let hits = streets.filter(function(s) { return s.toLowerCase().indexOf(e.target.value.toLowerCase()) != -1 }).slice(0, 5)
     if (hits.length > 0) {
       this.setState({ predictions: hits, address: e.target.value, disabled: false });

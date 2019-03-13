@@ -61,7 +61,9 @@ const en = {
     geo_alert: "If you want to use an address autocomplete, you must allow the browser to check your location",
     no_call: "No call ",
     entrance: "Entrance"
-  }
+  },
+
+  choose_address: "Choose address from a list"
 }
 
 export default en
