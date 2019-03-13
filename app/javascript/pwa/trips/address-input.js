@@ -1,4 +1,5 @@
 import { h, render, Component } from 'preact';
+import axios from 'axios';
 
 import { streets } from '../streets.js'
 import Pin from '../images/pin.svg'
@@ -16,12 +17,26 @@ export default class AddressInput extends Component {
       isValid: false,
       isShowMap: false,
       geocoded: false,
-      disabled: false
+      disabled: false,
+      favorite_addresses: []
     }
   }
 
   componentDidMount() {
-    this.input.setCustomValidity('Choose address from a list')
+    this.input.setCustomValidity('Choose address from a list');
+  }
+
+  favoriteAddressesPredictions = () => {
+    this.setState({favorite_addresses: this.props.favorite_addresses()})
+    let fav = [];
+    {this.props.favorite_addresses().map((el) => {
+      fav.push(el.name)
+              })};
+    this.setState({predictions: fav})
+  }
+
+  componentWillReceiveProps() {
+    this.favoriteAddressesPredictions()
   }
 
   renderPrediction = (prediction) => {
@@ -63,11 +78,27 @@ export default class AddressInput extends Component {
   }
 
   setLocation = (place) => {
+    let place_location = ''
+    this.state.favorite_addresses.forEach(function(element) {
+      if ((element.name).includes(place)) {
+        place = element.address
+        place_location = element.location
+      }
+    });
+
+    if (place_location) {
+      this.setState({ address: place, isValid: true });
+      this.props.setAddress(place, `${place_location}`, this.props.index);
+      this.input.setCustomValidity('')
+      return;
+    }
+
     if (!place.place_id) {
       this.setState({ address: `${place}, `, predictions: [], isValid: false });
       this.input.focus();
       return;
     }
+
     let placeService = new google.maps.places.PlacesService(document.createElement('div'));
     placeService.getDetails({placeId: place.place_id}, (result) => {
       this.setState({ address: place.structured_formatting.main_text, predictions: [], isValid: true });
@@ -125,6 +156,7 @@ export default class AddressInput extends Component {
   }
 
   focus = (e) => {
+    this.favoriteAddressesPredictions()
     e.target.focus()
   }
 
@@ -150,7 +182,6 @@ export default class AddressInput extends Component {
 
   render() {
     let placeholder = (this.props.index !== 0) ? i18n.address_input.where : i18n.address_input.from
-
     return (
       <fieldset class='address'>
         {(this.props.index > 1) && (<button class='remove-address' type='button' onClick={() => this.props.removeAddress(this.props.index)}>×</button>)}

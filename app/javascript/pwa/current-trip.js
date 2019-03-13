@@ -25,12 +25,17 @@ export default class CurrentTrip extends Component {
       comment: null,
       submitDisabled: false,
       entrance: Array.from({length: 15}, (v, k) => `${k + 1} ${i18n.current_trip.entrance}`),
+      favorite_addresses: []
     }
   }
 
   componentDidMount(){
     this.loadScript()
     window.history.replaceState(null, 'Search','/')
+       axios.get(`/favorite_addresses`)
+     .then(res => {
+     this.setState({ favorite_addresses: res.data });
+     })
   }
 
   setAddress = (text, coords, index) => {
@@ -129,7 +134,7 @@ export default class CurrentTrip extends Component {
         <form action='#' onSubmit={(e) => e.preventDefault()}>
           <div class='addresses'>
             { this.state.trip.stops.map((e, i) => {
-              return(<AddressInput setAddress = {this.setAddress} removeAddress = { this.removeAddress } favorite_addresses = {this.state.favorite_addresses} language={this.props.language} index = {i} />)
+              return(<AddressInput setAddress = {this.setAddress} removeAddress = { this.removeAddress } favorite_addresses = {() => this.state.favorite_addresses} language={this.props.language} index = {i} />)
             })}
             <div>
               <Add width='32px' class='add-address' onClick={this.addAddress} disabled={isValid}/>
