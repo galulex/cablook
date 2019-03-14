@@ -154,7 +154,7 @@ export default class CurrentTrip extends Component {
           </label>
           <label for='time'>
             <span>{i18n.current_trip.when}</span>
-            <input id='time' type='time' step='600' title='HH:MM' pattern='([01]?[0-9]|2[0-3]):[0-5][0-9]' value={this.state.trip.time} placeholder='Now' onChange={this.setOrderTime}/>
+            <input id='time' type='time' step='60' title='HH:MM' pattern='([01]?[0-9]|2[0-3]):[0-5][0-9]' value={this.state.trip.time} placeholder='Now' onChange={this.setOrderTime}/>
           </label>
           <input type='text' class='comment' value={this.state.comment} placeholder={i18n.current_trip.comment} onChange={this.setComment}/>
           <input type='submit' disabled={this.state.submitDisabled} class='button' onClick={this.build} value='OK'/>

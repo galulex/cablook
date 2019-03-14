@@ -36,27 +36,29 @@ export default class Drawer extends Component {
         <style>
           {`aside:before { opacity: ${(1 - (Math.abs(this.state.x)/300)).toFixed(2)}; transition: opacity 0.${this.state.transition}s, width 0s 0.${this.state.delay}s; }`}
         </style>
-        <div>
-          { localStorage.email }
-          <br/>
-          { localStorage.phone }
+        <div class='nav-wrapper'>
+          <div class='nav-header'>
+            { localStorage.email }
+            <br/>
+            { localStorage.phone }
+          </div>
+          <Link activeClassName='active' href='/' onClick={this.close}><Home/>{i18n.drawer.home}</Link>
+          <Link activeClassName='active' href='/trips' onClick={this.close}><Trip/>{i18n.drawer.trips}</Link>
+          <Link activeClassName='active' href='/bonus_trips' onClick={this.close}>
+            <Bonus/>
+            {i18n.drawer.bonuses}
+            { this.props.bonuses() > 0 && <span>{this.props.bonuses()}</span>}
+          </Link>
+          <Link activeClassName='active' href='/cards' onClick={this.close}><Card/>{i18n.drawer.cards}</Link>
+          <Link activeClassName='active' href='/contacts' onClick={this.close}><Contact/>{i18n.drawer.contacts}</Link>
+          <Link activeClassName='active' href='/statistics' onClick={this.close}><Statistics/>{i18n.drawer.statistic}</Link>
+          <Link activeClassName='active' href='' onClick={this.props.logOut}><LogOut/>{i18n.drawer.logout}</Link>
+          <select class={this.props.language} onChange={this.props.setLanguage}>
+            {this.state.locales.map(el => {
+              return(<option value={el} selected={el == this.props.language}>{el}</option>)
+            })}
+          </select>
         </div>
-        <Link activeClassName='active' href='/' onClick={this.close}><Home/>{i18n.drawer.home}</Link>
-        <Link activeClassName='active' href='/trips' onClick={this.close}><Trip/>{i18n.drawer.trips}</Link>
-        <Link activeClassName='active' href='/bonus_trips' onClick={this.close}>
-          <Bonus/>
-          {i18n.drawer.bonuses}
-          { this.props.bonuses() > 0 && <span>{this.props.bonuses()}</span>}
-        </Link>
-        <Link activeClassName='active' href='/cards' onClick={this.close}><Card/>{i18n.drawer.cards}</Link>
-        <Link activeClassName='active' href='/contacts' onClick={this.close}><Contact/>{i18n.drawer.contacts}</Link>
-        <Link activeClassName='active' href='/statistics' onClick={this.close}><Statistics/>{i18n.drawer.statistic}</Link>
-        <Link activeClassName='active' href='' onClick={this.props.logOut}><LogOut/>{i18n.drawer.logout}</Link>
-        <select class={this.props.language} onChange={this.props.setLanguage}>
-          {this.state.locales.map(el => {
-            return(<option value={el} selected={el == this.props.language}>{el}</option>)
-          })}
-        </select>
       </aside>
     );
   }
