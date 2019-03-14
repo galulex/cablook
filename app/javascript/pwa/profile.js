@@ -16,7 +16,8 @@ export default class FavoriteAddresses extends Component {
       name: null,
       location: null,
       user_id: null,
-      address: ''
+      address: '',
+      place_id: ''
     }
   }
 
@@ -34,6 +35,22 @@ export default class FavoriteAddresses extends Component {
 
   setAddress = (name, location) => {
     this.setState({ address: name, location: location });
+    this.getPlaceID(location);
+  }
+
+  getPlaceID = (coordinates) => {
+    let self = this;
+    let latLng = coordinates.split(',')
+    let geocoder = new google.maps.Geocoder()
+    let location = new google.maps.LatLng(parseFloat(latLng[0]), parseFloat(latLng[1]))
+      geocoder.geocode( { 'location': location}, function(res, status) {
+        if (status == 'OK') {
+          let place = res[0]
+          self.setState({ place_id: place.place_id });
+        } else {
+          alert(status)
+        }
+      })
   }
 
   render() {
@@ -72,17 +89,18 @@ export default class FavoriteAddresses extends Component {
       <form id="newFavoriteAddressForm">
         <input required class="address" type="text" name="name" placeholder={i18n.profile_page.type_name} value={this.state.name} onChange={this.handleChange} />
         <AddressInput setAddress={this.setAddress} favorite_addresses = {() => []} />
-        <button class="button add_fav_address" type="reset" onClick={() => this.create(this.state.name, this.state.location, this.state.address)}>OK</button>
+        <button class="button add_fav_address" type="reset" onClick={() => this.create(this.state.name, this.state.location, this.state.address, this.state.place_id)}>OK</button>
       </form>
     )
   }
 
-  create = (name, location, address) => {
+  create = (name, location, address, place_id) => {
     let self = this;
     axios.post('/favorite_addresses', {
       name: name,
       location: location,
-      address: address
+      address: address,
+      place_id: place_id
     })
     .then( response => {
       self.setState({
