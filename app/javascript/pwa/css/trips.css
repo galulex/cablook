@@ -230,3 +230,14 @@ div.map {
   stroke: #111;
   stroke-width: 3;
 }
+
+.trip-card .trip-card-star {
+  margin: 0 2px;
+  width: 10px;
+  height: 10px;
+  float: right;
+}
+
+.trip-card .trip-card-star path{
+  fill: var(--green)
+}
