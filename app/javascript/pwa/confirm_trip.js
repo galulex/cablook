@@ -30,7 +30,7 @@ export default class ConfirmTrip extends Component {
   }
 
   componentWillReceiveProps() {
-    this.setState({cards: this.props.cards()})
+    this.setState({cards: this.props.cards(), card_id: (this.props.cards().length >= 1) ? this.props.cards()[0].id : null})
   }
 
   componentWillUnmount() {
@@ -56,7 +56,7 @@ export default class ConfirmTrip extends Component {
   }
 
   retryPendingPayment = () => {
-    axios.post('payments/retry_pendings', {card_id: 2}).then((res) => {
+    axios.post('payments/retry_pendings', {card_id: this.state.card_id}).then((res) => {
       if (res.data.length === 0) {
         this.create()
       } else {
@@ -132,6 +132,7 @@ export default class ConfirmTrip extends Component {
   }
 
   selectCard = (event) => {
+    debugger
     this.setState({card_id: event.target.value})
   }
 
