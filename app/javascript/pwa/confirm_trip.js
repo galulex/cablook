@@ -8,6 +8,7 @@ import './css/confirm_trip.css'
 import TripPrice from './images/trip_price.svg'
 import Pin from './images/pin.svg'
 import Back from './images/arrow-left.svg'
+import SearchLogo from './images/search_logo.svg'
 
 export default class ConfirmTrip extends Component {
   constructor(props) {
@@ -17,7 +18,8 @@ export default class ConfirmTrip extends Component {
       card_id: null,
       bonus: null,
       submitDisabled: false,
-      showWidget: false
+      showWidget: false,
+      showLoader: false
     }
   }
 
@@ -49,18 +51,23 @@ export default class ConfirmTrip extends Component {
       window.removeEventListener('popstate', this.props.handleBack);
     }).catch((error) => {
       if (error.response) {
-        if (!confirm(`${error.response.data.errors} ${i18n.confirm_trip.retry_payment}`)) return;
+        if (!confirm(`${error.response.data.errors} ${i18n.confirm_trip.retry_payment}`)) {
+          this.submitDisabled(false)
+          return;
+        }
         this.retryPendingPayment()
       } 
     })
   }
 
   retryPendingPayment = () => {
+    this.setState({showLoader: true})
     axios.post('payments/retry_pendings', {card_id: this.state.card_id}).then((res) => {
       if (res.data.length === 0) {
         this.create()
       } else {
-         alert(i18n.confirm_trip.payment_error)
+         this.setState({showLoader: false})
+         setTimeout(() => {alert(i18n.confirm_trip.payment_error)}, 500)
          this.submitDisabled(false)
       }
     }).catch((error) => {
@@ -77,6 +84,7 @@ export default class ConfirmTrip extends Component {
   render() {
     return (
       <div class='confirm-container'>
+        {this.retryLoader()}
         <button type='button' id='arrow' class='burger' onClick={() => window.history.back()}><Back fill='#132d50'/></button>
         <header>{i18n.confirm_trip.header}</header>
         <section class='confirm-trip'>
@@ -132,7 +140,6 @@ export default class ConfirmTrip extends Component {
   }
 
   selectCard = (event) => {
-    debugger
     this.setState({card_id: event.target.value})
   }
 
@@ -140,6 +147,14 @@ export default class ConfirmTrip extends Component {
     if (this.props.bonus_trips().some((e) => e.status == 1)) {
       return(<button class='button fixed bonus' type='button' disabled={this.state.submitDisabled} onClick={this.createTrip} value='true'>{i18n.confirm_trip.bonus}</button>)
     }
+  }
+
+  retryLoader = () => {
+    if (this.state.showLoader !== true) return;
+    return [
+      <div class='load-background'></div>,
+      <SearchLogo class='search_logo'/>
+    ]
   }
 
   createTrip = (e) => {
