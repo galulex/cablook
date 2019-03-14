@@ -89,7 +89,6 @@ export default class Drawer extends Component {
 
   touchEnd = (e) => {
     let distance = this.state.start - e.changedTouches[0].pageX
-    console.log(distance)
     if (distance === 0) return;
     this.props.triggerDrawer(distance < 20)
   }
