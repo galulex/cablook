@@ -68,7 +68,7 @@ aside a.active {
 }
 
 aside div.nav-header {
-  background :var(--green);
+  background: var(--green);
   background: linear-gradient(to left, var(--green), var(--navy));
   font-size: 24px;
   padding: 15px 0;
@@ -83,6 +83,7 @@ aside div.nav-wrapper {
   left: 0;
   width: 100%;
   height: 100%;
+  overflow: hidden;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
 }

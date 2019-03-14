@@ -36,7 +36,7 @@ export default class Drawer extends Component {
         <style>
           {`aside:before { opacity: ${(1 - (Math.abs(this.state.x)/300)).toFixed(2)}; transition: opacity 0.${this.state.transition}s, width 0s 0.${this.state.delay}s; }`}
         </style>
-        <div class='nav-wrapper'>
+        <div class='nav-wrapper'onTouchMove={this.touchMove}>
           <div class='nav-header'>
             { localStorage.email }
             <br/>
@@ -76,7 +76,6 @@ export default class Drawer extends Component {
   }
 
   touchMove = (e) => {
-    e.preventDefault()
     let distance = this.state.start - e.touches[0].pageX
     let x = this.state.left - distance
     x = (x < -300) ? -300 : x
@@ -90,7 +89,8 @@ export default class Drawer extends Component {
 
   touchEnd = (e) => {
     let distance = this.state.start - e.changedTouches[0].pageX
+    console.log(distance)
     if (distance === 0) return;
-    this.props.triggerDrawer(distance < 0)
+    this.props.triggerDrawer(distance < 20)
   }
 }
