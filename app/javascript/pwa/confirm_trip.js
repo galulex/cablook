@@ -61,20 +61,19 @@ export default class ConfirmTrip extends Component {
   }
 
   retryPendingPayment = () => {
-    this.setState({showLoader: true})
+    this.showLoader(true)
     axios.post('payments/retry_pendings', {card_id: this.state.card_id}).then((res) => {
       if (res.data.length === 0) {
         this.create()
       } else {
-         this.setState({showLoader: false})
-         setTimeout(() => {alert(i18n.confirm_trip.payment_error)}, 500)
-         this.submitDisabled(false)
+        this.showLoader(false)
+        setTimeout(() => {alert(i18n.confirm_trip.payment_error)}, 500)
+        this.submitDisabled(false)
       }
     }).catch((error) => {
       if (error.response) alert(error.response.data.errors)
     })
   }
-
 
   createCard = (data) => {
     this.props.createCard(data)
@@ -133,6 +132,10 @@ export default class ConfirmTrip extends Component {
       state.submitDisabled = val
       return state
     })
+  }
+
+  showLoader = (val) => {
+    this.setState({showLoader: val})
   }
 
   renderCard = (card) => {

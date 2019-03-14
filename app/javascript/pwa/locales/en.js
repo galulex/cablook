@@ -55,8 +55,8 @@ const en = {
     go: 'GO',
     header: 'Confirm Trip',
     km: "km",
-    retry_payment: "\nPay debt with selected card?",
-    payment_error: 'Payment failed'
+    retry_payment: '\nPay debt with selected card?',
+    payment_error: 'Insufficient funds or internet limit exceeded. \nPlease change your internet limit or use another card.'
   },
   drawer: {
     bonuses: 'Bonuses',
