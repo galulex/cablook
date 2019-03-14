@@ -29,10 +29,11 @@ export default class ConfirmTrip extends Component {
     window.onbeforeunload = (event) => {
       window.removeEventListener('popstate', this.props.handleBack)
     }
+    this.getCards()
   }
 
   componentWillReceiveProps() {
-    this.setState({cards: this.props.cards(), card_id: (this.props.cards().length >= 1) ? this.props.cards()[0].id : null})
+    this.getCards()
   }
 
   componentWillUnmount() {
@@ -73,6 +74,10 @@ export default class ConfirmTrip extends Component {
     }).catch((error) => {
       if (error.response) alert(error.response.data.errors)
     })
+  }
+
+  getCards = () => {
+    this.setState({cards: this.props.cards(), card_id: (this.props.cards().length >= 1) ? this.props.cards()[0].id : null})
   }
 
   createCard = (data) => {
