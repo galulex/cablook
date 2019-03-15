@@ -12,7 +12,6 @@ ul.favorite_addresses li {
   text-align: center;
 }
 
-
 .profile fieldset.address:before, .profile fieldset.address:after {
     content: none;
 }

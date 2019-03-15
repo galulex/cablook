@@ -24,7 +24,7 @@ module Api
     end
 
     def favorite_address_params
-      params.permit(:name, :location, :address, :place_id, :user_id)
+      params.permit(:name, :location, :address, :user_id)
     end
   end
 end
