@@ -45,6 +45,7 @@ export default class Widget extends Component {
         setTimeout(function(){
           wayforpay.closeit()
           component.props.createCard(response)
+          localStorage.setItem('email', response.email)
         }, 1000)
       },
       response =>{
@@ -54,6 +55,7 @@ export default class Widget extends Component {
         setTimeout(function(){
           wayforpay.closeit()
           component.props.createCard(response)
+          localStorage.setItem('email', response.email)
         }, 1000)
       }
     );
@@ -77,7 +79,7 @@ export default class Widget extends Component {
     this.productPrice = '1'
     this.transactionType = 'VERIFY'
     this.clientPhone = localStorage.phone
-    this.clientEmail = localStorage.email
+    this.clientEmail = localStorage.email || ''
     this.productCount = '1'
     this.paymentSystem = 'card'
     this.merchantSignature = md5(`${this.merchantAccount};${this.merchantDomainName};${orderReference};${date};${this.amount};${this.currency};${this.productName};1;1`, window._TOKEN).toString()
