@@ -29,7 +29,13 @@ export default class AddressInput extends Component {
   favoriteAddressesPredictions = () => {
     this.setState({favorite_addresses: this.props.favorite_addresses()})
     let fav = [];
-    {this.props.favorite_addresses().map((el) => { fav.push(el.name) })};
+    {this.props.favorite_addresses().map((el) => {
+      fav.push({location: el.location,
+                address: el.address,
+                favorite_address: true,
+                structured_formatting: { main_text: el.address, secondary_text: el.name }})
+      })
+    };
     this.setState({predictions: fav})
   }
 
@@ -76,18 +82,11 @@ export default class AddressInput extends Component {
   }
 
   setLocation = (place) => {
-    let place_location = ''
-    this.state.favorite_addresses.forEach(function(element) {
-      if ((element.name).includes(place)) {
-        place = element.address
-        place_location = element.location
-      }
-    });
 
-    if (place_location) {
-      this.setState({ address: place, isValid: true });
-      this.props.setAddress(place, `${place_location}`, this.props.index);
-      this.input.setCustomValidity('')
+    if (place.favorite_address) {
+      this.setState({ address: place.address, predictions: [], isValid: true });
+      this.props.setAddress(place.address, place.location, this.props.index);
+      this.input.setCustomValidity('');
       return;
     }
 
