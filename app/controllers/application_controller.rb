@@ -4,7 +4,7 @@ class ApplicationController < ActionController::Base
   private
 
   def set_locale
-    I18n.locale = match_check&.to_sym || (session[:locale] || I18n.default_locale)
+    I18n.locale = match_check&.to_sym
   end
 
   def match_check
@@ -12,7 +12,7 @@ class ApplicationController < ActionController::Base
   end
 
   def detect_locale
-    request.env['HTTP_PWA_LANGUAGE'] || request.env['HTTP_API_LANGUAGE']
+    (request.env['HTTP_PWA_LANGUAGE'] || request.env['HTTP_API_LANGUAGE']) || session[:locale]
   end
 
   def set_admin_locale
