@@ -60,7 +60,7 @@ export default class FavoriteAddresses extends Component {
         <header>{i18n.profile_page.header}</header>
           <h4 class='center'>{i18n.profile_page.favorite_addresses}</h4>
           { this.favoriteAddressesList() }
-          { showing ? this.newForm() : <button class='button' type='button' onClick={() => this.setState({ showing: !showing })}>+ {i18n.profile_page.add_address}</button> }
+          { showing ? this.newForm() : <button class='button add_fav_address' type='button' onClick={() => this.setState({ showing: !showing })}>+ {i18n.profile_page.add_address}</button> }
       </section>
     )
   }
