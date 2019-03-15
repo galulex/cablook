@@ -125,6 +125,7 @@ export default class AddressInput extends Component {
   autocomplete = e => {
     if (e.target.value === '') {
       this.setState({ predictions: [], address: e.target.value});
+      this.favoriteAddressesPredictions()
       return false
     }
     this.input.setCustomValidity(i18n.choose_address)
