@@ -5,7 +5,14 @@
 ul.favorite_addresses li {
   border-bottom: 1px solid var(--grey);
   position: relative;
-  height: 6vh;
+  height: 9vh;
+}
+
+ul.favorite_addresses span {
+	position: absolute;
+	display: block;
+  top: 25%;
+  padding-right: 40px;
 }
 
 .center {
@@ -18,4 +25,5 @@ ul.favorite_addresses li {
 
 .profile input.address {
   margin: auto;
+  width: 100%;
 }
