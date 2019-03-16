@@ -9,10 +9,10 @@ module Operations
 
     def call
       status = if tip_response['reasonCode'] == Constants::Payments::WAYFORPAY_SUCCESS
-                  Constants::Payments::SUCCESS
-                else
-                  Constants::Payments::PENDING
-      end
+                 Constants::Payments::SUCCESS
+               else
+                 Constants::Payments::PENDING
+               end
       create_tip(status)
     end
 
@@ -27,6 +27,7 @@ module Operations
         trip_id: trip_id,
         user_id: trip.user_id,
         amount: amount,
+        card_id: card.id,
         response: tip_response,
         order_reference: order_reference,
         status: status
