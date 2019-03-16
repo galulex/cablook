@@ -139,11 +139,12 @@ const ru = {
   },
   profile_page: {
     header: 'Профиль',
-    favorite_addresses: 'Ваши любимые адреса:',
-    no_addresses: 'У вас еще нет добавленных любимых адресов',
+    favorite_addresses: 'Ваши избранные адреса:',
+    no_addresses: 'У вас еще нет добавленных избранных адресов',
     add_address: 'Добавить Адрес',
     type_name: 'Введите название '
-  }
+  },
+  choose_address: "Выберите адрес из списка"
 }
 
 export default ru

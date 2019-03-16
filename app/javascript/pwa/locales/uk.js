@@ -143,7 +143,8 @@ const uk = {
     no_addresses: 'У вас ще немає добавлених улюблених адрес',
     add_address: 'Додати адресу',
     type_name: 'Введіть назву '
-  }
+  },
+  choose_address: "Виберіть адресу із списку"
 }
 
 export default uk

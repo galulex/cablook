@@ -143,7 +143,8 @@ const en = {
     no_addresses: 'You have no addresses',
     add_address: 'Add Favorite Address',
     type_name: 'Type name '
-  }
+  },
+  choose_address: "Choose address from a list"
 }
 
 export default en
