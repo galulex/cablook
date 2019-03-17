@@ -142,7 +142,8 @@ const en = {
     favorite_addresses: 'Your favorite addresses:',
     no_addresses: 'You have no addresses',
     add_address: 'Add Favorite Address',
-    type_name: 'Type name '
+    type_name: 'Type name ',
+    placeholder: 'Type address or choose a place'
   },
   choose_address: "Choose address from a list"
 }

@@ -9,8 +9,8 @@ ul.favorite_addresses li {
 }
 
 ul.favorite_addresses span {
-	position: absolute;
-	display: block;
+  position: absolute;
+  display: block;
   top: 25%;
   padding-right: 40px;
 }
@@ -20,7 +20,7 @@ ul.favorite_addresses span {
 }
 
 .profile fieldset.address:before, .profile fieldset.address:after {
-    content: none;
+  content: none;
 }
 
 .profile input.address {

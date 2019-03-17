@@ -71,7 +71,7 @@ export default class FavoriteAddresses extends Component {
     return(
       <form id="newFavoriteAddressForm">
         <input required class="address" type="text" name="name" placeholder={i18n.profile_page.type_name} value={this.state.name} onChange={this.handleChange} />
-        <AddressInput setAddress={this.setAddress} favorite_addresses={() => []} />
+        <AddressInput setAddress={this.setAddress} favorite_addresses={() => []} placeholder={i18n.profile_page.placeholder} />
         <button class="button add_fav_address" type="reset" onClick={() => this.create(this.state.name, this.state.location, this.state.address)}>OK</button>
       </form>
     )

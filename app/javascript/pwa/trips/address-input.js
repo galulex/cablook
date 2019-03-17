@@ -178,8 +178,16 @@ export default class AddressInput extends Component {
     if (!prediction.place_id) e.preventDefault()
   }
 
+  setPlaceholder = () => {
+    if (this.props.placeholder) {
+      return this.props.placeholder
+    } else {
+      return (this.props.index !== 0) ? i18n.address_input.where : i18n.address_input.from
+    }
+  }
+
   render() {
-    let placeholder = (this.props.index !== 0) ? i18n.address_input.where : i18n.address_input.from
+    let placeholder = this.setPlaceholder()
     return (
       <fieldset class='address'>
         {(this.props.index > 1) && (<button class='remove-address' type='button' onClick={() => this.props.removeAddress(this.props.index)}>×</button>)}

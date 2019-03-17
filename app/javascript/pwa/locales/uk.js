@@ -142,7 +142,8 @@ const uk = {
     favorite_addresses: 'Ваші улюблені адреси:',
     no_addresses: 'У вас ще немає добавлених улюблених адрес',
     add_address: 'Додати адресу',
-    type_name: 'Введіть назву '
+    type_name: 'Введіть назву ',
+    placeholder: 'Введіть адресу або виберіть місце'
   },
   choose_address: "Виберіть адресу із списку"
 }
