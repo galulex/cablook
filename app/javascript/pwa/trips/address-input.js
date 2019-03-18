@@ -39,10 +39,6 @@ export default class AddressInput extends Component {
     this.setState({predictions: fav})
   }
 
-  componentWillReceiveProps() {
-    this.favoriteAddressesPredictions()
-  }
-
   renderPrediction = (prediction) => {
     return(
       <li disabled={this.state.disabled} onClick={() => this.setLocation(prediction)} class='prediction'>
@@ -154,7 +150,9 @@ export default class AddressInput extends Component {
   }
 
   focus = (e) => {
-    this.favoriteAddressesPredictions()
+    if (this.state.address == '') {
+      this.favoriteAddressesPredictions()
+    }
     e.target.focus()
   }
 
