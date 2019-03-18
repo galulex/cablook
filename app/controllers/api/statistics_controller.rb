@@ -1,5 +1,7 @@
 module Api
   class StatisticsController < ApiApplicationController
+    before_action :authorize!
+
     def show
       render json: { statistics: statistics }, status: 200
     end
