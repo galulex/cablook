@@ -18,10 +18,10 @@ describe Api::FeedbacksController, type: :controller do
 
     it { is_expected.to be_successful }
 
-    context 'when params are invalid' do
-      let(:feedback_params) { attributes_for(:feedback).except(:rate) }
+    context 'when empty params' do
+      let(:feedback_params) { {} }
 
-      it { is_expected.to have_http_status(:unprocessable_entity) }
+      it { is_expected.to be_successful }
     end
   end
 end

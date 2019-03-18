@@ -10,7 +10,8 @@ module Api
     private
 
     def feedback_params
-      params.require(:feedback).permit(:rate, :description).merge(
+      params.fetch(:feedback, {}).permit(:rate, :description).reverse_merge(
+        rate: 5,
         trip_id: trip_id,
         tip: tip,
         user_id: current_user.id
