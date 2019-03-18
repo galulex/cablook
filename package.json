@@ -20,6 +20,6 @@
     "react-localization": "^1.0.12"
   },
   "devDependencies": {
-    "webpack-dev-server": "2.11.2"
+    "webpack-dev-server": "3.2.1"
   }
 }
