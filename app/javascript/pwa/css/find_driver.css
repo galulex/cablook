@@ -9,6 +9,7 @@ div.find_driver {
 
 div.find_driver section {
   background: transparent;
+  position: relative;
 }
 
 div.find_driver address {

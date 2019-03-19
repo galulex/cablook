@@ -5,6 +5,7 @@ import i18n from './i18n.js'
 import CurrentTrip from './current-trip.js'
 import ConfirmTrip from './confirm_trip.js'
 import FindDriver from './find_driver.js'
+import RetryTrip from './retry_trip.js'
 import Trip from './trip.js'
 import Feedback from '../pwa/feedback.js';
 
@@ -62,14 +63,7 @@ export default class Home extends Component {
   TripDeclined = (data) => {
     if (document.visibilityState !== 'hidden') {
       this.vibrate()
-      setTimeout(() => {
-        if (confirm(i18n.trip.car_not_found)) {
-          this.retry()
-        } else {
-          this.unsubscribe()
-          this.updateTrip(null)
-        }
-      }, 500)
+      this.getTrip()
       return
     }
     this.notify(this.declineData())
@@ -127,7 +121,7 @@ export default class Home extends Component {
     if (!confirm(i18n.find_driver.confirm_cancel)) {
       if (callback) callback()
       return;
-    } 
+    }
     axios.patch(`trips/${this.state.trip.id}/cancel`).then((res) => {
       this.updateTrip(null)
     }).catch((error) => {
@@ -139,7 +133,6 @@ export default class Home extends Component {
     if (!this.state.trip || !this.state.trip.id) return;
     axios.get(`trips/${this.state.trip.id}`).then((res) => {
       this.updateTrip(res.data)
-      if (res.data.status == 6) this.TripDeclined()
     }).catch((error) => {
       if (error.response) alert(error.response.data.errors)
     })
@@ -186,7 +179,8 @@ export default class Home extends Component {
   render() {
     if (!this.state.trip) return(<CurrentTrip updateTrip={this.updateTrip} handleBack={this.handleBack} language={this.props.language}/>)
     if (this.state.trip && !this.state.trip.id) return(<ConfirmTrip cards={this.props.cards} bonus_trips={this.props.bonus_trips} trip={this.state.trip} updateTrip={this.updateTrip} handleBack={this.handleBack} createCard={this.props.createCard}/>)
-    if (this.state.trip && this.state.trip.id && [0,6].includes(this.state.trip.status)) return(<FindDriver trip={this.state.trip} updateTrip={this.updateTrip} TripDeclined={this.TripDeclined} subscribe={this.subscribe} cancel={this.cancel}/>)
+    if (this.state.trip && this.state.trip.id && [0].includes(this.state.trip.status)) return(<FindDriver trip={this.state.trip} updateTrip={this.updateTrip} TripDeclined={this.TripDeclined} subscribe={this.subscribe} cancel={this.cancel}/>)
+    if (this.state.trip && this.state.trip.id && [6].includes(this.state.trip.status)) return(<RetryTrip trip={this.state.trip} retry={this.retry} cancel={this.cancel}/>)
     if (this.state.trip && [1,2,3].includes(this.state.trip.status)) return(<Trip trip={this.state.trip} updateTrip={this.updateTrip} cancel={this.cancel} location={this.state.car_location} language={this.props.language}/>)
     if (this.state.trip && this.state.trip.status == 4) return(<Feedback trip={this.state.trip} updateTrip={this.updateTrip} handleBack={this.handleBack} />)
     return(<Trip updateTrip={this.updateTrip}/>)

@@ -36,6 +36,11 @@
   background: var(--purple);
 }
 
+.button.retry {
+  background: var(--orange);
+  bottom: 75px;
+}
+
 .button.warning {
   background: var(--orange);
 }
