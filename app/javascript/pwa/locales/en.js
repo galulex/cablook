@@ -82,6 +82,10 @@ const en = {
     cancel: 'Cancel',
     confirm_cancel: 'Do you want to cancel this trip?'
   },
+  retry_trip: {
+    retry_message: 'Car not found. Click «Retry» to try one more time.',
+    retry: 'Retry',
+  },
   feedback: {
     ok: 'OK'
   },

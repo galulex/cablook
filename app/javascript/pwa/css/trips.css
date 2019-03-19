@@ -52,6 +52,16 @@ address:last-of-type {
   padding: 10px;
   border-bottom: 1px solid #a7a5af;
 }
+.retry-message-block {
+  color: var(--white);
+  text-align: center;
+  top: 60%;
+  transform: translateY(-55%);
+  position: fixed;
+  right: 0;
+  width: 100%;
+  font-size: 12px;
+}
 .trip-card p {
   font-style: italic;
   margin: 0 auto;

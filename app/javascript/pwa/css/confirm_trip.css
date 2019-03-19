@@ -171,3 +171,13 @@ ul.details-list span + span {
 .confirm-container .search_logo {
   z-index: 1100;
 }
+
+.retry-page-logo {
+  width: 20%;
+  position: fixed;
+  top: 36%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  min-width: 150px;
+  max-width: 200px;
+}
