@@ -87,12 +87,12 @@ export default class FavoriteAddresses extends Component {
       address: self.state.address
     })
     .then( response => {
-      self.setState({
-        favorite_addresses: [...self.state.favorite_addresses, response.data],
+      this.setState({
         showing: false,
         name: '',
         address: ''
       });
+      this.props.updateFavoriteAddresses([...this.state.favorite_addresses, response.data])
     })
     .catch( error => {
       if (error.response) alert(error.response.data.errors)
@@ -106,7 +106,6 @@ export default class FavoriteAddresses extends Component {
     axios.delete(`favorite_addresses/${id}`).then((address) => {
       favorite_addresses.splice(index, 1)
       this.setState({favorite_addresses: favorite_addresses})
-      this.props.updateFavoriteAddresses(favorite_addresses)
     }).catch((error) => {
       if (error.response) alert(error.response.data.errors)
     })

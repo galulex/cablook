@@ -98,6 +98,7 @@ export default class App extends Component {
     localStorage.setItem('phone', data.phone_number)
     axios.defaults.headers.common['Auth-Token'] = data.auth_token;
     this.fetchCards()
+    this.fetchFavoriteAddresses()
   }
 
   logOut = (e) => {
@@ -113,6 +114,10 @@ export default class App extends Component {
 
   updateCards = (cards) => {
     this.setState({cards: cards})
+  }
+
+  updateFavoriteAddresses = (favorite_addresses) => {
+    this.setState({favorite_addresses: favorite_addresses, drawer: false})
   }
 
   createCard = (data) => {

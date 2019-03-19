@@ -17,8 +17,7 @@ export default class AddressInput extends Component {
       isValid: false,
       isShowMap: false,
       geocoded: false,
-      disabled: false,
-      favorite_addresses: []
+      disabled: false
     }
   }
 
@@ -27,7 +26,6 @@ export default class AddressInput extends Component {
   }
 
   favoriteAddressesPredictions = () => {
-    this.setState({favorite_addresses: this.props.favorite_addresses()})
     let fav = [];
     {this.props.favorite_addresses().map((el) => {
       fav.push({location: el.location,
@@ -177,11 +175,8 @@ export default class AddressInput extends Component {
   }
 
   setPlaceholder = () => {
-    if (this.props.placeholder) {
-      return this.props.placeholder
-    } else {
-      return (this.props.index !== 0) ? i18n.address_input.where : i18n.address_input.from
-    }
+    if (this.props.placeholder) return this.props.placeholder
+    return (this.props.index !== 0) ? i18n.address_input.where : i18n.address_input.from
   }
 
   render() {

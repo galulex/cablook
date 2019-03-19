@@ -24,18 +24,12 @@ export default class CurrentTrip extends Component {
       },
       comment: null,
       submitDisabled: false,
-      entrance: Array.from({length: 15}, (v, k) => `${k + 1} ${i18n.current_trip.entrance}`),
-      favorite_addresses: []
+      entrance: Array.from({length: 15}, (v, k) => `${k + 1} ${i18n.current_trip.entrance}`)
     }
   }
 
   componentDidMount(){
     window.history.replaceState(null, 'Search','/')
-    this.setState({favorite_addresses: this.props.favorite_addresses})
-  }
-
-  componentWillReceiveProps() {
-    this.setState({favorite_addresses: this.props.favorite_addresses})
   }
 
   setAddress = (text, coords, index) => {
