@@ -2,6 +2,8 @@ Rails.application.configure do
   config.action_cable.allowed_request_origins = [
     'https://cablook.herokuapp.com',
     'https://staging.cablook.taxi',
+    'https://staging-app.cablook.taxi',
+    'https://staging-driver.cablook.taxi',
     'https://app.cablook.taxi'
   ]
 
