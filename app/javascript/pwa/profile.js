@@ -22,7 +22,6 @@ export default class FavoriteAddresses extends Component {
 
   componentDidMount() {
     this.setState({favorite_addresses: this.props.favorite_addresses()})
-    this.props.loadScript()
   }
 
   componentWillReceiveProps() {

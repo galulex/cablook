@@ -40,6 +40,7 @@ export default class App extends Component {
 
   componentDidMount() {
     i18n.setLanguage(this.state.language)
+    this.loadScript()
     if (this.state.currentUser) {
       this.fetchFavoriteAddresses()
       this.fetchCards()
@@ -154,13 +155,13 @@ export default class App extends Component {
           <Drawer active={this.state.drawer} language = {this.state.language} setLanguage = {this.setLanguage} triggerDrawer = {this.triggerDrawer} logOut={this.logOut} bonuses={() => this.state.bonus_trips.filter(e => { return e.status === 1 }).length }/>
           <button class='burger' onClick={() => this.triggerDrawer(true)}>☰</button>
           <Router>
-            <Home path='/' cards={() => this.state.cards} bonus_trips={() => this.state.bonus_trips} createCard={this.createCard} language={this.state.language} favorite_addresses={() => this.state.favorite_addresses} loadScript={this.loadScript}/>
+            <Home path='/' cards={() => this.state.cards} bonus_trips={() => this.state.bonus_trips} createCard={this.createCard} language={this.state.language} favorite_addresses={() => this.state.favorite_addresses} />
             <Trips path='/trips/:id?' />
             <Bonus path='/bonus_trips' bonus_trips={() => this.state.bonus_trips} parent_bonus={() => this.state.parent_bonus} />
             <Cards path='/cards' cards={() => this.state.cards} create={this.createCard} />
             <Contacts path='/contacts' />
             <Statistics path='/statistics' />
-            <Profile path='/profile' favorite_addresses={() => this.state.favorite_addresses} loadScript={this.loadScript} />
+            <Profile path='/profile' favorite_addresses={() => this.state.favorite_addresses} updateFavoriteAddresses={this.updateFavoriteAddresses} />
           </Router>
           <Prompt />
         </main>
