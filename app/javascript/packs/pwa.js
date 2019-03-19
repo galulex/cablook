@@ -12,7 +12,8 @@ import Trips from '../pwa/trips.js';
 import Drawer from '../pwa/drawer.js';
 import FindDriver from '../pwa/find_driver.js';
 import Prompt from '../pwa/prompt.js';
-import Statistics from '../pwa/statistics.js'
+import Statistics from '../pwa/statistics.js';
+import Profile from '../pwa/profile.js';
 
 import '../pwa/css/buttons.css';
 
@@ -31,14 +32,17 @@ export default class App extends Component {
       cards: [],
       bonus_trips: [],
       parent_bonus: [],
-      language: localStorage.getItem('language') || i18n.getInterfaceLanguage().split('-')[0]
+      language: localStorage.getItem('language') || i18n.getInterfaceLanguage().split('-')[0],
+      favorite_addresses: []
     }
     axios.defaults.headers.common['Pwa-Language'] = this.state.language
   }
 
   componentDidMount() {
     i18n.setLanguage(this.state.language)
+    this.loadScript()
     if (this.state.currentUser) {
+      this.fetchFavoriteAddresses()
       this.fetchCards()
       this.fetchBonus()
       document.documentElement.style.setProperty('--body-bg', '#19a160')
@@ -78,6 +82,14 @@ export default class App extends Component {
     })
   }
 
+  fetchFavoriteAddresses = () => {
+    axios.get('favorite_addresses').then((res) => {
+      this.setState({favorite_addresses: res.data})
+    }).catch((error) => {
+      if (error.response) alert(error.response.data.errors)
+    })
+  }
+
   logIn = (data) => {
     this.setState({currentUser: data.auth_token})
     localStorage.setItem('token', data.auth_token)
@@ -86,6 +98,7 @@ export default class App extends Component {
     localStorage.setItem('phone', data.phone_number)
     axios.defaults.headers.common['Auth-Token'] = data.auth_token;
     this.fetchCards()
+    this.fetchFavoriteAddresses()
   }
 
   logOut = (e) => {
@@ -101,6 +114,10 @@ export default class App extends Component {
 
   updateCards = (cards) => {
     this.setState({cards: cards})
+  }
+
+  updateFavoriteAddresses = (favorite_addresses) => {
+    this.setState({favorite_addresses: favorite_addresses, drawer: false})
   }
 
   createCard = (data) => {
@@ -127,6 +144,15 @@ export default class App extends Component {
     if (script !== null) script.setAttribute('src', `https://maps.googleapis.com/maps/api/js?key=AIzaSyDx2cLwlAG3muHMV9DVYY3l2PupoYCS-Mk&libraries=places&language=${this.state.language}`);
   }
 
+  loadScript = () => {
+    if (document.getElementById('google-script') === null) {
+      let script = document.createElement('script');
+      script.setAttribute('id', 'google-script');
+      script.setAttribute('src', `https://maps.googleapis.com/maps/api/js?key=AIzaSyDx2cLwlAG3muHMV9DVYY3l2PupoYCS-Mk&libraries=places&language=${this.props.language}`);
+      document.body.appendChild(script);
+    }
+  }
+
   render() {
     if (this.state.currentUser) {
       return(
@@ -134,12 +160,13 @@ export default class App extends Component {
           <Drawer active={this.state.drawer} language = {this.state.language} setLanguage = {this.setLanguage} triggerDrawer = {this.triggerDrawer} logOut={this.logOut} bonuses={() => this.state.bonus_trips.filter(e => { return e.status === 1 }).length }/>
           <button class='burger' onClick={() => this.triggerDrawer(true)}>☰</button>
           <Router>
-            <Home path='/' cards={() => this.state.cards} bonus_trips={() => this.state.bonus_trips} createCard={this.createCard} language={this.state.language}/>
+            <Home path='/' cards={() => this.state.cards} bonus_trips={() => this.state.bonus_trips} createCard={this.createCard} language={this.state.language} favorite_addresses={() => this.state.favorite_addresses} />
             <Trips path='/trips/:id?' />
             <Bonus path='/bonus_trips' bonus_trips={() => this.state.bonus_trips} parent_bonus={() => this.state.parent_bonus} />
             <Cards path='/cards' cards={() => this.state.cards} create={this.createCard} />
             <Contacts path='/contacts' />
             <Statistics path='/statistics' />
+            <Profile path='/profile' favorite_addresses={() => this.state.favorite_addresses} updateFavoriteAddresses={this.updateFavoriteAddresses} />
           </Router>
           <Prompt />
         </main>

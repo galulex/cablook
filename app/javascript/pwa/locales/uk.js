@@ -65,7 +65,8 @@ const uk = {
     home: 'Викликати таксі',
     logout: 'Вийти',
     trips: 'Поїздки',
-    statistic: 'Статистика'
+    statistics: 'Статистика',
+    profile: 'Профіль'
   },
   address_input: {
     from: 'Звідки',
@@ -139,7 +140,17 @@ const uk = {
       last_week: 'ОСТАННІЙ ТИЖДЕНЬ',
       this_month: 'ЦЕЙ МІСЯЦЬ'
     }
-  }
+  },
+  profile_page: {
+    header: 'Профіль',
+    favorite_addresses: 'Ваші улюблені адреси:',
+    no_addresses: 'У вас ще немає доданих улюблених адрес',
+    add_address: 'Додати адресу',
+    type_name: 'Введіть назву ',
+    placeholder: 'Введіть адресу або виберіть місце'
+  },
+  choose_address: 'Виберіть адресу із списку',
+  are_you_sure: 'Ви впевнені?'
 }
 
 export default uk

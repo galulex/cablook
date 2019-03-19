@@ -3,7 +3,7 @@ module Api
     before_action :authorize!
 
     def index
-      render json: { favorite_addresses: favorite_addresses }, status: 200
+      render json: favorite_addresses, status: 200
     end
 
     def create
@@ -24,7 +24,7 @@ module Api
     end
 
     def favorite_address_params
-      params.permit(:name, :location, :user_id)
+      params.permit(:name, :location, :address)
     end
   end
 end

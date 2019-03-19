@@ -1,0 +1,29 @@
+#newFavoriteAddressForm {
+  margin-top: 20px;
+}
+
+ul.favorite_addresses li {
+  border-bottom: 1px solid var(--grey);
+  position: relative;
+  height: 11vh;
+}
+
+ul.favorite_addresses span {
+  position: absolute;
+  display: block;
+  top: 35%;
+  padding-right: 40px;
+}
+
+.center {
+  text-align: center;
+}
+
+.profile fieldset.address:before, .profile fieldset.address:after {
+  content: none;
+}
+
+.profile input.address {
+  margin: auto;
+  width: 100%;
+}

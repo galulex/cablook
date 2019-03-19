@@ -65,7 +65,8 @@ const en = {
     home: 'Home',
     logout: 'Log Out',
     trips: 'Trips',
-    statistic: 'Statistic'
+    statistics: 'Statistic',
+    profile: 'Profile'
   },
   address_input: {
     from: 'From',
@@ -139,7 +140,17 @@ const en = {
       last_week: 'LAST WEEK',
       this_month: 'THIS MONTH'
     }
-  }
+  },
+  profile_page: {
+    header: 'Profile',
+    favorite_addresses: 'Your favorite addresses:',
+    no_addresses: 'You have no addresses',
+    add_address: 'Add Favorite Address',
+    type_name: 'Type name ',
+    placeholder: 'Type address or choose a place'
+  },
+  choose_address: 'Choose address from a list',
+  are_you_sure: 'Are you sure?'
 }
 
 export default en

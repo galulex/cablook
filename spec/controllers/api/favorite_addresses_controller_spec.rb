@@ -6,8 +6,7 @@ describe Api::FavoriteAddressesController, type: :controller do
 
   describe '#index' do
     let!(:favorite_address) { create(:favorite_address, user_id: user.id) }
-
-    subject { JSON.parse(response.body)['favorite_addresses'] }
+    subject { JSON.parse(response.body) }
 
     context 'favorite addresses' do
       before { get :index, as: :json }

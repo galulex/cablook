@@ -4,6 +4,7 @@ import { Link } from 'preact-router/match';
 import i18n from './i18n.js'
 import Home from './images/car.svg'
 import Trip from './images/vehicle-wheel.svg'
+import Profile from './images/profile.svg'
 import Bonus from './images/bonus.svg'
 import Card from './images/credit-cards-payment.svg'
 import Contact from './images/manual.svg'
@@ -43,6 +44,7 @@ export default class Drawer extends Component {
             { localStorage.phone }
           </div>
           <Link activeClassName='active' href='/' onClick={this.close}><Home/>{i18n.drawer.home}</Link>
+          <Link activeClassName='active' href='/profile' onClick={this.close}><Profile/>{i18n.drawer.profile}</Link>
           <Link activeClassName='active' href='/trips' onClick={this.close}><Trip/>{i18n.drawer.trips}</Link>
           <Link activeClassName='active' href='/bonus_trips' onClick={this.close}>
             <Bonus/>
@@ -51,7 +53,7 @@ export default class Drawer extends Component {
           </Link>
           <Link activeClassName='active' href='/cards' onClick={this.close}><Card/>{i18n.drawer.cards}</Link>
           <Link activeClassName='active' href='/contacts' onClick={this.close}><Contact/>{i18n.drawer.contacts}</Link>
-          <Link activeClassName='active' href='/statistics' onClick={this.close}><Statistics/>{i18n.drawer.statistic}</Link>
+          <Link activeClassName='active' href='/statistics' onClick={this.close}><Statistics/>{i18n.drawer.statistics}</Link>
           <Link activeClassName='active' href='' onClick={this.props.logOut}><LogOut/>{i18n.drawer.logout}</Link>
           <select class={this.props.language} onChange={this.props.setLanguage}>
             {this.state.locales.map(el => {

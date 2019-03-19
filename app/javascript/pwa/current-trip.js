@@ -24,13 +24,11 @@ export default class CurrentTrip extends Component {
       },
       comment: null,
       submitDisabled: false,
-      entrance: Array.from({length: 15}, (v, k) => `${k + 1} ${i18n.current_trip.entrance}`),
+      entrance: Array.from({length: 15}, (v, k) => `${k + 1} ${i18n.current_trip.entrance}`)
     }
-    this.setAddress = this.setAddress.bind(this)
   }
 
   componentDidMount(){
-    this.loadScript()
     window.history.replaceState(null, 'Search','/')
   }
 
@@ -112,15 +110,6 @@ export default class CurrentTrip extends Component {
     })
   }
 
-  loadScript = () => {
-    if (document.getElementById('google-script') === null) {
-      let script = document.createElement('script');
-      script.setAttribute('id', 'google-script');
-      script.setAttribute('src', `https://maps.googleapis.com/maps/api/js?key=AIzaSyDx2cLwlAG3muHMV9DVYY3l2PupoYCS-Mk&libraries=places&language=${this.props.language}`);
-      document.body.appendChild(script);
-    } 
-  }
-
   render() {
     let trip = this.state.trip
     let isValid = (this.state.trip.stops.includes(''))
@@ -130,7 +119,7 @@ export default class CurrentTrip extends Component {
         <form action='#' onSubmit={(e) => e.preventDefault()}>
           <div class='addresses'>
             { this.state.trip.stops.map((e, i) => {
-              return(<AddressInput setAddress = {this.setAddress.bind(this)} removeAddress = { this.removeAddress.bind(this) } language={this.props.language} index = {i} />)
+              return(<AddressInput setAddress = {this.setAddress} removeAddress = { this.removeAddress } favorite_addresses = {() => this.props.favorite_addresses} language={this.props.language} index = {i} />)
             })}
             <div>
               <Add width='32px' class='add-address' onClick={this.addAddress} disabled={isValid}/>
