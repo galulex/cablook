@@ -56,7 +56,7 @@ export default class FavoriteAddresses extends Component {
           { this.state.favorite_addresses.map((address, i) => {
             return(
               <li>
-                <span>{address.name } ({address.address})</span>
+                <span>{address.name} ({address.address})</span>
                 <button class='x-card' type='button' onClick={() => this.delete(address.id, i)}><Close fill='#a925ad'/></button>
               </li>
             )
@@ -70,20 +70,21 @@ export default class FavoriteAddresses extends Component {
 
   newForm = () => {
     return(
-      <form id="newFavoriteAddressForm">
+      <form id="newFavoriteAddressForm" onsubmit={(e) => e.preventDefault()}>
         <input required class="address" type="text" name="name" placeholder={i18n.profile_page.type_name} value={this.state.name} onChange={this.handleChange} />
         <AddressInput setAddress={this.setAddress} favorite_addresses={() => []} placeholder={i18n.profile_page.placeholder} />
-        <button class="button add_fav_address" type="reset" onClick={() => this.create(this.state.name, this.state.location, this.state.address)}>OK</button>
+        <button class="button add_fav_address" type="reset" onClick={() => this.create()}>OK</button>
+        <input type="submit" onClick={() => this.create()} hidden/>
       </form>
     )
   }
 
-  create = (name, location, address) => {
+  create = () => {
     let self = this;
     axios.post('/favorite_addresses', {
-      name: name,
-      location: location,
-      address: address
+      name: self.state.name,
+      location: self.state.location,
+      address: self.state.address
     })
     .then( response => {
       self.setState({
