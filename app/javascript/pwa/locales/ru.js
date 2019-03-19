@@ -145,7 +145,8 @@ const ru = {
     type_name: 'Введите название ',
     placeholder: 'Введите адрес или выберите место'
   },
-  choose_address: "Выберите адрес из списка"
+  choose_address: 'Выберите адрес из списка',
+  are_you_sure: 'Вы уверены?'
 }
 
 export default ru

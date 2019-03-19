@@ -100,7 +100,7 @@ export default class FavoriteAddresses extends Component {
   }
 
   delete = (id, index) => {
-    if (!confirm('Are you sure?')) return;
+    if (!confirm(i18n.are_you_sure)) return;
     let favorite_addresses = this.state.favorite_addresses
 
     axios.delete(`favorite_addresses/${id}`).then((address) => {

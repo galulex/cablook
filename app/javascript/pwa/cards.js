@@ -68,7 +68,7 @@ export default class Cards extends Component {
   }
 
   delete = (id, index) => {
-    if (!confirm('Are you sure?')) return;
+    if (!confirm(i18n.are_you_sure)) return;
     let cards = this.state.cards
 
     axios.delete(`cards/${id}`).then((card) => {

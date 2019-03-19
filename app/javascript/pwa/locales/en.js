@@ -145,7 +145,8 @@ const en = {
     type_name: 'Type name ',
     placeholder: 'Type address or choose a place'
   },
-  choose_address: "Choose address from a list"
+  choose_address: 'Choose address from a list',
+  are_you_sure: 'Are you sure?'
 }
 
 export default en
