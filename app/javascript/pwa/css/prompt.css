@@ -12,6 +12,7 @@ main div.prompt {
   max-width: 360px;
   margin: 0 auto;
   cursor: pointer;
+  z-index: 1000;
 }
 
 div.prompt:before {
