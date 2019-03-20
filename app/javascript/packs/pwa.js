@@ -42,8 +42,7 @@ export default class App extends Component {
     i18n.setLanguage(this.state.language)
     this.loadScript()
     if (this.state.currentUser) {
-      this.fetchFavoriteAddresses()
-      this.fetchCards()
+      this.fetchUser()
       this.fetchBonus()
       document.documentElement.style.setProperty('--body-bg', '#19a160')
     }
@@ -66,9 +65,10 @@ export default class App extends Component {
     document.body.className = ''
   }
 
-  fetchCards = () => {
-    axios.get('cards').then((res) => {
-      this.setState({cards: res.data.cards})
+  fetchUser = () => {
+    axios.get('user').then((res) => {
+      this.setState({cards: res.data.cards,
+        favorite_addresses: res.data.favorite_addresses})
     }).catch((error) => {
       if (error.response) alert(error.response.data.errors)
     })
@@ -82,14 +82,6 @@ export default class App extends Component {
     })
   }
 
-  fetchFavoriteAddresses = () => {
-    axios.get('favorite_addresses').then((res) => {
-      this.setState({favorite_addresses: res.data})
-    }).catch((error) => {
-      if (error.response) alert(error.response.data.errors)
-    })
-  }
-
   logIn = (data) => {
     this.setState({currentUser: data.auth_token})
     localStorage.setItem('token', data.auth_token)
@@ -97,8 +89,7 @@ export default class App extends Component {
     if (data.email !== undefined) localStorage.setItem('email', data.email)
     localStorage.setItem('phone', data.phone_number)
     axios.defaults.headers.common['Auth-Token'] = data.auth_token;
-    this.fetchCards()
-    this.fetchFavoriteAddresses()
+    this.fetchUser()
   }
 
   logOut = (e) => {
