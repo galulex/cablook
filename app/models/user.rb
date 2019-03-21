@@ -4,6 +4,7 @@ class User < ApplicationRecord
   has_and_belongs_to_many :businesses
   has_many :trips
   has_many :cards
+  has_many :all_cards, ->(user) { user_cards(user.id) }, class_name: 'Card'
   has_many :bonus_trips
   has_many :business_cards, through: :businesses, source: :card
   has_many :favorite_addresses
@@ -16,6 +17,11 @@ class User < ApplicationRecord
       .select('users.*')
       .select('MAX(cards.id) IS NOT NULL AS has_cards')
       .group(:id)
+  }
+
+  scope :fetch_user, ->(auth_token) {
+    eager_load(:favorite_addresses, :bonus_trips).where(auth_token: auth_token)
+    .as_json(only: %i(email phone), include: [all_cards: {except: :token}, favorite_addresses: {}, bonus_trips: {}])
   }
 
   def display_name

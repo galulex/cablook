@@ -66,7 +66,7 @@ export default class App extends Component {
 
   fetchUser = () => {
     axios.get('user').then((res) => {
-      this.setState({cards: res.data.cards,
+      this.setState({cards: res.data.all_cards,
         favorite_addresses: res.data.favorite_addresses,
         bonus_trips: res.data.bonus_trips,
         parent_bonus: res.data.parent_bonus})
