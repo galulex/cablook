@@ -43,7 +43,6 @@ export default class App extends Component {
     this.loadScript()
     if (this.state.currentUser) {
       this.fetchUser()
-      this.fetchBonus()
       document.documentElement.style.setProperty('--body-bg', '#19a160')
     }
     window.addEventListener('offline', this.offline)
@@ -68,15 +67,9 @@ export default class App extends Component {
   fetchUser = () => {
     axios.get('user').then((res) => {
       this.setState({cards: res.data.cards,
-        favorite_addresses: res.data.favorite_addresses})
-    }).catch((error) => {
-      if (error.response) alert(error.response.data.errors)
-    })
-  }
-
-  fetchBonus = () => {
-    axios.get('referrals').then((res) => {
-      this.setState({bonus_trips: res.data.bonus_trips, parent_bonus: res.data.parent_bonus})
+        favorite_addresses: res.data.favorite_addresses,
+        bonus_trips: res.data.bonus_trips,
+        parent_bonus: res.data.parent_bonus})
     }).catch((error) => {
       if (error.response) alert(error.response.data.errors)
     })
