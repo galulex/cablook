@@ -86,10 +86,12 @@ export default class Session extends Component {
   }
 
   createSession = (e) => {
+    let device = localStorage.getItem('device')
+    let fcm_token  = localStorage.getItem('fcm_token')
     e.preventDefault()
     if (!e.target.checkValidity) return;
     this.setState({disabled: true})
-    axios.post('session', { phone_number: this.state.number }).then((res) => {
+    axios.post('session', { phone_number: this.state.number, device: device, fcm_token: fcm_token }).then((res) => {
       this.setState({isCodeSent: true, disabled: false})
     }).catch((error) => {
       this.setState({disabled: false})
