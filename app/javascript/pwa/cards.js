@@ -41,7 +41,7 @@ export default class Cards extends Component {
       cardList = (
         <ul class='cards'>
           { this.state.cards.map((card, i) => {
-            return(
+            if (card.user_id === this.props.currentUserID()) return(
               <li>
                 { this.renderCardType(card.type) }
                 <span>{card.pan}</span>

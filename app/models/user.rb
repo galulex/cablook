@@ -6,6 +6,7 @@ class User < ApplicationRecord
   has_many :cards
   has_many :all_cards, ->(user) { user_cards(user.id) }, class_name: 'Card'
   has_many :bonus_trips
+  has_one  :parent_bonus, foreign_key: 'friend_id', class_name: 'BonusTrip'
   has_many :business_cards, through: :businesses, source: :card
   has_many :favorite_addresses
 
@@ -20,8 +21,7 @@ class User < ApplicationRecord
   }
 
   scope :fetch_user, ->(auth_token) {
-    eager_load(:favorite_addresses, :bonus_trips).where(auth_token: auth_token)
-    .as_json(only: %i(email phone), include: [all_cards: {except: :token}, favorite_addresses: {}, bonus_trips: {}])
+    eager_load(:favorite_addresses, :bonus_trips, :parent_bonus).where(auth_token: auth_token)
   }
 
   def display_name

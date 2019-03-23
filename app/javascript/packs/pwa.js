@@ -28,6 +28,7 @@ export default class App extends Component {
     super(props)
     this.state = {
       currentUser: localStorage.token,
+      currentUserID: '',
       drawer: false,
       cards: [],
       bonus_trips: [],
@@ -66,10 +67,12 @@ export default class App extends Component {
 
   fetchUser = () => {
     axios.get('user').then((res) => {
-      this.setState({cards: res.data.all_cards,
+      this.setState({cards: res.data.cards,
         favorite_addresses: res.data.favorite_addresses,
         bonus_trips: res.data.bonus_trips,
-        parent_bonus: res.data.parent_bonus})
+        parent_bonus: res.data.parent_bonus || [],
+        currentUserID: res.data.id
+      })
     }).catch((error) => {
       if (error.response) alert(error.response.data.errors)
     })
@@ -147,7 +150,7 @@ export default class App extends Component {
             <Home path='/' cards={() => this.state.cards} bonus_trips={() => this.state.bonus_trips} createCard={this.createCard} language={this.state.language} favorite_addresses={() => this.state.favorite_addresses} />
             <Trips path='/trips/:id?' />
             <Bonus path='/bonus_trips' bonus_trips={() => this.state.bonus_trips} parent_bonus={() => this.state.parent_bonus} />
-            <Cards path='/cards' cards={() => this.state.cards} create={this.createCard} />
+            <Cards path='/cards' cards={() => this.state.cards} create={this.createCard} currentUserID={() => this.state.currentUserID} />
             <Contacts path='/contacts' />
             <Statistics path='/statistics' />
             <Profile path='/profile' favorite_addresses={() => this.state.favorite_addresses} updateFavoriteAddresses={this.updateFavoriteAddresses} />
