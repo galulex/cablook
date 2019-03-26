@@ -98,6 +98,7 @@ export default class FavoriteAddresses extends Component {
       this.props.updateFavoriteAddresses([...this.state.favorite_addresses, response.data])
     })
     .catch( error => {
+      this.setState({ disabled: false })
       if (error.response) alert(error.response.data.errors)
     });
   }
