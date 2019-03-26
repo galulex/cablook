@@ -17,7 +17,7 @@ export default class FavoriteAddresses extends Component {
       location: null,
       user_id: null,
       address: '',
-      showSubmitButton: true
+      disabled: false
     }
   }
 
@@ -73,22 +73,16 @@ export default class FavoriteAddresses extends Component {
       <form id="newFavoriteAddressForm" onsubmit={(e) => e.preventDefault()}>
         <input required class="address" type="text" name="name" placeholder={i18n.profile_page.type_name} value={this.state.name} onChange={this.handleChange} />
         <AddressInput setAddress={this.setAddress} favorite_addresses={() => []} placeholder={i18n.profile_page.placeholder} />
-        { this.submitButton() }
+        <button class="button add_fav_address" type="button" disabled={this.state.disabled} onClick={this.create}>OK</button>
         <input type="submit" onClick={this.create} hidden/>
       </form>
     )
   }
 
-  submitButton = () => {
-    if (this.state.showSubmitButton) return(
-      <button class="button add_fav_address" type="button" onClick={this.create}>OK</button>
-    )
-  }
-
   create = (e) => {
-    this.setState({ showSubmitButton: false });
     let self = this;
     if (!e.target.form.checkValidity()) return e.target.form.reportValidity();
+    this.setState({ disabled: true });
     axios.post('/favorite_addresses', {
       name: self.state.name,
       location: self.state.location,
@@ -99,7 +93,7 @@ export default class FavoriteAddresses extends Component {
         showing: false,
         name: '',
         address: '',
-        showSubmitButton: true
+        disabled: false
       });
       this.props.updateFavoriteAddresses([...this.state.favorite_addresses, response.data])
     })
