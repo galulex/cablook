@@ -28,6 +28,7 @@ export default class App extends Component {
     super(props)
     this.state = {
       currentUser: localStorage.token,
+      currentUserID: '',
       drawer: false,
       cards: [],
       bonus_trips: [],
@@ -42,9 +43,7 @@ export default class App extends Component {
     i18n.setLanguage(this.state.language)
     this.loadScript()
     if (this.state.currentUser) {
-      this.fetchFavoriteAddresses()
-      this.fetchCards()
-      this.fetchBonus()
+      this.fetchUser()
       document.documentElement.style.setProperty('--body-bg', '#19a160')
     }
     window.addEventListener('offline', this.offline)
@@ -66,25 +65,14 @@ export default class App extends Component {
     document.body.className = ''
   }
 
-  fetchCards = () => {
-    axios.get('cards').then((res) => {
-      this.setState({cards: res.data.cards})
-    }).catch((error) => {
-      if (error.response) alert(error.response.data.errors)
-    })
-  }
-
-  fetchBonus = () => {
-    axios.get('referrals').then((res) => {
-      this.setState({bonus_trips: res.data.bonus_trips, parent_bonus: res.data.parent_bonus})
-    }).catch((error) => {
-      if (error.response) alert(error.response.data.errors)
-    })
-  }
-
-  fetchFavoriteAddresses = () => {
-    axios.get('favorite_addresses').then((res) => {
-      this.setState({favorite_addresses: res.data})
+  fetchUser = () => {
+    axios.get('user').then((res) => {
+      this.setState({cards: res.data.cards,
+        favorite_addresses: res.data.favorite_addresses,
+        bonus_trips: res.data.bonus_trips,
+        parent_bonus: res.data.parent_bonus || [],
+        currentUserID: res.data.id
+      })
     }).catch((error) => {
       if (error.response) alert(error.response.data.errors)
     })
@@ -97,8 +85,7 @@ export default class App extends Component {
     if (data.email !== undefined) localStorage.setItem('email', data.email)
     localStorage.setItem('phone', data.phone_number)
     axios.defaults.headers.common['Auth-Token'] = data.auth_token;
-    this.fetchCards()
-    this.fetchFavoriteAddresses()
+    this.fetchUser()
   }
 
   logOut = (e) => {
@@ -163,7 +150,7 @@ export default class App extends Component {
             <Home path='/' cards={() => this.state.cards} bonus_trips={() => this.state.bonus_trips} createCard={this.createCard} language={this.state.language} favorite_addresses={() => this.state.favorite_addresses} />
             <Trips path='/trips/:id?' />
             <Bonus path='/bonus_trips' bonus_trips={() => this.state.bonus_trips} parent_bonus={() => this.state.parent_bonus} />
-            <Cards path='/cards' cards={() => this.state.cards} create={this.createCard} />
+            <Cards path='/cards' cards={() => this.state.cards} create={this.createCard} currentUserID={() => this.state.currentUserID} />
             <Contacts path='/contacts' />
             <Statistics path='/statistics' />
             <Profile path='/profile' favorite_addresses={() => this.state.favorite_addresses} updateFavoriteAddresses={this.updateFavoriteAddresses} />

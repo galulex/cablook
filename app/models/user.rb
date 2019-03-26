@@ -5,6 +5,7 @@ class User < ApplicationRecord
   has_many :trips
   has_many :cards
   has_many :bonus_trips
+  has_one  :parent_bonus, foreign_key: 'friend_id', class_name: 'BonusTrip'
   has_many :business_cards, through: :businesses, source: :card
   has_many :favorite_addresses
 
@@ -16,6 +17,10 @@ class User < ApplicationRecord
       .select('users.*')
       .select('MAX(cards.id) IS NOT NULL AS has_cards')
       .group(:id)
+  }
+
+  scope :fetch_user, ->(auth_token) {
+    eager_load(:favorite_addresses, :bonus_trips, :parent_bonus).where(auth_token: auth_token)
   }
 
   def display_name
