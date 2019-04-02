@@ -112,7 +112,8 @@ export default class App extends Component {
 
     axios.post('cards', data).then((res) => {
       cards.push(res.data)
-      this.setState({cards: cards})
+      this.setState({cards: cards, drawer: false})
+      this.fetchUser()
     }).catch((error) => {
       if (error.response) alert(error.response.data.errors)
     })
