@@ -10,7 +10,7 @@ module Api
     # params: spec/fixtures/card_callback.json
     def create
       card = Events::Cards::Create.(params.merge(user_id: current_user.id, recToken: params[:recToken] || params[:orderReference]))
-      card ? (render json: Presenters::Cards::Single.new(card).to_json, status: 200) : (head :unprocessable_entity)
+      card ? (render json: card.to_json, status: 200) : (head :unprocessable_entity)
     end
 
     def destroy
