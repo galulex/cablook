@@ -1,6 +1,6 @@
 module Api
   class UsersController < ApiApplicationController
-    before_action :user
+    before_action :user, :prevent_page_caching
 
     def show
       response = user.as_json(only: %i(id email phone), include: %i(favorite_addresses bonus_trips parent_bonus))
@@ -13,6 +13,12 @@ module Api
     def user
       @user ||= User.fetch_user(auth_token)[0]
       @user ? @user : (raise Constants::NotFoundError)
+    end
+
+    def prevent_page_caching
+      response.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate'
+      response.headers['Pragma']        = 'no-cache'
+      response.headers['Expires']       = '0'
     end
   end
 end
