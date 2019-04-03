@@ -100,7 +100,7 @@ export default class App extends Component {
   }
 
   updateCards = (cards) => {
-    this.setState({cards: cards})
+    this.setState({cards: cards, drawer: false})
   }
 
   updateFavoriteAddresses = (favorite_addresses) => {
@@ -112,8 +112,7 @@ export default class App extends Component {
 
     axios.post('cards', data).then((res) => {
       cards.push(res.data)
-      this.setState({cards: cards, drawer: false})
-      this.fetchUser()
+      this.updateCards(cards)
     }).catch((error) => {
       if (error.response) alert(error.response.data.errors)
     })
