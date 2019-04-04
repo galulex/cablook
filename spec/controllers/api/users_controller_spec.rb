@@ -15,17 +15,11 @@ describe Api::UsersController, type: :controller do
       before { get :show, as: :json }
 
       it { is_expected.to have_http_status(200) }
-    end
-  end
-
-  describe '#prevent_page_caching' do
-    before { request.headers['Auth-Token'] = user.auth_token }
-    before { get :show, as: :json }
-
-    it 'requires to set http response headers' do
-      expect(response.headers['Cache-Control']).to match /no-cache, no-store/
-      expect(response.headers['Pragma']).to match /no-cache/
-      expect(response.headers['Expires']).to eq "0"
+      it 'has http response headers' do
+        expect(response.headers['Cache-Control']).to match /no-cache, no-store/
+        expect(response.headers['Pragma']).to match /no-cache/
+        expect(response.headers['Expires']).to eq "0"
+      end
     end
   end
 end
