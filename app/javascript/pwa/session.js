@@ -87,10 +87,10 @@ export default class Session extends Component {
 
   createSession = (e) => {
     let params = { phone_number: this.state.number }
-    let device = localStorage.getItem('device')
+    let platform = localStorage.getItem('device')
     let token  = localStorage.getItem('fcm_token')
     
-    if (device) params.webview_device = { device: device, token: token }
+    if (platform) params.device = { platform: platform, token: token }
 
     e.preventDefault()
     if (!e.target.checkValidity) return;

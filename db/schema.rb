@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_03_15_110256) do
+ActiveRecord::Schema.define(version: 2019_03_16_140147) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -118,6 +118,7 @@ ActiveRecord::Schema.define(version: 2019_03_15_110256) do
     t.integer "idle_price", default: 1
     t.integer "min_price", default: 4000
     t.float "coefficient", default: 1.0
+    t.integer "delivery", default: 1000
   end
 
   create_table "trips", force: :cascade do |t|
