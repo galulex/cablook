@@ -52,3 +52,7 @@ en:
       trip: 'Trip:'
       cost: 'Cost:'
       card: 'Card:'
+  notification:
+    car_not_found: No cars available right now.
+    will_arrive: '%{name} on %{car} will arrive at %{time}'
+    waiting: Driver is already waiting for you
