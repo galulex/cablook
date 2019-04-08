@@ -17,6 +17,7 @@ module Events
           update_trip
           broadcast_accepted_trip
           broadcast_accepted_trip_to_trip_channel
+          notify
         else
           broadcast_with_error
         end
@@ -93,6 +94,11 @@ module Events
       def car_trip_remaining_time
         expected_finish_time = ((car_trip.started_at || car_trip.start_at) + car_trip.duration)
         Time.now > expected_finish_time ? 0.minutes : ((expected_finish_time - Time.now) / 60).round.minutes
+      end
+
+      def notify
+        message = I18n.t('notification.will_arrive', name: driver.name, car: car.number, time: start_time.strftime('%H:%M'))
+        Jobs::Notification.perform_now(trip.user_id, message)
       end
 
       def car
