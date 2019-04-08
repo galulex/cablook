@@ -46,7 +46,7 @@ module Events
       end
 
       def notify
-        message = i18n.t('notification.car_not_found')
+        message = I18n.t('notification.car_not_found')
         Jobs::Notification.perform_now(trip.user_id, message)
       end
     end
