@@ -5,7 +5,8 @@ import MapboxLanguage from '@mapbox/mapbox-gl-language';
 
 import i18n from './i18n.js'
 import Back from './images/arrow-left.svg'
-import Pin from './images/pin'
+import Pin from './images/pin.svg'
+import './css/picker.css'
 
 mapboxgl.accessToken = 'pk.eyJ1IjoiZ2FsdWxleCIsImEiOiJjamx6ampoZjgyMnYxM3FvZ2ppNjV2M2x5In0.bPgk2WI9NT-DJwnE-OtiLA';
 
@@ -23,9 +24,10 @@ export default class MapPicker extends Component {
   componentDidMount() {
     const { lng, lat, zoom } = this.state;
 
+    let style = window.dark ? 'mapbox://styles/galulex/cju84cmu11atr1flfoxocwbq7' : 'mapbox://styles/mapbox/streets-v10';
     this.map = new mapboxgl.Map({
       container: this.mapContainer,
-      style: 'mapbox://styles/mapbox/streets-v10',
+      style: style,
       center: [lng, lat],
       zoom
     });
@@ -71,20 +73,7 @@ export default class MapPicker extends Component {
       right: "0",
       top: "54px",
       bottom: "0",
-      background: '#eae6e0'
-    };
-
-    const buttonStyle = {
-      background: "#19A160",
-      padding: "1rem",
-      width: "44%",
-      color: "white",
-      textAlign: "center",
-      position: "fixed",
-      bottom: "15px",
-      zIndex: "2",
-      marginLeft: "-22%",
-      left: "50%"
+      background: 'var(--map-bg)'
     };
 
     const pinStyle = {
@@ -106,7 +95,7 @@ export default class MapPicker extends Component {
           <button type='button' class='burger' onClick={() => window.history.back()}><Back fill='#132d50'/></button>
         </header>
         <div ref={el => this.mapContainer = el} style={style}  />
-        <Pin color={"#19A160"} fillColor={"#19A160"} style={pinStyle}/>
+        <Pin class='picker-pin'/>
         <button type='button' class='button fixed' onClick={this.props.onCloseMap([this.state.lng, this.state.lat])}>OK</button>
       </div>
     );

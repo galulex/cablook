@@ -37,11 +37,20 @@ export default class FavoriteAddresses extends Component {
     this.setState({ address: name, location: location });
   }
 
+  changeTheme = (e) => {
+    localStorage.setItem('dark', e.target.checked)
+    window.location.reload()
+  }
+
   render() {
     const { showing } = this.state;
     return (
       <section class='profile'>
         <header>{i18n.profile_page.header}</header>
+          <div class='nocall'>
+            <input id='dark' type='checkbox' value='dark' onChange={this.changeTheme} checked={window.dark}/>
+            <label for='dark'>{i18n.profile_page.theme}</label>
+          </div>
           <h4 class='center'>{i18n.profile_page.favorite_addresses}</h4>
           { this.favoriteAddressesList() }
           { showing ? this.newForm() : <button class='button add_fav_address' type='button' onClick={() => this.setState({ showing: !showing })}>+ {i18n.profile_page.add_address}</button> }

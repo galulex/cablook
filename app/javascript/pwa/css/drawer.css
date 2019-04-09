@@ -46,6 +46,7 @@ aside a {
   text-decoration: none;
   font-weight: 500;
   font-size: 15px;
+  color: var(--navi);
 }
 
 aside a:last-of-type {
@@ -77,11 +78,11 @@ aside a:nth-child(odd) svg path {
 
 aside div.nav-header {
   background :var(--green);
-  background: linear-gradient(to left, var(--green), var(--navy));
+  background: linear-gradient(to left, var(--green), #312d50);
   font-size: 24px;
   padding: 15px 0;
   text-align: center;
-  color: var(--white);
+  color: white;
   word-wrap: break-word;
 }
 
@@ -128,7 +129,7 @@ aside select {
   border: none;
   border-radius: 0;
   padding-right: 40px;
-  box-shadow: var(--focus-shadow);
+  box-shadow: var(--shadow);
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
@@ -143,10 +144,10 @@ aside select.uk {
 }
 
 aside select.ru {
-  background-image: linear-gradient(180deg, var(--white) 0, var(--white) 33%, var(--ru-flag-blue) 33%, var(--ru-flag-blue) 67%, var(--ru-flag-red) 67%, var(--ru-flag-red) 100%);
+  background-image: linear-gradient(180deg, white 0, white 33%, var(--ru-flag-blue) 33%, var(--ru-flag-blue) 67%, var(--ru-flag-red) 67%, var(--ru-flag-red) 100%);
 }
 
 aside select.en {
-  background: linear-gradient(90deg, transparent 46%, var(--en-flag-red) 46%, var(--en-flag-red) 56%, transparent 56%), linear-gradient(transparent 38%, var(--white) 38%, var(--white) 42%, var(--en-flag-red) 42%, var(--en-flag-red) 58%, var(--white) 58%, var(--white) 62%, transparent 62%), linear-gradient(90deg, transparent 44%, var(--white) 44%, var(--white) 46%, var(--en-flag-red) 46%, var(--en-flag-red) 56%, var(--white) 56%, var(--white) 58%, transparent 58%), linear-gradient(33deg, transparent 45%, var(--white) 45%, var(--white) 48%, var(--en-flag-red) 48%, var(--en-flag-red) 54%, var(--white) 54%, var(--white) 57%, transparent 57%), linear-gradient(-33deg, var(--en-flag-blue) 45%, var(--white) 45%, var(--white) 48%, var(--en-flag-red) 48%, var(--en-flag-red) 54%, var(--white) 54%, var(--white) 57%, var(--en-flag-blue) 57%);
+  background: linear-gradient(90deg, transparent 46%, var(--en-flag-red) 46%, var(--en-flag-red) 56%, transparent 56%), linear-gradient(transparent 38%, white 38%, white 42%, var(--en-flag-red) 42%, var(--en-flag-red) 58%, white 58%, white 62%, transparent 62%), linear-gradient(90deg, transparent 44%, white 44%, white 46%, var(--en-flag-red) 46%, var(--en-flag-red) 56%, white 56%, white 58%, transparent 58%), linear-gradient(33deg, transparent 45%, white 45%, white 48%, var(--en-flag-red) 48%, var(--en-flag-red) 54%, white 54%, white 57%, transparent 57%), linear-gradient(-33deg, var(--en-flag-blue) 45%, white 45%, white 48%, var(--en-flag-red) 48%, var(--en-flag-red) 54%, white 54%, white 57%, var(--en-flag-blue) 57%);
 }
 

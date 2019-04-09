@@ -25,7 +25,7 @@ address:before {
   position: absolute;
 }
 address:first-of-type:after {
-  border-color: black;
+  border-color: var(--navy);
 }
 address:last-of-type:after {
   border-color: #19a160;
@@ -34,7 +34,7 @@ address:last-of-type:before {
   height: 50%;
   width: 0;
   top: 0;
-  border: 1px solid var(--white);
+  border: 1px solid white;
   left: calc(1% - 25px);
   position: absolute;
 }
@@ -42,18 +42,19 @@ address:last-of-type {
   color: #19a160;
 }
 .trip-card {
-  background: #d3d3d3;
+  background: var(--grey);
   margin: 20px 10px;
   font-size: 17px;
   border-bottom: none;
   cursor: pointer;
+  border: 1px solid white;
 }
 .trip-card .address-block {
   padding: 10px;
   border-bottom: 1px solid #a7a5af;
 }
 .retry-message-block {
-  color: var(--white);
+  color: white;
   text-align: center;
   top: 60%;
   transform: translateY(-55%);
@@ -61,6 +62,7 @@ address:last-of-type {
   right: 0;
   width: 100%;
   font-size: 12px;
+  padding: 0 10px;
 }
 .trip-card p {
   font-style: italic;
@@ -101,7 +103,7 @@ address:last-of-type {
 }
 .trip-details img {
   width: 100%;
-  background: #E6E4E0;
+  background: var(--map-bg);
   height: 59vh;
   max-height: 100vw;
   object-fit: cover;
@@ -149,7 +151,7 @@ nav {
   width: 100%;
   position: fixed;
   height: 100%;
-  background: linear-gradient(to bottom, #D9D9DA, white);
+  background: linear-gradient(to bottom, var(--grey), var(--white));
   left: 0px;
   top: 0px;
   z-index: 10001;

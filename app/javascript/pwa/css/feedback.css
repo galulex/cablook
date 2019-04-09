@@ -66,8 +66,8 @@ section.feedback textarea {
   margin: 15px 0;
   padding: 10px;
   background: transparent;
-  border: 2px solid var(--white);
-  color: var(--white);
+  border: 2px solid white;
+  color: white;
   font-size: 1rem;
   font-weight: 100;
   resize: none;
@@ -78,14 +78,9 @@ section.feedback textarea {
   border-radius: 0;
 }
 
-section.feedback textarea::placeholder {
-  color: var(--white);
-  font-size: 16px;
-}
-
 section.feedback h4 {
   text-align: center;
-  color: var(--white);
+  color: white;
 }
 
 section.feedback .comment {

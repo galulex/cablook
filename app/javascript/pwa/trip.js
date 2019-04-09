@@ -33,13 +33,14 @@ export default class Trip extends Component {
 
   componentDidMount() {
     this.car = new mapboxgl.Marker(this.nissan)
+    window.car = this.car
     this.setWaypoints()
     const { lng, lat, zoom } = this.state;
     let geoJSON = polyline.decode(this.props.trip.path)
+    let style = window.dark ? 'mapbox://styles/galulex/cju84cmu11atr1flfoxocwbq7' : 'mapbox://styles/mapbox/streets-v10';
     this.map = new mapboxgl.Map({
       container: this.mapContainer,
-      // style: 'mapbox://styles/okunieva/cjrlxcvzu2osh2spcikwl1zhl',
-      style: 'mapbox://styles/mapbox/streets-v9',
+      style: style,
       center: this.state.departure,
       zoom
     });

@@ -85,7 +85,7 @@ fieldset.addresses.nth-of-type(3) + div {
 ul.predictions {
   margin: 0;
   padding: 0;
-  background: white;
+  background: var(--white);
   list-style: none;
   width: 100%;
   position: absolute;
@@ -97,7 +97,9 @@ ul.predictions {
   opacity: 0;
   max-height: 60vh;
   overflow-y: auto;
-  box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+  box-shadow: var(--shadow);
+  border: 1px solid #d1d1d1;
+  border-bottom: none;
 }
 
 li.prediction {
@@ -200,7 +202,7 @@ input[type='checkbox'] + label:after {
   margin: 10px 0px 12px 10px;
   vertical-align: middle;
   user-select: none;
-  box-shadow: 0 3px 6px rgba(0,0,0,0.16);
+  box-shadow: var(--shadow);
 }
 
 input[type='checkbox']:checked + label:after {
@@ -208,7 +210,7 @@ input[type='checkbox']:checked + label:after {
 }
 
 input[type='checkbox']:focus + label:after {
-  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+  box-shadow: var(--focus-shadow);
 }
 
 input[type='checkbox']:checked + label:before {

@@ -28,10 +28,6 @@ export default class CurrentTrip extends Component {
     }
   }
 
-  componentDidMount(){
-    window.history.replaceState(null, 'Search','/')
-  }
-
   setAddress = (text, coords, index) => {
     this.setState(state => {
       state.trip.waypoints[index] = coords;

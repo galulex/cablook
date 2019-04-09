@@ -2,6 +2,7 @@ import { h, render, Component } from 'preact';
 import { route } from 'preact-router';
 
 import Feedback from './feedback.js'
+import MapImg from './map_img.js'
 import TripPrice from './images/trip_price.svg'
 import TripStatus from './images/trip_status.svg'
 import TripTime from './images/trip_time.svg'
@@ -49,18 +50,6 @@ export default class TripCard extends Component {
   render() {
     const { trip } = this.props;
 
-    const departure = []
-    const destination = []
-    const waypoints = []
-    trip.departure.map((el, index) => departure[index] = el)
-    trip.destination.map((el, index) => destination[index] = el)
-    destination.reverse()
-    departure.reverse()
-    trip.waypoints.map((w, index) => {
-      waypoints[index] = w.split(',').reverse().join(',')
-    })
-    let mapURL = 'https://api.mapbox.com/styles/v1/mapbox/streets-v10/static/pin-s-s+188753(' + departure.join(',') + '),' + waypoints.map((w) => 'pin-s-w+facc1f(' + w + '),').join('') + 'pin-s-f+312d50('+  destination.join(',') + '),path-5+188753-0.8(' + encodeURIComponent(trip.path) + ')/auto/600x600?access_token=pk.eyJ1IjoidHVwaWNraXl2IiwiYSI6ImNqcmJ1YjJsNDE2eTEzeXM3dnc4NGljZDIifQ.N5aaBOWqp1mCTjlxXrWzOQ'
-
     return (
       <div class="trip-details">
         <button type='button' class='burger' onClick={(event) => window.history.back()}><Back fill='#132d50'/></button>
@@ -68,7 +57,7 @@ export default class TripCard extends Component {
           {i18n.trip.header}
         </header>
         <section>
-          <img src={mapURL}/>
+          <MapImg trip={() => this.props.trip} />
           <div class="buttons">
             <button type='button' class= 'button' onClick={this.repeatTrip}>{i18n.trips.repeat}</button>
             <button type='button' class= 'button' onClick={this.reverseTrip}>{i18n.trips.reverse}</button>

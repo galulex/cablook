@@ -25,7 +25,7 @@ label[for='code'] {
 main.number_input { position: relative; }
 
 main.login {
-  background: linear-gradient(to top, var(--green), 20%, var(--navy));
+  background: linear-gradient(to top, var(--green), 20%, #312d50);
 }
 
 main.login input {
@@ -60,9 +60,9 @@ main.login input::placeholder {
 
 main.login button.change { background: #efcc3a; }
 
-main.login svg.logo { 
+main.login svg.logo {
   max-width: 200px;
-  margin: 0 30%; 
+  margin: 0 30%;
 }
 
 main.login svg.phone {

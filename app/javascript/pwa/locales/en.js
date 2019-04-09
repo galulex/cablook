@@ -147,7 +147,8 @@ const en = {
     no_addresses: 'You have no addresses',
     add_address: 'Add Favorite Address',
     type_name: 'Type name ',
-    placeholder: 'Type address or choose a place'
+    placeholder: 'Type address or choose a place',
+    theme: 'Dark Theme'
   },
   choose_address: 'Choose address from a list',
   are_you_sure: 'Are you sure?'
