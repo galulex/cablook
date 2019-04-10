@@ -180,7 +180,7 @@ div.map {
 
 .trips div.map {
   height: 70vh;
-  background: #ECE0CA;
+  background: var(--map-bg);
 }
 
 .trips .pins {
