@@ -69,7 +69,9 @@ address:last-of-type {
   margin: 0 auto;
   padding: 7px 20px;
   font-size: 12px;
-  cursor: pointer;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
 }
 .trips {
   padding: 54px 0 0;
@@ -247,7 +249,6 @@ div.map {
   margin: 0 2px;
   width: 10px;
   height: 10px;
-  float: right;
 }
 
 .trip-card .trip-card-star path{

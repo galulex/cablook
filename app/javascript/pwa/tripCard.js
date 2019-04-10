@@ -21,7 +21,7 @@ export default class TripCard extends Component {
   showRate = () => {
     if (this.props.trip.feedbacks.length >= 1) {
       return(Array(this.props.trip.feedbacks[0].rate).fill(<Star class='trip-card-star'/>))
-    } 
+    }
   }
 
   render() {
@@ -32,7 +32,10 @@ export default class TripCard extends Component {
           <address>{trip.departure_address}</address>
           <address>{trip.destination_address}</address>
         </div>
-        <p>{[`${trip.cost} ${i18n.trip.currency}`, trip.formatted_date, i18n.trips.statuses[trip.status]].join(", ")} { this.showRate() }</p>
+        <p>
+          <span>{[`${trip.cost} ${i18n.trip.currency}`, trip.formatted_date, i18n.trips.statuses[trip.status]].join(", ")}</span>
+          <span>{ this.showRate() }</span>
+        </p>
         {this.state.showDetails && <Details trip={trip} showDetails={this.showDetails}/>}
       </li>
     );

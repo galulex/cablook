@@ -80,7 +80,7 @@ export default class Trip extends Component {
         },
         paint: {
           'line-width': 4,
-          'line-color': '#19a169',
+          'line-color': window.getComputedStyle(document.documentElement).getPropertyValue('--path-color').slice(1),
           'line-opacity': 1
         }
       });
