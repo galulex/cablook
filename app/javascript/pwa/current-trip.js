@@ -20,13 +20,30 @@ export default class CurrentTrip extends Component {
         no_call: false,
         entrance: null,
         time: null,
-        osrm: true
+        osrm: true,
+        comment: ''
       },
-      comment: null,
       submitDisabled: false,
       entrance: Array.from({length: 15}, (v, k) => `${k + 1} ${i18n.current_trip.entrance}`)
     }
   }
+
+  componentDidMount() {
+    if (this.props.trip !== null) {
+      this.setState({trip: this.props.trip})
+      this.setPoints(this.state.trip)
+    }
+  }
+
+  setPoints = (address) => {
+    let trip = this.state.trip
+    trip.stops.unshift(address.departure_address)
+    trip.stops.push(address.destination_address)
+    trip.waypoints.unshift(address.departure.join())
+    trip.waypoints.push(address.destination.join())
+    this.updateTrip(trip)
+  }
+
 
   setAddress = (text, coords, index) => {
     this.setState(state => {
@@ -65,7 +82,6 @@ export default class CurrentTrip extends Component {
   setComment = (e) => {
     let state = this.state
     state.trip.comment = e.target.value
-    state.comment = e.target.value
     this.setState(state);
   }
 
@@ -90,7 +106,6 @@ export default class CurrentTrip extends Component {
     this.submitDisabled(true)
     params.waypoints = params.waypoints.slice(1, -1)
     params.stops = params.stops.slice(1, -1)
-
     axios.post('trips/new', {trip: params}).then((res) => {
       this.props.updateTrip(res.data)
     }).catch((error) => {
@@ -115,7 +130,7 @@ export default class CurrentTrip extends Component {
         <form action='#' onSubmit={(e) => e.preventDefault()}>
           <div class='addresses'>
             { this.state.trip.stops.map((e, i) => {
-              return(<AddressInput setAddress = {this.setAddress} removeAddress = { this.removeAddress } favorite_addresses = {() => this.props.favorite_addresses} language={this.props.language} index = {i} />)
+              return(<AddressInput setAddress = {this.setAddress} removeAddress = { this.removeAddress } favorite_addresses = {() => this.props.favorite_addresses} language={this.props.language} coords = {this.state.trip.waypoints[i]} address = {e} index = {i} />)
             })}
             <div>
               <Add width='32px' class='add-address' onClick={this.addAddress} disabled={isValid}/>
@@ -141,7 +156,7 @@ export default class CurrentTrip extends Component {
             <span>{i18n.current_trip.when}</span>
             <input id='time' type='time' step='60' title='HH:MM' pattern='([01]?[0-9]|2[0-3]):[0-5][0-9]' value={this.state.trip.time} placeholder='Now' onChange={this.setOrderTime}/>
           </label>
-          <input type='text' class='comment' value={this.state.comment} placeholder={i18n.current_trip.comment} onChange={this.setComment}/>
+          <input type='text' class='comment' value={this.state.trip.comment} placeholder={i18n.current_trip.comment} onChange={this.setComment}/>
           <input type='submit' disabled={this.state.submitDisabled} class='button' onClick={this.build} value='OK'/>
         </form>
       </section>

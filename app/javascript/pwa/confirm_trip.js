@@ -9,6 +9,7 @@ import TripPrice from './images/trip_price.svg'
 import Pin from './images/pin.svg'
 import Back from './images/arrow-left.svg'
 import SearchLogo from './images/search_logo.svg'
+import CurrentTrip from "./home";
 
 export default class ConfirmTrip extends Component {
   constructor(props) {
@@ -57,7 +58,7 @@ export default class ConfirmTrip extends Component {
           return;
         }
         this.retryPendingPayment()
-      } 
+      }
     })
   }
 
@@ -89,7 +90,7 @@ export default class ConfirmTrip extends Component {
     return (
       <div class='confirm-container'>
         {this.retryLoader()}
-        <button type='button' id='arrow' class='burger' onClick={() => window.history.back()}><Back fill='#132d50'/></button>
+        <button type='button' id='arrow' class='burger' onClick={() => this.props.redirectBack() }><Back fill='#132d50'/></button>
         <header>{i18n.confirm_trip.header}</header>
         <section class='confirm-trip'>
           <div class='details'>
