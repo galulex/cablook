@@ -1,6 +1,7 @@
 describe Operations::Wayforpay::FakeSettle do
   let(:instance) { described_class.new(trip.id) }
   let(:wayforpay_body) { { reasonCode: Constants::Payments::WAYFORPAY_SUCCESS }.to_json }
+  let!(:price) { Price.create }
 
   before { allow(Wayforpay::Payments).to receive(:hold) { OpenStruct.new(body: wayforpay_body) } }
 

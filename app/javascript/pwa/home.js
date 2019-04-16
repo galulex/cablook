@@ -100,6 +100,7 @@ export default class Home extends Component {
     let trip = this.state.trip
     trip.status = 4
     this.updateTrip(trip)
+    this.props.fetchUser()
   }
 
   waiting_client = () => {
@@ -124,6 +125,7 @@ export default class Home extends Component {
     }
     axios.patch(`trips/${this.state.trip.id}/cancel`).then((res) => {
       this.updateTrip(null)
+      this.props.fetchUser()
     }).catch((error) => {
       if (error.response) alert(error.response.data.errors)
     })

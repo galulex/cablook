@@ -5,6 +5,7 @@ describe Operations::Wayforpay::IdleSettle do
   let(:card) { create(:card, user_id: user.id) }
   let(:wayforpay_body) { { reasonCode: Constants::Payments::WAYFORPAY_SUCCESS }.to_json }
   let(:idle) { 12.minutes.to_i }
+  let!(:price) { Price.create }
 
   before { allow(Wayforpay::Payments).to receive(:hold) { OpenStruct.new(body: wayforpay_body) } }
 

@@ -1,4 +1,6 @@
 describe Events::Trips::Build do
+  let!(:price) { Price.create }
+
   describe '.call' do
     subject { -> { described_class.call(data) } }
 
