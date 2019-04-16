@@ -47,7 +47,7 @@ module Events
 
       def notify
         message = I18n.t('notification.car_not_found')
-        Jobs::Notification.perform_now(trip.user_id, message)
+        Jobs::Notification.perform_later(trip.user_id, message)
       end
     end
   end

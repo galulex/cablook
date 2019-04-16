@@ -78,9 +78,12 @@ module Events
       end
 
       def start_time
-        return if trip.preorder?
-        start_at = matrix.duration.seconds.since + 2.minutes
-        car_trip ? (start_at + car_trip_remaining_time) : start_at
+        return trip.start_at if trip.preorder?
+        @start_time ||= car_trip ? (start_at + car_trip_remaining_time) : start_at
+      end
+
+      def start_at
+        @start_at ||= matrix.duration.seconds.since + 2.minutes
       end
 
       def start_point
@@ -98,7 +101,7 @@ module Events
 
       def notify
         message = I18n.t('notification.will_arrive', name: driver.name, car: car.number, time: start_time.strftime('%H:%M'))
-        Jobs::Notification.perform_now(trip.user_id, message)
+        Jobs::Notification.perform_later(trip.user_id, message)
       end
 
       def car

@@ -39,7 +39,7 @@ module Events
 
       def notify
         message = I18n.t('notification.waiting')
-        Jobs::Notification.perform_now(trip.user_id, message)
+        Jobs::Notification.perform_later(trip.user_id, message)
       end
 
       def trip_channel
