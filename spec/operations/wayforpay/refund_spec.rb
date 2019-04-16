@@ -1,6 +1,7 @@
 describe Operations::Wayforpay::Refund do
   let(:instance) { described_class.new(payment.id) }
   let(:wayforpay_body) { { reasonCode: 1100 }.to_json }
+  let!(:price) { Price.create }
 
   before { allow(Wayforpay::Payments).to receive(:refund) { OpenStruct.new(body: wayforpay_body) } }
 

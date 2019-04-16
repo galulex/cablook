@@ -1,6 +1,7 @@
 describe Operations::V2TripCalculation do
   let(:trip) { create(:trip, departure: ['49.43505769999999', '32.01106010000001'], destination: ['49.443102', '32.063407'], distance: 10_000) }
   let(:instance) { described_class.new(trip) }
+  let!(:price) { Price.create }
 
   describe '#cost' do
 

@@ -6,6 +6,7 @@ describe Events::Trips::Create do
     let(:data) { trip_params }
     let(:user) { create(:user) }
     let!(:card) { create(:card, user_id: user.id) }
+    let!(:price) { Price.create }
 
     it { is_expected.to change { Trip.count }.by(+1) }
 

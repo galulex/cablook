@@ -9,6 +9,9 @@ require 'simplecov'
 require 'webmock/rspec'
 require 'rspec/retry'
 require 'support/factory_bot'
+require 'capybara/cuprite'
+
+
 Dir[
   Rails.root.join('spec/support/**/*.rb'),
   Rails.root.join('lib/constants.rb'),
@@ -17,24 +20,7 @@ Dir[
 
 SimpleCov.start 'rails'
 
-Capybara.javascript_driver = :selenium_chrome
-
-Capybara.register_driver :selenium_chrome do |app|
-  capabilities = Selenium::WebDriver::Remote::Capabilities.chrome(
-    chromeOptions: { args: %w(headless disable-gpu) }
-  )
-
-  Capybara::Selenium::Driver.new(
-    app,
-    browser: :chrome,
-    desired_capabilities: capabilities
-  )
-end
-
-Capybara.configure do |config|
-  config.default_max_wait_time = 10
-  config.default_driver        = :selenium
-end
+Capybara.javascript_driver = :cuprite
 
 RSpec.configure do |config|
   config.verbose_retry = true
@@ -55,19 +41,12 @@ RSpec.configure do |config|
   config.use_transactional_fixtures = false
 
   config.before(:suite) do
-    DatabaseCleaner.strategy = :transaction
     DatabaseCleaner.clean_with(:truncation)
-  end
-
-  config.before(:each, type: :feature) do
-    WebMock.disable_net_connect! allow_localhost: true
-    Capybara.current_session.driver.browser.manage.window.resize_to(960, 640)
   end
 
   config.before(:each) do
     DatabaseCleaner.strategy = :transaction
-    DatabaseCleaner.start
-
+    WebMock.disable_net_connect! allow_localhost: true
     body = File.read('spec/fixtures/maps/success_directions')
     body_mapbox = File.read('spec/fixtures/maps/mapbox_success_directions')
     stub_request(:get, %r{https://maps.googleapis.com/maps/api/directions/.*})
@@ -76,10 +55,30 @@ RSpec.configure do |config|
       .to_return(status: 200, headers: { 'Content-Type' => 'application/json' }, body: body_mapbox)
   end
 
+  config.before(:each, type: :feature) do
+    # :rack_test driver's Rack app under test shares database connection
+    # with the specs, so continue to use transaction strategy for speed.
+    driver_shares_db_connection_with_specs = Capybara.current_driver == :rack_test
+
+    unless driver_shares_db_connection_with_specs
+      # Driver is probably for an external browser with an app
+      # under test that does *not* share a database connection with the
+      # specs, so use truncation strategy.
+      DatabaseCleaner.strategy = :truncation
+    end
+  end
+
+  config.before(:each) do
+    DatabaseCleaner.start
+  end
+
   config.append_after(:each) do
     DatabaseCleaner.clean
   end
 
   # Dir[Rails.root.join('spec/factories/**/*.rb')].each { |f| require f }
   ActiveJob::Base.queue_adapter = :test
+  Capybara.default_host = "http://app.lvh.me"
+  Capybara.server_port = 9887
+  Capybara.app_host = "http://app.lvh.me:#{Capybara.server_port}"
 end
