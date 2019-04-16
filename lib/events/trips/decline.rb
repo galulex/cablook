@@ -16,6 +16,7 @@ module Events
         refund_bonus
         broadcast
         broadcast_to_trip_channel
+        notify
       end
 
       private
@@ -42,6 +43,11 @@ module Events
       def refund_bonus
         bonus_trip = BonusTrip.find_by(trip_id: trip.id)
         bonus_trip&.update(status: Constants::BonusTrip::NEW)
+      end
+
+      def notify
+        message = I18n.t('notification.car_not_found')
+        Jobs::Notification.perform_later(trip.user_id, message)
       end
     end
   end

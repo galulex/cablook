@@ -60,3 +60,7 @@ ru:
       trip: 'Поездка:'
       cost: 'Стоимость:'
       card: 'Счет:'
+  notification:
+    car_not_found: К сожалению машинка не найдена.
+    will_arrive: '%{name} на %{car} приедет в %{time}'
+    waiting: Водитель уже ожидает вас.

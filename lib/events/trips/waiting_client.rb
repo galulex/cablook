@@ -12,6 +12,7 @@ module Events
       def run
         update_trip
         broadcast
+        notify
       end
 
       private
@@ -34,6 +35,11 @@ module Events
           action: Constants::BroadcastActions::TRIP_WAITING_ACTION,
           body: { action: Constants::BroadcastActions::TRIP_WAITING }
         )
+      end
+
+      def notify
+        message = I18n.t('notification.waiting')
+        Jobs::Notification.perform_later(trip.user_id, message)
       end
 
       def trip_channel
