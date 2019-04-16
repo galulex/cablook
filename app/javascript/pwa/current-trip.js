@@ -41,6 +41,7 @@ export default class CurrentTrip extends Component {
     trip.stops.push(address.destination_address)
     trip.waypoints.unshift(address.departure.join())
     trip.waypoints.push(address.destination.join())
+    trip.osrm = true
     this.updateTrip(trip)
   }
 

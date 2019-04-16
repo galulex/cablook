@@ -78,7 +78,7 @@ export default class TripCard extends Component {
 
   repeatTrip = () => {
     const { trip } = this.props
-    trip.status = 0
+    trip.status = null
     trip.id = null
     delete trip.formatted_date
     localStorage.setItem('trip', JSON.stringify(trip))
