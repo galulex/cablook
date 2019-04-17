@@ -13,7 +13,7 @@ export default class AddressInput extends Component {
     super(props);
     this.state = {
       predictions: [],
-      address: '',
+      address: props.address || '',
       isValid: false,
       isShowMap: false,
       geocoded: false,
@@ -22,16 +22,11 @@ export default class AddressInput extends Component {
   }
 
   componentDidMount() {
-    this.input.setCustomValidity(i18n.choose_address);
-    if (this.props.address !== '') {
-      this.setExistedAddress()
-    }
+    if (!this.state.address) this.input.setCustomValidity(i18n.choose_address);
   }
 
-
-  setExistedAddress = () => {
-    this.setState({address: this.props.address})
-    this.input.setCustomValidity('')
+  componentWillReceiveProps(nextProps) {
+    this.setState({address: nextProps.address})
   }
 
   favoriteAddressesPredictions = () => {

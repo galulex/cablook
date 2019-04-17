@@ -21,10 +21,10 @@ export default class CurrentTrip extends Component {
       let trip = {...this.props.trip}
       trip.stops.unshift(trip.departure_address)
       trip.stops.push(trip.destination_address)
-      trip.waypoints.unshift(trip.departure.join())
-      trip.waypoints.push(trip.destination.join())
       trip.departure = trip.departure.join()
       trip.destination = trip.destination.join()
+      trip.waypoints.unshift(trip.departure)
+      trip.waypoints.push(trip.destination)
       trip.osrm = true
       return trip
     } else {
@@ -113,14 +113,10 @@ export default class CurrentTrip extends Component {
   }
 
   submitDisabled = val => {
-    this.setState(state => {
-      state.submitDisabled = val
-      return state
-    })
+    this.setState({ submitDisabled: val })
   }
 
   render() {
-    let trip = this.state.trip
     let isValid = (this.state.trip.stops.includes(''))
     return(
       <section class="home">
@@ -128,7 +124,17 @@ export default class CurrentTrip extends Component {
         <form action='#' onSubmit={(e) => e.preventDefault()}>
           <div class='addresses'>
             { this.state.trip.stops.map((e, i) => {
-              return(<AddressInput setAddress = {this.setAddress} removeAddress = { this.removeAddress } favorite_addresses = {() => this.props.favorite_addresses} language={this.props.language} coords = {this.state.trip.waypoints[i]} address = {e} index = {i} />)
+              return (
+                <AddressInput
+                  setAddress={this.setAddress}
+                  removeAddress={this.removeAddress}
+                  favorite_addresses={() => this.props.favorite_addresses}
+                  language={this.props.language}
+                  coords={this.state.trip.waypoints[i]}
+                  address={e}
+                  index={i}
+                />
+              )
             })}
             <div>
               <Add width='32px' class='add-address' onClick={this.addAddress} disabled={isValid}/>
