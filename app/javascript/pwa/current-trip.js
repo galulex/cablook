@@ -10,9 +10,26 @@ export default class CurrentTrip extends Component {
   constructor(props){
     super(props)
     this.state = {
-      trip: {
-        waypoints: [],
-        stops: ['', ''],
+      trip: this.getTrip(),
+      submitDisabled: false,
+      entrance: Array.from({length: 15}, (v, k) => `${k + 1} ${i18n.current_trip.entrance}`)
+    }
+  }
+
+  getTrip = () => {
+    if (this.props.trip !== null) {
+      let trip = {...this.props.trip}
+      trip.stops.unshift(trip.departure_address)
+      trip.stops.push(trip.destination_address)
+      trip.waypoints.unshift(trip.departure.join())
+      trip.waypoints.push(trip.destination.join())
+      trip.departure = trip.departure.join()
+      trip.destination = trip.destination.join()
+      trip.osrm = true
+      return trip
+    } else {
+      return { waypoints: [],
+        stops: ['',''],
         departure: '',
         destination: '',
         departure_address: '',
@@ -21,29 +38,8 @@ export default class CurrentTrip extends Component {
         entrance: null,
         time: null,
         osrm: true,
-        comment: ''
-      },
-      submitDisabled: false,
-      entrance: Array.from({length: 15}, (v, k) => `${k + 1} ${i18n.current_trip.entrance}`)
+        comment: '' }
     }
-  }
-
-  componentDidMount() {
-    if (this.props.trip !== null) {
-      this.setPoints()
-    }
-  }
-
-  setPoints = () => {
-    let trip = {...this.props.trip}
-    trip.stops.unshift(trip.departure_address)
-    trip.stops.push(trip.destination_address)
-    trip.waypoints.unshift(trip.departure.join())
-    trip.waypoints.push(trip.destination.join())
-    trip.departure = trip.departure.join()
-    trip.destination = trip.destination.join()
-    trip.osrm = true
-    this.setState({trip: trip})
   }
 
 
