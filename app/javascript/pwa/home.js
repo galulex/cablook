@@ -155,6 +155,11 @@ export default class Home extends Component {
     this.updateTrip(trip)
   }
 
+  handleFeedbackBack = (event) => {
+    event.stopPropagation()
+    this.updateTrip(null)
+  }
+
   acceptData = () => {
     let data = {icon: '/icon_128x128.png',
                 data: {id: this.state.trip.id, token: localStorage.token},
@@ -186,7 +191,7 @@ export default class Home extends Component {
     if (this.state.trip && this.state.trip.id && [0].includes(this.state.trip.status)) return(<FindDriver trip={this.state.trip} updateTrip={this.updateTrip} TripDeclined={this.TripDeclined} subscribe={this.subscribe} cancel={this.cancel}/>)
     if (this.state.trip && this.state.trip.id && [6].includes(this.state.trip.status)) return(<RetryTrip trip={this.state.trip} retry={this.retry} cancel={this.cancel}/>)
     if (this.state.trip && [1,2,3].includes(this.state.trip.status)) return(<Trip trip={this.state.trip} updateTrip={this.updateTrip} cancel={this.cancel} location={this.state.car_location} language={this.props.language}/>)
-    if (this.state.trip && this.state.trip.status == 4) return(<Feedback trip={this.state.trip} updateTrip={this.updateTrip} handleBack={this.handleBack} />)
+    if (this.state.trip && this.state.trip.status == 4) return(<Feedback trip={this.state.trip} updateTrip={this.updateTrip} handleBack={this.handleFeedbackBack} />)
     return(<Trip updateTrip={this.updateTrip}/>)
   }
 }
