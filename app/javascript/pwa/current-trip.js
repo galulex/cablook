@@ -30,19 +30,20 @@ export default class CurrentTrip extends Component {
 
   componentDidMount() {
     if (this.props.trip !== null) {
-      this.setState({trip: this.props.trip})
-      this.setPoints(this.state.trip)
+      this.setPoints()
     }
   }
 
-  setPoints = (address) => {
-    let trip = this.state.trip
-    trip.stops.unshift(address.departure_address)
-    trip.stops.push(address.destination_address)
-    trip.waypoints.unshift(address.departure.join())
-    trip.waypoints.push(address.destination.join())
+  setPoints = () => {
+    let trip = {...this.props.trip}
+    trip.stops.unshift(trip.departure_address)
+    trip.stops.push(trip.destination_address)
+    trip.waypoints.unshift(trip.departure.join())
+    trip.waypoints.push(trip.destination.join())
+    trip.departure = trip.departure.join()
+    trip.destination = trip.destination.join()
     trip.osrm = true
-    this.updateTrip(trip)
+    this.setState({trip: trip})
   }
 
 
