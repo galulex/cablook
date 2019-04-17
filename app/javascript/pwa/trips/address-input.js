@@ -23,19 +23,15 @@ export default class AddressInput extends Component {
 
   componentDidMount() {
     this.input.setCustomValidity(i18n.choose_address);
-    this.setExistedAddress()
-  }
-
-  componentDidUpdate() {
-    if (!this.state.isValid && this.props.address) {
+    if (this.props.address !== '') {
       this.setExistedAddress()
-      this.setState({isValid: true})
-      this.input.setCustomValidity('')
     }
   }
 
+
   setExistedAddress = () => {
     this.setState({address: this.props.address})
+    this.input.setCustomValidity('')
   }
 
   favoriteAddressesPredictions = () => {
