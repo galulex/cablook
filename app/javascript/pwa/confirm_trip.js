@@ -57,7 +57,7 @@ export default class ConfirmTrip extends Component {
           return;
         }
         this.retryPendingPayment()
-      } 
+      }
     })
   }
 
