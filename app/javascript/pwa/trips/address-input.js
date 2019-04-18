@@ -22,6 +22,7 @@ export default class AddressInput extends Component {
   }
 
   componentDidMount() {
+    this.input.setCustomValidity('')
     if (!this.state.address) this.input.setCustomValidity(i18n.choose_address);
   }
 
