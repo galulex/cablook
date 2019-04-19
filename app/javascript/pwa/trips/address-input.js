@@ -22,11 +22,11 @@ export default class AddressInput extends Component {
   }
 
   componentDidMount() {
-    if (!this.state.address) this.input.setCustomValidity(i18n.choose_address);
+    this.input.setCustomValidity(this.state.address ? '' : i18n.choose_address)
   }
 
   componentWillReceiveProps(nextProps) {
-    this.setState({address: nextProps.address})
+    if (nextProps.address) this.setState({address: nextProps.address})
   }
 
   favoriteAddressesPredictions = () => {
