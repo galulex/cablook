@@ -26,7 +26,7 @@ export default class AddressInput extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    this.setState({address: nextProps.address})
+    if (nextProps.address) this.setState({address: nextProps.address})
   }
 
   favoriteAddressesPredictions = () => {
