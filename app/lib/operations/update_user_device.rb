@@ -20,7 +20,7 @@ module Operations
     private
 
     def find_or_create_device
-      @device = Device.find_by(user_id: user_id) || Device.create(user_id: user_id, token: token, platform: platform)
+      @device = Device.find_by(user_id: user_id, platform: platform) || Device.create(user_id: user_id, token: token, platform: platform)
     end
 
     def update_device

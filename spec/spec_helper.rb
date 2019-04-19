@@ -9,7 +9,7 @@ require 'simplecov'
 require 'webmock/rspec'
 require 'rspec/retry'
 require 'support/factory_bot'
-require 'capybara/cuprite'
+require 'capybara/poltergeist'
 
 
 Dir[
@@ -20,13 +20,13 @@ Dir[
 
 SimpleCov.start 'rails'
 
-Capybara.javascript_driver = :cuprite
+Capybara.javascript_driver = :poltergeist
 
 RSpec.configure do |config|
   config.verbose_retry = true
 
   config.around :each, :js do |ex|
-    ex.run_with_retry retry: 3
+    ex.run_with_retry retry: 4
   end
 
   config.expect_with :rspec do |expectations|

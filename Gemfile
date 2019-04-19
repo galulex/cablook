@@ -17,6 +17,7 @@ gem 'arctic_admin'
 gem 'autoprefixer-rails'
 gem 'bcrypt', '~> 3.1.7'
 gem 'dry-validation'
+gem 'fcm'
 gem 'geokit'
 gem 'inline_svg'
 gem 'jquery-rails'
@@ -49,10 +50,11 @@ end
 
 group :test do
   gem 'capybara'
-  gem 'cuprite'
   gem 'database_cleaner'
   gem 'factory_bot_rails', '~> 4.0'
   gem 'faker'
+  gem 'phantomjs'
+  gem 'poltergeist'
   gem 'rspec-rails'
   gem 'rspec-retry'
   gem 'simplecov', require: false

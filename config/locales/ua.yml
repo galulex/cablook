@@ -59,3 +59,7 @@ uk:
       trip: 'Поїздка:'
       cost: 'Вартість:'
       card: 'Картка:'
+  notification:
+    car_not_found: На жаль машинку не знайдено.
+    will_arrive: '%{name} на %{car} приїде в %{time}'
+    waiting: Водій вже чекає вас.
