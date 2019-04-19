@@ -203,13 +203,14 @@ en:
       pay_off_debt:
         text: Pay off debt for previous trips, please
     unpaid_trips:
-      text: You have unpaid trips. Try to pay now?
+      text: You have unpaid trips.
       reply_markup:
         keyboard:
           -
-            - text: "\U0001F44D YES"
-            - text: "\U0001F44E NO"
+            - text: "\U0001F44D PAY"
         one_time_keyboard: true
         resize_keyboard: true
-    no_trip_payment:
-      text: Unfortunately, the order is possible only after payment of the debt.
+    successful_payment:
+      text: The payment is successfully completed.
+    payment_declined:
+      text: The payment was declined.

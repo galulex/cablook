@@ -146,7 +146,7 @@ uk:
         one_time_keyboard: true
         resize_keyboard: true
     comment_confirmation:
-      text: 'Бажаєте залишити відгук?'
+      text: 'Бажаєте залишити коментар?'
       reply_markup:
         keyboard:
           -
@@ -155,13 +155,13 @@ uk:
         one_time_keyboard: true
         resize_keyboard: true
     comment:
-      text: Ваш відгук
+      text: Ваш коментар
     incorrect_address:
       text: Неправильна адреса
     looking_for_car:
       text: Дозвольте мені знайти машину для вас. Це може зайняти до однієї хвилини
     accept:
-      text: "Водія знайдено. Ім'я: %{}, номер телефону: %{phone_number}."
+      text: "Водія знайдено. Ім'я: %{name}, номер телефону: %{phone_number}."
     waiting_client:
       text: Водій чекає вас.
       reply_markup:
@@ -207,13 +207,14 @@ uk:
         remove_reply_keyboard:
           remove_keyboard: true
     unpaid_trips:
-      text: У вас є несплачені поїздки. Спробувати оплатати зараз?
+      text: У вас є несплачені поїздки.
       reply_markup:
         keyboard:
           -
-            - text: "\U0001F44D ТАК"
-            - text: "\U0001F44E НI"
+            - text: "\U0001F44D ОПЛАТИТИ"
         one_time_keyboard: true
         resize_keyboard: true
-    no_trip_payment:
-      text: На жаль, заказ можлвий лише пiсля оплати боргу.
+    successful_payment:
+      text: Платіж успішно завершено.
+    payment_declined:
+      text: Платіж було відхилено.

@@ -1,0 +1,122 @@
+doctype 5
+html lang="#{I18n.locale}"
+  head
+    meta http-equiv='Content-type' content='text/html; charset=utf-8'
+    meta name='viewport' content='initial-scale=1, maximum-scale=5'
+    link rel='manifest' href='/manifest.json' crossorigin="use-credentials"
+    meta name='theme-color' content='#19a160'
+    = csrf_meta_tags
+    = render 'shared/favicon_links'
+    javascript:
+      window._TOKEN = "#{ENV['WAYFORPAY_SECRET']}"
+      window._MERCHANT = "#{ENV['WAYFORPAY_MERCHANT']}"
+    css:
+      html {
+        overflow-x: hidden;
+      }
+
+      *[disabled] { display: none; }
+
+      button[disabled] {
+        opacity: 0.5;
+      }
+
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: Gilroy, Helvetica, Arial, sans-serif;
+        font-weight: 100;
+        font-size: 18px;
+        overflow-x: hidden;
+        background: #312d50;
+        background: linear-gradient(#312d50, 70%, #19a160);
+        color: white;
+        min-height: 100vh;
+        -webkit-overflow-scrolling: touch;
+      }
+
+      main {
+        width: 80%;
+        max-height: 100%;
+        max-width: 600px;
+        margin: 0 auto;
+        text-align: unset;
+        text-align: center;
+        display: block;
+        box-sizing: border-box;
+      }
+
+      .white-logo {
+        width: 30%;
+        max-width: 170px;
+        display: block;
+        margin: 0 auto;
+      }
+
+      .white-logo path[fill="#1c1c1c"] {
+        fill: white;
+      }
+
+      .logo-title{
+        font-size: 1.6rem;
+        text-align: center;
+        color: #19a160;
+      }
+
+      .title {
+        font-size: 1.4rem;
+        text-align: center;
+        font-weight: 400;
+      }
+
+      .nissan {
+        width: 60%;
+        max-height: 150px;
+        max-height: 150px;
+      }
+
+      .form__location-remove.link {
+        display: none;
+      }
+
+      .form__location:nth-child(n+3) .link {
+        display: block;
+      }
+
+      .form__location:nth-child(7) + button#add_point {
+        display: none !important;
+      }
+
+      fieldset .loader {
+        text-align: center;
+      }
+
+      fieldset .loader svg {
+        max-width: 150px;
+      }
+
+      .hidden {
+        display: none;
+      }
+
+      .loader ellipse[stroke-dasharray] {
+        animation: dash .3s linear infinite;
+      }
+
+
+      .localization {
+        text-align: right;
+        padding: 20px 20px 0 0;
+        margin-bottom: -30px;
+      }
+
+      a {
+        color: white;
+        text-decoration: none;
+      }
+
+  body onload="document.getElementById('styles').rel = 'stylesheet'"
+    main = yield
+    link#styles href=asset_path('pwa.css') rel=:preload as=:style onload="this.rel='stylesheet'"
+    = javascript_pack_tag 'application'
+    script onload='openWFPPopup();' id="widget-wfp-script" language="javascript" type="text/javascript" src="https://secure.wayforpay.com/server/pay-widget.js"

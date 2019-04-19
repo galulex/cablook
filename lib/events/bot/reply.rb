@@ -1,16 +1,17 @@
 module Events
   module Bot
     class Reply < BaseEvent
-      COMMANDS =  { start: "start",
-                    U0001F696: "book",
-                    U0001F44C: "correct",
-                    U0001F6AB: "cancel",
-                    U0001F197: "go",
-                    U0001F504: "try_again",
-                    U0001F44D: "yes",
-                    U0001F44E: "no" }.freeze
+      COMMANDS =  { start: 'start',
+                    U0001F696: 'book',
+                    U0001F44C: 'correct',
+                    U0001F6AB: 'cancel',
+                    U0001F197: 'go',
+                    U0001F504: 'try_again',
+                    U0001F44D: 'yes',
+                    U0001F44E: 'no' }.freeze
       COMMANDLESS_STEPS = %w[waypoints_confirmation comment_confirmation comment rate_trip tips trips_payment].freeze
-      TIPS_REGEXP = /3|5|10|20/
+      TIPS_REGEXP = /3|5|10|20/.freeze
+      DECLINED = 'Declined'.freeze
 
       def schema
         Dry::Validation.Schema do
@@ -21,6 +22,7 @@ module Events
       def run
         set_locale
         return register(data[:cards_url]) if data['contact']
+        return request_card(data[:cards_url]) if telegram_order.user.user_id && telegram_order.user.cards.empty?
         @text = data[:text]
         @command ||= parse_command(@text)
         return telegram_order.perform(@command) if correct_command
@@ -60,9 +62,23 @@ module Events
       end
 
       def process_address(address, field, initial = nil)
-        location = Places.new(address).location
+        if @data[:location]
+          location = attached_location
+          address = attached_address
+        else
+          location = Places.new(address).location
+        end
         return telegram_order.send_message(:incorrect_address) unless location
         field == 'waypoint' ? update_waypoint(address, location, initial) : update_address(address, location, field)
+      end
+
+      def attached_location
+        location = @data[:location]
+        { lat: location[:latitude], lng: location[:longitude] }.stringify_keys
+      end
+
+      def attached_address
+        Geokit::Geocoders::GoogleGeocoder.reverse_geocode(attached_location.values).street_address
       end
 
       def update_address(address, location, field)
@@ -100,18 +116,19 @@ module Events
       end
 
       def parse_command(text)
+        return unless text
         key = text.eql?("/start") ? "start" : text[0].to_yaml.gsub!(/[^0-9A-Za-z]/, '')
         COMMANDS[key.to_sym] if COMMANDS.keys.include?(key.to_sym)
       end
 
       def register(cards_url)
         User.from_telegram(data.dig(:contact, :phone_number), data.dig(:from, :username), chat)
-        if telegram_order.user.cards.empty?
-          telegram_order.reply(:send_message, :request_card, reply_markup: add_card_button(cards_url))
-          telegram_order.step = :request_card
-        else
-          telegram_order.send_message :start
-        end
+        telegram_order.send_message(:start)
+      end
+
+      def request_card(cards_url)
+        telegram_order.reply(:send_message, :request_card, reply_markup: add_card_button(cards_url))
+        telegram_order.step = :request_card
       end
 
       def add_card_button(cards_url)
@@ -143,9 +160,10 @@ module Events
       end
 
       def trips_payment
-        return telegram_order.no_trip_payment if @command == 'no'
-        trip_id = Trip.unpaid.where(user_id: current_user.id).first.id
-        Operations::Wayforpay.settle(trip_id)
+        trip_id = Trip.unpaid.where(user_id: current_user.user_id).first&.id
+        return telegram_order.perform(@command) unless trip_id
+        response = Operations::Wayforpay.settle(trip_id)
+        response == DECLINED ? telegram_order.payment_declined : telegram_order.successful_payment
       end
     end
   end

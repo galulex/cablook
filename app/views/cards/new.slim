@@ -3,7 +3,6 @@
 div.logo-title
   b CAB
   | LOOK
-h1.title= t('welcome.index.title')
 
 javascript:
   function createCard(response, token) {
@@ -25,7 +24,7 @@ javascript:
     })
   }
 
-  setTimeout(function() {
+  function openWFPPopup() {
     const wayforpay = new Wayforpay()
     const token = new URL(location.href).searchParams.get('auth')
 
@@ -48,4 +47,4 @@ javascript:
         }, 1000)
       }
     );
-  }, 1000)
+  }

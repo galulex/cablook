@@ -1,5 +1,5 @@
 class CardsController < ApplicationController
-  layout 'pwa'
+  layout 'telegram'
   before_action :set_session_locale, only: :new
 
   private

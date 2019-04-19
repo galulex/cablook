@@ -105,8 +105,8 @@ ru:
     select_card:
       text: "Выберете карту."
     trip_info:
-      text: "Стоимость: %{cost} UAN. Расстояние: %{distance} km."
-      caption: "Стоимость: %{cost} UAN. Расстояние: %{distance} km."
+      text: "Стоимость: %{cost} UAH. Расстояние: %{distance} km."
+      caption: "Стоимость: %{cost} UAH. Расстояние: %{distance} km."
     confirm_trip:
       text: Подтвердите поездку, пожалуйста
       caption: Подтвердите поездку, пожалуйста
@@ -146,7 +146,7 @@ ru:
         one_time_keyboard: true
         resize_keyboard: true
     comment_confirmation:
-      text: 'Желаете оставить отзыв?'
+      text: 'Желаете оставить комментарий водителю?'
       reply_markup:
         keyboard:
           -
@@ -155,7 +155,7 @@ ru:
         one_time_keyboard: true
         resize_keyboard: true
     comment:
-      text: Ваш отзыв
+      text: Ваш комментарий
     incorrect_address:
       text: Неверный адрес
     looking_for_car:
@@ -207,13 +207,14 @@ ru:
         remove_reply_keyboard:
           remove_keyboard: true
     unpaid_trips:
-      text: У вас остались неоплаченные поездки. Попробовать оплатить сейчас?
+      text: У вас остались неоплаченные поездки.
       reply_markup:
         keyboard:
           -
-            - text: "\U0001F44D ДА"
-            - text: "\U0001F44E НЕТ"
+            - text: "\U0001F44D ОПЛАТИТЬ"
         one_time_keyboard: true
         resize_keyboard: true
-    no_trip_payment:
-      text: К сожалению, заказ возможен только после оплаты долга.
+    successful_payment:
+      text: Платеж успешно завершен.
+    payment_declined:
+      text: Платеж был отклонен.

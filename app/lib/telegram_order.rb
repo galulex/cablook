@@ -134,7 +134,7 @@ class TelegramOrder
   end
 
   def add_waypoint(stop_address, stop_point)
-    update_trip(stops: trip[:stops] << stop_address, waypoints: trip[:waypoints] << stop_point)
+    update_trip(stops: trip[:stops] || [] << stop_address, waypoints: trip[:waypoints] || [] << stop_point)
   end
 
   def remove_last_waypoint
@@ -163,8 +163,13 @@ class TelegramOrder
     Trip.unpaid.where(user_id: @user.user_id).any?
   end
 
-  def no_trip_payment
-    send_message(:no_trip_payment)
-    self.step = :start
+  def successful_payment
+    send_message(:successful_payment)
+    start
+  end
+
+  def payment_declined
+    send_message(:payment_declined)
+    start
   end
 end
