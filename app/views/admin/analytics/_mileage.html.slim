@@ -6,7 +6,9 @@ h3 Mileage
   .filter
     label.label To
     = text_field_tag :to, params[:to] || Time.now.to_date, type: :date, class: "datepicker hasDatepicker"
-  = hidden_field_tag "chart", "mileage" 
+  .filter
+    label.label By
+    = select_tag :by, options_for_select([ 'cars.number', 'drivers.name' ], 'drivers.name')
+  = hidden_field_tag "chart", "mileage"
   = submit_tag "Send", class: 'send-button'
-#mileageChart  
-  
+#mileageChart

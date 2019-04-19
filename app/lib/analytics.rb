@@ -1,10 +1,11 @@
 module Analytics
   class << self
-    def run(chart_type, trip_status, from, to)
+    def run(chart_type, trip_status, from, to, by)
       @chart_type = chart_type
       @trip_status = trip_status
       @from = from
       @to = to
+      @by = by
 
       query_parse
     end
@@ -35,14 +36,14 @@ module Analytics
     end
 
     def mileage
-      numbers = []
+      labels = []
       distances = []
-      Trip.find_by_sql("SELECT cars.number, SUM(trips.distance / 1000) FROM cars
-                   LEFT JOIN trips ON cars.id = trips.car_id AND(created_at BETWEEN '#{@from}' AND '#{@to}')
+      Trip.find_by_sql("SELECT #{@by} as label, SUM(trips.distance / 1000) FROM #{@by.split('.')[0]}
+                   LEFT JOIN trips ON #{@by.split('.')[0]}.id = trips.#{@by.split('s')[0]}_id AND(created_at BETWEEN '#{@from}' AND '#{@to}')
                    WHERE trips.distance > 1
-                   GROUP BY cars.id
-                   ORDER BY cars.id").as_json.each { |e| numbers << e['number']; distances << e['sum'] }
-      { labels: numbers, datasets: [{ values: distances }] }
+                   GROUP BY #{@by.split('.')[0]}.id
+                   ORDER BY #{@by.split('.')[0]}.id").as_json.each { |e| labels << e['label']; distances << e['sum'] }
+      { labels: labels, datasets: [{ values: distances }] }
     end
 
     def by_driver
