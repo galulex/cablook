@@ -16,7 +16,7 @@ end
 
 def chart
   return if params[:chart].nil?
-  Analytics.run("#{params[:chart]}", trip_status, from, to)
+  Analytics.run("#{params[:chart]}", trip_status, from, to, by)
 end
 
 def from
@@ -25,6 +25,10 @@ end
 
 def to
   params[:to].presence || Time.now.end_of_day.strftime('%F')
+end
+
+def by
+  params[:by].presence || 'drivers.name'
 end
 
 def trip_status
