@@ -17,7 +17,7 @@ export default class CurrentTrip extends Component {
   }
 
   getTrip = () => {
-    if (this.props.trip !== null) {
+    if (this.props.trip !== null && this.props.trip.status !== 7) {
       let trip = {...this.props.trip}
       trip.stops.unshift(trip.departure_address)
       trip.stops.push(trip.destination_address)
