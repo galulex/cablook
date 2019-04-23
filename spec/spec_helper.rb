@@ -3,13 +3,14 @@ require File.expand_path('../../config/environment', __FILE__)
 require 'rspec/rails'
 
 require 'bcrypt'
-require 'capybara/rspec'
+require 'superbara'
+require 'superbara/dsl'
 require 'sidekiq/testing'
 require 'simplecov'
 require 'webmock/rspec'
 require 'rspec/retry'
 require 'support/factory_bot'
-require 'capybara/poltergeist'
+require 'capybara/cuprite'
 
 
 Dir[
@@ -20,13 +21,14 @@ Dir[
 
 SimpleCov.start 'rails'
 
-Capybara.javascript_driver = :poltergeist
+Capybara.javascript_driver = :cuprite
 
 RSpec.configure do |config|
+  config.include Superbara::DSL, type: :feature
   config.verbose_retry = true
 
   config.around :each, :js do |ex|
-    ex.run_with_retry retry: 4
+    ex.run_with_retry retry: 0
   end
 
   config.expect_with :rspec do |expectations|

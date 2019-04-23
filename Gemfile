@@ -49,12 +49,11 @@ group :development, :test do
 end
 
 group :test do
-  gem 'capybara'
+  gem 'superbara'
   gem 'database_cleaner'
   gem 'factory_bot_rails', '~> 4.0'
   gem 'faker'
-  gem 'phantomjs'
-  gem 'poltergeist'
+  gem 'cuprite'
   gem 'rspec-rails'
   gem 'rspec-retry'
   gem 'simplecov', require: false

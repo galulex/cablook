@@ -3,41 +3,59 @@ RSpec.feature 'Trip', type: :feature, js: true do
   let!(:card) { create(:card, user: user) }
   let!(:car) { create(:car) }
   let!(:driver) { create(:driver, car: car) }
-  let!(:price) { Price.create }
+  let!(:price) { Price.delete_all && Price.create }
 
   before do
-    Capybara.default_host = 'http://app.example.com'
-    visit('/')
+    Redis.current.set("car_#{car.id}", '49.4412378,32.0650127')
+    Capybara.default_host = 'http://app.lvh.me'
+    visit('http://app.lvh.me:9887')
   end
 
   it 'orders a taxi' do
     find('input#number').set(user.phone_number.slice(4..-1))
-    click_button 'Sign in'
+    find_button('Sign in').trigger(:click)
+    wait 3 do
+      has_text? 'Next'
+    end
     find('input#code').set(User.last.verification_token)
-    click_button 'Next'
-    sleep 1
-    first('input').set('Active Bridge')
-    first('input').trigger(:focus)
-    sleep 1
-    all('input')[1].set('Nice 2 Meet You')
-    all('input')[1].trigger(:focus)
-    sleep 1
-    click_button 'OK'
-    sleep 1
-    expect(page).to have_content('Confirm Trip')
+    find_button('Next').trigger(:click)
+    wait 3 do
+      has_text? 'Search'
+    end
+    first('input').set('Active')
+    find_button('OK').trigger(:click)
+    wait 3 do
+      has_text? 'Active Bridge'
+    end
+    first('li.prediction').trigger(:click)
+    all('input')[1].set('Nice')
+    find_button('OK').trigger(:click)
+    wait 3 do
+      has_text? 'Nice 2 Meet You'
+    end
+    first('li.prediction').trigger(:click)
+    find_button('OK').trigger(:click)
+    wait 3 do
+      has_text? 'Confirm Trip'
+    end
     click_button 'GO'
-    sleep 1
-    expect(page).to have_content('Cancel')
+    wait 3 do
+      has_text? 'Cancel'
+    end
     Events::Trips::Accept.(trip_id: trip.id, driver_id: driver.id, car_id: car.id)
-    sleep 1
+    wait 3 do
+      has_text? driver.name
+    end
     expect(page).to have_content(driver.name)
     Events::Trips::Finish.(trip_id: trip.id)
-    sleep 1
-    expect(page).to have_content('Rate trip')
+    wait 3 do
+      has_text? 'Rate trip'
+    end
     first('textarea').set('Nice!')
     click_button 'OK'
-    sleep 1
-    expect(page).to have_content('Search')
+    wait 3 do
+      has_text? 'Search'
+    end
   end
 
   def trip
