@@ -28,7 +28,7 @@ RSpec.configure do |config|
   config.verbose_retry = true
 
   config.around :each, :js do |ex|
-    ex.run_with_retry retry: 0
+    ex.run_with_retry retry: 1
   end
 
   config.expect_with :rspec do |expectations|
