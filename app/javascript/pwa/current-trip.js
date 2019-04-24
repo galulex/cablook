@@ -77,6 +77,19 @@ export default class CurrentTrip extends Component {
     this.updateTrip()
   }
 
+  eraseAddress = (index) => {
+    if (this.state.trip.stops[index] === '') {
+      this.removeAddress(index)
+    } else {
+      this.setState(state => {
+        state.trip.stops[index] = '';
+        state.trip.waypoints[index] = '';
+        return state
+      })
+      this.updateTrip()
+    }
+  }
+
   setComment = (e) => {
     let state = this.state
     state.trip.comment = e.target.value
@@ -127,12 +140,13 @@ export default class CurrentTrip extends Component {
               return (
                 <AddressInput
                   setAddress={this.setAddress}
-                  removeAddress={this.removeAddress}
+                  eraseAddress={this.eraseAddress}
                   favorite_addresses={() => this.props.favorite_addresses}
                   language={this.props.language}
                   coords={this.state.trip.waypoints[i]}
                   address={e}
                   index={i}
+                  fieldsCount={this.state.trip.stops.length}
                 />
               )
             })}
