@@ -26,7 +26,7 @@ export default class AddressInput extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.address) this.setState({address: nextProps.address})
+    if (nextProps.address || nextProps.address === '') this.setState({address: nextProps.address})
   }
 
   favoriteAddressesPredictions = () => {
@@ -187,7 +187,7 @@ export default class AddressInput extends Component {
     let placeholder = this.setPlaceholder()
     return (
       <fieldset class='address'>
-        {(this.props.index > 1) && (<button class='remove-address' type='button' onClick={() => this.props.removeAddress(this.props.index)}>×</button>)}
+        {(this.props.fieldsCount > 2 || this.props.address !== '') && (<button class='remove-address' type='button' onClick={() => this.props.eraseAddress(this.props.index)}>×</button>)}
         {(this.props.index === 0) && <Location width='32px' class='get-location' onClick={this.getLocation} disabled={this.state.geocoded}/>}
         <Pin onClick={this.openMap} height='24px' class='map-pick'/>
         {this.state.isShowMap && <MapPicker onCloseMap={this.closeMap} language={this.props.language}/>}
