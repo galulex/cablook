@@ -142,7 +142,6 @@ export default class AddressInput extends Component {
 
   openMap = () => {
     this.setState({isShowMap: true});
-    history.pushState(null, 'Pick Location','/');
     window.addEventListener('popstate', this.handleBack, {once: true});
   }
 

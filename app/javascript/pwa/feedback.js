@@ -19,7 +19,6 @@ export default class Feedback extends Component {
   }
 
   componentDidMount() {
-    history.pushState(null, 'Leave Feedback','/')
     window.addEventListener('popstate', this.props.handleBack, {once: true})
     window.onbeforeunload = (event) => {
       window.removeEventListener('popstate', this.props.handleBack, true)
@@ -103,7 +102,7 @@ export default class Feedback extends Component {
             <div class='tips-container'>
               {[0,3,5,10,20].map(i => this.renderTips(i))}
             </div>
-          </form> 
+          </form>
           <button class='button fixed warning' type='button' disabled={this.state.submitDisabled} onClick={this.create}>{i18n.feedback.ok}</button>
         </section>
       </div>
