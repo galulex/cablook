@@ -148,6 +148,15 @@ export default class Home extends Component {
     })
   }
 
+  edit = () => {
+    axios.get(`trips/${this.state.trip.id}/edit`).then((res) => {
+      res.data.status = null
+      this.updateTrip(res.data)
+    }).catch((error) => {
+      if (error.response) alert(error.response.data.errors)
+    })
+  }
+
   handleBack = (event) => {
     event.stopPropagation()
     let trip = this.state.trip
@@ -186,12 +195,14 @@ export default class Home extends Component {
   }
 
   render() {
-    if (!this.state.trip || [5,7,null].includes(this.state.trip.status)) return(<CurrentTrip updateTrip={this.updateTrip} handleBack={this.handleBack} language={this.props.language} trip={this.state.trip} favorite_addresses={this.props.favorite_addresses() }/>)
-    if (this.state.trip && !this.state.trip.id) return(<ConfirmTrip cards={this.props.cards} bonus_trips={this.props.bonus_trips} trip={this.state.trip} updateTrip={this.updateTrip} handleBack={this.handleBack} createCard={this.props.createCard} />)
-    if (this.state.trip && this.state.trip.id && [0].includes(this.state.trip.status)) return(<FindDriver trip={this.state.trip} updateTrip={this.updateTrip} TripDeclined={this.TripDeclined} subscribe={this.subscribe} cancel={this.cancel}/>)
-    if (this.state.trip && this.state.trip.id && [6].includes(this.state.trip.status)) return(<RetryTrip trip={this.state.trip} retry={this.retry} cancel={this.cancel}/>)
-    if (this.state.trip && [1,2,3].includes(this.state.trip.status)) return(<Trip trip={this.state.trip} updateTrip={this.updateTrip} cancel={this.cancel} location={this.state.car_location} language={this.props.language}/>)
-    if (this.state.trip && this.state.trip.status == 4) return(<Feedback trip={this.state.trip} updateTrip={this.updateTrip} handleBack={this.handleFeedbackBack} />)
+    const { trip } = this.state
+
+    if (!trip || [5,7,null].includes(trip.status)) return(<CurrentTrip updateTrip={this.updateTrip} handleBack={this.handleBack} language={this.props.language} trip={trip} favorite_addresses={this.props.favorite_addresses()}/>)
+    if (trip && (!trip.id || trip.status == 10)) return(<ConfirmTrip cards={this.props.cards} bonus_trips={this.props.bonus_trips} trip={trip} updateTrip={this.updateTrip} handleBack={this.handleBack} createCard={this.props.createCard} />)
+    if (trip && trip.id && [0].includes(trip.status)) return(<FindDriver trip={trip} updateTrip={this.updateTrip} TripDeclined={this.TripDeclined} subscribe={this.subscribe} cancel={this.cancel}/>)
+    if (trip && trip.id && [6].includes(trip.status)) return(<RetryTrip trip={trip} retry={this.retry} cancel={this.cancel}/>)
+    if (trip && [1,2,3].includes(trip.status)) return(<Trip trip={trip} updateTrip={this.updateTrip} edit={this.edit} cancel={this.cancel} location={this.state.car_location} language={this.props.language}/>)
+    if (trip && trip.status == 4) return(<Feedback trip={trip} updateTrip={this.updateTrip} handleBack={this.handleFeedbackBack} />)
     return(<Trip updateTrip={this.updateTrip}/>)
   }
 }

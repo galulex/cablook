@@ -6,6 +6,7 @@ class Presenters::Trips::Detailed < Presenters::BaseSingle
   property :start_time, exec_context: :decorator
   property :finish_time, exec_context: :decorator
 
+  property :bonus, exec_context: :decorator
   property :driver_name, exec_context: :decorator
   property :car_number, exec_context: :decorator
   property :car_phone_number, exec_context: :decorator
@@ -33,6 +34,10 @@ class Presenters::Trips::Detailed < Presenters::BaseSingle
 
   def payment_status
     represented.try(:payment_status) || represented.trip_payment&.status
+  end
+
+  def bonus
+    represented.bonus_trip.present?
   end
 
   def status

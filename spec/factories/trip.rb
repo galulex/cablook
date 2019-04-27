@@ -8,8 +8,8 @@ FactoryBot.define do
 
     departure { [Faker::Address.latitude, Faker::Address.longitude] }
     destination { [Faker::Address.latitude, Faker::Address.longitude] }
-    departure_address { Faker::Address.street_name }
-    destination_address { Faker::Address.street_name }
+    sequence(:departure_address) { |n| "#{Faker::Address.street_name}#{n}" }
+    sequence(:destination_address) { |n| "#{Faker::Address.street_name}#{n}" }
     comment { Faker::Lorem.sentence }
 
     association :user

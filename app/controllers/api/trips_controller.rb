@@ -26,6 +26,16 @@ module Api
       render json: Presenters::Trips::Single.new(trip).to_json, status: 200
     end
 
+    def edit
+      trip = Trip.find(params[:id])
+      render json: Presenters::Trips::Single.new(trip).to_json, status: 200
+    end
+
+    def update
+      trip = Events::Trips::Update.(trip_params)
+      render json: Presenters::Trips::Single.new(trip).to_json, status: 200
+    end
+
     private
 
     def trips

@@ -65,7 +65,7 @@ module Events
 
       def validate_bonus!
         return if bonus_trips.any? && trip_calculation.distance < Constants::Trip::MAX_BONUS_DISTANCE
-        invalid!([I18n.t('bonus_trips.no_available_bonus')])
+        invalid!([I18n.t('bonus_trips.no_available_bonus')], status: 406)
       end
 
       def create_payment
@@ -86,7 +86,7 @@ module Events
           trip_id: @trip.id,
           user_id: data[:user_id]
         )
-        BonusTrip.find(bonus_trips.first.id).update(status: Constants::BonusTrip::USED, trip_id: @trip.id)
+        bonus_trips.first.update(status: Constants::BonusTrip::USED, trip_id: @trip.id)
       end
 
       def create_trip

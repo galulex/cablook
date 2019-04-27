@@ -23,7 +23,7 @@ module Events
         # temporary disabled because of mobile app
         #validate_preorder if data[:time]
         build_trip
-        @trip
+        trip
       end
 
       private
@@ -39,15 +39,19 @@ module Events
       end
 
       def build_trip
-        @trip = Trip.new(data.except(:feedbacks, :driver_id, :car_id, :finished_at, :created_at, :start_at, :started_at, :start_time))
-        FIELDS.each { |field| @trip[field] = directions.send(field) }
+        trip.assign_attributes(trip_params)
+        FIELDS.each { |field| trip[field] = directions.send(field) }
         # TODO, remove it after we migrate to OSRM completely
         if data[:osrm].blank?
-          @trip.departure = directions.departure
-          @trip.destination = directions.destination
-          @trip.waypoints = directions.waypoints
+          trip.departure = directions.departure
+          trip.destination = directions.destination
+          trip.waypoints = directions.waypoints
         end
-        @trip.cost = Operations::V2TripCalculation.new(@trip).cost
+        trip.cost = Operations::V2TripCalculation.new(trip).cost
+      end
+
+      def trip
+        @trip ||= trip_params[:id].presence ? Trip.find(trip_params.delete(:id)) : Trip.new
       end
 
       def directions
@@ -64,6 +68,13 @@ module Events
 
       def preorder_time
         data[:time].in_time_zone < current_time ? data[:time].in_time_zone.since(1.day) : data[:time].in_time_zone
+      end
+
+      def trip_params
+        @trip_params ||= data.slice(:id, :path, :cost, :departure, :destination,
+                                    :departure_address, :destination_address,
+                                    :duration, :distance, :stops, :waypoints,
+                                    :comment, :user_id, :no_call, :pre_order, :vip, :osrm)
       end
     end
   end

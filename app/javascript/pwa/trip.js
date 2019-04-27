@@ -137,7 +137,13 @@ export default class Trip extends Component {
   }
 
   renderButton = () => {
-    if (this.props.trip.status == 1) return(<button class='button cancel' onClick={this.props.cancel}>{i18n.trip.cancel}</button>)
+    switch(this.props.trip.status) {
+      case 1:
+        return(<button class='button cancel' onClick={this.props.cancel}>{i18n.trip.cancel}</button>)
+      case 2:
+      case 3:
+        return(<button class='button edit' id='edit_trip' onClick={this.props.edit}>{i18n.trip.edit}</button>)
+    }
   }
 
   renderStops = () => {

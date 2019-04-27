@@ -10,10 +10,10 @@ module Constants
     TRIP_UNAVAILABLE  = 'TripUnavailable'.freeze
     TRIP_DECLINED     = 'TripDeclined'.freeze
 
+    TRIP_UPDATED      = 'TripUpdated'.freeze
     TRIP_FINISHED     = 'TripFinished'.freeze
     TRIP_STARTED      = 'TripStarted'.freeze
     TRIP_WAITING      = 'DriverArrived'.freeze
-
 
     TRIP_FINISH_ACTION     = 'finish_trip'.freeze
     TRIP_START_ACTION      = 'start_trip'.freeze

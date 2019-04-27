@@ -185,13 +185,20 @@ export default class AddressInput extends Component {
 
   render() {
     let placeholder = this.setPlaceholder()
+    const { fieldsCount, address, index, readonly, language, eraseAddress} = this.props
+
     return (
       <fieldset class='address'>
-        {(this.props.fieldsCount > 2 || this.props.address !== '') && (<button class='remove-address' type='button' onClick={() => this.props.eraseAddress(this.props.index)}>×</button>)}
-        {(this.props.index === 0) && <Location width='32px' class='get-location' onClick={this.getLocation} disabled={this.state.geocoded}/>}
-        <Pin onClick={this.openMap} height='24px' class='map-pick'/>
-        {this.state.isShowMap && <MapPicker onCloseMap={this.closeMap} language={this.props.language}/>}
-        <input required class='address' placeholder={placeholder} type='text' onClick={this.focus} onKeyDown={this.keydown} onBlur={this.blur} onInput={this.autocomplete} value={this.state.address} ref={input => this.input = input} />
+        {(fieldsCount > 2 || address !== '') && !readonly && (<button class='remove-address' type='button' onClick={() => eraseAddress(index)}>×</button>)}
+        {(index === 0) && <Location width='32px' class='get-location' onClick={this.getLocation} disabled={this.state.geocoded} disabled={readonly}/>}
+        <Pin onClick={this.openMap} disabled={readonly} height='24px' class='map-pick'/>
+        {this.state.isShowMap && <MapPicker onCloseMap={this.closeMap} language={language}/>}
+
+        <input required class='address' placeholder={placeholder} type='text'
+          onClick={this.focus} onKeyDown={this.keydown} onBlur={this.blur} onInput={this.autocomplete}
+          value={this.state.address} ref={input => this.input = input} readonly={readonly}
+        />
+
         <ul class='predictions'>
           { this.state.predictions.map(this.renderPrediction) }
         </ul>
