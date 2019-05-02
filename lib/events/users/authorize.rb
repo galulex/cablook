@@ -31,11 +31,7 @@ module Events
       end
 
       def create_user
-        @user ||= User.create(data.merge(
-          auth_token: SecureRandom.base58(24),
-          verification_token: code,
-          referral_code: SecureRandom.base58(6)
-        ))
+        @user ||= User.create(data.merge(verification_token: code))
       end
 
       def code

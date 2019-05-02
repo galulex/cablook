@@ -15,6 +15,7 @@ module Events
         if trip.status == Constants::Trip::STATUS_CODES[Constants::Trip::PENDING]
           update_car_status
           update_trip
+          telegram_message
           broadcast_accepted_trip
           broadcast_accepted_trip_to_trip_channel
           notify
@@ -114,6 +115,11 @@ module Events
 
       def driver
         @driver ||= Driver.find(data[:driver_id])
+      end
+
+      def telegram_message
+        return if trip.telegram.blank?
+        TelegramOrder.new(trip.telegram).driver_found(:accept, driver.username, car.phone_number)
       end
     end
   end

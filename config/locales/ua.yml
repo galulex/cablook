@@ -63,3 +63,158 @@ uk:
     car_not_found: На жаль машинку не знайдено.
     will_arrive: '%{name} на %{car} приїде в %{time}'
     waiting: Водій вже чекає вас.
+  bot:
+    request_contact:
+      text: 'Мені потрібно знати, хто ви. Чи не могли б ви, будь ласка, поділитися своїм номером телефону?'
+      reply_markup:
+        keyboard:
+          -
+            - text: Поділитися номером телефону
+              request_contact: true
+        one_time_keyboard: true
+        resize_keyboard: true
+    request_departure_address:
+      text: 'Адреса відправлення?'
+      reply_markup:
+        remove_reply_keyboard:
+          keyboard_remove: true
+    request_destination_address:
+      text: 'Адреса призначення?'
+      reply_markup:
+        remove_reply_keyboard:
+          keyboard_remove: true
+    request_waypoint_address:
+      text: 'Адреса зупинки?'
+      reply_markup:
+        remove_reply_keyboard:
+          keyboard_remove: true
+    start:
+      text: 'Привіт, я CabLook бот. Я можу замовити таксі для вас. Натисніть "Замовити", якщо вам потрібна поїздка'
+      reply_markup:
+        keyboard:
+          -
+            - text: "\U0001F696 ЗАМОВИТИ"
+        one_time_keyboard: true
+        resize_keyboard: true
+        remove_reply_keyboard:
+          remove_keyboard: true
+    request_card:
+      text: "У вас немає картки! Будь ласка, додайте картку."
+    card_added:
+      text: "Картка успішно додана!"
+    select_card:
+      text: "Оберіть картку."
+    trip_info:
+      text: "Вартість: %{cost} UAN. Вiдстань: %{distance} km."
+      caption: "Вартість: %{cost} UAN. Вiдстань: %{distance} km."
+    confirm_trip:
+      text: Підтвердіть поїздку, будь ласка
+      caption: Підтвердіть поїздку, будь ласка
+      reply_markup:
+        keyboard:
+          -
+            - text: "\U0001F197 ПОЇХАЛИ"
+            - text: "\U0001F6AB СКАСУВАТИ"
+        one_time_keyboard: true
+        resize_keyboard: true
+    confirm_address:
+      caption: Будь ласка, підтвердіть адресу або введіть інший
+      reply_markup:
+        keyboard:
+          -
+            - text: "\U0001F44C ВІРНО"
+            - text: "\U0001F6AB СКАСУВАТИ"
+        one_time_keyboard: true
+        resize_keyboard: true
+    send_location:
+      reply_markup:
+        keyboard:
+          -
+            - text: "\U0001F44D так"
+            - text: "\U0001F44E нi"
+            - text: "\U0001F6AB cкасувати"
+        one_time_keyboard: true
+        resize_keyboard: true
+        remove_reply_keyboard:
+    waypoints_confirmation:
+      text: 'Заїхати ще куди-небудь?'
+      reply_markup:
+        keyboard:
+          -
+            - text: "\U0001F44D ТАК"
+            - text: "\U0001F44E НI"
+        one_time_keyboard: true
+        resize_keyboard: true
+    comment_confirmation:
+      text: 'Бажаєте залишити коментар?'
+      reply_markup:
+        keyboard:
+          -
+            - text: "\U0001F44D ТАК"
+            - text: "\U0001F44E НI"
+        one_time_keyboard: true
+        resize_keyboard: true
+    comment:
+      text: Ваш коментар
+    incorrect_address:
+      text: Неправильна адреса
+    looking_for_car:
+      text: Дозвольте мені знайти машину для вас. Це може зайняти до однієї хвилини
+    accept:
+      text: "Водія знайдено. Ім'я: %{name}, номер телефону: %{phone_number}."
+    waiting_client:
+      text: Водій чекає вас.
+      reply_markup:
+        remove_reply_keyboard:
+          remove_keyboard: true
+    incorrect_rating:
+      text: Невірний рейтинг, спробуйте ще раз.
+    tips:
+      text: Бажаєте залишити чайові?
+      reply_markup:
+        keyboard:
+          -
+            - text: "\U0001F44E НI"
+            - text: 3
+            - text: 5
+            - text: 10
+            - text: 20
+        one_time_keyboard: true
+        resize_keyboard: true
+    tips_accept:
+      text: Дякую за чайові!
+    rate_trip:
+      text: Оцініть вашу поїздку
+      reply_markup:
+        keyboard:
+          -
+            - text: 1
+            - text: 2
+            - text: 3
+            - text: 4
+            - text: 5
+        one_time_keyboard: true
+        resize_keyboard: true
+    no_car_found:
+      text: В даний час немає доступних автомобілів. Хочете спробувати ще раз?
+      reply_markup:
+        keyboard:
+          -
+            - text: "\U0001F504 СПРОБУВАТИ ЩЕ"
+            - text: "\U0001F6AB СКАСУВАТИ"
+        one_time_keyboard: true
+        resize_keyboard: true
+        remove_reply_keyboard:
+          remove_keyboard: true
+    unpaid_trips:
+      text: У вас є несплачені поїздки.
+      reply_markup:
+        keyboard:
+          -
+            - text: "\U0001F44D ОПЛАТИТИ"
+        one_time_keyboard: true
+        resize_keyboard: true
+    successful_payment:
+      text: Платіж успішно завершено.
+    payment_declined:
+      text: Платіж було відхилено.

@@ -17,6 +17,7 @@ module Events
         broadcast
         broadcast_to_trip_channel
         notify
+        telegram_message
       end
 
       private
@@ -48,6 +49,11 @@ module Events
       def notify
         message = I18n.t('notification.car_not_found')
         Jobs::Notification.perform_later(trip.user_id, message)
+      end
+
+      def telegram_message
+        return if trip.telegram.blank?
+        TelegramOrder.new(trip.telegram).update_step(:no_car_found)
       end
     end
   end

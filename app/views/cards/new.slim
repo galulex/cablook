@@ -1,0 +1,50 @@
+= inline_svg 'logo.svg', class: 'white-logo'
+
+div.logo-title
+  b CAB
+  | LOOK
+
+javascript:
+  function createCard(response, token) {
+    var data = new FormData()
+    const params = ['cardPan', 'cardType', 'recToken', 'currency', 'email']
+
+    params.map((p) => {
+      data.append(p, response[p])
+    })
+
+    var req = {
+      method: 'POST',
+      headers: { 'Auth-Token': token },
+      body: data
+    }
+
+    fetch('/api/cards', req).then(function(response) {
+      window.location.href = "https://telegram.me/#{Telegram.bot.get_me['result']['username']}"
+    })
+  }
+
+  function openWFPPopup() {
+    const wayforpay = new Wayforpay()
+    const token = new URL(location.href).searchParams.get('auth')
+
+    localStorage.setItem('token', token)
+
+    wayforpay.run((new WFP),
+      response =>{
+        setTimeout(function(){
+          wayforpay.closeit()
+          createCard(response, token)
+        }, 1000)
+      },
+      response =>{
+        alert(response)
+      },
+      response =>{
+        setTimeout(function(){
+          wayforpay.closeit()
+          createCard(response, token)
+        }, 1000)
+      }
+    );
+  }

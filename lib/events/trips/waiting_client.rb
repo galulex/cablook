@@ -11,6 +11,7 @@ module Events
 
       def run
         update_trip
+        telegram_message
         broadcast
         notify
       end
@@ -48,6 +49,11 @@ module Events
 
       def trip
         @trip = Trip.find(data[:trip_id])
+      end
+
+      def telegram_message
+        return if trip.telegram.blank?
+        TelegramOrder.new(trip.telegram).update_step(:waiting_client)
       end
     end
   end

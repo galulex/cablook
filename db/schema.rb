@@ -153,6 +153,16 @@ ActiveRecord::Schema.define(version: 2019_03_16_140147) do
     t.index ["user_id"], name: "index_trips_on_user_id"
   end
 
+  create_table "user_telegrams", force: :cascade do |t|
+    t.bigint "user_id"
+    t.string "username"
+    t.string "chat_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_user_telegrams_on_user_id"
+    t.index ["username"], name: "index_user_telegrams_on_username"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email"
     t.string "phone_number"
@@ -164,6 +174,7 @@ ActiveRecord::Schema.define(version: 2019_03_16_140147) do
     t.datetime "created_at", default: -> { "now()" }
     t.integer "trips_count", default: 0
     t.boolean "vip", default: false
+    t.string "telegram_username"
   end
 
   add_foreign_key "bonus_trips", "trips"
@@ -181,4 +192,5 @@ ActiveRecord::Schema.define(version: 2019_03_16_140147) do
   add_foreign_key "trips", "cars"
   add_foreign_key "trips", "drivers"
   add_foreign_key "trips", "users"
+  add_foreign_key "user_telegrams", "users"
 end

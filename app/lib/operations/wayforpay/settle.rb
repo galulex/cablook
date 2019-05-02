@@ -15,6 +15,7 @@ module Operations
           update_trip_total
         else
           update_payment_response
+          return settle_response['transactionStatus']
         end
       end
 

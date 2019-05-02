@@ -56,3 +56,161 @@ en:
     car_not_found: No cars available right now.
     will_arrive: '%{name} on %{car} will arrive at %{time}'
     waiting: Driver is already waiting for you
+  bot:
+    request_contact:
+      text: 'I need to know who you are. Could you share your phone number please?'
+      reply_markup:
+        keyboard:
+          -
+            - text: Share my phone number
+              request_contact: true
+        one_time_keyboard: true
+        resize_keyboard: true
+    request_departure_address:
+      text: 'Departure address?'
+      reply_markup:
+        remove_reply_keyboard:
+          keyboard_remove: true
+    request_destination_address:
+      text: 'Destination address?'
+      reply_markup:
+        remove_reply_keyboard:
+          keyboard_remove: true
+    request_waypoint_address:
+      text: 'Stop point address?'
+      reply_markup:
+        remove_reply_keyboard:
+          keyboard_remove: true
+    start:
+      text: 'Hi there, I am a CabLook Bot. I can book a taxi for you. Click BOOK if you need a ride'
+      reply_markup:
+        keyboard:
+          -
+            - text: "\U0001F696 BOOK"
+        one_time_keyboard: true
+        resize_keyboard: true
+        remove_reply_keyboard:
+          remove_keyboard: true
+    request_card:
+      text: "You have no cards! Please add one."
+    card_added:
+      text: "The card has been added!"
+    select_card:
+      text: "Select the card."
+    trip_info:
+      text: "Cost: %{cost} UAN. Distance: %{distance} km."
+      caption: "Cost: %{cost} UAN. Distance: %{distance} km."
+    confirm_trip:
+      text: Confirm Trip please
+      caption: Confirm Trip please
+      reply_markup:
+        keyboard:
+          -
+            - text: "\U0001F197 GO"
+            - text: "\U0001F6AB CANCEL"
+        one_time_keyboard: true
+        resize_keyboard: true
+    confirm_address:
+      caption: Confirm address please or type another one
+      reply_markup:
+        keyboard:
+          -
+            - text: "\U0001F44C CORRECT"
+            - text: "\U0001F6AB CANCEL"
+        one_time_keyboard: true
+        resize_keyboard: true
+    send_location:
+      reply_markup:
+        keyboard:
+          -
+            - text: "\U0001F44D yes"
+            - text: "\U0001F44E no"
+            - text: "\U0001F6AB cancel"
+        one_time_keyboard: true
+        resize_keyboard: true
+        remove_reply_keyboard:
+    waypoints_confirmation:
+      text: 'Would you like to have some other waypoints?'
+      reply_markup:
+        keyboard:
+          -
+            - text: "\U0001F44D YES"
+            - text: "\U0001F44E NO"
+        one_time_keyboard: true
+        resize_keyboard: true
+    comment_confirmation:
+      text: 'Would you like to leave a comment?'
+      reply_markup:
+        keyboard:
+          -
+            - text: "\U0001F44D YES"
+            - text: "\U0001F44E NO"
+        one_time_keyboard: true
+        resize_keyboard: true
+    comment:
+      text: Enter your comment
+    incorrect_address:
+      text: Incorrect Address
+    looking_for_car:
+      text: Let me find a car for you. It may take up to one minute
+    accept:
+      text: "Driver found. Name: %{name}, phone: %{phone_number}"
+    waiting_client:
+      text: The driver is waiting for you.
+      reply_markup:
+        remove_reply_keyboard:
+          remove_keyboard: true
+    incorrect_rating:
+      text: Incorrect rating, try again.
+    tips:
+      text: Would you like to leave some tips?
+      reply_markup:
+        keyboard:
+          -
+            - text: "\U0001F44E NO"
+            - text: 3
+            - text: 5
+            - text: 10
+            - text: 20
+        one_time_keyboard: true
+        resize_keyboard: true
+    tips_accept:
+      text: Thank you for leaving tips!
+    rate_trip:
+      text: Rate your trip
+      reply_markup:
+        keyboard:
+          -
+            - text: 1
+            - text: 2
+            - text: 3
+            - text: 4
+            - text: 5
+        one_time_keyboard: true
+        resize_keyboard: true
+    no_car_found:
+      text: Currently no cars available. Would you like to try one more time?
+      reply_markup:
+        keyboard:
+          -
+            - text: "\U0001F504 TRY AGAIN"
+            - text: "\U0001F6AB CANCEL"
+        one_time_keyboard: true
+        resize_keyboard: true
+        remove_reply_keyboard:
+          remove_keyboard: true
+    trips:
+      pay_off_debt:
+        text: Pay off debt for previous trips, please
+    unpaid_trips:
+      text: You have unpaid trips.
+      reply_markup:
+        keyboard:
+          -
+            - text: "\U0001F44D PAY"
+        one_time_keyboard: true
+        resize_keyboard: true
+    successful_payment:
+      text: The payment is successfully completed.
+    payment_declined:
+      text: The payment was declined.

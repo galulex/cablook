@@ -12,6 +12,7 @@ module Events
 
       # TODO: Impement logic when the price changed
       def run
+        telegram_message
         update_trip
         Jobs::PaymentSettle.perform_later(data[:trip_id])
         broadcast
@@ -56,6 +57,11 @@ module Events
 
       def trip_channel
         "#{Constants::Channels::TRIP}_#{data[:trip_id]}"
+      end
+
+      def telegram_message
+        return if trip.telegram.blank?
+        TelegramOrder.new(trip.telegram).update_step(:rate_trip)
       end
     end
   end
