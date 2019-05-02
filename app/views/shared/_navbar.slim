@@ -20,6 +20,9 @@ nav
     = link_to ext_opp_path, class: 'menu-item' do
       => inline_svg 'extended_opp-s', class: :icon
       =t('.ext_opportunities')
+    = link_to page_path(:become_driver), class: 'menu-item' do
+      => inline_svg 'car', class: :icon
+      = t('.become_driver')
     = link_to page_path(:contacts), class: 'contacts' do
       => inline_svg 'contact', class: :icon
       = t('.contacts')

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_03_16_140147) do
+ActiveRecord::Schema.define(version: 2019_03_15_110256) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -118,7 +118,6 @@ ActiveRecord::Schema.define(version: 2019_03_16_140147) do
     t.integer "idle_price", default: 1
     t.integer "min_price", default: 4000
     t.float "coefficient", default: 1.0
-    t.integer "delivery", default: 1000
   end
 
   create_table "trips", force: :cascade do |t|
@@ -133,7 +132,7 @@ ActiveRecord::Schema.define(version: 2019_03_16_140147) do
     t.bigint "car_id"
     t.bigint "driver_id"
     t.bigint "user_id"
-    t.datetime "created_at", default: -> { "now()" }
+    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }
     t.integer "distance"
     t.integer "duration"
     t.datetime "start_at"
@@ -171,10 +170,9 @@ ActiveRecord::Schema.define(version: 2019_03_16_140147) do
     t.string "verification_token"
     t.string "confirmation_token"
     t.string "referral_code"
-    t.datetime "created_at", default: -> { "now()" }
+    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }
     t.integer "trips_count", default: 0
     t.boolean "vip", default: false
-    t.string "telegram_username"
   end
 
   add_foreign_key "bonus_trips", "trips"

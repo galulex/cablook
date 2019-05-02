@@ -3,7 +3,7 @@ module Api
     before_action :user, :prevent_page_caching
 
     def show
-      response = user.as_json(only: %i(id email phone), include: %i(favorite_addresses bonus_trips parent_bonus))
+      response = user.as_json(only: %i(id email phone_number), include: %i(favorite_addresses bonus_trips parent_bonus))
       response['cards'] = Card.user_cards(user.id).as_json
       render json: response, status: 200
     end

@@ -3,6 +3,7 @@
 @import 'navbar';
 @import 'about';
 @import 'why';
+@import 'become_driver';
 @import 'benefits';
 @import 'faq';
 @import 'contacts';
@@ -15,6 +16,7 @@
 html {
   overflow-y: auto;
   overflow-y: overlay;
+  scroll-behavior: smooth;
 }
 
 body {
