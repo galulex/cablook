@@ -131,17 +131,6 @@ describe Api::TripsController, type: :controller do
     it { is_expected.to be_successful }
   end
 
-  describe '#edit' do
-    subject { response }
-
-    let(:params) { { id: trip.id } }
-    let(:trip) { create(:trip, user_id: user.id) }
-
-    before { get :edit, params: params, as: :json }
-
-    it { is_expected.to be_successful }
-  end
-
   describe '#update' do
     subject { response }
 

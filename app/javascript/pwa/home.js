@@ -149,12 +149,9 @@ export default class Home extends Component {
   }
 
   edit = () => {
-    axios.get(`trips/${this.state.trip.id}/edit`).then((res) => {
-      res.data.status = null
-      this.updateTrip(res.data)
-    }).catch((error) => {
-      if (error.response) alert(error.response.data.errors)
-    })
+    let trip = JSON.parse(localStorage.getItem('trip'))
+    trip.status = null
+    this.updateTrip(trip)
   }
 
   handleBack = (event) => {
