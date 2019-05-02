@@ -47,17 +47,37 @@ export default class ConfirmTrip extends Component {
     params.destination = params.destination.join(',')
     params.card_id = this.state.card_id
     if (this.state.bonus === 'true') params.bonus = this.state.bonus
-    axios.post('trips', {trip: params}).then((res) => {
+    this.sendRequest(params)
+  }
+
+  sendRequest = (params) => {
+    axios({
+      method: params.id ? 'put' : 'post',
+      url: params.id ? `trips/${params.id}` : 'trips',
+      data: { trip: params }
+    }).then((res) => {
       this.props.updateTrip(res.data)
       window.removeEventListener('popstate', this.props.handleBack);
     }).catch((error) => {
-      if (error.response) {
-        if (!confirm(`${error.response.data.errors} ${i18n.confirm_trip.retry_payment}`)) {
-          this.submitDisabled(false)
-          return;
-        }
-        this.retryPendingPayment()
+      if (!error.response) return
+      switch(error.response.status) {
+        case 418:
+          if (confirm(`${error.response.data.errors} ${i18n.confirm_trip.retry_payment}`)) {
+            this.retryPendingPayment()
+          }
+          break
+        case 406:
+          if (confirm(`${error.response.data.errors} ${i18n.confirm_trip.trip_payment}`)) {
+            this.setState({bonus: false})
+            this.props.trip.bonus = false
+            this.create()
+          }
+          break
+        default:
+          alert(error.response.data.errors)
+          break
       }
+      this.submitDisabled(false)
     })
   }
 
@@ -86,6 +106,9 @@ export default class ConfirmTrip extends Component {
   }
 
   render() {
+    const { trip } = this.props
+    const { cards, submitDisabled, showWidget } = this.state
+
     return (
       <div class='confirm-container'>
         {this.retryLoader()}
@@ -97,35 +120,35 @@ export default class ConfirmTrip extends Component {
               <li>
                 <TripPrice />
                 <span>{i18n.confirm_trip.cost}</span>
-                <span><b id='trip_cost'>{this.props.trip.cost} {i18n.confirm_trip.currency}</b></span>
+                <span><b id='trip_cost'>{trip.cost} {i18n.confirm_trip.currency}</b></span>
               </li>
               <li>
                 <Pin />
                 <span>{i18n.confirm_trip.distance}</span>
-                <span><b id='trip_distance'>{(this.props.trip.distance/1000).toFixed(1)} {i18n.confirm_trip.km}</b></span>
+                <span><b id='trip_distance'>{(trip.distance/1000).toFixed(1)} {i18n.confirm_trip.km}</b></span>
               </li>
             </ul>
           </div>
-          { (this.state.cards.length > 0) &&
+          { (cards.length > 0) &&
             <div class='select-section'>
               <label for='card'>{i18n.confirm_trip.card}</label>
               <div class='select'>
                 <select id='card' onChange={(e) => this.selectCard(e)}>
-                  {this.state.cards.map((el) => this.renderCard(el))}
+                  {cards.map((el) => this.renderCard(el))}
                 </select>
               </div>
             </div>
           }
-          { (this.state.cards.length < 1) &&
-              <button class='button fixed' type='button' disabled={this.state.showWidget} onClick={() => this.setState({showWidget: true}) }>+ {i18n.cards.add}</button>
+          { (cards.length < 1) &&
+            <button class='button fixed' type='button' disabled={showWidget} onClick={() => this.setState({showWidget: true}) }>+ {i18n.cards.add}</button>
           }
-          <MapImg trip={() => this.props.trip} />
+          <MapImg trip={() => trip} />
           <div class='buttons'>
             { this.renderBonus() }
-            { (this.state.cards.length > 0) &&
-              <button class='button fixed' type='button' value='false' disabled={this.state.submitDisabled} onClick={this.createTrip}>{i18n.confirm_trip.go}</button>
+            { (cards.length > 0) &&
+              <button class='button fixed' type='button' value={trip.bonus} disabled={submitDisabled} onClick={this.createTrip}>{i18n.confirm_trip.go}</button>
             }
-            { this.state.showWidget && <Widget createCard={this.createCard}/> }
+            { showWidget && <Widget createCard={this.createCard}/> }
           </div>
         </section>
       </div>
@@ -152,7 +175,9 @@ export default class ConfirmTrip extends Component {
   }
 
   renderBonus = () => {
-    if (this.props.bonus_trips().some((e) => e.status == 1)) {
+    const { trip, bonus_trips } = this.props
+
+    if (bonus_trips().some((e) => e.status == 1) && !trip.id) {
       return(<button class='button fixed bonus' type='button' disabled={this.state.submitDisabled} onClick={this.createTrip} value='true'>{i18n.confirm_trip.bonus}</button>)
     }
   }

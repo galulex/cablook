@@ -25,7 +25,7 @@ Rails.application.routes.draw do
     resources :referrals, only: %i[index create]
 
     post 'trips/new', to: 'v2/trips#new'
-    resources :trips, only: %i[index show create] do
+    resources :trips, only: %i[index show create update] do
       patch 'cancel'
       patch 'retry'
       resources :feedbacks, only: :create

@@ -9,6 +9,7 @@ const en = {
     canceled: 'Trip is canceled',
     car_not_found: 'No cars available right now.\nDo you want to try one more time?',
     currency: 'uah',
+    edit: 'Edit',
     no_cars_notice: 'No cars available',
     on: 'on',
     will_arrive: 'will arrive at',
@@ -56,6 +57,7 @@ const en = {
     header: 'Confirm Trip',
     km: "km",
     retry_payment: '\nPay debt with selected card?',
+    trip_payment: '\nPay trip with selected card?',
     payment_error: 'Insufficient funds or internet limit exceeded. \nPlease change your internet limit or use another card.'
   },
   drawer: {

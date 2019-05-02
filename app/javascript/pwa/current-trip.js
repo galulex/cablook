@@ -42,7 +42,6 @@ export default class CurrentTrip extends Component {
     }
   }
 
-
   setAddress = (text, coords, index) => {
     this.setState(state => {
       state.trip.waypoints[index] = coords;
@@ -118,6 +117,7 @@ export default class CurrentTrip extends Component {
     params.waypoints = params.waypoints.slice(1, -1)
     params.stops = params.stops.slice(1, -1)
     axios.post('trips/new', {trip: params}).then((res) => {
+      if (res.data.id) res.data.status = 10
       this.props.updateTrip(res.data)
     }).catch((error) => {
       this.submitDisabled(false)
@@ -127,6 +127,33 @@ export default class CurrentTrip extends Component {
 
   submitDisabled = val => {
     this.setState({ submitDisabled: val })
+  }
+
+  renderTripData = () => {
+    const trip = this.state.trip
+    if (trip.id) return;
+    return [
+      <div class='nocall'>
+        <input id='nocall' type='checkbox' checked={this.state.trip.no_call} onChange={this.setNoCall}/>
+        <label for='nocall'>
+          {i18n.current_trip.no_call}
+        </label>
+      </div>,
+      <label for='entrance'>
+        <span>{i18n.current_trip.where_to_pick}</span>
+        <select id='entrance' value={this.state.trip.entrance} onChange={(e) => this.setEntrance(e)}>
+          <option value=''>{i18n.current_trip.select_entrance}</option>
+          {this.state.entrance.map((el) => {
+            return(<option value={el}>{el}</option>)
+          })}
+        </select>
+      </label>,
+      <label for='time'>
+        <span>{i18n.current_trip.when}</span>
+        <input id='time' type='time' step='60' title='HH:MM' pattern='([01]?[0-9]|2[0-3]):[0-5][0-9]' value={this.state.trip.time} placeholder='Now' onChange={this.setOrderTime}/>
+      </label>,
+      <input type='text' class='comment' value={this.state.trip.comment} placeholder={i18n.current_trip.comment} onChange={this.setComment}/>
+    ]
   }
 
   render() {
@@ -144,6 +171,7 @@ export default class CurrentTrip extends Component {
                   favorite_addresses={() => this.props.favorite_addresses}
                   language={this.props.language}
                   coords={this.state.trip.waypoints[i]}
+                  readonly={!!this.state.trip.id && i == 0}
                   address={e}
                   index={i}
                   fieldsCount={this.state.trip.stops.length}
@@ -155,26 +183,7 @@ export default class CurrentTrip extends Component {
               <button type='button' onClick={this.addAddress} class='add-address' disabled={isValid}>{ i18n.current_trip.add_address }</button>
             </div>
           </div>
-          <div class='nocall'>
-            <input id='nocall' type='checkbox' checked={this.state.trip.no_call} onChange={this.setNoCall}/>
-            <label for='nocall'>
-              {i18n.current_trip.no_call}
-            </label>
-          </div>
-          <label for='entrance'>
-            <span>{i18n.current_trip.where_to_pick}</span>
-            <select id='entrance' value={this.state.trip.entrance} onChange={(e) => this.setEntrance(e)}>
-              <option value=''>{i18n.current_trip.select_entrance}</option>
-              {this.state.entrance.map((el) => {
-                return(<option value={el}>{el}</option>)
-              })}
-            </select>
-          </label>
-          <label for='time'>
-            <span>{i18n.current_trip.when}</span>
-            <input id='time' type='time' step='60' title='HH:MM' pattern='([01]?[0-9]|2[0-3]):[0-5][0-9]' value={this.state.trip.time} placeholder='Now' onChange={this.setOrderTime}/>
-          </label>
-          <input type='text' class='comment' value={this.state.trip.comment} placeholder={i18n.current_trip.comment} onChange={this.setComment}/>
+          {this.renderTripData()}
           <input type='submit' disabled={this.state.submitDisabled} class='button' onClick={this.build} value='OK'/>
         </form>
       </section>

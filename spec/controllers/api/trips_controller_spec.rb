@@ -32,7 +32,32 @@ describe Api::TripsController, type: :controller do
     context 'when pay by bonus' do
       let(:trip_params) { super().merge(bonus: true) }
 
-      it { is_expected.to have_http_status(:unprocessable_entity) }
+      before do
+        allow_any_instance_of(Directions).to receive(:distance) { distance }
+      end
+
+      context 'and distance less than MAX_BONUS_DISTANCE' do
+        let(:distance) { Constants::Trip::MAX_BONUS_DISTANCE - 1 }
+
+        context 'bonus trip is present' do
+          before do
+            create(:bonus_trip, user_id: user.id, status: Constants::BonusTrip::NEW)
+            post :create, params: params, as: :json
+          end
+
+          it { is_expected.to be_successful }
+        end
+
+        context 'bonus trip is missing' do
+          it { is_expected.to have_http_status(406) }
+        end
+      end
+
+      context 'and distance greater than MAX_BONUS_DISTANCE' do
+        let(:distance) { Constants::Trip::MAX_BONUS_DISTANCE + 1 }
+
+        it { is_expected.to have_http_status(406) }
+      end
     end
 
     context 'when user have pending payments' do
@@ -83,7 +108,7 @@ describe Api::TripsController, type: :controller do
     let(:params) { { trip_id: trip.id } }
     let(:trip) { create(:trip_with_driver) }
     let!(:payment) { create(:payment, trip_id: trip.id, user_id: trip.user_id) }
-    
+
     before { patch :cancel, params: params, as: :json }
 
     it { is_expected.to be_successful }
@@ -104,5 +129,67 @@ describe Api::TripsController, type: :controller do
     before { patch :retry, params: params, as: :json }
 
     it { is_expected.to be_successful }
+  end
+
+  describe '#update' do
+    subject { response }
+
+    it_behaves_like 'authorization_required'
+
+    let(:trip) { create(:trip, user: user) }
+    let(:params) { { trip: trip_params.merge(id: trip.id), id: trip.id } }
+    let(:trip_params) { attributes_for(:trip, bonus: false) }
+
+    before do
+      create(:trip_payment, trip: trip, user: user, card: card)
+      patch :update, params: params, as: :json
+    end
+
+    it { is_expected.to be_successful }
+
+    context 'when params are invalid' do
+      let(:trip_params) { attributes_for(:trip).except(:departure) }
+
+      it { is_expected.to have_http_status(:unprocessable_entity) }
+    end
+
+    context 'when pay by bonus' do
+      let(:trip_params) { super().merge(bonus: true, distance: distance) }
+
+      before do
+        create(:bonus_trip, user_id: user.id, status: Constants::BonusTrip::USED, trip_id: trip.id)
+        patch :update, params: params, as: :json
+      end
+
+      context 'and distance less than MAX_BONUS_DISTANCE' do
+        let(:distance) { Constants::Trip::MAX_BONUS_DISTANCE - 1 }
+
+        it { is_expected.to be_successful }
+      end
+
+      context 'and distance greater than MAX_BONUS_DISTANCE' do
+        let(:distance) { Constants::Trip::MAX_BONUS_DISTANCE + 1 }
+
+        it { is_expected.to have_http_status(406) }
+      end
+    end
+
+    context 'when pay by card' do
+      let(:trip_params) { super().merge(bonus: false, distance: distance) }
+
+      before { patch :update, params: params, as: :json }
+
+      context 'and distance less than MAX_DISTANCE' do
+        let(:distance) { Constants::Trip::MAX_DISTANCE - 1 }
+
+        it { is_expected.to be_successful }
+      end
+
+      context 'and distance greater than MAX_DISTANCE' do
+        let(:distance) { Constants::Trip::MAX_DISTANCE + 1 }
+
+        it { is_expected.to have_http_status(:unprocessable_entity) }
+      end
+    end
   end
 end

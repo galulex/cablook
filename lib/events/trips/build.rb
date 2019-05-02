@@ -1,7 +1,13 @@
+require_relative 'concerns/direction'
+
 module Events
   module Trips
     class Build < BaseEvent
+      include Direction
+      include Validations::Build
+
       FIELDS = %i[duration distance path].freeze
+      OSRM_FIELDS = %i[departure destination waypoints].freeze
 
       def schema
         Dry::Validation.Schema do
@@ -19,51 +25,37 @@ module Events
       end
 
       def run
-        validate_directions
-        # temporary disabled because of mobile app
-        #validate_preorder if data[:time]
-        build_trip
-        @trip
+        validate!
+        assign_attrs
+        trip
       end
 
       private
 
-      def validate_directions
-        return unless directions.result.nil?
-        invalid!([I18n.t('trips.invalid')])
+      def assign_attrs
+        trip.assign_attributes(trip_params)
+        assign_fields
+        assign_osrm_fields if data[:osrm].blank? # TODO, remove it after we migrate to OSRM completely
+        trip.cost = Operations::V2TripCalculation.new(trip).cost
       end
 
-      def validate_preorder
-        return if preorder_time >= current_time.since(30.minutes)
-        invalid!([I18n.t('trips.invalid_preorder')])
+      def assign_fields
+        FIELDS.each { |field| trip[field] = direction.send(field) }
       end
 
-      def build_trip
-        @trip = Trip.new(data.except(:feedbacks, :driver_id, :car_id, :finished_at, :created_at, :start_at, :started_at, :start_time))
-        FIELDS.each { |field| @trip[field] = directions.send(field) }
-        # TODO, remove it after we migrate to OSRM completely
-        if data[:osrm].blank?
-          @trip.departure = directions.departure
-          @trip.destination = directions.destination
-          @trip.waypoints = directions.waypoints
-        end
-        @trip.cost = Operations::V2TripCalculation.new(@trip).cost
+      def assign_osrm_fields
+        OSRM_FIELDS.each { |field| trip[field] = direction.send(field) }
       end
 
-      def directions
-        @directions ||= directions_provider.new(data[:departure], data[:destination], data[:waypoints] || [])
+      def trip
+        @trip ||= trip_params[:id].present? ? Trip.find(trip_params.delete(:id)) : Trip.new
       end
 
-      def directions_provider
-        data[:osrm].present? ? OsrmDirections : Directions
-      end
-
-      def current_time
-        Time.now.in_time_zone
-      end
-
-      def preorder_time
-        data[:time].in_time_zone < current_time ? data[:time].in_time_zone.since(1.day) : data[:time].in_time_zone
+      def trip_params
+        @trip_params ||= data.slice(:id, :path, :cost, :departure, :destination,
+                                    :departure_address, :destination_address,
+                                    :duration, :distance, :stops, :waypoints,
+                                    :comment, :user_id, :no_call, :pre_order, :vip, :osrm)
       end
     end
   end
