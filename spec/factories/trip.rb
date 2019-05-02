@@ -3,6 +3,8 @@ FactoryBot.define do
     status 0
     path { Faker::Internet.password }
     cost { Faker::Number.decimal(2).to_f }
+    distance { Faker::Number.number(4).to_i }
+    duration { Faker::Number.number(3).to_i }
 
     estimated_end_time { Faker::Time.between(Time.now, Date.today) }
 

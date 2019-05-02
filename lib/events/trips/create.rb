@@ -1,6 +1,13 @@
+require_relative 'concerns/direction'
+
 module Events
   module Trips
     class Create < BaseEvent
+      include Direction
+      include Validations::Create
+
+      FIELDS = %i[duration distance].freeze
+
       def schema
         Dry::Validation.Schema do
           configure { config.messages = :i18n }
@@ -27,45 +34,19 @@ module Events
 
       def run
         assign_attrs
-        validate_distance!
-        validate_unpaid_trips!
-        validate_trip!
-        validate_card!
-        validate_bonus! if data[:bonus]
+        validate!
+
         create_trip
-        if data[:bonus]
-          pay_by_bonus
-        else
-          create_payment
-        end
+        bonus? ? pay_by_bonus : create_payment
         create_trip_job(@trip.id)
         @trip
       end
 
       private
 
-      def validate_unpaid_trips!
-        pending_payments = Trip.unpaid.where(user_id: data[:user_id])
-        invalid!([I18n.t('trips.pay_off_debt')], status: 418) if pending_payments.any?
-      end
-
-      def validate_card!
-        invalid!([I18n.t('cards.add_card')]) if user_cards.empty?
-      end
-
-      def validate_distance!
-        return if trip_calculation.distance < Constants::Trip::MAX_DISTANCE
-        invalid!([I18n.t('trips.to_far')])
-      end
-
-      def validate_trip!
-        return if Trip.pending.where(user_id: data[:user_id]).blank?
-        invalid!([I18n.t('trips.pending_trip_exists')])
-      end
-
-      def validate_bonus!
-        return if bonus_trips.any? && trip_calculation.distance < Constants::Trip::MAX_BONUS_DISTANCE
-        invalid!([I18n.t('bonus_trips.no_available_bonus')], status: 406)
+      def assign_attrs
+        FIELDS.each { |field| data[field] = direction.send(field) }
+        data[:cost] = Operations::V2TripCalculation.new(direction).cost
       end
 
       def create_payment
@@ -98,26 +79,8 @@ module Events
         Jobs::SearchCarForTrip.perform_later(trip_id)
       end
 
-      def assign_attrs
-        data[:distance] = trip_calculation.distance
-        data[:duration] = trip_calculation.duration
-        data[:cost] = Operations::V2TripCalculation.new(trip_calculation).cost
-      end
-
       def bonus_trips
         @bonus_trips ||= BonusTrip.where(user_id: data[:user_id], status: Constants::BonusTrip::NEW)
-      end
-
-      def trip_calculation
-        @trip_calculation ||= directions_provider.new(
-          data[:departure],
-          data[:destination],
-          data[:waypoints] || []
-        )
-      end
-
-      def directions_provider
-        data[:osrm].present? ? OsrmDirections : Directions
       end
 
       def card_id
@@ -127,6 +90,10 @@ module Events
 
       def user_cards
         @user_cards ||= Card.user_cards(data[:user_id])
+      end
+
+      def bonus?
+        data[:bonus].present?
       end
 
       def order_reference

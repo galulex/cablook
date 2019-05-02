@@ -1,20 +1,22 @@
 module Events
   module Trips
     class Update < BaseEvent
-      FIELDS = %i[duration distance path].freeze
+      include Validations::Update
 
       def schema
         Dry::Validation.Schema do
           configure { config.messages = :i18n }
 
           required(:departure).filled
-          required(:destination).filled
           required(:departure_address).filled(:str?)
+          required(:destination).filled
           required(:destination_address).filled(:str?)
+          required(:distance).filled(:int?)
+          required(:duration).filled(:int?)
+          required(:path).filled(:str?)
 
           optional(:waypoints) { none? | array? }
           optional(:stops) { none? | array? }
-          optional(:path).filled(:str?)
           optional(:time) { str? }
           optional(:no_call)
           optional(:osrm)
@@ -25,9 +27,7 @@ module Events
       end
 
       def run
-        assign_attrs
-        validate_distance!
-        validate_bonus! if bonus?
+        validate!
 
         update_trip
         update_payment unless bonus?
@@ -36,21 +36,6 @@ module Events
       end
 
       private
-
-      def assign_attrs
-        FIELDS.each { |field| data[field] = directions.send(field) }
-        data[:cost] = Operations::V2TripCalculation.new(directions).cost
-      end
-
-      def validate_distance!
-        return if directions.distance < Constants::Trip::MAX_DISTANCE
-        invalid!([I18n.t('trips.to_far')])
-      end
-
-      def validate_bonus!
-        return if bonus_trip && directions.distance < Constants::Trip::MAX_BONUS_DISTANCE
-        invalid!([I18n.t('bonus_trips.no_available_bonus')], status: 406)
-      end
 
       def update_trip
         trip.update(trip_params)
@@ -101,18 +86,6 @@ module Events
 
       def bonus?
         data[:bonus].present?
-      end
-
-      def directions
-        @directions ||= directions_provider.new(
-          data[:departure],
-          data[:destination],
-          data[:waypoints] || []
-        )
-      end
-
-      def directions_provider
-        data[:osrm].present? ? OsrmDirections : Directions
       end
 
       def order_reference

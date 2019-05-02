@@ -154,10 +154,9 @@ describe Api::TripsController, type: :controller do
     end
 
     context 'when pay by bonus' do
-      let(:trip_params) { super().merge(bonus: true) }
+      let(:trip_params) { super().merge(bonus: true, distance: distance) }
 
       before do
-        allow_any_instance_of(Directions).to receive(:distance) { distance }
         create(:bonus_trip, user_id: user.id, status: Constants::BonusTrip::USED, trip_id: trip.id)
         patch :update, params: params, as: :json
       end
@@ -176,10 +175,9 @@ describe Api::TripsController, type: :controller do
     end
 
     context 'when pay by card' do
-      before do
-        allow_any_instance_of(Directions).to receive(:distance) { distance }
-        patch :update, params: params, as: :json
-      end
+      let(:trip_params) { super().merge(bonus: false, distance: distance) }
+
+      before { patch :update, params: params, as: :json }
 
       context 'and distance less than MAX_DISTANCE' do
         let(:distance) { Constants::Trip::MAX_DISTANCE - 1 }

@@ -33,19 +33,33 @@ describe Events::Trips::Update do
       it { is_expected.to raise_error(Events::InvalidParamsError) }
     end
 
+    context 'when path is empty' do
+      let(:data) { trip_params.except(:path) }
+
+      it { is_expected.to raise_error(Events::InvalidParamsError) }
+    end
+
+    context 'when distance is empty' do
+      let(:data) { trip_params.except(:distance) }
+
+      it { is_expected.to raise_error(Events::InvalidParamsError) }
+    end
+
+    context 'when duration is empty' do
+      let(:data) { trip_params.except(:duration) }
+
+      it { is_expected.to raise_error(Events::InvalidParamsError) }
+    end
+
     context 'when payment by bonus' do
-      let(:data) { trip_params.merge(bonus: true) }
-
-      before { allow_any_instance_of(Directions).to receive(:distance) { distance } }
-
       context 'and distance greater than MAX_BONUS_DISTANCE' do
-        let(:distance) { Constants::Trip::MAX_BONUS_DISTANCE + 1 }
+        let(:data) { trip_params.merge(distance: Constants::Trip::MAX_BONUS_DISTANCE + 1, bonus: true) }
 
         it { is_expected.to raise_error(Events::InvalidParamsError) }
       end
 
       context 'and distance less than MAX_BONUS_DISTANCE' do
-        let(:distance) { Constants::Trip::MAX_BONUS_DISTANCE - 1 }
+        let(:data) { trip_params.merge(distance: Constants::Trip::MAX_BONUS_DISTANCE - 1, bonus: true) }
 
         let!(:bonus_trip) do
           create(:bonus_trip, user_id: user.id, status: Constants::BonusTrip::USED, trip_id: trip.id)
@@ -74,25 +88,19 @@ describe Events::Trips::Update do
     end
 
     context 'when payment by card' do
-      let(:data) { trip_params.merge(bonus: false) }
-
       context 'and bonus trip is missing' do
         let!(:trip_payment) do
           create(:trip_payment, status: Constants::Payments::PENDING, amount: 12, trip: trip, user: user, card: card)
         end
 
         context 'and distance greater than MAX_DISTANCE' do
-          before do
-            allow_any_instance_of(Directions).to receive(:distance) { Constants::Trip::MAX_DISTANCE + 1 }
-          end
+          let(:data) { trip_params.merge(distance: Constants::Trip::MAX_DISTANCE + 1, bonus: false) }
 
           it { is_expected.to raise_error(Events::InvalidParamsError) }
         end
 
         context 'and distance less than MAX_DISTANCE' do
-          before do
-            allow_any_instance_of(Directions).to receive(:distance) { Constants::Trip::MAX_DISTANCE - 1 }
-          end
+          let(:data) { trip_params.merge(distance: Constants::Trip::MAX_DISTANCE - 1, bonus: false) }
 
           context 'and broadcast to channel' do
             it do
@@ -123,17 +131,13 @@ describe Events::Trips::Update do
         end
 
         context 'and distance greater than MAX_DISTANCE' do
-          before do
-            allow_any_instance_of(Directions).to receive(:distance) { Constants::Trip::MAX_DISTANCE + 1 }
-          end
+          let(:data) { trip_params.merge(distance: Constants::Trip::MAX_DISTANCE + 1) }
 
           it { is_expected.to raise_error(Events::InvalidParamsError) }
         end
 
         context 'and distance less than MAX_DISTANCE' do
-          before do
-            allow_any_instance_of(Directions).to receive(:distance) { Constants::Trip::MAX_DISTANCE - 1 }
-          end
+          let(:data) { trip_params.merge(distance: Constants::Trip::MAX_DISTANCE - 1) }
 
           context 'and broadcast to channel' do
             it do
