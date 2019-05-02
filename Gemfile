@@ -45,6 +45,7 @@ gem 'whenever', require: false
 
 group :development, :test do
   gem 'pry-rails'
+  gem 'letter_opener'
   gem 'reek', require: false
   gem 'rubocop', require: false
 end

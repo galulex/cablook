@@ -87,7 +87,7 @@ describe Events::Trips::Accept do
         context 'on the way to the first trip' do
           let!(:first_trip) { create(:trip, start_at: 5.minutes.since, duration: 10.minutes, status: Constants::Trip::ON_THE_WAY, car_id: car.id, driver_id: driver.id) }
 
-          it { expect(trip.reload.start_at.to_s).to eq(22.minutes.since.to_s) }
+          it { expect(trip.reload.start_at.change(sec: 0).to_s).to eq(22.minutes.since.change(sec: 0).to_s) }
         end
 
         context 'during waiting client' do

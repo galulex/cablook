@@ -1,0 +1,71 @@
+main.content.become-driver
+  a href=root_path
+    = inline_svg 'logo.svg', class: 'black-logo'
+    div.logo-title
+      b CAB
+      | LOOK
+  h1
+    p = t('.title')
+    label.driver for='cv_name'
+      = t('.become_driver')
+    span =< t('.cablook_taxi')
+  = inline_svg 'stars.svg', class: 'svgs stars'
+  p.description = t('.description')
+
+  h1 = t('.benefits_title')
+  = inline_svg 'thumbs_up.svg', class: 'svgs thumbs_up'
+  .benefits
+    ul
+      - t('.benefits').each do |o|
+        li= o
+  
+  h1 = t('.how_it_works_title')
+  = inline_svg 'gears.svg', class: 'svgs gears'
+  .how-it-works
+    ol
+      - t('.how_it_works').each do |o|
+        li= o
+
+  h1.driver = t('.form_title')
+  = form_for :cv, url: driver_request_path, autocomplete: false, html: { id: 'become-driver-form', class: 'become-driver-form' } do |f|
+    .col-6
+      b = f.label :name
+        = t('.form_fields.name')
+      = f.text_field :name, required: :true, autocomplete: 'off'
+
+    .col-6
+      b = f.label :surname
+        = t('.form_fields.surname')
+      = f.text_field :surname, required: :true, autocomplete: 'off'
+
+    .col-6
+      b = f.label :phone 
+        = t('.form_fields.phone')
+      = f.text_field :phone, required: :true, autocomplete: 'off'
+
+    .col-6
+      b = f.label :email
+        = t('.form_fields.email')
+      = f.email_field :email, autocomplete: 'off'
+
+    .col-12.attach-cv
+      = f.file_field :cv
+      b = f.label :cv
+        = inline_svg 'clip.svg', class: 'svgs clip'
+        span.result = t('.form_fields.cv')
+
+    .col-12
+      b = f.label :comment
+        = t('.form_fields.comment')
+      = f.text_area :comment, rows: 2, autocomplete: 'off'
+    .col-12
+      = f.submit t('.form_fields.submit'), class: 'btn'
+
+
+  = inline_svg 'city.svg', class: 'city violet'
+
+javascript:
+  document.querySelector('#cv_cv').addEventListener('change', (event) => {
+    const result = document.querySelector('.result');
+    result.textContent = `${event.target.files[0].name}`;
+  });

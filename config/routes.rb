@@ -62,9 +62,10 @@ Rails.application.routes.draw do
   get '/pwa(/*all)', to: redirect(subdomain: :app, path: '/')
   get '/(*all)', constraints: { subdomain: /app/ }, defaults: { subdomain: :app }, to: 'welcome#pwa', as: :pwa
   get '/(*all)', constraints: { subdomain: /driver/ }, to: 'welcome#driver', as: :driver
-  get ':page' => 'welcome#index', constraints: { page: /(about|faq|why|benefits|contacts)/ }, defaults: { page: 'index' }, as: :page
+  get ':page' => 'welcome#index', constraints: { page: /(about|faq|why|benefits|contacts|become_driver)/ }, defaults: { page: 'index' }, as: :page
   get 'benefits/ext_opportunities', to: 'welcome#index', defaults: { page: 'ext_opportunities' }, as: :ext_opp
   # end
+  resource :driver_request, only: :create
 
   resources :locales, only: :show, constraints: { id: /(en|uk|ru)/ }
   resources :cards, only: %i[create new]

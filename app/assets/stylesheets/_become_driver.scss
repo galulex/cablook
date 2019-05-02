@@ -1,0 +1,117 @@
+.become-driver {
+  background: $why-bg;
+
+  h1 > p {
+    margin: 0;
+  }
+
+  label.driver, h1.driver {
+    color: $green;
+    text-decoration: underline solid $green;
+    cursor: pointer;
+  }
+
+  .stars {
+    width: 200px;
+    margin-top: 40px;
+  }
+
+  .thumbs_up, .gears {
+    width: 250px;
+    margin-top: 0;
+  }
+
+  .clip {
+    width: 20px;
+    vertical-align: middle;
+  }
+
+  p.description {
+    text-align: left;
+  }
+
+  .benefits, .how-it-works {
+    margin: 0 auto;
+    width: max-content;
+    max-width: 100%;
+
+    ul, ol {
+      text-align: left;
+    }
+  }
+
+  .become-driver-form {
+    height: 100%;
+    margin: 0 auto;
+    margin-bottom: 20px;
+    background-color: #d1d1d1;
+    padding: 25px 45px 25px 55px;
+
+    .btn {
+      font-weight: 700;
+      font-size: .8em;
+      max-width: none;
+      -webkit-appearance: none;
+    }
+
+    b, input[type='text'], input[type='email'], input[type='file'], textarea {
+      text-align: left;
+      display: block;
+    }
+
+    [class*='col-'] {
+      border: 5px solid transparent;
+    }
+
+    .attach-cv {
+      padding: 10px 0px;
+    }
+
+    input[type='text'], input[type='email'] {
+      width: 100%;
+      border-radius: 7.5px;
+      font-size: 15px;
+      padding: 5px 10px 5px 10px;
+      -webkit-appearance: none;
+      background-color: #c1c1c1;
+      color: #ececec;
+      border: none;
+      background-image: none;
+      -webkit-box-shadow: none;
+      -moz-box-shadow: none;
+      box-shadow: none;
+      margin-bottom: 10px;
+
+      &:focus {
+        outline: none;
+      }
+    }
+
+    input[type='file'] {
+      width: 0.1px;
+      height: 0.1px;
+      opacity: 0;
+      overflow: hidden;
+      position: absolute;
+      z-index: -1;
+    }
+
+    textarea {
+      width: 100%;
+      height: 50px;
+      float: left;
+      color: #ececec;
+      border: none;
+      border-radius: 7.5px;
+      background-color: #c1c1c1;
+      font-size: 15px;
+      padding: 5px 10px 5px 10px;
+      resize: none;
+      margin-bottom: 10px;
+
+      &:focus {
+        outline: none;
+      }
+    }
+  }
+}
