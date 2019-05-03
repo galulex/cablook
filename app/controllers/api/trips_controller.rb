@@ -28,7 +28,7 @@ module Api
 
     def update
       trip = Events::Trips::Update.(trip_params)
-      render json: Presenters::Trips::Single.new(trip).to_json, status: 200
+      render json: Presenters::Trips::Detailed.new(trip).to_json, status: 200
     end
 
     private

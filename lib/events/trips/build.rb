@@ -1,9 +1,7 @@
-require_relative 'concerns/direction'
-
 module Events
   module Trips
     class Build < BaseEvent
-      include Direction
+      include Concerns::Direction
       include Validations::Build
 
       FIELDS = %i[duration distance path].freeze
@@ -55,7 +53,7 @@ module Events
         @trip_params ||= data.slice(:id, :path, :cost, :departure, :destination,
                                     :departure_address, :destination_address,
                                     :duration, :distance, :stops, :waypoints,
-                                    :comment, :user_id, :no_call, :pre_order, :vip, :osrm)
+                                    :comment, :user_id, :no_call, :pre_order, :vip, :osrm, :time)
       end
     end
   end

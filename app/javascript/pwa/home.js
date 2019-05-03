@@ -12,6 +12,8 @@ import Feedback from '../pwa/feedback.js';
 const ActionCable = require('actioncable')
 const cable = ActionCable.createConsumer()
 
+var timeout
+
 export default class Home extends Component {
   constructor(props) {
     super(props)
@@ -28,7 +30,7 @@ export default class Home extends Component {
     if (window.Notification) Notification.requestPermission()
     document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') this.getTrip() }, false);
     window.addEventListener('online', this.getTrip)
-    setInterval(this.getTrip, 70000)
+    timeout = setTimeout(this.getTrip, 70000)
   }
 
   componentWillUnmount() {
@@ -61,6 +63,7 @@ export default class Home extends Component {
   }
 
   TripDeclined = (data) => {
+    clearTimeout(timeout)
     if (document.visibilityState !== 'hidden') {
       this.vibrate()
       this.getTrip()
@@ -78,6 +81,7 @@ export default class Home extends Component {
   TripAccepted = (data) => {
     this.vibrate()
     this.updateTrip(data.trip)
+    clearTimeout(timeout)
     if (document.visibilityState == 'hidden') this.notify(this.acceptData())
   }
 
@@ -88,6 +92,9 @@ export default class Home extends Component {
   }
 
   DriverLocationUpdated = (data) => {
+    let trip = this.state.trip
+    if (trip && [null, 10].includes(trip.status)) return;
+
     this.setState({car_location: [data.body.location.longitude, data.body.location.latitude]})
   }
 
@@ -104,16 +111,20 @@ export default class Home extends Component {
   }
 
   waiting_client = () => {
-    this.vibrate()
     let trip = this.state.trip
+    if ([null, 10].includes(trip.status)) return;
+
+    this.vibrate()
     trip.status = 2
     this.updateTrip(trip)
     if (document.visibilityState == 'hidden') this.notify(this.waitingData())
   }
 
   start_trip = () => {
-    this.vibrate()
     let trip = this.state.trip
+    if ([null, 10].includes(trip.status)) return;
+
+    this.vibrate()
     trip.status = 3
     this.updateTrip(trip)
   }

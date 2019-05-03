@@ -1,10 +1,8 @@
-require_relative '../concerns/direction'
-
 module Events
   module Trips
     module Validations
       module Build
-        include Direction
+        include Concerns::Direction
 
         private
 

@@ -1,10 +1,8 @@
-require_relative '../concerns/validation'
-
 module Events
   module Trips
     module Validations
       module Create
-        include Validation
+        include Concerns::Validation
 
         private
 
