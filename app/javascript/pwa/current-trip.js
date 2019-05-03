@@ -12,7 +12,7 @@ export default class CurrentTrip extends Component {
     this.state = {
       trip: this.getTrip(),
       submitDisabled: false,
-      entrance: Array.from({length: 15}, (v, k) => `${k + 1} ${i18n.current_trip.entrance}`)
+      entrance: Array.from({length: 15}, (v, k) => (k+1))
     }
   }
 
@@ -144,7 +144,7 @@ export default class CurrentTrip extends Component {
         <select id='entrance' value={this.state.trip.entrance} onChange={(e) => this.setEntrance(e)}>
           <option value=''>{i18n.current_trip.select_entrance}</option>
           {this.state.entrance.map((el) => {
-            return(<option value={el}>{el}</option>)
+            return(<option value={el}>{el} {i18n.current_trip.entrance}</option>)
           })}
         </select>
       </label>,

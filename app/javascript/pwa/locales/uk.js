@@ -38,7 +38,7 @@ const uk = {
   current_trip: {
     add_address: 'Додати адресу',
     comment: 'Коментар',
-    entrance: 'під\'їзд',
+    entrance: 'Під\'їзд',
     header: 'Пошук',
     select_entrance: 'Вибрати під\'їзд',
     no_call: 'Без дзвінка',

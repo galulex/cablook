@@ -69,7 +69,7 @@ class Trip < ApplicationRecord
 
   def entrance=(val)
     return if val.blank?
-    self[:comment] = "#{comment} #{val} під'їзд"
+    self[:comment] = "#{comment} #{I18n.t('trips.entrance', val: val)}"
   end
 
   def preorder?
