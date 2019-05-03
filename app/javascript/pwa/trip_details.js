@@ -98,6 +98,7 @@ export default class TripCard extends Component {
     trip.destination = start
     trip.waypoints = trip.waypoints.reverse()
     trip.stops = trip.stops.reverse()
+    trip.osrm = true
     localStorage.setItem('trip', JSON.stringify(trip))
     route('/', true)
   }

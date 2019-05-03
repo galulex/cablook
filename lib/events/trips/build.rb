@@ -53,7 +53,8 @@ module Events
         @trip_params ||= data.slice(:id, :path, :cost, :departure, :destination,
                                     :departure_address, :destination_address,
                                     :duration, :distance, :stops, :waypoints,
-                                    :comment, :user_id, :no_call, :pre_order, :vip, :osrm, :time)
+                                    :comment, :user_id, :no_call, :pre_order,
+                                    :vip, :osrm, :time, :entrance)
       end
     end
   end
