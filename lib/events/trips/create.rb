@@ -1,9 +1,7 @@
-require_relative 'concerns/direction'
-
 module Events
   module Trips
     class Create < BaseEvent
-      include Direction
+      include Concerns::Direction
       include Validations::Create
 
       FIELDS = %i[duration distance].freeze
