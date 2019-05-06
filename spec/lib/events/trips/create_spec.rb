@@ -55,16 +55,19 @@ describe Events::Trips::Create do
 
 
     context 'when user choose entrance' do
+      let(:entrance) { rand(5) }
+      let(:msg) { I18n.t('trips.entrance', val: entrance) }
+
       before { subject.call }
 
-      let(:data) { trip_params.merge(entrance: 1).except(:comment) }
+      let(:data) { trip_params.merge(entrance: entrance).except(:comment) }
 
-      it { expect(Trip.last.comment).to eq(" 1 під'їзд") }
+      it { expect(Trip.last.comment).to eq(" #{msg}") }
 
       context 'and add comment' do
-        let(:data) { trip_params.merge(entrance: 1, comment: 'FooBar') }
+        let(:data) { trip_params.merge(entrance: entrance, comment: 'FooBar') }
 
-        it { expect(Trip.last.comment).to eq("FooBar 1 під'їзд") }
+        it { expect(Trip.last.comment).to eq("FooBar #{msg}") }
       end
     end
 
