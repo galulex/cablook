@@ -18,16 +18,23 @@ describe Operations::Wayforpay::IdleSettle do
 
     context 'and total is changed' do
       let(:trip) { create(:trip, user_id: user.id, total: total) }
-      let(:payment){ create(:payment, user_id: user.id, trip_id: trip.id, card_id: card.id, amount: total) }
+      let(:payment) { create(:payment, user_id: user.id, trip_id: trip.id, card_id: card.id, amount: total) }
       let(:total) { 40 }
 
-      it { is_expected.to change { trip.reload.total }.from(total).to(total + idle / 60 * Price.last.idle_price) }
+      it { is_expected.to change { trip.reload.total }.from(total).to(total + idle / 60 * price.idle_price) }
     end
 
     context 'and wayfropay responce is ok' do
+      let(:idle_payment) { Payments::Idle.last }
+
       before { subject.call }
 
-      it { expect(Payments::Idle.last.status).to eq(Constants::Payments::SUCCESS) }
+      it { expect(idle_payment.status).to eq(Constants::Payments::SUCCESS) }
+      it { expect(idle_payment.card_id).to eq(card.id) }
+      it { expect(idle_payment.trip_id).to eq(trip.id) }
+      it { expect(idle_payment.user_id).to eq(user.id) }
+      it { expect(idle_payment.amount).to eq(idle / 60 * price.idle_price) }
+      it { expect(idle_payment.order_reference).to include("cablook_#{Rails.env}_#{trip.id}_idle_") }
     end
 
     context 'when something went wrong' do
