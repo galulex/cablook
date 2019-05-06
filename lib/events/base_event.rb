@@ -33,5 +33,10 @@ module Events
     def invalid!(errors, status: 422)
       raise InvalidParamsError.new(status: status), errors.to_json
     end
+
+    def telegram_trip?(user)
+      trip_json = Redis.current.get("trip_#{user.telegram.id}")
+      trip_json && JSON.parse(trip_json)['telegram_trip']
+    end
   end
 end

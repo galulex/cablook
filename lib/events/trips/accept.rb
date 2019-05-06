@@ -118,8 +118,7 @@ module Events
       end
 
       def telegram_message
-        return if trip.telegram.blank?
-        TelegramOrder.new(trip.telegram).driver_found(:accept, driver.username, car.phone_number)
+        TelegramOrder.new(trip.telegram).driver_found(:accept, driver.username, car.phone_number) if trip.telegram && telegram_trip?(trip.user)
       end
     end
   end

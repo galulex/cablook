@@ -52,8 +52,7 @@ module Events
       end
 
       def telegram_message
-        return if trip.telegram.blank?
-        TelegramOrder.new(trip.telegram).update_step(:no_car_found)
+        TelegramOrder.new(trip.telegram).update_step(:no_car_found) if trip.telegram && telegram_trip?(trip.user)
       end
     end
   end

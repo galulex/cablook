@@ -30,6 +30,7 @@ class TelegramOrder
   end
 
   def book
+    self.trip = { telegram_trip: true }
     update_step(:request_departure_address)
   end
 
@@ -45,6 +46,7 @@ class TelegramOrder
 
   def skip_comment
     self.trip = Events::Trips::Build.(trip.merge(user_id: @user.user_id)).as_json(methods: :image)
+    update_trip(telegram_trip: true)
     @user.cards.size > 1 ? request_card : confirmation
   end
 
@@ -82,6 +84,7 @@ class TelegramOrder
 
   def go
     self.trip = Events::Trips::Create.(trip.merge(user_id: @user.user_id)).as_json(methods: :image)
+    update_trip(telegram_trip: true)
     update_step(:looking_for_car)
   end
 
