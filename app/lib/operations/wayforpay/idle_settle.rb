@@ -27,6 +27,7 @@ module Operations
         Payments::Idle.create(
           trip_id: trip_id,
           user_id: trip.user_id,
+          card_id: card.id,
           amount: idle_amount,
           response: settle_idle_response,
           status: status,
