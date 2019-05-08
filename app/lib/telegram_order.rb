@@ -83,7 +83,7 @@ class TelegramOrder
   end
 
   def go
-    self.trip = Events::Trips::Create.(trip.merge(user_id: @user.user_id)).as_json(methods: :image)
+    self.trip = Events::Trips::Create.(trip.except(:telegram_trip).merge(user_id: @user.user_id)).as_json(methods: :image)
     update_trip(telegram_trip: true)
     update_step(:looking_for_car)
   end
