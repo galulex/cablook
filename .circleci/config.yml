@@ -38,6 +38,16 @@ jobs:
           key: yarn-packages-{{ checksum "yarn.lock" }}
           paths:
             - ~/.cache/yarn
+      - run:
+          name: Install Chrome Stable
+          command: |
+            sudo su -c "echo 'deb [check-valid-until=no] http://cdn-fastly.deb.debian.org/debian jessie main' > /etc/apt/sources.list.d/jessie.list"
+            sudo su -c "echo 'deb [check-valid-until=no] http://archive.debian.org/debian jessie-backports main' > /etc/apt/sources.list.d/jessie-backports.list"
+            sudo sed -i '/deb http:\/\/deb.debian.org\/debian jessie-updates main/d' /etc/apt/sources.list
+            wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
+            sudo sh -c 'echo "deb http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list'
+            sudo apt-get -o Acquire::Check-Valid-Until=false update
+            sudo apt-get install google-chrome-stable --allow-unauthenticated
       # Secrets setup
       - run: cp config/secrets.yml.example config/secrets.yml
       # Database setup
