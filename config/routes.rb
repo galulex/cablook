@@ -17,6 +17,7 @@ Rails.application.routes.draw do
     resources :favorite_addresses, only: %i[index create destroy]
 
     resource :user, only: :show
+    resource :device, only: :create
 
     resource :statistics, only: :show
 

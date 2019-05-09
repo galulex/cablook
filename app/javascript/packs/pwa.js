@@ -28,6 +28,7 @@ import FindDriver from '../pwa/find_driver.js';
 import Prompt from '../pwa/prompt.js';
 import Statistics from '../pwa/statistics.js';
 import Profile from '../pwa/profile.js';
+import { messaging } from '../pwa/push_notification.js'
 
 import '../pwa/css/buttons.css';
 
@@ -60,9 +61,48 @@ export default class App extends Component {
       this.fetchUser()
       document.documentElement.style.setProperty('--body-bg', '#19a160')
     }
+    this.requestPermission()
+    this.onMessage()
     window.addEventListener('offline', this.offline)
     window.addEventListener('online', this.online)
     if (!navigator.onLine) this.offline()
+  }
+
+  requestPermission = () => {
+    if (!messaging) return;
+    messaging.requestPermission()
+      .then(() => {
+        messaging.getToken().then((token) => {
+          if (localStorage.getItem('fcm_token') === token) return;
+          localStorage.setItem('fcm_token', token)
+          localStorage.setItem('device', navigator.platform)
+          if (this.state.currentUser) this.sendTokenToServer(token)
+        })
+      })
+      .catch((err) => {
+        console.log('Unable to get permission to notify.', err);
+      });
+
+  }
+
+  onMessage = () => {
+    if (!messaging) return;
+    messaging.onMessage((payload) => {
+      var title = payload.notification.title
+
+      navigator.serviceWorker.getRegistration().then((registration) => {
+        registration.showNotification(title, { body: payload.notification.body, icon: '/icon_128x128.png' });
+      });
+    });
+  }
+
+  sendTokenToServer = (token) => {
+    let device_params = { token: token, platform: navigator.platform }
+
+    axios.post('device', { device: device_params })
+      .catch((err) => {
+        if (error.response) alert(error.response.data.errors)
+      })
   }
 
   handleRoute = e => {

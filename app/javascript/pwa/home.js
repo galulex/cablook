@@ -27,7 +27,6 @@ export default class Home extends Component {
   componentDidMount() {
     if (!!this.state.trip) this.subscribe()
     this.getTrip()
-    if (window.Notification) Notification.requestPermission()
     document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') this.getTrip() }, false);
     window.addEventListener('online', this.getTrip)
     timeout = setTimeout(this.getTrip, 70000)
@@ -69,20 +68,12 @@ export default class Home extends Component {
       this.getTrip()
       return
     }
-    this.notify(this.declineData())
-  }
-
-  notify = (data) => {
-    navigator.serviceWorker.getRegistrations().then(registrations => {
-      registrations[0].showNotification('CabLook', data)
-    })
   }
 
   TripAccepted = (data) => {
     this.vibrate()
     this.updateTrip(data.trip)
     clearTimeout(timeout)
-    if (document.visibilityState == 'hidden') this.notify(this.acceptData())
   }
 
   TripUnavailable = (data) => {
@@ -117,7 +108,6 @@ export default class Home extends Component {
     this.vibrate()
     trip.status = 2
     this.updateTrip(trip)
-    if (document.visibilityState == 'hidden') this.notify(this.waitingData())
   }
 
   start_trip = () => {
@@ -175,31 +165,6 @@ export default class Home extends Component {
   handleFeedbackBack = (event) => {
     event.stopPropagation()
     this.updateTrip(null)
-  }
-
-  acceptData = () => {
-    let data = {icon: '/icon_128x128.png',
-                data: {id: this.state.trip.id, token: localStorage.token},
-                badge: '/icon_96x96.png',
-                body: `${this.state.trip.driver_name} ${i18n.trip.will_arrive} ${this.state.trip.start_time} ${i18n.trip.on} ${this.state.trip.car_number}`}
-    return data
-  }
-
-  waitingData = () => {
-    let data = {icon: '/icon_128x128.png',
-                data: {id: this.state.trip.id, token: localStorage.token},
-                badge: '/icon_96x96.png',
-                body: i18n.trip.waiting_notice}
-    return data
-  }
-
-  declineData = () => {
-    let data = {icon: '/icon_128x128.png',
-                data: {id: this.state.trip.id, token: localStorage.token},
-                badge: '/icon_96x96.png',
-                body: i18n.trip.no_cars_notice,
-                actions: [{action: 'retry', title: '🔄 Retry'}]}
-    return data
   }
 
   render() {
