@@ -44,21 +44,21 @@ gem 'websocket-driver', git: 'https://github.com/faye/websocket-driver-ruby', re
 gem 'whenever', require: false
 
 group :development, :test do
-  gem 'pry-rails'
   gem 'letter_opener'
+  gem 'pry-rails'
   gem 'reek', require: false
   gem 'rubocop', require: false
 end
 
 group :test do
-  gem 'superbara'
+  gem 'cuprite'
   gem 'database_cleaner'
   gem 'factory_bot_rails', '~> 4.0'
   gem 'faker'
-  gem 'cuprite'
   gem 'rspec-rails'
   gem 'rspec-retry'
   gem 'simplecov', require: false
+  gem 'superbara'
   gem 'webmock'
 end
 
