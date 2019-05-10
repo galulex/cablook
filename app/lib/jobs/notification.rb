@@ -4,10 +4,10 @@ module Jobs
       fcm = FCM.new(ENV['FCM_SERVER_KEY'])
       registration_ids = Device.where(user_id: user_id).pluck(:token)
       options = {
-        'notification': {
-          'title': 'CabLook',
-          'body': message,
-          'icon': '/icon_128x128.png'
+        notification: {
+          title: 'CabLook',
+          body: message,
+          icon: '/icon_128x128.png'
         }
       }
       fcm.send(registration_ids, options)

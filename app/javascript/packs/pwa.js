@@ -62,7 +62,6 @@ export default class App extends Component {
       document.documentElement.style.setProperty('--body-bg', '#19a160')
     }
     this.requestPermission()
-    this.onMessage()
     window.addEventListener('offline', this.offline)
     window.addEventListener('online', this.online)
     if (!navigator.onLine) this.offline()
@@ -82,18 +81,6 @@ export default class App extends Component {
       .catch((err) => {
         console.log('Unable to get permission to notify.', err);
       });
-
-  }
-
-  onMessage = () => {
-    if (!messaging) return;
-    messaging.onMessage((payload) => {
-      var title = payload.notification.title
-
-      navigator.serviceWorker.getRegistration().then((registration) => {
-        registration.showNotification(title, { body: payload.notification.body, icon: '/icon_128x128.png' });
-      });
-    });
   }
 
   sendTokenToServer = (token) => {

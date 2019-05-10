@@ -1,5 +1,0 @@
-importScripts('https://www.gstatic.com/firebasejs/6.0.1/firebase-app.js');
-importScripts('https://www.gstatic.com/firebasejs/6.0.1/firebase-messaging.js');
-
-firebase.initializeApp({ messagingSenderId: '530018467398' });
-firebase.messaging();

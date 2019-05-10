@@ -1,3 +1,6 @@
+importScripts('https://www.gstatic.com/firebasejs/6.0.1/firebase-app.js');
+importScripts('https://www.gstatic.com/firebasejs/6.0.1/firebase-messaging.js');
+
 var CACHE_VERSION = 'v1';
 var CACHE_NAME = CACHE_VERSION + ':sw-cache-';
 
@@ -81,32 +84,21 @@ self.addEventListener('activate', onActivate);
 self.addEventListener('fetch', onFetch);
 
 self.addEventListener('notificationclick', function(event) {
-  var messageId = event.notification.data;
-
   event.notification.close();
 
-  if (event.action === 'retry') {
-    retry(event.notification.data, event.action)
-  } else if (event.action === 'cancel') {
-    return
-  } else {
-    event.waitUntil(clients.matchAll({
-      type: "window"
-    }).then(function(clientList) {
-      for (var i = 0; i < clientList.length; i++) {
-        var client = clientList[i];
-        if (client.url == '/' && 'focus' in client)
-          return client.focus();
-      }
-      if (clients.openWindow) return clients.openWindow('/');
-    }));
-  }
+  event.waitUntil(clients.matchAll({
+    type: 'window'
+  }).then(function(clientList) {
+    for (var i = 0; i < clientList.length; i++) {
+      var client = clientList[i];
+
+      if ('focus' in client) { return client.focus(); }
+    }
+
+    if (clients.openWindow) return clients.openWindow('/');
+  }));
+
 }, false);
 
-function retry(data) {
-  fetch('api/trips/' + data.id + '/retry', { method: "PATCH",
-    headers: {
-      "Content-Type": "application/json", "Auth-Token": data.token
-    }
-  })
-}
+firebase.initializeApp({ messagingSenderId: '530018467398' });
+const messaging = firebase.messaging();
