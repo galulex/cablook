@@ -111,6 +111,7 @@ RSpec.feature 'Trip', type: :feature, js: true do
       has_text? driver.name
       has_text? 'Edit'
     end
+    expect(page).to have_content('56 uah')
     find('button#edit_trip').trigger(:click)
     find('button.add-address').trigger(:click)
     all('input')[2].set('HELLO')

@@ -134,6 +134,7 @@ export default class App extends Component {
     if (!confirm('Are you sure?')) return;
     this.setState({currentUser: null, drawer: false})
     localStorage.removeItem('token')
+    localStorage.removeItem('trip')
   }
 
   triggerDrawer = (open) => {
