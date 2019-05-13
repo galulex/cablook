@@ -35,7 +35,7 @@ module Api
 
     def trips
       Trip
-        .includes(:feedbacks, :user)
+        .includes(:feedbacks, :bonus_trip, :user)
         .where(user_id: current_user.id, status: params[:status] || Constants::Trip::STATUSES)
         .order(id: :desc)
         .offset(index_params[:page]&.send(:*, index_params[:per]))

@@ -27,7 +27,7 @@ export default class Home extends Component {
   componentDidMount() {
     if (!!this.state.trip) this.subscribe()
     this.getTrip()
-    document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') this.getTrip() }, false);
+    document.addEventListener('visibilitychange', this.onVisibilityChange, false);
     window.addEventListener('online', this.getTrip)
     timeout = setTimeout(this.getTrip, 70000)
   }
@@ -35,6 +35,8 @@ export default class Home extends Component {
   componentWillUnmount() {
     this.unsubscribe()
     window.removeEventListener('online', this.getTrip)
+    document.removeEventListener('visibilitychange', this.onVisibilityChange)
+    clearTimeout(timeout)
   }
 
   subscribe = () => {
@@ -54,6 +56,10 @@ export default class Home extends Component {
   unsubscribe = () => {
     if (this.state.subscription) this.state.subscription.unsubscribe()
     this.setState({subscription: null})
+  }
+
+  onVisibilityChange = () => {
+    if (document.visibilityState === 'visible') this.getTrip()
   }
 
   updateTrip = (trip) => {
@@ -150,9 +156,13 @@ export default class Home extends Component {
   }
 
   edit = () => {
-    let trip = JSON.parse(localStorage.getItem('trip'))
-    trip.status = null
-    this.updateTrip(trip)
+    axios.get(`trips/${this.state.trip.id}`).then((res) => {
+      let trip = res.data
+      trip.status = null
+      this.updateTrip(trip)
+    }).catch((error) => {
+      if (error.response) alert(error.response.data.errors)
+    })
   }
 
   handleBack = (event) => {
