@@ -74,7 +74,7 @@ address:last-of-type {
   justify-content: space-between;
 }
 .trips {
-  padding: 54px 0 0;
+  padding: 54px 0;
 }
 .trips input[type='radio'] {
   display: none;

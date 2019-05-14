@@ -31,6 +31,7 @@ import Profile from '../pwa/profile.js';
 import { messaging } from '../pwa/push_notification.js'
 
 import '../pwa/css/buttons.css';
+import '../pwa/inobounce.js';
 
 import axios from 'axios';
 axios.defaults.baseURL = '/api';
