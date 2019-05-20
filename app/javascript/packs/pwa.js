@@ -5,7 +5,6 @@ if (window.dark) {
   document.documentElement.style.setProperty('--navy', 'white');
   document.documentElement.style.setProperty('--grey', 'black');
   document.documentElement.style.setProperty('--map-bg', 'black');
-  document.documentElement.style.setProperty('--pin-color', 'var(--orange)');
   document.documentElement.style.setProperty('--path-color', ' #ffffff');
   document.documentElement.style.setProperty('--placeholder', 'rgba(255, 255, 255, 0.5)');
   document.documentElement.style.setProperty('--shadow', '0 3px 6px rgba(255,255,255,0.2)');

@@ -62,8 +62,8 @@ export default class AddressInput extends Component {
         geocoder.geocode( { 'location': location}, function(res, status) {
           if (status == 'OK') {
             let place = res[0]
-            component.setState({ address: place.formatted_address, predictions: [], isValid: true, geocoded: true });
-            component.props.setAddress(place.formatted_address, `${place.geometry.location.lat()},${place.geometry.location.lng()}`, component.props.index);
+            component.setState({ address: `${place.address_components[1].long_name}, ${place.address_components[0].long_name}`, predictions: [], isValid: true, geocoded: true });
+            component.props.setAddress(`${place.address_components[1].long_name}, ${place.address_components[0].long_name}`, `${place.geometry.location.lat()},${place.geometry.location.lng()}`, component.props.index);
             component.input.setCustomValidity('')
           } else {
             alert(status)
@@ -108,8 +108,8 @@ export default class AddressInput extends Component {
     geocoder.geocode({'location': latlng}, (results, status) => {
       if (status === 'OK') {
         if (results[0]) {
-          this.setState({ address: results[0].formatted_address, predictions: [], isValid: true });
-          this.props.setAddress(results[0].formatted_address, `${lat},${lng}`, this.props.index);
+          this.setState({ address: `${results[0].address_components[1].long_name}, ${results[0].address_components[0].long_name}`, predictions: [], isValid: true });
+          this.props.setAddress(`${results[0].address_components[1].long_name}, ${results[0].address_components[0].long_name}`, `${lat},${lng}`, this.props.index);
           this.input.setCustomValidity('')
         } else {
           window.alert('No results found');
