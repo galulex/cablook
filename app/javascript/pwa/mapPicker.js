@@ -9,7 +9,9 @@ import Pin from './images/pin.svg'
 import './css/picker.css'
 
 mapboxgl.accessToken = 'pk.eyJ1IjoiZ2FsdWxleCIsImEiOiJjamx6ampoZjgyMnYxM3FvZ2ppNjV2M2x5In0.bPgk2WI9NT-DJwnE-OtiLA';
+
 var timeout
+var delay_time = 500
 
 export default class MapPicker extends Component {
   constructor(props) {
@@ -54,7 +56,7 @@ export default class MapPicker extends Component {
     });
 
     this.map.on('dragend', () => {
-      timeout = setTimeout(this.showAddressBar, 1000)
+      timeout = setTimeout(this.showAddressBar, delay_time)
     });
 
     const geolocate = new mapboxgl.GeolocateControl({
