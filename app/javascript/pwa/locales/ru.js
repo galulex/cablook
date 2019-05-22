@@ -145,12 +145,18 @@ const ru = {
   },
   profile_page: {
     header: 'Профиль',
+    notification_settings: 'Настройки уведомлений:',
     favorite_addresses: 'Ваши избранные адреса:',
     no_addresses: 'У вас еще нет добавленных избранных адресов',
     add_address: 'Добавить Адрес',
     type_name: 'Введите название ',
     placeholder: 'Введите адрес или выберите место',
-    theme: 'Темная тема'
+    theme: 'Темная тема',
+    notification_names: {
+      waiting_client: 'Водитель ожидает',
+      accept_trip: 'Заказ принят',
+      decline_trip: 'Заказ отменен'
+    }
   },
   choose_address: 'Выберите адрес из списка',
   are_you_sure: 'Вы уверены?'

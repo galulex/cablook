@@ -15,6 +15,7 @@ Rails.application.routes.draw do
       get 'pending', on: :collection
     end
     resources :favorite_addresses, only: %i[index create destroy]
+    resource :notification_settings, only: %i[update]
 
     resource :user, only: :show
     resource :device, only: :create

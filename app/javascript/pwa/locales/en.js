@@ -145,12 +145,18 @@ const en = {
   },
   profile_page: {
     header: 'Profile',
+    notification_settings: 'Notification settings:',
     favorite_addresses: 'Your favorite addresses:',
     no_addresses: 'You have no addresses',
     add_address: 'Add Favorite Address',
     type_name: 'Type name ',
     placeholder: 'Type address or choose a place',
-    theme: 'Dark Theme'
+    theme: 'Dark Theme',
+    notification_names: {
+      waiting_client: 'Waiting client',
+      accept_trip: 'Accept trip',
+      decline_trip: 'Decline trip'
+    }
   },
   choose_address: 'Choose address from a list',
   are_you_sure: 'Are you sure?'
