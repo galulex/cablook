@@ -9,9 +9,10 @@ import './css/profile.css'
 export default class FavoriteAddresses extends Component {
   constructor(props) {
     super(props);
-      this.state = {
+    this.state = {
       showing: false,
       favorite_addresses: [],
+      notification_settings: [],
       id: null,
       name: null,
       location: null,
@@ -22,11 +23,22 @@ export default class FavoriteAddresses extends Component {
   }
 
   componentDidMount() {
-    this.setState({favorite_addresses: this.props.favorite_addresses()})
+    this.setState({favorite_addresses: this.props.favorite_addresses(),
+                   notification_settings: this.props.notification_settings})
   }
 
-  componentWillReceiveProps() {
-    this.setState({favorite_addresses: this.props.favorite_addresses()})
+  componentWillReceiveProps(nextProps) {
+    if (this.props.notification_settings !== nextProps.notification_settings) {
+      this.setState({favorite_addresses: nextProps.favorite_addresses(),
+                     notification_settings: nextProps.notification_settings})
+    } else {
+      this.setState({favorite_addresses: nextProps.favorite_addresses()})
+    }
+  }
+
+  componentWillUnmount() {
+    const { notification_settings } = this.state;
+    this.updateNotificationSettings(notification_settings)
   }
 
   handleChange = (e) => {
@@ -42,8 +54,31 @@ export default class FavoriteAddresses extends Component {
     window.location.reload()
   }
 
+  updateNotificationSettings = (data) => {
+    axios.patch('notification_settings', { notification_settings: data })
+      .then((res) => {
+        this.props.updateNotificationSettings(this.state.notification_settings)
+      })
+      .catch((error) => {
+        if (error.response) alert(error.response.data.errors)
+    })
+  }
+
+  changeNotificationSettings = (e) => {
+    let { notification_settings } = this.state;
+
+    if (e.currentTarget.checked) {
+      notification_settings.push(e.currentTarget.value)
+    } else {
+      notification_settings = notification_settings.filter((x) => { return x !== e.currentTarget.value})
+    }
+
+    this.setState({notification_settings: notification_settings})
+  }
+
   render() {
-    const { showing } = this.state;
+    const { showing, notification_settings } = this.state;
+
     return (
       <section class='profile'>
         <header>{i18n.profile_page.header}</header>
@@ -51,6 +86,15 @@ export default class FavoriteAddresses extends Component {
             <input id='dark' type='checkbox' value='dark' onChange={this.changeTheme} checked={window.dark}/>
             <label for='dark'>{i18n.profile_page.theme}</label>
           </div>
+          <h4 class='center'>{i18n.profile_page.notification_settings}</h4>
+          {['accept_trip', 'decline_trip', 'waiting_client'].map((value) => {
+            return(
+              <div class='nocall'>
+                <input id={value} type='checkbox' value={value} onChange={this.changeNotificationSettings} checked={notification_settings.includes(value)}/>
+                <label for={value}>{i18n.profile_page.notification_names[value]}</label>
+              </div>
+            )
+          })}
           <h4 class='center'>{i18n.profile_page.favorite_addresses}</h4>
           { this.favoriteAddressesList() }
           { showing ? this.newForm() : <button class='button add_fav_address' type='button' onClick={() => this.setState({ showing: !showing })}>+ {i18n.profile_page.add_address}</button> }

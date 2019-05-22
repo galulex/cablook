@@ -43,6 +43,10 @@ class User < ApplicationRecord
     phone_number
   end
 
+  def enabled_notifications
+    Constants::User::NOTIFICATIONS - notification_settings
+  end
+
   private
 
   def generate_referral

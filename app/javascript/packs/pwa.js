@@ -49,7 +49,8 @@ export default class App extends Component {
       bonus_trips: [],
       parent_bonus: [],
       language: localStorage.getItem('language') || i18n.getInterfaceLanguage().split('-')[0],
-      favorite_addresses: []
+      favorite_addresses: [],
+      notification_settings: []
     }
     axios.defaults.headers.common['Pwa-Language'] = this.state.language
   }
@@ -110,6 +111,7 @@ export default class App extends Component {
     axios.get('user').then((res) => {
       this.setState({cards: res.data.cards,
         favorite_addresses: res.data.favorite_addresses,
+        notification_settings: res.data.enabled_notifications,
         bonus_trips: res.data.bonus_trips,
         parent_bonus: res.data.parent_bonus || [],
         currentUserID: res.data.id
@@ -147,6 +149,10 @@ export default class App extends Component {
 
   updateFavoriteAddresses = (favorite_addresses) => {
     this.setState({favorite_addresses: favorite_addresses, drawer: false})
+  }
+
+  updateNotificationSettings = (notification_settings) => {
+    this.setState({notification_settings, drawer: false})
   }
 
   createCard = (data) => {
@@ -195,7 +201,7 @@ export default class App extends Component {
             <Cards path='/cards' cards={() => this.state.cards} create={this.createCard} currentUserID={() => this.state.currentUserID} />
             <Contacts path='/contacts' />
             <Statistics path='/statistics' />
-            <Profile path='/profile' favorite_addresses={() => this.state.favorite_addresses} updateFavoriteAddresses={this.updateFavoriteAddresses} />
+            <Profile path='/profile' notification_settings={this.state.notification_settings} updateNotificationSettings={this.updateNotificationSettings} favorite_addresses={() => this.state.favorite_addresses} updateFavoriteAddresses={this.updateFavoriteAddresses} />
           </Router>
           <Prompt />
         </main>
