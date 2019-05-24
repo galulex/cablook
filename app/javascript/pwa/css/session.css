@@ -59,6 +59,12 @@ main.login input::placeholder {
 }
 
 main.login button.change { background: #efcc3a; }
+main.login button.resend {
+  background: transparent;
+  box-shadow: none;
+  text-decoration: underline;
+  width: auto;
+}
 
 main.login svg.logo {
   max-width: 200px;
@@ -78,7 +84,7 @@ main.login svg.lock {
   width: 20px;
   height: 20px;
   max-width: 20px;
-  top: 50px;
+  top: 14px;
   left: 15px;
 }
 
@@ -108,4 +114,8 @@ main.login p {
 ellipse[stroke-dasharray] {
   stroke-dashoffset: 0;
   animation: dash .3s linear infinite;
+}
+
+.grecaptcha-badge {
+  opacity: 0;
 }
