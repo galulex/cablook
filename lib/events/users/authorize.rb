@@ -11,8 +11,11 @@ module Events
 
       def run
         return user if custom_iphone?
-        Jobs::Sms.perform_later(data[:phone_number], sms_body)
-        update_code
+        if data[:firebase].blank?
+          Jobs::Sms.perform_later(data[:phone_number], sms_body)
+          update_code
+        end
+        update_auth_token
         user || create_user
       end
 
@@ -23,7 +26,11 @@ module Events
       end
 
       def update_code
-        user.update(verification_token: code) if user
+        user&.update(verification_token: code)
+      end
+
+      def update_auth_token
+        user.update(auth_token: data[:auth_token]) if user && data[:auth_token].present?
       end
 
       def user
@@ -31,7 +38,7 @@ module Events
       end
 
       def create_user
-        @user ||= User.create(data.merge(verification_token: code))
+        @user ||= User.create(data.except(:firebase).merge(verification_token: code))
       end
 
       def code

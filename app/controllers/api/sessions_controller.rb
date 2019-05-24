@@ -1,7 +1,7 @@
 module Api
   class SessionsController < ApiApplicationController
     def create
-      user = Events::Users::Authorize.(phone_number: params[:phone_number])
+      user = Events::Users::Authorize.(authorize_params)
       Operations::UpdateUserDevice.(user.id, device_params) if params[:device]
       # Temoporari until mobile app update
       # render json: user.as_json(except: %i[auth_token verification_token]), status: 201
@@ -14,6 +14,10 @@ module Api
     end
 
     private
+
+    def authorize_params
+      params.permit(:phone_number, :firebase, :auth_token)
+    end
 
     def device_params
       params[:device].permit(:token, :platform).to_h.symbolize_keys

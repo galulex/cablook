@@ -27,7 +27,7 @@ import FindDriver from '../pwa/find_driver.js';
 import Prompt from '../pwa/prompt.js';
 import Statistics from '../pwa/statistics.js';
 import Profile from '../pwa/profile.js';
-import { messaging } from '../pwa/push_notification.js'
+import { messaging, firebaseAuth } from '../pwa/firebase.js'
 
 import '../pwa/css/buttons.css';
 import '../pwa/inobounce.js';
@@ -134,6 +134,7 @@ export default class App extends Component {
   logOut = (e) => {
     e.preventDefault()
     if (!confirm('Are you sure?')) return;
+    firebaseAuth().signOut()
     this.setState({currentUser: null, drawer: false})
     localStorage.removeItem('token')
     localStorage.removeItem('trip')

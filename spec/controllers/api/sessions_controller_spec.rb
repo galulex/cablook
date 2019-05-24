@@ -6,9 +6,12 @@ describe Api::SessionsController, type: :controller do
     let(:params) { { phone_number: user.phone_number } }
 
     context 'valid data' do
-      before { post :create, params: params }
+      it do
+        post :create, params: params
+        is_expected.to be_successful
+      end
 
-      it { is_expected.to be_successful }
+      it { expect { post :create, params: params }.to have_enqueued_job(Jobs::Sms) }
     end
 
     context 'invalid data' do
@@ -31,6 +34,12 @@ describe Api::SessionsController, type: :controller do
       before { post :create, params: params }
 
       it { is_expected.to be_successful }
+    end
+
+    context 'when firebase parameter is true' do
+      let(:params) { { phone_number: user.phone_number, firebase: true } }
+
+      it { expect { post :create, params: params }.to_not have_enqueued_job(Jobs::Sms) }
     end
   end
 

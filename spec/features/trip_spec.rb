@@ -9,16 +9,14 @@ RSpec.feature 'Trip', type: :feature, js: true do
     Redis.current.set("car_#{car.id}", '49.4412378,32.0650127')
     Capybara.default_host = 'http://app.lvh.me'
     visit('http://app.lvh.me:9887')
+    Capybara.evaluate_script "localStorage.setItem('token', '#{user.auth_token}');"
+    Capybara.evaluate_script "localStorage.setItem('referral', '#{user.referral_code}');"
+    Capybara.evaluate_script "localStorage.setItem('email', '#{user.email}');"
+    Capybara.evaluate_script "localStorage.setItem('phone', '#{user.phone_number}');"
+    visit('http://app.lvh.me:9887')
   end
 
   it 'orders a taxi' do
-    find('input#number').set(user.phone_number.slice(4..-1))
-    find_button('Sign in').trigger(:click)
-    wait 3 do
-      has_text? 'Next'
-    end
-    find('input#code').set(User.last.verification_token)
-    find_button('Next').trigger(:click)
     wait 3 do
       has_text? 'Search'
     end
@@ -71,13 +69,6 @@ RSpec.feature 'Trip', type: :feature, js: true do
   end
 
   it 'updates' do
-    find('input#number').set(user.phone_number.slice(4..-1))
-    find_button('Sign in').trigger(:click)
-    wait 3 do
-      has_text? 'Next'
-    end
-    find('input#code').set(User.last.verification_token)
-    find_button('Next').trigger(:click)
     wait 3 do
       has_text? 'Search'
     end
