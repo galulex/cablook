@@ -118,6 +118,7 @@ export default class App extends Component {
       })
     }).catch((error) => {
       if (error.response) alert(error.response.data.errors)
+      this.removeData()
     })
   }
 
@@ -133,7 +134,10 @@ export default class App extends Component {
 
   logOut = (e) => {
     e.preventDefault()
-    if (!confirm('Are you sure?')) return;
+    if (confirm('Are you sure?')) this.removeData();
+  }
+
+  removeData = () => {
     firebaseAuth().signOut()
     this.setState({currentUser: null, drawer: false})
     localStorage.removeItem('token')
