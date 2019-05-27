@@ -25,10 +25,16 @@ export default class Session extends Component {
 
   componentDidMount() {
     document.documentElement.style.setProperty('--body-bg', '#132d50');
+    window.addEventListener('click', this.handleClickRecaptcha)
   }
 
   componentWillUnmount() {
     document.documentElement.style.setProperty('--body-bg', '#19a160');
+  }
+
+  handleClickRecaptcha = (e) => {
+    const recaptcha = document.querySelector('iframe[title*="recaptcha"]')
+    if (recaptcha && recaptcha.parentElement.previousSibling == e.target) this.setDisabled(false)
   }
 
   renderNumber = () => {
@@ -72,7 +78,7 @@ export default class Session extends Component {
     )
   }
 
-  setDisabled = (bool=false) => {
+  setDisabled = (bool) => {
     this.setState({disabled: bool})
   }
 
@@ -114,7 +120,6 @@ export default class Session extends Component {
     this.setDisabled(true)
 
     window.recaptchaVerifier = new firebaseAuth.RecaptchaVerifier('recaptcha_container', { size: 'invisible' })
-    window.recaptchaVerifier.render().then(() => { setTimeout(this.setDisabled, 2000) })
 
     firebaseAuth().signInWithPhoneNumber(number, recaptchaVerifier)
       .then((confirmationResult) => {
