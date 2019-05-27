@@ -72,6 +72,10 @@ export default class Session extends Component {
     )
   }
 
+  setDisabled = (bool=false) => {
+    this.setState({disabled: bool})
+  }
+
   updateNumber = (e) => {
     this.setState({number: NUMBER_CODE + e.target.value})
   }
@@ -107,16 +111,17 @@ export default class Session extends Component {
     const { number } = this.state
 
     this.resetCaptcha()
-    this.setState({disabled: true})
+    this.setDisabled(true)
 
-    window.recaptchaVerifier = new firebaseAuth.RecaptchaVerifier('recaptcha_container', { size: 'invisible'});
+    window.recaptchaVerifier = new firebaseAuth.RecaptchaVerifier('recaptcha_container', { size: 'invisible' })
+    window.recaptchaVerifier.render().then(() => { setTimeout(this.setDisabled, 2000) })
 
     firebaseAuth().signInWithPhoneNumber(number, recaptchaVerifier)
       .then((confirmationResult) => {
         this.setState({isCodeSent: true, disabled: false})
         window.confirmationResult = confirmationResult
       }).catch((error) => {
-        this.setState({disabled: false})
+        this.setDisabled(false)
         this.resetCaptcha()
         alert(i18n.session.phone_number_error)
       });
@@ -128,12 +133,12 @@ export default class Session extends Component {
 
     const { code } = this.state
 
-    this.setState({disabled: true})
+    this.setDisabled(true)
 
     confirmationResult.confirm(code).then((result) => {
       this.sendRequest(result.user.uid)
     }).catch((error) => {
-      this.setState({disabled: false})
+      this.setDisabled(false)
       alert(i18n.session.code_error)
     });
   }
@@ -150,7 +155,7 @@ export default class Session extends Component {
     axios.post('session', params).then((res) => {
       this.props.login(res.data)
     }).catch((error) => {
-      this.setState({disabled: false})
+      this.setDisabled(false)
       if (error.response) alert(error.response.data.errors)
     })
   }
