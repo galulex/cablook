@@ -2,6 +2,7 @@ import { h, render, Component } from 'preact';
 import axios from 'axios';
 
 import i18n from '../pwa/i18n.js'
+import Map from '../mapbox/map.js'
 
 const ActionCable = require('actioncable')
 const cable = ActionCable.createConsumer()
@@ -10,32 +11,38 @@ export default class Home extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      trip: JSON.parse(localStorage.getItem('trip')),
       subscription: null,
-      car_location: []
+      cars_locations: []
     }
   }
 
   componentDidMount() {
-    if (!!this.state.trip) this.subscribe()
-    document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') this.getTrips() }, false);
-    window.addEventListener('online', this.getTrips)
+    this.getCarsLocations()
+    this.subscribe()
   }
 
   componentWillUnmount() {
     this.unsubscribe()
-    window.removeEventListener('online', this.getTrips)
   }
 
   subscribe = () => {
-    if (!this.state.trip.id) return;
     if (this.state.subscription) return this.state.subscription
-    let component = this
     this.setState({subscription: cable.subscriptions.create(
-      { channel: 'TripChannel', trip_id: this.state.trip.id },
+      { channel: 'DriverMapChannel' },
       {
         received: data => {
-          component[data['action']](data)
+          let cars_locations = this.state.cars_locations
+          let found = false
+
+          cars_locations = cars_locations.map((l) => {
+            if (l.car_id == data['car_id']) {
+              found = true
+              l.location = data['location'].reverse()
+            }
+            return l
+          })
+          if (!found) { cars_locations = [...cars_locations, { car_id: data['car_id'], location: data['location'].reverse() }] }
+          this.setState({ cars_locations })
         }
       }
     )})
@@ -46,21 +53,16 @@ export default class Home extends Component {
     this.setState({subscription: null})
   }
 
-  vibrate = () => {
-    if (navigator.vibrate) navigator.vibrate([200, 100, 200])
-  }
-
-  getTrips = () => {
-    if (!this.state.trip || !this.state.trip.id) return;
-    axios.get(`trips/${this.state.trip.id}`).then((res) => {
-      this.updateTrip(res.data)
-      if (res.data.status == 6) this.TripDeclined()
+  getCarsLocations = () => {
+    axios.get('maps').then((res) => {
+      let cars_locations = this.state.cars_locations
+      res['data']['cars'].forEach((data) => {
+        cars_locations = [...cars_locations, { car_id: data['id'], color: data['color'], location: data['location'].reverse() }]
+      })
+      this.setState({ cars_locations })
     }).catch((error) => {
       if (error.response) alert(error.response.data.errors)
     })
-  }
-
-  handleBack = (event) => {
   }
 
   render() {
@@ -68,6 +70,7 @@ export default class Home extends Component {
       <section>
         <header>Home</header>
         <h1>Home</h1>
+        <Map cars_locations={this.state.cars_locations}/>
       </section>
     )
   }
