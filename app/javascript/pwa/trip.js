@@ -2,6 +2,8 @@ import { h, render, Component } from 'preact'
 import axios from 'axios'
 import mapboxgl from 'mapbox-gl'
 import MapboxLanguage from '@mapbox/mapbox-gl-language';
+import rhumbBearing from '@turf/rhumb-bearing';
+import { point } from '@turf/helpers'
 
 mapboxgl.accessToken = 'pk.eyJ1IjoiZ2FsdWxleCIsImEiOiJjamx6ampoZjgyMnYxM3FvZ2ppNjV2M2x5In0.bPgk2WI9NT-DJwnE-OtiLA'
 
@@ -13,7 +15,8 @@ import TripTime from './images/trip_time.svg'
 import Phone from './images/green_phone.svg'
 import Car from './images/car.svg'
 import Pin from './images/pin.svg'
-import Nissan from './images/leaf.svg'
+
+import NissanLeaf from '../pwa/trips/nissan-leaf.js'
 
 const polyline = require('@mapbox/polyline')
 
@@ -27,7 +30,8 @@ export default class Trip extends Component {
       zoom: 12,
       departure: null,
       destination: null,
-      waypoints: []
+      waypoints: [],
+      carAngleDeg: 0
     }
   }
 
@@ -56,8 +60,18 @@ export default class Trip extends Component {
       defaultLanguage: this.setMapboxLangauge()
     });
 
+    this.numDeltas = 100;
+    this.steps = 0;
+    this.deltaLat = 0;
+    this.deltaLng = 0;
+    this.position = [0, 0];
+    this.prevPosition = [0, 0];
+    this.maxTeleportLng = 0;
+    this.maxTeleportLat = 0;
+    this.teleportDistance = 0.015;
     this.map.addControl(language);
     this.map.addControl(geolocate);
+
     this.map.on('load', () => {
       // geolocate.trigger()
       this.map.addLayer({
@@ -85,9 +99,17 @@ export default class Trip extends Component {
         }
       });
 
+    this.map.on('render', () => {
+      if (this.car.getLngLat()) {
+        this.updateCarDirection()
+      }
+    });
+
     window.map = this.map
     });
     this.setMarker()
+    this.car.setLngLat(this.props.trip.car_location);
+    this.car.addTo(this.map);
     history.pushState(null, null, document.URL)
     window.addEventListener('popstate', this.handleBack)
   }
@@ -101,13 +123,42 @@ export default class Trip extends Component {
   }
 
   componentDidUpdate() {
-    this.renderCar()
+    if (JSON.stringify(this.props.location) !== JSON.stringify(this.prevPosition)) {
+      this.prevPosition = this.props.location;
+      this.steps = 0;
+      if (this.car.getLngLat()) {
+        this.position = [this.car.getLngLat().lng, this.car.getLngLat().lat];
+        this.maxTeleportLng = this.props.location[0] - this.car.getLngLat().lng;
+        this.maxTeleportLat = this.props.location[1] - this.car.getLngLat().lat;
+        this.deltaLng = this.maxTeleportLng / this.numDeltas;
+        this.deltaLat = this.maxTeleportLat / this.numDeltas;
+
+        let bearing = rhumbBearing(point(this.props.location), point([this.car.getLngLat().lng, this.car.getLngLat().lat]));
+        this.setState({carAngleDeg: bearing })
+      }
+      this.renderCar();
+    }
   }
 
   renderCar = () => {
     if (this.props.location.length === 0) return
-    this.car.setLngLat(this.props.location)
-    this.car.addTo(this.map)
+
+    if (this.car.getLngLat() &&
+        Math.abs(this.maxTeleportLng) < this.teleportDistance ||
+        Math.abs(this.maxTeleportLat) < this.teleportDistance) {
+      this.position[0] += this.deltaLng;
+      this.position[1] += this.deltaLat;
+      this.car.setLngLat(this.position);
+      this.car.addTo(this.map);
+      this.updateCarDirection();
+      if (this.steps != this.numDeltas) {
+        this.steps++;
+        setTimeout(this.renderCar, 20);
+      }
+    } else {
+      this.car.setLngLat(this.props.location)
+      this.car.addTo(this.map)
+    }
   }
 
   setMapboxLangauge = () => {
@@ -154,7 +205,7 @@ export default class Trip extends Component {
   renderPin = () => {
     return(
       <div class='pins'>
-        <div ref={el => this.nissan = el}><Nissan class='nissan' fill={this.props.trip.car_color}/></div>
+        <div ref={el => this.nissan = el}><NissanLeaf class='nissan' color={this.props.trip.car_color}/></div>
         <div ref={el => this.departure = el}><Pin class='departure'/></div>
         <div ref={el => this.destination = el}><Pin class='destination'/></div>
         {this.props.trip.waypoints.map(() => (<div><Pin class='waypoint'/></div>))}
@@ -175,5 +226,15 @@ export default class Trip extends Component {
     this.state.waypoints.forEach((el, index) => {
       new mapboxgl.Marker(document.getElementsByClassName('waypoint')[index].parentNode).setLngLat(el).addTo(this.map);
     })
+  }
+
+  updateCarDirection = () => {
+    let el = this.car.getElement();
+    let angle = this.state.carAngleDeg - this.map.getBearing();
+    if (el.style.transform.includes("rotate")) {
+      el.style.transform = el.style.transform.replace(/rotate(.*)/, "rotate(" + angle + "deg)");
+    } else {
+      el.style.transform = el.style.transform + "rotate(" + angle + "deg)";
+    }
   }
 }

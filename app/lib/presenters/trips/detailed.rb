@@ -15,6 +15,7 @@ class Presenters::Trips::Detailed < Presenters::BaseSingle
   property :status, exec_context: :decorator
   property :trips_count, exec_context: :decorator
   property :user_number, exec_context: :decorator
+  property :car_location, exec_context: :decorator
 
   def driver_name
     represented.try(:driver_name) || represented.driver&.name
@@ -62,5 +63,9 @@ class Presenters::Trips::Detailed < Presenters::BaseSingle
     (represented.start_at + represented.duration.seconds).strftime('%H:%M')
   rescue
     nil
+  end
+
+  def car_location
+    Redis.current.get("car_#{represented.car&.id}")&.split(",") || [0, 0]
   end
 end

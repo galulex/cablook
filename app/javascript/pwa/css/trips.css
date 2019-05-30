@@ -233,8 +233,8 @@ div.map {
 
 
 .trips svg.nissan {
-  width: 30px;
-  height: 30px;
+  width: 36px;
+  height: 36px;
 }
 
 .trips svg.nissan[fill='white'] path:not(:first-child), .trips svg.nissan[fill='white'] ellipse {
@@ -258,4 +258,44 @@ div.map {
 
 .trip-card .trip-card-star path{
   fill: var(--green)
+}
+
+.nissan-blue-car-gradient {
+  stop-color: #005982;
+}
+
+.nissan-blue-car-2nd-gradient {
+  stop-color: #0097bc;
+}
+
+.nissan-silver-car-gradient {
+  stop-color: #dedede;
+}
+
+.nissan-silver-car-2nd-gradient {
+  stop-color: #ababab;
+}
+
+.nissan-red-car-gradient {
+  stop-color: #cd1515;
+}
+
+.nissan-red-car-2nd-gradient {
+  stop-color: #670000;
+}
+
+.nissan-black-car-gradient {
+  stop-color: #383838;
+}
+
+.nissan-black-car-2nd-gradient {
+  stop-color: #242424;
+}
+
+.nissan-white-car-gradient {
+  stop-color: #ffffff;
+}
+
+.nissan-white-car-2nd-gradient {
+  stop-color: #e5e5e5;
 }
