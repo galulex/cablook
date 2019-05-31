@@ -233,8 +233,8 @@ div.map {
 
 
 .trips svg.nissan {
-  width: 36px;
-  height: 36px;
+  width: calc(var(--zoom-level) * 3.5px);
+  height: calc(var(--zoom-level) * 3.5px);
 }
 
 .trips svg.nissan[fill='white'] path:not(:first-child), .trips svg.nissan[fill='white'] ellipse {
