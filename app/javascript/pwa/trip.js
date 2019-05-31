@@ -105,6 +105,10 @@ export default class Trip extends Component {
       }
     });
 
+    this.map.on('zoom', () => {
+      document.documentElement.style.setProperty('--zoom-level', this.map.getZoom())
+    });
+
     window.map = this.map
     });
     this.setMarker()
@@ -153,7 +157,7 @@ export default class Trip extends Component {
       this.updateCarDirection();
       if (this.steps != this.numDeltas) {
         this.steps++;
-        setTimeout(this.renderCar, 20);
+        setTimeout(this.renderCar, 200);
       }
     } else {
       this.car.setLngLat(this.props.location)
