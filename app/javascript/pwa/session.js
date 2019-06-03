@@ -67,7 +67,7 @@ export default class Session extends Component {
         <div>
           <Lock class='lock'/>
           <input id='code' title={6 + i18n.session.digits} pattern='\d*' placeholder='_ _ _ _ _ _'
-                 maxlength='6' minlength='6' required
+                 maxlength='6' minlength='6' required type='tel'
                  value={code} autocomplete='off' autoFocus
                  onInput={this.updateCode} ref={input => this.codeInput = input}/>
         </div>

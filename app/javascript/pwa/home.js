@@ -139,8 +139,9 @@ export default class Home extends Component {
   }
 
   getTrip = () => {
-    if (!this.state.trip || !this.state.trip.id) return;
-    axios.get(`trips/${this.state.trip.id}`).then((res) => {
+    const { trip } = this.state
+    if (!trip || !trip.id || [null, 10].includes(trip.status)) return;
+    axios.get(`trips/${trip.id}`).then((res) => {
       this.updateTrip(res.data)
     }).catch((error) => {
       if (error.response) alert(error.response.data.errors)
