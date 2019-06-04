@@ -242,9 +242,9 @@ div.map {
 
 
 .trips svg.nissan {
-  width: calc(10 * 3.5px);
+  width: 40px;
   width: calc(var(--zoom-level) * 3.5px);
-  height: calc(10 * 3.5px);
+  height: 40px;
   height: calc(var(--zoom-level) * 3.5px);
 }
 

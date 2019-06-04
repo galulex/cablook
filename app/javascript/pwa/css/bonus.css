@@ -19,7 +19,7 @@ ul.bonus-trips-list li.bonus-1 span, aside span {
 }
 
 ul.bonus-trips-list li span, aside span {
-  background: a925ad;
+  background: #a925ad;
   background: var(--purple);
   border-radius: 50px;
   color: white;
