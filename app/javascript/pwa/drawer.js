@@ -33,7 +33,7 @@ export default class Drawer extends Component {
 
   render() {
     return (
-      <aside class={this.state.class} onClick={this.click} onTouchMove={this.touchMove} onTouchStart={this.touchStart} onTouchEnd={this.touchEnd} style={`transform: translate3d(${this.state.x}px, 0, 0); transition: transform 0.${this.state.transition}s`}>
+      <aside class={this.state.class} onClick={this.click} onTouchMove={this.touchMove} onTouchStart={this.touchStart} onTouchEnd={this.touchEnd} style={`left: ${this.state.x}px; transition: left 0.${this.state.transition}s`}>
         <style>
           {`aside:before { opacity: ${(1 - (Math.abs(this.state.x)/300)).toFixed(2)}; transition: opacity 0.${this.state.transition}s, width 0s 0.${this.state.delay}s; }`}
         </style>
@@ -55,12 +55,12 @@ export default class Drawer extends Component {
           <Link activeClassName='active' href='/contacts' onClick={this.close}><Contact/>{i18n.drawer.contacts}</Link>
           <Link activeClassName='active' href='/statistics' onClick={this.close}><Statistics/>{i18n.drawer.statistics}</Link>
           <Link activeClassName='active' href='' onClick={this.props.logOut}><LogOut/>{i18n.drawer.logout}</Link>
-          <select class={this.props.language} onChange={this.props.setLanguage}>
-            {this.state.locales.map(el => {
-              return(<option value={el} selected={el == this.props.language}>{el}</option>)
-            })}
-          </select>
         </div>
+        <select class={this.props.language} onChange={this.props.setLanguage}>
+          {this.state.locales.map(el => {
+            return(<option value={el} selected={el == this.props.language}>{el}</option>)
+          })}
+        </select>
       </aside>
     );
   }

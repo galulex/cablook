@@ -19,6 +19,7 @@ html lang="#{I18n.locale}"
       html {
         overflow: hidden;
         overscroll-behavior-x: none;
+        background: #132d50;
         background: var(--body-bg);
         height: 100%;
         transition: background .1s;
@@ -40,6 +41,7 @@ html lang="#{I18n.locale}"
         font-family: Gilroy, Helvetica, Arial, sans-serif;
         font-weight: 100;
         font-size: 18px;
+        background: linear-gradient(to bottom, #d1d1d1, white);
         background: linear-gradient(to bottom, var(--grey), var(--white));
         background-attachment: fixed;
         color: #312d50;
@@ -56,9 +58,12 @@ html lang="#{I18n.locale}"
         top: 0;
         left: 0;
         right: 0;
+        background: #19a160;
         background: var(--green);
+        background: linear-gradient(to left, #19a160, #312d50);
         background: linear-gradient(to left, var(--green), var(--navy));
         text-align: center;
+        color: white;
         color: var(--white);
         padding: 1rem 0;
         z-index: 100;
@@ -91,7 +96,9 @@ html lang="#{I18n.locale}"
       }
 
       div.loader {
+        background: #312d50;
         background: var(--navy);
+        background: linear-gradient(to top, #19a160 -20%, #312d50 70%);
         background: linear-gradient(to top, var(--green), 20%, var(--navy));
       }
 
@@ -172,6 +179,7 @@ html lang="#{I18n.locale}"
         position: relative;
         text-align: center;
         z-index: 100000;
+        color: white;
         color: var(--white);
       }
 

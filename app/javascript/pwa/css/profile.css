@@ -3,16 +3,22 @@
 }
 
 ul.favorite_addresses li {
+  border-bottom: 1px solid #d1d1d1;
   border-bottom: 1px solid var(--grey);
   position: relative;
-  height: 11vh;
+  min-height: 11vh;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 ul.favorite_addresses span {
-  position: absolute;
-  display: block;
-  top: 35%;
-  padding-right: 40px;
+  width: 90%;
+}
+
+ul.favorite_addresses button.x-card {
+  position: unset;
+  transform: none;
 }
 
 .center {

@@ -1,6 +1,7 @@
 ul.contacts li a {
   cursor: pointer;
   display: block;
+  color: #312d50;
   color: var(--navy);
   text-decoration: none;
   padding: 5px;

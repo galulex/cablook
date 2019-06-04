@@ -7,6 +7,8 @@ import Session from '../driver/session.js';
 import Drawer from '../driver/drawer.js';
 import Home from '../driver/home.js';
 
+import Burger from '../pwa/images/burger.svg';
+
 import '../pwa/css/buttons.css';
 
 import axios from 'axios';
@@ -79,7 +81,7 @@ export default class App extends Component {
       return(
         <main id="app">
           <Drawer active={this.state.drawer} triggerDrawer = {this.triggerDrawer} logOut={this.logOut} bonuses={() => this.state.bonus_trips.filter(e => { return e.status === 1 }).length }/>
-          <button class='burger' onClick={() => this.triggerDrawer(true)}>☰</button>
+          <button class='burger' onClick={() => this.triggerDrawer(true)}><Burger/></button>
           <Router>
             <Home path='/'/>
           </Router>

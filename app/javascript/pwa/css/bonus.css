@@ -7,15 +7,19 @@ ul.bonus-trips-list li {
 }
 
 ul.bonus-trips-list li.bonus-0 span {
+  background: #efcc3a;
   background: var(--orange);
+  color: #312d50;
   color: var(--navy);
 }
 
 ul.bonus-trips-list li.bonus-1 span, aside span {
+  background: #19a160 !important;
   background: var(--green) !important;
 }
 
 ul.bonus-trips-list li span, aside span {
+  background: a925ad;
   background: var(--purple);
   border-radius: 50px;
   color: white;
@@ -48,14 +52,17 @@ ul.bonus-trips-list li span, aside span {
   text-align: center;
   background: none;
   border: none;
+  border-bottom: 2px solid #d1d1d1;
   border-bottom: 2px solid var(--grey);
   width: 100%;
+  color: #19a160;
   color: var(--green);
   font-size: 32px;
 }
 
 summary {
   outline: none;
+  border: 2px solid #312d50;
   border: 2px solid var(--navy);
   padding: 5px 10px;
   text-align: center;

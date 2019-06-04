@@ -112,7 +112,7 @@ export default class ConfirmTrip extends Component {
     return (
       <div class='confirm-container'>
         {this.retryLoader()}
-        <button type='button' id='arrow' class='burger' onClick={() => window.history.back()}><Back fill='#132d50'/></button>
+        <button type='button' id='arrow' class='burger' onClick={() => window.history.back()}><Back/></button>
         <header>{i18n.confirm_trip.header}</header>
         <section class='confirm-trip'>
           <div class='details'>

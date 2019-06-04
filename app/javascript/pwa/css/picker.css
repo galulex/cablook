@@ -12,6 +12,7 @@
 }
 
 .picker-pin path {
+  fill: #19a160;
   fill: var(--pin-color);
 }
 
@@ -23,9 +24,12 @@
   width: 300px;
   height: auto;
   padding: 5px;
+  background-color: white;
   background-color: var(--white);
   border-radius: 5px;
+  border: 1px solid #19a160;
   border: 1px solid var(--green);
+  color: #19a160;
   color: var(--green);
   text-align: center;
   font-weight: 400;

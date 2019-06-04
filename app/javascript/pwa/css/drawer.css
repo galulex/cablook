@@ -4,6 +4,7 @@ aside {
   bottom: 0;
   left: 0;
   z-index: 1000;
+  background: white;
   background: var(--white);
   width: 300px;
   overscroll-behavior-y: contain;
@@ -46,6 +47,7 @@ aside a {
   text-decoration: none;
   font-weight: 500;
   font-size: 15px;
+  color: #312d50;
   color: var(--navi);
 }
 
@@ -61,23 +63,29 @@ aside svg {
 }
 
 aside a:last-of-type svg path {
-  fill: var(--green)
+  fill: #19a160;
+  fill: var(--green);
 }
 
 aside a.active {
+  color: #19a160;
   color: var(--green);
 }
 
 aside a:nth-child(even) svg path {
+  fill: #19a160;
   fill: var(--green);
 }
 
 aside a:nth-child(odd) svg path {
+  fill: #312d50;
   fill: var(--navy);
 }
 
 aside div.nav-header {
-  background :var(--green);
+  background: #19a160;
+  background: var(--green);
+  background: linear-gradient(to left, #19a160, #312d50);
   background: linear-gradient(to left, var(--green), #312d50);
   font-size: 24px;
   padding: 15px 0;
@@ -98,6 +106,7 @@ aside div.nav-wrapper {
 }
 
 .burger {
+  background: #19a160;
   background: var(--green);
   position: fixed;
   left: 0;
@@ -109,6 +118,7 @@ aside div.nav-wrapper {
   border: none;
   padding: 15px;
   font-size: 20px;
+  color: #312d50;
   color: var(--navy);
   outline: none;
   cursor: pointer;
@@ -118,10 +128,11 @@ aside div.nav-wrapper {
   max-width: 100%;
   max-height: 100%;
   margin: 0;
+  fill: #312d50;
 }
 
 aside select {
-  position: fixed;
+  position: absolute;
   bottom: 10px;
   right: 10px;
   width: 40px;
@@ -129,6 +140,7 @@ aside select {
   border: none;
   border-radius: 0;
   padding-right: 40px;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.16);
   box-shadow: var(--shadow);
   -webkit-appearance: none;
   -moz-appearance: none;
@@ -140,14 +152,17 @@ aside select:focus {
 }
 
 aside select.uk {
+  background-image: linear-gradient(180deg, #005bbb 0, #005bbb 50%, #efcc3a 50%, #efcc3a 100%);
   background-image: linear-gradient(180deg, var(--uk-flag-blue) 0, var(--uk-flag-blue) 50%, var(--orange) 50%, var(--orange) 100%);
 }
 
 aside select.ru {
+  background-image: linear-gradient(180deg, white 0, white 33%, #003da5 33%, #003da5 67%, #da291c 67%, #da291c 100%);
   background-image: linear-gradient(180deg, white 0, white 33%, var(--ru-flag-blue) 33%, var(--ru-flag-blue) 67%, var(--ru-flag-red) 67%, var(--ru-flag-red) 100%);
 }
 
 aside select.en {
+  background: linear-gradient(90deg, transparent 46%, #c8102e 46%, #c8102e 56%, transparent 56%), linear-gradient(transparent 38%, white 38%, white 42%, #c8102e 42%, #c8102e 58%, white 58%, white 62%, transparent 62%), linear-gradient(90deg, transparent 44%, white 44%, white 46%, #c8102e 46%, #c8102e 56%, white 56%, white 58%, transparent 58%), linear-gradient(33deg, transparent 45%, white 45%, white 48%, #c8102e 48%, #c8102e 54%, white 54%, white 57%, transparent 57%), linear-gradient(-33deg, #012169 45%, white 45%, white 48%, #c8102e 48%, #c8102e 54%, white 54%, white 57%, #012169 57%);
   background: linear-gradient(90deg, transparent 46%, var(--en-flag-red) 46%, var(--en-flag-red) 56%, transparent 56%), linear-gradient(transparent 38%, white 38%, white 42%, var(--en-flag-red) 42%, var(--en-flag-red) 58%, white 58%, white 62%, transparent 62%), linear-gradient(90deg, transparent 44%, white 44%, white 46%, var(--en-flag-red) 46%, var(--en-flag-red) 56%, white 56%, white 58%, transparent 58%), linear-gradient(33deg, transparent 45%, white 45%, white 48%, var(--en-flag-red) 48%, var(--en-flag-red) 54%, white 54%, white 57%, transparent 57%), linear-gradient(-33deg, var(--en-flag-blue) 45%, white 45%, white 48%, var(--en-flag-red) 48%, var(--en-flag-red) 54%, white 54%, white 57%, var(--en-flag-blue) 57%);
 }
 

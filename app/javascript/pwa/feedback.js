@@ -92,7 +92,7 @@ export default class Feedback extends Component {
       <div class='find_driver'>
         <section class='feedback'>
           <header>{i18n.feedback.header}</header>
-          <button type='button' class='burger' onClick={() => window.history.back()}><Back fill='#132d50'/></button>
+          <button type='button' class='burger' onClick={() => window.history.back()}><Back/></button>
           <form ref={form => this.feedbackForm = form}>
             <div class='star-container'>
               {[1,2,3,4,5].map(i => this.renderStar(i))}
@@ -103,7 +103,7 @@ export default class Feedback extends Component {
             <div class='tips-container'>
               {[0,3,5,10,20].map(i => this.renderTips(i))}
             </div>
-          </form> 
+          </form>
           <button class='button fixed warning' type='button' disabled={this.state.submitDisabled} onClick={this.create}>{i18n.feedback.ok}</button>
         </section>
       </div>

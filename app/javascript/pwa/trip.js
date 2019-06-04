@@ -19,6 +19,7 @@ import Pin from './images/pin.svg'
 import NissanLeaf from '../pwa/trips/nissan-leaf.js'
 
 const polyline = require('@mapbox/polyline')
+const is_mapbox_supported = mapboxgl.supported()
 
 export default class Trip extends Component {
   constructor(props) {
@@ -36,86 +37,90 @@ export default class Trip extends Component {
   }
 
   componentDidMount() {
-    this.car = new mapboxgl.Marker(this.nissan)
-    window.car = this.car
-    this.setWaypoints()
-    const { lng, lat, zoom } = this.state;
-    let geoJSON = polyline.decode(this.props.trip.path)
-    let style = window.dark ? 'mapbox://styles/galulex/cju84cmu11atr1flfoxocwbq7' : 'mapbox://styles/mapbox/streets-v10';
-    this.map = new mapboxgl.Map({
-      container: this.mapContainer,
-      style: style,
-      center: this.state.departure,
-      zoom
-    });
+    if (is_mapbox_supported) {
+      this.car = new mapboxgl.Marker(this.nissan)
+      window.car = this.car
+      this.setWaypoints()
+      const { lng, lat, zoom } = this.state;
+      let geoJSON = polyline.decode(this.props.trip.path)
+      let style = window.dark ? 'mapbox://styles/galulex/cju84cmu11atr1flfoxocwbq7' : 'mapbox://styles/mapbox/streets-v10';
+      let path_color = window.dark ? ' #ffffff' : ' #19a160'
 
-    const geolocate = new mapboxgl.GeolocateControl({
-      positionOptions: {
-        enableHighAccuracy: true
-      },
-      trackUserLocation: false
-    });
+      this.map = new mapboxgl.Map({
+        container: this.mapContainer,
+        style: style,
+        center: this.state.departure,
+        zoom
+      });
 
-    const language = new MapboxLanguage({
-      defaultLanguage: this.setMapboxLangauge()
-    });
+      const geolocate = new mapboxgl.GeolocateControl({
+        positionOptions: {
+          enableHighAccuracy: true
+        },
+        trackUserLocation: false
+      });
 
-    this.numDeltas = 100;
-    this.steps = 0;
-    this.deltaLat = 0;
-    this.deltaLng = 0;
-    this.position = [0, 0];
-    this.prevPosition = [0, 0];
-    this.maxTeleportLng = 0;
-    this.maxTeleportLat = 0;
-    this.teleportDistance = 0.015;
-    this.map.addControl(language);
-    this.map.addControl(geolocate);
+      const language = new MapboxLanguage({
+        defaultLanguage: this.setMapboxLangauge()
+      });
 
-    this.map.on('load', () => {
-      // geolocate.trigger()
-      this.map.addLayer({
-        id: 'trip_path',
-        type: 'line',
-        source: {
-          type: 'geojson',
-          data: {
-            type: 'Feature',
-            properties: {},
-            geometry: {
-              type: 'LineString',
-              coordinates: geoJSON.map(e => { return e.reverse() }),
+      this.numDeltas = 100;
+      this.steps = 0;
+      this.deltaLat = 0;
+      this.deltaLng = 0;
+      this.position = [0, 0];
+      this.prevPosition = [0, 0];
+      this.maxTeleportLng = 0;
+      this.maxTeleportLat = 0;
+      this.teleportDistance = 0.015;
+      this.map.addControl(language);
+      this.map.addControl(geolocate);
+
+      this.map.on('load', () => {
+        // geolocate.trigger()
+        this.map.addLayer({
+          id: 'trip_path',
+          type: 'line',
+          source: {
+            type: 'geojson',
+            data: {
+              type: 'Feature',
+              properties: {},
+              geometry: {
+                type: 'LineString',
+                coordinates: geoJSON.map(e => { return e.reverse() }),
+              }
             }
+          },
+          layout: {
+            'line-join': 'round',
+            'line-cap': 'round',
+          },
+          paint: {
+            'line-width': 4,
+            'line-color': (window.getComputedStyle(document.documentElement).getPropertyValue('--path-color') || path_color).slice(1),
+            'line-opacity': 1
           }
-        },
-        layout: {
-          'line-join': 'round',
-          'line-cap': 'round',
-        },
-        paint: {
-          'line-width': 4,
-          'line-color': window.getComputedStyle(document.documentElement).getPropertyValue('--path-color').slice(1),
-          'line-opacity': 1
+        });
+
+      this.map.on('render', () => {
+        if (this.car.getLngLat()) {
+          this.updateCarDirection()
         }
       });
 
-    this.map.on('render', () => {
-      if (this.car.getLngLat()) {
-        this.updateCarDirection()
-      }
-    });
+      this.map.on('zoom', () => {
+        document.documentElement.style.setProperty('--zoom-level', this.map.getZoom())
+      });
 
-    this.map.on('zoom', () => {
-      document.documentElement.style.setProperty('--zoom-level', this.map.getZoom())
-    });
-
-    window.map = this.map
-    });
-    this.setMarker()
-    this.car.setLngLat(this.props.trip.car_location);
-    this.car.addTo(this.map);
-    history.pushState(null, null, document.URL)
-    window.addEventListener('popstate', this.handleBack)
+      window.map = this.map
+      });
+      this.setMarker()
+      this.car.setLngLat(this.props.trip.car_location);
+      this.car.addTo(this.map);
+      history.pushState(null, null, document.URL)
+      window.addEventListener('popstate', this.handleBack)
+    }
   }
 
   componentWillUnmount() {
@@ -169,13 +174,17 @@ export default class Trip extends Component {
     return (this.props.language === 'uk') ? 'ru' : this.props.language
   }
 
+  renderMap = () => {
+    if (is_mapbox_supported) return(<div class='map' ref={el => this.mapContainer = el} />);
+  }
+
   render() {
     const { trip } = this.props;
     return (
       <section class='trips'>
         <header>{i18n.trip.header}</header>
-        <div class='map' ref={el => this.mapContainer = el} />
-        {this.renderButton()}
+        {this.renderMap()}
+        {is_mapbox_supported && this.renderButton()}
         <div class='trip-details-content'><Car/>{`${trip.driver_name} ${i18n.trip.on} ${trip.car_number}`}</div>
         <div class='trip-details-content'><TripTime/>{trip.start_time}</div>
         <div class='trip-details-content'><a href={`tel:${trip.car_phone_number}`}><Phone/>{trip.car_phone_number}</a></div>
@@ -187,6 +196,7 @@ export default class Trip extends Component {
         <div class='trip-details-content'><TripPrice/>{`${trip.cost} ${i18n.trip.currency}`}</div>
         <div class='trip-details-content'><TripStatus/>{`${i18n.trips.status} - ${i18n.trips.statuses[trip.status]}`}</div>
         {this.renderPin()}
+        {!is_mapbox_supported && this.renderButton()}
       </section>
     );
   }
@@ -207,14 +217,16 @@ export default class Trip extends Component {
   }
 
   renderPin = () => {
-    return(
-      <div class='pins'>
-        <div ref={el => this.nissan = el}><NissanLeaf class='nissan' color={this.props.trip.car_color}/></div>
-        <div ref={el => this.departure = el}><Pin class='departure'/></div>
-        <div ref={el => this.destination = el}><Pin class='destination'/></div>
-        {this.props.trip.waypoints.map(() => (<div><Pin class='waypoint'/></div>))}
-      </div>
-    )
+    if (is_mapbox_supported) {
+      return(
+        <div class='pins'>
+          <div ref={el => this.nissan = el}><NissanLeaf class='nissan' color={this.props.trip.car_color}/></div>
+          <div ref={el => this.departure = el}><Pin class='departure'/></div>
+          <div ref={el => this.destination = el}><Pin class='destination'/></div>
+          {this.props.trip.waypoints.map(() => (<div><Pin class='waypoint'/></div>))}
+        </div>
+      )
+    }
   }
 
   setWaypoints = () => {
