@@ -1,4 +1,5 @@
 import { h, render, Component } from 'preact';
+import mapboxgl from 'mapbox-gl'
 import axios from 'axios';
 
 import { streets } from '../streets.js'
@@ -191,7 +192,7 @@ export default class AddressInput extends Component {
       <fieldset class='address'>
         {(fieldsCount > 2 || address !== '') && !readonly && (<button class='remove-address' type='button' onClick={() => eraseAddress(index)}>×</button>)}
         {(index === 0) && <Location width='32px' class='get-location' onClick={this.getLocation} disabled={this.state.geocoded} disabled={readonly}/>}
-        <Pin onClick={this.openMap} disabled={readonly} height='24px' class='map-pick'/>
+        {mapboxgl.supported() && <Pin onClick={this.openMap} disabled={readonly} height='24px' class='map-pick'/>}
         {this.state.isShowMap && <MapPicker onCloseMap={this.closeMap} language={language}/>}
 
         <input required class='address' placeholder={placeholder} type='text'

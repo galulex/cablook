@@ -10,6 +10,7 @@ address:after {
   border-radius: 50%;
   width: 0;
   height: 0;
+  border: 6px solid #efcc3a;
   border: 6px solid var(--orange);
   top: calc(50% - 6px);
   left: calc(1% - 30px);
@@ -25,6 +26,7 @@ address:before {
   position: absolute;
 }
 address:first-of-type:after {
+  border-color: #312d50;
   border-color: var(--navy);
 }
 address:last-of-type:after {
@@ -42,6 +44,7 @@ address:last-of-type {
   color: #19a160;
 }
 .trip-card {
+  background: #d1d1d1;
   background: var(--grey);
   margin: 20px 10px;
   font-size: 17px;
@@ -105,6 +108,7 @@ address:last-of-type {
 }
 .trip-details img {
   width: 100%;
+  background: #e6e4e0;
   background: var(--map-bg);
   height: 59vh;
   max-height: 100vw;
@@ -153,6 +157,7 @@ nav {
   width: 100%;
   position: fixed;
   height: 100%;
+  background: linear-gradient(to bottom, #d1d1d1, white);
   background: linear-gradient(to bottom, var(--grey), var(--white));
   left: 0px;
   top: 0px;
@@ -180,6 +185,7 @@ div.map {
 
 .trips div.map {
   height: 70vh;
+  background: #e6e4e0;
   background: var(--map-bg);
 }
 
@@ -188,10 +194,12 @@ div.map {
 }
 
 .trips svg.departure path {
+  fill: #312d50;
   fill: var(--navy)
 }
 
 .trips svg.waypoint path {
+  fill: #efcc3a;
   fill: var(--orange)
 }
 
@@ -200,6 +208,7 @@ div.map {
 }
 
 .trip-details-content a, a:visited {
+  color: #312d50;
   color: var(--navy);
   text-decoration: none;
 }
@@ -233,7 +242,9 @@ div.map {
 
 
 .trips svg.nissan {
+  width: 40px;
   width: calc(var(--zoom-level) * 3.5px);
+  height: 40px;
   height: calc(var(--zoom-level) * 3.5px);
 }
 
@@ -247,6 +258,7 @@ div.map {
 }
 
 .trips .button.edit {
+  background: #efcc3a;
   background: var(--orange);
 }
 
@@ -257,7 +269,8 @@ div.map {
 }
 
 .trip-card .trip-card-star path{
-  fill: var(--green)
+  fill: #19a160;
+  fill: var(--green);
 }
 
 .nissan-blue-car-gradient {

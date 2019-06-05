@@ -14,13 +14,13 @@ html lang="#{I18n.locale}"
         --shadow: 0 3px 6px rgba(0,0,0,0.16);
         --focus-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
         --body-bg: #132d50;
-        --uk-flag-blue: #005BBB;
+        --uk-flag-blue: #005bbb;
         --ru-flag-blue: #003da5;
         --en-flag-blue: #012169;
         --ru-flag-red: #da291c;
         --en-flag-red: #c8102e;
         --placeholder: rgba(49, 45, 80, 0.5);
-        --map-bg: #E6E4E0;
+        --map-bg: #e6e4e0;
         --pin-color: var(--green);
         --path-color: #19a160;
         --zoom-level: 12;
@@ -29,6 +29,7 @@ html lang="#{I18n.locale}"
       html {
         overflow: hidden;
         overscroll-behavior-x: none;
+        background: #132d50;
         background: var(--body-bg);
         height: 100%;
         transition: background .1s;
@@ -55,8 +56,10 @@ html lang="#{I18n.locale}"
         font-family: Gilroy, Helvetica, Arial, sans-serif;
         font-weight: 100;
         font-size: 18px;
+        background: linear-gradient(to bottom, #d1d1d1, white);
         background: linear-gradient(to bottom, var(--grey), var(--white));
         background-attachment: fixed;
+        color: #312d50;
         color: var(--navy);
         overscroll-behavior-x: none;
         height: 100%;
@@ -67,6 +70,7 @@ html lang="#{I18n.locale}"
 
       main {
         height: 100vh;
+        min-height: 100vh;
         min-height: calc(var(--vh, 1vh) * 100);
         overflow-y: auto;
         -webkit-overflow-scrolling: touch;
@@ -77,7 +81,9 @@ html lang="#{I18n.locale}"
         top: 0;
         left: 0;
         right: 0;
+        background: #19a160;
         background: var(--green);
+        background: linear-gradient(to left, #19a160, #312d50);
         background: linear-gradient(to left, var(--green), #312d50);
         text-align: center;
         color: white;
@@ -112,23 +118,29 @@ html lang="#{I18n.locale}"
       }
 
       div.loader {
+        background: #312d50;
         background: var(--navy);
+        background: linear-gradient(to top, #19a160 -20%, #312d50 70%);
         background: linear-gradient(to top, var(--green), 20%, #312d50);
       }
 
       ::-webkit-input-placeholder {
+        color: rgba(49, 45, 80, 0.5);
         color: var(--placeholder);
         font-weight: 300;
       }
       ::-moz-placeholder {
+        color: rgba(49, 45, 80, 0.5);
         color: var(--placeholder);
         font-weight: 300;
       }
       :-ms-input-placeholder {
+        color: rgba(49, 45, 80, 0.5);
         color: var(--placeholder);
         font-weight: 300;
       }
       :-moz-placeholder {
+        color: rgba(49, 45, 80, 0.5);
         color: var(--placeholder);
         font-weight: 300;
       }
@@ -193,6 +205,7 @@ html lang="#{I18n.locale}"
         position: relative;
         text-align: center;
         z-index: 100000;
+        color: white;
         color: var(--white);
       }
 

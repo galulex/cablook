@@ -10,6 +10,7 @@ if (window.dark) {
   document.documentElement.style.setProperty('--shadow', '0 3px 6px rgba(255,255,255,0.2)');
   document.documentElement.style.setProperty('--focus-shadow', '0 3px 6px rgba(255,255,255,0.2), 0 3px 6px rgba(255,255,255,255.23)');
 }
+import '../pwa/android_polyfills.js';
 
 import { h, render, Component } from 'preact';
 import { Router } from 'preact-router';
@@ -28,6 +29,8 @@ import Prompt from '../pwa/prompt.js';
 import Statistics from '../pwa/statistics.js';
 import Profile from '../pwa/profile.js';
 import { messaging, firebaseAuth } from '../pwa/firebase.js'
+
+import Burger from '../pwa/images/burger.svg';
 
 import '../pwa/css/buttons.css';
 import '../pwa/inobounce.js';
@@ -198,7 +201,7 @@ export default class App extends Component {
       return(
         <main id="app">
           <Drawer active={this.state.drawer} language = {this.state.language} setLanguage = {this.setLanguage} triggerDrawer = {this.triggerDrawer} logOut={this.logOut} bonuses={() => this.state.bonus_trips.filter(e => { return e.status === 1 }).length }/>
-          <button class='burger' onClick={() => this.triggerDrawer(true)}>☰</button>
+          <button class='burger' onClick={() => this.triggerDrawer(true)}><Burger/></button>
           <Router>
             <Home path='/' cards={() => this.state.cards} bonus_trips={() => this.state.bonus_trips} createCard={this.createCard} language={this.state.language} favorite_addresses={() => this.state.favorite_addresses} fetchUser={this.fetchUser} />
             <Trips path='/trips/:id?' />

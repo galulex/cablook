@@ -11,6 +11,7 @@ input.address {
   background: transparent;
   padding: 4% 25px 4% 10px;
   font-size: 18px;
+  color: #312d50;
   color: var(--navy);
   font-weight: 900;
   margin: 0 3% 0 7%;
@@ -71,6 +72,7 @@ fieldset.address:first-child:after {
 }
 
 fieldset.address:last-of-type:after {
+  border-color: #312d50;
   border-color: var(--navy);
 }
 
@@ -85,6 +87,7 @@ fieldset.addresses.nth-of-type(3) + div {
 ul.predictions {
   margin: 0;
   padding: 0;
+  background: white;
   background: var(--white);
   list-style: none;
   width: 100%;
@@ -97,6 +100,7 @@ ul.predictions {
   opacity: 0;
   max-height: 60vh;
   overflow-y: auto;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.16);
   box-shadow: var(--shadow);
   border: 1px solid #d1d1d1;
   border-bottom: none;
@@ -106,6 +110,7 @@ li.prediction {
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
+  color: #312d50;
   color: var(--navy);
   border-bottom: 1px solid #d1d1d1;
   line-height: 1;
@@ -155,6 +160,7 @@ button.add-address {
   background: none;
   font-size: 18px;
   font-weight: 500;
+  color: #312d50;
   color: var(--navy);
   border: none;
   margin: 5px 0;
@@ -194,6 +200,7 @@ label {
 input[type='checkbox'] + label:after {
   content: '';
   background-color: transparent;
+  border: 2px solid #19a160;
   border: 2px solid var(--green);
   padding: 9px;
   display: inline-block;
@@ -202,14 +209,17 @@ input[type='checkbox'] + label:after {
   margin: 10px 0px 12px 10px;
   vertical-align: middle;
   user-select: none;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.16);
   box-shadow: var(--shadow);
 }
 
 input[type='checkbox']:checked + label:after {
+  background-color: #19a160;
   background-color: var(--green);
 }
 
 input[type='checkbox']:focus + label:after {
+  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
   box-shadow: var(--focus-shadow);
 }
 
@@ -247,15 +257,18 @@ select#entrance, input#time {
   padding: 5px 20px 5px 5px;
   width: 150px;
   max-width: 50%;
+  color: #312d50;
   color: var(--navy);
   font-size: 16px;
   background: transparent;
   border: none;
   transition: box-shadow .3s;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.16);
   box-shadow: var(--shadow);
   margin: 15px 0;
   height: 40px;
   border-radius: 0;
+  border: 2px solid #19a160;
   border: 2px solid var(--green);
   -webkit-appearance: none;
   -moz-appearance: none;
@@ -264,6 +277,7 @@ select#entrance, input#time {
 
 label[for='entrance']:after, label[for='time']:after {
   content: '▼';
+  color: #19a160;
   color: var(--green);
   right: 10px;
   position: absolute;
@@ -274,6 +288,7 @@ label[for='entrance']:after, label[for='time']:after {
 
 select#entrance:focus, input#time:focus, input.comment:focus {
   outline: none;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
   box-shadow: var(--focus-shadow);
 }
 
@@ -286,14 +301,17 @@ label[for='entrance'], label[for='time'] {
 input.comment {
   display: block;
   background: transparent;
+  color: #312d50;
   color: var(--navy);
   width: 100%;
   margin: 15px 0;
   padding: 10px;
+  border: 2px solid #19a160;
   border: 2px solid var(--green);
   font-size: 16px;
   outline: none;
   transition: box-shadow .3s;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.16);
   box-shadow: var(--shadow);
   border-radius: 0;
 }

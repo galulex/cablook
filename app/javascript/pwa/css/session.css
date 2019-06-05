@@ -25,6 +25,7 @@ label[for='code'] {
 main.number_input { position: relative; }
 
 main.login {
+  background: linear-gradient(to top, #19a160 -20%, #312d50 70%);
   background: linear-gradient(to top, var(--green), 20%, #312d50);
 }
 

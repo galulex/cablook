@@ -5,6 +5,7 @@ svg.star {
 label.star:before {
   content: '★';
   font-size: 40px;
+  color: #efcc3a;
   color: var(--orange);
 }
 
@@ -25,6 +26,7 @@ input[name='rate']:checked ~ label:before {
 label.tip {
   width: 50px;
   height: 40px;
+  border: 2px solid #efcc3a;
   border: 2px solid var(--orange);
   text-align: center;
   width: 25%;
@@ -32,6 +34,7 @@ label.tip {
   display: flex;
   justify-content: center;
   align-items: center;
+  color: #efcc3a;
   color: var(--orange);
 }
 
@@ -41,7 +44,9 @@ input[name='tip'] {
 }
 
 input[name='tip']:checked + label.tip  {
+  background-color: #efcc3a;
   background-color: var(--orange);
+  color: #312d50;
   color: var(--navy);
 }
 
@@ -74,6 +79,7 @@ section.feedback textarea {
   font-size: 16px;
   outline: none;
   transition: box-shadow .3s;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.16);
   box-shadow: var(--shadow);
   border-radius: 0;
 }
@@ -85,11 +91,14 @@ section.feedback h4 {
 
 section.feedback .comment {
   height: 60px;
+  border: 2px solid white;
   border: 2px solid var(--white);
+  color: white;
   color: var(--white);
 }
 
 section.feedback .comment::placeholder {
+  color: white;
   color: var(--white);
 }
 
@@ -98,6 +107,7 @@ section.feedback .tips-container label.tip {
 }
 
 section.feedback .tips-container label.tip:nth-of-type(1) {
+  border-left: 2px solid #efcc3a;
   border-left: 2px solid var(--orange);
 }
 

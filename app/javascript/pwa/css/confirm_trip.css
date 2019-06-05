@@ -6,6 +6,7 @@ section.confirm-trip {
   align-items: center;
   height: 100vh;
   padding: 54px 0 0;
+  background: white;
   background: var(--white);
   overflow-x: hidden;
 }
@@ -15,6 +16,7 @@ section.confirm-trip div.details {
   width: 100%;
   min-width: 400px;
   padding: 0 50px;
+  background: white;
   background: var(--white);
 }
 
@@ -22,6 +24,7 @@ section.confirm-trip div.details svg {
   width: 24px;
   height: 24px;
   vertical-align: middle;
+  background: white;
   background: var(--white);
 }
 
@@ -30,8 +33,11 @@ section.confirm-trip div.details svg {
   flex-grow: 2;
   width: 100%;
   max-width: 600px;
+  background: white;
   background: var(--white);
+  border-top: 2px solid #312d50;
   border-top: 2px solid var(--navy);
+  border-bottom: 2px solid #19a160;
   border-bottom: 2px solid var(--green);
 }
 
@@ -39,7 +45,9 @@ section.confirm-trip div.details svg {
   display: flex;
   justify-content: center;
   align-items: center;
+  text-align: center;
   flex-grow: 4;
+  background: #19a160;
   background: var(--green);
 }
 
@@ -51,6 +59,7 @@ section.confirm-trip div.details svg {
 
 .select-section div.select::before {
   position: absolute;
+  color: #19a160;
   color: var(--green);
   content: '▼';
   right: 10px;
@@ -67,6 +76,7 @@ section.confirm-trip div.details svg {
   border-radius: 0;
   margin: 0;
   padding: 20px 30px 20px 5px;
+  color: #19a160;
   color: var(--green);
   background: transparent;
   font-size: 1.1rem;
@@ -80,6 +90,7 @@ section.confirm-trip div.details svg {
 
 section.confirm-trip img {
   width: 100%;
+  background: #e6e4e0;
   background: var(--map-bg);
   height: 63vh;
   object-fit: cover;
@@ -92,10 +103,12 @@ section.confirm-trip .buttons .add-card {
   bottom: unset;
   left: unset;
   width: 100%;
+  background: #19a160;
   background: var(--green);
 }
 
 section.confirm-trip .buttons button.bonus {
+  background: #efcc3a;
   background: var(--orange);
   bottom: 80px;
 }
@@ -138,12 +151,14 @@ ul.details-list span{
   font-weight: 600;
   letter-spacing: 2px;
   padding-right: 0.33em;
+  background: white;
   background: var(--white);
 }
 
 ul.details-list span + span {
   float: right;
   padding-left: 0.33em;
+  background: white;
   background: var(--white);
 }
 
