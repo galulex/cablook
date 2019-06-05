@@ -17,6 +17,7 @@ import Car from './images/car.svg'
 import Pin from './images/pin.svg'
 
 import NissanLeaf from '../pwa/trips/nissan-leaf.js'
+import FocusOnCarControl from '../pwa/trips/custom-control.js'
 
 const polyline = require('@mapbox/polyline')
 const is_mapbox_supported = mapboxgl.supported()
