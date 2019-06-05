@@ -4,6 +4,7 @@ import axios from 'axios';
 import i18n from './i18n.js'
 import AddressInput from '../pwa/trips/address-input.js';
 import Add  from './images/add.svg'
+import Back from './images/arrow-left.svg'
 import './css/current_trip.css'
 
 export default class CurrentTrip extends Component {
@@ -134,14 +135,14 @@ export default class CurrentTrip extends Component {
     if (trip.id) return;
     return [
       <div class='nocall'>
-        <input id='nocall' type='checkbox' checked={this.state.trip.no_call} onChange={this.setNoCall}/>
+        <input id='nocall' type='checkbox' checked={trip.no_call} onChange={this.setNoCall}/>
         <label for='nocall'>
           {i18n.current_trip.no_call}
         </label>
       </div>,
       <label for='entrance'>
         <span>{i18n.current_trip.where_to_pick}</span>
-        <select id='entrance' value={this.state.trip.entrance} onChange={(e) => this.setEntrance(e)}>
+        <select id='entrance' value={trip.entrance} onChange={(e) => this.setEntrance(e)}>
           <option value=''>{i18n.current_trip.select_entrance}</option>
           {this.state.entrance.map((el) => {
             return(<option value={el}>{el} {i18n.current_trip.entrance}</option>)
@@ -150,31 +151,38 @@ export default class CurrentTrip extends Component {
       </label>,
       <label for='time'>
         <span>{i18n.current_trip.when}</span>
-        <input id='time' type='time' step='60' title='HH:MM' pattern='([01]?[0-9]|2[0-3]):[0-5][0-9]' value={this.state.trip.time} placeholder='Now' onChange={this.setOrderTime}/>
+        <input id='time' type='time' step='60' title='HH:MM' pattern='([01]?[0-9]|2[0-3]):[0-5][0-9]' value={trip.time} placeholder='Now' onChange={this.setOrderTime}/>
       </label>,
-      <input type='text' class='comment' value={this.state.trip.comment} placeholder={i18n.current_trip.comment} onChange={this.setComment}/>
+      <input type='text' class='comment' value={trip.comment} placeholder={i18n.current_trip.comment} onChange={this.setComment}/>
     ]
   }
 
+  renderBackButton = () => {
+    return (<button type='button' id='arrow' class='burger' onClick={this.props.getTripRequest}><Back/></button>)
+  }
+
   render() {
-    let isValid = (this.state.trip.stops.includes(''))
+    const { trip, trip: { stops } } = this.state
+    let isValid = (stops.includes(''))
+
     return(
       <section class="home">
+        {!!trip.id && this.renderBackButton()}
         <header>{i18n.current_trip.header}</header>
         <form action='#' onSubmit={(e) => e.preventDefault()}>
           <div class='addresses'>
-            { this.state.trip.stops.map((e, i) => {
+            { stops.map((e, i) => {
               return (
                 <AddressInput
                   setAddress={this.setAddress}
                   eraseAddress={this.eraseAddress}
                   favorite_addresses={() => this.props.favorite_addresses}
                   language={this.props.language}
-                  coords={this.state.trip.waypoints[i]}
-                  readonly={!!this.state.trip.id && i == 0}
+                  coords={trip.waypoints[i]}
+                  readonly={!!trip.id && i == 0}
                   address={e}
                   index={i}
-                  fieldsCount={this.state.trip.stops.length}
+                  fieldsCount={stops.length}
                 />
               )
             })}
