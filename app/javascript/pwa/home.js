@@ -140,7 +140,15 @@ export default class Home extends Component {
 
   getTrip = () => {
     const { trip } = this.state
-    if (!trip || !trip.id || [null, 10].includes(trip.status)) return;
+
+    if (trip && trip.id && ![null, 10].includes(trip.status)) this.getTripRequest()
+  }
+
+
+  getTripRequest = () => {
+    const { trip } = this.state
+
+    if (!trip.id) return;
     axios.get(`trips/${trip.id}`).then((res) => {
       this.updateTrip(res.data)
     }).catch((error) => {
@@ -181,7 +189,7 @@ export default class Home extends Component {
   render() {
     const { trip } = this.state
 
-    if (!trip || [5,7,null].includes(trip.status)) return(<CurrentTrip updateTrip={this.updateTrip} handleBack={this.handleBack} language={this.props.language} trip={trip} favorite_addresses={this.props.favorite_addresses()}/>)
+    if (!trip || [5,7,null].includes(trip.status)) return(<CurrentTrip updateTrip={this.updateTrip} handleBack={this.handleBack} language={this.props.language} trip={trip} favorite_addresses={this.props.favorite_addresses()} getTripRequest={this.getTripRequest}/>)
     if (trip && (!trip.id || trip.status == 10)) return(<ConfirmTrip cards={this.props.cards} bonus_trips={this.props.bonus_trips} trip={trip} updateTrip={this.updateTrip} handleBack={this.handleBack} createCard={this.props.createCard} />)
     if (trip && trip.id && [0].includes(trip.status)) return(<FindDriver trip={trip} updateTrip={this.updateTrip} TripDeclined={this.TripDeclined} subscribe={this.subscribe} cancel={this.cancel}/>)
     if (trip && trip.id && [6].includes(trip.status)) return(<RetryTrip trip={trip} retry={this.retry} cancel={this.cancel}/>)
