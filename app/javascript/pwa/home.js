@@ -12,8 +12,6 @@ import Feedback from '../pwa/feedback.js';
 const ActionCable = require('actioncable')
 const cable = ActionCable.createConsumer()
 
-var timeout
-
 export default class Home extends Component {
   constructor(props) {
     super(props)
@@ -29,14 +27,12 @@ export default class Home extends Component {
     this.getTrip()
     document.addEventListener('visibilitychange', this.onVisibilityChange, false);
     window.addEventListener('online', this.getTrip)
-    timeout = setTimeout(this.getTrip, 70000)
   }
 
   componentWillUnmount() {
     this.unsubscribe()
     window.removeEventListener('online', this.getTrip)
     document.removeEventListener('visibilitychange', this.onVisibilityChange)
-    clearTimeout(timeout)
   }
 
   subscribe = () => {
@@ -68,7 +64,6 @@ export default class Home extends Component {
   }
 
   TripDeclined = (data) => {
-    clearTimeout(timeout)
     if (document.visibilityState !== 'hidden') {
       this.vibrate()
       this.getTrip()
@@ -79,7 +74,6 @@ export default class Home extends Component {
   TripAccepted = (data) => {
     this.vibrate()
     this.updateTrip(data.trip)
-    clearTimeout(timeout)
   }
 
   TripUnavailable = (data) => {
@@ -191,7 +185,7 @@ export default class Home extends Component {
 
     if (!trip || [5,7,null].includes(trip.status)) return(<CurrentTrip updateTrip={this.updateTrip} handleBack={this.handleBack} language={this.props.language} trip={trip} favorite_addresses={this.props.favorite_addresses()} getTripRequest={this.getTripRequest}/>)
     if (trip && (!trip.id || trip.status == 10)) return(<ConfirmTrip cards={this.props.cards} bonus_trips={this.props.bonus_trips} trip={trip} updateTrip={this.updateTrip} handleBack={this.handleBack} createCard={this.props.createCard} />)
-    if (trip && trip.id && [0].includes(trip.status)) return(<FindDriver trip={trip} updateTrip={this.updateTrip} TripDeclined={this.TripDeclined} subscribe={this.subscribe} cancel={this.cancel}/>)
+    if (trip && trip.id && [0].includes(trip.status)) return(<FindDriver trip={trip} getTrip={this.getTrip} subscribe={this.subscribe} cancel={this.cancel}/>)
     if (trip && trip.id && [6].includes(trip.status)) return(<RetryTrip trip={trip} retry={this.retry} cancel={this.cancel}/>)
     if (trip && [1,2,3].includes(trip.status)) return(<Trip trip={trip} updateTrip={this.updateTrip} edit={this.edit} cancel={this.cancel} location={this.state.car_location} language={this.props.language}/>)
     if (trip && trip.status == 4) return(<Feedback trip={trip} updateTrip={this.updateTrip} handleBack={this.handleFeedbackBack} />)

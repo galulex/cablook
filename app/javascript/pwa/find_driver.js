@@ -5,6 +5,8 @@ import i18n from './i18n.js';
 import SearchLogo from './images/search_logo.svg'
 import './css/find_driver.css'
 
+var timeout, timeout2;
+
 export default class FindDriver extends Component {
   constructor(props){
     super(props)
@@ -23,10 +25,14 @@ export default class FindDriver extends Component {
 
     history.pushState(null, null, document.URL)
     window.addEventListener('popstate', this.handleBack)
+    timeout = setTimeout(this.props.getTrip, 32000)
+    timeout2 = setTimeout(this.props.getTrip, 72000)
   }
 
   componentWillUnmount() {
     window.removeEventListener('popstate', this.handleBack);
+    clearTimeout(timeout)
+    clearTimeout(timeout2)
   }
 
   handleBack = (event) => {
