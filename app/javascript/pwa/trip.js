@@ -81,6 +81,11 @@ export default class Trip extends Component {
       this.map.addControl(new FocusOnCarControl({eventHandler: this.focusOnCar}));
       this.map.addControl(new mapboxgl.NavigationControl({showCompass: false}));
 
+      if (window.dark) {
+        let mapboxCtrlRight = document.getElementsByClassName('mapboxgl-ctrl-top-right');
+        mapboxCtrlRight[0].classList.add('dark');
+      }
+
       this.map.on('load', () => {
         // geolocate.trigger()
         this.map.addLayer({
@@ -261,7 +266,7 @@ export default class Trip extends Component {
 
   focusOnCar = () => {
     if (this.car.getLngLat()) {
-      this.map.panTo(this.car.getLngLat());
+      this.map.flyTo({center: this.car.getLngLat()});
     }
   }
 }
