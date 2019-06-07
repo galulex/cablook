@@ -265,7 +265,10 @@ export default class Trip extends Component {
   }
 
   focusOnCar = () => {
-    if (this.car.getLngLat()) {
+    if (this.car.getLngLat().lat == 0 || this.car.getLngLat().lat == 0) return
+    if (this.map.getZoom() == this.map.getMinZoom()) {
+      this.map.panTo(this.car.getLngLat());
+    } else {
       this.map.flyTo({center: this.car.getLngLat()});
     }
   }
