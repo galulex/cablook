@@ -19,12 +19,6 @@ describe Events::Trips::Create do
       it { is_expected.to change { user.reload.trips_count }.from(0).to(1) }
     end
 
-    context 'when path is empty' do
-      let(:data) { trip_params.except(:path) }
-
-      it { is_expected.to raise_error(Events::InvalidParamsError) }
-    end
-
     context 'when user_id is empty' do
       let(:data) { trip_params.except(:user_id) }
 
@@ -52,7 +46,6 @@ describe Events::Trips::Create do
 
       it { expect(Trip.last.no_call).to eq(true) }
     end
-
 
     context 'when user choose entrance' do
       let(:entrance) { rand(5) }

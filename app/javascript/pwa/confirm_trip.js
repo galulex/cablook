@@ -3,6 +3,7 @@ import axios from 'axios';
 
 import MapImg from './map_img.js'
 import Widget from './widget.js'
+import Loader from './loader.js'
 import i18n from './i18n.js'
 import './css/confirm_trip.css'
 import TripPrice from './images/trip_price.svg'
@@ -107,11 +108,11 @@ export default class ConfirmTrip extends Component {
 
   render() {
     const { trip } = this.props
-    const { cards, submitDisabled, showWidget } = this.state
+    const { cards, submitDisabled, showWidget, showLoader } = this.state
 
     return (
       <div class='confirm-container'>
-        {this.retryLoader()}
+        {showLoader && <Loader/>}
         <button type='button' id='arrow' class='burger' onClick={() => window.history.back()}><Back/></button>
         <header>{i18n.confirm_trip.header}</header>
         <section class='confirm-trip'>
@@ -180,14 +181,6 @@ export default class ConfirmTrip extends Component {
     if (bonus_trips().some((e) => e.status == 1) && !trip.id) {
       return(<button class='button fixed bonus' type='button' disabled={this.state.submitDisabled} onClick={this.createTrip} value='true'>{i18n.confirm_trip.bonus}</button>)
     }
-  }
-
-  retryLoader = () => {
-    if (this.state.showLoader !== true) return;
-    return [
-      <div class='load-background'></div>,
-      <SearchLogo class='search_logo'/>
-    ]
   }
 
   createTrip = (e) => {
