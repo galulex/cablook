@@ -73,6 +73,11 @@ export default class MapPicker extends Component {
     this.map.addControl(language);
     this.map.addControl(geolocate);
     this.map.on('load', () => geolocate.trigger());
+
+    if (window.dark) {
+      let mapboxCtrlRight = document.getElementsByClassName('mapboxgl-ctrl-top-right');
+      mapboxCtrlRight[0].classList.add('dark');
+    }
   }
 
   componentWillUnmount() {

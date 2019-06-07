@@ -17,6 +17,7 @@ import Car from './images/car.svg'
 import Pin from './images/pin.svg'
 
 import NissanLeaf from '../pwa/trips/nissan-leaf.js'
+import FocusOnCarControl from '../pwa/trips/custom-control.js'
 
 const polyline = require('@mapbox/polyline')
 const is_mapbox_supported = mapboxgl.supported()
@@ -50,6 +51,8 @@ export default class Trip extends Component {
         container: this.mapContainer,
         style: style,
         center: this.state.departure,
+        minZoom: 10,
+        maxZoom: 17,
         zoom
       });
 
@@ -64,7 +67,7 @@ export default class Trip extends Component {
         defaultLanguage: this.setMapboxLangauge()
       });
 
-      this.numDeltas = 100;
+      this.numDeltas = 150;
       this.steps = 0;
       this.deltaLat = 0;
       this.deltaLng = 0;
@@ -75,6 +78,13 @@ export default class Trip extends Component {
       this.teleportDistance = 0.015;
       this.map.addControl(language);
       this.map.addControl(geolocate);
+      this.map.addControl(new FocusOnCarControl({eventHandler: this.focusOnCar}));
+      this.map.addControl(new mapboxgl.NavigationControl({showCompass: false}));
+
+      if (window.dark) {
+        let mapboxCtrlRight = document.getElementsByClassName('mapboxgl-ctrl-top-right');
+        mapboxCtrlRight[0].classList.add('dark');
+      }
 
       this.map.on('load', () => {
         // geolocate.trigger()
@@ -251,6 +261,12 @@ export default class Trip extends Component {
       el.style.transform = el.style.transform.replace(/rotate(.*)/, "rotate(" + angle + "deg)");
     } else {
       el.style.transform = el.style.transform + "rotate(" + angle + "deg)";
+    }
+  }
+
+  focusOnCar = () => {
+    if (this.car.getLngLat()) {
+      this.map.flyTo({center: this.car.getLngLat()});
     }
   }
 }
