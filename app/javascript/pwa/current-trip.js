@@ -1,11 +1,16 @@
 import { h, render, Component } from 'preact';
+import { route } from 'preact-router';
 import axios from 'axios';
 
 import i18n from './i18n.js'
+import Loader from './loader.js'
 import AddressInput from '../pwa/trips/address-input.js';
 import Add  from './images/add.svg'
 import Back from './images/arrow-left.svg'
 import './css/current_trip.css'
+
+const Shake = require('shake.js')
+let myShakeEvent = null
 
 export default class CurrentTrip extends Component {
   constructor(props){
@@ -13,12 +18,19 @@ export default class CurrentTrip extends Component {
     this.state = {
       trip: this.getTrip(),
       submitDisabled: false,
+      showLoader: false,
       entrance: Array.from({length: 15}, (v, k) => (k+1))
-    }
+    },
+    this.shake_trip_params = null
   }
 
   componentDidMount() {
     history.pushState(null, 'Edit Trip', '/')
+
+    myShakeEvent = new Shake({threshold: 20, timeout: 2000})
+    myShakeEvent.start()
+
+    window.addEventListener('shake', this.shakeEvent, false)
     window.addEventListener('popstate', this.props.getTripRequest, {once: true})
     window.onbeforeunload = (event) => {
       window.removeEventListener('popstate', this.props.getTripRequest)
@@ -26,6 +38,8 @@ export default class CurrentTrip extends Component {
   }
 
   componentWillUnmount() {
+    myShakeEvent.stop()
+    window.removeEventListener('shake', this.shakeEvent)
     window.removeEventListener('popstate', this.props.getTripRequest);
   }
 
@@ -53,6 +67,97 @@ export default class CurrentTrip extends Component {
         osrm: true,
         comment: '' }
     }
+  }
+
+  shakeEvent = () => {
+    const { trip } = this.state
+    const { cards } = this.props
+
+    if (trip && trip.id) {
+      return (alert(i18n.trips.pending_trip_exists))
+    } else if (cards().length < 1 ) {
+      if (confirm(`${i18n.cards.no_cards}. ${i18n.cards.please_add}`)) return (route('/cards', true))
+    } else { this.createShakeTrip() }
+  }
+
+  createShakeTrip = () => {
+    if (navigator.geolocation) {
+      this.showLoader(true)
+      navigator.geolocation.getCurrentPosition((result) => {
+        let geocoder = new google.maps.Geocoder()
+        let location = new google.maps.LatLng(result.coords.latitude, result.coords.longitude)
+
+        geocoder.geocode( { 'location': location }, (res, status) => {
+          if (status == 'OK') this.setTripParams(res)
+        })
+      },
+        (error) => {
+          this.showLoader(false)
+          switch(error.code) {
+            case error.PERMISSION_DENIED :
+              alert(i18n.location.permission_denied)
+              break
+            case error.TIMEOUT:
+              alert(i18n.location.timeout)
+              break
+            case error.POSITION_UNAVAILABLE :
+              alert(i18n.location.position_unavailable)
+              break
+            default:
+              alert(error.message)
+              break
+          }
+        }
+      )
+    } else alert(i18n.location.not_supported)
+  }
+
+  setTripParams = (res) => {
+    let place = res[0]
+    let address = `${place.address_components[1].long_name}, ${place.address_components[0].long_name}`
+    let coords = `${place.geometry.location.lat()},${place.geometry.location.lng()}`
+
+    this.shake_trip_params = {
+      departure: coords,
+      destination: coords,
+      departure_address: address,
+      destination_address: address,
+      osrm: true,
+      bonus: false,
+      comment: 'Швидка поїдка. Я зміню кінцеву точку після посадки.'
+    }
+    this.sendCreateRequest()
+  }
+
+  sendCreateRequest = () => {
+    axios.post('trips', {trip: this.shake_trip_params}).then((res) => {
+      this.props.updateTrip(res.data)
+    }).catch((error) => {
+      this.showLoader(false)
+      if (!error.response) return
+      if (error.response.status == 418) {
+        if (confirm(`${error.response.data.errors} ${i18n.confirm_trip.retry_payment}`)) {
+          this.retryPendingPayment()
+        }
+      } else alert(error.response.data.errors)
+    })
+  }
+
+  retryPendingPayment = () => {
+    const { cards } = this.props
+    this.showLoader(true)
+
+    axios.post('payments/retry_pendings', {card_id: cards()[0].id}).then((res) => {
+      if (res.data.length === 0) {
+        this.sendCreateRequest()
+      } else {
+        this.showLoader(false)
+        setTimeout(() => {alert(i18n.confirm_trip.payment_error)}, 500)
+      }
+    }).catch((error) => {
+      this.showLoader(false)
+      if (error.response) alert(error.response.data.errors)
+    })
   }
 
   setAddress = (text, coords, index) => {
@@ -174,40 +279,47 @@ export default class CurrentTrip extends Component {
     return (<button type='button' id='arrow' class='burger' onClick={() => window.history.back()}><Back/></button>)
   }
 
+  showLoader = (val) => {
+    this.setState({showLoader: val})
+  }
+
   render() {
-    const { trip, trip: { stops } } = this.state
+    const { showLoader, trip, trip: { stops } } = this.state
     let isValid = (stops.includes(''))
 
-    return(
-      <section class="home">
-        {!!trip.id && this.renderBackButton()}
-        <header>{i18n.current_trip.header}</header>
-        <form action='#' onSubmit={(e) => e.preventDefault()}>
-          <div class='addresses'>
-            { trip.stops.map((e, i) => {
-              return (
-                <AddressInput
-                  setAddress={this.setAddress}
-                  eraseAddress={this.eraseAddress}
-                  favorite_addresses={() => this.props.favorite_addresses}
-                  language={this.props.language}
-                  coords={trip.waypoints[i]}
-                  readonly={!!trip.id && i == 0}
-                  address={e}
-                  index={i}
-                  fieldsCount={stops.length}
-                />
-              )
-            })}
-            <div>
-              <Add width='32px' class='add-address' onClick={this.addAddress} disabled={isValid}/>
-              <button type='button' onClick={this.addAddress} class='add-address' disabled={isValid}>{ i18n.current_trip.add_address }</button>
+    return (
+      <div class='current-trip'>
+        {showLoader && <Loader/>}
+        <section class="home">
+          {!!trip.id && this.renderBackButton()}
+          <header>{i18n.current_trip.header}</header>
+          <form action='#' onSubmit={(e) => e.preventDefault()}>
+            <div class='addresses'>
+              { trip.stops.map((e, i) => {
+                return (
+                  <AddressInput
+                    setAddress={this.setAddress}
+                    eraseAddress={this.eraseAddress}
+                    favorite_addresses={() => this.props.favorite_addresses}
+                    language={this.props.language}
+                    coords={trip.waypoints[i]}
+                    readonly={!!trip.id && i == 0}
+                    address={e}
+                    index={i}
+                    fieldsCount={stops.length}
+                  />
+                )
+              })}
+              <div>
+                <Add width='32px' class='add-address' onClick={this.addAddress} disabled={isValid}/>
+                <button type='button' onClick={this.addAddress} class='add-address' disabled={isValid}>{ i18n.current_trip.add_address }</button>
+              </div>
             </div>
-          </div>
-          {this.renderTripData()}
-          <input type='submit' disabled={this.state.submitDisabled} class='button' onClick={this.build} value='OK'/>
-        </form>
-      </section>
+            {this.renderTripData()}
+            <input type='submit' disabled={this.state.submitDisabled} class='button' onClick={this.build} value='OK'/>
+          </form>
+        </section>
+      </div>
     )
   }
 }

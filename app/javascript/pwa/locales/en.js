@@ -33,7 +33,14 @@ const en = {
     past: 'Past',
     rate: 'Rate trip',
     reverse: 'Reverse Trip',
-    repeat: 'Repeat Trip'
+    repeat: 'Repeat Trip',
+    pending_trip_exists: 'There is one order already in progress'
+  },
+  location: {
+    not_supported: 'Geolocation is not supported for this browser',
+    permission_denied: 'You denied the request for Geolocation',
+    timeout: 'The request to get user location timed out',
+    position_unavailable: 'Location information is unavailable'
   },
   current_trip: {
     add_address: 'Add address',
@@ -79,7 +86,8 @@ const en = {
   },
   cards: {
     add: 'Add Card',
-    no_cards: 'You have no cards'
+    no_cards: 'You have no cards',
+    please_add: 'Please add card to proceed with the ride'
   },
   find_driver: {
     cancel: 'Cancel',

@@ -74,7 +74,20 @@ export default class AddressInput extends Component {
       },
         (error) => {
           e.target.classList.remove('running')
-          alert(error.message)
+          switch(error.code) {
+            case error.PERMISSION_DENIED :
+              alert(i18n.location.permission_denied);
+              break;
+            case error.TIMEOUT:
+              alert(i18n.location.timeout);
+              break;
+            case error.POSITION_UNAVAILABLE :
+              alert(i18n.location.position_unavailable);
+              break;
+            default:
+              alert(error.message)
+              break;
+          }
         }
       )
     }

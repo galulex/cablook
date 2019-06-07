@@ -4,13 +4,12 @@ module Events
       include Concerns::Direction
       include Validations::Create
 
-      FIELDS = %i[duration distance].freeze
+      FIELDS = %i[duration distance path].freeze
 
       def schema
         Dry::Validation.Schema do
           configure { config.messages = :i18n }
 
-          required(:path).filled(:str?)
           required(:user_id).filled(:int?)
 
           required(:departure).filled

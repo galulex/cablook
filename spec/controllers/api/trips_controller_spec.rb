@@ -24,7 +24,7 @@ describe Api::TripsController, type: :controller do
     it { is_expected.to be_successful }
 
     context 'when params are invalid' do
-      let(:trip_params) { attributes_for(:trip).except(:path) }
+      let(:trip_params) { attributes_for(:trip).except(:departure) }
 
       it { is_expected.to have_http_status(:unprocessable_entity) }
     end

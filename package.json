@@ -20,7 +20,8 @@
     "preact-router": "^2.6.1",
     "preact-svg-loader": "^0.2.1",
     "prop-types": "^15.6.2",
-    "react-localization": "^1.0.12"
+    "react-localization": "^1.0.12",
+    "shake.js": "^1.2.2"
   },
   "devDependencies": {
     "webpack-dev-server": "3.2.1"
