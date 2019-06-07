@@ -10,6 +10,7 @@ module Events
                     U0001F44D: 'yes',
                     U0001F44E: 'no' }.freeze
       COMMANDLESS_STEPS = %w[waypoints_confirmation comment_confirmation comment rate_trip tips trips_payment].freeze
+      CONFIRMATION_COMMANDS = %w[yes no].freeze
       TIPS_REGEXP = /3|5|10|20/.freeze
       DECLINED = 'Declined'.freeze
 
@@ -156,7 +157,7 @@ module Events
       end
 
       def correct_command
-        @command.present? && COMMANDLESS_STEPS.exclude?(step)
+        @command.present? && COMMANDLESS_STEPS.exclude?(step) && CONFIRMATION_COMMANDS.exclude?(@command)
       end
 
       def trips_payment
