@@ -83,7 +83,7 @@ export default class Feedback extends Component {
   renderTips = (i) => {
     return [
       <input id={`tip_${i}`} type='radio' value={i} name='tip' onChange={this.setTips} defaultChecked={this.state.feedback.tips == i}/>,
-      <label class='tip' for={`tip_${i}`}>{i}$</label>
+      <label class='tip' for={`tip_${i}`}>{i}₴</label>
     ]
   }
 
