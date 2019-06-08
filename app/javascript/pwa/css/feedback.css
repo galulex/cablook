@@ -45,10 +45,12 @@ label.tip svg {
 }
 
 label.tip path {
+  fill: #efcc3a;
   fill: var(--orange);
 }
 
 input[name='tip']:checked + label.tip path  {
+  fill: #312d50;
   fill: var(--navy);
 }
 
