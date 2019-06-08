@@ -4,6 +4,7 @@ import axios from 'axios';
 import i18n from './i18n.js';
 import Back from './images/arrow-left.svg'
 import Driver from './images/feedback_driver.svg'
+import Currency from './images/ukraine-hryvna.svg'
 import './css/feedback.css'
 
 export default class Feedback extends Component {
@@ -83,7 +84,7 @@ export default class Feedback extends Component {
   renderTips = (i) => {
     return [
       <input id={`tip_${i}`} type='radio' value={i} name='tip' onChange={this.setTips} defaultChecked={this.state.feedback.tips == i}/>,
-      <label class='tip' for={`tip_${i}`}>{i}$</label>
+      <label class='tip' for={`tip_${i}`}>{i}<Currency class='currency'/></label>
     ]
   }
 
