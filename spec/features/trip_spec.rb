@@ -36,7 +36,7 @@ RSpec.feature 'Trip', type: :feature, js: true do
     wait 3 do
       has_text? 'Confirm Trip'
     end
-    click_button 'GO'
+    find_button('GO').trigger(:click)
     wait 3 do
       has_text? 'Cancel'
     end
@@ -62,7 +62,7 @@ RSpec.feature 'Trip', type: :feature, js: true do
       has_text? 'Rate trip'
     end
     first('textarea').set('Nice!')
-    click_button 'OK'
+    find_button('OK').trigger(:click)
     wait 3 do
       has_text? 'Search'
     end
@@ -88,7 +88,7 @@ RSpec.feature 'Trip', type: :feature, js: true do
     wait 3 do
       has_text? 'Confirm Trip'
     end
-    click_button 'GO'
+    find_button('GO').trigger(:click)
     wait 3 do
       has_text? 'Cancel'
     end
@@ -115,7 +115,7 @@ RSpec.feature 'Trip', type: :feature, js: true do
     wait 3 do
       has_text? 'Confirm Trip'
     end
-    click_button 'GO'
+    find_button('GO').trigger(:click)
     wait 3 do
       has_text? 'Edit'
     end
@@ -128,7 +128,7 @@ RSpec.feature 'Trip', type: :feature, js: true do
       has_text? 'Rate trip'
     end
     first('textarea').set('Nice!')
-    click_button 'OK'
+    find_button('OK').trigger(:click)
     wait 3 do
       has_text? 'Search'
     end
