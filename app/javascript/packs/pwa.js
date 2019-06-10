@@ -68,7 +68,14 @@ export default class App extends Component {
     this.requestPermission()
     window.addEventListener('offline', this.offline)
     window.addEventListener('online', this.online)
+    document.addEventListener('visibilitychange', this.onVisibilityChange, false);
     if (!navigator.onLine) this.offline()
+  }
+
+  onVisibilityChange = () => {
+    if (document.visibilityState !== 'visible') return;
+    console.log(navigator.onLine)
+    navigator.onLine ? this.online() : this.offline()
   }
 
   requestPermission = () => {
