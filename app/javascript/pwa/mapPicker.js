@@ -72,6 +72,7 @@ export default class MapPicker extends Component {
 
     this.map.addControl(language);
     this.map.addControl(geolocate);
+    this.map.addControl(new mapboxgl.NavigationControl({showCompass: false}));
     this.map.on('load', () => geolocate.trigger());
 
     if (window.dark) {
