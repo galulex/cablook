@@ -30,6 +30,7 @@ export default class Home extends Component {
   }
 
   componentWillUnmount() {
+    this.getTrip()
     this.unsubscribe()
     window.removeEventListener('online', this.getTrip)
     document.removeEventListener('visibilitychange', this.onVisibilityChange)
@@ -59,9 +60,6 @@ export default class Home extends Component {
   }
 
   updateTrip = (trip) => {
-    if (this.state.car_location.length == 0) {
-      this.setState({car_location: this.state.trip.car_location})
-    }
     localStorage.setItem('trip', JSON.stringify(trip))
     this.setState({trip: trip})
   }
