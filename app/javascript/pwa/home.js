@@ -59,6 +59,9 @@ export default class Home extends Component {
   }
 
   updateTrip = (trip) => {
+    if (this.state.car_location.length == 0) {
+      this.setState({car_location: this.state.trip.car_location})
+    }
     localStorage.setItem('trip', JSON.stringify(trip))
     this.setState({trip: trip})
   }
