@@ -74,7 +74,6 @@ export default class App extends Component {
 
   onVisibilityChange = () => {
     if (document.visibilityState !== 'visible') return;
-    console.log(navigator.onLine)
     navigator.onLine ? this.online() : this.offline()
   }
 
