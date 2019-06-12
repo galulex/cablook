@@ -96,6 +96,64 @@ describe Events::Trips::Accept do
           it { expect(trip.reload.start_at.to_s).to eq(17.minutes.since.to_s) }
         end
       end
+
+      context 'when driver accept third trip' do
+        let(:data) { { trip_id: first_trip.id, driver_id: driver.id, car_id: driver.car_id } }
+        let(:data_2) { { trip_id: second_trip.id, driver_id: driver.id, car_id: driver.car_id } }
+        let!(:payment) { create(:payment, trip_id: second_trip.id, user_id: user.id) }
+        let(:new_data) { { trip_id: trip.id, driver_id: driver.id, car_id: driver.car_id } }
+
+        before(:each) { described_class.call(new_data) }
+
+        context 'and have pre-ordered trip' do
+          let!(:first_trip) { create(:trip, duration: 10.minutes, status: Constants::Trip::ON_THE_WAY, preorder_time: 2.hours.since, car_id: car.id, driver_id: driver.id) }
+          let!(:second_trip) { create(:trip, duration: 5.minutes, start_at: 8.minutes.since, status: Constants::Trip::ON_THE_WAY, car_id: car.id, driver_id: driver.id) }
+
+          it { expect(trip.reload.start_at.change(sec: 0).to_s).to eq(20.minutes.since.change(sec: 0).to_s) }
+        end
+
+        context 'during first trip' do
+          let!(:first_trip) { create(:trip, started_at: 8.minutes.ago, duration: 10.minutes, status: Constants::Trip::DRIVING, car_id: car.id, driver_id: driver.id) }
+          let!(:second_trip) { create(:trip, start_at: 13.minutes.since, duration: 5.minutes, status: Constants::Trip::ON_THE_WAY, car_id: car.id, driver_id: driver.id) }
+
+          it { expect(trip.reload.start_at.change(sec: 0).to_s).to eq(25.minutes.since.change(sec: 0).to_s) }
+        end
+
+        context 'but forgot finish first trip & during second trip' do
+          let!(:first_trip) { create(:trip, started_at: 20.minutes.ago, duration: 10.minutes, status: Constants::Trip::DRIVING, car_id: car.id, driver_id: driver.id) }
+          let!(:second_trip) { create(:trip, started_at: 5.minutes.ago, duration: 10.minutes, status: Constants::Trip::ON_THE_WAY, car_id: car.id, driver_id: driver.id) }
+
+          it { expect(trip.reload.start_at.change(sec: 0).to_s).to eq(12.minutes.since.change(sec: 0).to_s) }
+        end
+
+        context 'but forgot finish first & second trips' do
+          let!(:first_trip) { create(:trip, started_at: 20.minutes.ago, duration: 10.minutes, status: Constants::Trip::DRIVING, car_id: car.id, driver_id: driver.id) }
+          let!(:second_trip) { create(:trip, started_at: 10.minutes.ago, duration: 5.minutes, status: Constants::Trip::DRIVING, car_id: car.id, driver_id: driver.id) }
+
+          it { expect(trip.reload.start_at.change(sec: 0).to_s).to eq(7.minutes.since.change(sec: 0).to_s) }
+        end
+
+        context 'on the way to the first trip' do
+          let!(:first_trip) { create(:trip, start_at: 5.minutes.since, duration: 10.minutes, status: Constants::Trip::ON_THE_WAY, car_id: car.id, driver_id: driver.id) }
+          let!(:second_trip) { create(:trip, start_at: 10.minutes.since, duration: 8.minutes, status: Constants::Trip::ON_THE_WAY, car_id: car.id, driver_id: driver.id) }
+
+          it { expect(trip.reload.start_at.change(sec: 0).to_s).to eq(25.minutes.since.change(sec: 0).to_s) }
+        end
+
+        context 'during waiting client for first trip' do
+          let!(:first_trip) { create(:trip, start_at: Time.now, duration: 10.minutes, status: Constants::Trip::WAITING_CLIENT, car_id: car.id, driver_id: driver.id) }
+          let!(:second_trip) { create(:trip, started_at: 8.minutes.since, duration: 5.minutes, status: Constants::Trip::ON_THE_WAY, car_id: car.id, driver_id: driver.id) }
+
+          it { expect(trip.reload.start_at.change(sec: 0).to_s).to eq(20.minutes.since.change(sec: 0).to_s) }
+        end
+
+        context 'during waiting client for second trip' do
+          let!(:first_trip) { create(:trip, started_at: 20.minutes.ago, duration: 10.minutes, status: Constants::Trip::FINISHED, car_id: car.id, driver_id: driver.id) }
+          let!(:second_trip) { create(:trip, start_at: Time.now, duration: 5.minutes, status: Constants::Trip::WAITING_CLIENT, car_id: car.id, driver_id: driver.id) }
+
+          it { expect(trip.reload.start_at.change(sec: 0).to_s).to eq(12.minutes.since.change(sec: 0).to_s) }
+        end
+      end
     end
   end
 end
