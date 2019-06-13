@@ -10,12 +10,14 @@ Rails.application.routes.draw do
     resource :session, only: %i[create update]
     resources :bonus_trips, only: %i[index]
     resources :cards, only: %i[index create destroy]
+    resources :orders, only: %i[create destroy]
     resources :payments, only: %i[index] do
       post 'retry_pendings', on: :collection
       get 'pending', on: :collection
     end
     resources :favorite_addresses, only: %i[index create destroy]
     resource :notification_settings, only: %i[update]
+    resources :vendors, only: %i[index show]
 
     resource :user, only: :show
     resource :device, only: :create

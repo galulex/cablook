@@ -1,0 +1,64 @@
+@keyframes invisiblyGrowFontSize {
+  0% {
+    font-size: 0;
+    opacity: 0;
+  }
+  100% {
+    font-size: 1em;
+    opacity: 0;
+  }
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+details[open] .content {
+  animation-name: invisiblyGrowFontSize, fadeIn;
+  animation-duration: 500ms, 200ms;
+  animation-delay: 0ms, 500ms;
+  font-size: 20px;
+}
+
+details .content {
+  font-size: 0;
+  transition: font-size .3s;
+}
+
+details {
+  position: relative;
+}
+
+summary.vendor-category::-webkit-details-marker {
+  display: none;
+}
+
+summary.vendor-category {
+  outline: none;
+  border: none;
+  border-bottom: 1px solid darkgray;
+  background-color: lightgray;
+  padding: 15px 10px;
+  text-align: left;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+summary.vendor-category:after {
+  content: '▼';
+  position: absolute;
+  right: 3%;
+  transition: transform 0.3s linear;
+  transform-origin: center;
+  width: 17px;
+  height: 17px;
+}
+
+details[open] summary.vendor-category:after {
+  transform: rotate(180deg);
+}

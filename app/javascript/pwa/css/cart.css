@@ -1,0 +1,21 @@
+.cart .address:before {
+  display: none;
+}
+
+.cart .address:after {
+  display: none;
+}
+
+.cart .remove-address {
+  display: none;
+}
+
+.cart input.address {
+  margin: 0;
+}
+
+.cart .load-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+}

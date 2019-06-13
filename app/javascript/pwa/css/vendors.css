@@ -1,0 +1,28 @@
+.vendors {
+  padding: 54px 0;
+}
+
+header svg.cart {
+  width: 20px;
+  position: absolute;
+  right: 3%;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.orange-dot {
+  width: 8px;
+  height: 8px;
+  position: absolute;
+  right: 2.4%;
+  background-color: #FF9800;
+  border-radius: 50%;
+  z-index: 10;
+  box-shadow: 0px 0px 4px 0.7px rgba(255,102,0,1);
+}
+
+.vendor .load-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+}

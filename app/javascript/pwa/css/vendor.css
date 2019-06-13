@@ -1,0 +1,9 @@
+section.vendor-page {
+  padding: 54px 10px;
+}
+
+.vendor-page .load-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+}

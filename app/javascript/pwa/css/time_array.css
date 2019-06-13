@@ -1,0 +1,40 @@
+select#select_time {
+  padding: 5px 20px 5px 5px;
+  width: 150px;
+  max-width: 50%;
+  color: var(--navy);
+  font-size: 16px;
+  background: transparent;
+  border: none;
+  transition: box-shadow .3s;
+  box-shadow: var(--shadow);
+  margin: 15px 0;
+  height: 40px;
+  border-radius: 0;
+  border: 2px solid var(--green);
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+label[for='select_time']:after {
+  content: '▼';
+  color: var(--green);
+  right: 10px;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+select#select_time:focus {
+  outline: none;
+  box-shadow: var(--focus-shadow);
+}
+
+label[for='select_time'] {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+

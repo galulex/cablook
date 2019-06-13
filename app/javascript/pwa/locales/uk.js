@@ -75,6 +75,7 @@ const uk = {
     logout: 'Вийти',
     trips: 'Поїздки',
     statistics: 'Статистика',
+    vendors: 'Хавка',
     profile: 'Профіль'
   },
   address_input: {
@@ -171,6 +172,13 @@ const uk = {
       accept_trip: 'Замовлення прийнято',
       decline_trip: 'Замовлення відмінено'
     }
+  },
+  vendors_page: {
+    header: 'Доставка їжі'
+  },
+  vendor_preview: {
+    open: 'Відкрито',
+    close: 'Зачинено'
   },
   choose_address: 'Виберіть адресу із списку',
   are_you_sure: 'Ви впевнені?'

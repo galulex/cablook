@@ -1,0 +1,96 @@
+.vendor {
+  position: relative;
+  background: var(--grey);
+  margin: 20px 10px;
+  padding: 10px 20px;
+  font-size: 17px;
+  border-bottom: none;
+  height: 150px;
+}
+
+.vendor.active {
+  background: var(--green);
+  margin: 20px 0 0;
+}
+
+.vendor .name {
+  margin: 0;
+}
+
+.vendor span.address {
+  font-size: 14px;
+}
+
+.vendor .vendor-logo {
+  width: 100%;
+  max-width: 100px;
+}
+
+.vendor svg {
+  margin: 0 10px;
+  width: 25px;
+  height: 25px;
+  vertical-align: middle;
+  border: 1px var(--green) solid;
+  fill: var(--green);
+  padding: 4px;
+  border-radius: 50%;
+}
+
+.vendor svg.active {
+  border: 1px white solid;
+  fill: white;
+}
+
+.vendor .container {
+  margin-bottom: 10px;
+}
+
+.vendor .buttons-container {
+  height: 30px;
+}
+
+.vendor .time-container {
+  border-top: 1px solid gray;
+  font-size: 12px;
+  padding: 5px 0 5px 0;
+}
+
+
+.vendor .row {
+  display: flex;
+}
+
+.vendor .col-7 {
+  flex: 70%;
+}
+
+.vendor .col-3 {
+  flex: 30%;
+  text-align: center;
+}
+
+.vendor .col-5 {
+  flex: 50%;
+}
+
+.vendor .link-button {
+  position: absolute;
+  background: var(--green);
+  color: white;
+  font-size: 63%;
+  font-weight: 500;
+  box-shadow: var(--shadow);
+  padding: 6px;
+  width: 90%;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none !important;
+}
+
+.vendor .go-to {
+  background: var(--navy);
+}

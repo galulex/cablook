@@ -75,6 +75,7 @@ const ru = {
     logout: 'Выйти',
     trips: 'Поездки',
     statistics: 'Статистика',
+    vendors: 'Хавка',
     profile: 'Профиль'
   },
   address_input: {
@@ -171,6 +172,13 @@ const ru = {
       accept_trip: 'Заказ принят',
       decline_trip: 'Заказ отменен'
     }
+  },
+  vendors_page: {
+    header: 'Доставка еды'
+  },
+  vendor_preview: {
+    open: 'Открыто',
+    close: 'Закрыто'
   },
   choose_address: 'Выберите адрес из списка',
   are_you_sure: 'Вы уверены?'

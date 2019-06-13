@@ -26,6 +26,8 @@ module Events
           optional(:comment) { str? }
           optional(:card_id)
           optional(:bonus)
+          optional(:delivery)
+          optional(:order_id)
         end
       end
 
@@ -35,6 +37,7 @@ module Events
 
         create_trip
         bonus? ? pay_by_bonus : create_payment
+        assign_trip_to_order if delivery?
         create_trip_job(@trip.id)
         @trip
       end
@@ -44,6 +47,10 @@ module Events
       def assign_attrs
         FIELDS.each { |field| data[field] = direction.send(field) }
         data[:cost] = Operations::V2TripCalculation.new(direction).cost
+      end
+
+      def assign_trip_to_order
+        Order.find_by(id: data['order_id']).update(trip_id: @trip.id)
       end
 
       def create_payment
@@ -68,11 +75,11 @@ module Events
       end
 
       def create_trip
-        @trip = Trip.create(data.to_h.except(:bonus, :card_id, :id, :status, :created_at, :idle, :car_id, :driver_id, :finished_at, :arrived_at, :started_at, :feedbacks))
+        @trip = Trip.create(data.to_h.except(:bonus, :card_id, :id, :status, :created_at, :idle, :car_id, :driver_id, :finished_at, :arrived_at, :started_at, :feedbacks, :delivery, :order_id))
       end
 
       def create_trip_job(trip_id)
-        Jobs::DeclineTrip.set(wait: Constants::Trip::EXPIRES_IN).perform_later(trip_id)
+        Jobs::DeclineTrip.set(wait: Constants::Trip::EXPIRES_IN).perform_later(trip_id) unless delivery?
         Jobs::SearchCarForTrip.perform_later(trip_id)
       end
 
@@ -91,6 +98,10 @@ module Events
 
       def bonus?
         data[:bonus].present?
+      end
+
+      def delivery?
+        data[:delivery].present?
       end
 
       def order_reference

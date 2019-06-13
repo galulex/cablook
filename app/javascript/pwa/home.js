@@ -15,6 +15,11 @@ const cable = ActionCable.createConsumer()
 export default class Home extends Component {
   constructor(props) {
     super(props)
+    let trip = JSON.parse(localStorage.getItem('trip'))
+    if (localStorage.getItem('delivery_trip')) {
+      trip = localStorage.getItem('delivery_trip')
+      localStorage.removeItem('delivery_trip')
+    }
     this.state = {
       trip: JSON.parse(localStorage.getItem('trip')),
       subscription: null,

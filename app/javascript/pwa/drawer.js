@@ -9,6 +9,7 @@ import Bonus from './images/bonus.svg'
 import Card from './images/credit-cards-payment.svg'
 import Contact from './images/manual.svg'
 import Statistics from './images/statistics.svg'
+import Vendors from './images/food.svg'
 import LogOut from './images/sign-out.svg'
 import './css/drawer.css'
 
@@ -54,6 +55,7 @@ export default class Drawer extends Component {
           <Link activeClassName='active' href='/cards' onClick={this.close}><Card/>{i18n.drawer.cards}</Link>
           <Link activeClassName='active' href='/contacts' onClick={this.close}><Contact/>{i18n.drawer.contacts}</Link>
           <Link activeClassName='active' href='/statistics' onClick={this.close}><Statistics/>{i18n.drawer.statistics}</Link>
+          <Link activeClassName='active' href='/delivery' onClick={this.close}><Vendors/>{i18n.drawer.vendors}</Link>
           <Link activeClassName='active' href='' onClick={this.props.logOut}><LogOut/>{i18n.drawer.logout}</Link>
         </div>
         <select class={this.props.language} onChange={this.props.setLanguage}>

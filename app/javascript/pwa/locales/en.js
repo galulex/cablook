@@ -75,6 +75,7 @@ const en = {
     logout: 'Log Out',
     trips: 'Trips',
     statistics: 'Statistic',
+    vendors: 'Food',
     profile: 'Profile'
   },
   address_input: {
@@ -171,6 +172,13 @@ const en = {
       accept_trip: 'Accept trip',
       decline_trip: 'Decline trip'
     }
+  },
+  vendors_page: {
+    header: 'Food delivery'
+  },
+  vendor_preview: {
+    open: 'Open',
+    close: 'Close'
   },
   choose_address: 'Choose address from a list',
   are_you_sure: 'Are you sure?'
