@@ -1,14 +1,21 @@
-ul.contacts li a {
-  cursor: pointer;
-  display: block;
+ul.contacts li button {
+  background: transparent;
+  border: none;
   color: #312d50;
   color: var(--navy);
-  text-decoration: none;
-  padding: 5px;
+  cursor: pointer;
+  display: block;
+  font-size: 18px;
+  font-weight: 300;
   margin: 5px;
+  outline: none;
+  padding: 5px;
+  text-align: left;
+  text-decoration: none;
+  width: 100%;
 }
 
-ul.contacts li a svg {
+ul.contacts li button svg {
   vertical-align: middle;
   display: inline-block;
   height: 30px;

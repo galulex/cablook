@@ -7,35 +7,45 @@ import Phone from './images/phone.svg'
 import Email from './images/email.svg'
 import './css/contacts.css'
 
+const MAILTO = 'mailto:contact@cablook.taxi'
+const NUMBER = '+380932225665'
+const TEL = 'tel:' + NUMBER
+const TELEGRAM = 'tg://resolve?domain=cablookk'
+const VIBER = 'viber://chat/?number=%2B380932225665'
+
 export default class Contacts extends Component {
+  openUrl = (url) => {
+    window.location.href = url
+  }
+
   render(){
     return (
       <section>
         <header>{i18n.contacts.header}</header>
         <ul class='contacts'>
           <li>
-            <a href='mailto:contact@cablook.taxi'>
+            <button onClick={this.openUrl.bind(this, MAILTO)}>
               <Email/>
               contact@cablook.taxi
-            </a>
+            </button>
           </li>
           <li>
-            <a href='tel:+380932225665'>
+            <button onClick={this.openUrl.bind(this, TEL)}>
               <Phone/>
-              +380932225665
-            </a>
+              {NUMBER}
+            </button>
           </li>
           <li>
-            <a href='tg://resolve?domain=cablookk'>
+            <button onClick={this.openUrl.bind(this, TELEGRAM)}>
               <Telegram/>
               Telegram
-            </a>
+            </button>
           </li>
           <li>
-            <a href='viber://chat/?number=%2B380932225665'>
+            <button onClick={this.openUrl.bind(this, VIBER)}>
               <Viber/>
               Viber
-            </a>
+            </button>
           </li>
         </ul>
         <h1 class='notice'>{i18n.contacts.message}</h1>
