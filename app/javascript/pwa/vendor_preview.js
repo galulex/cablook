@@ -52,7 +52,7 @@ export default class VendorPreview extends Component {
         { cart_with_items &&
           <Link href={'/delivery/cart'}>
             <li class='create-order'>
-              Оформить заказ
+              {i18n.vendor_preview.create_order}
             </li>
           </Link>
         }

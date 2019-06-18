@@ -9,7 +9,7 @@ export default class ItemPreview extends Component {
     super(props);
     this.state = {
       quantity: 1,
-      in_card: false,
+      in_cart: false,
       item_count: 0
     }
   }
@@ -22,8 +22,8 @@ export default class ItemPreview extends Component {
     const { item, category } = this.props
     const cart = JSON.parse(localStorage.getItem('cart'))
     if (!cart) return;
-    this.setState({ in_card: !!cart.items[category + ', ' + item.name] })
-    if (this.state.in_card) this.setState({ item_count: cart.items[category + ', ' + item.name].quantity })
+    this.setState({ in_cart: !!cart.items[category + ', ' + item.name] })
+    if (this.state.in_cart) this.setState({ item_count: cart.items[category + ', ' + item.name].quantity })
   }
 
   addToCart = () => {
@@ -32,7 +32,7 @@ export default class ItemPreview extends Component {
     let cart = localStorage.getItem('cart') ? JSON.parse(localStorage.getItem('cart')) : { items: {} }
 
     if (cart.vendor && cart.vendor !== vendor.name) {
-      if (window.confirm('Новий заклад, видаляти старі замовлення?')) {
+      if (window.confirm(i18n.item_preview.new_restaurant)) {
         localStorage.removeItem('cart')
         this.props.updateCart({})
         cart = { items: {} }
@@ -58,8 +58,8 @@ export default class ItemPreview extends Component {
 
     localStorage.setItem('cart', JSON.stringify(cart));
     this.props.updateCart(cart)
-    if (!this.state.in_card) {
-      this.setState({ in_card: true })
+    if (!this.state.in_cart) {
+      this.setState({ in_cart: true })
     }
     this.setState({ item_count: cart.items[category + ', ' + item.name].quantity })
   }
@@ -77,13 +77,13 @@ export default class ItemPreview extends Component {
       cart['items'][category + ', ' + item.name] = current_item
     } else {
       delete(cart['items'][category + ', ' + item.name])
-      this.setState({ in_card: false })
+      this.setState({ in_cart: false })
     }
 
     if (Object.keys(cart.items).length !== 0) {
       localStorage.setItem('cart', JSON.stringify(cart))
       this.props.updateCart(cart)
-      if (this.state.in_card) this.setState({ item_count: cart.items[category + ', ' + item.name].quantity })
+      if (this.state.in_cart) this.setState({ item_count: cart.items[category + ', ' + item.name].quantity })
     } else {
       localStorage.removeItem('cart')
       this.props.updateCart({})
@@ -92,7 +92,7 @@ export default class ItemPreview extends Component {
 
   render() {
     const { item } = this.props
-    const { in_card, item_count } = this.state
+    const { in_cart, item_count } = this.state
 
     return (
       <div class='item-preview'>
@@ -103,13 +103,13 @@ export default class ItemPreview extends Component {
             <span class='description'>{item.description}</span>
           </div>
           <div class='col-2 text-center'>
-            <span class='price'>{item.price} грн.</span>
+            <span class='price'>{item.price} {i18n.item_preview.uah}</span>
           </div>
           <div class='col-2'>
-            { !in_card &&
-                <button class='button add-to-cart-button' onClick={this.addToCart}>Add to cart</button>
+            { !in_cart &&
+                <button class='button add-to-cart-button' onClick={this.addToCart}>{i18n.item_preview.add_to_cart}</button>
             }
-            { in_card &&
+            { in_cart &&
               <div>
                 <button class='button plus-button' onClick={this.addToCart}>{ '+' }</button>
                 <div class='circle'>

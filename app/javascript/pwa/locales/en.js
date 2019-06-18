@@ -182,7 +182,8 @@ const en = {
     menu: 'Menu',
     go_to: 'Go to this place',
     accepts_orders: 'The restaurant accepts orders from',
-    to: 'to'
+    to: 'to',
+    create_order: 'Create order'
   },
   cart: {
     header: 'Product cart',
@@ -195,6 +196,22 @@ const en = {
     total_price: 'Total price:',
     create_order: 'Create order',
     no_money: 'You have no money on your current card. Please, choose another card and try again'
+  },
+  cart_item: {
+    last_item: 'This product is the last in the cart. Do you really want to delete it?'
+  },
+  current_delivery_trip: {
+    header: 'Delivery Trip',
+    order_accepted: 'Your order is accepted!',
+    info: 'The restaurant is informed about your order. If necessary, the restaurant will contact you for further details.',
+    time: 'Delivery time: ',
+    address: 'Address: ',
+    order: 'Order: '
+  },
+  item_preview: {
+    new_restaurant: 'This product is from another restaurant. Your previous products will be deleted from cart. Do you really want to order products from another restaurant?',
+    uah: 'uah.',
+    add_to_cart: 'Add to cart'
   },
   choose_address: 'Choose address from a list',
   are_you_sure: 'Are you sure?'

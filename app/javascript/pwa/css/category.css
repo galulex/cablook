@@ -20,8 +20,8 @@
 
 details[open] .content {
   animation-name: invisiblyGrowFontSize, fadeIn;
-  animation-duration: 500ms, 200ms;
-  animation-delay: 0ms, 500ms;
+  animation-duration: 200ms, 100ms;
+  animation-delay: 0ms, 100ms;
   font-size: 20px;
 }
 

@@ -158,6 +158,7 @@ export default class Cart extends Component {
       this.setState({ showLoader: false })
       localStorage.setItem('delivery_items', localStorage.getItem('cart'))
       localStorage.removeItem('cart')
+      this.vibrate()
       route('/delivery', true)
     }).catch((error) => {
       if (!error.response) return
@@ -167,8 +168,6 @@ export default class Cart extends Component {
           if (confirm(`${error.response.data.errors} ${i18n.confirm_trip.retry_payment}`)) {
             this.retryPendingPayment()
           }
-          break
-        case 406:
           break
         default:
           alert(error.response.data.errors)
@@ -197,8 +196,6 @@ export default class Cart extends Component {
           if (confirm(`${error.response.data.errors} ${i18n.confirm_trip.retry_payment}`)) {
             this.retryPendingPayment()
           }
-          break
-        case 406:
           break
         default:
           alert(error.response.data.errors)
@@ -241,7 +238,6 @@ export default class Cart extends Component {
       close_at = cart.vendor_close_at
     }
     const { total_price, trip_cost, cards, card_id, showWidget, showLoader, vendor_closed } = this.state
-    console.log(this.state.trip_time)
 
     return (
       <section class='cart'>

@@ -42,6 +42,8 @@
   transition: none;
   box-shadow: none;
   margin-bottom: 0;
+  font-size: 60%;
+  padding: 5px;
 }
 
 .button.plus-button {

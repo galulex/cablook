@@ -17,26 +17,26 @@ export default class CurrentDeliveryTrip extends Component {
     return(
       <section class='delivery-trip'>
         <header>
-          Delivery Trip
+          {i18n.current_delivery_trip.header}
         </header>
         { dark_mode ? <TaxiDriverDT class='driver_icon'/>  : <TaxiDriverLT class='driver_icon'/> }
         <br/>
-        <h4>Ваше замовлення прийнято!</h4>
-        <p class='info'>Заклад проінформовано про ваше замовлення. При необхідності, заклад зв'яжеться з вами для уточнення деталей.</p>
+        <h4>{i18n.current_delivery_trip.order_accepted}</h4>
+        <p class='info'>{i18n.current_delivery_trip.info}</p>
         <div class='info-container'>
           <div class='info-item'>
             <TripTime/>
-            <b>Час доставки: </b>
+            <b>{i18n.current_delivery_trip.time}</b>
             <b class='desc'>{delivery_trip.start_time}</b>
           </div>
           <div class='info-item'>
             <Pin/>
-            <b>Адреса: </b>
+            <b>{i18n.current_delivery_trip.address}</b>
             <b class='desc'>{delivery_trip.destination_address}</b>
           </div>
           <div class='info-item'>
             <Pizza/>
-            <b>Замовлення: </b>
+            <b>{i18n.current_delivery_trip.order}</b>
             { Object.keys(items).map((item) => {
               return(
                 <span>

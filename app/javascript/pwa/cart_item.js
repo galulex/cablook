@@ -9,7 +9,7 @@ export default class CartItem extends Component {
     super(props);
     this.state = {
       quantity: 1,
-      in_card: false,
+      in_cart: false,
       item: {
         name: this.props.item_name,
         quantity: this.props.item.quantity,
@@ -20,17 +20,17 @@ export default class CartItem extends Component {
   }
 
   componentDidMount() {
-    this.findItemInCard()
+    this.findItemInCart()
   }
 
-  findItemInCard = () => {
+  findItemInCart = () => {
     const { item_name } = this.props
 
     if (localStorage.getItem('cart') === null) return;
 
     const cart = JSON.parse(localStorage.getItem('cart'))
 
-    this.setState({ in_card: !!cart['items'][item_name] })
+    this.setState({ in_cart: !!cart['items'][item_name] })
   }
 
   addToCart = () => {
@@ -65,7 +65,7 @@ export default class CartItem extends Component {
 
       cart['items'][item_name] = current_item
     } else {
-      if (window.confirm('Последний айтем, удалять его?')) {
+      if (window.confirm(i18n.cart_item.last_item)) {
         delete(cart['items'][item_name])
       } else {
         return;
@@ -88,7 +88,7 @@ export default class CartItem extends Component {
 
   render() {
     const { item_name } = this.props
-    const { in_card } = this.state
+    const { in_cart } = this.state
     const item = JSON.parse(localStorage.getItem('cart')).items[item_name]
 
     return (
