@@ -230,7 +230,6 @@ export default class CurrentTrip extends Component {
 
   build = (e) => {
     let params = {...this.state.trip}
-    console.log(params)
     if (!e.target.form.checkValidity()) return e.target.form.reportValidity();
     this.submitDisabled(true)
     params.waypoints = params.waypoints.slice(1, -1)

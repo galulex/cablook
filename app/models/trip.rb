@@ -3,9 +3,11 @@ class Trip < ApplicationRecord
   belongs_to :car, required: false
   belongs_to :user, counter_cache: true
   has_many :payments
+  has_one :order
   has_one :tip_payment, class_name: 'Payments::Tip'
   has_one :trip_payment, class_name: 'Payments::Trip'
   has_one :idle_payment, class_name: 'Payments::Idle'
+  has_one :order_payment, class_name: 'Payments::Order'
   has_one :fake_taxi_payment, class_name: 'Payments::FakeTaxi'
   has_many :required_payments, -> { where.not(type: 'Payments::Tip') }, class_name: 'Payment'
 

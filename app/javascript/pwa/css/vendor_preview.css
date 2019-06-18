@@ -93,4 +93,12 @@
 
 .vendor .go-to {
   background: var(--navy);
+  color: var(--white);
+}
+
+li.create-order {
+  padding: 10px;
+  text-align: center;
+  border: 2px solid #18a160;
+  background-color: var(--orange);
 }

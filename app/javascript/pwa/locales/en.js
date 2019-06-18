@@ -178,7 +178,23 @@ const en = {
   },
   vendor_preview: {
     open: 'Open',
-    close: 'Close'
+    close: 'Close',
+    menu: 'Menu',
+    go_to: 'Go to this place',
+    accepts_orders: 'The restaurant accepts orders from',
+    to: 'to'
+  },
+  cart: {
+    header: 'Product cart',
+    empty_cart: 'There are no added items in your cart at this moment',
+    vendor_closed: "The restaurant doesn't accept orders for now",
+    order_price: 'Order price:',
+    uah: 'uah.',
+    where: 'Where?',
+    trip_price: 'Delivery price:',
+    total_price: 'Total price:',
+    create_order: 'Create order',
+    no_money: 'You have no money on your current card. Please, choose another card and try again'
   },
   choose_address: 'Choose address from a list',
   are_you_sure: 'Are you sure?'

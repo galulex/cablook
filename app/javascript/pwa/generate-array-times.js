@@ -49,10 +49,6 @@ export default class GenerateArrayTimes extends Component {
           })}
         </select>
       </label>
-
     )
   }
 }
-
-
-

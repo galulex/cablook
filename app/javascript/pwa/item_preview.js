@@ -20,8 +20,8 @@ export default class ItemPreview extends Component {
 
   findItemInCard = () => {
     const { item, category } = this.props
-    if (localStorage.getItem('cart') === null) return;
     const cart = JSON.parse(localStorage.getItem('cart'))
+    if (!cart) return;
     this.setState({ in_card: !!cart.items[category + ', ' + item.name] })
     if (this.state.in_card) this.setState({ item_count: cart.items[category + ', ' + item.name].quantity })
   }
@@ -29,13 +29,13 @@ export default class ItemPreview extends Component {
   addToCart = () => {
     const { item, vendor, category } = this.props
 
-    let cart = localStorage.getItem('cart') ? JSON.parse(localStorage.getItem('cart')) : { items: {}}
+    let cart = localStorage.getItem('cart') ? JSON.parse(localStorage.getItem('cart')) : { items: {} }
 
     if (cart.vendor && cart.vendor !== vendor.name) {
       if (window.confirm('Новий заклад, видаляти старі замовлення?')) {
         localStorage.removeItem('cart')
         this.props.updateCart({})
-        cart = { items: {}}
+        cart = { items: {} }
       } else {
         return;
       }
@@ -126,6 +126,3 @@ export default class ItemPreview extends Component {
     )
   }
 }
-
-
-

@@ -114,7 +114,3 @@ export default class CartItem extends Component {
     )
   }
 }
-
-
-
-

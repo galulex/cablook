@@ -42,7 +42,7 @@ summary.vendor-category {
   outline: none;
   border: none;
   border-bottom: 1px solid darkgray;
-  background-color: lightgray;
+  background-color: var(--grey);
   padding: 15px 10px;
   text-align: left;
   font-weight: 600;

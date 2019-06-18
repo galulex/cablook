@@ -35,9 +35,13 @@ module Events
         assign_attrs
         validate!
 
+        update_trip_time if delivery?
         create_trip
         bonus? ? pay_by_bonus : create_payment
-        assign_trip_to_order if delivery?
+        if delivery?
+          assign_trip_to_order
+          assign_trip_to_order_payment
+        end
         create_trip_job(@trip.id)
         @trip
       end
@@ -49,8 +53,16 @@ module Events
         data[:cost] = Operations::V2TripCalculation.new(direction).cost
       end
 
+      def order
+        @order ||= Order.find_by(id: data['order_id'])
+      end
+
       def assign_trip_to_order
-        Order.find_by(id: data['order_id']).update(trip_id: @trip.id)
+        order.update(trip_id: @trip.id)
+      end
+
+      def assign_trip_to_order_payment
+        order.payment.update(trip_id: @trip.id)
       end
 
       def create_payment
@@ -102,6 +114,10 @@ module Events
 
       def delivery?
         data[:delivery].present?
+      end
+
+      def update_trip_time
+        data[:start_at] = data[:time].to_time.to_s
       end
 
       def order_reference

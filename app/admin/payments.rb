@@ -39,13 +39,13 @@ ActiveAdmin.register Payment do
   index do
     %w[id amount status type trip user card_pan response].each { |title| column title }
     column 'driver_id' do |payment|
-      payment&.trip&.driver_id || nil
+      payment&.trip&.driver_id
     end
     column 'car_id' do |payment|
-      payment&.trip&.car_id || nil
+      payment&.trip&.car_id
     end
     column 'created_at' do |payment|
-      payment&.trip&.created_at || nil
+      payment&.trip&.created_at
     end
     actions
     div class: 'panel' do

@@ -5,6 +5,7 @@ class User < ApplicationRecord
   has_and_belongs_to_many :businesses
   has_many :trips
   has_many :cards
+  has_many :orders
   has_many :bonus_trips
   has_one  :parent_bonus, foreign_key: 'friend_id', class_name: 'BonusTrip'
   has_many :business_cards, through: :businesses, source: :card

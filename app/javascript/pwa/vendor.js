@@ -54,6 +54,7 @@ export default class Vendor extends Component {
           <Back fill='#132d50'/>
         </button>
         <header>
+          {i18n.vendor_preview.menu}
           <Link href={'/delivery/cart'}>
             { cart && cart.items &&
               <span class='orange-dot'/>
@@ -61,13 +62,12 @@ export default class Vendor extends Component {
             <ShoppingCart class='cart'/>
           </Link>
         </header>
-        <ul>
-          <VendorPreview
-              key={vendor.id}
-              vendor={vendor}
-              hide_content={true}
-              active={'active'} />
-        </ul>
+        <VendorPreview
+            key={vendor.id}
+            vendor={vendor}
+            hide_content={true}
+            active={'active'}
+            cart_with_items={cart && cart.items}/>
         {Object.keys(vendor.items).map((category, index) => {
           return(
             <Category

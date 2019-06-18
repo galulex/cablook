@@ -1,6 +1,8 @@
 module Events
   module Orders
     class Create < BaseEvent
+      include Validations::Create
+
       def schema
         Dry::Validation.Schema do
           configure { config.messages = :i18n }
@@ -8,14 +10,18 @@ module Events
           required(:user_id).filled(:int?)
           required(:vendor_id).filled(:int?)
           required(:card_id).filled(:int?)
+          required(:trip_time).filled(:str?)
 
           required(:items).filled
         end
       end
 
       def run
+        validate!
+
         create_order
         return { valid: false } unless hold_money['reasonCode'] == Constants::Payments::WAYFORPAY_SUCCESS
+        send_message_to_vendor
         create_order_payment(Constants::Payments::HOLD)
         { valid: true, order_id: @order.id }
       end
@@ -57,7 +63,7 @@ module Events
               j['name'] == name[1]
             end
           end
-          current_price = current_price.compact&.first&['price']
+          current_price = current_price.compact&.first['price']
           return 0 unless current_price
           i[1]['quantity'].to_i * current_price.to_f
         end
@@ -73,8 +79,16 @@ module Events
         ActiveSupport::JSON.decode(res)
       end
 
+      def send_message_to_vendor
+        TelegramOrder.send_order_message(@order.vendor.telegram_account, data['trip_time'], @order.items, @order.user.phone_number)
+      end
+
       def user_card
         Card.find_by(id: data['card_id'])
+      end
+
+      def user_cards
+        @user_cards ||= Card.user_cards(data[:user_id])
       end
 
       def order_reference

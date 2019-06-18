@@ -1,11 +1,12 @@
-import { h, render, Component } from 'preact';
-import axios from 'axios';
-import i18n from './i18n.js';
-import CartItem from './cart_item.js';
+import { h, render, Component } from 'preact'
+import { route } from 'preact-router'
+import axios from 'axios'
+import i18n from './i18n.js'
+import CartItem from './cart_item.js'
 import './css/cart.css'
 import Back from './images/arrow-left.svg'
-import AddressInput from '../pwa/trips/address-input.js';
-import GenerateArrayTimes from './generate-array-times.js';
+import AddressInput from '../pwa/trips/address-input.js'
+import GenerateArrayTimes from './generate-array-times.js'
 import Widget from './widget.js'
 import Loader from './loader.js'
 
@@ -102,8 +103,7 @@ export default class Cart extends Component {
   }
 
   updateTripTime = (e) => {
-    this.setState({trip_time: e.target.value, showLoader: true})
-    this.goDeliveryTrip()
+    this.setState({trip_time: e.target.value})
   }
 
   setTripTime = (trip_time) => {
@@ -132,7 +132,8 @@ export default class Cart extends Component {
     let params = {
       items: cart.items,
       vendor: cart.vendor,
-      card_id: this.state.card_id
+      card_id: this.state.card_id,
+      trip_time: this.state.trip_time
     }
     this.sendOrderRequest(params)
   }
@@ -143,6 +144,7 @@ export default class Cart extends Component {
     params.destination = params.destination.join(',')
     params.card_id = this.state.card_id
     params.order_id = order_id
+    params.time = this.state.trip_time
     this.sendTripRequest(params)
   }
 
@@ -154,9 +156,12 @@ export default class Cart extends Component {
     }).then((res) => {
       this.updateDeliveryTrip(res.data)
       this.setState({ showLoader: false })
-      alert('Your trip was successfully created')
+      localStorage.setItem('delivery_items', localStorage.getItem('cart'))
+      localStorage.removeItem('cart')
+      route('/delivery', true)
     }).catch((error) => {
       if (!error.response) return
+      this.setState({ showLoader: false })
       switch(error.response.status) {
         case 418:
           if (confirm(`${error.response.data.errors} ${i18n.confirm_trip.retry_payment}`)) {
@@ -164,11 +169,6 @@ export default class Cart extends Component {
           }
           break
         case 406:
-          if (confirm(`${error.response.data.errors} ${i18n.confirm_trip.trip_payment}`)) {
-            this.setState({bonus: false})
-            this.props.trip.bonus = false
-            this.createTrip()
-          }
           break
         default:
           alert(error.response.data.errors)
@@ -186,10 +186,38 @@ export default class Cart extends Component {
       if (res.data.valid) {
         this.createTrip(res.data.order_id)
       } else {
-        alert('You have no money, bitch!')
+        this.setState({ showLoader: false })
+        alert(i18n.cart.no_money)
       }
     }).catch((error) => {
-      alert(error.response.data.errors)
+      if (!error.response) return
+      this.setState({ showLoader: false })
+      switch(error.response.status) {
+        case 418:
+          if (confirm(`${error.response.data.errors} ${i18n.confirm_trip.retry_payment}`)) {
+            this.retryPendingPayment()
+          }
+          break
+        case 406:
+          break
+        default:
+          alert(error.response.data.errors)
+          break
+      }
+    })
+  }
+
+  retryPendingPayment = () => {
+    this.setState({ showLoader: true })
+    axios.post('payments/retry_pendings', {card_id: this.state.card_id}).then((res) => {
+      if (res.data.length === 0) {
+        this.createOrder()
+      } else {
+        this.setState({ showLoader: false })
+        setTimeout(() => {alert(i18n.confirm_trip.payment_error)}, 500)
+      }
+    }).catch((error) => {
+      if (error.response) alert(error.response.data.errors)
     })
   }
 
@@ -213,13 +241,14 @@ export default class Cart extends Component {
       close_at = cart.vendor_close_at
     }
     const { total_price, trip_cost, cards, card_id, showWidget, showLoader, vendor_closed } = this.state
+    console.log(this.state.trip_time)
 
     return (
       <section class='cart'>
         {showLoader && <Loader/>}
         <button type='button' class='burger' onClick={(event) => window.history.back()}><Back fill='#132d50'/></button>
         <header>
-          Корзина
+          {i18n.cart.header}
         </header>
         { items ? ([
           Object.keys(items).map((item, index) => {
@@ -227,7 +256,7 @@ export default class Cart extends Component {
               <CartItem key={index} item_name={item} item={items[item]} vendor={vendor} calculateTotalPrice={this.calculateTotalPrice}/>
             )
           }),
-          <div>Сума замовлення: {total_price} грн.</div>,
+          <div>{i18n.cart.order_price} {total_price} {i18n.cart.uah}</div>,
           !vendor_closed &&
             (cards.length > 0) &&
               <div class='select-section'>
@@ -244,7 +273,7 @@ export default class Cart extends Component {
           !vendor_closed &&
             <AddressInput
                 setAddress={this.setAddress}
-                placeholder={'Куди доставляти?'}
+                placeholder={i18n.cart.where}
                 favorite_addresses={() => this.props.favorite_addresses()}/>,
           !vendor_closed &&
             <label for='entrance'>
@@ -262,19 +291,17 @@ export default class Cart extends Component {
                 finish_time={parseInt(close_at.split(':')[0])}
                 updateTripTime={this.updateTripTime}
                 setTripTime={this.setTripTime}/>,
-            trip_cost ? <div>Ціна доставки: {trip_cost} грн. Загальна сума: {trip_cost + total_price} грн.</div> : '',
+            trip_cost ? <div>{i18n.cart.trip_price} {trip_cost} {i18n.cart.uah} {i18n.cart.total_price} {trip_cost + total_price} грн.</div> : '',
           !vendor_closed &&
-            <button onClick={this.createOrder}>Створити замовлення</button>,
+            <button onClick={this.createOrder}>{i18n.cart.create_order}</button>,
           !vendor_closed &&
             showWidget && <Widget createCard={this.createCard}/>,
           vendor_closed &&
-            <p>Заклад не приймає замовлення</p>]
+            <p>{i18n.cart.vendor_closed}</p>]
         ) : (
-          <p>Назараз немає ні одного доданого товару в вашій корзині</p>
+          <p>{i18n.cart.empty_cart}</p>
         )}
       </section>
     )
   }
 }
-
-

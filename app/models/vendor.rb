@@ -1,6 +1,5 @@
 class Vendor < ApplicationRecord
-  has_many :order
-
+  has_many :orders
 
   def open_now?
     Time.now.hour.between?(open_at.hour, close_at.hour)
