@@ -41,6 +41,10 @@ export default class Vendor extends Component {
     this.setState({ cart })
   }
 
+  updateLoaderState = (showLoader) => {
+    this.setState({showLoader})
+  }
+
   render() {
     const { vendor, cart, showLoader } = this.state
 
@@ -67,7 +71,8 @@ export default class Vendor extends Component {
             vendor={vendor}
             hide_content={true}
             active={'active'}
-            cart_with_items={cart && cart.items}/>
+            cart_with_items={cart && cart.items}
+            updateLoaderState={this.updateLoaderState}/>
         {Object.keys(vendor.items).map((category, index) => {
           return(
             <Category

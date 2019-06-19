@@ -55,6 +55,10 @@ export default class Vendors extends Component {
     this.setState({delivery_trip, showLoader: false})
   }
 
+  updateLoaderState = (showLoader) => {
+    this.setState({showLoader})
+  }
+
   render() {
     const { vendors, showLoader, delivery_trip } = this.state
 
@@ -68,7 +72,7 @@ export default class Vendors extends Component {
           </header>
           <div class='vendors-content'>
             <ul>
-              { vendors.map(vendor => (<VendorPreview key={vendor.id} vendor={vendor}/>)) }
+              { vendors.map(vendor => (<VendorPreview key={vendor.id} vendor={vendor} updateLoaderState={this.updateLoaderState}/>)) }
             </ul>
           </div>
         </section>

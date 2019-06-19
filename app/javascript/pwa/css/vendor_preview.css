@@ -99,6 +99,10 @@
 }
 
 .vendor .go-to {
+  font-size: 63%;
+  font-weight: 500;
+  padding: 6px;
+  width: 90%;
   background: #312d50;
   background: var(--navy);
   color: white;
