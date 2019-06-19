@@ -1,5 +1,6 @@
 .vendor {
   position: relative;
+  background: #d1d1d1;
   background: var(--grey);
   margin: 20px 10px;
   padding: 10px 20px;
@@ -9,6 +10,7 @@
 }
 
 .vendor.active {
+  background: #19a160;
   background: var(--green);
   margin: 20px 0 0;
 }
@@ -31,7 +33,9 @@
   width: 25px;
   height: 25px;
   vertical-align: middle;
+  border: 1px #19a160 solid;
   border: 1px var(--green) solid;
+  fill: #19a160;
   fill: var(--green);
   padding: 4px;
   border-radius: 50%;
@@ -51,7 +55,8 @@
 }
 
 .vendor .time-container {
-  border-top: 1px solid gray;
+  border-top: 1px solid #d1d1d1;
+  border-top: 1px solid var(--grey);
   font-size: 12px;
   padding: 5px 0 5px 0;
 }
@@ -76,10 +81,12 @@
 
 .vendor .link-button {
   position: absolute;
+  background: #19a160;
   background: var(--green);
   color: white;
   font-size: 63%;
   font-weight: 500;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.16);
   box-shadow: var(--shadow);
   padding: 6px;
   width: 90%;
@@ -92,7 +99,9 @@
 }
 
 .vendor .go-to {
+  background: #312d50;
   background: var(--navy);
+  color: white;
   color: var(--white);
 }
 
@@ -100,5 +109,6 @@ li.create-order {
   padding: 10px;
   text-align: center;
   border: 2px solid #18a160;
+  background-color: #efcc3a;
   background-color: var(--orange);
 }

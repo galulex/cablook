@@ -289,7 +289,8 @@ export default class Cart extends Component {
                 setTripTime={this.setTripTime}/>,
             trip_cost ? <div>{i18n.cart.trip_price} {trip_cost} {i18n.cart.uah} {i18n.cart.total_price} {trip_cost + total_price} грн.</div> : '',
           !vendor_closed &&
-            <button onClick={this.createOrder}>{i18n.cart.create_order}</button>,
+            (cards.length !== 0) &&
+              <button class='button fixed' onClick={this.createOrder}>{i18n.cart.create_order}</button>,
           !vendor_closed &&
             showWidget && <Widget createCard={this.createCard}/>,
           vendor_closed &&

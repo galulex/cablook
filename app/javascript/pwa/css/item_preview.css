@@ -9,6 +9,7 @@
 }
 
 .item-preview:nth-child(even) {
+  background: #d1d1d1;
   background: var(--grey);
 }
 
@@ -55,6 +56,7 @@
 
 .button.minus-button {
   width: 50%;
+  background: #efcc3a;
   background: var(--orange);
   transition: none;
   box-shadow: none;

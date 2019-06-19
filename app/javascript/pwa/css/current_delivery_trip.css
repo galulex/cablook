@@ -10,7 +10,8 @@
   text-align: left;
   font-style: italic;
   font-size: 60%;
-  border-bottom: 1px solid gray;
+  border-bottom: 1px solid #d1d1d1;
+  border-bottom: 1px solid var(--grey);
   padding: .6rem;
 }
 
@@ -25,6 +26,7 @@
 }
 
 .delivery-trip .info-item .desc {
+  color: #19a160;
   color: var(--green);
 }
 
@@ -32,5 +34,6 @@
   width: 20px;
   vertical-align: middle;
   margin-right: 5px;
+  fill: #19a160;
   fill: var(--green);
 }
