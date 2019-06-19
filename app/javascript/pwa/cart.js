@@ -16,6 +16,7 @@ export default class Cart extends Component {
     const cart = JSON.parse(localStorage.getItem('cart')) || {}
 
     this.state = {
+      submitDisabled: false,
       entrance: '',
       total_price: null,
       departure: cart.vendor_location,
@@ -125,7 +126,13 @@ export default class Cart extends Component {
     }
   }
 
-  createOrder = () => {
+  submitDisabled = val => {
+    this.setState({ submitDisabled: val })
+  }
+
+  createOrder = (e) => {
+    if (!e.target.form.checkValidity()) return e.target.form.reportValidity();
+    this.submitDisabled(true)
     this.setState({ showLoader: true })
     const cart = JSON.parse(localStorage.getItem('cart'))
 
@@ -267,30 +274,29 @@ export default class Cart extends Component {
             (cards.length < 1) &&
               <button class='button fixed' type='button' disabled={showWidget} onClick={() => this.setState({showWidget: true}) }>+ {i18n.cards.add}</button>,
           !vendor_closed &&
-            <AddressInput
-                setAddress={this.setAddress}
-                placeholder={i18n.cart.where}
-                favorite_addresses={() => this.props.favorite_addresses()}/>,
-          !vendor_closed &&
-            <label for='entrance'>
-              <span>{i18n.current_trip.where_to_pick}</span>
-              <select id='entrance' onChange={this.updateEntrance}>
-                <option value=''>{i18n.current_trip.select_entrance}</option>
-                {this.state.entrance_list.map((el) => {
-                  return(<option value={el}>{el} {i18n.current_trip.entrance}</option>)
-                })}
-              </select>
-            </label>,
-          !vendor_closed &&
-            <GenerateArrayTimes
-                start_time={parseInt(open_at.split(':')[0])}
-                finish_time={parseInt(close_at.split(':')[0])}
-                updateTripTime={this.updateTripTime}
-                setTripTime={this.setTripTime}/>,
-            trip_cost ? <div>{i18n.cart.trip_price} {trip_cost} {i18n.cart.uah} {i18n.cart.total_price} {trip_cost + total_price} грн.</div> : '',
-          !vendor_closed &&
-            (cards.length !== 0) &&
-              <button class='button fixed' onClick={this.createOrder}>{i18n.cart.create_order}</button>,
+            <form action='#' onSubmit={(e) => e.preventDefault()}>
+              <AddressInput
+                  setAddress={this.setAddress}
+                  placeholder={i18n.cart.where}
+                  favorite_addresses={() => this.props.favorite_addresses()}/>
+              <label for='entrance'>
+                <span>{i18n.current_trip.where_to_pick}</span>
+                <select id='entrance' onChange={this.updateEntrance}>
+                  <option value=''>{i18n.current_trip.select_entrance}</option>
+                  {this.state.entrance_list.map((el) => {
+                    return(<option value={el}>{el} {i18n.current_trip.entrance}</option>)
+                  })}
+                </select>
+              </label>
+              <GenerateArrayTimes
+                  start_time={parseInt(open_at.split(':')[0])}
+                  finish_time={parseInt(close_at.split(':')[0])}
+                  updateTripTime={this.updateTripTime}
+                  setTripTime={this.setTripTime}/>
+              {trip_cost ? <div>{i18n.cart.trip_price} {trip_cost} {i18n.cart.uah} {i18n.cart.total_price} {trip_cost + total_price} грн.</div> : ''}
+              {(cards.length !== 0) &&
+                <input type='submit' class='button fixed' onClick={this.createOrder} value={i18n.cart.create_order}/>}
+            </form>,
           !vendor_closed &&
             showWidget && <Widget createCard={this.createCard}/>,
           vendor_closed &&
