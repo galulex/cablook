@@ -161,6 +161,7 @@ export default class Cart extends Component {
     params.card_id = this.state.card_id
     params.order_id = order_id
     params.time = this.state.trip_time
+    params.vip = true
     this.sendTripRequest(params)
   }
 
