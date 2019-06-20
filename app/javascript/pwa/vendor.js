@@ -1,6 +1,7 @@
 import { h, render, Component } from 'preact';
 import axios from 'axios';
 import { Link } from 'preact-router/match';
+import { route } from 'preact-router'
 
 import i18n from './i18n.js'
 import './css/vendor.css'
@@ -24,8 +25,16 @@ export default class Vendor extends Component {
   }
 
   componentDidMount() {
+    this.checkCurrentDeliveryTrip()
     this.getVendorInfoAndItems()
   }
+
+  checkCurrentDeliveryTrip = () => {
+    const delivery_trip = JSON.parse(localStorage.getItem('delivery_trip'))
+
+    if (delivery_trip && delivery_trip.id) route('/delivery', true)
+  }
+
 
   getVendorInfoAndItems = () => {
     const { vendor_id } = this.state

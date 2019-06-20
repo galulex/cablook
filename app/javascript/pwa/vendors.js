@@ -1,7 +1,7 @@
 import { h, render, Component } from 'preact'
 import axios from 'axios'
 import { Router } from 'preact-router'
-import { FINISHED, CANCELED, CANCELED_BY_DRIVER } from './constants.js'
+import { FINISHED, CANCELED, CANCELED_BY_DRIVER, DECLINED } from './constants.js'
 import i18n from './i18n.js'
 import './css/vendors.css'
 import VendorPreview from './vendor_preview.js'
@@ -62,7 +62,7 @@ export default class Vendors extends Component {
   render() {
     const { vendors, showLoader, delivery_trip } = this.state
 
-    if (!delivery_trip || !delivery_trip.id || [FINISHED,CANCELED,CANCELED_BY_DRIVER,null].includes(delivery_trip.status)) {
+    if (!delivery_trip || !delivery_trip.id || [FINISHED,CANCELED,CANCELED_BY_DRIVER,DECLINED,null].includes(delivery_trip.status)) {
       localStorage.removeItem('delivery_trip')
       return (
         <section class='vendors'>
