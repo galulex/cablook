@@ -9,7 +9,7 @@ import AddressInput from '../pwa/trips/address-input.js'
 import GenerateArrayTimes from './generate-array-times.js'
 import Widget from './widget.js'
 import Loader from './loader.js'
-import Wheel from './images/vehicle-wheel.svg'
+import Wheel from './images/wheel.svg'
 import Dollar from './images/dollar.svg'
 
 export default class Cart extends Component {
