@@ -64,7 +64,7 @@ export default class Vendor extends Component {
             type='button'
             class='burger'
             onClick={(event) => window.history.back()}>
-          <Back fill='#132d50'/>
+          <Back/>
         </button>
         <header>
           {i18n.vendor_preview.menu}
