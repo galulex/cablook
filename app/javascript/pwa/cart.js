@@ -9,6 +9,8 @@ import AddressInput from '../pwa/trips/address-input.js'
 import GenerateArrayTimes from './generate-array-times.js'
 import Widget from './widget.js'
 import Loader from './loader.js'
+import Wheel from './images/vehicle-wheel.svg'
+import Dollar from './images/dollar.svg'
 
 export default class Cart extends Component {
   constructor(props) {
@@ -36,11 +38,18 @@ export default class Cart extends Component {
   }
 
   componentDidMount() {
+    this.checkCurrentDeliveryTrip()
     this.getCards()
   }
 
   componentWillReceiveProps() {
     this.getCards()
+  }
+
+  checkCurrentDeliveryTrip = () => {
+    const delivery_trip = JSON.parse(localStorage.getItem('delivery_trip'))
+
+    if (delivery_trip && delivery_trip.id) route('/delivery', true)
   }
 
   vibrate = () => {
@@ -259,7 +268,10 @@ export default class Cart extends Component {
               <CartItem key={index} item_name={item} item={items[item]} vendor={vendor} calculateTotalPrice={this.calculateTotalPrice}/>
             )
           }),
-          <div>{i18n.cart.order_price} {total_price} {i18n.cart.uah}</div>,
+          <div class='order-price'>
+            <b>{i18n.cart.order_price}</b>
+            <b class='price'>{total_price} {i18n.cart.uah}</b>
+          </div>,
           !vendor_closed &&
             (cards.length > 0) &&
               <div class='select-section'>
@@ -293,9 +305,17 @@ export default class Cart extends Component {
                   finish_time={parseInt(close_at.split(':')[0])}
                   updateTripTime={this.updateTripTime}
                   setTripTime={this.setTripTime}/>
-              {trip_cost ? <div>{i18n.cart.trip_price} {trip_cost} {i18n.cart.uah} {i18n.cart.total_price} {trip_cost + total_price} грн.</div> : ''}
+              {trip_cost &&
+                <div class='prices'>
+                  <div class='mb-1'>
+                    <Wheel class='align-middle'/><span class='align-middle'><b>{i18n.cart.trip_price}</b> <b class='price'>{trip_cost} {i18n.cart.uah}</b></span>
+                  </div>
+                  <div>
+                    <Dollar class='align-middle'/><span class='align-middle'><b>{i18n.cart.total_price}</b> <b class='price'>{trip_cost + total_price} {i18n.cart.uah}</b></span>
+                  </div>
+                </div>}
               {(cards.length !== 0) &&
-                <input type='submit' class='button fixed' onClick={this.createOrder} value={i18n.cart.create_order}/>}
+                <input type='submit' class='button' onClick={this.createOrder} value={i18n.cart.create_order}/>}
             </form>,
           !vendor_closed &&
             showWidget && <Widget createCard={this.createCard}/>,

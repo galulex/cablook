@@ -189,10 +189,10 @@ const en = {
     header: 'Product cart',
     empty_cart: 'There are no added items in your cart at this moment',
     vendor_closed: "The restaurant doesn't accept orders for now",
-    order_price: 'Order price:',
+    order_price: 'ORDER PRICE:',
     uah: 'uah.',
     where: 'Where?',
-    trip_price: 'Delivery price:',
+    trip_price: 'Delivery price: ',
     total_price: 'Total price:',
     create_order: 'Create order',
     no_money: 'You have no money on your current card. Please, choose another card and try again'
