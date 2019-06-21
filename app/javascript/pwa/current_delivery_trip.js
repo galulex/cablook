@@ -13,6 +13,7 @@ export default class CurrentDeliveryTrip extends Component {
     const { delivery_trip } = this.props
     const dark_mode = JSON.parse(localStorage.getItem('dark'))
     const items = JSON.parse(localStorage.getItem('delivery_items')).items
+    const time = localStorage.getItem('delivery_time')
 
     return(
       <section class='delivery-trip'>
@@ -27,7 +28,7 @@ export default class CurrentDeliveryTrip extends Component {
           <div class='info-item'>
             <TripTime/>
             <b>{i18n.current_delivery_trip.time}</b>
-            <b class='desc'>{delivery_trip.start_time}</b>
+            <b class='desc'>{time}</b>
           </div>
           <div class='info-item'>
             <Pin/>

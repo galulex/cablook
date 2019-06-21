@@ -56,7 +56,7 @@ module Events
       def calculate_amount
         cached_items = items
         data['items'].to_h.sum do |i|
-          name = i[0].split(', ')
+          name = i[0].split(', ', 2)
           current_price = cached_items.map do |item|
             next unless item[0] == name[0]
             item[1].find do |j|

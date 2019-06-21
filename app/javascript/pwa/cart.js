@@ -173,6 +173,7 @@ export default class Cart extends Component {
       this.updateDeliveryTrip(res.data)
       this.setState({ showLoader: false })
       localStorage.setItem('delivery_items', localStorage.getItem('cart'))
+      localStorage.setItem('delivery_time', this.state.trip_time)
       localStorage.removeItem('cart')
       this.vibrate()
       route('/delivery', true)
