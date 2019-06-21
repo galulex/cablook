@@ -42,7 +42,7 @@ export default class GenerateArrayTimes extends Component {
   render() {
     return (
       <label for='select_time'>
-        <span>Коли?</span>
+        <span>{i18n.current_trip.when}</span>
         <select id='select_time' onChange={(e) => this.updateTripTime(e)}>
           {this.state.times.map((val, index) => {
             return(<option key={index} value={val}>{val}</option>)

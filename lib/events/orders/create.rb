@@ -30,9 +30,9 @@ module Events
 
       def create_order
         @order ||= Order.create(
-          user_id:   data['user_id'],
-          vendor_id: data['vendor_id'],
-          items:     data['items'],
+          user_id:   data[:user_id],
+          vendor_id: data[:vendor_id],
+          items:     data[:items],
           amount:    calculate_amount.to_i
         )
       end
@@ -43,8 +43,8 @@ module Events
 
       def create_order_payment(status)
         Payments::Order.create(
-          user_id:         data['user_id'],
-          card_id:         data['card_id'],
+          user_id:         data[:user_id],
+          card_id:         data[:card_id],
           order_id:        @order.id,
           amount:          @order.amount,
           response:        @hold_money_response,
@@ -55,7 +55,7 @@ module Events
 
       def calculate_amount
         cached_items = items
-        data['items'].to_h.sum do |i|
+        data[:items].to_h.sum do |i|
           name = i[0].split(', ', 2)
           current_price = cached_items.map do |item|
             next unless item[0] == name[0]
@@ -80,11 +80,11 @@ module Events
       end
 
       def send_message_to_vendor
-        Jobs::TelegramNotification.perform_later(@order.vendor.telegram_account, data['trip_time'], @order.items, @order.user.phone_number)
+        Jobs::TelegramNotification.perform_later(@order.vendor.telegram_account, data[:trip_time], @order.items, @order.user.phone_number)
       end
 
       def user_card
-        Card.find_by(id: data['card_id'])
+        Card.find_by(id: data[:card_id])
       end
 
       def user_cards

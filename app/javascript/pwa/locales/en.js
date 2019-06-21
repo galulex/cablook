@@ -189,11 +189,11 @@ const en = {
     header: 'Product cart',
     empty_cart: 'There are no added items in your cart at this moment',
     vendor_closed: "The restaurant doesn't accept orders for now",
-    order_price: 'ORDER PRICE:',
-    uah: 'uah.',
+    order_price: 'ORDER PRICE: ',
+    uah: 'uah',
     where: 'Where?',
     trip_price: 'Delivery price: ',
-    total_price: 'Total price:',
+    total_price: 'Total price: ',
     create_order: 'Create order',
     no_money: 'You have no money on your current card. Please, choose another card and try again'
   },
@@ -210,7 +210,7 @@ const en = {
   },
   item_preview: {
     new_restaurant: 'This product is from another restaurant. Your previous products will be deleted from cart. Do you really want to order products from another restaurant?',
-    uah: 'uah.',
+    uah: 'uah',
     add_to_cart: 'Add to cart'
   },
   choose_address: 'Choose address from a list',
