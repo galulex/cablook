@@ -86,7 +86,7 @@ export default class Cart extends Component {
   }
 
   goDeliveryTrip = (e) => {
-    const { departure, destination, departure_address, destination_address, trip_time, entrance } = this.state
+    const { departure, destination, departure_address, destination_address, entrance } = this.state
     const params = {
       waypoints: [],
       stops: [],
@@ -96,7 +96,6 @@ export default class Cart extends Component {
       departure_address: departure_address,
       destination_address: destination_address,
       no_call: false,
-      time: trip_time,
       osrm: true,
       vip: true,
       comment: ''

@@ -35,7 +35,6 @@ module Events
         assign_attrs
         validate!
 
-        update_trip_time if delivery?
         create_trip
         bonus? ? pay_by_bonus : create_payment
         if delivery?
@@ -114,10 +113,6 @@ module Events
 
       def delivery?
         data[:delivery].present?
-      end
-
-      def update_trip_time
-        data[:start_at] = data[:time].to_time.to_s
       end
 
       def order_reference
