@@ -86,6 +86,25 @@ export default class CartItem extends Component {
     }
   }
 
+  removeAllCurrentItem = () => {
+    const { item, item_name } = this.props
+
+    let cart = JSON.parse(localStorage.getItem('cart'))
+    let current_item = JSON.parse(localStorage.getItem('cart')).items[item_name]
+
+    if (window.confirm(i18n.cart_item.remove_current_item)) {
+      delete(cart['items'][item_name])
+    } else {
+      return;
+    }
+
+    this.setState({item: { quantity: current_item['quantity'],
+                           total_price: current_item['total_price'] }})
+    localStorage.setItem('cart', JSON.stringify(cart))
+    this.props.calculateTotalPrice()
+    if (Object.keys(cart.items).length === 0) localStorage.removeItem('cart')
+  }
+
   render() {
     const { item_name } = this.props
     const { in_cart } = this.state
@@ -109,6 +128,7 @@ export default class CartItem extends Component {
               <button class='button minus-button' onClick={this.removeFromCart}>{ '-' }</button>
             </div>
           </div>
+          <button class='remove-item' onClick={this.removeAllCurrentItem}>×</button>
         </div>
       </div>
     )

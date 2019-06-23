@@ -198,7 +198,8 @@ const en = {
     no_money: 'You have no money on your current card. Please, choose another card and try again'
   },
   cart_item: {
-    last_item: 'This product is the last in the cart. Do you really want to delete it?'
+    last_item: 'This product is the last in the cart. Do you really want to delete it?',
+    remove_current_item: 'Do you really want to delete this item from cart?'
   },
   current_delivery_trip: {
     header: 'Delivery Trip',

@@ -19,15 +19,15 @@
 }
 
 details[open] .content {
-  animation-name: invisiblyGrowFontSize, fadeIn;
-  animation-duration: 200ms, 100ms;
-  animation-delay: 0ms, 100ms;
-  font-size: 20px;
+  /* animation-name: invisiblyGrowFontSize, fadeIn; */
+  /* animation-duration: 200ms, 100ms; */
+  /* animation-delay: 0ms, 100ms; */
+  /* font-size: 20px; */
 }
 
 details .content {
-  font-size: 0;
-  transition: font-size .3s;
+  font-size: 20px;
+  /* transition: font-size .3s; */
 }
 
 details {

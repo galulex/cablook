@@ -84,3 +84,18 @@
   line-height: 0;
   color: black;
 }
+
+.item-preview .remove-item {
+  position: absolute;
+  right: -40px;
+  font-size: 2rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: #a925ad;
+  padding: 0 5px;
+  margin: 0;
+  outline: none;
+  cursor: pointer;
+}

@@ -6,19 +6,30 @@ import ItemPreview from './item_preview.js';
 import './css/category.css'
 
 export default class Category extends Component {
-
   updateCart = (cart) => {
     this.props.updateCart(cart)
   }
 
   render() {
     const { category, vendor } = this.props
+    const result = []
+    const map = new Map()
+    for (const item of vendor.items[category]) {
+      if(!map.has(item.name)){
+        map.set(item.name, true)
+        result.push({
+          name: item.name,
+          price: item.price,
+          description: item.description
+        })
+      }
+    }
 
     return (
       <details>
         <summary class='vendor-category'>{category}</summary>
         <div class='content'>
-          {vendor.items[category].map((item, index) => {
+          {result.map((item, index) => {
             return (
               <ItemPreview
                   category={category}
