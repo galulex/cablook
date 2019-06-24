@@ -80,22 +80,29 @@
 }
 
 .vendor .link-button {
-  position: absolute;
+  /* position: absolute; */
+  /* background: #19a160; */
+  /* background: var(--green); */
+  /* color: white; */
+  /* font-size: 63%; */
+  /* font-weight: 500; */
+  /* box-shadow: 0 3px 6px rgba(0,0,0,0.16); */
+  /* box-shadow: var(--shadow); */
+  /* padding: 6px; */
+  /* width: 90%; */
+  /* -webkit-appearance: none; */
+  /* -moz-appearance: none; */
+  /* appearance: none; */
+  /* cursor: pointer; */
+  /* text-align: center; */
+  /* text-decoration: none !important; */
+  font-size: 63%;
+  font-weight: 500;
+  padding: 6px;
+  width: 90%;
   background: #19a160;
   background: var(--green);
   color: white;
-  font-size: 63%;
-  font-weight: 500;
-  box-shadow: 0 3px 6px rgba(0,0,0,0.16);
-  box-shadow: var(--shadow);
-  padding: 6px;
-  width: 90%;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  cursor: pointer;
-  text-align: center;
-  text-decoration: none !important;
 }
 
 .vendor .go-to {

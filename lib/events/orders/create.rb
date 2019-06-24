@@ -63,7 +63,7 @@ module Events
               j['name'] == name[1]
             end
           end
-          current_price = current_price.compact&.first['price']
+          current_price = (current_price.compact.first || {})['price']
           return 0 unless current_price
           i[1]['quantity'].to_i * current_price.to_f
         end

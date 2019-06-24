@@ -79,6 +79,13 @@ export default class VendorPreview extends Component {
     })
   }
 
+  goToMenu = () => {
+    const { vendor } = this.props
+
+    history.pushState(null, null, document.URL)
+    route(`/delivery/${vendor.id}`, true)
+  }
+
   render() {
     const { vendor, cart_with_items } = this.props
     const latlong = (vendor.location ? vendor.location.split(',') : '')
@@ -100,9 +107,9 @@ export default class VendorPreview extends Component {
                 <div class='row'>
                   {!this.props.hide_content &&
                     <div class='col-5'>
-                      <Link href={'/delivery/' + vendor.id} class='link-button'>
+                      <button onClick={this.goToMenu} class='button link-button'>
                         {i18n.vendor_preview.menu}
-                      </Link>
+                      </button>
                     </div>
                   }
                   <div class='col-5'>

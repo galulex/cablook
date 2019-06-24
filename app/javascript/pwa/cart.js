@@ -97,7 +97,6 @@ export default class Cart extends Component {
       destination_address: destination_address,
       no_call: false,
       osrm: true,
-      vip: true,
       comment: ''
     }
 
@@ -125,13 +124,6 @@ export default class Cart extends Component {
 
   updateEntrance = (e) => {
     this.setState({entrance: e.target.value})
-
-    let delivery_trip = JSON.parse(localStorage.getItem('delivery_trip'))
-
-    if (delivery_trip) {
-      delivery_trip.comment = ` ${e.target.value} подъезд`
-      localStorage.setItem('delivery_trip', JSON.stringify(delivery_trip))
-    }
   }
 
   submitDisabled = val => {
@@ -160,7 +152,7 @@ export default class Cart extends Component {
     params.card_id = this.state.card_id
     params.order_id = order_id
     params.time = this.state.trip_time
-    params.vip = true
+    params.entrance = this.state.entrance
     this.sendTripRequest(params)
   }
 

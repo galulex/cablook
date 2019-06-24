@@ -8,6 +8,7 @@ module Events
           validate_unpaid_trips!
           validate_trip!
           validate_card!
+          validate_items!
         end
 
         def validate_unpaid_trips!
@@ -22,6 +23,10 @@ module Events
 
         def validate_card!
           invalid!([I18n.t('cards.add_card')]) if user_cards.empty?
+        end
+
+        def validate_items!
+          invalid!([I18n.t('orders.no_items')]) if calculate_amount.zero?
         end
       end
     end
