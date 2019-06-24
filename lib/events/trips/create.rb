@@ -54,7 +54,7 @@ module Events
       end
 
       def order
-        @order ||= Order.find_by(id: data['order_id'])
+        @order ||= Order.find_by(id: data[:order_id])
       end
 
       def assign_trip_to_order

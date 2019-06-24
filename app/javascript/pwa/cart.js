@@ -87,6 +87,9 @@ export default class Cart extends Component {
 
   goDeliveryTrip = (e) => {
     const { departure, destination, departure_address, destination_address, entrance } = this.state
+    const cart = JSON.parse(localStorage.cart)
+    const phone_number = cart.vendor_phone_number
+    const vendor = cart.vendor
     const params = {
       waypoints: [],
       stops: [],
@@ -97,7 +100,7 @@ export default class Cart extends Component {
       destination_address: destination_address,
       no_call: false,
       osrm: true,
-      comment: ''
+      comment: `Доставка їжі з закладу: ${vendor}. Номер телефону закладу: ${phone_number}`
     }
 
     axios.post('trips/new', {trip: params}).then((res) => {

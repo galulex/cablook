@@ -6,6 +6,7 @@ describe Events::Trips::Create do
     let(:data) { trip_params }
     let(:user) { create(:user) }
     let!(:card) { create(:card, user_id: user.id) }
+    let!(:order) { create(:order, user_id: user.id) }
     let!(:price) { Price.create }
 
     it { is_expected.to change { Trip.count }.by(+1) }
@@ -97,6 +98,19 @@ describe Events::Trips::Create do
       let!(:trip) { create(:trip, user_id: user.id, status: Constants::Trip::PENDING) }
 
       it { is_expected.to raise_error(Events::InvalidParamsError) }
+    end
+
+    context 'when delivery trip' do
+      before {
+        allow_any_instance_of(described_class).to receive(:assign_trip_to_order_payment) { true }
+      }
+
+      let!(:vendor) { create(:vendor) }
+      let!(:order) { create(:order, user_id: user.id, vendor_id: vendor.id) }
+      let(:data) { trip_params.merge(delivery: true, time: 15.minutes.since.strftime('%H:%M'), order_id: order.id) }
+
+      it { is_expected.to have_enqueued_job(Jobs::SearchCarForTrip).with(data[:id]) }
+      it { is_expected.to_not have_enqueued_job(Jobs::DeclineTrip).with(data[:id]) }
     end
   end
 end
