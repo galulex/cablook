@@ -392,6 +392,9 @@ export const streets = ["вулиця 14-го Грудня",
 "вулиця Ярослава Мудрого",
 "вулиця Ярославська",
 "вулиця Яцика",
+"вулиця Юрія Іллєнка",
+
+
 "улица 14-го Декабря",
 "улица 2-го Украинского фронта",
 "улица 30-летия Победы",
@@ -786,6 +789,9 @@ export const streets = ["вулиця 14-го Грудня",
 "улица Ярослава Мудрого",
 "улица Ярославская",
 "улица Яцика",
+"улица Юрия Ильенко",
+
+
 "14-ho Hrudnya Street",
 "2-ho Ukrayins'koho frontu Street",
 "30-richchya Peremohy Street",
@@ -1179,4 +1185,6 @@ export const streets = ["вулиця 14-го Грудня",
 "Yaroslava Halana Street",
 "Yaroslava Mudroho Street",
 "Yaroslavs'ka Street",
-"Yacyka Street"]
+"Yacyka Street",
+"Yuriia Illienka Street"
+]
