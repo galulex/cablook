@@ -56,7 +56,8 @@ export default class App extends Component {
       parent_bonus: [],
       language: localStorage.getItem('language') || i18n.getInterfaceLanguage().split('-')[0],
       favorite_addresses: [],
-      notification_settings: []
+      notification_settings: [],
+      currentTrip: null
     }
     axios.defaults.headers.common['Pwa-Language'] = this.state.language
   }
@@ -126,7 +127,8 @@ export default class App extends Component {
         notification_settings: res.data.enabled_notifications,
         bonus_trips: res.data.bonus_trips,
         parent_bonus: res.data.parent_bonus || [],
-        currentUserID: res.data.id
+        currentUserID: res.data.id,
+        currentTrip: res.data.current_trip
       })
     }).catch((error) => {
       if (error.response) alert(error.response.data.errors)
@@ -208,13 +210,15 @@ export default class App extends Component {
   }
 
   render() {
+    const { currentTrip } = this.state;
+
     if (this.state.currentUser) {
       return(
         <main id="app">
           <Drawer active={this.state.drawer} language = {this.state.language} setLanguage = {this.setLanguage} triggerDrawer = {this.triggerDrawer} logOut={this.logOut} bonuses={() => this.state.bonus_trips.filter(e => { return e.status === 1 }).length }/>
           <button class='burger' onClick={() => this.triggerDrawer(true)}><Burger/></button>
           <Router>
-            <Home path='/' cards={() => this.state.cards} bonus_trips={() => this.state.bonus_trips} createCard={this.createCard} language={this.state.language} favorite_addresses={() => this.state.favorite_addresses} fetchUser={this.fetchUser} />
+            <Home path='/' currentTrip={currentTrip} cards={() => this.state.cards} bonus_trips={() => this.state.bonus_trips} createCard={this.createCard} language={this.state.language} favorite_addresses={() => this.state.favorite_addresses} fetchUser={this.fetchUser}  />
             <Trips path='/trips/:id?' />
             <Bonus path='/bonus_trips' bonus_trips={() => this.state.bonus_trips} parent_bonus={() => this.state.parent_bonus} />
             <Cards path='/cards' cards={() => this.state.cards} create={this.createCard} currentUserID={() => this.state.currentUserID} />

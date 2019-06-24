@@ -30,6 +30,14 @@ export default class Home extends Component {
     window.addEventListener('online', this.getTrip)
   }
 
+  componentWillReceiveProps(nextProps) {
+    const { currentTrip } = nextProps;
+
+    if (currentTrip) {
+      this.updateTrip(JSON.parse(currentTrip));
+    }
+  }
+
   componentWillUnmount() {
     this.getTrip()
     this.unsubscribe()
