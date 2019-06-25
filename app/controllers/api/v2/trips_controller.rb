@@ -1,7 +1,7 @@
 module Api
   module V2
     class TripsController < ApiApplicationController
-      before_action :authorize!
+      before_action :authorize_user_or_driver!
 
       def new
         trip = Events::Trips::Build.(trip_params)
