@@ -20,6 +20,10 @@ module Api
       @current_user ||= User.find_by(auth_token: auth_token)
     end
 
+    def current_driver
+      @current_driver ||= Driver.find_by(auth_token: auth_token)
+    end
+
     private
 
     def auth_token
@@ -28,6 +32,10 @@ module Api
 
     def authorize!
       raise Constants::UnauthorizedError unless auth_token && current_user
+    end
+
+    def authorize_user_or_driver!
+      raise Constants::UnauthorizedError unless auth_token && (current_user || current_driver)
     end
   end
 end
