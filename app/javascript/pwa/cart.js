@@ -133,8 +133,7 @@ export default class Cart extends Component {
     this.setState({ submitDisabled: val })
   }
 
-  createOrder = (e) => {
-    if (!e.target.form.checkValidity()) return e.target.form.reportValidity();
+  create = () => {
     this.submitDisabled(true)
     this.setState({ showLoader: true })
     const cart = JSON.parse(localStorage.getItem('cart'))
@@ -146,6 +145,11 @@ export default class Cart extends Component {
       trip_time: this.state.trip_time
     }
     this.sendOrderRequest(params)
+  }
+
+  createOrder = (e) => {
+    if (!e.target.form.checkValidity()) return e.target.form.reportValidity();
+    this.create()
   }
 
   createTrip = (order_id) => {
@@ -220,7 +224,7 @@ export default class Cart extends Component {
     this.setState({ showLoader: true })
     axios.post('payments/retry_pendings', {card_id: this.state.card_id}).then((res) => {
       if (res.data.length === 0) {
-        this.createOrder()
+        this.create()
       } else {
         this.setState({ showLoader: false })
         setTimeout(() => {alert(i18n.confirm_trip.payment_error)}, 500)
