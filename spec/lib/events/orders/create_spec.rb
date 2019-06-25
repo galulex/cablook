@@ -28,7 +28,7 @@ describe Events::Orders::Create do
     context 'and active job is created' do
       let(:parsed_items) { ActionController::Parameters.new({'Category, Item'=>ActionController::Parameters.new({'quantity'=>1}).to_s}).permit!.to_h }
 
-      it { is_expected.to have_enqueued_job(Jobs::TelegramNotification).with(vendor.telegram_account, data[:trip_time], parsed_items, user.phone_number ) }
+      it { is_expected.to have_enqueued_job(Jobs::TelegramNotification).with(vendor.telegram_account, data[:trip_time], parsed_items, user.phone_number, 2) }
     end
 
     context 'when user_id is empty' do

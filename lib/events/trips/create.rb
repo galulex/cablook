@@ -41,6 +41,7 @@ module Events
         if delivery?
           assign_trip_to_order
           assign_trip_to_order_payment
+          update_trip_comment
         end
         create_trip_job(@trip.id)
         @trip
@@ -63,6 +64,10 @@ module Events
 
       def assign_trip_to_order_payment
         order.payment.update(trip_id: @trip.id)
+      end
+
+      def update_trip_comment
+        @trip.update(comment: @trip.comment.prepend("Номер замовлення: ##{@order.id}. "))
       end
 
       def create_payment

@@ -80,7 +80,7 @@ module Events
       end
 
       def send_message_to_vendor
-        Jobs::TelegramNotification.perform_later(@order.vendor.telegram_account, data[:trip_time], @order.items, @order.user.phone_number)
+        Jobs::TelegramNotification.perform_later(@order.vendor.telegram_account, data[:trip_time], @order.items, @order.user.phone_number, @order.id)
       end
 
       def user_card
