@@ -195,7 +195,7 @@ const en = {
     trip_price: 'Delivery price: ',
     total_price: 'Total price: ',
     create_order: 'Create order',
-    no_money: 'You have no money on your current card. Please, choose another card and try again'
+    no_money: 'Insufficient funds or internet limit exceeded. \nPlease change your internet limit or use another card.'
   },
   cart_item: {
     last_item: 'This product is the last in the cart. Do you really want to delete it?',

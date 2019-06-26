@@ -28,6 +28,7 @@ module Events
         fake_taxi_payment
         update_trip
         refund_bonus
+        refund_order_payment if trip.order
         broadcast_unavailable_to_map
         broadcast_unavailable_to_trip
       end
@@ -52,6 +53,10 @@ module Events
 
       def update_payment_status
         payment.update(status: Constants::Payments::DECLINE)
+      end
+
+      def refund_order_payment
+        Operations::Wayforpay::RefundForOrder.new(order_payment.id).call
       end
 
       def fake_taxi_payment
@@ -85,6 +90,10 @@ module Events
 
       def payment
         @payment ||= trip.trip_payment
+      end
+
+      def order_payment
+        @order_payment ||= trip.order.payment
       end
 
       def refund_bonus
