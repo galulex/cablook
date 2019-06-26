@@ -13,7 +13,7 @@ module Api
     end
 
     def create
-      trip = Events::Trips::Create.(trip_params)
+      trip = Events::Trips::Create.(trip_params.merge(user_id: current_user.id))
       render json: Presenters::Trips::Single.new(trip).to_json, status: 201
     end
 
@@ -48,7 +48,7 @@ module Api
     end
 
     def trip_params
-      params.require(:trip).permit!.merge(user_id: current_user.id)
+      params.require(:trip).permit!
     end
   end
 end
