@@ -1,0 +1,19 @@
+section.vendor-page {
+  padding: 54px 10px;
+}
+
+.vendor-page .load-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.vendor-page a:link {
+  color: #312d50;
+  color: var(--navy);
+}
+
+.vendor-page ul a:link {
+  color: black;
+  color: black;
+}

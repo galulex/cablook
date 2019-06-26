@@ -75,6 +75,7 @@ const en = {
     logout: 'Log Out',
     trips: 'Trips',
     statistics: 'Statistic',
+    vendors: 'Food',
     profile: 'Profile'
   },
   address_input: {
@@ -171,6 +172,47 @@ const en = {
       accept_trip: 'Accept trip',
       decline_trip: 'Decline trip'
     }
+  },
+  vendors_page: {
+    header: 'Food delivery'
+  },
+  vendor_preview: {
+    open: 'Open',
+    close: 'Close',
+    menu: 'Menu',
+    go_to: 'Go to this place',
+    accepts_orders: 'The restaurant accepts orders from',
+    to: 'to',
+    create_order: 'Create order'
+  },
+  cart: {
+    header: 'Product cart',
+    empty_cart: 'There are no added items in your cart at this moment',
+    vendor_closed: "The restaurant doesn't accept orders for now",
+    order_price: 'ORDER PRICE: ',
+    uah: 'uah',
+    where: 'Where?',
+    trip_price: 'Delivery price: ',
+    total_price: 'Total price: ',
+    create_order: 'Create order',
+    no_money: 'You have no money on your current card. Please, choose another card and try again'
+  },
+  cart_item: {
+    last_item: 'This product is the last in the cart. Do you really want to delete it?',
+    remove_current_item: 'Do you really want to delete this item from cart?'
+  },
+  current_delivery_trip: {
+    header: 'Delivery Trip',
+    order_accepted: 'Your order is accepted!',
+    info: 'The restaurant is informed about your order. If necessary, the restaurant will contact you for further details.',
+    time: 'Delivery time: ',
+    address: 'Address: ',
+    order: 'Order: '
+  },
+  item_preview: {
+    new_restaurant: 'This product is from another restaurant. Your previous products will be deleted from cart. Do you really want to order products from another restaurant?',
+    uah: 'uah',
+    add_to_cart: 'Add to cart'
   },
   choose_address: 'Choose address from a list',
   are_you_sure: 'Are you sure?'

@@ -26,6 +26,8 @@ module Events
           optional(:comment) { str? }
           optional(:card_id)
           optional(:bonus)
+          optional(:delivery)
+          optional(:order_id)
         end
       end
 
@@ -33,8 +35,15 @@ module Events
         assign_attrs
         validate!
 
+        update_trip_time if delivery?
         create_trip
         bonus? ? pay_by_bonus : create_payment
+        if delivery?
+          assign_trip_to_order
+          assign_trip_to_order_payment
+          update_trip_comment
+          send_message_to_vendor
+        end
         create_trip_job(@trip.id)
         @trip
       end
@@ -44,6 +53,22 @@ module Events
       def assign_attrs
         FIELDS.each { |field| data[field] = direction.send(field) }
         data[:cost] = Operations::V2TripCalculation.new(direction).cost
+      end
+
+      def order
+        @order ||= Order.find_by(id: data[:order_id])
+      end
+
+      def assign_trip_to_order
+        order.update(trip_id: @trip.id)
+      end
+
+      def assign_trip_to_order_payment
+        order.payment.update(trip_id: @trip.id)
+      end
+
+      def update_trip_comment
+        @trip.update(comment: @trip.comment.prepend("Номер замовлення: ##{@order.id}. "))
       end
 
       def create_payment
@@ -68,12 +93,16 @@ module Events
       end
 
       def create_trip
-        @trip = Trip.create(data.to_h.except(:bonus, :card_id, :id, :status, :created_at, :idle, :car_id, :driver_id, :finished_at, :arrived_at, :started_at, :feedbacks))
+        @trip = Trip.create(data.to_h.except(:bonus, :card_id, :id, :status, :created_at, :idle, :car_id, :driver_id, :finished_at, :arrived_at, :started_at, :feedbacks, :delivery, :order_id))
       end
 
       def create_trip_job(trip_id)
-        Jobs::DeclineTrip.set(wait: Constants::Trip::EXPIRES_IN).perform_later(trip_id)
+        Jobs::DeclineTrip.set(wait: Constants::Trip::EXPIRES_IN).perform_later(trip_id) unless delivery?
         Jobs::SearchCarForTrip.perform_later(trip_id)
+      end
+
+      def send_message_to_vendor
+        Jobs::TelegramNotification.perform_later(@order.vendor.telegram_account, data[:time], @order.items, @order.user.phone_number, @order.id)
       end
 
       def bonus_trips
@@ -91,6 +120,14 @@ module Events
 
       def bonus?
         data[:bonus].present?
+      end
+
+      def delivery?
+        data[:delivery].present?
+      end
+
+      def update_trip_time
+        data[:time] = (data[:time].in_time_zone - data[:duration].seconds).strftime('%H:%M')
       end
 
       def order_reference

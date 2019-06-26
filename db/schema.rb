@@ -10,9 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_05_21_082629) do
+ActiveRecord::Schema.define(version: 2019_06_24_103920) do
 
   # These are extensions that must be enabled in order to support this database
+  enable_extension "hstore"
   enable_extension "plpgsql"
 
   create_table "bonus_trips", force: :cascade do |t|
@@ -97,6 +98,19 @@ ActiveRecord::Schema.define(version: 2019_05_21_082629) do
     t.index ["user_id"], name: "index_feedbacks_on_user_id"
   end
 
+  create_table "orders", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "vendor_id"
+    t.bigint "trip_id"
+    t.hstore "items"
+    t.integer "amount"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["trip_id"], name: "index_orders_on_trip_id"
+    t.index ["user_id"], name: "index_orders_on_user_id"
+    t.index ["vendor_id"], name: "index_orders_on_vendor_id"
+  end
+
   create_table "payments", force: :cascade do |t|
     t.decimal "amount"
     t.integer "status", default: 0
@@ -106,7 +120,9 @@ ActiveRecord::Schema.define(version: 2019_05_21_082629) do
     t.bigint "user_id"
     t.jsonb "response"
     t.string "type", default: "Payments::Trip"
+    t.bigint "order_id"
     t.index ["card_id"], name: "index_payments_on_card_id"
+    t.index ["order_id"], name: "index_payments_on_order_id"
     t.index ["trip_id"], name: "index_payments_on_trip_id"
     t.index ["user_id"], name: "index_payments_on_user_id"
   end
@@ -176,6 +192,20 @@ ActiveRecord::Schema.define(version: 2019_05_21_082629) do
     t.string "notification_settings", default: [], array: true
   end
 
+  create_table "vendors", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.string "location"
+    t.string "address"
+    t.string "url"
+    t.string "api_url"
+    t.string "logo_url"
+    t.time "open_at"
+    t.time "close_at"
+    t.string "telegram_account"
+    t.string "phone_number"
+  end
+
   add_foreign_key "bonus_trips", "trips"
   add_foreign_key "bonus_trips", "users"
   add_foreign_key "bonus_trips", "users", column: "friend_id"
@@ -186,7 +216,11 @@ ActiveRecord::Schema.define(version: 2019_05_21_082629) do
   add_foreign_key "favorite_addresses", "users"
   add_foreign_key "feedbacks", "trips"
   add_foreign_key "feedbacks", "users"
+  add_foreign_key "orders", "trips"
+  add_foreign_key "orders", "users"
+  add_foreign_key "orders", "vendors"
   add_foreign_key "payments", "cards"
+  add_foreign_key "payments", "orders"
   add_foreign_key "payments", "trips"
   add_foreign_key "trips", "cars"
   add_foreign_key "trips", "drivers"

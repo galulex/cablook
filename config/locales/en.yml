@@ -34,6 +34,8 @@ en:
     start_at_invalid: Time entered incorrectly
     to_far: Distance too large
     entrance: "%{val} Entrance"
+  orders:
+    no_items: You have selected an unknown item or the order amount is zero
   cards:
     user_not_found: User with this phone number not found in database
     something_went_wrong: Something went wrong

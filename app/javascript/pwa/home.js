@@ -8,6 +8,7 @@ import FindDriver from './find_driver.js'
 import RetryTrip from './retry_trip.js'
 import Trip from './trip.js'
 import Feedback from '../pwa/feedback.js';
+import { PENDING, ON_THE_WAY, WAITING_CLIENT, DRIVING, FINISHED, CANCELED, DECLINED, CANCELED_BY_DRIVER, CONFIRM_UPDATE_TRIP } from './constants.js'
 
 const ActionCable = require('actioncable')
 const cable = ActionCable.createConsumer()
@@ -85,7 +86,7 @@ export default class Home extends Component {
 
   DriverLocationUpdated = (data) => {
     let trip = this.state.trip
-    if (trip && [null, 10].includes(trip.status)) return;
+    if (trip && [null, CONFIRM_UPDATE_TRIP].includes(trip.status)) return;
 
     this.setState({car_location: [data.body.location.longitude, data.body.location.latitude]})
   }
@@ -97,26 +98,26 @@ export default class Home extends Component {
   finish_trip = (data) => {
     this.vibrate()
     let trip = this.state.trip
-    trip.status = 4
+    trip.status = FINISHED
     this.updateTrip(trip)
     this.props.fetchUser()
   }
 
   waiting_client = () => {
     let trip = this.state.trip
-    if ([null, 10].includes(trip.status)) return;
+    if ([null, CONFIRM_UPDATE_TRIP].includes(trip.status)) return;
 
     this.vibrate()
-    trip.status = 2
+    trip.status = WAITING_CLIENT
     this.updateTrip(trip)
   }
 
   start_trip = () => {
     let trip = this.state.trip
-    if ([null, 10].includes(trip.status)) return;
+    if ([null, CONFIRM_UPDATE_TRIP].includes(trip.status)) return;
 
     this.vibrate()
-    trip.status = 3
+    trip.status = DRIVING
     this.updateTrip(trip)
   }
 
@@ -136,7 +137,7 @@ export default class Home extends Component {
   getTrip = () => {
     const { trip } = this.state
 
-    if (trip && trip.id && ![null, 10].includes(trip.status)) this.getTripRequest()
+    if (trip && trip.id && ![null, CONFIRM_UPDATE_TRIP].includes(trip.status)) this.getTripRequest()
   }
 
   getTripRequest = () => {
@@ -183,12 +184,12 @@ export default class Home extends Component {
   render() {
     const { trip } = this.state
 
-    if (!trip || [5,7,null].includes(trip.status)) return(<CurrentTrip updateTrip={this.updateTrip} handleBack={this.handleBack} language={this.props.language} trip={trip} favorite_addresses={this.props.favorite_addresses()} getTripRequest={this.getTripRequest} cards={this.props.cards}/>)
-    if (trip && (!trip.id || trip.status == 10)) return(<ConfirmTrip cards={this.props.cards} bonus_trips={this.props.bonus_trips} trip={trip} updateTrip={this.updateTrip} handleBack={this.handleBack} createCard={this.props.createCard} />)
-    if (trip && trip.id && [0].includes(trip.status)) return(<FindDriver trip={trip} getTrip={this.getTrip} subscribe={this.subscribe} cancel={this.cancel}/>)
-    if (trip && trip.id && [6].includes(trip.status)) return(<RetryTrip trip={trip} retry={this.retry} cancel={this.cancel}/>)
-    if (trip && [1,2,3].includes(trip.status)) return(<Trip trip={trip} updateTrip={this.updateTrip} edit={this.edit} cancel={this.cancel} location={this.state.car_location} language={this.props.language}/>)
-    if (trip && trip.status == 4) return(<Feedback trip={trip} updateTrip={this.updateTrip} handleBack={this.handleFeedbackBack} />)
+    if (!trip || [CANCELED,CANCELED_BY_DRIVER,null].includes(trip.status)) return(<CurrentTrip updateTrip={this.updateTrip} handleBack={this.handleBack} language={this.props.language} trip={trip} favorite_addresses={this.props.favorite_addresses()} getTripRequest={this.getTripRequest} cards={this.props.cards}/>)
+    if (trip && (!trip.id || trip.status == CONFIRM_UPDATE_TRIP)) return(<ConfirmTrip cards={this.props.cards} bonus_trips={this.props.bonus_trips} trip={trip} updateTrip={this.updateTrip} handleBack={this.handleBack} createCard={this.props.createCard} />)
+    if (trip && trip.id && [PENDING].includes(trip.status)) return(<FindDriver trip={trip} getTrip={this.getTrip} subscribe={this.subscribe} cancel={this.cancel}/>)
+    if (trip && trip.id && [DECLINED].includes(trip.status)) return(<RetryTrip trip={trip} retry={this.retry} cancel={this.cancel}/>)
+    if (trip && [ON_THE_WAY,WAITING_CLIENT,DRIVING].includes(trip.status)) return(<Trip trip={trip} updateTrip={this.updateTrip} edit={this.edit} cancel={this.cancel} location={this.state.car_location} language={this.props.language}/>)
+    if (trip && trip.status == FINISHED) return(<Feedback trip={trip} updateTrip={this.updateTrip} handleBack={this.handleFeedbackBack} />)
     return(<Trip updateTrip={this.updateTrip}/>)
   }
 }

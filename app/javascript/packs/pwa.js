@@ -31,6 +31,9 @@ import Profile from '../pwa/profile.js';
 import { messaging, firebaseAuth } from '../pwa/firebase.js'
 
 import Burger from '../pwa/images/burger.svg';
+import Vendors from '../pwa/vendors.js';
+import Vendor from '../pwa/vendor.js';
+import Cart from '../pwa/cart.js';
 
 import '../pwa/css/buttons.css';
 import '../pwa/inobounce.js';
@@ -151,6 +154,8 @@ export default class App extends Component {
     this.setState({currentUser: null, drawer: false})
     localStorage.removeItem('token')
     localStorage.removeItem('trip')
+    localStorage.removeItem('cart')
+    localStorage.removeItem('delivery_trip')
   }
 
   triggerDrawer = (open) => {
@@ -216,6 +221,9 @@ export default class App extends Component {
             <Contacts path='/contacts' />
             <Statistics path='/statistics' />
             <Profile path='/profile' notification_settings={this.state.notification_settings} updateNotificationSettings={this.updateNotificationSettings} favorite_addresses={() => this.state.favorite_addresses} updateFavoriteAddresses={this.updateFavoriteAddresses} />
+            <Vendors path='/delivery'/>
+            <Vendor path='/delivery/:id' />
+            <Cart path='/delivery/cart' cards={() => this.state.cards} createCard={this.createCard} favorite_addresses={() => this.state.favorite_addresses} />
           </Router>
           <Prompt />
         </main>

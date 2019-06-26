@@ -3,9 +3,11 @@ class Trip < ApplicationRecord
   belongs_to :car, required: false
   belongs_to :user, counter_cache: true
   has_many :payments
+  has_one :order
   has_one :tip_payment, class_name: 'Payments::Tip'
   has_one :trip_payment, class_name: 'Payments::Trip'
   has_one :idle_payment, class_name: 'Payments::Idle'
+  has_one :order_payment, class_name: 'Payments::Order'
   has_one :fake_taxi_payment, class_name: 'Payments::FakeTaxi'
   has_many :required_payments, -> { where.not(type: 'Payments::Tip') }, class_name: 'Payment'
 
@@ -17,7 +19,6 @@ class Trip < ApplicationRecord
   enum status: Constants::Trip::STATUS_CODES.invert
 
   delegate :phone_number, to: :user, prefix: true
-  delegate :vip, to: :user, allow_nil: true
 
   scope :sum_cost, -> do
     joins(:driver)
@@ -47,7 +48,7 @@ class Trip < ApplicationRecord
   scope :last_month, -> { where('created_at BETWEEN ? AND ?', 1.month.ago.to_date.beginning_of_month, 1.month.ago.to_date.end_of_month) }
 
   # Time for pre-order trip
-  attr_reader :time, :entrance
+  attr_reader :time, :entrance, :vip
   attr_writer :pre_order, :vip
   attr_accessor :osrm, :formatted_date, :image
 
@@ -74,6 +75,11 @@ class Trip < ApplicationRecord
 
   def preorder?
     preorder_time.present?
+  end
+
+  def vip
+    return true if order.present?
+    user&.vip || false
   end
 
   def departure=(val)

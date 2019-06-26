@@ -18,6 +18,7 @@ module Events
         broadcast
         update_car
         settle_payment_idle if data[:idle]
+        settle_order_payment if delivery_trip?
       end
 
       private
@@ -44,6 +45,16 @@ module Events
         Jobs::PaymentIdleSettle.perform_later(data[:trip_id], data[:idle])
       end
 
+      def settle_order_payment
+        @response = Operations::Wayforpay::SettleHoldedMoney.new(@trip.order).call
+        status = if @response['reasonCode'] == Constants::Payments::WAYFORPAY_SUCCESS
+                   Constants::Payments::SUCCESS
+                 else
+                   Constants::Payments::DECLINE
+                 end
+        @trip.order_payment.update(status: status, response: @response)
+      end
+
       def next_trip?
         Trip.where(
           driver_id: trip.driver_id,
@@ -53,6 +64,10 @@ module Events
 
       def trip
         @trip ||= Trip.find(data[:trip_id])
+      end
+
+      def delivery_trip?
+        @trip.order.present?
       end
 
       def trip_channel
