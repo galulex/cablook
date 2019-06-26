@@ -3,6 +3,7 @@ Rails.application.configure do
     'https://cablook.herokuapp.com',
     'https://staging.cablook.taxi',
     'https://staging-app.cablook.taxi',
+    'https://staging-app.cablook.taxi/',
     'https://staging-driver.cablook.taxi',
     'https://app.cablook.taxi'
   ]
