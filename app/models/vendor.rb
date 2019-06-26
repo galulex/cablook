@@ -1,5 +1,7 @@
 class Vendor < ApplicationRecord
-  has_many :orders
+  has_many :orders, dependent: :nullify
+
+  scope :visible, -> { where(active: true) }
 
   def open_now?
     Time.now.hour.between?(open_at.hour, close_at.hour)

@@ -16,7 +16,7 @@ module Api
     private
 
     def vendors
-      @vendors ||= Vendor.all
+      @vendors ||= Vendor.visible
     end
 
     def vendor

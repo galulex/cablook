@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_06_24_103920) do
+ActiveRecord::Schema.define(version: 2019_06_26_142247) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -204,6 +204,7 @@ ActiveRecord::Schema.define(version: 2019_06_24_103920) do
     t.time "close_at"
     t.string "telegram_account"
     t.string "phone_number"
+    t.boolean "active", default: true
   end
 
   add_foreign_key "bonus_trips", "trips"

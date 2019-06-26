@@ -8,5 +8,9 @@ module Constants
     HOLD    = 5
 
     WAYFORPAY_SUCCESS = 1100
+
+    TYPES = {
+      order: 'order'.freeze
+    }.freeze
   end
 end

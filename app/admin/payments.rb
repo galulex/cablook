@@ -82,7 +82,11 @@ ActiveAdmin.register Payment do
 
   member_action :refund_payment, method: :post do
     payment = Payment.find(params[:id])
-    Operations::Wayforpay::Refund.new(payment.id).call
+    if payment.type.demodulize.downcase == Constants::Payments::TYPES[:order]
+      Operations::Wayforpay::RefundForOrder.new(payment.id).call
+    else
+      Operations::Wayforpay::Refund.new(payment.id).call
+    end
     notice = if payment.reload.status == Constants::Payments::REFUND
                'Refund success'
              else
