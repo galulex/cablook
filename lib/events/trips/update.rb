@@ -77,7 +77,7 @@ module Events
       end
 
       def user_cards
-        @user_cards ||= Card.user_cards(data[:user_id])
+        @user_cards ||= Card.user_cards(trip.user_id)
       end
 
       def trip
