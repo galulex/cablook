@@ -21,7 +21,6 @@ module Events
 
         create_order
         return { valid: false } unless hold_money['reasonCode'] == Constants::Payments::WAYFORPAY_SUCCESS
-        send_message_to_vendor
         create_order_payment(Constants::Payments::HOLD)
         { valid: true, order_id: @order.id }
       end
@@ -77,10 +76,6 @@ module Events
         url = URI(vendor.api_url)
         res = Net::HTTP.get(url)
         ActiveSupport::JSON.decode(res)
-      end
-
-      def send_message_to_vendor
-        Jobs::TelegramNotification.perform_later(@order.vendor.telegram_account, data[:trip_time], @order.items, @order.user.phone_number, @order.id)
       end
 
       def user_card

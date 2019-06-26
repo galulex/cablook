@@ -42,6 +42,7 @@ module Events
           assign_trip_to_order
           assign_trip_to_order_payment
           update_trip_comment
+          send_message_to_vendor
         end
         create_trip_job(@trip.id)
         @trip
@@ -98,6 +99,10 @@ module Events
       def create_trip_job(trip_id)
         Jobs::DeclineTrip.set(wait: Constants::Trip::EXPIRES_IN).perform_later(trip_id) unless delivery?
         Jobs::SearchCarForTrip.perform_later(trip_id)
+      end
+
+      def send_message_to_vendor
+        Jobs::TelegramNotification.perform_later(@order.vendor.telegram_account, data[:time], @order.items, @order.user.phone_number, @order.id)
       end
 
       def bonus_trips
