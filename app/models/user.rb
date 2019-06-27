@@ -48,6 +48,11 @@ class User < ApplicationRecord
     Constants::User::NOTIFICATIONS - notification_settings
   end
 
+  def current_trip
+    trip = trips.where(order: nil).find_by(status: Constants::Trip::CURRENT_TRIP_STATUSES)
+    Presenters::Trips::Detailed.new(trip).to_json if trip
+  end
+
   private
 
   def generate_referral
