@@ -53,9 +53,6 @@ GEM
     activejob (5.2.2)
       activesupport (= 5.2.2)
       globalid (>= 0.3.6)
-    activejob-cancel (0.3.0)
-      activejob (>= 4.2.0)
-      activesupport (>= 4.2.0)
     activemodel (5.2.2)
       activesupport (= 5.2.2)
     activerecord (5.2.2)
@@ -513,7 +510,6 @@ DEPENDENCIES
   actionpack-action_caching
   activeadmin
   activeadmin-select2
-  activejob-cancel
   arctic_admin
   autoprefixer-rails
   bcrypt (~> 3.1.7)
