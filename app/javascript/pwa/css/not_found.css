@@ -1,0 +1,84 @@
+.not-found-page {
+  height: 100%;
+}
+
+.not-found-page .not-found-text {
+  position: absolute;
+  width: 25%;
+  min-width: 100px;
+  min-height: 100px;
+  top: 52%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 5;
+  animation: linear alternate;
+  animation-name: movenumbers;
+  animation-duration: 1s;
+}
+
+.not-found-page .car {
+  position: absolute;
+  width: 20%;
+  min-width: 95px;
+  min-height: 95px;
+  top: 52%;
+  left: 100%;
+  transform: translate(-50%, -50%) rotate(-90deg);
+  z-index: 10;
+  animation: linear alternate;
+  animation-name: drive;
+  animation-duration: 2s;
+}
+
+.not-found-page .blot {
+  position: absolute;
+  width: 50%;
+  min-width: 200px;
+  min-height: 200px;
+  top: 54%;
+  left: 52%;
+  transform: translate(-50%, -50%);
+}
+
+.not-found-page .tire-tracks {
+  position: absolute;
+  width: 30%;
+  min-width: 150px;
+  min-height: 150px;
+  top: 52%;
+  left: 75%;
+  transform: translate(-50%, -50%);
+  animation: linear alternate;
+  animation-name: movetiretracks;
+  animation-duration: 1.5s;
+}
+
+@keyframes drive {
+  0% {
+    left: 0%;
+  }
+  90% {
+    left: 95%;
+  }
+  100% {
+    left: 100%;
+  }
+}
+
+@keyframes movenumbers {
+  0% {
+    left: 0%;
+  }
+  100% {
+    left: 50%;
+  }
+}
+
+@keyframes movetiretracks {
+  0% {
+    left: 0%;
+  }
+  100% {
+    left: 75%;
+  }
+}
