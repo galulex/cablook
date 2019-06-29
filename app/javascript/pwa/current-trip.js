@@ -25,7 +25,9 @@ export default class CurrentTrip extends Component {
   }
 
   componentDidMount() {
-    history.pushState(null, 'Edit Trip', '/')
+    const { trip } = this.state
+
+    if (trip.id) history.pushState(null, 'Edit Trip', '/')
 
     myShakeEvent = new Shake({threshold: 20, timeout: 2000})
     myShakeEvent.start()

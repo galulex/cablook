@@ -80,6 +80,7 @@ export default class Drawer extends Component {
   }
 
   touchMove = (e) => {
+    if (['iPhone', 'iPad', 'iPod'].includes(navigator.platform)) return;
     let distance = this.state.start - e.touches[0].pageX
     let x = this.state.left - distance
     x = (x < -300) ? -300 : x
@@ -88,10 +89,12 @@ export default class Drawer extends Component {
   }
 
   touchStart = (e) => {
+    if (['iPhone', 'iPad', 'iPod'].includes(navigator.platform)) return;
     this.setState({start: e.touches[0].pageX, delay: 0})
   }
 
   touchEnd = (e) => {
+    if (['iPhone', 'iPad', 'iPod'].includes(navigator.platform)) return;
     let distance = this.state.start - e.changedTouches[0].pageX
     if (distance === 0) return;
     this.props.triggerDrawer(distance < 20)
