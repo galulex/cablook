@@ -46,6 +46,7 @@ Rails.application.routes.draw do
       resources :trips, only: %i[index] do
         get 'currents', on: :collection
         patch 'accept'
+        patch 'update'
         patch 'cancel'
         patch 'finish'
         patch 'start'
