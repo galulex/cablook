@@ -86,6 +86,13 @@ export default class Home extends Component {
     this.updateTrip(data.trip)
   }
 
+  TripUpdated = (data) => {
+    if (data.by_driver) {
+      this.vibrate()
+      this.updateTrip(data.data)
+    }
+  }
+
   TripUnavailable = (data) => {
     this.unsubscribe()
     this.updateTrip(null)
