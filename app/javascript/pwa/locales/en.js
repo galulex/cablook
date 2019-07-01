@@ -21,13 +21,13 @@ const en = {
     status: 'Status',
     statuses: {
       0: 'pending',
-      1: 'on_the_way',
-      2: 'waiting_client',
+      1: 'on the way',
+      2: 'waiting client',
       3: 'driving',
       4: 'finished',
       5: 'canceled',
       6: 'declined',
-      7: 'canceled_by_driver'
+      7: 'canceled by driver'
     },
     upcoming: 'Upcoming',
     past: 'Past',

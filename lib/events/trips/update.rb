@@ -23,6 +23,7 @@ module Events
           optional(:entrance)
           optional(:comment) { str? }
           optional(:bonus)
+          optional(:by_driver).filled(:bool?)
         end
       end
 
@@ -67,7 +68,8 @@ module Events
         ActionCable.server.broadcast(
           "#{Constants::Channels::TRIP}_#{trip.id}",
           action: Constants::BroadcastActions::TRIP_UPDATED,
-          data: Presenters::Trips::Single.new(trip).to_json
+          data: Presenters::Trips::Single.new(trip).to_json,
+          by_driver: updated_by_driver?
         )
       end
 
@@ -86,6 +88,10 @@ module Events
 
       def bonus?
         data[:bonus].present?
+      end
+
+      def updated_by_driver?
+        data[:by_driver].present?
       end
 
       def order_reference

@@ -1,7 +1,6 @@
 module Api
   class TripsController < ApiApplicationController
-    before_action :authorize!, except: :update
-    before_action :authorize_user_or_driver!, only: :update
+    before_action :authorize!
 
     def index
       render json: Presenters::Trips::Collection.new(trips).to_json(user_options: { with_feedbacks: true }), status: 200
