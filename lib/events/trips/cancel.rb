@@ -1,7 +1,7 @@
 module Events
   module Trips
     class Cancel < Events::BaseEvent
-      TRIP_STATUSES = [Constants::Trip::PENDING, Constants::Trip::ON_THE_WAY, Constants::Trip::WAITING_CLIENT, Constants::Trip::DECLINED].freeze
+      TRIP_STATUSES = [Constants::Trip::PENDING, Constants::Trip::ON_THE_WAY, Constants::Trip::WAITING_CLIENT, Constants::Trip::DECLINED, Constants::Trip::WAITING_FOR_VENDOR_APPROVE].freeze
 
       def schema
         Dry::Validation.Schema do

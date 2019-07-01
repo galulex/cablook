@@ -38,13 +38,8 @@ module Events
         update_trip_time if delivery?
         create_trip
         bonus? ? pay_by_bonus : create_payment
-        if delivery?
-          assign_trip_to_order
-          assign_trip_to_order_payment
-          update_trip_comment
-          send_message_to_vendor
-        end
-        create_trip_job(@trip.id)
+        order_operations if delivery?
+        create_trip_job(@trip.id) unless delivery?
         @trip
       end
 
@@ -55,8 +50,20 @@ module Events
         data[:cost] = Operations::V2TripCalculation.new(direction).cost
       end
 
+      def order_operations
+        update_trip_status
+        assign_trip_to_order
+        assign_trip_to_order_payment
+        update_trip_comment
+        send_message_to_vendor
+      end
+
       def order
         @order ||= Order.find_by(id: data[:order_id])
+      end
+
+      def update_trip_status
+        @trip.update(status: Constants::Trip::WAITING_FOR_VENDOR_APPROVE)
       end
 
       def assign_trip_to_order
@@ -97,7 +104,7 @@ module Events
       end
 
       def create_trip_job(trip_id)
-        Jobs::DeclineTrip.set(wait: Constants::Trip::EXPIRES_IN).perform_later(trip_id) unless delivery?
+        Jobs::DeclineTrip.set(wait: Constants::Trip::EXPIRES_IN).perform_later(trip_id)
         Jobs::SearchCarForTrip.perform_later(trip_id)
       end
 
