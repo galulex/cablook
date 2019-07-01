@@ -16,6 +16,11 @@ module Api
         render json: Presenters::Trips::DetailedCollection.new(trips).to_json, status: 200
       end
 
+      def update
+        trip = Events::Trips::Update.(trip_params.merge(by_driver: true))
+        render json: Presenters::Trips::Detailed.new(trip).to_json, status: 200
+      end
+
       def cancel
         Events::Trips::Cancel.(trip_id: params[:trip_id].to_i, by_driver: true)
         render json: [I18n.t('trips.canceled')], status: 200
@@ -50,6 +55,10 @@ module Api
 
       def trip
         @trip ||= Trip.find(params[:trip_id])
+      end
+
+      def trip_params
+        params.require(:trip).permit!
       end
     end
   end
