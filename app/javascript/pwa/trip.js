@@ -75,7 +75,7 @@ export default class Trip extends Component {
       this.prevPosition = [0, 0];
       this.maxTeleportLng = 0;
       this.maxTeleportLat = 0;
-      this.teleportDistance = 0.015;
+      this.teleportDistance = 0.005;
       this.map.addControl(language);
       this.map.addControl(geolocate);
       this.map.addControl(new FocusOnCarControl({eventHandler: this.focusOnCar}));
