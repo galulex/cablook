@@ -1,5 +1,6 @@
 //Apply dark theme
 window.dark = localStorage.getItem('dark') === 'true'
+window.ios = ['iPhone', 'iPad', 'iPod'].includes(navigator.platform)
 if (window.dark) {
   document.documentElement.style.setProperty('--white', 'black');
   document.documentElement.style.setProperty('--navy', 'white');

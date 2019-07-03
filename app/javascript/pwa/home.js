@@ -185,14 +185,12 @@ export default class Home extends Component {
   }
 
   handleBack = (event) => {
-    event.stopPropagation()
     let trip = this.state.trip
     trip.status = null
     this.updateTrip(trip)
   }
 
   handleFeedbackBack = (event) => {
-    event.stopPropagation()
     this.updateTrip(null)
   }
 
@@ -203,7 +201,7 @@ export default class Home extends Component {
     if (trip && (!trip.id || trip.status == CONFIRM_UPDATE_TRIP)) return(<ConfirmTrip cards={this.props.cards} bonus_trips={this.props.bonus_trips} trip={trip} updateTrip={this.updateTrip} handleBack={this.handleBack} createCard={this.props.createCard} />)
     if (trip && trip.id && [PENDING].includes(trip.status)) return(<FindDriver trip={trip} getTrip={this.getTrip} subscribe={this.subscribe} cancel={this.cancel}/>)
     if (trip && trip.id && [DECLINED].includes(trip.status)) return(<RetryTrip trip={trip} retry={this.retry} cancel={this.cancel}/>)
-    if (trip && [ON_THE_WAY,WAITING_CLIENT,DRIVING].includes(trip.status)) return(<Trip trip={trip} updateTrip={this.updateTrip} edit={this.edit} cancel={this.cancel} location={this.state.car_location} language={this.props.language}/>)
+    if (trip && [ON_THE_WAY,WAITING_CLIENT,DRIVING].includes(trip.status)) return(<Trip trip={trip} updateTrip={this.updateTrip} edit={this.edit} cancel={this.cancel} location={this.state.car_location} language={this.props.language} unsubscribe={this.unsubscribe}/>)
     if (trip && trip.status == FINISHED) return(<Feedback trip={trip} updateTrip={this.updateTrip} handleBack={this.handleFeedbackBack} />)
     return(<Trip updateTrip={this.updateTrip}/>)
   }

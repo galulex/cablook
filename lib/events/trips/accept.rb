@@ -56,7 +56,7 @@ module Events
           "#{Constants::Channels::TRIP}_#{data[:trip_id]}",
           action: Constants::BroadcastActions::TRIP_ACCEPTED,
           driver: driver.attributes.merge('car' => car.attributes),
-          trip: Presenters::Trips::Detailed.new(trip)
+          trip: Presenters::Trips::Detailed.new(trip).as_json
         )
       end
 

@@ -138,7 +138,7 @@ export default class MapPicker extends Component {
       <div class='trip-details'>
         <header>
           {i18n.map_picker.header}
-          <button type='button' class='burger' onClick={() => window.history.back()}><Back/></button>
+          <button type='button' class='burger' onClick={() => window.ios ? this.props.handleBack() : window.history.back()}><Back/></button>
         </header>
         <div ref={el => this.mapContainer = el} style={style}  />
         { this.state.address_bar &&

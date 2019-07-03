@@ -25,12 +25,10 @@ export default class ConfirmTrip extends Component {
   }
 
   componentDidMount() {
-    history.pushState(null, 'Confirm Trip','/')
-    window.addEventListener('popstate', this.props.handleBack, {once: true})
-    window.onbeforeunload = (event) => {
-      window.removeEventListener('popstate', this.props.handleBack)
-    }
     this.getCards()
+    if (window.ios) return;
+    history.pushState(null, null,'/')
+    window.addEventListener('popstate', this.props.handleBack)
   }
 
   componentWillReceiveProps() {
@@ -113,7 +111,7 @@ export default class ConfirmTrip extends Component {
     return (
       <div class='confirm-container'>
         {showLoader && <Loader/>}
-        <button type='button' id='arrow' class='burger' onClick={() => window.history.back()}><Back/></button>
+        <button type='button' id='arrow' class='burger' onClick={() => window.ios ? this.props.handleBack() : window.history.back()}><Back/></button>
         <header>{i18n.confirm_trip.header}</header>
         <section class='confirm-trip'>
           <div class='details'>

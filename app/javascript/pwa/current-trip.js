@@ -25,7 +25,7 @@ export default class CurrentTrip extends Component {
   }
 
   componentDidMount() {
-    history.pushState(null, 'Edit Trip', '/')
+    if (!window.ios || trip.id) history.pushState(null, null, '/')
 
     myShakeEvent = new Shake({threshold: 20, timeout: 2000})
     myShakeEvent.start()
@@ -276,7 +276,7 @@ export default class CurrentTrip extends Component {
   }
 
   renderBackButton = () => {
-    return (<button type='button' id='arrow' class='burger' onClick={() => window.history.back()}><Back/></button>)
+    return (<button type='button' id='arrow' class='burger' onClick={() => window.ios ? this.props.getTripRequest() : window.history.back()}><Back/></button>)
   }
 
   showLoader = (val) => {

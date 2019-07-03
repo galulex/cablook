@@ -20,11 +20,9 @@ export default class Feedback extends Component {
   }
 
   componentDidMount() {
-    history.pushState(null, 'Leave Feedback','/')
+    if (window.ios) return;
+    history.pushState(null, null,'/')
     window.addEventListener('popstate', this.props.handleBack, {once: true})
-    window.onbeforeunload = (event) => {
-      window.removeEventListener('popstate', this.props.handleBack, true)
-    }
   }
 
   componentWillUnmount() {
@@ -44,7 +42,12 @@ export default class Feedback extends Component {
     this.submitDisabled(true)
     params.trip_id = this.props.trip.id
     axios.post(`trips/${params.trip_id}/feedbacks`, {feedback: params, tip: params.tips}).then((res) => {
-      this.props.isFeedbackVisible ? this.returnRate() : this.props.updateTrip(null)
+      if (this.props.isFeedbackVisible) {
+        this.returnRate()
+      } else {
+        this.props.updateTrip(null)
+        if (!window.ios) window.history.back()
+      }
     }).catch((error) => {
       this.submitDisabled(false)
       if (error.response) alert(error.response.data.errors)
@@ -93,7 +96,7 @@ export default class Feedback extends Component {
       <div class='find_driver'>
         <section class='feedback'>
           <header>{i18n.feedback.header}</header>
-          <button type='button' class='burger' onClick={() => window.history.back()}><Back/></button>
+          <button type='button' class='burger' onClick={() => window.ios ? this.props.handleBack() : window.history.back()}><Back/></button>
           <form ref={form => this.feedbackForm = form}>
             <div class='star-container'>
               {[1,2,3,4,5].map(i => this.renderStar(i))}

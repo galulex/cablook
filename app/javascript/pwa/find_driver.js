@@ -23,7 +23,6 @@ export default class FindDriver extends Component {
   componentDidMount() {
     this.props.subscribe()
 
-    history.pushState(null, null, document.URL)
     window.addEventListener('popstate', this.handleBack)
     timeout = setTimeout(this.props.getTrip, 32000)
     timeout2 = setTimeout(this.props.getTrip, 72000)
@@ -33,6 +32,7 @@ export default class FindDriver extends Component {
     window.removeEventListener('popstate', this.handleBack);
     clearTimeout(timeout)
     clearTimeout(timeout2)
+    if (!window.ios) window.history.back()
   }
 
   handleBack = (event) => {

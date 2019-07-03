@@ -128,13 +128,12 @@ export default class Trip extends Component {
       this.setMarker()
       this.car.setLngLat(this.props.trip.car_location);
       this.car.addTo(this.map);
-      history.pushState(null, null, document.URL)
-      window.addEventListener('popstate', this.handleBack)
     }
   }
 
   componentWillUnmount() {
     window.removeEventListener('popstate', this.handleBack);
+    this.props.unsubscribe()
   }
 
   handleBack = (event) => {
