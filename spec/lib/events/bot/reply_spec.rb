@@ -1,6 +1,6 @@
 describe Events::Bot::Reply do
   describe '#run' do
-    subject { described_class.new(data) }
+    subject { -> { described_class.call(data) } }
     let(:default_data) { { from: { username: 'name', language_code: 'en' }, chat: { id: 0 } } }
     let(:places_response) { double(location: { lat: 0, lng: 0 }) }
     let(:geokit_response) { double(street_address: 'street') }
@@ -140,6 +140,36 @@ describe Events::Bot::Reply do
         it 'should not accept tips' do
           expect_any_instance_of(TelegramOrder).to_not receive(:compose_feedback)
           expect_any_instance_of(TelegramOrder).to receive(:create_feedback)
+        end
+      end
+    end
+
+    context 'delivery order' do
+      let(:user) { create(:user) }
+      let(:trip) { create(:trip, user_id: user.id, status: Constants::Trip::WAITING_FOR_VENDOR_APPROVE) }
+      let(:order) { create(:order, user_id: user.id, trip_id: trip.id) }
+      let(:order_data) {
+        {
+          'message' =>
+            {
+              'message_id' => Random.rand(999..99_999).to_s,
+              'text' => 'test message text'
+            },
+          'from' =>
+            {
+              'id' => Random.rand(999..99_999).to_s
+            },
+          'id' => '5427',
+          'data' => { action: Constants::Order::APPROVE, order_id: order.id }.to_json
+        }
+      }
+
+      context 'order operations' do
+        let(:data) { order_data }
+
+        it 'should accept trip' do
+          expect(TelegramOrder).to receive(:remove_inline_keyboard).twice
+          is_expected.to change { trip.reload.status }.from(Constants::Trip::STATUS_CODES[Constants::Trip::WAITING_FOR_VENDOR_APPROVE]).to(Constants::Trip::STATUS_CODES[Constants::Trip::PENDING])
         end
       end
     end
