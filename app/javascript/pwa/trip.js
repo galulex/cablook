@@ -133,7 +133,6 @@ export default class Trip extends Component {
 
   componentWillUnmount() {
     window.removeEventListener('popstate', this.handleBack);
-    this.props.unsubscribe()
   }
 
   handleBack = (event) => {
