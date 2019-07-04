@@ -35,6 +35,7 @@ import Burger from '../pwa/images/burger.svg';
 import Vendors from '../pwa/vendors.js';
 import Vendor from '../pwa/vendor.js';
 import Cart from '../pwa/cart.js';
+import NotFound from '../pwa/not_found.js';
 
 import '../pwa/css/buttons.css';
 import '../pwa/inobounce.js';
@@ -228,6 +229,7 @@ export default class App extends Component {
             <Profile path='/profile' notification_settings={this.state.notification_settings} updateNotificationSettings={this.updateNotificationSettings} favorite_addresses={() => this.state.favorite_addresses} updateFavoriteAddresses={this.updateFavoriteAddresses} language = {this.state.language} setLanguage = {this.setLanguage} />
             <Vendors path='/delivery'/>
             <Vendor path='/delivery/:id' />
+            <NotFound type='404' default />
             <Cart path='/delivery/cart' cards={() => this.state.cards} createCard={this.createCard} favorite_addresses={() => this.state.favorite_addresses} />
           </Router>
           <Prompt />
