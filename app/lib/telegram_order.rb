@@ -177,9 +177,24 @@ class TelegramOrder
   end
 
   def self.send_order_message(chat_id, time, items, phone_number, order_id)
-    formatted_items = ["🔸Отримане нове замовлення!🔸\n\nНомер замовлення: ##{order_id}\n\n🕑Час подачі: #{time}\n\n📝 Замовлення:\n"]
+    formatted_items = ["🔸Отримане нове замовлення!🔸\n\nНомер замовлення: ##{order_id}\n\n🕑 Час подачі: #{time}\n\n📝 Замовлення:\n"]
     items.each { |item_name, info| formatted_items << "#{item_name} - #{eval(info)['quantity']}шт.\n" }
     formatted_items << "\n📞 Номер телефону клієнта: [#{phone_number}](tel:#{phone_number})"
-    Telegram.bot.send_message(chat_id: chat_id, text: formatted_items.join(''), parse_mode: 'Markdown')
+    Telegram.bot.send_message(chat_id: chat_id, text: formatted_items.join(''), parse_mode: 'Markdown', reply_markup:
+      {
+      inline_keyboard: [[text: 'Прийняти замовлення', callback_data: { action: 'approve', order_id: order_id }.to_json],[text: 'Відхилити замовлення', callback_data: { action: 'decline', order_id: order_id }.to_json]]
+      }
+    )
+  end
+
+  def self.remove_inline_keyboard(message_id, chat_id, query_id, order_id, text, action)
+    Telegram.bot.answer_callback_query(callback_query_id: query_id, text: "Ви #{action} замовлення ##{order_id}", show_alert: true)
+    Telegram.bot.edit_message_reply_markup(message_id:    message_id,
+                                           chat_id:       chat_id,
+                                           reply_markup:  { reply_keyboard_remove: [remove_keyboard: true] })
+    Telegram.bot.edit_message_text(message_id: message_id,
+                                   chat_id:    chat_id,
+                                   text:       text << "\n\n🎯 Статус замовлення: #{action.upcase}",
+                                   parse_mode: 'Markdown')
   end
 end

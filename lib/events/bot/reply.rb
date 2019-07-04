@@ -21,6 +21,7 @@ module Events
       end
 
       def run
+        return order_operations if !data[:text] && order
         set_locale
         return register(data[:cards_url]) if data['contact']
         return request_card(data[:cards_url]) if telegram_order.user.user_id && telegram_order.user.cards.empty?
@@ -165,6 +166,46 @@ module Events
         return telegram_order.perform(@command) unless trip_id
         response = Operations::Wayforpay.settle(trip_id)
         response == DECLINED ? telegram_order.payment_declined : telegram_order.successful_payment
+      end
+
+      def order_operations
+        return approve_trip if parsed_data['action'] == Constants::Order::APPROVE
+        decline_trip
+      end
+
+      def approve_trip
+        Events::Trips::UpdateStatus.(trip_id: order.trip.id)
+        remove_inline_keyboard('прийняли')
+      end
+
+      def decline_trip
+        Events::Trips::Cancel.(trip_id: order.trip.id)
+        remove_inline_keyboard('відхилили')
+      end
+
+      def remove_inline_keyboard(action)
+        TelegramOrder.remove_inline_keyboard(parsed_data[:message_id],
+                                             parsed_data[:chat_id],
+                                             parsed_data[:query_id],
+                                             parsed_data['order_id'],
+                                             parsed_data[:message_text],
+                                             action)
+      end
+
+      def order
+        @order ||= Order.find_by(id: parsed_data['order_id'])
+      end
+
+      def parsed_data
+        @parsed_data ||= JSON.parse(data['data'])
+                             .merge(message_id: query_message['message_id'],
+                                    chat_id: data['from']['id'],
+                                    query_id: data['id'],
+                                    message_text: query_message['text'])
+      end
+
+      def query_message
+        @query_message ||= data['message']
       end
     end
   end

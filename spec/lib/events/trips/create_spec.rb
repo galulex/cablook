@@ -109,7 +109,7 @@ describe Events::Trips::Create do
       let!(:order) { create(:order, user_id: user.id, vendor_id: vendor.id) }
       let(:data) { trip_params.merge(delivery: true, time: 15.minutes.since.strftime('%H:%M'), order_id: order.id) }
 
-      it { is_expected.to have_enqueued_job(Jobs::SearchCarForTrip).with(data[:id]) }
+      it { is_expected.to_not have_enqueued_job(Jobs::SearchCarForTrip).with(data[:id]) }
       it { is_expected.to_not have_enqueued_job(Jobs::DeclineTrip).with(data[:id]) }
     end
   end
