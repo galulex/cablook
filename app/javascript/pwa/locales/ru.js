@@ -167,6 +167,7 @@ const ru = {
     type_name: 'Введите название ',
     placeholder: 'Введите адрес или выберите место',
     theme: 'Темная тема',
+    language: 'Язык',
     notification_names: {
       waiting_client: 'Водитель ожидает',
       accept_trip: 'Заказ принят',

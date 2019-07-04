@@ -18,7 +18,8 @@ export default class FavoriteAddresses extends Component {
       location: null,
       user_id: null,
       address: '',
-      disabled: false
+      disabled: false,
+      locales: ['🇺🇸en', '🇺🇦uk', '🇷🇺ru']
     }
   }
 
@@ -85,6 +86,15 @@ export default class FavoriteAddresses extends Component {
           <div class='nocall'>
             <input id='dark' type='checkbox' value='dark' onChange={this.changeTheme} checked={window.dark}/>
             <label for='dark'>{i18n.profile_page.theme}</label>
+          </div>
+          <div class='nocall'>
+            <label for='language'>{i18n.profile_page.language}</label>
+            <select class={this.props.language} onChange={this.props.setLanguage} id='language'>
+              {this.state.locales.map(el => {
+                const without_emoji = el.replace(/[^\x00-\xFFFF]/g, '')
+                return(<option value={without_emoji} selected={without_emoji == this.props.language}>{el}</option>)
+              })}
+            </select>
           </div>
           <h4 class='center'>{i18n.profile_page.notification_settings}</h4>
           {['accept_trip', 'decline_trip', 'waiting_client'].map((value) => {
