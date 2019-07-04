@@ -189,7 +189,7 @@ export default class App extends Component {
   }
 
   setLanguage = (e) => {
-    this.setState({language: e.target.value})
+    this.setState({language: e.target.value, drawer: false})
     localStorage.setItem('language', e.target.value)
     i18n.setLanguage(this.state.language)
     this.setScriptLanguage()
@@ -216,7 +216,7 @@ export default class App extends Component {
     if (this.state.currentUser) {
       return(
         <main id="app">
-          <Drawer active={this.state.drawer} language = {this.state.language} setLanguage = {this.setLanguage} triggerDrawer = {this.triggerDrawer} logOut={this.logOut} bonuses={() => this.state.bonus_trips.filter(e => { return e.status === 1 }).length }/>
+          <Drawer active={this.state.drawer} triggerDrawer = {this.triggerDrawer} logOut={this.logOut} bonuses={() => this.state.bonus_trips.filter(e => { return e.status === 1 }).length }/>
           <button class='burger' onClick={() => this.triggerDrawer(true)}><Burger/></button>
           <Router>
             <Home path='/' currentTrip={currentTrip} cards={() => this.state.cards} bonus_trips={() => this.state.bonus_trips} createCard={this.createCard} language={this.state.language} favorite_addresses={() => this.state.favorite_addresses} fetchUser={this.fetchUser}  />
@@ -225,7 +225,7 @@ export default class App extends Component {
             <Cards path='/cards' cards={() => this.state.cards} create={this.createCard} currentUserID={() => this.state.currentUserID} />
             <Contacts path='/contacts' />
             <Statistics path='/statistics' />
-            <Profile path='/profile' notification_settings={this.state.notification_settings} updateNotificationSettings={this.updateNotificationSettings} favorite_addresses={() => this.state.favorite_addresses} updateFavoriteAddresses={this.updateFavoriteAddresses} />
+            <Profile path='/profile' notification_settings={this.state.notification_settings} updateNotificationSettings={this.updateNotificationSettings} favorite_addresses={() => this.state.favorite_addresses} updateFavoriteAddresses={this.updateFavoriteAddresses} language = {this.state.language} setLanguage = {this.setLanguage} />
             <Vendors path='/delivery'/>
             <Vendor path='/delivery/:id' />
             <Cart path='/delivery/cart' cards={() => this.state.cards} createCard={this.createCard} favorite_addresses={() => this.state.favorite_addresses} />

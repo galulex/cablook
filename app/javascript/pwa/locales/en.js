@@ -167,6 +167,7 @@ const en = {
     type_name: 'Type name ',
     placeholder: 'Type address or choose a place',
     theme: 'Dark Theme',
+    language: 'Language',
     notification_names: {
       waiting_client: 'Waiting client',
       accept_trip: 'Accept trip',

@@ -33,3 +33,39 @@ ul.favorite_addresses button.x-card {
   margin: auto;
   width: 100%;
 }
+
+.profile select {
+  bottom: 10px;
+  right: 10px;
+  width: 40px;
+  height: 25px;
+  border: none;
+  border-radius: 0;
+  padding-right: 40px;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.16);
+  box-shadow: var(--shadow);
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  margin: 10px 0px 12px 10px;
+}
+
+.profile select:focus {
+  outline: none;
+}
+
+.profile select.uk {
+  background-image: linear-gradient(180deg, #005bbb 0, #005bbb 50%, #efcc3a 50%, #efcc3a 100%);
+  background-image: linear-gradient(180deg, var(--uk-flag-blue) 0, var(--uk-flag-blue) 50%, var(--orange) 50%, var(--orange) 100%);
+}
+
+.profile select.ru {
+  background-image: linear-gradient(180deg, white 0, white 33%, #003da5 33%, #003da5 67%, #da291c 67%, #da291c 100%);
+  background-image: linear-gradient(180deg, white 0, white 33%, var(--ru-flag-blue) 33%, var(--ru-flag-blue) 67%, var(--ru-flag-red) 67%, var(--ru-flag-red) 100%);
+}
+
+.profile select.en {
+  background: linear-gradient(90deg, transparent 46%, #c8102e 46%, #c8102e 56%, transparent 56%), linear-gradient(transparent 38%, white 38%, white 42%, #c8102e 42%, #c8102e 58%, white 58%, white 62%, transparent 62%), linear-gradient(90deg, transparent 44%, white 44%, white 46%, #c8102e 46%, #c8102e 56%, white 56%, white 58%, transparent 58%), linear-gradient(33deg, transparent 45%, white 45%, white 48%, #c8102e 48%, #c8102e 54%, white 54%, white 57%, transparent 57%), linear-gradient(-33deg, #012169 45%, white 45%, white 48%, #c8102e 48%, #c8102e 54%, white 54%, white 57%, #012169 57%);
+  background: linear-gradient(90deg, transparent 46%, var(--en-flag-red) 46%, var(--en-flag-red) 56%, transparent 56%), linear-gradient(transparent 38%, white 38%, white 42%, var(--en-flag-red) 42%, var(--en-flag-red) 58%, white 58%, white 62%, transparent 62%), linear-gradient(90deg, transparent 44%, white 44%, white 46%, var(--en-flag-red) 46%, var(--en-flag-red) 56%, white 56%, white 58%, transparent 58%), linear-gradient(33deg, transparent 45%, white 45%, white 48%, var(--en-flag-red) 48%, var(--en-flag-red) 54%, white 54%, white 57%, transparent 57%), linear-gradient(-33deg, var(--en-flag-blue) 45%, white 45%, white 48%, var(--en-flag-red) 48%, var(--en-flag-red) 54%, white 54%, white 57%, var(--en-flag-blue) 57%);
+}
+

@@ -167,6 +167,7 @@ const uk = {
     type_name: 'Введіть назву ',
     placeholder: 'Введіть адресу або виберіть місце',
     theme: 'Темна тема',
+    language: 'Мова',
     notification_names: {
       waiting_client: 'Водій очікує',
       accept_trip: 'Замовлення прийнято',
