@@ -25,6 +25,7 @@ export default class CurrentTrip extends Component {
   }
 
   componentDidMount() {
+    const { trip } = this.state
     if (!window.ios || trip.id) history.pushState(null, null, '/')
 
     myShakeEvent = new Shake({threshold: 20, timeout: 2000})
