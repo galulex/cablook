@@ -15,7 +15,7 @@ import '../pwa/android_polyfills.js';
 
 import { h, render, Component } from 'preact';
 import { Router } from 'preact-router';
-import { createContext } from "preact-context";
+import { createMemoryHistory } from 'history';
 
 import i18n from '../pwa/i18n.js'
 import Home from '../pwa/home.js';
@@ -219,7 +219,7 @@ export default class App extends Component {
         <main id="app">
           <Drawer active={this.state.drawer} triggerDrawer = {this.triggerDrawer} logOut={this.logOut} bonuses={() => this.state.bonus_trips.filter(e => { return e.status === 1 }).length }/>
           <button class='burger' onClick={() => this.triggerDrawer(true)}><Burger/></button>
-          <Router>
+          <Router history={window.ios ? createMemoryHistory() : null}>
             <Home path='/' currentTrip={currentTrip} cards={() => this.state.cards} bonus_trips={() => this.state.bonus_trips} createCard={this.createCard} language={this.state.language} favorite_addresses={() => this.state.favorite_addresses} fetchUser={this.fetchUser}  />
             <Trips path='/trips/:id?' />
             <Bonus path='/bonus_trips' bonus_trips={() => this.state.bonus_trips} parent_bonus={() => this.state.parent_bonus} />
@@ -249,3 +249,6 @@ export default class App extends Component {
 render(<App />, document.body);
 
 document.documentElement.style.setProperty('--vh', `${window.innerHeight * 0.01}px`);
+window.addEventListener('resize', function() {
+  document.documentElement.style.setProperty('--vh', `${window.innerHeight * 0.01}px`);
+});
