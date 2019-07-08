@@ -21,8 +21,9 @@ export default class TripCard extends Component {
 
   componentDidMount() {
     this.setRate()
-    history.pushState(null, 'Trip Details',`/trips/${this.props.trip.id}`);
     this.setState({showDetails: true})
+    if (window.ios) return;
+    history.pushState(null, 'Trip Details',`/trips/${this.props.trip.id}`);
     window.addEventListener('popstate', this.handleBack, {once: true});
   };
 
@@ -52,7 +53,7 @@ export default class TripCard extends Component {
 
     return (
       <div class="trip-details">
-        <button type='button' class='burger' onClick={(event) => window.history.back()}><Back/></button>
+        <button type='button' id='arrow' class='burger' onClick={() => window.ios ? this.props.handleBack() : window.history.back()}><Back/></button>
         <header>
           {i18n.trip.header}
         </header>

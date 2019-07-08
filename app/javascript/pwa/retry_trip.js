@@ -24,6 +24,7 @@ export default class RetryTrip extends Component {
   }
 
   componentDidMount() {
+    if (window.ios) return;
     history.pushState(null, null, document.URL)
     window.addEventListener('popstate', this.handleBack)
   }
