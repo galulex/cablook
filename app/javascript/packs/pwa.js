@@ -199,14 +199,14 @@ export default class App extends Component {
 
   setScriptLanguage = () => {
     let script = document.getElementById('google-script')
-    if (script !== null) script.setAttribute('src', `https://maps.googleapis.com/maps/api/js?key=AIzaSyDx2cLwlAG3muHMV9DVYY3l2PupoYCS-Mk&libraries=places&language=${this.state.language}`);
+    if (script !== null) script.setAttribute('src', `https://maps.googleapis.com/maps/api/js?key=AIzaSyDg2-aLroQJWY8LV8x1Gv5ZYDhIArWCDeU&libraries=places&language=${this.state.language}`);
   }
 
   loadScript = () => {
     if (document.getElementById('google-script') === null) {
       let script = document.createElement('script');
       script.setAttribute('id', 'google-script');
-      script.setAttribute('src', `https://maps.googleapis.com/maps/api/js?key=AIzaSyDx2cLwlAG3muHMV9DVYY3l2PupoYCS-Mk&libraries=places&language=${this.props.language}`);
+      script.setAttribute('src', `https://maps.googleapis.com/maps/api/js?key=AIzaSyDg2-aLroQJWY8LV8x1Gv5ZYDhIArWCDeU&libraries=places&language=${this.props.language}`);
       document.body.appendChild(script);
     }
   }
