@@ -61,6 +61,10 @@ jobs:
                             --out /tmp/test-results/rspec.xml \
                             --format progress \
                             $(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
+      - run:
+          command: |
+            sudo apt-get install libgconf-2-4
+            yarn cy:run
       # collect reports
       - store_test_results:
           path: /tmp/test-results

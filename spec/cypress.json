@@ -1,0 +1,8 @@
+{
+  "baseUrl": "http://app.lvh.me:5002",
+  "defaultCommandTimeout": 10000,
+  "viewportWidth": 660,
+  "viewportHeight": 1000,
+  "ignoreTestFiles": "*.spec.js",
+  "video": false
+}

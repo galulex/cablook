@@ -71,7 +71,8 @@ def modified_columns
   %w[duration path]
 end
 
-def path(element)
+def path(element = nil)
+  return unless element
   send(element, 'path') do |trip|
     departure = trip.departure.reverse.join(',')
     destination = trip.destination.reverse.join(',')
@@ -82,7 +83,8 @@ def path(element)
   end
 end
 
-def duration(element)
+def duration(element = nil)
+  return unless element
   send(element, 'duration') do |trip|
     Time.at(trip.duration).utc.strftime('%H:%M:%S') if trip.duration
   end

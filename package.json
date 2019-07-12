@@ -25,6 +25,14 @@
     "shake.js": "^1.2.2"
   },
   "devDependencies": {
+    "cypress": "^3.3.2",
+    "http-server": "^0.11.1",
+    "start-server-and-test": "^1.9.1",
     "webpack-dev-server": "3.2.1"
+  },
+  "scripts": {
+      "server:start": "rails server -e test -p 5002",
+      "cy:open": "cypress open --project ./spec",
+      "cy:run": "start-test 'rails server -e test -p 5002' 5002 'cypress run --headed --project ./spec -b chrome'"
   }
 }
