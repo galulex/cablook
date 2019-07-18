@@ -22,6 +22,7 @@ module Jobs
 
     def send_push_to_ios_devices(user_id, message)
       registration_ids = Device.where(user_id: user_id).where(platform: Constants::Device::IOS).pluck(:token)
+      return if registration_ids.empty?
       params = {
         app_id: ENV['ONE_SIGNAL_APP_ID'],
         contents: { en: message },
