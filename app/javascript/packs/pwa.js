@@ -67,8 +67,10 @@ export default class App extends Component {
   componentDidMount() {
     i18n.setLanguage(this.state.language)
     this.loadScript()
+    if (window.ios) this.focusOutForIos()
     if (this.state.currentUser) {
       this.fetchUser()
+      this.checkOneSignalToken()
       document.documentElement.style.setProperty('--body-bg', '#19a160')
     }
     this.requestPermission()
@@ -81,6 +83,12 @@ export default class App extends Component {
   onVisibilityChange = () => {
     if (document.visibilityState !== 'visible') return;
     navigator.onLine ? this.online() : this.offline()
+  }
+
+  checkOneSignalToken = () => {
+    const token = localStorage.getItem('one_signal_token')
+
+    if (token) this.sendTokenToServer(token)
   }
 
   requestPermission = () => {
@@ -106,6 +114,10 @@ export default class App extends Component {
       .catch((err) => {
         if (error.response) alert(error.response.data.errors)
       })
+  }
+
+  focusOutForIos = () => {
+    document.addEventListener('focusout', function(e) {window.scrollTo(0, 0)});
   }
 
   handleRoute = e => {

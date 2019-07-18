@@ -243,6 +243,10 @@ export default class Cart extends Component {
     this.setState({showWidget: false})
   }
 
+  handleBack = () => {
+    route('/delivery', true)
+  }
+
   render() {
     let cart = localStorage.getItem('cart')
     let vendor, items, open_at, close_at
@@ -258,7 +262,7 @@ export default class Cart extends Component {
     return (
       <section class='cart'>
         {showLoader && <Loader/>}
-        <button type='button' class='burger' onClick={(event) => window.history.back()}><Back fill='#132d50'/></button>
+        <button type='button' class='burger' onClick={(event) => window.ios ? this.handleBack() : window.history.back()}><Back fill='#132d50'/></button>
         <header>
           {i18n.cart.header}
         </header>

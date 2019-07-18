@@ -54,6 +54,10 @@ export default class Vendor extends Component {
     this.setState({showLoader})
   }
 
+  handleBack = () => {
+    route('/delivery', true)
+  }
+
   render() {
     const { vendor, cart, showLoader } = this.state
 
@@ -63,7 +67,7 @@ export default class Vendor extends Component {
         <button
             type='button'
             class='burger'
-            onClick={(event) => window.history.back()}>
+            onClick={(event) => window.ios ? this.handleBack() : window.history.back()}>
           <Back/>
         </button>
         <header>
