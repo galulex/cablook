@@ -8,6 +8,7 @@ import AddressInput from '../pwa/trips/address-input.js';
 import Add  from './images/add.svg'
 import Back from './images/arrow-left.svg'
 import './css/current_trip.css'
+import { CANCELED } from './constants.js'
 
 const Shake = require('shake.js')
 let myShakeEvent = null
@@ -45,28 +46,36 @@ export default class CurrentTrip extends Component {
   }
 
   getTrip = () => {
-    if (this.props.trip !== null && this.props.trip.status !== 7) {
-      let trip = {...this.props.trip}
-      trip.stops.unshift(trip.departure_address)
-      trip.stops.push(trip.destination_address)
-      trip.departure = trip.departure.join()
-      trip.destination = trip.destination.join()
-      trip.waypoints.unshift(trip.departure)
-      trip.waypoints.push(trip.destination)
-      trip.osrm = true
-      return trip
+    const { trip } = this.props
+    const empty_trip = {
+      waypoints: [],
+      stops: ['',''],
+      departure: '',
+      destination: '',
+      departure_address: '',
+      destination_address: '',
+      no_call: false,
+      entrance: null,
+      time: null,
+      osrm: true,
+      comment: ''
+    }
+    if (trip && trip.id && [CANCELED].includes(trip.status)) {
+      this.props.updateTrip(null)
+      return empty_trip
+    }
+    if (trip !== null && trip.status !== 7) {
+      let current_trip = {...trip}
+      current_trip.stops.unshift(current_trip.departure_address)
+      current_trip.stops.push(current_trip.destination_address)
+      current_trip.departure = current_trip.departure.join()
+      current_trip.destination = current_trip.destination.join()
+      current_trip.waypoints.unshift(current_trip.departure)
+      current_trip.waypoints.push(current_trip.destination)
+      current_trip.osrm = true
+      return current_trip
     } else {
-      return { waypoints: [],
-        stops: ['',''],
-        departure: '',
-        destination: '',
-        departure_address: '',
-        destination_address: '',
-        no_call: false,
-        entrance: null,
-        time: null,
-        osrm: true,
-        comment: '' }
+      return empty_trip
     }
   }
 
