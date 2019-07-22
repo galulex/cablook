@@ -197,4 +197,9 @@ class TelegramOrder
                                    text:       text << "\n\n🎯 Статус замовлення: #{action.upcase}",
                                    parse_mode: 'Markdown')
   end
+
+  def self.send_message_to_vendor_for_accept(chat_id, order_id, driver_phone)
+    text = "🚕 Замовлення ##{order_id} прийнято водієм. 📞 Номер телефону водія: [#{driver_phone}](tel:#{driver_phone})"
+    Telegram.bot.send_message(chat_id: chat_id, text: text, parse_mode: 'Markdown')
+  end
 end
