@@ -168,6 +168,7 @@ export default class App extends Component {
   removeData = () => {
     firebaseAuth().signOut()
     this.setState({currentUser: null, drawer: false})
+    localStorage.removeItem('email')
     localStorage.removeItem('token')
     localStorage.removeItem('trip')
     localStorage.removeItem('cart')

@@ -296,7 +296,7 @@ export default class Cart extends Component {
                   placeholder={i18n.cart.where}
                   favorite_addresses={() => this.props.favorite_addresses()}/>
               <label for='entrance'>
-                <span>{i18n.current_trip.where_to_pick}</span>
+                <span>{i18n.cart.entrance}</span>
                 <select id='entrance' onChange={this.updateEntrance}>
                   <option value=''>{i18n.current_trip.select_entrance}</option>
                   {this.state.entrance_list.map((el) => {
