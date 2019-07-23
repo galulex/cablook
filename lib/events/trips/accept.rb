@@ -15,6 +15,7 @@ module Events
         if trip.status == Constants::Trip::STATUS_CODES[Constants::Trip::PENDING]
           update_car_status
           update_trip
+          send_notify_for_vendor if trip.order
           telegram_message
           broadcast_accepted_trip
           broadcast_accepted_trip_to_trip_channel
@@ -120,6 +121,10 @@ module Events
 
       def telegram_message
         TelegramOrder.new(trip.telegram).driver_found(:accept, driver.username, car.phone_number) if trip.telegram && telegram_trip?(trip.user)
+      end
+
+      def send_notify_for_vendor
+        TelegramOrder.send_message_to_vendor_for_accept(trip.order.vendor.telegram_account, trip.order.id, car.phone_number)
       end
     end
   end
