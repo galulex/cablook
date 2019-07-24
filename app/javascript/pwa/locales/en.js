@@ -193,6 +193,7 @@ const en = {
     order_price: 'ORDER PRICE: ',
     uah: 'uah',
     where: 'Where?',
+    entrance: 'Entrance',
     trip_price: 'Delivery price: ',
     total_price: 'Total price: ',
     create_order: 'Create order',

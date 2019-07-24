@@ -25,6 +25,15 @@ describe Events::Trips::WaitingClient do
 
       it { expect(trip.reload.start_at.strftime('%H:%M')).to eq(15.minutes.ago.strftime('%H:%M')) }
       it { expect(trip.reload.preorder_time).to eq(nil) }
-      end
+    end
+
+    context 'if trip with order (delivery)' do
+      let(:order) { create(:order) }
+      let(:trip) { create(:trip, order: order, status: Constants::Trip::ON_THE_WAY) }
+
+      it {
+        is_expected.not_to have_enqueued_job(Jobs::Notification)
+      }
+    end
   end
 end

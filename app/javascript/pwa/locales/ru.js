@@ -193,6 +193,7 @@ const ru = {
     order_price: 'CТОИМОСТЬ ЗАКАЗА: ',
     uah: 'грн.',
     where: 'Куда доставлять?',
+    entrance: 'Подъезд',
     trip_price: 'Cтоимость доставки:',
     total_price: 'Общая стоимость:',
     create_order: 'Создать заказ',
