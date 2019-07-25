@@ -13,9 +13,10 @@ export default class Widget extends Component {
 
   componentDidMount() {
     this.loadWidget()
+    const component = this
     window.addEventListener("message", (event) => {
       if (event.data === 'WfpWidgetEventClose') {
-        location.reload()
+        this.props.showWidget(false)
       }
     })
   }

@@ -147,7 +147,7 @@ export default class ConfirmTrip extends Component {
             { (cards.length > 0) &&
               <button class='button fixed' type='button' value={trip.bonus} disabled={submitDisabled} onClick={this.createTrip}>{i18n.confirm_trip.go}</button>
             }
-            { showWidget && <Widget createCard={this.createCard}/> }
+            { showWidget && <Widget createCard={this.createCard} showWidget={() => this.setState({showWidget: false})}/> }
           </div>
         </section>
       </div>

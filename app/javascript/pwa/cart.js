@@ -322,7 +322,7 @@ export default class Cart extends Component {
                 <input type='submit' class='button' onClick={this.createOrder} value={i18n.cart.create_order}/>}
             </form>,
           !vendor_closed &&
-            showWidget && <Widget createCard={this.createCard}/>,
+            showWidget && <Widget createCard={this.createCard} showWidget={() => this.setState({showWidget: false}) }/>,
           vendor_closed &&
             <p>{i18n.cart.vendor_closed}</p>]
         ) : (
