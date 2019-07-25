@@ -3,7 +3,7 @@ module Api
     before_action :authorize!
 
     def index
-      render json: Presenters::Trips::Collection.new(trips).to_json(user_options: { with_feedbacks: true }), status: 200
+      render json: Presenters::Trips::Collection.new(trips).to_json(user_options: { with_feedbacks: true, without_vip: true }), status: 200
     end
 
     def show
@@ -35,6 +35,7 @@ module Api
 
     def trips
       Trip
+        .except(:vip)
         .includes(:feedbacks, :bonus_trip, :user)
         .where(user_id: current_user.id, status: params[:status] || Constants::Trip::STATUSES)
         .order(id: :desc)
