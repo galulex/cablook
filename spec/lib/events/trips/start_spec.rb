@@ -18,5 +18,14 @@ describe Events::Trips::Start do
         subject.call
       end
     end
+
+    context 'if trip with order (delivery)' do
+      let(:order) { create(:order) }
+      let(:trip) { create(:trip, order: order, status: Constants::Trip::WAITING_CLIENT) }
+
+      it {
+        is_expected.to have_enqueued_job(Jobs::Notification)
+      }
+    end
   end
 end

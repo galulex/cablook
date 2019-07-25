@@ -12,12 +12,27 @@ module Events
       def run
         update_trip
         broadcast
+        notify if delivery_trip?
       end
 
       private
 
+      def trip
+        @trip ||= Trip.find(data[:trip_id])
+      end
+
       def update_trip
-        Trip.find(data[:trip_id]).update(status: Constants::Trip::DRIVING, started_at: Time.now)
+        trip.update(status: Constants::Trip::DRIVING, started_at: Time.now)
+      end
+
+      def notify
+        return if trip.user.notification_settings.include?(Constants::User::WAITING_CLIENT)
+        message = I18n.t('notification.waiting')
+        Jobs::Notification.perform_later(trip.user_id, message)
+      end
+
+      def delivery_trip?
+        @trip.order.present?
       end
 
       def broadcast

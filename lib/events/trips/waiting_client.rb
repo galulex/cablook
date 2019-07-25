@@ -13,7 +13,7 @@ module Events
         update_trip
         telegram_message
         broadcast
-        notify
+        notify unless trip.order
       end
 
       private
