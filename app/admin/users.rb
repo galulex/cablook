@@ -11,6 +11,12 @@ ActiveAdmin.register User do
     def permitted_params
       params.permit!
     end
+
+    def notify_all_about_unpaid_trip
+      users_ids = Trip.all.unpaid.pluck(:user_id).uniq
+      Jobs::NotifyUsers.perform_later(users_ids)
+      redirect_to collection_path, notice: 'Notifications successfully sent!'
+    end
   end
 
   index do
@@ -35,6 +41,12 @@ ActiveAdmin.register User do
       %w[email phone_number referral_code vip].each { |title| input title }
     end
     actions
+  end
+
+  action_item(:notify) { link_to 'Notify all users about UNPAID trip', notify_admin_users_path, method: :post }
+
+  collection_action :notify, method: :post do
+    notify_all_about_unpaid_trip
   end
 
   member_action :create_gift, method: :post do
