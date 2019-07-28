@@ -8,7 +8,7 @@ set :deploy_to, '/home/deploy/'
 
 set :linked_files, fetch(:linked_files, []).push(
   'config/secrets.yml',
-  # 'config/cloudinary.yml'
+  'config/database.yml'
 )
 
 set :linked_dirs, fetch(:linked_dirs, []).push(

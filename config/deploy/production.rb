@@ -1,4 +1,4 @@
-location = '68.183.209.106'
+location = '134.209.251.52'
 
 role :app, location
 role :web, location
