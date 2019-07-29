@@ -39,13 +39,12 @@ export default class TripCard extends Component {
 
   handleBack = (event) => {
     this.props.showDetails(false)
-    event.stopPropagation();
+    if (event) event.stopPropagation()
   };
 
   handleFeedbackBack = (event) => {
     this.setState({isFeedbackVisible: false})
     window.addEventListener('popstate', this.handleBack, {once: true});
-    event.stopPropagation();
   };
 
   render() {
@@ -53,7 +52,7 @@ export default class TripCard extends Component {
 
     return (
       <div class="trip-details">
-        <button type='button' id='arrow' class='burger' onClick={() => window.ios ? this.props.handleBack() : window.history.back()}><Back/></button>
+        <button type='button' id='arrow' class='burger' onClick={() => window.ios ? this.handleBack(event) : window.history.back()}><Back/></button>
         <header>
           {i18n.trip.header}
         </header>
