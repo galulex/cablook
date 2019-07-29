@@ -277,9 +277,10 @@ export default class CurrentTrip extends Component {
           })}
         </select>
       </label>,
-      <label for='time'>
+      <label for='time' data-placeholder={!trip.time}>
         <span>{i18n.current_trip.when}</span>
         <input id='time' type='time' step='60' title='HH:MM' pattern='([01]?[0-9]|2[0-3]):[0-5][0-9]' value={trip.time} placeholder='Now' onChange={this.setOrderTime}/>
+        <span class='time-placeholder'>{i18n.current_trip.now}</span>
       </label>,
       <input type='text' class='comment' value={trip.comment} placeholder={i18n.current_trip.comment} onChange={this.setComment}/>
     ]

@@ -51,6 +51,7 @@ const uk = {
     no_call: 'Без дзвінка',
     where_to_pick: 'Де підібрати?',
     when: 'Коли?',
+    now: 'Зараз'
   },
   confirm_trip: {
     add_card: 'Додати карту',

@@ -286,6 +286,39 @@ label[for='entrance']:after, label[for='time']:after {
   pointer-events: none;
 }
 
+.time-placeholder {
+  color: var(--navy);
+  right: 30px;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+input[type='time']:valid::-webkit-datetime-edit {
+  color: transparent;
+}
+
+label:not([data-placeholder])[for='time'] > input::-webkit-datetime-edit {
+  color: var(--navy);
+}
+
+input[type='time']:focus::-webkit-datetime-edit {
+  color: var(--navy);
+}
+
+input[type='time']:focus + .time-placeholder {
+  display: none;
+}
+
+input[type='time']:invalid + .time-placeholder {
+  display: none;
+}
+
+label:not([data-placeholder])[for='time'] > .time-placeholder {
+  display: none;
+}
+
 select#entrance:focus, input#time:focus, input.comment:focus {
   outline: none;
   box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);

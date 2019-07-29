@@ -50,7 +50,8 @@ const en = {
     select_entrance: 'Select Entrance',
     no_call: 'No Call',
     where_to_pick: 'Where to pick?',
-    when: 'When?'
+    when: 'When?',
+    now: 'Now'
   },
   confirm_trip: {
     add_card: "Add a card",

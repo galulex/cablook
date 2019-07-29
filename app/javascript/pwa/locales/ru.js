@@ -50,7 +50,8 @@ const ru = {
     select_entrance: 'Выбрать Подъезд',
     no_call: 'Без звонка',
     where_to_pick: 'Где подобрать?',
-    when: 'Когда?'
+    when: 'Когда?',
+    now: 'Сейчас'
   },
   confirm_trip: {
     add_card: 'Добавить карту',
