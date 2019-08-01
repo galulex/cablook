@@ -47,7 +47,7 @@ const uk = {
     comment: 'Коментар',
     entrance: 'Під\'їзд',
     header: 'Пошук',
-    select_entrance: 'Вибрати під\'їзд',
+    select_entrance: 'Обрати під\'їзд',
     no_call: 'Без дзвінка',
     where_to_pick: 'Де підібрати?',
     when: 'Коли?',
@@ -117,7 +117,7 @@ const uk = {
     confirm_resend_code: 'Відправити код підтвердження повторно?'
   },
   map_picker: {
-    header: 'Виберіть місце розташування'
+    header: 'Оберіть місце розташування'
   },
   bonuses: {
     apply_code: 'Застосувати код друга',
