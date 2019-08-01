@@ -6,6 +6,8 @@ import i18n from './i18n.js';
 import AddressInput from '../pwa/trips/address-input.js';
 import './css/profile.css'
 
+const LOCALES = { en: '🇺🇸', uk: '🇺🇦', ru: '🇷🇺' }
+
 export default class FavoriteAddresses extends Component {
   constructor(props) {
     super(props);
@@ -18,8 +20,7 @@ export default class FavoriteAddresses extends Component {
       location: null,
       user_id: null,
       address: '',
-      disabled: false,
-      locales: ['🇺🇸en', '🇺🇦uk', '🇷🇺ru']
+      disabled: false
     }
   }
 
@@ -89,10 +90,9 @@ export default class FavoriteAddresses extends Component {
           </div>
           <div class='nocall'>
             <label for='language'>{i18n.profile_page.language}</label>
-            <select class={this.props.language} onChange={this.props.setLanguage} id='language'>
-              {this.state.locales.map(el => {
-                const without_emoji = el.replace(/[^\x00-\xFFFF]/g, '')
-                return(<option value={without_emoji} selected={without_emoji == this.props.language}>{el}</option>)
+            <select onChange={this.props.setLanguage} id='language'>
+              {Object.keys(LOCALES).map(key => {
+                return(<option value={key} selected={key == this.props.language}>{LOCALES[key]}</option>)
               })}
             </select>
           </div>
