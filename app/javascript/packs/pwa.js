@@ -45,6 +45,14 @@ axios.defaults.baseURL = '/api';
 axios.defaults.headers.common['Auth-Token'] = localStorage.token;
 axios.defaults.headers.common['Content-Type'] = 'application/json';
 
+var Bugno = require('bugno-js');
+var bugno = new Bugno({
+    accessToken: 'UAQmtJvMXq3AUTyJCQZ6mS7E',
+    captureUncaught: true,
+    captureUnhandledRejections: true,
+    enabled: ['staging', 'production'].includes(window._ENV)
+});
+
 export default class App extends Component {
 
   constructor(props){
