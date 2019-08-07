@@ -183,7 +183,7 @@ export default class AddressInput extends Component {
 
   handleBack = (event) => {
     this.setState({isShowMap: false})
-    event.stopPropagation()
+    if (event) event.stopPropagation()
   };
 
   keydown = (e) => {
