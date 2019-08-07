@@ -70,7 +70,6 @@ ActiveAdmin.register Payment do
   end
 
   action_item(:retry) { link_to 'Retry All', retry_all_without_sms_admin_payments_path, method: :post }
-  action_item(:retry) { link_to 'Retry All With Sms', retry_all_with_sms_admin_payments_path, method: :post }
 
   collection_action :retry_all_without_sms, method: :post do
     retry_all(false)
