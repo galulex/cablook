@@ -31,6 +31,11 @@ module Api
       render json: Presenters::Trips::Detailed.new(trip).to_json, status: 200
     end
 
+    def unpaid_trips
+      unpaid = Trip.unpaid.where(user_id: current_user.id)
+      render json: Presenters::Trips::Collection.new(unpaid).to_json, status: 200
+    end
+
     private
 
     def trips

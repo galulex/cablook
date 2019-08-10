@@ -11,6 +11,8 @@ module Events
 
       def run
         update_trip
+        update_payment
+        update_bonus_trip if bonus?
         retry_trip_job(trip.id)
         trip
       end
@@ -24,6 +26,18 @@ module Events
 
       def update_trip
         trip.update(status: Constants::Trip::PENDING)
+      end
+
+      def update_payment
+        trip.trip_payment.update(status: bonus? ? Constants::Payments::BONUS : Constants::Payments::PENDING)
+      end
+
+      def update_bonus_trip
+        trip.bonus_trip.update(status: Constants::BonusTrip::USED)
+      end
+
+      def bonus?
+        trip.bonus_trip.present?
       end
 
       def trip

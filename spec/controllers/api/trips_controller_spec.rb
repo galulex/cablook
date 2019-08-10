@@ -126,7 +126,10 @@ describe Api::TripsController, type: :controller do
     let(:params) { { trip_id: trip.id } }
     let(:trip) { create(:trip) }
 
-    before { patch :retry, params: params, as: :json }
+    before do
+      create(:trip_payment, trip: trip, user: user, card: card)
+      patch :retry, params: params, as: :json
+    end
 
     it { is_expected.to be_successful }
   end
