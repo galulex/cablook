@@ -336,6 +336,10 @@ export default class CurrentTrip extends Component {
     this.setState({card_id: parseInt(event.target.value)})
   }
 
+  goToCardsPage = () => {
+    route('/cards', true)
+  }
+
   render() {
     const { showAlert, unpaid_trips, showLoader, trip, trip: { stops } } = this.state
     const cards = this.props.cards()
@@ -356,7 +360,8 @@ export default class CurrentTrip extends Component {
                       {unpaid_trips.map(t => <div class='unpaid_trip'>{t.departure_address} - {t.destination_address} | {t.formatted_date} | <b>{t.cost} {i18n.current_trip.uah}</b></div>)}
                   </span>
                   <div class='right-section'>
-                    <button class='button pay' onclick={this.payForUnpaidTrips}>{i18n.current_trip.pay}</button>
+                    {cards.length > 0 && <button class='button pay' onclick={this.payForUnpaidTrips}>{i18n.current_trip.pay}</button>}
+                    {cards.length === 0 && <button class='button add-card' onclick={this.goToCardsPage}>{i18n.current_trip.add_card}</button>}
                     {cards.length > 1 &&
                       <div class='select-section'>
                         <div class='select'>

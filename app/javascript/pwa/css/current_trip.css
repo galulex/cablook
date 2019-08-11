@@ -379,6 +379,15 @@ button.button.pay {
   padding: 10px;
 }
 
+button.button.add-card {
+  flex: 30%;
+  display: inline-block;
+  margin: 0;
+  background: var(--purple);
+  margin: 5px;
+  padding: 10px;
+}
+
 .unpaid_trip {
   font-size: 70%;
 }

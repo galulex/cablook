@@ -54,7 +54,8 @@ const uk = {
     now: 'Зараз',
     unpaid_trips: 'Ви маєте несплачені поїздки:',
     uah: 'грн.',
-    pay: 'Сплатити'
+    pay: 'Сплатити',
+    add_card: 'Додати карту'
   },
   confirm_trip: {
     add_card: 'Додати карту',

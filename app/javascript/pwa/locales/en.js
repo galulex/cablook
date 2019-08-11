@@ -54,7 +54,8 @@ const en = {
     now: 'Now',
     unpaid_trips: 'You have an unpaid trips:',
     uah: 'uah',
-    pay: 'Pay now'
+    pay: 'Pay now',
+    add_card: 'Add card'
   },
   confirm_trip: {
     add_card: "Add a card",

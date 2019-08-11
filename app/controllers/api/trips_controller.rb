@@ -32,7 +32,7 @@ module Api
     end
 
     def unpaid_trips
-      unpaid = Trip.unpaid.where(user_id: current_user.id)
+      unpaid = current_user.trips.unpaid
       render json: Presenters::Trips::Collection.new(unpaid).to_json, status: 200
     end
 
