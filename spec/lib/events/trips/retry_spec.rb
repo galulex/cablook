@@ -18,5 +18,14 @@ describe Events::Trips::Retry do
 
       it { expect(ActionCable.server).to receive(:broadcast).once }
     end
+
+    context 'when payment by bonus' do
+      let!(:bonus_trip) { create(:bonus_trip, trip: trip, user_id: user.id, status: Constants::BonusTrip::NEW) }
+
+      after { subject.call }
+
+      it { is_expected.to change { bonus_trip.reload.status }.to(Constants::BonusTrip::USED) }
+      it { is_expected.to change { trip_payment.reload.status }.to(Constants::Payments::BONUS) }
+    end
   end
 end
