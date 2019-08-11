@@ -66,16 +66,16 @@ function onFetch(event) {
         return response;
       }
       return fetch(event.request).then(function(response) {
-        if (response.status === 404) {
-          return caches.match('pages/404.html');
-        }
         return response
       });
     }).catch(function() {
-      // If both fail, show a generic fallback:
-      return caches.match('/offline.html');
+      if (event.request.mode === 'navigate' ||
+        (event.request.method === 'GET' && event.request.headers.get('accept').includes('text/html'))) {
+        console.log('[Serviceworker]', "Fetching offline content", event);
+        return caches.match('/offline.html');
+      }
     })
-  );
+   );
 }
 
 self.addEventListener('install', onInstall);
