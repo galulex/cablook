@@ -6,10 +6,12 @@ module Events
           configure { config.messages = :i18n }
 
           required(:trip_id).filled(:int?)
+          required(:user_id).filled(:int?)
         end
       end
 
       def run
+        validate_user_cards!
         update_trip
         update_payment
         update_bonus_trip if bonus?
@@ -42,6 +44,14 @@ module Events
 
       def trip
         @trip ||= Trip.find(data[:trip_id])
+      end
+
+      def cards
+        @cards ||= Card.where(user_id: data[:user_id])
+      end
+
+      def validate_user_cards!
+        invalid!([I18n.t('trips.cant_retry')]) unless cards.any?
       end
     end
   end

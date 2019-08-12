@@ -40,10 +40,6 @@ class User < ApplicationRecord
     user.update(telegram_attributes: { username: username, chat_id: chat_id })
   end
 
-  def display_name
-    phone_number
-  end
-
   def enabled_notifications
     Constants::User::NOTIFICATIONS - notification_settings
   end
