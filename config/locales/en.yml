@@ -34,6 +34,7 @@ en:
     start_at_invalid: Time entered incorrectly
     to_far: Distance too large
     entrance: "%{val} Entrance"
+    cant_retry: You can't retry trip without your card
   orders:
     no_items: You have selected an unknown item or the order amount is zero
   cards:
@@ -41,6 +42,7 @@ en:
     something_went_wrong: Something went wrong
     add_card: Please add a card before creating a trip
     cant_delete: You have a pending payments
+    current_trip: You can't delete card during trip
   bonus_trips:
     disable_for_yourself: Can't create bonus trip for yourself
     already_have_referrer: You already have referrer

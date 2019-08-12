@@ -11,7 +11,7 @@ module Constants
     WAITING_FOR_VENDOR_APPROVE = 8
 
     STATUSES = [PENDING, ON_THE_WAY, WAITING_CLIENT, DRIVING, FINISHED, CANCELED, DECLINED, WAITING_FOR_VENDOR_APPROVE].freeze
-    CURRENT_TRIP_STATUSES = [ON_THE_WAY, WAITING_CLIENT, PENDING].freeze
+    CURRENT_TRIP_STATUSES = [ON_THE_WAY, WAITING_CLIENT, PENDING, DRIVING].freeze
 
     FEE = 0.025
     MAX_DISTANCE = 60_000
@@ -20,7 +20,7 @@ module Constants
 
     EXPIRES_IN = 70.seconds.freeze
 
-    STATUS_CODES =  {
+    STATUS_CODES = {
       PENDING                    => 'pending'.freeze,
       ON_THE_WAY                 => 'on_the_way'.freeze,
       WAITING_CLIENT             => 'waiting_client'.freeze,

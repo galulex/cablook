@@ -51,7 +51,11 @@ const en = {
     no_call: 'No Call',
     where_to_pick: 'Where to pick?',
     when: 'When?',
-    now: 'Now'
+    now: 'Now',
+    unpaid_trips: 'You have an unpaid trips:',
+    uah: 'uah',
+    pay: 'Pay now',
+    add_card: 'Add card'
   },
   confirm_trip: {
     add_card: "Add a card",

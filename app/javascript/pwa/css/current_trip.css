@@ -67,7 +67,7 @@ fieldset.address:first-child:before {
   top: 76%;
 }
 
-fieldset.address:first-child:after {
+fieldset.address:first-of-type:after {
   content: none;
 }
 
@@ -356,4 +356,43 @@ div.nocall {
 div.loader {
   opacity: 0;
   visibility: hidden;
+}
+
+.alert {
+  padding: 5px 20px;
+  background: linear-gradient(to left, var(--green), #312d50);
+  display: flex;
+  align-items: center;
+}
+
+span.message {
+  flex: 70%;
+  color: white;
+}
+
+button.button.pay {
+  flex: 30%;
+  display: inline-block;
+  margin: 0;
+  background: var(--orange);
+  margin: 5px;
+  padding: 10px;
+}
+
+button.button.add-card {
+  flex: 30%;
+  display: inline-block;
+  margin: 0;
+  background: var(--purple);
+  margin: 5px;
+  padding: 10px;
+}
+
+.unpaid_trip {
+  font-size: 70%;
+}
+
+.right-section .select-section select {
+  padding: 10px 30px 10px 5px;
+  font-size: 14px;
 }

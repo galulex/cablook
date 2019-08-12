@@ -22,13 +22,18 @@ module Api
     end
 
     def retry
-      trip = Events::Trips::Retry.(trip_id: params[:trip_id].to_i)
+      trip = Events::Trips::Retry.(trip_id: params[:trip_id].to_i, user_id: current_user.id)
       render json: Presenters::Trips::Single.new(trip).to_json, status: 200
     end
 
     def update
       trip = Events::Trips::Update.(trip_params)
       render json: Presenters::Trips::Detailed.new(trip).to_json, status: 200
+    end
+
+    def unpaid_trips
+      unpaid = current_user.trips.unpaid
+      render json: Presenters::Trips::Collection.new(unpaid).to_json, status: 200
     end
 
     private

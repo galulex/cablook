@@ -30,6 +30,7 @@ Rails.application.routes.draw do
 
     post 'trips/new', to: 'v2/trips#new'
     resources :trips, only: %i[index show create update] do
+      get 'unpaid_trips', on: :collection
       patch 'cancel'
       patch 'retry'
       resources :feedbacks, only: :create

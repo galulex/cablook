@@ -167,11 +167,12 @@ export default class Home extends Component {
     })
   }
 
-  retry = () => {
+  retry = (e, callback = () => {}) => {
     axios.patch(`trips/${this.state.trip.id}/retry`).then((res) => {
       this.updateTrip(res.data)
     }).catch((error) => {
       if (error.response) alert(error.response.data.errors)
+      callback()
     })
   }
 

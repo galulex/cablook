@@ -20,7 +20,10 @@ export default class CurrentTrip extends Component {
       trip: this.getTrip(),
       submitDisabled: false,
       showLoader: false,
-      entrance: Array.from({length: 15}, (v, k) => (k+1))
+      showAlert: false,
+      entrance: Array.from({length: 15}, (v, k) => (k+1)),
+      unpaid_trips: [],
+      card_id: null
     },
     this.shake_trip_params = null
   }
@@ -32,11 +35,17 @@ export default class CurrentTrip extends Component {
     myShakeEvent = new Shake({threshold: 20, timeout: 2000})
     myShakeEvent.start()
 
+    this.sendRequestForUnpaidTrips()
+
     window.addEventListener('shake', this.shakeEvent, false)
     window.addEventListener('popstate', this.props.getTripRequest, {once: true})
     window.onbeforeunload = (event) => {
       window.removeEventListener('popstate', this.props.getTripRequest)
     }
+  }
+
+  componentWillReceiveProps() {
+    this.setCardId()
   }
 
   componentWillUnmount() {
@@ -147,18 +156,24 @@ export default class CurrentTrip extends Component {
       if (!error.response) return
       if (error.response.status == 418) {
         if (confirm(`${error.response.data.errors} ${i18n.confirm_trip.retry_payment}`)) {
-          this.retryPendingPayment()
+          this.retryPendingPayment(false)
         }
       } else alert(error.response.data.errors)
     })
   }
 
-  retryPendingPayment = () => {
+  retryPendingPayment = (unpaid_trip) => {
     const { cards } = this.props
+    const { card_id } = this.state
     this.showLoader(true)
 
-    axios.post('payments/retry_pendings', {card_id: cards()[0].id}).then((res) => {
+    axios.post('payments/retry_pendings', {card_id: card_id ? card_id : cards()[0].id}).then((res) => {
       if (res.data.length === 0) {
+        if (unpaid_trip) {
+          this.showLoader(false)
+          this.setState({showAlert: false})
+          return;
+        }
         this.sendCreateRequest()
       } else {
         this.showLoader(false)
@@ -166,6 +181,15 @@ export default class CurrentTrip extends Component {
       }
     }).catch((error) => {
       this.showLoader(false)
+      if (error.response) alert(error.response.data.errors)
+    })
+  }
+
+  sendRequestForUnpaidTrips = () => {
+    axios.get('trips/unpaid_trips').then((res) => {
+      if (res.data.trips.length === 0) return;
+      this.setState({showAlert: true, unpaid_trips: res.data.trips})
+    }).catch((error) => {
       if (error.response) alert(error.response.data.errors)
     })
   }
@@ -294,18 +318,62 @@ export default class CurrentTrip extends Component {
     this.setState({showLoader: val})
   }
 
+  payForUnpaidTrips = () => {
+    this.retryPendingPayment(true)
+  }
+
+  renderCard = (card) => {
+    return(<option value={card.id} key={card.id}>💳 {card.pan}</option>)
+  }
+
+  setCardId = () => {
+    const cards = this.props.cards()
+
+    this.setState({card_id: (cards.length >= 1) ? cards[0].id : null})
+  }
+
+  selectCard = (event) => {
+    this.setState({card_id: parseInt(event.target.value)})
+  }
+
+  goToCardsPage = () => {
+    route('/cards', true)
+  }
+
   render() {
-    const { showLoader, trip, trip: { stops } } = this.state
+    const { showAlert, unpaid_trips, showLoader, trip, trip: { stops } } = this.state
+    const cards = this.props.cards()
     let isValid = (stops.includes(''))
 
     return (
       <div class='current-trip'>
         {showLoader && <Loader/>}
-        <section class="home">
+        <section class='home'>
           {!!trip.id && this.renderBackButton()}
           <header>{i18n.current_trip.header}</header>
           <form action='#' onSubmit={(e) => e.preventDefault()}>
             <div class='addresses'>
+              {showAlert &&
+                <div class='alert'>
+                  <span class='message'>
+                    <div>{i18n.current_trip.unpaid_trips}</div>
+                      {unpaid_trips.map(t => <div class='unpaid_trip'>{t.departure_address} - {t.destination_address} | {t.formatted_date} | <b>{t.cost} {i18n.current_trip.uah}</b></div>)}
+                  </span>
+                  <div class='right-section'>
+                    {cards.length > 0 && <button class='button pay' onclick={this.payForUnpaidTrips}>{i18n.current_trip.pay}</button>}
+                    {cards.length === 0 && <button class='button add-card' onclick={this.goToCardsPage}>{i18n.current_trip.add_card}</button>}
+                    {cards.length > 1 &&
+                      <div class='select-section'>
+                        <div class='select'>
+                          <select id='card' onChange={(e) => this.selectCard(e)}>
+                            {cards.map((el) => this.renderCard(el))}
+                          </select>
+                        </div>
+                      </div>
+                    }
+                  </div>
+                </div>
+              }
               { trip.stops.map((e, i) => {
                 return (
                   <AddressInput
