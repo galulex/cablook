@@ -9,4 +9,5 @@ production:
   - default
   - payments
   - retry_payments
+  - mailers
 
