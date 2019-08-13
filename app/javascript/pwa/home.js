@@ -46,9 +46,7 @@ export default class Home extends Component {
   }
 
   subscribe = () => {
-    console.log(this.state.subscription);
-    console.log(this.state.trip);
-    if (!this.state.trip.id) return;
+    if (!this.state.trip.id || [FINISHED, CANCELED, DECLINED, CANCELED_BY_DRIVER].includes(this.state.trip.status)) return;
     if (this.state.subscription) return this.state.subscription
     let component = this
     this.setState({subscription: cable.subscriptions.create(
@@ -59,7 +57,6 @@ export default class Home extends Component {
         }
       }
     )})
-    console.log(this.state.subscription);
   }
 
   unsubscribe = () => {
@@ -204,7 +201,7 @@ export default class Home extends Component {
 
     if (!trip || [CANCELED,CANCELED_BY_DRIVER,null].includes(trip.status)) return(<CurrentTrip updateTrip={this.updateTrip} handleBack={this.handleBack} language={this.props.language} trip={trip} favorite_addresses={this.props.favorite_addresses()} getTripRequest={this.getTripRequest} cards={this.props.cards}/>)
     if (trip && (!trip.id || trip.status == CONFIRM_UPDATE_TRIP)) return(<ConfirmTrip cards={this.props.cards} bonus_trips={this.props.bonus_trips} trip={trip} updateTrip={this.updateTrip} handleBack={this.handleBack} createCard={this.props.createCard} />)
-    if (trip && trip.id && [PENDING].includes(trip.status)) return(<FindDriver trip={trip} getTrip={this.getTrip} subscribe={this.subscribe} cancel={this.cancel}/>)
+    if (trip && trip.id && [PENDING].includes(trip.status)) return(<FindDriver trip={trip} subscribe={this.subscribe} cancel={this.cancel}/>)
     if (trip && trip.id && [DECLINED].includes(trip.status)) return(<RetryTrip trip={trip} retry={this.retry} cancel={this.cancel}/>)
     if (trip && [ON_THE_WAY,WAITING_CLIENT,DRIVING].includes(trip.status)) return(<Trip trip={trip} updateTrip={this.updateTrip} edit={this.edit} cancel={this.cancel} location={this.state.car_location} language={this.props.language}/>)
     if (trip && trip.status == FINISHED) return(<Feedback trip={trip} updateTrip={this.updateTrip} handleBack={this.handleFeedbackBack} />)
