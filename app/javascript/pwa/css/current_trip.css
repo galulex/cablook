@@ -80,7 +80,11 @@ fieldset.address:last-of-type:before {
   height: 50%;
 }
 
-fieldset.addresses.nth-of-type(3) + div {
+fieldset.address:nth-of-type(7):before {
+  content: none;
+}
+
+fieldset.address:nth-of-type(7) + div {
   display: none;
 }
 

@@ -46,6 +46,8 @@ export default class Home extends Component {
   }
 
   subscribe = () => {
+    console.log(this.state.subscription);
+    console.log(this.state.trip);
     if (!this.state.trip.id) return;
     if (this.state.subscription) return this.state.subscription
     let component = this
@@ -57,6 +59,7 @@ export default class Home extends Component {
         }
       }
     )})
+    console.log(this.state.subscription);
   }
 
   unsubscribe = () => {
