@@ -4,16 +4,12 @@ module Api
       before_action :authorize!
 
       def index
-        trips = Trip.where(status: Constants::Trip::PENDING).order(:start_at, :preorder_time)
+        trips = Trip.pending.order(:start_at, :preorder_time)
         render json: Presenters::Trips::DetailedCollection.new(trips).to_json, status: 200
       end
 
       def currents
-        trips = Trip.where(
-          driver_id: current_driver.id,
-          status: [Constants::Trip::ON_THE_WAY, Constants::Trip::WAITING_CLIENT, Constants::Trip::DRIVING]
-        )
-        render json: Presenters::Trips::DetailedCollection.new(trips).to_json, status: 200
+        render json: Presenters::Trips::DetailedCollection.new(current_driver.trips.current).to_json, status: 200
       end
 
       def update

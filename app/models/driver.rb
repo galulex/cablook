@@ -1,5 +1,7 @@
 class Driver < ApplicationRecord
   belongs_to :car, required: false
+  has_many :trips
+
   has_secure_password
   has_secure_token :auth_token
 
