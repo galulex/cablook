@@ -45,7 +45,7 @@ export default class Trip extends Component {
       const { lng, lat, zoom } = this.state;
       let geoJSON = polyline.decode(this.props.trip.path)
       let style = window.dark ? 'mapbox://styles/galulex/cju84cmu11atr1flfoxocwbq7' : 'mapbox://styles/mapbox/streets-v10';
-      let path_color = window.dark ? ' #ffffff' : ' #19a160'
+      let path_color = window.dark ? ['#ffffff', '#19a160'] : ['#312d50', '#19a160']
 
       this.map = new mapboxgl.Map({
         container: this.mapContainer,
@@ -86,30 +86,48 @@ export default class Trip extends Component {
         mapboxCtrlRight[0].classList.add('dark');
       }
 
+      var geojson = {
+        "type": "FeatureCollection",
+        "features": [{
+          "type": "Feature",
+          "properties": {},
+          "geometry": {
+            "coordinates": geoJSON.map(e => { return e.reverse() }),
+            "type": "LineString"
+          }
+        }]
+      };
+
       this.map.on('load', () => {
-        // geolocate.trigger()
+        // 'line-gradient' can only be used with GeoJSON sources
+        // and the source must have the 'lineMetrics' option set to true
+        this.map.addSource('line', {
+          type: 'geojson',
+          lineMetrics: true,
+          data: geojson
+        });
+
+        // the layer must be of type 'line'
         this.map.addLayer({
-          id: 'trip_path',
           type: 'line',
-          source: {
-            type: 'geojson',
-            data: {
-              type: 'Feature',
-              properties: {},
-              geometry: {
-                type: 'LineString',
-                coordinates: geoJSON.map(e => { return e.reverse() }),
-              }
-            }
-          },
-          layout: {
-            'line-join': 'round',
-            'line-cap': 'round',
-          },
+          source: 'line',
+          id: 'line',
           paint: {
+            'line-color': 'red',
             'line-width': 4,
-            'line-color': (window.getComputedStyle(document.documentElement).getPropertyValue('--path-color') || path_color).slice(1),
-            'line-opacity': 1
+            // 'line-gradient' must be specified using an expression
+            // with the special 'line-progress' property
+            'line-gradient': [
+              'interpolate',
+                ['linear'],
+                ['line-progress'],
+                0, path_color[0],
+                1, path_color[1]
+              ]
+            },
+            layout: {
+            'line-cap': 'round',
+            'line-join': 'round'
           }
         });
 
@@ -128,6 +146,13 @@ export default class Trip extends Component {
       this.setMarker()
       this.car.setLngLat(this.props.trip.car_location);
       this.car.addTo(this.map);
+      var bounds = [this.state.departure, this.state.destination].reduce(function(bounds, coord) {
+        return bounds.extend(coord);
+      }, new mapboxgl.LngLatBounds(this.state.departure, this.state.departure));
+
+      this.map.fitBounds(bounds, {
+        padding: 20
+      });
     }
   }
 

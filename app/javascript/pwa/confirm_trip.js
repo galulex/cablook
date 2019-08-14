@@ -2,6 +2,7 @@ import { h, render, Component } from 'preact';
 import axios from 'axios';
 
 import MapImg from './map_img.js'
+import PreviewMap from './preview_map.js'
 import Widget from './widget.js'
 import Loader from './loader.js'
 import i18n from './i18n.js'
@@ -141,7 +142,7 @@ export default class ConfirmTrip extends Component {
           { (cards.length < 1) &&
             <button class='button fixed' type='button' disabled={showWidget} onClick={() => this.setState({showWidget: true}) }>+ {i18n.cards.add}</button>
           }
-          <MapImg trip={() => trip} />
+          <PreviewMap trip={() => trip}/>
           <div class='buttons'>
             { this.renderBonus() }
             { (cards.length > 0) &&

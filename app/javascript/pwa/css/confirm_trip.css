@@ -196,3 +196,7 @@ ul.details-list span + span {
   min-width: 150px;
   max-width: 200px;
 }
+
+.trips {
+  padding: 0;
+}
