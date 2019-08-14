@@ -117,7 +117,7 @@ export default class PreviewMap extends Component {
       }, new mapboxgl.LngLatBounds(this.state.departure, this.state.departure));
 
       this.map.fitBounds(bounds, {
-        padding: 20
+        padding: 150
       });
     }
   }
@@ -138,10 +138,10 @@ export default class PreviewMap extends Component {
     const { trip } = this.state;
 
     return (
-      <section class='trips'>
+      <div class='trips'>
         {this.renderMap()}
         {this.renderPin()}
-      </section>
+      </div>
     );
   }
 
