@@ -2,7 +2,7 @@ input#menu type='checkbox'
 label.menu-trigger for='menu'
 nav
   .main-menu
-    = link_to pwa_url(host: 'cablook.taxi'), class: 'menu-item', target: :_blank do
+    = link_to 'https://app.cablook.taxi', class: 'menu-item', target: :_blank do
       => inline_svg 'cablook', class: :icon
       = t('.order')
     = link_to page_path(:about), class: 'menu-item' do
@@ -28,7 +28,7 @@ nav
       = t('.contacts')
 
     div.badges
-      a.col-8 href=pwa_url(host: 'cablook.taxi') target=:_blank
+      a.col-8 href='https://app.cablook.taxi' target=:_blank
         = inline_svg 'pwa_badge.svg'
       a.col-8 href='https://play.google.com/store/apps/details?id=com.cablook&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1' target=:_black
         = inline_svg 'google_play_badge.svg'
