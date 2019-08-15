@@ -184,7 +184,7 @@ div.map {
 }
 
 .trips div.map {
-  height: 70vh;
+  height: 67vh;
   background: #e6e4e0;
   background: var(--map-bg);
 }

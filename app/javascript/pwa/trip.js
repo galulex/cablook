@@ -151,7 +151,7 @@ export default class Trip extends Component {
       }, new mapboxgl.LngLatBounds(this.state.departure, this.state.departure));
 
       this.map.fitBounds(bounds, {
-        padding: 20
+        padding: 150
       });
     }
   }
