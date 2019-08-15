@@ -290,8 +290,6 @@ GEM
     pry-byebug (3.7.0)
       byebug (~> 11.0)
       pry (~> 0.10)
-    pry-rails (0.3.6)
-      pry (>= 0.10.4)
     pry-rescue (1.5.0)
       interception (>= 0.5)
       pry (>= 0.12.0)
@@ -534,7 +532,6 @@ DEPENDENCIES
   multi_json
   one_signal
   pg (~> 0.18)
-  pry-rails
   puma (~> 3.7)
   rails (~> 5.2.2)
   react-rails
