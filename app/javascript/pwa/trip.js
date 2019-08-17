@@ -5,6 +5,8 @@ import MapboxLanguage from '@mapbox/mapbox-gl-language';
 import rhumbBearing from '@turf/rhumb-bearing';
 import { point } from '@turf/helpers'
 
+import { MAP_MIN_ZOOM, MAP_MAX_ZOOM, CHERKASY_LONG_LAT } from './constants.js'
+
 mapboxgl.accessToken = 'pk.eyJ1IjoiZ2FsdWxleCIsImEiOiJjamx6ampoZjgyMnYxM3FvZ2ppNjV2M2x5In0.bPgk2WI9NT-DJwnE-OtiLA'
 
 import i18n from './i18n.js'
@@ -27,8 +29,8 @@ export default class Trip extends Component {
     super(props)
     this.map = null;
     this.state = {
-      lng: 32.059769,
-      lat: 49.444431,
+      lng: CHERKASY_LONG_LAT[0],
+      lat: CHERKASY_LONG_LAT[1],
       zoom: 12,
       departure: null,
       destination: null,
@@ -51,8 +53,8 @@ export default class Trip extends Component {
         container: this.mapContainer,
         style: style,
         center: this.state.departure,
-        minZoom: 10,
-        maxZoom: 17,
+        minZoom: MAP_MIN_ZOOM,
+        maxZoom: MAP_MAX_ZOOM,
         zoom
       });
 
