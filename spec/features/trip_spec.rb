@@ -1,5 +1,7 @@
 RSpec.feature 'Trip', type: :feature, js: true do
   let!(:user) { create(:user) }
+  let!(:work) { FavoriteAddress.create(user: user, name: 'Work', location: '49.426269,32.05418899999995', address: 'Active Bridge') }
+  let!(:home) { FavoriteAddress.create(user: user, name: 'Home', location: '49.44546829999999,32.071774000000005', address: 'Haharina, 55') }
   let!(:card) { create(:card, user: user) }
   let!(:car) { create(:car) }
   let!(:driver) { create(:driver, car: car) }
@@ -16,74 +18,18 @@ RSpec.feature 'Trip', type: :feature, js: true do
     visit('http://app.lvh.me:9887')
   end
 
-  it 'orders a taxi' do
+  it 'orders taxi' do
     wait 3 do
       has_text? 'Search'
     end
-    first('input').set('Active')
-    find_button('OK').trigger(:click)
+    first('input').trigger(:focus)
+    first('input').set('')
     wait 3 do
-      has_text? 'Active Bridge'
+      first('li.prediction', visible: false).trigger(:click)
     end
-    first('li.prediction').trigger(:click)
-    all('input')[1].set('Nice')
-    find_button('OK').trigger(:click)
-    wait 3 do
-      has_text? 'Nice 2 Meet You'
-    end
-    first('li.prediction').trigger(:click)
-    find_button('OK').trigger(:click)
-    wait 3 do
-      has_text? 'Confirm Trip'
-    end
-    find_button('GO').trigger(:click)
-    wait 3 do
-      has_text? 'Cancel'
-    end
-    Events::Trips::Accept.(trip_id: trip.id, driver_id: driver.id, car_id: car.id)
-    wait 3 do
-      has_text? driver.name
-      has_no_text? 'Edit'
-    end
-    Events::Trips::WaitingClient.(trip_id: trip.id)
-    wait 3 do
-      has_text? driver.name
-      has_text? 'Edit'
-    end
-    Events::Trips::Start.(trip_id: trip.id)
-    wait 3 do
-      has_text? driver.name
-      has_text? 'Edit'
-    end
-    expect(page).to have_selector("button[class='button edit']")
-    expect(page).to have_content(driver.name)
-    Events::Trips::Finish.(trip_id: trip.id)
-    wait 3 do
-      has_text? 'Rate trip'
-    end
-    first('textarea').set('Nice!')
-    find_button('OK').trigger(:click)
-    wait 3 do
-      has_text? 'Search'
-    end
-  end
-
-  it 'updates' do
-    wait 3 do
-      has_text? 'Search'
-    end
-    first('input').set('Active')
-    find_button('OK').trigger(:click)
-    wait 3 do
-      has_text? 'Active Bridge'
-    end
-    first('li.prediction').trigger(:click)
-    all('input')[1].set('Nice')
-    find_button('OK').trigger(:click)
-    wait 3 do
-      has_text? 'Nice 2 Meet You'
-    end
-    first('li.prediction').trigger(:click)
+    all('input')[1].trigger(:focus)
+    all('input')[1].set('')
+    all('li.prediction', visible: false)[1].trigger(:click)
     find_button('OK').trigger(:click)
     wait 3 do
       has_text? 'Confirm Trip'
@@ -103,14 +49,18 @@ RSpec.feature 'Trip', type: :feature, js: true do
       has_text? 'Edit'
     end
     expect(page).to have_content('56 uah')
+    Events::Trips::Start.(trip_id: trip.id)
+    wait 3 do
+      has_text? driver.name
+      has_text? 'Edit'
+    end
+    expect(page).to have_selector("button[class='button edit']")
+    expect(page).to have_content(driver.name)
     find('button#edit_trip').trigger(:click)
     find('button.add-address').trigger(:click)
-    all('input')[2].set('HELLO')
-    find_button('OK').trigger(:click)
-    wait 3 do
-      has_text? 'HELLO BURGER'
-    end
-    first('li.prediction').trigger(:click)
+    all('input')[2].trigger(:focus)
+    all('input')[2].set('')
+    first('li.prediction', visible: false).trigger(:click)
     find_button('OK').trigger(:click)
     wait 3 do
       has_text? 'Confirm Trip'
@@ -119,9 +69,8 @@ RSpec.feature 'Trip', type: :feature, js: true do
     wait 3 do
       has_text? 'Edit'
     end
+    expect(page).to have_content('Haharina, 55')
     expect(page).to have_content('Active Bridge')
-    expect(page).to have_content('Nice 2 Meet You')
-    expect(page).to have_content('HELLO BURGER')
     expect(page).to have_content(trip.cost)
     Events::Trips::Finish.(trip_id: trip.id)
     wait 3 do
@@ -137,4 +86,5 @@ RSpec.feature 'Trip', type: :feature, js: true do
   def trip
     @trip ||= Trip.last
   end
+
 end

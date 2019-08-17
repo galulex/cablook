@@ -58,7 +58,7 @@ group :test do
   gem 'rspec-rails'
   gem 'rspec-retry'
   gem 'simplecov', require: false
-  gem 'superbara'
+  gem 'capybara'
   gem 'webmock'
 end
 

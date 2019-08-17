@@ -3,8 +3,7 @@ require File.expand_path('../../config/environment', __FILE__)
 require 'rspec/rails'
 
 require 'bcrypt'
-require 'superbara'
-require 'superbara/dsl'
+require 'capybara'
 require 'sidekiq/testing'
 require 'simplecov'
 require 'webmock/rspec'
@@ -24,7 +23,6 @@ SimpleCov.start 'rails'
 Capybara.javascript_driver = :cuprite
 
 RSpec.configure do |config|
-  config.include Superbara::DSL, type: :feature
   config.verbose_retry = true
 
   config.around :each, :js do |ex|
