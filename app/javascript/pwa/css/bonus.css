@@ -13,12 +13,12 @@ ul.bonus-trips-list li.bonus-0 span {
   color: var(--navy);
 }
 
-ul.bonus-trips-list li.bonus-1 span, aside span {
+ul.bonus-trips-list li.bonus-1 span {
   background: #19a160 !important;
   background: var(--green) !important;
 }
 
-ul.bonus-trips-list li span, aside span {
+ul.bonus-trips-list li span {
   background: #a925ad;
   background: var(--purple);
   border-radius: 50px;

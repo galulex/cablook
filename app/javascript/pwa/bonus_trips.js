@@ -25,8 +25,7 @@ export default class Bonus extends Component {
     const groupByStatus = L.groupBy(this.state.bonus_trips, 'status')
     const bonusTrips = Object.keys(groupByStatus).map(el => ({ status: el, count: groupByStatus[el].length }))
     return (
-      <section>
-        <header>{i18n.bonuses.header}</header>
+      <div>
         <div class='referral-code'>
           <label for='referral'>{i18n.bonuses.your_code}</label>
           <input id='referral' ref={(textarea) => this.textArea = textarea} value= {this.state.referralCode} readOnly />
@@ -53,8 +52,9 @@ export default class Bonus extends Component {
             )
           })}
         </ul>
-        { (this.state.parent_bonus.length == 0) && <button type='button' disabled={this.state.disabled} onClick={this.apply} class='button fixed'>{i18n.bonuses.apply_code}</button> }
-      </section>
+        <br/>
+        { (this.state.parent_bonus.length == 0) && <button type='button' disabled={this.state.disabled} onClick={this.apply} class='button'>{i18n.bonuses.apply_code}</button> }
+      </div>
     );
   };
 

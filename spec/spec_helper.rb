@@ -1,4 +1,6 @@
 ENV['RAILS_ENV'] ||= 'test'
+require 'simplecov'
+SimpleCov.start 'rails'
 require File.expand_path('../../config/environment', __FILE__)
 require 'rspec/rails'
 
@@ -18,7 +20,6 @@ Dir[
   Rails.root.join('lib/constants/**/*.rb')
 ].each { |f| require f }
 
-SimpleCov.start 'rails'
 
 Capybara.javascript_driver = :cuprite
 

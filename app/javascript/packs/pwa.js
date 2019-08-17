@@ -230,16 +230,33 @@ export default class App extends Component {
     if (this.state.currentUser) {
       return(
         <main id="app">
-          <Drawer active={this.state.drawer} triggerDrawer = {this.triggerDrawer} logOut={this.logOut} bonuses={() => this.state.bonus_trips.filter(e => { return e.status === 1 }).length }/>
+          <Drawer active={this.state.drawer} triggerDrawer = {this.triggerDrawer} logOut={this.logOut} />
           <button class='burger' onClick={() => this.triggerDrawer(true)}><Burger/></button>
           <Router history={window.ios ? createMemoryHistory() : null}>
-            <Home path='/' currentTrip={currentTrip} cards={() => this.state.cards} bonus_trips={() => this.state.bonus_trips} createCard={this.createCard} language={this.state.language} favorite_addresses={() => this.state.favorite_addresses} fetchUser={this.fetchUser}  />
+            <Home path='/'
+              currentTrip={currentTrip}
+              cards={() => this.state.cards}
+              bonus_trips={() => this.state.bonus_trips}
+              createCard={this.createCard}
+              language={this.state.language}
+              favorite_addresses={() => this.state.favorite_addresses}
+              fetchUser={this.fetchUser}
+            />
             <Trips path='/trips/:id?' />
             <Bonus path='/bonus_trips' bonus_trips={() => this.state.bonus_trips} parent_bonus={() => this.state.parent_bonus} />
             <Cards path='/cards' cards={() => this.state.cards} create={this.createCard} currentUserID={() => this.state.currentUserID} />
             <Contacts path='/contacts' />
             <Statistics path='/statistics' />
-            <Profile path='/profile' notification_settings={this.state.notification_settings} updateNotificationSettings={this.updateNotificationSettings} favorite_addresses={() => this.state.favorite_addresses} updateFavoriteAddresses={this.updateFavoriteAddresses} language = {this.state.language} setLanguage = {this.setLanguage} />
+            <Profile path='/profile'
+              notification_settings={this.state.notification_settings}
+              updateNotificationSettings={this.updateNotificationSettings}
+              favorite_addresses={() => this.state.favorite_addresses}
+              updateFavoriteAddresses={this.updateFavoriteAddresses}
+              language = {this.state.language}
+              setLanguage = {this.setLanguage}
+              bonus_trips={() => this.state.bonus_trips}
+              parent_bonus={() => this.state.parent_bonus}
+            />
             <Vendors path='/delivery'/>
             <Vendor path='/delivery/:id' />
             <NotFound type='404' default />

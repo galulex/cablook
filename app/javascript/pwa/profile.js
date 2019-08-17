@@ -5,6 +5,7 @@ import Close from './images/times-circle.svg';
 import i18n from './i18n.js';
 import AddressInput from '../pwa/trips/address-input.js';
 import './css/profile.css'
+import Bonus from '../pwa/bonus_trips.js';
 
 const LOCALES = { en: '🇺🇸', uk: '🇺🇦', ru: '🇷🇺' }
 
@@ -108,6 +109,7 @@ export default class FavoriteAddresses extends Component {
           <h4 class='center'>{i18n.profile_page.favorite_addresses}</h4>
           { this.favoriteAddressesList() }
           { showing ? this.newForm() : <button class='button add_fav_address' type='button' onClick={() => this.setState({ showing: !showing })}>+ {i18n.profile_page.add_address}</button> }
+          <Bonus bonus_trips={this.props.bonus_trips} parent_bonus={this.props.parent_bonus}/>
       </section>
     )
   }

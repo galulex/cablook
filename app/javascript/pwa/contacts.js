@@ -48,7 +48,7 @@ export default class Contacts extends Component {
             </button>
           </li>
         </ul>
-        <h1 class='notice'>{i18n.contacts.message}</h1>
+        <h3 class='notice'>{i18n.contacts.message}</h3>
       </section>
     )
   }
