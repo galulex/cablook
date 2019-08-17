@@ -114,7 +114,11 @@ export default class PreviewMap extends Component {
       });
       this.setMarker()
 
-      var bounds = [this.state.departure, this.state.destination].reduce(function(bounds, coord) {
+      let coords = this.state.waypoints.map(waypoint => {return waypoint})
+      coords.splice(0, 0, this.state.departure)
+      coords.splice(coords.length - 1, 0, this.state.destination)
+
+      var bounds = coords.reduce(function(bounds, coord) {
         return bounds.extend(coord);
       }, new mapboxgl.LngLatBounds(this.state.departure, this.state.departure));
 
