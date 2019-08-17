@@ -23,7 +23,8 @@ export default class CurrentTrip extends Component {
       showAlert: false,
       entrance: Array.from({length: 15}, (v, k) => (k+1)),
       unpaid_trips: [],
-      card_id: null
+      card_id: null,
+      paymentButtonDisabled: false
     },
     this.shake_trip_params = null
   }
@@ -171,16 +172,18 @@ export default class CurrentTrip extends Component {
       if (res.data.length === 0) {
         if (unpaid_trip) {
           this.showLoader(false)
-          this.setState({showAlert: false})
+          this.setState({paymentButtonDisabled: false, showAlert: false})
           return;
         }
         this.sendCreateRequest()
       } else {
         this.showLoader(false)
+        this.setState({paymentButtonDisabled: false})
         setTimeout(() => {alert(i18n.confirm_trip.payment_error)}, 500)
       }
     }).catch((error) => {
       this.showLoader(false)
+      this.setState({paymentButtonDisabled: false})
       if (error.response) alert(error.response.data.errors)
     })
   }
@@ -319,6 +322,7 @@ export default class CurrentTrip extends Component {
   }
 
   payForUnpaidTrips = () => {
+    this.setState({paymentButtonDisabled: true})
     this.retryPendingPayment(true)
   }
 
@@ -360,7 +364,7 @@ export default class CurrentTrip extends Component {
                       {unpaid_trips.map(t => <div class='unpaid_trip'>{t.departure_address} - {t.destination_address} | {t.formatted_date} | <b>{t.cost} {i18n.current_trip.uah}</b></div>)}
                   </span>
                   <div class='right-section'>
-                    {cards.length > 0 && <button class='button pay' onclick={this.payForUnpaidTrips}>{i18n.current_trip.pay}</button>}
+                    {cards.length > 0 && <button class='button pay' onclick={this.payForUnpaidTrips} disabled={this.state.paymentButtonDisabled}>{i18n.current_trip.pay}</button>}
                     {cards.length === 0 && <button class='button add-card' onclick={this.goToCardsPage}>{i18n.current_trip.add_card}</button>}
                     {cards.length > 1 &&
                       <div class='select-section'>
