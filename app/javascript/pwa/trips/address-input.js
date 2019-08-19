@@ -18,7 +18,8 @@ export default class AddressInput extends Component {
       isValid: false,
       isShowMap: false,
       geocoded: false,
-      disabled: false
+      disabled: false,
+      isFetching: false
     }
   }
 
@@ -94,7 +95,6 @@ export default class AddressInput extends Component {
   }
 
   setLocation = (place) => {
-
     if (place.favorite_address) {
       this.setState({ address: place.address, predictions: [], isValid: true });
       this.props.setAddress(place.address, place.location, this.props.index);
@@ -108,10 +108,12 @@ export default class AddressInput extends Component {
       return;
     }
 
+    this.setState({isFetching: true})
     let placeService = new google.maps.places.PlacesService(document.createElement('div'));
     placeService.getDetails({placeId: place.place_id}, (result) => {
       this.setState({ address: place.structured_formatting.main_text, predictions: [], isValid: true });
       this.props.setAddress(place.structured_formatting.main_text, `${result.geometry.location.lat()},${result.geometry.location.lng()}`, this.props.index);
+      this.setState({isFetching: false})
       this.input.setCustomValidity('')
     })
   }
@@ -175,10 +177,10 @@ export default class AddressInput extends Component {
 
   blur = (e) => {
     setTimeout(() => {
-      if (e.target.value === '' ||  e.target.checkValidity() || this.state.disabled) return;
+      if (e.target.value === '' ||  e.target.checkValidity() || this.state.disabled || this.state.isFetching) return;
       let prediction = this.state.predictions[0]
       if (prediction) this.setLocation(prediction)
-    }, 300)
+    }, 500)
   }
 
   handleBack = (event) => {
