@@ -46,6 +46,7 @@ export default class Home extends Component {
   }
 
   subscribe = () => {
+    console.log(this.state)
     if (!this.state.trip.id || [FINISHED, CANCELED, DECLINED, CANCELED_BY_DRIVER].includes(this.state.trip.status)) return;
     if (this.state.subscription) return this.state.subscription
     let component = this
