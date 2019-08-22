@@ -24,7 +24,6 @@ export default class Home extends Component {
   }
 
   componentDidMount() {
-    if (!!this.state.trip) this.subscribe()
     this.getTrip()
     document.addEventListener('visibilitychange', this.onVisibilityChange, false);
     window.addEventListener('online', this.getTrip)
@@ -45,13 +44,12 @@ export default class Home extends Component {
     document.removeEventListener('visibilitychange', this.onVisibilityChange)
   }
 
-  subscribe = () => {
-    console.log(this.state)
-    if (!this.state.trip.id || [FINISHED, CANCELED, DECLINED, CANCELED_BY_DRIVER].includes(this.state.trip.status)) return;
+  subscribe = (trip = this.state.trip) => {
+    if (!trip.id || [FINISHED, CANCELED, DECLINED, CANCELED_BY_DRIVER].includes(trip.status)) return;
     if (this.state.subscription) return this.state.subscription
     let component = this
     this.setState({subscription: cable.subscriptions.create(
-      { channel: 'TripChannel', trip_id: this.state.trip.id },
+      { channel: 'TripChannel', trip_id: trip.id },
       {
         received: data => {
           component[data['action'] || data['body']['action']](data)
@@ -163,6 +161,7 @@ export default class Home extends Component {
     if (trip === null || !trip.id) return;
     axios.get(`trips/${trip.id}`).then((res) => {
       this.updateTrip(res.data)
+      this.subscribe(res.data)
     }).catch((error) => {
       if (error.response) alert(error.response.data.errors)
     })
