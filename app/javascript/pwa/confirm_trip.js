@@ -139,11 +139,11 @@ export default class ConfirmTrip extends Component {
               </div>
             </div>
           }
-          { (cards.length < 1) &&
-            <button class='button fixed' type='button' disabled={showWidget} onClick={() => this.setState({showWidget: true}) }>+ {i18n.cards.add}</button>
-          }
           <PreviewMap trip={() => trip}/>
           <div class='buttons'>
+            { (cards.length < 1) &&
+              <button class='button fixed' type='button' disabled={showWidget} onClick={() => this.setState({showWidget: true}) }>+ {i18n.cards.add}</button>
+            }
             { this.renderBonus() }
             { (cards.length > 0) &&
               <button class='button fixed' type='button' value={trip.bonus} disabled={submitDisabled} onClick={this.createTrip}>{i18n.confirm_trip.go}</button>
