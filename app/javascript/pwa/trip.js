@@ -260,7 +260,7 @@ export default class Trip extends Component {
     if (is_mapbox_supported) {
       return(
         <div class='pins'>
-          <div ref={el => this.nissan = el}><NissanLeaf class='nissan' color={this.props.trip.car_color}/></div>
+          <div ref={el => this.nissan = el}><NissanLeaf class='nissan' color={this.props.trip.car_color} car={'car__'}/></div>
           <div ref={el => this.departure = el}><Pin class='departure'/></div>
           <div ref={el => this.destination = el}><Pin class='destination'/></div>
           {this.props.trip.waypoints.map(() => (<div><Pin class='waypoint'/></div>))}

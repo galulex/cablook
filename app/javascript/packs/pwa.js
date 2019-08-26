@@ -19,6 +19,7 @@ import { createMemoryHistory } from 'history';
 
 import i18n from '../pwa/i18n.js'
 import Home from '../pwa/home.js';
+import NewDesign from '../pwa/new_design.js';
 import Session from '../pwa/session.js';
 import Cards from '../pwa/cards.js';
 import Bonus from '../pwa/bonus_trips.js';
@@ -234,6 +235,15 @@ export default class App extends Component {
           <button class='burger' onClick={() => this.triggerDrawer(true)}><Burger/></button>
           <Router history={window.ios ? createMemoryHistory() : null}>
             <Home path='/'
+              currentTrip={currentTrip}
+              cards={() => this.state.cards}
+              bonus_trips={() => this.state.bonus_trips}
+              createCard={this.createCard}
+              language={this.state.language}
+              favorite_addresses={() => this.state.favorite_addresses}
+              fetchUser={this.fetchUser}
+            />
+            <NewDesign path='/new'
               currentTrip={currentTrip}
               cards={() => this.state.cards}
               bonus_trips={() => this.state.bonus_trips}
