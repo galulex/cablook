@@ -111,7 +111,7 @@ export default class App extends Component {
     let device_params = { token: token, platform: navigator.platform }
 
     axios.post('device', { device: device_params })
-      .catch((err) => {
+      .catch((error) => {
         if (error.response) alert(error.response.data.errors)
       })
   }
