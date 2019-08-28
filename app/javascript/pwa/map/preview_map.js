@@ -2,8 +2,6 @@ import { h, render, Component } from 'preact'
 import axios from 'axios'
 import mapboxgl from 'mapbox-gl'
 import MapboxLanguage from '@mapbox/mapbox-gl-language';
-import rhumbBearing from '@turf/rhumb-bearing';
-import { point } from '@turf/helpers'
 
 import { MAP_MIN_ZOOM, MAP_MAX_ZOOM, CHERKASY_LONG_LAT, NUM_DELTAS, TELEPORT_DISTANCE } from '../lib/constants.js'
 
@@ -22,6 +20,7 @@ const is_mapbox_supported = mapboxgl.supported()
 
 const ActionCable = require('actioncable')
 const cable = ActionCable.createConsumer('wss://app.cablook.taxi/cable')
+const TRANSITION = 10
 
 export default class PreviewMap extends Component {
   constructor(props) {
@@ -34,9 +33,9 @@ export default class PreviewMap extends Component {
       departure: null,
       destination: null,
       waypoints: [],
-      carAngleDeg: 0,
       subscription: null,
-      cars_locations: []
+      cars: {},
+      transition: TRANSITION
     }
   }
 
@@ -58,34 +57,43 @@ export default class PreviewMap extends Component {
       zoom
     })
 
-    this.map.on('render', () => {
-      this.state.cars_locations.map((l) => {
-        if (this[`car_${l['car_id']}`].getLngLat()) {
-          this.updateCarDirection(l)
-        }
-      })
-    });
-
     const language = new MapboxLanguage({
       defaultLanguage: this.setMapboxLanguage()
     })
 
-    this.numDeltas = 150;
-    this.steps = 0;
-    this.deltaLat = 0;
-    this.deltaLng = 0;
-    this.position = [0, 0];
-    this.prevPosition = [0, 0];
-    this.maxTeleportLng = 0;
-    this.maxTeleportLat = 0;
-    this.teleportDistance = 0.005;
+    this.map.on('render', () => {
+      if (!this.cars) return;
+      this.setState({transition: 0})
+      Object.keys(this.cars).forEach(key => {
+        this.updateCarDirection(this.cars[key])
+      });
+      setTimeout(() => {
+        this.setState({transition: TRANSITION})
+      }, 1)
+    });
+
+    this.map.on('zoom', () => {
+      document.documentElement.style.setProperty('--zoom-level', this.map.getZoom())
+    });
 
     window.map = this.map
+    document.addEventListener('visibilitychange', this.onVisibilityChange, false);
   }
 
   componentWillUnmount() {
     window.removeEventListener('popstate', this.handleBack)
+    document.removeEventListener('visibilitychange', this.onVisibilityChange)
     this.unsubscribe()
+  }
+
+  onVisibilityChange = () => {
+    if (document.visibilityState === 'visible') {
+      setTimeout(() => {
+        this.setState({transition: TRANSITION})
+      }, 1)
+    } else {
+      this.setState({transition: 0})
+    }
   }
 
   unsubscribe = () => {
@@ -99,109 +107,56 @@ export default class PreviewMap extends Component {
       { channel: 'DriverMapChannel' },
       {
         received: data => {
-          let cars_locations = this.state.cars_locations
-          let found = false
-
-          if (!data['location']) return;
-
-          cars_locations = cars_locations.map((l) => {
-            if (l.car_id == data['car_id']) {
-              found = true
-              if (JSON.stringify(data['location']) !== JSON.stringify(l.prevPosition)) {
-                l.prevPosition = data['location']
-                l.location = data['location'].reverse()
-                l.steps = 0
-                if (this[`car_${l['car_id']}`].getLngLat()) {
-                  l.position = [this[`car_${l['car_id']}`].getLngLat().lng, this[`car_${l['car_id']}`].getLngLat().lat];
-                  l.maxTeleportLng = data['location'][0] - this[`car_${l['car_id']}`].getLngLat().lng;
-                  l.maxTeleportLat = data['location'][1] - this[`car_${l['car_id']}`].getLngLat().lat;
-                  l.deltaLng = l.maxTeleportLng / NUM_DELTAS;
-                  l.deltaLat = l.maxTeleportLat / NUM_DELTAS;
-
-                  let bearing = rhumbBearing(point(data['location']), point([this[`car_${l['car_id']}`].getLngLat().lng, this[`car_${l['car_id']}`].getLngLat().lat]));
-
-                  l.carAngleDeg = bearing
-                }
-                this.renderCar(l)
-              }
-            }
-            return l
-          })
-          if (!found) { cars_locations = [...cars_locations, { car_id: data['car_id'], location: data['location'].reverse() }] }
-          this.setState({ cars_locations })
+          if (!data['location'] || !this.cars[data.car_id]) return;
+          let car = this.cars[data.car_id]
+          let deg = this.bearing(data.location.reverse(), [car.getLngLat().lng, car.getLngLat().lat])
+          this.cars[data.car_id].carAngleDeg = deg
+          this.cars[data.car_id].setLngLat(data.location)
+          this.updateCarDirection(this.cars[data.car_id])
         }
       }
     )})
   }
 
-  renderCar = (l) => {
-    if (l.location.length === 0) return
-
-    if (this[`car_${l['car_id']}`].getLngLat() &&
-        Math.abs(l.maxTeleportLng) < TELEPORT_DISTANCE ||
-        Math.abs(l.maxTeleportLat) < TELEPORT_DISTANCE) {
-      l.position[0] += l.deltaLng;
-      l.position[1] += l.deltaLat;
-      this[`car_${l['car_id']}`].setLngLat(l.position);
-      this.updateCarDirection(l);
-      if (l.steps != NUM_DELTAS) {
-        l.steps++;
-        setTimeout(() => this.renderCar(l), 200);
-      }
-    } else {
-      this[`car_${l['car_id']}`].setLngLat(l.location)
-    }
+  bearing = (start, end) => {
+    let y = Math.sin(end[0] - start[0]) * Math.cos(end[1]);
+    let x = Math.cos(start[1]) * Math.sin(end[1]) -
+      Math.sin(start[1]) * Math.cos(end[1]) * Math.cos(end[0] - start[0]);
+    return Math.atan2(y, x) * 180 / Math.PI
   }
 
   updateCarDirection = (l) => {
-    let el = this[`car_${l['car_id']}`].getElement();
-    let angle = l.carAngleDeg - this.map.getBearing();
-    if (el.style.transform.includes("rotate")) {
-      el.style.transform = el.style.transform.replace(/rotate(.*)/, "rotate(" + angle + "deg)");
-    } else {
-      el.style.transform = el.style.transform + "rotate(" + angle + "deg)";
-    }
+    let el = l._element.firstChild
+    let x = 0
+    // if (l.carAngleDeg > 90) x = 9
+    // if (l.carAngleDeg > 180) x = -9
+    // if (l.carAngleDeg > 270) x = 9
+    let angle = l.carAngleDeg + x - this.map.getBearing();
+    el.style.transform = "rotate(" + angle + "deg)";
   }
 
   getCarsLocations = () => {
-    if (this.state.cars_locations.length) return;
     axios.get('drivers_app/maps').then((res) => {
-      let cars_locations = this.state.cars_locations
-      cars_locations = res['data']['cars'].map((data) => {
-        return { car_id: data['id'],
-                 color: data['color'],
-                 location: data['location'].reverse(),
-                 steps: 0,
-                 deltaLat: 0,
-                 deltaLng: 0,
-                 position: [0, 0],
-                 prevPosition: [0, 0],
-                 maxTeleportLng: 0,
-                 maxTeleportLat: 0,
-                 carAngleDeg: 0 }
-      });
-      this.setState({ cars_locations })
-      this.setCarsMarkers()
+      let cars = {}
+      res['data']['cars'].map((data) => {
+        let marker = new mapboxgl.Marker(render(<div><NissanLeaf class='nissan' color={data['color']}car={`car_${data['id']}__`}/></div>))
+        marker.setLngLat(data.location.reverse())
+        if (!data.position) {
+          marker.carAngleDeg = 180;
+        }  else {
+          marker.carAngleDeg = this.bearing(data.location, data.position.reverse())
+        }
+        marker.addTo(this.map)
+        cars[data.id] = marker
+        this.updateCarDirection(marker)
+      })
+      this.cars = cars
+      let component = this
+
     }).catch((error) => {
+      console.log(error)
       if (error.response) alert(error.response.data.errors)
     })
-  }
-
-  setCarsMarkers = () => {
-    for (const el of this.state.cars_locations) {
-      if (window[`car_${el['car_id']}`]) window[`car_${el['car_id']}`].remove()
-      this[`car_${el['car_id']}`] = new mapboxgl.Marker(render(<div><NissanLeaf class='nissan' color={el['color']}car={`car_${el['car_id']}__`}/></div>))
-      window[`car_${el['car_id']}`] = this[`car_${el['car_id']}`]
-    }
-    this.renderCars()
-  }
-
-  renderCars = () => {
-    if (this.state.cars_locations.length === 0) return
-    for (const el of this.state.cars_locations) {
-      this[`car_${el['car_id']}`].setLngLat(el.location)
-      this[`car_${el['car_id']}`].addTo(this.map)
-    }
   }
 
   handleBack = (event) => {
@@ -226,6 +181,7 @@ export default class PreviewMap extends Component {
 
     return (
       <section class='main_map'>
+        <style>{ `.mapboxgl-marker { transition: transform ${this.state.transition}s linear; } .mapboxgl-marker > svg { transition: transform 4s; }` }</style>
         <div class='map' ref={el => this.mapContainer = el}/>
       </section>
     )

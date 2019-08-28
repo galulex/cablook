@@ -26,9 +26,7 @@ export default class NewDesign extends Component {
 
     return(
       <section class='new_design'>
-        <PreviewMap
-          trip={() => trip}/>
-        <div class='not_draggable'/>
+        <PreviewMap trip={() => trip}/>
       </section>
     )
   }
