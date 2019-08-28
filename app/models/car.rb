@@ -14,4 +14,8 @@ class Car < ApplicationRecord
   def location
     @location ||= Redis.current.get("car_#{id}")&.split(',')
   end
+
+  def position
+    @position ||= Redis.current.get("position_#{id}")&.split(',')
+  end
 end
