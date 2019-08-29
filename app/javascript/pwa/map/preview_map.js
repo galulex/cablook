@@ -90,7 +90,7 @@ export default class PreviewMap extends Component {
     if (document.visibilityState === 'visible') {
       setTimeout(() => {
         this.setState({transition: TRANSITION})
-      }, 1)
+      }, 10)
     } else {
       this.setState({transition: 0})
     }
@@ -126,13 +126,8 @@ export default class PreviewMap extends Component {
   }
 
   updateCarDirection = (l) => {
-    let el = l._element.firstChild
-    let x = 0
-    // if (l.carAngleDeg > 90) x = 9
-    // if (l.carAngleDeg > 180) x = -9
-    // if (l.carAngleDeg > 270) x = 9
-    let angle = l.carAngleDeg + x - this.map.getBearing();
-    el.style.transform = "rotate(" + angle + "deg)";
+    let angle = l.carAngleDeg - this.map.getBearing();
+    l._element.firstChild.style.transform = "rotate(" + angle + "deg)";
   }
 
   getCarsLocations = () => {
@@ -151,10 +146,8 @@ export default class PreviewMap extends Component {
         this.updateCarDirection(marker)
       })
       this.cars = cars
-      let component = this
 
     }).catch((error) => {
-      console.log(error)
       if (error.response) alert(error.response.data.errors)
     })
   }
@@ -180,10 +173,10 @@ export default class PreviewMap extends Component {
     let { cars_locations } = this.state
 
     return (
-      <section class='main_map'>
+      <div class='main_map'>
         <style>{ `.mapboxgl-marker { transition: transform ${this.state.transition}s linear; } .mapboxgl-marker > svg { transition: transform 4s; }` }</style>
         <div class='map' ref={el => this.mapContainer = el}/>
-      </section>
+      </div>
     )
   }
 }

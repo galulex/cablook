@@ -1,49 +1,51 @@
-section.new_design, section.main_map {
-  position: relative;
+.main_map {
+  position: absolute;
   width: 100%;
   height: 100%;
+  top: 0;
+  left: 0;
   padding: 0;
   max-width: none;
 }
 
 div.map {
   height: 100%;
-}
+}profile
 
 /* Trip component */
-section.main_map svg {
+.main_map svg {
   margin: 0 10px;
   width: 25px;
   height: 25px;
   vertical-align: middle;
 }
 
-section.main_map .pins {
+.main_map .pins {
   display: none;
 }
 
-section.main_map svg.departure path {
+.main_map svg.departure path {
   fill: #312d50;
   fill: var(--navy)
 }
 
-section.main_map svg.waypoint path {
+.main_map svg.waypoint path {
   fill: #efcc3a;
   fill: var(--orange)
 }
 
-section.main_map svg.nissan {
+.main_map svg.nissan {
   width: 40px;
   width: calc(var(--zoom-level) * 4px);
   height: 40px;
   height: calc(var(--zoom-level) * 4px);
 }
 
-section.main_map svg.nissan[fill='white'] path:not(:first-child), section.main_map svg.nissan[fill='white'] ellipse {
+.main_map svg.nissan[fill='white'] path:not(:first-child), .main_map svg.nissan[fill='white'] ellipse {
   fill: #111 !important;
 }
 
-section.main_map svg.nissan[fill='white'] path:first-child {
+.main_map svg.nissan[fill='white'] path:first-child {
   stroke: #111;
   stroke-width: 3;
 }
