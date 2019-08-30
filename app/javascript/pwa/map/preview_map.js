@@ -61,15 +61,14 @@ export default class PreviewMap extends Component {
       defaultLanguage: this.setMapboxLanguage()
     })
 
-    this.map.on('render', () => {
+    this.map.on('movestart', () => {
       if (!this.cars) return;
       this.setState({transition: 0})
-      Object.keys(this.cars).forEach(key => {
-        this.updateCarDirection(this.cars[key])
-      });
-      setTimeout(() => {
-        this.setState({transition: TRANSITION})
-      }, 1)
+    });
+
+    this.map.on('moveend', () => {
+      if (!this.cars) return;
+      this.setState({transition: TRANSITION})
     });
 
     this.map.on('zoom', () => {
@@ -157,7 +156,7 @@ export default class PreviewMap extends Component {
   }
 
   setMapStyle = () => {
-    return window.dark ? 'mapbox://styles/galulex/cju84cmu11atr1flfoxocwbq7' : 'mapbox://styles/mapbox/streets-v10';
+    return window.dark ? 'mapbox://styles/galulex/cju84cmu11atr1flfoxocwbq7' : 'mapbox://styles/okunieva/cjzwn3wx40yhq1cpjl3yo8p1z';
   }
 
   setPathColor = () => {
