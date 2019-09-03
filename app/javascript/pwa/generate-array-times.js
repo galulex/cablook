@@ -26,12 +26,12 @@ export default class GenerateArrayTimes extends Component {
       return
     }
     start = (current > start - 60) ? current : start
-
     let range = Math.abs(close - start)
 
     for(let i = 60; i <= range - 60; i += 10) {
       let time = start + i
       if (time >= 24*60) time = Math.abs(60*24 - time)
+      if (time >= close && time < start) continue;
       times.push(`${('0' + Math.floor(time/60)).slice(-2)}:${('0' + time%60).slice(-2)}`)
     }
     this.setState({ times })
