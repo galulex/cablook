@@ -305,8 +305,8 @@ export default class Cart extends Component {
                 </select>
               </label>
               <GenerateArrayTimes
-                  start_time={parseInt(open_at.split(':')[0])}
-                  finish_time={parseInt(close_at.split(':')[0])}
+                  open_at={open_at.split(':')}
+                  close_at={close_at.split(':')}
                   updateTripTime={this.updateTripTime}
                   setTripTime={this.setTripTime}/>
               {trip_cost &&

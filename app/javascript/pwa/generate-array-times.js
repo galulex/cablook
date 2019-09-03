@@ -14,22 +14,25 @@ export default class GenerateArrayTimes extends Component {
   }
 
   generateTimes = () => {
-    let { start_time, finish_time } = this.props
+    let { open_at, close_at } = this.props
     const { times } = this.state
     const today = new Date()
 
-    start_time = (today.getHours() > start_time) ? today.getHours() + 1 : start_time + 1
-    finish_time = finish_time - 1
+    let start = parseInt(open_at[0])* 60 + parseInt(open_at[1])
+    let close = parseInt(close_at[0]) * 60 + parseInt(close_at[1])
+    let current = today.getHours() * 60 + Math.floor(today.getMinutes()/10)*10
+    if (Math.abs(current - start) > 60 && current < start) {
+      this.props.setTripTime(null)
+      return
+    }
+    start = (current > start - 60) ? current : start
 
-    const quarterHours = ["00", "10", "20", "30", "40", "50"]
+    let range = Math.abs(close - start)
 
-    for(let i = start_time; i < finish_time; i++) {
-      for(let j = 0; j < quarterHours.length; j++) {
-        if ((today.getHours() + 1) === i && today.getMinutes() > quarterHours[j]) continue;
-        const time = i + ":" + quarterHours[j]
-
-        times.push(time)
-      }
+    for(let i = 60; i <= range - 60; i += 10) {
+      let time = start + i
+      if (time >= 24*60) time = Math.abs(60*24 - time)
+      times.push(`${('0' + Math.floor(time/60)).slice(-2)}:${('0' + time%60).slice(-2)}`)
     }
     this.setState({ times })
     this.props.setTripTime(times[0])
