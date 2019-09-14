@@ -7,13 +7,12 @@ input.address {
   display: block;
   width: 90%;
   border: none;
-  border-bottom: 1px solid #d1d1d1;
   background: transparent;
-  padding: 4% 25px 4% 10px;
+  padding: 3% 25px 3% 10px;
   font-size: 18px;
   color: #312d50;
   color: var(--navy);
-  font-weight: 900;
+  font-weight: 100;
   margin: 0 3% 0 7%;
   border-radius: 0;
   box-shadow: none;
@@ -38,50 +37,6 @@ fieldset {
   margin: 0;
   padding: 0;
   position: relative;
-}
-
-fieldset.address:after {
-  position: absolute;
-  content: '';
-  border-radius: 50%;
-  width: 0;
-  height: 0;
-  border: 6px solid #efcc3a;
-  top: calc(50% - 6px);
-  left: 0;
-  transition: border-color .3s;
-}
-
-fieldset.address:before {
-  content: '';
-  height: 77%;
-  width: 0;
-  top: calc(50% + 5px);
-  border: 1px solid #d1d1d1;
-  left: 5px;
-  position: absolute;
-}
-
-fieldset.address:first-child:before {
-  height: 60%;
-  top: 76%;
-}
-
-fieldset.address:first-of-type:after {
-  content: none;
-}
-
-fieldset.address:last-of-type:after {
-  border-color: #312d50;
-  border-color: var(--navy);
-}
-
-fieldset.address:last-of-type:before {
-  height: 50%;
-}
-
-fieldset.address:nth-of-type(7):before {
-  content: none;
 }
 
 fieldset.address:nth-of-type(7) + div {
@@ -161,23 +116,21 @@ svg.running {
 }
 
 button.add-address {
-  background: none;
-  font-size: 18px;
-  font-weight: 500;
-  color: #312d50;
-  color: var(--navy);
+  background: white;
+  border-radius: 50%;
   border: none;
-  margin: 5px 0;
-  padding: 7px 32px;
+  padding: 0;
   outline: none;
   cursor: pointer;
+  line-height: 0;
+  box-shadow: var(--shadow);
 }
 
 button.remove-address {
   position: absolute;
   right: -15px;
   font-size: 2rem;
-  top: 50%;
+  top: 53%;
   transform: translateY(-50%);
   background: none;
   border: none;

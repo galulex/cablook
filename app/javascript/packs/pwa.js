@@ -244,7 +244,7 @@ export default class App extends Component {
               fetchUser={this.fetchUser}
             />
             <NewDesign path='/new'
-              currentTrip={currentTrip}
+              trip={currentTrip}
               cards={() => this.state.cards}
               bonus_trips={() => this.state.bonus_trips}
               createCard={this.createCard}

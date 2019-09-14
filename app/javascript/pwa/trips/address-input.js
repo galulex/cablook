@@ -157,6 +157,7 @@ export default class AddressInput extends Component {
   }
 
   openMap = () => {
+    if (this.props.pickAddress) return this.props.pickAddress()
     this.setState({isShowMap: true});
     if (window.ios) return;
     history.pushState(null, null,'/');
@@ -207,7 +208,6 @@ export default class AddressInput extends Component {
     return (
       <fieldset class='address'>
         {(fieldsCount > 2 || address !== '') && !readonly && (<button class='remove-address' type='button' onClick={() => eraseAddress(index)}>×</button>)}
-        {(index === 0) && <Location width='32px' class='get-location' onClick={this.getLocation} disabled={this.state.geocoded} disabled={readonly}/>}
         {mapboxgl.supported() && <Pin onClick={this.openMap} disabled={readonly} height='24px' class='map-pick'/>}
         {this.state.isShowMap && <MapPicker onCloseMap={this.closeMap} handleBack={this.handleBack} language={language}/>}
 

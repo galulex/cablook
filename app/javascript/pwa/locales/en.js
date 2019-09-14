@@ -1,4 +1,5 @@
 const en = {
+  grn: 'grn.',
   prompt: {
     add: ' Add to homescreen',
     and: ' and then ',

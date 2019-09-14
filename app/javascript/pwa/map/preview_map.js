@@ -20,12 +20,51 @@ const is_mapbox_supported = mapboxgl.supported()
 
 const ActionCable = require('actioncable')
 const cable = ActionCable.createConsumer('wss://app.cablook.taxi/cable')
-const TRANSITION = 10
+const TRANSITION = 10;
+
+console.log(window.dark)
+
+const MAPSTYLE = window.dark ? 'mapbox://styles/galulex/cju84cmu11atr1flfoxocwbq7' : 'mapbox://styles/okunieva/cjzwn3wx40yhq1cpjl3yo8p1z';
+const PATHCOLORS = window.dark ? ['#ffffff', '#19a160'] : ['#312d50', '#19a160']
+
+const GEOJSON = {
+  "type": "FeatureCollection",
+  "features": [{
+    "type": "Feature",
+    "properties": {},
+    "geometry": {
+      "coordinates": [],
+      "type": "LineString"
+    }
+  }]
+}
+
+const PATHLAYER = {
+  type: 'line',
+  source: 'line',
+  id: 'line',
+  paint: {
+    'line-color': '#19a160',
+    'line-width': 4,
+    'line-gradient': [
+      'interpolate',
+      ['linear'],
+      ['line-progress'],
+      0, PATHCOLORS[0],
+      1, PATHCOLORS[1]
+    ]
+  },
+  layout: {
+    'line-cap': 'round',
+    'line-join': 'round'
+  }
+}
 
 export default class PreviewMap extends Component {
   constructor(props) {
     super(props)
     this.map = null;
+    this.markers = []
     this.state = {
       lng: CHERKASY_LONG_LAT[0],
       lat: CHERKASY_LONG_LAT[1],
@@ -45,12 +84,9 @@ export default class PreviewMap extends Component {
     this.getCarsLocations()
     this.subscribeToDriverChannel()
 
-    let style = this.setMapStyle()
-    let path_color = this.setPathColor()
-
     this.map = new mapboxgl.Map({
       container: this.mapContainer,
-      style: style,
+      style: MAPSTYLE,
       center: [lng, lat],
       minZoom: MAP_MIN_ZOOM,
       maxZoom: MAP_MAX_ZOOM,
@@ -73,6 +109,12 @@ export default class PreviewMap extends Component {
 
     this.map.on('zoom', () => {
       document.documentElement.style.setProperty('--zoom-level', this.map.getZoom())
+    });
+
+    this.map.on('load', () => {
+      this.map.addControl(language)
+      this.map.addSource('line', { type: 'geojson', lineMetrics: true, data: GEOJSON })
+      this.map.addLayer(PATHLAYER);
     });
 
     window.map = this.map
@@ -155,16 +197,50 @@ export default class PreviewMap extends Component {
     history.pushState(null, null, document.URL)
   }
 
-  setMapStyle = () => {
-    return window.dark ? 'mapbox://styles/galulex/cju84cmu11atr1flfoxocwbq7' : 'mapbox://styles/okunieva/cjzwn3wx40yhq1cpjl3yo8p1z';
-  }
-
-  setPathColor = () => {
-    return window.dark ? ['#ffffff', '#19a160'] : ['#312d50', '#19a160']
-  }
-
   setMapboxLanguage = () => {
     return (this.props.language === 'uk') ? 'ru' : this.props.language
+  }
+
+  componentWillReceiveProps(props) {
+    let trip = props.trip()
+    this.markers.map(m => m.remove())
+    if (trip.waypoints.length == 0) return;
+    trip.waypoints.map((w, i) => {
+      if (w === '') return;
+      let klass = (i === trip.waypoints.length - 1) ? 'last' : ''
+      if (i === 0) klass = 'first'
+      let marker = new mapboxgl.Marker(render(<div><Pin class={`pin-${klass}`} width='25px'/></div>))
+
+      var popup = new mapboxgl.Popup({closeOnClick: false, closeButton: false, className: `point-${klass}`, anchor: 'left', offset: 10}).setHTML(trip.stops[i]);
+      marker.setLngLat(w.split(',').reverse()).setPopup(popup).addTo(this.map).togglePopup()
+      this.markers.push(marker)
+    })
+
+    if (!this.props.isValid) return;
+
+    var bounds = trip.waypoints.reduce((bounds, coord) => {
+      console.log(bounds)
+      console.log(coord)
+      return bounds.extend(coord.split(',').reverse());
+    }, new mapboxgl.LngLatBounds(trip.waypoints[0].split(',').reverse(), trip.waypoints[0].split(',').reverse()));
+    this.map.fitBounds(bounds, {
+      padding: 100
+    });
+
+    let path = (trip.path) ? polyline.decode(trip.path).map(e => { return e.reverse() }) : []
+
+    var geojson = {
+      "type": "FeatureCollection",
+      "features": [{
+        "type": "Feature",
+        "properties": {},
+        "geometry": {
+          "coordinates": path,
+          "type": "LineString"
+        }
+      }]
+    };
+    this.map.getSource('line').setData(geojson)
   }
 
   render() {
@@ -173,6 +249,7 @@ export default class PreviewMap extends Component {
 
     return (
       <div class='main_map'>
+        <Pin class='picker' width='30px'/>
         <style>{ `.mapboxgl-marker { transition: transform ${this.state.transition}s linear; } .mapboxgl-marker > svg { transition: transform 4s; }` }</style>
         <div class='map' ref={el => this.mapContainer = el}/>
       </div>
