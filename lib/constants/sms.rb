@@ -1,6 +1,6 @@
 module Constants
   module Sms
-    URL = URI.parse('http://svitsms.com/api/api.php').freeze
+    URL = URI.parse('http://sms-fly.com/api/api.php').freeze
     BODY = '
       <?xml version="1.0" encoding="utf-8"?>
       <request>
