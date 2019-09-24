@@ -15,7 +15,7 @@ import TripPrice from './images/trip_price.svg'
 import TripStatus from './images/trip_status.svg'
 import TripTime from './images/trip_time.svg'
 import Phone from './images/green_phone.svg'
-import Car from './images/car.svg'
+import Car from './images/leaf_icon.svg'
 import Pin from './images/pin.svg'
 
 import NissanLeaf from '../pwa/trips/nissan-leaf.js'

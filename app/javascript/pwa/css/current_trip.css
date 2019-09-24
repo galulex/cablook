@@ -8,7 +8,7 @@ input.address {
   width: 90%;
   border: none;
   background: transparent;
-  padding: 3% 25px 3% 10px;
+  padding: 10px 25px 10px 10px;
   font-size: 18px;
   color: #312d50;
   color: var(--navy);
@@ -16,6 +16,7 @@ input.address {
   margin: 0 3% 0 7%;
   border-radius: 0;
   box-shadow: none;
+  transition: color .3s;
 }
 
 input.address:invalid {
@@ -37,6 +38,7 @@ fieldset {
   margin: 0;
   padding: 0;
   position: relative;
+  transition: opacity .3s;
 }
 
 fieldset.address:nth-of-type(7) + div {
@@ -116,14 +118,22 @@ svg.running {
 }
 
 button.add-address {
-  background: white;
-  border-radius: 50%;
+  background: transparent;
   border: none;
   padding: 0;
   outline: none;
   cursor: pointer;
   line-height: 0;
-  box-shadow: var(--shadow);
+  position: absolute;
+  top: -5px;
+  left: 20px;
+  height: 40px;
+  padding: 0;
+  transition: opacity .3s;
+}
+
+button.add-address svg > path:first-child {
+  fill: rgba(255, 255, 255, 0.9);
 }
 
 button.remove-address {
@@ -139,6 +149,7 @@ button.remove-address {
   margin: 0;
   outline: none;
   cursor: pointer;
+  transition: opacity .3s;
 }
 
 input[type='checkbox'] {
@@ -210,10 +221,7 @@ svg.map-pick {
   cursor: pointer;
 }
 
-select#entrance, input#time {
-  padding: 5px 20px 5px 5px;
-  width: 150px;
-  max-width: 50%;
+select#entrance, input#time, .select select {
   color: #312d50;
   color: var(--navy);
   font-size: 16px;
@@ -222,18 +230,22 @@ select#entrance, input#time {
   transition: box-shadow .3s;
   box-shadow: 0 3px 6px rgba(0,0,0,0.16);
   box-shadow: var(--shadow);
-  margin: 15px 0;
+  margin: 5px 0;
   height: 40px;
   border-radius: 0;
-  border: 2px solid #19a160;
-  border: 2px solid var(--green);
+  border: none;
+  background: rgba(255, 255, 255, 0.9);
+  padding: 13px 5px 10px 45px;
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
+  width: 140px;
+  font-weight: 100;
+  text-align: right;
 }
 
 label[for='entrance']:after, label[for='time']:after {
-  content: '▼';
+  /* content: '▼'; */
   color: #19a160;
   color: var(--green);
   right: 10px;
@@ -245,11 +257,12 @@ label[for='entrance']:after, label[for='time']:after {
 
 .time-placeholder {
   color: var(--navy);
-  right: 30px;
+  left: 45px;
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
   pointer-events: none;
+  font-weight: 100;
 }
 
 input[type='time']:valid::-webkit-datetime-edit {
@@ -283,9 +296,15 @@ select#entrance:focus, input#time:focus, input.comment:focus {
 }
 
 label[for='entrance'], label[for='time'] {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  text-align: right;
+}
+
+.option label svg {
+  position: absolute;
+  top: 50%;
+  left: 10px;
+  transform: translateY(-50%);
+  pointer-events: none;
 }
 
 input.comment {
@@ -294,12 +313,13 @@ input.comment {
   color: #312d50;
   color: var(--navy);
   width: 100%;
-  margin: 15px 0;
-  padding: 10px;
-  border: 2px solid #19a160;
-  border: 2px solid var(--green);
+  margin: 5px 0;
+  padding: 10px 10px 10px 45px;
+  background: rgba(255, 255, 255, 0.9);
+  border: none;
   font-size: 16px;
   outline: none;
+  font-weight: 100;
   transition: box-shadow .3s;
   box-shadow: 0 3px 6px rgba(0,0,0,0.16);
   box-shadow: var(--shadow);

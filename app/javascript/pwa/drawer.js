@@ -2,7 +2,7 @@ import { h, render, Component } from 'preact';
 import { Link } from 'preact-router/match';
 
 import i18n from './i18n.js'
-import Home from './images/car.svg'
+import Home from './images/leaf_icon.svg'
 import Trip from './images/vehicle-wheel.svg'
 import Profile from './images/profile.svg'
 import Card from './images/credit-cards-payment.svg'

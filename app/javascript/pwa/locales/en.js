@@ -48,7 +48,7 @@ const en = {
     comment: 'Comment',
     entrance: 'Entrance',
     header: 'Search',
-    select_entrance: 'Select Entrance',
+    select_entrance: 'Entrance',
     no_call: 'No Call',
     where_to_pick: 'Where to pick?',
     when: 'When?',

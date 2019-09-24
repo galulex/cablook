@@ -1,6 +1,7 @@
 //Apply dark theme
 window.dark = localStorage.getItem('dark') === 'true'
 window.ios = ['iPhone', 'iPad', 'iPod'].includes(navigator.platform)
+window.geolocate = () => {}
 if (window.dark) {
   document.documentElement.style.setProperty('--white', 'black');
   document.documentElement.style.setProperty('--navy', 'white');
@@ -39,7 +40,7 @@ import Cart from '../pwa/cart.js';
 import NotFound from '../pwa/not_found.js';
 
 import '../pwa/css/buttons.css';
-import '../pwa/inobounce.js';
+// import '../pwa/inobounce.js';
 
 import axios from 'axios';
 axios.defaults.baseURL = '/api';
@@ -147,7 +148,7 @@ export default class App extends Component {
       })
     }).catch((error) => {
       if (error.response) alert(error.response.data.errors)
-      this.removeData()
+      // this.removeData()
     })
   }
 
@@ -220,7 +221,7 @@ export default class App extends Component {
     if (document.getElementById('google-script') === null) {
       let script = document.createElement('script');
       script.setAttribute('id', 'google-script');
-      script.setAttribute('src', `https://maps.googleapis.com/maps/api/js?key=AIzaSyDg2-aLroQJWY8LV8x1Gv5ZYDhIArWCDeU&libraries=places&language=${this.props.language}`);
+      script.setAttribute('src', `https://maps.googleapis.com/maps/api/js?key=AIzaSyDg2-aLroQJWY8LV8x1Gv5ZYDhIArWCDeU&libraries=places&language=${this.props.language}&callback=window.geolocate`);
       document.body.appendChild(script);
     }
   }
@@ -234,16 +235,7 @@ export default class App extends Component {
           <Drawer active={this.state.drawer} triggerDrawer = {this.triggerDrawer} logOut={this.logOut} />
           <button class='burger' onClick={() => this.triggerDrawer(true)}><Burger/></button>
           <Router history={window.ios ? createMemoryHistory() : null}>
-            <Home path='/'
-              currentTrip={currentTrip}
-              cards={() => this.state.cards}
-              bonus_trips={() => this.state.bonus_trips}
-              createCard={this.createCard}
-              language={this.state.language}
-              favorite_addresses={() => this.state.favorite_addresses}
-              fetchUser={this.fetchUser}
-            />
-            <NewDesign path='/new'
+            <NewDesign path='/'
               trip={currentTrip}
               cards={() => this.state.cards}
               bonus_trips={() => this.state.bonus_trips}
@@ -289,6 +281,6 @@ export default class App extends Component {
 render(<App />, document.body);
 
 document.documentElement.style.setProperty('--vh', `${window.innerHeight * 0.01}px`);
-window.addEventListener('resize', function() {
-  document.documentElement.style.setProperty('--vh', `${window.innerHeight * 0.01}px`);
-});
+// window.addEventListener('resize', function() {
+//   document.documentElement.style.setProperty('--vh', `${window.innerHeight * 0.01}px`);
+// });

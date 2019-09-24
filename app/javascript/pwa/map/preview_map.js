@@ -20,12 +20,11 @@ const is_mapbox_supported = mapboxgl.supported()
 
 const ActionCable = require('actioncable')
 const cable = ActionCable.createConsumer('wss://app.cablook.taxi/cable')
-const TRANSITION = 10;
-
-console.log(window.dark)
-
-const MAPSTYLE = window.dark ? 'mapbox://styles/galulex/cju84cmu11atr1flfoxocwbq7' : 'mapbox://styles/okunieva/cjzwn3wx40yhq1cpjl3yo8p1z';
-const PATHCOLORS = window.dark ? ['#ffffff', '#19a160'] : ['#312d50', '#19a160']
+const TRANSITION = 0;
+const LANGUAGES = {en: 'en', uk: 'ru', ru: 'ru'}
+const MAPSTYLE = (localStorage.getItem('dark') === 'true') ? 'mapbox://styles/galulex/cju84cmu11atr1flfoxocwbq7' : 'mapbox://styles/okunieva/cjzwn3wx40yhq1cpjl3yo8p1z';
+const PATHCOLORS = (localStorage.getItem('dark') === 'true') ? ['#ffffff', '#19a160'] : ['#312d50', '#19a160']
+var timeout
 
 const GEOJSON = {
   "type": "FeatureCollection",
@@ -81,8 +80,8 @@ export default class PreviewMap extends Component {
   componentDidMount() {
     const { lng, lat, zoom } = this.state
 
-    this.getCarsLocations()
-    this.subscribeToDriverChannel()
+    // this.getCarsLocations()
+    // this.subscribeToDriverChannel()
 
     this.map = new mapboxgl.Map({
       container: this.mapContainer,
@@ -94,8 +93,15 @@ export default class PreviewMap extends Component {
     })
 
     const language = new MapboxLanguage({
-      defaultLanguage: this.setMapboxLanguage()
+      defaultLanguage: LANGUAGES[this.props.language]
     })
+
+    const geolocate = new mapboxgl.GeolocateControl({
+      positionOptions: {
+        enableHighAccuracy: true
+      },
+      trackUserLocation: false
+    });
 
     this.map.on('movestart', () => {
       if (!this.cars) return;
@@ -111,10 +117,18 @@ export default class PreviewMap extends Component {
       document.documentElement.style.setProperty('--zoom-level', this.map.getZoom())
     });
 
+    this.map.on('zoomend', (event) => {
+      this.setState({zoom: this.map.getZoom()})
+    });
+
+    // this.map.addControl(geolocate, 'bottom-right')
+    this.map.addControl(language)
+    // this.map.addControl(new mapboxgl.NavigationControl({showCompass: false}), 'bottom-right')
+
     this.map.on('load', () => {
-      this.map.addControl(language)
       this.map.addSource('line', { type: 'geojson', lineMetrics: true, data: GEOJSON })
       this.map.addLayer(PATHLAYER);
+      // geolocate.trigger()
     });
 
     window.map = this.map
@@ -122,7 +136,6 @@ export default class PreviewMap extends Component {
   }
 
   componentWillUnmount() {
-    window.removeEventListener('popstate', this.handleBack)
     document.removeEventListener('visibilitychange', this.onVisibilityChange)
     this.unsubscribe()
   }
@@ -193,15 +206,47 @@ export default class PreviewMap extends Component {
     })
   }
 
-  handleBack = (event) => {
-    history.pushState(null, null, document.URL)
+  pick = (index) => {
+    this.setState({index: index})
+    this.map.getSource('line').setData(GEOJSON)
+    this.markers.map(m => m.remove())
+    this.map.on('movestart', this.movestart);
+    this.map.on('moveend', this.moveend);
+    this.geocode()
   }
 
-  setMapboxLanguage = () => {
-    return (this.props.language === 'uk') ? 'ru' : this.props.language
+  moveend = () => {
+    timeout = setTimeout(this.geocode, 500)
+  }
+
+  movestart = () => {
+    clearTimeout(timeout)
+    timeout = null
+  }
+
+  geocode = () => {
+    const { lng, lat } = this.map.getCenter();
+    const latlng = {lat, lng};
+    const waypoint = Object.values(this.map.getCenter()).reverse().toString()
+    const geocoder = new google.maps.Geocoder();
+
+    geocoder.geocode({'location': latlng}, (results, status) => {
+      if (status === 'OK') {
+        if (results[0]) {
+          this.props.setAddress(`${results[0].address_components[1].long_name}, ${results[0].address_components[0].long_name}`, waypoint, this.state.index)
+        } else {
+          this.props.setAddress('No results found', waypoint, this.state.index)
+        }
+      } else {
+        console.log('Geocoder failed due to: ' + status);
+      }
+    });
   }
 
   componentWillReceiveProps(props) {
+    if (props.picker !== null) return this.pick(props.picker)
+    this.map.off('movestart', this.movestart);
+    this.map.off('moveend', this.moveend);
     let trip = props.trip()
     this.markers.map(m => m.remove())
     if (trip.waypoints.length == 0) return;
@@ -212,20 +257,19 @@ export default class PreviewMap extends Component {
       let marker = new mapboxgl.Marker(render(<div><Pin class={`pin-${klass}`} width='25px'/></div>))
 
       var popup = new mapboxgl.Popup({closeOnClick: false, closeButton: false, className: `point-${klass}`, anchor: 'left', offset: 10}).setHTML(trip.stops[i]);
-      marker.setLngLat(w.split(',').reverse()).setPopup(popup).addTo(this.map).togglePopup()
+      marker.setLngLat(w.split(',').reverse()).setPopup(popup).addTo(this.map)//.togglePopup()
       this.markers.push(marker)
     })
 
-    if (!this.props.isValid) return;
-
-    var bounds = trip.waypoints.reduce((bounds, coord) => {
-      console.log(bounds)
-      console.log(coord)
-      return bounds.extend(coord.split(',').reverse());
-    }, new mapboxgl.LngLatBounds(trip.waypoints[0].split(',').reverse(), trip.waypoints[0].split(',').reverse()));
-    this.map.fitBounds(bounds, {
-      padding: 100
-    });
+    try {
+      var bounds = trip.waypoints.reduce((bounds, coord) => {
+        return bounds.extend(coord.split(',').reverse());
+      }, new mapboxgl.LngLatBounds(trip.waypoints[0].split(',').reverse(), trip.waypoints[0].split(',').reverse()));
+      this.map.fitBounds(bounds, {
+        padding: 100
+      });
+    } catch(error) {
+    }
 
     let path = (trip.path) ? polyline.decode(trip.path).map(e => { return e.reverse() }) : []
 
@@ -240,7 +284,12 @@ export default class PreviewMap extends Component {
         }
       }]
     };
-    this.map.getSource('line').setData(geojson)
+    if (this.map.getSource('line')) this.map.getSource('line').setData(geojson)
+  }
+
+  setZoom = (event) => {
+    this.map.flyTo({zoom: event.target.value, speed: 3})
+    this.setState({zoom: event.target.value})
   }
 
   render() {
@@ -249,9 +298,10 @@ export default class PreviewMap extends Component {
 
     return (
       <div class='main_map'>
-        <Pin class='picker' width='30px'/>
+        <Pin class='picker' width='30px' ref={pin => this.pin = pin}/>
         <style>{ `.mapboxgl-marker { transition: transform ${this.state.transition}s linear; } .mapboxgl-marker > svg { transition: transform 4s; }` }</style>
         <div class='map' ref={el => this.mapContainer = el}/>
+        <input type='range' min='8' max='17' onInput={this.setZoom} value={this.state.zoom}/>
       </div>
     )
   }

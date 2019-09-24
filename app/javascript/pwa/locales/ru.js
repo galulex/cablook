@@ -47,7 +47,7 @@ const ru = {
     comment: 'Комментарий',
     entrance: 'Подъезд',
     header: 'Поиск',
-    select_entrance: 'Выбрать Подъезд',
+    select_entrance: 'Подъезд',
     no_call: 'Без звонка',
     where_to_pick: 'Где подобрать?',
     when: 'Когда?',

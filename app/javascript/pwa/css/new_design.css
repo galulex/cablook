@@ -1,16 +1,11 @@
-/* section.new_design { */
-  /* max-width: 100%; */
-  /* padding: 0; */
-/* } */
-
 section.new_design {
-  padding: 50px 15px 0;
+  padding: 60px 0 0;
 }
 
 .new_design fieldset.address {
   background: rgba(255, 255, 255, 0.9);
   margin: 5px 0;
-  border-radius: 50px;
+  /* margin-bottom: 10px; */
   box-shadow: var(--shadow);
 }
 
@@ -21,6 +16,7 @@ section.new_design {
 .new_design .map-pick {
   right: auto;
   left: 7px;
+  transition: height .3s;
 }
 
 .new_design .remove-address {
@@ -90,4 +86,142 @@ svg.pin-first path {
 svg.pin-last path {
   fill: #19a160;
   fill: var(--green);
+}
+
+.options {
+  width: 100%;
+  overflow: hidden;
+  overflow-x: scroll;
+  flex-wrap: nowrap;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  white-space: nowrap;
+  vertical-align: top;
+  background: rgba(0,0,0,0.1);
+  box-shadow: 0px 5px 10px 10px rgba(0,0,0,0.1);
+  transition: background .3s, box-shadow .3s;
+}
+
+.options.noscroll {
+  overflow: visible;
+}
+
+.options.noscroll .trigger {
+  width: 0;
+  overflow: hidden;
+}
+
+.options.noscroll .trigger.back {
+  display: none;
+}
+
+.option {
+  display: inline-block;
+  width: 100%;
+  scroll-snap-align: start;
+  padding: 0 15px;
+  white-space: normal;
+  vertical-align: top;
+  padding-bottom: 50px;
+  min-height: 200px;
+}
+
+.additions {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.options.noscroll .option:nth-of-type(2) {
+  display: none;
+}
+
+.options::-webkit-scrollbar { display: none; }
+
+.option label {
+  display: block;
+}
+
+.pick .wrapper {
+  pointer-events: none;
+}
+
+.pick fieldset.address {
+  opacity: 0;
+}
+
+.pick button.remove-address {
+  opacity: 0;
+}
+
+.pick button.add-address {
+  opacity: 0;
+}
+
+.pick .options {
+  background: transparent;
+  box-shadow: none;
+}
+
+.pick fieldset.address svg {
+  height: 10px;
+}
+
+.pick .trigger {
+  width: 0;
+}
+
+.pick svg.picker {
+  height: 40px;
+}
+
+.trigger {
+  position: absolute;
+  z-index: 100;
+  display: block;
+  bottom: 0;
+  background: transparent;
+  border: none;
+  right: 0;
+  padding: 0;
+  outline: none;
+  cursor: pointer;
+  -webkit-appearance: none;
+  height: 44px;
+  width: 50px;
+  transition: width .3s;
+}
+
+.trigger.back {
+  right: -50px;
+  transform: rotate(180deg);
+}
+
+.trigger svg > path:first-child {
+  fill: rgba(255, 255, 255, 0.9);
+}
+
+label.nocall {
+  margin: 5px 0;
+  background: rgba(255, 255, 255, 0.9);
+  padding: 10px 5px 8px 45px;
+  height: 40px;
+  font-weight: 100;
+  min-width: 140px;
+  max-width: 45%;
+  box-shadow: var(--shadow);
+  white-space: nowrap;
+}
+
+label.nocall:before {
+  right: 8px !important;
+}
+
+svg.cross path:nth-of-type(2) {
+  fill: transparent;
+  transition: fill .3s;
+}
+
+input:checked + svg.cross path:nth-of-type(2) {
+  fill: #a925ad;
 }

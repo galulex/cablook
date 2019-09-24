@@ -30,7 +30,7 @@ html lang="#{I18n.locale}"
       }
 
       html {
-        overflow: hidden;
+        overflow: visible;
         overscroll-behavior-x: none;
         background: #132d50;
         background: var(--body-bg);
@@ -38,6 +38,7 @@ html lang="#{I18n.locale}"
         transition: background .1s;
         -webkit-text-size-adjust: none;
         touch-action: manipulation;
+        position: fixed;
       }
 
       * {
@@ -53,7 +54,7 @@ html lang="#{I18n.locale}"
       body {
         margin: 0;
         padding: 0;
-        position: absolute;
+        position: fixed;
         top: 0;
         bottom: 0;
         left: 0;

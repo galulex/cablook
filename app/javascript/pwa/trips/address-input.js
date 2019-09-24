@@ -25,6 +25,7 @@ export default class AddressInput extends Component {
 
   componentDidMount() {
     this.input.setCustomValidity(this.state.address ? '' : i18n.choose_address)
+    if (this.props.index === 0) window.geolocate = this.getLocation
   }
 
   componentWillReceiveProps(nextProps) {
@@ -57,7 +58,7 @@ export default class AddressInput extends Component {
   getLocation = (e) => {
     let component = this
     if (navigator.geolocation) {
-      e.target.classList.add('running')
+      // e.target.classList.add('running')
       navigator.geolocation.getCurrentPosition((result) => {
         let geocoder = new google.maps.Geocoder()
         let location = new google.maps.LatLng(result.coords.latitude, result.coords.longitude)
@@ -71,13 +72,13 @@ export default class AddressInput extends Component {
             alert(status)
           }
         })
-        e.target.classList.remove('running')
+        // e.target.classList.remove('running')
       },
         (error) => {
-          e.target.classList.remove('running')
+          // e.target.classList.remove('running')
           switch(error.code) {
             case error.PERMISSION_DENIED :
-              alert(i18n.location.permission_denied);
+              console.log(i18n.location.permission_denied);
               break;
             case error.TIMEOUT:
               alert(i18n.location.timeout);
@@ -156,8 +157,13 @@ export default class AddressInput extends Component {
     })
   }
 
-  openMap = () => {
-    if (this.props.pickAddress) return this.props.pickAddress()
+  openMap = (event) => {
+    if (this.props.pickAddress) {
+      event.target.classList.add('current')
+      this.props.pickAddress(this.props.index)
+      return
+    }
+
     this.setState({isShowMap: true});
     if (window.ios) return;
     history.pushState(null, null,'/');
@@ -174,14 +180,17 @@ export default class AddressInput extends Component {
       this.favoriteAddressesPredictions()
     }
     e.target.focus()
+    if (window.timeout) clearTimeout(window.timeout)
+    document.getElementById('fields').classList.add('noscroll')
   }
 
   blur = (e) => {
-    setTimeout(() => {
+    window.timeout = setTimeout(() => {
       if (e.target.value === '' ||  e.target.checkValidity() || this.state.disabled || this.state.isFetching) return;
       let prediction = this.state.predictions[0]
       if (prediction) this.setLocation(prediction)
     }, 500)
+    setTimeout(() => { document.getElementById('fields').classList.remove('noscroll') }, 10)
   }
 
   handleBack = (event) => {

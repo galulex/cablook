@@ -47,7 +47,7 @@ const uk = {
     comment: 'Коментар',
     entrance: 'Під\'їзд',
     header: 'Пошук',
-    select_entrance: 'Обрати під\'їзд',
+    select_entrance: 'Під\'їзд',
     no_call: 'Без дзвінка',
     where_to_pick: 'Де підібрати?',
     when: 'Коли?',
