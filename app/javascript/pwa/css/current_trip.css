@@ -27,7 +27,7 @@ input.address:focus {
   outline: none;
 }
 
-input.address:focus + ul {
+input.address:focus + ul, input.address.focus + ul {
   visibility: visible;
   opacity: 1;
   transition: opacity .3s, visibility 0s 0s;

@@ -26,6 +26,7 @@ export default class AddressInput extends Component {
   componentDidMount() {
     this.input.setCustomValidity(this.state.address ? '' : i18n.choose_address)
     if (this.props.index === 0) window.geolocate = this.getLocation
+    if (this.props.index === this.props.fieldsCount - 1) this.input.focus()
   }
 
   componentWillReceiveProps(nextProps) {
@@ -176,21 +177,23 @@ export default class AddressInput extends Component {
   }
 
   focus = (e) => {
+    this.input.classList.add('focus')
     if (this.state.address == '') {
       this.favoriteAddressesPredictions()
     }
-    e.target.focus()
+    // e.target.focus()
     if (window.timeout) clearTimeout(window.timeout)
     document.getElementById('fields').classList.add('noscroll')
   }
 
   blur = (e) => {
+    this.input.classList.remove('focus')
     window.timeout = setTimeout(() => {
       if (e.target.value === '' ||  e.target.checkValidity() || this.state.disabled || this.state.isFetching) return;
       let prediction = this.state.predictions[0]
       if (prediction) this.setLocation(prediction)
     }, 500)
-    setTimeout(() => { document.getElementById('fields').classList.remove('noscroll') }, 10)
+    setTimeout(() => { document.getElementById('fields').classList.remove('noscroll') }, 100)
   }
 
   handleBack = (event) => {
@@ -210,18 +213,23 @@ export default class AddressInput extends Component {
     return (this.props.index !== 0) ? i18n.address_input.where : i18n.address_input.from
   }
 
+  eraseAddress =  () => {
+    if (this.state.address !== '') setTimeout(() => { this.input.focus() }, 300)
+    this.props.eraseAddress(this.props.index)
+  }
+
   render() {
     let placeholder = this.setPlaceholder()
-    const { fieldsCount, address, index, readonly, language, eraseAddress} = this.props
+    const { fieldsCount, address, index, readonly, language} = this.props
 
     return (
       <fieldset class='address'>
-        {(fieldsCount > 2 || address !== '') && !readonly && (<button class='remove-address' type='button' onClick={() => eraseAddress(index)}>×</button>)}
+        {(fieldsCount > 2 || address !== '') && !readonly && (<button class='remove-address' type='button' onClick={() => this.eraseAddress(index)}>×</button>)}
         {mapboxgl.supported() && <Pin onClick={this.openMap} disabled={readonly} height='24px' class='map-pick'/>}
         {this.state.isShowMap && <MapPicker onCloseMap={this.closeMap} handleBack={this.handleBack} language={language}/>}
 
         <input required class='address' placeholder={placeholder} type='text'
-          onClick={this.focus} onKeyDown={this.keydown} onBlur={this.blur} onInput={this.autocomplete}
+          onClick={this.focus} onFocus={this.focus} onKeyDown={this.keydown} onBlur={this.blur} onInput={this.autocomplete}
           value={this.state.address} ref={input => this.input = input} readonly={readonly}
         />
 
