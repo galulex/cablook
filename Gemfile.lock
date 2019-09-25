@@ -1,4 +1,10 @@
 GIT
+  remote: https://github.com/activebridge/bugno-ruby.git
+  revision: 3fc56b758676cb016c07cba7d3782b4f5289377c
+  specs:
+    bugno (0.1.6)
+
+GIT
   remote: https://github.com/faye/websocket-driver-ruby
   revision: ee39af83d03ae3059c775583e4c4b291641257b8
   ref: ee39af83d03ae3059c775583e4c4b291641257b8
@@ -335,8 +341,6 @@ GEM
       railties (>= 4.2.0, < 6.0)
     roar (1.1.0)
       representable (~> 3.0.0)
-    rollbar (2.15.6)
-      multi_json
     rspec-core (3.8.0)
       rspec-support (~> 3.8.0)
     rspec-expectations (3.8.3)
@@ -458,6 +462,7 @@ DEPENDENCIES
   arctic_admin
   autoprefixer-rails
   bcrypt (~> 3.1.7)
+  bugno!
   capistrano
   capistrano-db-tasks
   capistrano-passenger
@@ -485,7 +490,6 @@ DEPENDENCIES
   redis (~> 3.0)
   reek
   roar
-  rollbar
   rspec-rails
   rspec-retry
   rubocop
@@ -513,4 +517,4 @@ RUBY VERSION
    ruby 2.4.2p198
 
 BUNDLED WITH
-   1.17.2
+   2.0.2
