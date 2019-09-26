@@ -1,8 +1,8 @@
 GIT
   remote: https://github.com/activebridge/bugno-ruby.git
-  revision: 3fc56b758676cb016c07cba7d3782b4f5289377c
+  revision: 059fd023e1b31661aecff912b609f56306b408a9
   specs:
-    bugno (0.1.6)
+    bugno (0.1.7)
 
 GIT
   remote: https://github.com/faye/websocket-driver-ruby
