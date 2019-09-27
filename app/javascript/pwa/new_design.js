@@ -26,7 +26,7 @@ export default class NewDesign extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      trip: this.props.trip || {stops: ['', ''], waypoints: []},
+      trip: this.props.trip || {stops: ['', ''], waypoints: [], osrm: true},
       subscription: null,
       car_location: null,
       picker: null,
