@@ -249,10 +249,11 @@ export default class Cart extends Component {
 
   render() {
     let cart = localStorage.getItem('cart')
-    let vendor, items, open_at, close_at
+    let vendor, items, open_at, close_at, vendor_name_slug
     if (cart) {
       cart = JSON.parse(cart)
       vendor = cart.vendor
+      vendor_name_slug = cart.vendor_name_slug
       items = cart.items
       open_at = cart.vendor_open_at
       close_at = cart.vendor_close_at
@@ -319,7 +320,7 @@ export default class Cart extends Component {
                   </div>
                 </div>}
               {(cards.length !== 0) &&
-                <input type='submit' class='button' onClick={this.createOrder} value={i18n.cart.create_order}/>}
+                <input type='submit' class={`button ${vendor_name_slug}`} onClick={this.createOrder} value={i18n.cart.create_order}/>}
             </form>,
           !vendor_closed &&
             showWidget && <Widget createCard={this.createCard} showWidget={() => this.setState({showWidget: false}) }/>,
