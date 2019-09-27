@@ -5,12 +5,12 @@ module Api
     caches_action :show, expires_in: 6.hours
 
     def index
-      res = vendors.as_json(methods: %i(status open_time close_time))
+      res = vendors.as_json(methods: %i(status open_time close_time name_slug))
       render json: res, status: 200
     end
 
     def show
-      render json: vendor.as_json(methods: %i(status open_time close_time)).merge({ items: items }), status: 200
+      render json: vendor.as_json(methods: %i(status open_time close_time name_slug)).merge({ items: items }), status: 200
     end
 
     private
