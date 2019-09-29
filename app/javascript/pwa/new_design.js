@@ -30,6 +30,7 @@ export default class NewDesign extends Component {
       subscription: null,
       car_location: null,
       picker: null,
+      bonus: null,
       cars_locations: []
     }
   }
@@ -101,6 +102,52 @@ export default class NewDesign extends Component {
       if (error.response) alert(error.response.data.errors)
     })
   }
+
+  createTrip = (e) => {
+    this.setState({bonus: e.target.value}, () => {
+      this.create()
+    })
+  }
+
+  create = (e) => {
+    console.log('create')
+    let params = {...this.state.trip}
+    params.card_id = this.state.card_id
+    if (this.state.bonus === 'true') params.bonus = this.state.bonus
+    this.sendRequest(params)
+  }
+
+  sendRequest = (params) => {
+    console.log('send')
+    axios({
+      method: params.id ? 'put' : 'post',
+      url: params.id ? `trips/${params.id}` : 'trips',
+      data: { trip: params }
+    }).then((res) => {
+      this.state.trip = res.data;
+      // TODO: add to localStorage also?
+    }).catch((error) => {
+      if (!error.response) return
+      switch(error.response.status) {
+        case 418:
+          if (confirm(`${error.response.data.errors} ${i18n.confirm_trip.retry_payment}`)) {
+            this.retryPendingPayment()
+          }
+          break
+        case 406:
+          if (confirm(`${error.response.data.errors} ${i18n.confirm_trip.trip_payment}`)) {
+            this.setState({bonus: false})
+            this.state.trip.bonus = false
+            this.create()
+          }
+          break
+        default:
+          alert(error.response.data.errors)
+          break
+      }
+    })
+  }
+
 
   pickAddress = (i) => {
     if (this.state.picker !== null) return this.setState({picker: null, klass: ''})
@@ -202,4 +249,3 @@ export default class NewDesign extends Component {
     )
   }
 }
-
