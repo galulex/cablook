@@ -12,6 +12,7 @@ import Card from './images/credit-cards-payment.svg'
 import Phone from './images/phone_crossed.svg'
 import Comment from './images/contacts.svg'
 import Arrows from './images/arrows.svg'
+import SearchLogo from './images/search_logo.svg'
 import './css/new_design.css'
 import './css/range.css'
 
@@ -110,21 +111,32 @@ export default class NewDesign extends Component {
   }
 
   create = (e) => {
-    console.log('create')
     let params = {...this.state.trip}
     params.card_id = this.state.card_id
     if (this.state.bonus === 'true') params.bonus = this.state.bonus
     this.sendRequest(params)
   }
 
+  cancel = (e, callback = false) => {
+    if (!confirm(i18n.find_driver.confirm_cancel)) {
+      if (callback) callback()
+      return;
+    }
+    axios.patch(`trips/${this.state.trip.id}/cancel`).then((res) => {
+      this.setState({trip: {stops: ['', ''], waypoints: [], osrm: true}})
+      // this.props.fetchUser()
+    }).catch((error) => {
+      if (error.response) alert(error.response.data.errors)
+    })
+  }
+
   sendRequest = (params) => {
-    console.log('send')
     axios({
       method: params.id ? 'put' : 'post',
       url: params.id ? `trips/${params.id}` : 'trips',
       data: { trip: params }
     }).then((res) => {
-      this.state.trip = res.data;
+      this.setState({trip: res.data})
       // TODO: add to localStorage also?
     }).catch((error) => {
       if (!error.response) return
@@ -243,7 +255,8 @@ export default class NewDesign extends Component {
             </div>
           </div>
         </div>
-        <button class='button fixed' type='button' value={trip.bonus} disabled={!this.isValid} onClick={this.createTrip}>{`${i18n.confirm_trip.go} ${cost}`}</button>
+        { (!trip.id || [CANCELED,CANCELED_BY_DRIVER,null].includes(trip.status)) && <button class='button fixed' type='button' value={trip.bonus} disabled={!this.isValid} onClick={this.createTrip}>{`${i18n.confirm_trip.go} ${cost}`}</button> }
+        { trip && trip.id && [PENDING].includes(trip.status) && <button class='button fixed' type='button' onClick={this.cancel}>{i18n.find_driver.cancel}</button> }
         { (this.state.picker !== null) && <button type='button' class='button fixed' onClick={this.pickAddress}>OK</button> }
       </section>
     )
