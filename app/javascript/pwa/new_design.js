@@ -345,7 +345,7 @@ export default class NewDesign extends Component {
           retry={this.retry}
           cancelDeclined={this.cancelDeclined}
           picker={this.state.picker}
-          pickAddress={this.state.pickAddress}
+          pickAddress={this.pickAddress}
         />
       </section>
     )
