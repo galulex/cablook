@@ -4,6 +4,7 @@ import axios from 'axios'
 import i18n from './i18n.js'
 import './css/map.css'
 import PreviewMap from './map/preview_map.js'
+import Buttons from './new_design/buttons.js'
 import AddressInput from '../pwa/trips/address-input.js';
 import Add from './images/+.svg'
 import Entrance from './images/entrance.svg'
@@ -27,7 +28,7 @@ export default class NewDesign extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      trip: this.props.trip || {stops: ['', ''], waypoints: [], osrm: true},
+      trip: { stops: ['', ''], waypoints: [], osrm: true },
       subscription: null,
       car_location: null,
       picker: null,
@@ -90,6 +91,7 @@ export default class NewDesign extends Component {
 
   build = (e) => {
     let params = {...this.state.trip}
+    params.osrm = true
     if (!this.isValid) return;
     params.waypoints = params.waypoints.slice(1, -1)
     params.stops = params.stops.slice(1, -1)
@@ -111,7 +113,9 @@ export default class NewDesign extends Component {
   }
 
   create = (e) => {
+    delete this.state.trip.id
     let params = {...this.state.trip}
+    params.osrm = true
     params.card_id = this.state.card_id
     if (this.state.bonus === 'true') params.bonus = this.state.bonus
     this.sendRequest(params)
@@ -123,10 +127,26 @@ export default class NewDesign extends Component {
       return;
     }
     axios.patch(`trips/${this.state.trip.id}/cancel`).then((res) => {
-      this.setState({trip: {stops: ['', ''], waypoints: [], osrm: true}})
-      // this.props.fetchUser()
+      delete this.state.trip.status
+      this.unsubscribe()
     }).catch((error) => {
       if (error.response) alert(error.response.data.errors)
+    })
+  }
+
+  cancelDeclined = (e, callback = () => {}) => {
+    delete this.state.trip.status
+    this.unsubscribe()
+  }
+
+  retry = (e, callback = () => {}) => {
+    axios.patch(`trips/${this.state.trip.id}/retry`).then((res) => {
+      this.setState({ trip: res.data })
+      this.updateTrip()
+      this.subscribe(res.data)
+    }).catch((error) => {
+      if (error.response) alert(error.response.data.errors)
+      callback()
     })
   }
 
@@ -137,6 +157,8 @@ export default class NewDesign extends Component {
       data: { trip: params }
     }).then((res) => {
       this.setState({trip: res.data})
+      this.subscribe(res.data)
+      this.updateTrip()
       // TODO: add to localStorage also?
     }).catch((error) => {
       if (!error.response) return
@@ -169,6 +191,20 @@ export default class NewDesign extends Component {
   componentDidMount() {
   }
 
+  componentWillUnmount() {
+    this.unsubscribe()
+  }
+
+  componentDidUpdate() {
+    if (!this.props.trip) { return; }
+    this.subscribe();
+  }
+
+  componentWillReceiveProps(props) {
+    if (!props.trip) { return }
+    this.setState({ trip: props.trip })
+  }
+
   scroll = val => {
     this.fields.scrollTo({left: this.fields.scrollWidth/val, behavior: 'smooth'})
   }
@@ -178,8 +214,115 @@ export default class NewDesign extends Component {
     this.setState(this.state);
   }
 
+  subscribe = (trip = this.state.trip) => {
+    if ([FINISHED, CANCELED, DECLINED, CANCELED_BY_DRIVER].includes(trip.status)) return;
+    if (this.state.subscription) return this.state.subscription
+    let component = this
+    this.setState({subscription: cable.subscriptions.create(
+      { channel: 'TripChannel', trip_id: trip.id },
+      {
+        received: data => {
+          component[data['action'] || data['body']['action']](data)
+        }
+      }
+    )})
+  }
+
+  unsubscribe = () => {
+    if (this.state.subscription) this.state.subscription.unsubscribe()
+    this.setState({subscription: null})
+  }
+
+  TripDeclined = (data) => {
+    this.setState({ trip: { ...this.state.trip, status: DECLINED  } })
+  }
+
+  TripUnavailable = (data) => {
+    this.unsubscribe()
+    const status = data.by_driver ? CANCELED_BY_DRIVER : CANCELED
+    this.setState({ trip: { ...this.state.trip, status } })
+    if (data.by_driver) alert(i18n.trip.canceled)
+  }
+
+  renderFields(trip, isValid, cards) {
+    return(
+      <div id='fields' class='options' ref={fields => this.fields = fields}>
+        <button class='trigger' onClick={ () => this.scroll(1) }>
+          <Arrows width='50'/>
+        </button>
+        <button class='trigger back' onClick={ () => this.scroll(1000) }>
+          <Arrows width='50'/>
+        </button>
+        <div class='option'>
+          { trip.stops.map((e, i) => {
+            return (
+              <AddressInput
+                setAddress={this.setAddress}
+                eraseAddress={this.eraseAddress}
+                favorite_addresses={this.props.favorite_addresses}
+                language={this.props.language}
+                coords={trip.waypoints[i]}
+                readonly={!!trip.id && i == 0}
+                address={e}
+                index={i}
+                fieldsCount={trip.stops.length}
+                pickAddress={this.pickAddress}
+              />
+            )
+          })}
+          <div>
+            <button type='button' onClick={this.addAddress} class='add-address' disabled={isValid} title={ i18n.current_trip.add_address }>
+              <Add height='40'/>
+            </button>
+          </div>
+        </div>
+        <div class='option'>
+          <div class='additions'>
+            <label for='nocall' class='nocall'>
+              <input id='nocall' type='checkbox' checked={trip.no_call} onChange={this.setNoCall}/>
+              <Phone width='24' class='cross'/>
+              {i18n.current_trip.no_call}
+            </label>
+            <label for='entrance'>
+              <Entrance height='27'/>
+              <select id='entrance' value={trip.entrance} onChange={(e) => this.setEntrance(e)}>
+                <option value=''>{i18n.current_trip.select_entrance}</option>
+                {ENTRANCES.map((el) => {
+                  return(<option value={el}>{el} {i18n.current_trip.entrance}</option>)
+                })}
+              </select>
+            </label>
+            <label for='time' data-placeholder={!trip.time}>
+              <Clock width='24'/>
+              <input id='time' type='time' step='60' title='HH:MM' pattern='([01]?[0-9]|2[0-3]):[0-5][0-9]' value={trip.time} placeholder='Now' onChange={this.setOrderTime}/>
+              <span class='time-placeholder'>{i18n.current_trip.now}</span>
+            </label>{' '}
+            <label class='select' for='card'>
+              <Card width='24'/>
+              <select id='card' onChange={(e) => this.selectCard(e)}>
+                {cards.map(card => <option value={card.id}>{card.pan}</option>)}
+              </select>
+            </label>
+          </div>
+          <label for='comment'>
+            <Comment width='24'/>
+            <input id='comment' type='text' class='comment' value={trip.comment} placeholder={i18n.current_trip.comment} onChange={this.setComment}/>
+          </label>
+        </div>
+      </div>
+    )
+  }
+
+  renderLoading() {
+    return (
+      <div className="loaderWrapper">
+        <SearchLogo className="search_logo" />
+      </div>
+    )
+  }
+
   render() {
-    const { trip } = this.state
+    const trip = this.state.trip
     const cards = this.props.cards()
     let isValid = trip.stops.includes('')
     let cost = (trip.cost) ? `${trip.cost} ${i18n.grn}` : ''
@@ -190,74 +333,20 @@ export default class NewDesign extends Component {
         <header></header>
         <PreviewMap trip={() => trip} isValid={this.isValid} language={this.props.language} picker={this.state.picker} setAddress={this.setAddress} zoom={this.state.zoom}/>
         <div class='wrapper'>
-          <div id='fields' class='options' ref={fields => this.fields = fields}>
-            <button class='trigger' onClick={ () => this.scroll(1) }>
-              <Arrows width='50'/>
-            </button>
-            <button class='trigger back' onClick={ () => this.scroll(1000) }>
-              <Arrows width='50'/>
-            </button>
-            <div class='option'>
-              { trip.stops.map((e, i) => {
-                return (
-                  <AddressInput
-                    setAddress={this.setAddress}
-                    eraseAddress={this.eraseAddress}
-                    favorite_addresses={this.props.favorite_addresses}
-                    language={this.props.language}
-                    coords={trip.waypoints[i]}
-                    readonly={!!trip.id && i == 0}
-                    address={e}
-                    index={i}
-                    fieldsCount={trip.stops.length}
-                    pickAddress={this.pickAddress}
-                  />
-                )
-              })}
-              <div>
-                <button type='button' onClick={this.addAddress} class='add-address' disabled={isValid} title={ i18n.current_trip.add_address }>
-                  <Add height='40'/>
-                </button>
-              </div>
-            </div>
-            <div class='option'>
-              <div class='additions'>
-                <label for='nocall' class='nocall'>
-                  <input id='nocall' type='checkbox' checked={trip.no_call} onChange={this.setNoCall}/>
-                  <Phone width='24' class='cross'/>
-                  {i18n.current_trip.no_call}
-                </label>
-                <label for='entrance'>
-                  <Entrance height='27'/>
-                  <select id='entrance' value={trip.entrance} onChange={(e) => this.setEntrance(e)}>
-                    <option value=''>{i18n.current_trip.select_entrance}</option>
-                    {ENTRANCES.map((el) => {
-                      return(<option value={el}>{el} {i18n.current_trip.entrance}</option>)
-                    })}
-                  </select>
-                </label>
-                <label for='time' data-placeholder={!trip.time}>
-                  <Clock width='24'/>
-                  <input id='time' type='time' step='60' title='HH:MM' pattern='([01]?[0-9]|2[0-3]):[0-5][0-9]' value={trip.time} placeholder='Now' onChange={this.setOrderTime}/>
-                  <span class='time-placeholder'>{i18n.current_trip.now}</span>
-                </label>{' '}
-                <label class='select' for='card'>
-                  <Card width='24'/>
-                  <select id='card' onChange={(e) => this.selectCard(e)}>
-                    {cards.map(card => <option value={card.id}>{card.pan}</option>)}
-                  </select>
-                </label>
-              </div>
-              <label for='comment'>
-                <Comment width='24'/>
-                <input id='comment' type='text' class='comment' value={trip.comment} placeholder={i18n.current_trip.comment} onChange={this.setComment}/>
-              </label>
-            </div>
-          </div>
+          { [CANCELED, CANCELED_BY_DRIVER, undefined].includes(trip.status) && this.renderFields(trip, isValid, cards) }
+          { trip && trip.id && [PENDING].includes(trip.status) && this.renderLoading() }
         </div>
-        { (!trip.id || [CANCELED,CANCELED_BY_DRIVER,null].includes(trip.status)) && <button class='button fixed' type='button' value={trip.bonus} disabled={!this.isValid} onClick={this.createTrip}>{`${i18n.confirm_trip.go} ${cost}`}</button> }
-        { trip && trip.id && [PENDING].includes(trip.status) && <button class='button fixed' type='button' onClick={this.cancel}>{i18n.find_driver.cancel}</button> }
-        { (this.state.picker !== null) && <button type='button' class='button fixed' onClick={this.pickAddress}>OK</button> }
+        <Buttons
+          trip={trip}
+          isValid={this.isValid}
+          cost={cost}
+          createTrip={this.createTrip}
+          cancel={this.cancel}
+          retry={this.retry}
+          cancelDeclined={this.cancelDeclined}
+          picker={this.state.picker}
+          pickAddress={this.state.pickAddress}
+        />
       </section>
     )
   }
