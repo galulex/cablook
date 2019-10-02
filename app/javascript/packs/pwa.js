@@ -144,7 +144,7 @@ export default class App extends Component {
         bonus_trips: res.data.bonus_trips,
         parent_bonus: res.data.parent_bonus || [],
         currentUserID: res.data.id,
-        currentTrip: res.data.current_trip
+        currentTrip: JSON.parse(res.data.current_trip)
       })
     }).catch((error) => {
       if (error.response) alert(error.response.data.errors)
