@@ -10,7 +10,7 @@ export default class Buttons extends Component {
     return (
       <div className="buttons">
         { [CANCELED, CANCELED_BY_DRIVER, undefined].includes(trip.status) && <button class='button fixed' type='button' value={trip.bonus} disabled={!this.props.isValid} onClick={this.props.createTrip}>{`${i18n.confirm_trip.go} ${this.props.cost}`}</button> }
-        { [PENDING].includes(trip.status) && <button class='button fixed cancel' type='button' onClick={this.props.cancel}>{i18n.find_driver.cancel}</button> }
+        { [PENDING, ON_THE_WAY].includes(trip.status) && <button class='button fixed cancel' type='button' onClick={this.props.cancel}>{i18n.find_driver.cancel}</button> }
         { [DECLINED].includes(trip.status) && <button class='button fixed retry' type='button' onClick={this.props.retry}>{i18n.retry_trip.retry}</button> }
         { [DECLINED].includes(trip.status) && <button class='button fixed cancel' type='button' onClick={this.props.cancelDeclined}>{i18n.find_driver.cancel}</button> }
         { (this.props.picker !== null) && <button class='button fixed' type='button' onClick={this.props.pickAddress}>OK</button> }
