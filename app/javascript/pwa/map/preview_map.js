@@ -20,7 +20,7 @@ const is_mapbox_supported = mapboxgl.supported()
 
 const ActionCable = require('actioncable')
 const cable = ActionCable.createConsumer('wss://app.cablook.taxi/cable')
-const TRANSITION = 0;
+const TRANSITION = 10;
 const LANGUAGES = {en: 'en', uk: 'ru', ru: 'ru'}
 const MAPSTYLE = (localStorage.getItem('dark') === 'true') ? 'mapbox://styles/galulex/cju84cmu11atr1flfoxocwbq7' : 'mapbox://styles/okunieva/cjzwn3wx40yhq1cpjl3yo8p1z';
 const PATHCOLORS = (localStorage.getItem('dark') === 'true') ? ['#ffffff', '#19a160'] : ['#312d50', '#19a160']
@@ -80,8 +80,8 @@ export default class PreviewMap extends Component {
   componentDidMount() {
     const { lng, lat, zoom } = this.state
 
-    // this.getCarsLocations()
-    // this.subscribeToDriverChannel()
+    this.getCarsLocations()
+    this.subscribeToDriverChannel()
 
     this.map = new mapboxgl.Map({
       container: this.mapContainer,
@@ -164,6 +164,7 @@ export default class PreviewMap extends Component {
           if (!data['location'] || !this.cars[data.car_id]) return;
           let car = this.cars[data.car_id]
           let deg = this.bearing(data.location.reverse(), [car.getLngLat().lng, car.getLngLat().lat])
+          car._element.className += ' smooth'
           this.cars[data.car_id].carAngleDeg = deg
           this.cars[data.car_id].setLngLat(data.location)
           this.updateCarDirection(this.cars[data.car_id])
@@ -190,6 +191,10 @@ export default class PreviewMap extends Component {
       res['data']['cars'].map((data) => {
         let marker = new mapboxgl.Marker(render(<div><NissanLeaf class='nissan' color={data['color']}car={`car_${data['id']}__`}/></div>))
         marker.setLngLat(data.location.reverse())
+        marker._element.className += ' leaf'
+        marker._element.addEventListener('transitionend', (event) => {
+          event.target.classList.remove('smooth')
+        })
         if (!data.position) {
           marker.carAngleDeg = 180;
         }  else {
@@ -299,7 +304,7 @@ export default class PreviewMap extends Component {
     return (
       <div class='main_map'>
         <Pin class='picker' width='30px' ref={pin => this.pin = pin}/>
-        <style>{ `.mapboxgl-marker { transition: transform ${this.state.transition}s linear; } .mapboxgl-marker > svg { transition: transform 4s; }` }</style>
+        <style>{ `.mapboxgl-marker.leaf.smooth { transition: transform ${this.state.transition}s linear; } .mapboxgl-marker.leaf > svg { transition: transform 4s; }` }</style>
         <div class='map' ref={el => this.mapContainer = el}/>
         <input type='range' min='8' max='17' onInput={this.setZoom} value={this.state.zoom}/>
       </div>
