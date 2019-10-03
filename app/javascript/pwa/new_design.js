@@ -90,11 +90,8 @@ export default class NewDesign extends Component {
   }
 
   build = (e) => {
-    let params = {...this.state.trip}
-    params.osrm = true
+    let params = {...this.state.trip, osrm: true}
     if (!this.isValid) return;
-    params.waypoints = params.waypoints.slice(1, -1)
-    params.stops = params.stops.slice(1, -1)
     axios.post('trips/new', {trip: params}).then((res) => {
       this.setState(state => {
         state.trip.path = res.data.path
@@ -113,10 +110,7 @@ export default class NewDesign extends Component {
   }
 
   create = (e) => {
-    delete this.state.trip.id
-    let params = {...this.state.trip}
-    params.osrm = true
-    params.card_id = this.state.card_id
+    let params = { ...this.state.trip, id: null, osrm: true, card_id: this.state.card_id }
     if (this.state.bonus === 'true') params.bonus = this.state.bonus
     this.sendRequest(params)
   }
@@ -127,7 +121,7 @@ export default class NewDesign extends Component {
       return;
     }
     axios.patch(`trips/${this.state.trip.id}/cancel`).then((res) => {
-      delete this.state.trip.status
+      this.setState({ trip: { ...this.state.trip, status: CANCELED } })
       this.unsubscribe()
     }).catch((error) => {
       if (error.response) alert(error.response.data.errors)
@@ -141,9 +135,7 @@ export default class NewDesign extends Component {
 
   retry = (e, callback = () => {}) => {
     axios.patch(`trips/${this.state.trip.id}/retry`).then((res) => {
-      this.setState({ trip: res.data })
-      this.updateTrip()
-      this.subscribe(res.data)
+      this.setState({ trip: { ...this.state.trip, status: PENDING } })
     }).catch((error) => {
       if (error.response) alert(error.response.data.errors)
       callback()
@@ -157,9 +149,8 @@ export default class NewDesign extends Component {
       data: { trip: params }
     }).then((res) => {
       this.setState({trip: res.data})
-      this.subscribe(res.data)
       this.updateTrip()
-      // TODO: add to localStorage also?
+      if (!params.id) { this.subscribe(res.data) }
     }).catch((error) => {
       if (!error.response) return
       switch(error.response.status) {
@@ -181,7 +172,6 @@ export default class NewDesign extends Component {
       }
     })
   }
-
 
   pickAddress = (i) => {
     if (this.state.picker !== null) return this.setState({picker: null, klass: ''})
@@ -230,10 +220,16 @@ export default class NewDesign extends Component {
 
   unsubscribe = () => {
     if (this.state.subscription) this.state.subscription.unsubscribe()
-    this.setState({subscription: null})
+    this.setState({ subscription: null })
+  }
+
+  TripAccepted = (data) => {
+    this.vibrate()
+    this.setState({ trip: { ...this.state.trip, status: ON_THE_WAY } })
   }
 
   TripDeclined = (data) => {
+    this.vibrate()
     this.setState({ trip: { ...this.state.trip, status: DECLINED  } })
   }
 
@@ -242,6 +238,10 @@ export default class NewDesign extends Component {
     const status = data.by_driver ? CANCELED_BY_DRIVER : CANCELED
     this.setState({ trip: { ...this.state.trip, status } })
     if (data.by_driver) alert(i18n.trip.canceled)
+  }
+
+  vibrate = () => {
+    if (navigator.vibrate) navigator.vibrate([200, 100, 200])
   }
 
   renderFields(trip, isValid, cards) {
