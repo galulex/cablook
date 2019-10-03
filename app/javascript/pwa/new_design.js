@@ -185,14 +185,11 @@ export default class NewDesign extends Component {
     this.unsubscribe()
   }
 
-  componentDidUpdate() {
-    if (!this.props.trip) { return; }
-    this.subscribe();
-  }
-
   componentWillReceiveProps(props) {
     if (!props.trip) { return }
     this.setState({ trip: props.trip })
+    this.updateTrip()
+    this.subscribe()
   }
 
   scroll = val => {
