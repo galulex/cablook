@@ -72,16 +72,13 @@ export default class PreviewMap extends Component {
       destination: null,
       waypoints: [],
       subscription: null,
-      cars: {},
+      car: null,
       transition: TRANSITION
     }
   }
 
   componentDidMount() {
     const { lng, lat, zoom } = this.state
-
-    this.getCarsLocations()
-    this.subscribeToDriverChannel()
 
     this.map = new mapboxgl.Map({
       container: this.mapContainer,
@@ -104,12 +101,12 @@ export default class PreviewMap extends Component {
     });
 
     this.map.on('movestart', () => {
-      if (!this.cars) return;
+      if (!this.car) return;
       this.setState({transition: 0})
     });
 
     this.map.on('moveend', () => {
-      if (!this.cars) return;
+      if (!this.car) return;
       this.setState({transition: TRANSITION})
     });
 
@@ -155,24 +152,6 @@ export default class PreviewMap extends Component {
     this.setState({subscription: null})
   }
 
-  subscribeToDriverChannel = () => {
-    if (this.state.subscription) return this.state.subscription
-    this.setState({subscription: cable.subscriptions.create(
-      { channel: 'DriverMapChannel' },
-      {
-        received: data => {
-          if (!data['location'] || !this.cars[data.car_id]) return;
-          let car = this.cars[data.car_id]
-          let deg = this.bearing(data.location.reverse(), [car.getLngLat().lng, car.getLngLat().lat])
-          car._element.className += ' smooth'
-          this.cars[data.car_id].carAngleDeg = deg
-          this.cars[data.car_id].setLngLat(data.location)
-          this.updateCarDirection(this.cars[data.car_id])
-        }
-      }
-    )})
-  }
-
   bearing = (start, end) => {
     let y = Math.sin(end[0] - start[0]) * Math.cos(end[1]);
     let x = Math.cos(start[1]) * Math.sin(end[1]) -
@@ -185,30 +164,23 @@ export default class PreviewMap extends Component {
     l._element.firstChild.style.transform = "rotate(" + angle + "deg)";
   }
 
-  getCarsLocations = () => {
-    axios.get('drivers_app/maps').then((res) => {
-      let cars = {}
-      res['data']['cars'].map((data) => {
-        let marker = new mapboxgl.Marker(render(<div><NissanLeaf class='nissan' color={data['color']}car={`car_${data['id']}__`}/></div>))
-        marker.setLngLat(data.location.reverse())
-        marker._element.className += ' leaf'
-        marker._element.addEventListener('transitionend', (event) => {
-          event.target.classList.remove('smooth')
-        })
-        if (!data.position) {
-          marker.carAngleDeg = 180;
-        }  else {
-          marker.carAngleDeg = this.bearing(data.location, data.position.reverse())
-        }
-        marker.addTo(this.map)
-        cars[data.id] = marker
-        this.updateCarDirection(marker)
-      })
-      this.cars = cars
-
-    }).catch((error) => {
-      if (error.response) alert(error.response.data.errors)
+  renderCar(car) {
+    let marker = new mapboxgl.Marker(render(<div><NissanLeaf class='nissan' color={car.color} car='trip_car'/></div>))
+    marker.setLngLat(car.location.reverse())
+    marker._element.className += ' leaf'
+    marker._element.addEventListener('transitionend', (event) => {
+      event.target.classList.remove('smooth')
     })
+    if (!car.position) {
+      marker.carAngleDeg = 180;
+    }  else {
+      marker.carAngleDeg = this.bearing(car.location, car.position.reverse())
+    }
+    marker.addTo(this.map)
+    car = marker
+    this.updateCarDirection(marker)
+
+    this.setState({ car: car })
   }
 
   pick = (index) => {
@@ -290,6 +262,20 @@ export default class PreviewMap extends Component {
       }]
     };
     if (this.map.getSource('line')) this.map.getSource('line').setData(geojson)
+
+    if (props.car) {
+      if (!this.state.car) { this.renderCar(props.car) }
+      this.updateCarPosition(props.car)
+    }
+  }
+
+  updateCarPosition(data) {
+    let car = this.state.car
+    let deg = this.bearing(data.location.reverse(), [car.getLngLat().lng, car.getLngLat().lat])
+    // car._element.className += ' smooth'
+    car.carAngleDeg = deg
+    car.setLngLat(data.location)
+    this.updateCarDirection(car)
   }
 
   setZoom = (event) => {
@@ -311,4 +297,3 @@ export default class PreviewMap extends Component {
     )
   }
 }
-

@@ -1,6 +1,7 @@
 import { h, render, Component } from 'preact'
 import axios from 'axios'
 
+import { pick } from 'lodash';
 import i18n from './i18n.js'
 import './css/map.css'
 import PreviewMap from './map/preview_map.js'
@@ -30,10 +31,9 @@ export default class NewDesign extends Component {
     this.state = {
       trip: { stops: ['', ''], waypoints: [], osrm: true },
       subscription: null,
-      car_location: null,
+      car: null,
       picker: null,
       bonus: null,
-      cars_locations: []
     }
   }
 
@@ -121,7 +121,7 @@ export default class NewDesign extends Component {
       return;
     }
     axios.patch(`trips/${this.state.trip.id}/cancel`).then((res) => {
-      this.setState({ trip: { ...this.state.trip, status: CANCELED } })
+      this.setState({ trip: { ...this.state.trip, status: CANCELED }, car: null })
       this.unsubscribe()
     }).catch((error) => {
       if (error.response) alert(error.response.data.errors)
@@ -187,13 +187,20 @@ export default class NewDesign extends Component {
 
   componentWillReceiveProps(props) {
     if (!props.trip) { return }
-    this.setState({ trip: props.trip })
+    const trip = pick(props.trip, ['departure', 'departure_address', 'destination', 'destination_address', 'path', 'status', 'id', 'stops', 'waypoints', 'cost', 'distance', 'duration'])
+    const car = { location: props.trip.car_location, color: props.trip.car_color }
+    this.setState({ trip: trip, car: car })
     this.updateTrip()
     this.subscribe()
   }
 
   scroll = val => {
     this.fields.scrollTo({left: this.fields.scrollWidth/val, behavior: 'smooth'})
+  }
+
+  updateRoute = (e) => {
+    let params = { ...this.state.trip, osrm: true }
+    this.sendRequest(params)
   }
 
   setOrderTime = (e) => {
@@ -222,7 +229,7 @@ export default class NewDesign extends Component {
 
   TripAccepted = (data) => {
     this.vibrate()
-    this.setState({ trip: { ...this.state.trip, status: ON_THE_WAY } })
+    this.setState({ trip: { ...this.state.trip, status: ON_THE_WAY }, car: { location: data.trip.car_location ,color: data.trip.car_color } })
   }
 
   TripDeclined = (data) => {
@@ -235,6 +242,14 @@ export default class NewDesign extends Component {
     const status = data.by_driver ? CANCELED_BY_DRIVER : CANCELED
     this.setState({ trip: { ...this.state.trip, status } })
     if (data.by_driver) alert(i18n.trip.canceled)
+  }
+
+  TripUpdated = (data) => {
+    this.setState({ trip: JSON.parse(data.data) })
+  }
+
+  DriverLocationUpdated = (data) => {
+    this.setState({ car: { ...this.state.car, location: [data.body.location.longitude, data.body.location.latitude] } })
   }
 
   vibrate = () => {
@@ -259,7 +274,7 @@ export default class NewDesign extends Component {
                 favorite_addresses={this.props.favorite_addresses}
                 language={this.props.language}
                 coords={trip.waypoints[i]}
-                readonly={!!trip.id && i == 0}
+                readonly={ ![ON_THE_WAY, CANCELED, CANCELED_BY_DRIVER, undefined].includes(trip.status) }
                 address={e}
                 index={i}
                 fieldsCount={trip.stops.length}
@@ -268,7 +283,7 @@ export default class NewDesign extends Component {
             )
           })}
           <div>
-            <button type='button' onClick={this.addAddress} class='add-address' disabled={isValid} title={ i18n.current_trip.add_address }>
+            <button type='button' onClick={this.addAddress} class='add-address' disabled={isValid || ![ON_THE_WAY, CANCELED, CANCELED_BY_DRIVER, undefined].includes(trip.status) } title={ i18n.current_trip.add_address }>
               <Add height='40'/>
             </button>
           </div>
@@ -320,24 +335,26 @@ export default class NewDesign extends Component {
 
   render() {
     const trip = this.state.trip
+    const car = this.state.car
     const cards = this.props.cards()
     let isValid = trip.stops.includes('')
     let cost = (trip.cost) ? `${trip.cost} ${i18n.grn}` : ''
 
-    return(
+    return (
       <section class={`new_design ${this.state.klass}`}>
         <style>{`fieldset.address:nth-child(${this.state.picker + 1}) { opacity: 1;}`}</style>
         <header></header>
-        <PreviewMap trip={() => trip} isValid={this.isValid} language={this.props.language} picker={this.state.picker} setAddress={this.setAddress} zoom={this.state.zoom}/>
+        <PreviewMap trip={() => trip} car={car} isValid={this.isValid} language={this.props.language} picker={this.state.picker} setAddress={this.setAddress} zoom={this.state.zoom}/>
         <div class='wrapper'>
-          { [CANCELED, CANCELED_BY_DRIVER, undefined].includes(trip.status) && this.renderFields(trip, isValid, cards) }
-          { trip && trip.id && [PENDING].includes(trip.status) && this.renderLoading() }
+          { this.renderFields(trip, isValid, cards) }
+          { [PENDING].includes(trip.status) && this.renderLoading() }
         </div>
         <Buttons
           trip={trip}
           isValid={this.isValid}
           cost={cost}
           createTrip={this.createTrip}
+          updateRoute={this.updateRoute}
           cancel={this.cancel}
           retry={this.retry}
           cancelDeclined={this.cancelDeclined}
