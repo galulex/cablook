@@ -20,7 +20,8 @@ export default class Category extends Component {
         result.push({
           name: item.name,
           price: item.price,
-          description: item.description
+          description: item.description,
+          id: item.id
         })
       }
     }

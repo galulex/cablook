@@ -14,7 +14,8 @@ export default class CartItem extends Component {
         name: this.props.item_name,
         quantity: this.props.item.quantity,
         item_price: this.props.item.item_price,
-        total_price: this.props.item.total_price
+        total_price: this.props.item.total_price,
+        id: this.props.item.id
       }
     }
   }
@@ -24,25 +25,25 @@ export default class CartItem extends Component {
   }
 
   findItemInCart = () => {
-    const { item_name } = this.props
+    const { item_name, id } = this.props
 
     if (localStorage.getItem('cart') === null) return;
 
     const cart = JSON.parse(localStorage.getItem('cart'))
 
-    this.setState({ in_cart: !!cart['items'][item_name] })
+    this.setState({ in_cart: !!cart['items'][id] })
   }
 
   addToCart = () => {
-    const { item, item_name, vendor } = this.props
+    const { item, item_name, vendor, id } = this.props
 
     let cart = JSON.parse(localStorage.getItem('cart'))
 
-    cart['items'][item_name] = cart['items'][item_name]
-    const qty = cart['items'][item_name]['quantity'] + parseInt(this.state.quantity)
+    cart['items'][id] = cart['items'][id]
+    const qty = cart['items'][id]['quantity'] + parseInt(this.state.quantity)
     const item_price = item.item_price
 
-    cart['items'][item_name] = {
+    cart['items'][id] = {
       quantity: qty,
       item_price: item_price,
       total_price: item_price * qty
@@ -54,19 +55,19 @@ export default class CartItem extends Component {
   }
 
   removeFromCart = () => {
-    const { item, item_name } = this.props
+    const { item, item_name, id } = this.props
 
     let cart = JSON.parse(localStorage.getItem('cart'))
-    let current_item = JSON.parse(localStorage.getItem('cart')).items[item_name]
+    let current_item = JSON.parse(localStorage.getItem('cart')).items[id]
 
     if (current_item['quantity'] > 1) {
       current_item['quantity']--
       current_item['total_price'] = current_item['total_price'] - current_item['item_price']
 
-      cart['items'][item_name] = current_item
+      cart['items'][id] = current_item
     } else {
       if (window.confirm(i18n.cart_item.last_item)) {
-        delete(cart['items'][item_name])
+        delete(cart['items'][id])
       } else {
         return;
       }
@@ -87,13 +88,13 @@ export default class CartItem extends Component {
   }
 
   removeAllCurrentItem = () => {
-    const { item, item_name } = this.props
+    const { item, item_name, id } = this.props
 
     let cart = JSON.parse(localStorage.getItem('cart'))
-    let current_item = JSON.parse(localStorage.getItem('cart')).items[item_name]
+    let current_item = JSON.parse(localStorage.getItem('cart')).items[id]
 
     if (window.confirm(i18n.cart_item.remove_current_item)) {
-      delete(cart['items'][item_name])
+      delete(cart['items'][id])
     } else {
       return;
     }
@@ -106,15 +107,15 @@ export default class CartItem extends Component {
   }
 
   render() {
-    const { item_name } = this.props
+    const { item_name, id } = this.props
     const { in_cart } = this.state
-    const item = JSON.parse(localStorage.getItem('cart')).items[item_name]
+    const item = JSON.parse(localStorage.getItem('cart')).items[id]
 
     return (
       <div class='item-preview'>
         <div class='row'>
           <div class='col-4'>
-            <b class='name'>{item_name + ' (' + item.item_price + 'грн.)'}</b>
+            <b class='name'>{item.item_name + ' (' + item.item_price + 'грн.)'}</b>
           </div>
           <div class='col-2 text-center'>
             <b class='name'>{item.quantity} шт.</b>

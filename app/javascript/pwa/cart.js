@@ -270,7 +270,7 @@ export default class Cart extends Component {
         { items ? ([
           Object.keys(items).map((item, index) => {
             return(
-              <CartItem key={index} item_name={item} item={items[item]} vendor={vendor} calculateTotalPrice={this.calculateTotalPrice}/>
+              <CartItem key={index} id={item} item={items[item]} vendor={vendor} calculateTotalPrice={this.calculateTotalPrice}/>
             )
           }),
           <div class='order-price'>
@@ -289,7 +289,7 @@ export default class Cart extends Component {
               </div>,
           !vendor_closed &&
             (cards.length < 1) &&
-              <button class='button fixed' type='button' disabled={showWidget} onClick={() => this.setState({showWidget: true}) }>+ {i18n.cards.add}</button>,
+              <button class='button' type='button' disabled={showWidget} onClick={() => this.setState({showWidget: true}) }>+ {i18n.cards.add}</button>,
           !vendor_closed &&
             <form action='#' onSubmit={(e) => e.preventDefault()}>
               <AddressInput
