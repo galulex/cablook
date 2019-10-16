@@ -22,8 +22,8 @@ export default class ItemPreview extends Component {
     const { item, category } = this.props
     const cart = JSON.parse(localStorage.getItem('cart'))
     if (!cart) return;
-    this.setState({ in_cart: !!cart.items[category + ', ' + item.name] })
-    if (this.state.in_cart) this.setState({ item_count: cart.items[category + ', ' + item.name].quantity })
+    this.setState({ in_cart: !!cart.items[item.id] })
+    if (this.state.in_cart) this.setState({ item_count: cart.items[item.id].quantity })
   }
 
   addToCart = () => {
@@ -41,14 +41,15 @@ export default class ItemPreview extends Component {
       }
     }
 
-    cart.items[category + ', ' + item.name] = cart.items[category + ', ' + item.name] || { quantity: 0 }
-    const qty = cart.items[category + ', ' + item.name].quantity + parseInt(this.state.quantity)
+    cart.items[item.id] = cart.items[item.id] || { quantity: 0 }
+    const qty = cart.items[item.id].quantity + parseInt(this.state.quantity)
     const item_price = item.price
 
-    cart.items[category + ', ' + item.name] = {
+    cart.items[item.id] = {
       quantity: qty,
       item_price: item_price,
-      total_price: item_price * qty
+      total_price: item_price * qty,
+      item_name: item.name
     }
     cart.vendor = vendor.name
     cart.vendor_name_slug = vendor.name_slug
@@ -63,29 +64,29 @@ export default class ItemPreview extends Component {
     if (!this.state.in_cart) {
       this.setState({ in_cart: true })
     }
-    this.setState({ item_count: cart.items[category + ', ' + item.name].quantity })
+    this.setState({ item_count: cart.items[item.id].quantity })
   }
 
   removeFromCart = () => {
     const { item, category } = this.props
 
     let cart = JSON.parse(localStorage.getItem('cart'))
-    let current_item = cart.items[category + ', ' + item.name]
+    let current_item = cart.items[item.id]
 
     if (current_item['quantity'] > 1) {
       current_item['quantity']--
       current_item['total_price'] = current_item['total_price'] - current_item['item_price']
 
-      cart['items'][category + ', ' + item.name] = current_item
+      cart['items'][item.id] = current_item
     } else {
-      delete(cart['items'][category + ', ' + item.name])
+      delete(cart['items'][item.id])
       this.setState({ in_cart: false })
     }
 
     if (Object.keys(cart.items).length !== 0) {
       localStorage.setItem('cart', JSON.stringify(cart))
       this.props.updateCart(cart)
-      if (this.state.in_cart) this.setState({ item_count: cart.items[category + ', ' + item.name].quantity })
+      if (this.state.in_cart) this.setState({ item_count: cart.items[item.id].quantity })
     } else {
       localStorage.removeItem('cart')
       this.props.updateCart({})
