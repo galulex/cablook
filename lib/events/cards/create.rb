@@ -21,7 +21,7 @@ module Events
         return if data[:transactionStatus] == 'Declined'
         create_card
         telegram_message
-        UserMailer.new_card(data[:email], data[:cardPan]).deliver_later
+        #UserMailer.new_card(data[:email], data[:cardPan]).deliver_later
         @card
       end
 
