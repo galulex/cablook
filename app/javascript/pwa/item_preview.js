@@ -49,7 +49,8 @@ export default class ItemPreview extends Component {
       quantity: qty,
       item_price: item_price,
       total_price: item_price * qty,
-      item_name: item.name
+      item_name: item.name,
+      item_category: category
     }
     cart.vendor = vendor.name
     cart.vendor_name_slug = vendor.name_slug

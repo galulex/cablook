@@ -11,6 +11,7 @@ export default class CartItem extends Component {
       quantity: 1,
       in_cart: false,
       item: {
+        category: this.props.category,
         name: this.props.item_name,
         quantity: this.props.item.quantity,
         item_price: this.props.item.item_price,
@@ -39,11 +40,12 @@ export default class CartItem extends Component {
 
     let cart = JSON.parse(localStorage.getItem('cart'))
 
-    cart['items'][id] = cart['items'][id]
     const qty = cart['items'][id]['quantity'] + parseInt(this.state.quantity)
     const item_price = item.item_price
+    const oldItem = cart['items'][id]
 
     cart['items'][id] = {
+      ...oldItem,
       quantity: qty,
       item_price: item_price,
       total_price: item_price * qty
