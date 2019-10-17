@@ -19,6 +19,11 @@ section.new_design {
   transition: height .3s;
 }
 
+.button.edit {
+  background: #efcc3a;
+  background: var(--orange);
+}
+
 .new_design .remove-address {
   right: 5px;
   font-size: 2.2rem;
