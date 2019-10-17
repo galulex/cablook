@@ -166,7 +166,7 @@ export default class PreviewMap extends Component {
 
   renderCar(car) {
     let marker = new mapboxgl.Marker(render(<div><NissanLeaf class='nissan' color={car.color} car='trip_car'/></div>))
-    marker.setLngLat(car.location.reverse())
+    marker.setLngLat(car.location)
     marker._element.className += ' leaf'
     marker._element.addEventListener('transitionend', (event) => {
       event.target.classList.remove('smooth')
@@ -174,13 +174,12 @@ export default class PreviewMap extends Component {
     if (!car.position) {
       marker.carAngleDeg = 180;
     }  else {
-      marker.carAngleDeg = this.bearing(car.location, car.position.reverse())
+      marker.carAngleDeg = this.bearing(car.location, car.position)
     }
     marker.addTo(this.map)
-    car = marker
     this.updateCarDirection(marker)
 
-    this.setState({ car: car })
+    this.setState({ car: marker })
   }
 
   pick = (index) => {
@@ -221,6 +220,10 @@ export default class PreviewMap extends Component {
   }
 
   componentWillReceiveProps(props) {
+    if (!props.car && this.state.car) {
+      this.state.car.remove()
+      this.setState({ car: null })
+    }
     if (props.picker !== null) return this.pick(props.picker)
     this.map.off('movestart', this.movestart);
     this.map.off('moveend', this.moveend);
@@ -271,7 +274,7 @@ export default class PreviewMap extends Component {
 
   updateCarPosition(data) {
     let car = this.state.car
-    let deg = this.bearing(data.location.reverse(), [car.getLngLat().lng, car.getLngLat().lat])
+    let deg = this.bearing(data.location, [car.getLngLat().lng, car.getLngLat().lat])
     // car._element.className += ' smooth'
     car.carAngleDeg = deg
     car.setLngLat(data.location)
