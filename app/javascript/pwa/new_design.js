@@ -206,6 +206,18 @@ export default class NewDesign extends Component {
 
   updateRoute = (e) => {
     this.setState({ trip: { ...this.state.trip, status: CONFIRM_UPDATE_TRIP } })
+    if (window.ios) return
+    history.pushState(null, null,'/')
+    window.addEventListener('popstate', this.cancelConfirmUpdate, { once: true })
+  }
+
+  cancelConfirmUpdate() {
+    window.removeEventListener('popstate', this.cancelConfirmUpdate, true)
+    this.props.fetchUser
+  }
+
+  handleBackEdit = (e) => {
+    window.ios ? this.props.fetchUser() : window.history.back()
   }
 
   setOrderTime = (e) => {
@@ -382,7 +394,7 @@ export default class NewDesign extends Component {
                   createTrip={this.createTrip}
                   updateRoute={this.updateRoute}
                   confirmUpdate={this.confirmUpdate}
-                  cancelConfirmUpdate={() => { this.props.fetchUser() }}
+                  handleBackEdit={this.handleBackEdit}
                   cancel={this.cancel}
                   retry={this.retry}
                   cancelDeclined={this.cancelDeclined}
