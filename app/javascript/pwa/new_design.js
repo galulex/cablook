@@ -7,6 +7,7 @@ import './css/map.css'
 import PreviewMap from './map/preview_map.js'
 import Buttons from './new_design/buttons.js'
 import AddressInput from '../pwa/trips/address-input.js';
+import Feedback from '../pwa/feedback.js';
 import Add from './images/+.svg'
 import Entrance from './images/entrance.svg'
 import Clock from './images/trip_time.svg'
@@ -198,9 +199,13 @@ export default class NewDesign extends Component {
     this.fields.scrollTo({left: this.fields.scrollWidth/val, behavior: 'smooth'})
   }
 
-  updateRoute = (e) => {
+  confirmUpdate = (e) => {
     let params = { ...this.state.trip, osrm: true }
     this.sendRequest(params)
+  }
+
+  updateRoute = (e) => {
+    this.setState({ trip: { ...this.state.trip, status: CONFIRM_UPDATE_TRIP } })
   }
 
   setOrderTime = (e) => {
@@ -252,6 +257,23 @@ export default class NewDesign extends Component {
     this.setState({ car: { ...this.state.car, location: [data.body.location.longitude, data.body.location.latitude] } })
   }
 
+  finish_trip = () => {
+    this.vibrate()
+    this.setState({ trip: { ...this.state.trip, status: FINISHED }})
+    // this.props.fetchUser()
+    this.unsubscribe()
+  }
+
+  waiting_client = () => {
+    this.vibrate()
+    this.setState({ trip: { ...this.state.trip, status: WAITING_CLIENT }})
+  }
+
+  start_trip = () => {
+    this.vibrate()
+    this.setState({ trip: { ...this.state.trip, status: DRIVING }})
+  }
+
   vibrate = () => {
     if (navigator.vibrate) navigator.vibrate([200, 100, 200])
   }
@@ -274,7 +296,7 @@ export default class NewDesign extends Component {
                 favorite_addresses={this.props.favorite_addresses}
                 language={this.props.language}
                 coords={trip.waypoints[i]}
-                readonly={ ![ON_THE_WAY, CANCELED, CANCELED_BY_DRIVER, undefined].includes(trip.status) }
+                readonly={ ![CONFIRM_UPDATE_TRIP, CANCELED, CANCELED_BY_DRIVER, undefined].includes(trip.status) && i == 0 }
                 address={e}
                 index={i}
                 fieldsCount={trip.stops.length}
@@ -283,7 +305,7 @@ export default class NewDesign extends Component {
             )
           })}
           <div>
-            <button type='button' onClick={this.addAddress} class='add-address' disabled={isValid || ![ON_THE_WAY, CANCELED, CANCELED_BY_DRIVER, undefined].includes(trip.status) } title={ i18n.current_trip.add_address }>
+            <button type='button' onClick={this.addAddress} class='add-address' disabled={isValid} title={ i18n.current_trip.add_address }>
               <Add height='40'/>
             </button>
           </div>
@@ -333,6 +355,10 @@ export default class NewDesign extends Component {
     )
   }
 
+  resetTrip = (e) => {
+    this.setState({ trip: { stops: ['', ''], waypoints: [], osrm: true }, car: null })
+  }
+
   render() {
     const trip = this.state.trip
     const car = this.state.car
@@ -342,25 +368,26 @@ export default class NewDesign extends Component {
 
     return (
       <section class={`new_design ${this.state.klass}`}>
+        { (trip && trip.status == FINISHED) && <Feedback trip={trip} updateTrip={this.resetTrip} handleBack={this.resetTrip} /> }
         <style>{`fieldset.address:nth-child(${this.state.picker + 1}) { opacity: 1;}`}</style>
         <header></header>
         <PreviewMap trip={() => trip} car={car} isValid={this.isValid} language={this.props.language} picker={this.state.picker} setAddress={this.setAddress} zoom={this.state.zoom}/>
         <div class='wrapper'>
-          { this.renderFields(trip, isValid, cards) }
-          { [PENDING].includes(trip.status) && this.renderLoading() }
+        { [CONFIRM_UPDATE_TRIP, CANCELED, CANCELED_BY_DRIVER, undefined].includes(trip.status) && this.renderFields(trip, isValid, cards) }
+        { [PENDING].includes(trip.status) && this.renderLoading() }
         </div>
-        <Buttons
-          trip={trip}
-          isValid={this.isValid}
-          cost={cost}
-          createTrip={this.createTrip}
-          updateRoute={this.updateRoute}
-          cancel={this.cancel}
-          retry={this.retry}
-          cancelDeclined={this.cancelDeclined}
-          picker={this.state.picker}
-          pickAddress={this.pickAddress}
-        />
+        <Buttons  trip={trip}
+                  isValid={this.isValid}
+                  cost={cost}
+                  createTrip={this.createTrip}
+                  updateRoute={this.updateRoute}
+                  confirmUpdate={this.confirmUpdate}
+                  cancelConfirmUpdate={() => { this.props.fetchUser() }}
+                  cancel={this.cancel}
+                  retry={this.retry}
+                  cancelDeclined={this.cancelDeclined}
+                  picker={this.state.picker}
+                  pickAddress={this.pickAddress} />
       </section>
     )
   }
