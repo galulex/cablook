@@ -78,6 +78,7 @@ section.feedback .star-container {
 section.feedback svg.driver {
   all: unset;
   max-width: 300px;
+  max-height: 30vh;
   margin: 0 25%;
 }
 
