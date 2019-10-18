@@ -186,7 +186,7 @@ export default class PreviewMap extends Component {
 
   pick = (index) => {
     this.setState({index: index})
-    this.map.getSource('line').setData(GEOJSON)
+    this.map.getSource('line').setData(this.state.geojson || GEOJSON)
     this.markers.map(m => m.remove())
     this.map.on('movestart', this.movestart);
     this.map.on('moveend', this.moveend);
