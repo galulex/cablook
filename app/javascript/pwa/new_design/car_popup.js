@@ -5,7 +5,6 @@ import Phone from '../images/green_phone.svg'
 import TripTime from '../images/trip_time.svg'
 import TripPrice from '../images/ukraine-hryvna.svg'
 import Car from '../images/leaf_icon.svg'
-import Profile from '../images/profile.svg'
 import '../css/car_popup.css'
 
 export default class CarPopup extends Component {
@@ -15,9 +14,8 @@ export default class CarPopup extends Component {
     const driver = this.props.driver
     return (
       <div>
-        <div><Profile/>{driver.name}</div>
         <div><Car/>{car.number}</div>
-        <div><a href={`tel:${driver.phone_number}`}><Phone/>{driver.phone_number}</a></div>
+        <div><a href={`tel:${driver.phone_number}`}><Phone/>{driver.name}</a></div>
         <div><TripTime/>{trip.start_time}</div>
         <div><TripPrice/>{`${trip.cost}`}</div>
       </div>
