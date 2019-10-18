@@ -33,6 +33,7 @@ export default class NewDesign extends Component {
       trip: { stops: ['', ''], waypoints: [], osrm: true },
       subscription: null,
       car: null,
+      driver: null,
       picker: null,
       bonus: null,
     }
@@ -188,9 +189,11 @@ export default class NewDesign extends Component {
 
   componentWillReceiveProps(props) {
     if (!props.trip) { return }
-    const trip = pick(props.trip, ['departure', 'departure_address', 'destination', 'destination_address', 'path', 'status', 'id', 'stops', 'waypoints', 'cost', 'distance', 'duration'])
-    const car = { location: props.trip.car_location, color: props.trip.car_color }
-    this.setState({ trip: trip, car: car })
+    const trip = pick(props.trip, ['departure', 'departure_address', 'destination', 'destination_address', 'path', 'status',
+                                   'id', 'stops', 'waypoints', 'cost', 'distance', 'duration', 'start_time'])
+    const car = { location: props.trip.car_location, color: props.trip.car_color, number: props.trip.car_number }
+    const driver = { name: props.trip.driver_name, phone_number: props.trip.car_phone_number }
+    this.setState({ trip: trip, car: car, driver: driver })
     this.updateTrip()
     this.subscribe()
   }
@@ -206,14 +209,14 @@ export default class NewDesign extends Component {
 
   updateRoute = (e) => {
     this.setState({ trip: { ...this.state.trip, status: CONFIRM_UPDATE_TRIP } })
-    if (window.ios) return
+    if (window.ios) return;
     history.pushState(null, null,'/')
     window.addEventListener('popstate', this.cancelConfirmUpdate, { once: true })
   }
 
-  cancelConfirmUpdate() {
-    window.removeEventListener('popstate', this.cancelConfirmUpdate, true)
-    this.props.fetchUser
+  cancelConfirmUpdate = (e) => {
+    window.removeEventListener('popstate', this.cancelConfirmUpdate, true);
+    this.props.fetchUser();
   }
 
   handleBackEdit = (e) => {
@@ -246,7 +249,9 @@ export default class NewDesign extends Component {
 
   TripAccepted = (data) => {
     this.vibrate()
-    this.setState({ trip: { ...this.state.trip, status: ON_THE_WAY }, car: { location: data.trip.car_location ,color: data.trip.car_color } })
+    this.setState({ trip: { ...this.state.trip, status: ON_THE_WAY, start_time: data.trip.start_time },
+                    car: { location: data.trip.car_location ,color: data.trip.car_color, number: data.trip.car_number },
+                    driver: { name: data.trip.driver_name, phone_number: data.trip.car_phone_number } })
   }
 
   TripDeclined = (data) => {
@@ -302,18 +307,16 @@ export default class NewDesign extends Component {
         <div class='option'>
           { trip.stops.map((e, i) => {
             return (
-              <AddressInput
-                setAddress={this.setAddress}
-                eraseAddress={this.eraseAddress}
-                favorite_addresses={this.props.favorite_addresses}
-                language={this.props.language}
-                coords={trip.waypoints[i]}
-                readonly={ ![CONFIRM_UPDATE_TRIP, CANCELED, CANCELED_BY_DRIVER, undefined].includes(trip.status) && i == 0 }
-                address={e}
-                index={i}
-                fieldsCount={trip.stops.length}
-                pickAddress={this.pickAddress}
-              />
+              <AddressInput setAddress={this.setAddress}
+                            eraseAddress={this.eraseAddress}
+                            favorite_addresses={this.props.favorite_addresses}
+                            language={this.props.language}
+                            coords={trip.waypoints[i]}
+                            readonly={ ![CONFIRM_UPDATE_TRIP, CANCELED, CANCELED_BY_DRIVER, undefined].includes(trip.status) && i == 0 }
+                            address={e}
+                            index={i}
+                            fieldsCount={trip.stops.length}
+                            pickAddress={this.pickAddress} />
             )
           })}
           <div>
@@ -373,7 +376,6 @@ export default class NewDesign extends Component {
 
   render() {
     const trip = this.state.trip
-    const car = this.state.car
     const cards = this.props.cards()
     let isValid = trip.stops.includes('')
     let cost = (trip.cost) ? `${trip.cost} ${i18n.grn}` : ''
@@ -383,23 +385,30 @@ export default class NewDesign extends Component {
         { (trip && trip.status == FINISHED) && <Feedback trip={trip} updateTrip={this.resetTrip} handleBack={this.resetTrip} /> }
         <style>{`fieldset.address:nth-child(${this.state.picker + 1}) { opacity: 1;}`}</style>
         <header></header>
-        <PreviewMap trip={() => trip} car={car} isValid={this.isValid} language={this.props.language} picker={this.state.picker} setAddress={this.setAddress} zoom={this.state.zoom}/>
+        <PreviewMap trip={() => trip}
+                    car={this.state.car}
+                    driver={this.state.driver}
+                    isValid={this.isValid}
+                    language={this.props.language}
+                    picker={this.state.picker}
+                    setAddress={this.setAddress}
+                    zoom={this.state.zoom} />
         <div class='wrapper'>
-        { [CONFIRM_UPDATE_TRIP, CANCELED, CANCELED_BY_DRIVER, undefined].includes(trip.status) && this.renderFields(trip, isValid, cards) }
-        { [PENDING].includes(trip.status) && this.renderLoading() }
+          { [CONFIRM_UPDATE_TRIP, CANCELED, CANCELED_BY_DRIVER, undefined].includes(trip.status) && this.renderFields(trip, isValid, cards) }
+          { [PENDING].includes(trip.status) && this.renderLoading() }
         </div>
-        <Buttons  trip={trip}
-                  isValid={this.isValid}
-                  cost={cost}
-                  createTrip={this.createTrip}
-                  updateRoute={this.updateRoute}
-                  confirmUpdate={this.confirmUpdate}
-                  handleBackEdit={this.handleBackEdit}
-                  cancel={this.cancel}
-                  retry={this.retry}
-                  cancelDeclined={this.cancelDeclined}
-                  picker={this.state.picker}
-                  pickAddress={this.pickAddress} />
+        <Buttons trip={trip}
+                 isValid={this.isValid}
+                 cost={cost}
+                 createTrip={this.createTrip}
+                 updateRoute={this.updateRoute}
+                 confirmUpdate={this.confirmUpdate}
+                 handleBackEdit={this.handleBackEdit}
+                 cancel={this.cancel}
+                 retry={this.retry}
+                 cancelDeclined={this.cancelDeclined}
+                 picker={this.state.picker}
+                 pickAddress={this.pickAddress} />
       </section>
     )
   }

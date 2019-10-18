@@ -1,0 +1,18 @@
+[class*="car"].mapboxgl-popup .mapboxgl-popup-content {
+  padding: 10px;
+  font-size: 1rem;
+  font-weight: 100;
+  background: #1c1c1c;
+  background: var(--black);
+  color: white;
+  border-radius: 10px;
+}
+
+[class*="car"].mapboxgl-popup .mapboxgl-popup-tip {
+  border-top-color: #1c1c1c;
+  border-top-color: var(--black);
+}
+
+[class*="car"].mapboxgl-popup svg  {
+  margin-bottom: 5px;
+}
