@@ -1,9 +1,11 @@
 section.new_design {
   padding: 60px 0 0;
+  max-width: 100%;
 }
 
 .new_design fieldset.address {
   background: rgba(255, 255, 255, 0.9);
+  background: var(--bg);
   margin: 5px 0;
   /* margin-bottom: 10px; */
   box-shadow: var(--shadow);
@@ -67,6 +69,7 @@ section.new_design {
 .mapboxgl-popup.point-first .mapboxgl-popup-content {
   background: #132d50;
   background: var(--navy);
+  color: var(--white);
 }
 
 .mapboxgl-popup.point-last .mapboxgl-popup-tip {
@@ -95,6 +98,8 @@ svg.pin-last path {
 
 .options {
   width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
   overflow: hidden;
   overflow-x: scroll;
   flex-wrap: nowrap;
@@ -129,6 +134,7 @@ svg.pin-last path {
   vertical-align: top;
   padding-bottom: 50px;
   min-height: 200px;
+  transition: opacity .3s;
 }
 
 .additions {
@@ -152,6 +158,10 @@ svg.pin-last path {
 }
 
 .pick fieldset.address {
+  opacity: 0;
+}
+
+.pick .options .option:nth-of-type(2) {
   opacity: 0;
 }
 
@@ -204,11 +214,13 @@ svg.pin-last path {
 
 .trigger svg > path:first-child {
   fill: rgba(255, 255, 255, 0.9);
+  fill: var(--bg);
 }
 
 label.nocall {
   margin: 5px 0;
   background: rgba(255, 255, 255, 0.9);
+  background: var(--bg);
   padding: 10px 5px 8px 45px;
   height: 40px;
   font-weight: 100;
@@ -229,4 +241,25 @@ svg.cross path:nth-of-type(2) {
 
 input:checked + svg.cross path:nth-of-type(2) {
   fill: #a925ad;
+}
+
+@media screen and (min-width: 630px) {
+  .options {
+    max-width: 900px;
+    overflow-y: visible;
+    overflow-x: visible;
+  }
+
+  .options .option {
+    width: 49%;
+  }
+
+  .trigger {
+    display: none;
+  }
+
+  .options.noscroll .option:nth-of-type(2) {
+    display: inline-block;
+  }
+
 }

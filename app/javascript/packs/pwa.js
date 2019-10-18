@@ -11,6 +11,7 @@ if (window.dark) {
   document.documentElement.style.setProperty('--placeholder', 'rgba(255, 255, 255, 0.5)');
   document.documentElement.style.setProperty('--shadow', '0 3px 6px rgba(255,255,255,0.2)');
   document.documentElement.style.setProperty('--focus-shadow', '0 3px 6px rgba(255,255,255,0.2), 0 3px 6px rgba(255,255,255,255.23)');
+  document.documentElement.style.setProperty('--bg', 'rgba(0,0,0,0.9)');
 }
 import '../pwa/android_polyfills.js';
 

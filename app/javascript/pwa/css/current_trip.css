@@ -134,6 +134,7 @@ button.add-address {
 
 button.add-address svg > path:first-child {
   fill: rgba(255, 255, 255, 0.9);
+  fill: var(--bg);
 }
 
 button.remove-address {
@@ -235,6 +236,7 @@ select#entrance, input#time, .select select {
   border-radius: 0;
   border: none;
   background: rgba(255, 255, 255, 0.9);
+  background: var(--bg);
   padding: 13px 5px 10px 45px;
   -webkit-appearance: none;
   -moz-appearance: none;
@@ -316,6 +318,7 @@ input.comment {
   margin: 5px 0;
   padding: 10px 10px 10px 45px;
   background: rgba(255, 255, 255, 0.9);
+  background: var(--bg);
   border: none;
   font-size: 16px;
   outline: none;
