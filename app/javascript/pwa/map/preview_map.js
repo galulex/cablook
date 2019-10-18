@@ -123,7 +123,7 @@ export default class PreviewMap extends Component {
     // this.map.addControl(new mapboxgl.NavigationControl({showCompass: false}), 'bottom-right')
 
     this.map.on('load', () => {
-      this.map.addSource('line', { type: 'geojson', lineMetrics: true, data: GEOJSON })
+      this.map.addSource('line', { type: 'geojson', lineMetrics: true, data: this.state.geojson || GEOJSON })
       this.map.addLayer(PATHLAYER);
       // geolocate.trigger()
     });
@@ -226,6 +226,10 @@ export default class PreviewMap extends Component {
       this.state.car.remove()
       this.setState({ car: null })
     }
+    if (!props.trip.path && this.map.getSource('line')) {
+      this.markers.map(m => m.remove())
+      this.map.getSource('line').setData(GEOJSON)
+    }
     if (props.picker !== null) return this.pick(props.picker)
     this.map.off('movestart', this.movestart);
     this.map.off('moveend', this.moveend);
@@ -266,8 +270,9 @@ export default class PreviewMap extends Component {
         }
       }]
     };
-    if (this.map.getSource('line')) this.map.getSource('line').setData(geojson)
 
+    this.setState({ geojson: geojson })
+    if (this.map.getSource('line')) this.map.getSource('line').setData(geojson);
     if (props.car) {
       if (!this.state.car) { this.renderCar(props.car, props.trip, props.driver) }
       var popupContent = render(<CarPopup car={props.car} trip={props.trip()} driver={props.driver}/>)
