@@ -181,6 +181,7 @@ export default class NewDesign extends Component {
   }
 
   componentDidMount() {
+    this.getTripThroughProps(this.props.trip)
   }
 
   componentWillUnmount() {
@@ -188,11 +189,15 @@ export default class NewDesign extends Component {
   }
 
   componentWillReceiveProps(props) {
-    if (!props.trip) { return }
-    const trip = pick(props.trip, ['departure', 'departure_address', 'destination', 'destination_address', 'path', 'status',
-                                   'id', 'stops', 'waypoints', 'cost', 'distance', 'duration', 'start_time'])
-    const car = { location: props.trip.car_location, color: props.trip.car_color, number: props.trip.car_number }
-    const driver = { name: props.trip.driver_name, phone_number: props.trip.car_phone_number }
+    this.getTripThroughProps(props.trip)
+  }
+
+  getTripThroughProps = (propsTrip) => {
+    if (!propsTrip) return;
+    const trip = pick(propsTrip, ['departure', 'departure_address', 'destination', 'destination_address', 'path', 'status',
+                                  'id', 'stops', 'waypoints', 'cost', 'distance', 'duration', 'start_time'])
+    const car = { location: propsTrip.car_location, color: propsTrip.car_color, number: propsTrip.car_number }
+    const driver = { name: propsTrip.driver_name, phone_number: propsTrip.car_phone_number }
     this.setState({ trip: trip, car: car, driver: driver })
     this.updateTrip()
     this.subscribe()
