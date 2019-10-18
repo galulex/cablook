@@ -9,10 +9,10 @@ mapboxgl.accessToken = 'pk.eyJ1IjoiZ2FsdWxleCIsImEiOiJjamx6ampoZjgyMnYxM3FvZ2ppN
 
 import i18n from '../i18n.js'
 import '../css/map.css'
-import Phone from '../images/green_phone.svg'
 import Pin from '../images/pin.svg'
 
 import NissanLeaf from '../../pwa/trips/nissan-leaf.js'
+import CarPopup from '../new_design/car_popup.js'
 import FocusOnCarControl from '../../pwa/trips/custom-control.js'
 
 const polyline = require('@mapbox/polyline')
@@ -164,7 +164,7 @@ export default class PreviewMap extends Component {
     l._element.firstChild.style.transform = "rotate(" + angle + "deg)";
   }
 
-  renderCar(car) {
+  renderCar(car, trip, driver) {
     let marker = new mapboxgl.Marker(render(<div><NissanLeaf class='nissan' color={car.color} car='trip_car'/></div>))
     marker.setLngLat(car.location)
     marker._element.className += ' leaf'
@@ -176,7 +176,9 @@ export default class PreviewMap extends Component {
     }  else {
       marker.carAngleDeg = this.bearing(car.location, car.position)
     }
-    marker.addTo(this.map)
+    var popupContent = render(<CarPopup car={car} trip={trip()} driver={driver}/>)
+    var popup = new mapboxgl.Popup({closeOnClick: false, closeButton: false, className: `car-${car.color}`, anchor: 'bottom', offset: 10}).setHTML(popupContent.outerHTML);
+    marker.setPopup(popup).addTo(this.map)
     this.updateCarDirection(marker)
 
     this.setState({ car: marker })
@@ -267,7 +269,9 @@ export default class PreviewMap extends Component {
     if (this.map.getSource('line')) this.map.getSource('line').setData(geojson)
 
     if (props.car) {
-      if (!this.state.car) { this.renderCar(props.car) }
+      if (!this.state.car) { this.renderCar(props.car, props.trip, props.driver) }
+      var popupContent = render(<CarPopup car={props.car} trip={props.trip()} driver={props.driver}/>)
+      this.state.car._popup.setHTML(popupContent.outerHTML)
       this.updateCarPosition(props.car)
     }
   }
