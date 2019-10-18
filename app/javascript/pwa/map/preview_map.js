@@ -178,7 +178,7 @@ export default class PreviewMap extends Component {
     }
     var popupContent = render(<CarPopup car={car} trip={trip()} driver={driver}/>)
     var popup = new mapboxgl.Popup({closeOnClick: false, closeButton: false, className: `car-${car.color}`, anchor: 'bottom', offset: 10}).setHTML(popupContent.outerHTML);
-    marker.setPopup(popup).addTo(this.map)
+    marker.setPopup(popup).addTo(this.map).togglePopup();
     this.updateCarDirection(marker)
 
     this.setState({ car: marker })
