@@ -16,7 +16,7 @@ module Api
     private
 
     def vendors
-      @vendors ||= Vendor.visible
+      @vendors ||= Vendor.visible.order('orders_count DESC')
     end
 
     def vendor
