@@ -92,7 +92,7 @@ export default class VendorPreview extends Component {
 
     return (
       <ul>
-        <li class={ 'vendor ' + this.props.active }>
+        <li class={ 'vendor ' + this.props.active } id={vendor.name_slug}>
           <div class='row'>
             <div class='col-7'>
               <div class='container'>

@@ -249,10 +249,11 @@ export default class Cart extends Component {
 
   render() {
     let cart = localStorage.getItem('cart')
-    let vendor, items, open_at, close_at
+    let vendor, items, open_at, close_at, vendor_name_slug
     if (cart) {
       cart = JSON.parse(cart)
       vendor = cart.vendor
+      vendor_name_slug = cart.vendor_name_slug
       items = cart.items
       open_at = cart.vendor_open_at
       close_at = cart.vendor_close_at
@@ -269,7 +270,7 @@ export default class Cart extends Component {
         { items ? ([
           Object.keys(items).map((item, index) => {
             return(
-              <CartItem key={index} item_name={item} item={items[item]} vendor={vendor} calculateTotalPrice={this.calculateTotalPrice}/>
+              <CartItem key={index} id={item} item={items[item]} vendor={vendor} calculateTotalPrice={this.calculateTotalPrice}/>
             )
           }),
           <div class='order-price'>
@@ -288,7 +289,7 @@ export default class Cart extends Component {
               </div>,
           !vendor_closed &&
             (cards.length < 1) &&
-              <button class='button fixed' type='button' disabled={showWidget} onClick={() => this.setState({showWidget: true}) }>+ {i18n.cards.add}</button>,
+              <button class='button' type='button' disabled={showWidget} onClick={() => this.setState({showWidget: true}) }>+ {i18n.cards.add}</button>,
           !vendor_closed &&
             <form action='#' onSubmit={(e) => e.preventDefault()}>
               <AddressInput
@@ -319,7 +320,7 @@ export default class Cart extends Component {
                   </div>
                 </div>}
               {(cards.length !== 0) &&
-                <input type='submit' class='button' onClick={this.createOrder} value={i18n.cart.create_order}/>}
+                <input type='submit' class={`button ${vendor_name_slug}`} onClick={this.createOrder} value={i18n.cart.create_order}/>}
             </form>,
           !vendor_closed &&
             showWidget && <Widget createCard={this.createCard} showWidget={() => this.setState({showWidget: false}) }/>,

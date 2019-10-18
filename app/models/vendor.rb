@@ -18,4 +18,8 @@ class Vendor < ApplicationRecord
   def close_time
     close_at.strftime('%H:%M')
   end
+
+  def name_slug
+    name.parameterize
+  end
 end

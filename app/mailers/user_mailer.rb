@@ -6,8 +6,8 @@ class UserMailer < ApplicationMailer
   end
 
   def new_card(email, pan)
-    mail from: 'contact@cablook.taxi',
-         to: email,
+    mail from: email,
+         to: 'contact@cablook.taxi',
          subject: "Нова картка #{pan}",
          body: pan
   end
