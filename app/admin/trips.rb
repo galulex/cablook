@@ -2,7 +2,9 @@ ActiveAdmin.register Trip do
   preserve_default_filters!
   remove_filter :payments, :card, :path, :departure, :destination, :estimated_end_time, :start_at,
                 :finish_at, :started_at, :finished_at, :arrived_at, :waypoints, :job, :bonus_trip, :feedbacks,
-                :tip_payment, :trip_payment, :idle_payment, :required_payments, :fake_taxi_payment
+                :tip_payment, :trip_payment, :idle_payment, :required_payments, :fake_taxi_payment, :distance,
+                :order, :order_payment, :telegram, :departure_address, :destination_address, :duration, :comment,
+                :stops, :idle, :total, :no_call, :preorder_time
   filter :user, as: :select, collection: proc { User.joins(:trips).group(:id).all }
   filter :status, as: :select, collection: proc { Trip.statuses }
 
@@ -54,7 +56,7 @@ end
 
 def ordered_trip_columns
   %w[id cost idle total departure_address destination_address stops status trip_payment
-     car driver user duration distance created_at comment]
+     car driver user created_at comment]
 end
 
 def view_trip_columns(columns, element)
