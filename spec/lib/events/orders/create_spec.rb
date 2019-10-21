@@ -2,7 +2,7 @@ describe Events::Orders::Create do
   describe '.call' do
     before {
       allow_any_instance_of(described_class).to receive(:hold_money) { { 'reasonCode' => Constants::Payments::WAYFORPAY_SUCCESS } }
-      allow_any_instance_of(described_class).to receive(:items) { {'Category'=>[{'name'=>'Item', 'price'=>'125'}]} }
+      allow_any_instance_of(described_class).to receive(:items) { { 'Category' => [{ 'id' => '4537', 'name' => 'Item', 'price' => '125' }] } }
       allow_any_instance_of(described_class).to receive(:create_order_payment) { true }
     }
 
@@ -14,7 +14,7 @@ describe Events::Orders::Create do
         card_id: card.id,
         trip_time: (Time.now + 2.hours).strftime('%H:%M'),
         vendor_id: vendor.id,
-        items: ActionController::Parameters.new({'Category, Item'=>ActionController::Parameters.new({'quantity'=>1})}).permit!
+        items: ActionController::Parameters.new({ '4537' => ActionController::Parameters.new({ 'quantity' => 1 }) }).permit!
       }
     }
 
@@ -38,7 +38,7 @@ describe Events::Orders::Create do
           card_id: card.id,
           trip_time: (Time.now + 2.hours).strftime('%H:%M'),
           vendor_id: vendor.id,
-          items: ActionController::Parameters.new({'Item, Category'=>ActionController::Parameters.new({'quantity'=>1})}).permit!
+          items: ActionController::Parameters.new({'Item, Category'=>ActionController::Parameters.new({ 'quantity'=>1 }) }).permit!
         }
       }
 
