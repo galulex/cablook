@@ -55,19 +55,15 @@ module Events
       def calculate_amount
         data[:items].to_h.sum do |order_item|
           current_item = cached_items.find do |item|
-            item['id'] == order_item[0].to_i
+            item['id'] == order_item[0]
           end
-          return 0 unless current_item['price']
+          return 0 unless current_item && current_item['price']
           order_item[1]['quantity'] * current_item['price'].to_f
         end
       end
 
       def cached_items
-        @cached_items ||= begin
-          a = []
-          items.each_key{|key| a.push(items[key])}
-          cached_items = a.flatten
-        end
+        @cached_items ||= items.values.flatten
       end
 
       def vendor

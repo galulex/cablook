@@ -14,7 +14,7 @@ describe Events::Orders::Create do
         card_id: card.id,
         trip_time: (Time.now + 2.hours).strftime('%H:%M'),
         vendor_id: vendor.id,
-        items: ActionController::Parameters.new({ '4537' => ActionController::Parameters.new({ 'quantity' => 1, 'item_category' => 'Category' }) }).permit!
+        items: ActionController::Parameters.new({ '4537' => ActionController::Parameters.new({ 'quantity' => 1 }) }).permit!
       }
     }
 
@@ -38,7 +38,7 @@ describe Events::Orders::Create do
           card_id: card.id,
           trip_time: (Time.now + 2.hours).strftime('%H:%M'),
           vendor_id: vendor.id,
-          items: ActionController::Parameters.new({'Item, Category'=>ActionController::Parameters.new({'quantity'=>1})}).permit!
+          items: ActionController::Parameters.new({'Item, Category'=>ActionController::Parameters.new({ 'quantity'=>1 }) }).permit!
         }
       }
 
