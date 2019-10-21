@@ -11,7 +11,6 @@ export default class CartItem extends Component {
       quantity: 1,
       in_cart: false,
       item: {
-        category: this.props.category,
         name: this.props.item_name,
         quantity: this.props.item.quantity,
         item_price: this.props.item.item_price,

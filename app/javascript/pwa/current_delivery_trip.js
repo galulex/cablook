@@ -41,7 +41,7 @@ export default class CurrentDeliveryTrip extends Component {
             { Object.keys(items).map((item) => {
               return(
                 <span>
-                  <b class='desc'>{item} - {items[item].quantity} шт.</b>
+                  <b class='desc'>{items[item].item_name} - {items[item].quantity} шт.</b>
                   <br/>
                 </span>
               )

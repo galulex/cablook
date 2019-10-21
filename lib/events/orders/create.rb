@@ -53,18 +53,20 @@ module Events
       end
 
       def calculate_amount
-        cached_items = items
-        data[:items].to_h.sum do |i|
-          order_item = i[-1]
-          current_price = cached_items.map do |category|
-            next unless category[0] == order_item['item_category']
-            category[1].find do |j|
-              j['id'].to_i == i[0].to_i
-            end
+        data[:items].to_h.sum do |order_item|
+          current_item = cached_items.find do |item|
+            item['id'] == order_item[0].to_i
           end
-          current_price = (current_price.compact.first || {})['price']
-          return 0 unless current_price
-          order_item['quantity'].to_i * current_price.to_f
+          return 0 unless current_item['price']
+          order_item[1]['quantity'] * current_item['price'].to_f
+        end
+      end
+
+      def cached_items
+        @cached_items ||= begin
+          a = []
+          items.each_key{|key| a.push(items[key])}
+          cached_items = a.flatten
         end
       end
 
