@@ -1,18 +1,27 @@
-[class*="car"].mapboxgl-popup .mapboxgl-popup-content {
+.car-popup.mapboxgl-popup .mapboxgl-popup-content {
   padding: 10px;
   font-size: 1rem;
   font-weight: 100;
-  background: #1c1c1c;
-  background: var(--black);
+  background: #19A160;
+  background: var(--green);
   color: white;
   border-radius: 10px;
 }
 
-[class*="car"].mapboxgl-popup .mapboxgl-popup-tip {
-  border-top-color: #1c1c1c;
-  border-top-color: var(--black);
+.car-popup.mapboxgl-popup svg {
+  fill: white;
 }
 
-[class*="car"].mapboxgl-popup svg  {
-  margin-bottom: 5px;
+.car-popup.mapboxgl-popup a {
+  color: white;
+  text-decoration: none;
+}
+
+.car-popup.mapboxgl-popup .mapboxgl-popup-tip {
+  border-top-color: #19A160;
+  border-top-color: var(--green);
+}
+
+.car-popup.mapboxgl-popup .mapboxgl-popup-content-line {
+  margin-bottom: 10px;
 }
