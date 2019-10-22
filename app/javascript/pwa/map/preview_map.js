@@ -4,6 +4,7 @@ import mapboxgl from 'mapbox-gl'
 import MapboxLanguage from '@mapbox/mapbox-gl-language';
 
 import { MAP_MIN_ZOOM, MAP_MAX_ZOOM, CHERKASY_LONG_LAT, NUM_DELTAS, TELEPORT_DISTANCE } from '../lib/constants.js'
+import { PENDING, ON_THE_WAY, WAITING_CLIENT, DRIVING, FINISHED, CANCELED, DECLINED, CANCELED_BY_DRIVER, CONFIRM_UPDATE_TRIP } from '../constants.js'
 
 mapboxgl.accessToken = 'pk.eyJ1IjoiZ2FsdWxleCIsImEiOiJjamx6ampoZjgyMnYxM3FvZ2ppNjV2M2x5In0.bPgk2WI9NT-DJwnE-OtiLA'
 
@@ -101,12 +102,13 @@ export default class PreviewMap extends Component {
     });
 
     this.map.on('movestart', () => {
-      if (!this.car) return;
+      // if (!this.car) return;
+      // if (this.state.car._popup.isOpen()) return;
       this.setState({transition: 0})
     });
 
     this.map.on('moveend', () => {
-      if (!this.car) return;
+      // if (!this.car) return;
       this.setState({transition: TRANSITION})
     });
 
@@ -174,14 +176,15 @@ export default class PreviewMap extends Component {
     if (!car.position) {
       marker.carAngleDeg = 180;
     }  else {
-      marker.carAngleDeg = this.bearing(car.location, car.position)
+      marker.carAngleDeg = this.bearing(car.location, car.position);
     }
-    var popupContent = render(<CarPopup car={car} trip={trip()} driver={driver}/>)
-    var popup = new mapboxgl.Popup({closeOnClick: false, closeButton: false, className: `car-${car.color}`, anchor: 'bottom', offset: 10}).setHTML(popupContent.outerHTML);
+    var popupContent = render(<CarPopup car={car} trip={trip} driver={driver}/>)
+    var popup = new mapboxgl.Popup({closeOnClick: false, closeButton: false, className: 'car-popup', anchor: 'bottom', offset: 10}).setHTML(popupContent.outerHTML);
     marker.setPopup(popup).addTo(this.map).togglePopup();
-    this.updateCarDirection(marker)
+    this.updateCarDirection(marker);
 
-    this.setState({ car: marker })
+    this.setState({ car: marker });
+    if (this.state.car._popup.isOpen()) this.map.flyTo({ center: this.state.car.getLngLat(), speed: 1 });
   }
 
   pick = (index) => {
@@ -222,19 +225,28 @@ export default class PreviewMap extends Component {
   }
 
   componentWillReceiveProps(props) {
-    if (!props.car && this.state.car) {
+    if (props.trip().status == FINISHED) {
       this.state.car.remove()
       this.setState({ car: null })
-    }
-    if (!props.trip.path && this.map.getSource('line')) {
+
       this.markers.map(m => m.remove())
-      this.map.getSource('line').setData(GEOJSON)
+      return this.map.getSource('line').setData(GEOJSON);
     }
+
+    if (props.car) {
+      if (!this.state.car) this.renderCar(props.car, props.trip(), props.driver);
+      let popupContent = render(<CarPopup car={props.car} trip={props.trip()} driver={props.driver}/>);
+      this.state.car._popup.setHTML(popupContent.outerHTML);
+      this.updateCarPosition(props.car);
+    }
+
     if (props.picker !== null) return this.pick(props.picker)
     this.map.off('movestart', this.movestart);
     this.map.off('moveend', this.moveend);
     let trip = props.trip()
-    this.markers.map(m => m.remove())
+    if (![CONFIRM_UPDATE_TRIP, undefined, null].includes(props.trip().status) && this.map.getSource('line')) return;
+
+    this.markers.map(m => m.remove());
     if (trip.waypoints.length == 0) return;
     trip.waypoints.map((w, i) => {
       if (w === '') return;
@@ -247,15 +259,15 @@ export default class PreviewMap extends Component {
       this.markers.push(marker)
     })
 
-    try {
-      var bounds = trip.waypoints.reduce((bounds, coord) => {
-        return bounds.extend(coord.split(',').reverse());
-      }, new mapboxgl.LngLatBounds(trip.waypoints[0].split(',').reverse(), trip.waypoints[0].split(',').reverse()));
-      this.map.fitBounds(bounds, {
-        padding: 100
-      });
-    } catch(error) {
-    }
+    // try {
+    //   var bounds = trip.waypoints.reduce((bounds, coord) => {
+    //     return bounds.extend(coord.split(',').reverse());
+    //   }, new mapboxgl.LngLatBounds(trip.waypoints[0].split(',').reverse(), trip.waypoints[0].split(',').reverse()));
+    //   this.map.fitBounds(bounds, {
+    //     padding: 100
+    //   });
+    // } catch(error) {
+    // }
 
     let path = (trip.path) ? polyline.decode(trip.path).map(e => { return e.reverse() }) : []
 
@@ -273,21 +285,16 @@ export default class PreviewMap extends Component {
 
     this.setState({ geojson: geojson })
     if (this.map.getSource('line')) this.map.getSource('line').setData(geojson);
-    if (props.car) {
-      if (!this.state.car) { this.renderCar(props.car, props.trip, props.driver) }
-      var popupContent = render(<CarPopup car={props.car} trip={props.trip()} driver={props.driver}/>)
-      this.state.car._popup.setHTML(popupContent.outerHTML)
-      this.updateCarPosition(props.car)
-    }
   }
 
   updateCarPosition(data) {
-    let car = this.state.car
-    let deg = this.bearing(data.location, [car.getLngLat().lng, car.getLngLat().lat])
-    // car._element.className += ' smooth'
-    car.carAngleDeg = deg
-    car.setLngLat(data.location)
-    this.updateCarDirection(car)
+    let car = this.state.car;
+    let deg = this.bearing(data.location, [car.getLngLat().lng, car.getLngLat().lat]);
+    car._element.className += ' smooth';
+    car.carAngleDeg = deg;
+    car.setLngLat(data.location);
+    this.updateCarDirection(car);
+    // if (this.state.car._popup.isOpen()) this.map.flyTo({ center: this.state.car.getLngLat(), speed: 1 });
   }
 
   setZoom = (event) => {
@@ -302,7 +309,7 @@ export default class PreviewMap extends Component {
     return (
       <div class='main_map'>
         <Pin class='picker' width='30px' ref={pin => this.pin = pin}/>
-        <style>{ `.mapboxgl-marker.leaf.smooth { transition: transform ${this.state.transition}s linear; } .mapboxgl-marker.leaf > svg { transition: transform 4s; }` }</style>
+        <style>{ `.mapboxgl-marker.leaf.smooth, .car-popup { transition: transform ${this.state.transition}s linear; } .mapboxgl-marker.leaf > svg { transition: transform 4s; }` }</style>
         <div class='map' ref={el => this.mapContainer = el}/>
         <input type='range' min='8' max='17' onInput={this.setZoom} value={this.state.zoom}/>
       </div>
