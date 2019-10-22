@@ -123,7 +123,8 @@ export default class NewDesign extends Component {
       return;
     }
     axios.patch(`trips/${this.state.trip.id}/cancel`).then((res) => {
-      this.setState({ trip: { ...this.state.trip, status: CANCELED }, car: null })
+      this.setState({ trip: { ...this.state.trip, status: CANCELED }, car: null, driver: null })
+      delete this.state.trip.start_time
       this.unsubscribe()
     }).catch((error) => {
       if (error.response) alert(error.response.data.errors)
@@ -281,7 +282,7 @@ export default class NewDesign extends Component {
 
   finish_trip = () => {
     this.vibrate()
-    this.setState({ trip: { ...this.state.trip, status: FINISHED }})
+    this.setState({ trip: { ...this.state.trip, status: FINISHED }, car: null, driver: null })
     // this.props.fetchUser()
     this.unsubscribe()
   }
@@ -375,8 +376,8 @@ export default class NewDesign extends Component {
     )
   }
 
-  resetTrip = (e) => {
-    this.setState({ trip: { stops: ['', ''], waypoints: [], osrm: true }, car: null })
+  resetTrip = () => {
+    this.setState({ trip: { stops: ['', ''], waypoints: [], osrm: true }, car: null, driver: null})
   }
 
   render() {
@@ -387,7 +388,7 @@ export default class NewDesign extends Component {
 
     return (
       <section class={`new_design ${this.state.klass}`}>
-        { (trip && trip.status == FINISHED) && <Feedback trip={trip} updateTrip={this.resetTrip} handleBack={this.resetTrip} /> }
+      { trip.status == FINISHED && <Feedback trip={trip} updateTrip={this.resetTrip} handleBack={this.resetTrip} /> }
         <style>{`fieldset.address:nth-child(${this.state.picker + 1}) { opacity: 1;}`}</style>
         <header></header>
         <PreviewMap trip={() => trip}
@@ -399,7 +400,7 @@ export default class NewDesign extends Component {
                     setAddress={this.setAddress}
                     zoom={this.state.zoom} />
         <div class='wrapper'>
-          { [CONFIRM_UPDATE_TRIP, CANCELED, CANCELED_BY_DRIVER, undefined].includes(trip.status) && this.renderFields(trip, isValid, cards) }
+          { [CONFIRM_UPDATE_TRIP, CANCELED, CANCELED_BY_DRIVER, undefined, null].includes(trip.status) && this.renderFields(trip, isValid, cards) }
           { [PENDING].includes(trip.status) && this.renderLoading() }
         </div>
         <Buttons trip={trip}
