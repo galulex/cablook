@@ -193,7 +193,7 @@ export default class AddressInput extends Component {
       let prediction = this.state.predictions[0]
       if (prediction) this.setLocation(prediction)
     }, 500)
-    setTimeout(() => { document.getElementById('fields').classList.remove('noscroll') }, 100)
+    window.timeout = setTimeout(() => { document.getElementById('fields').classList.remove('noscroll') }, 300)
   }
 
   handleBack = (event) => {
