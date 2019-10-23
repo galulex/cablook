@@ -137,9 +137,13 @@ export default class Cart extends Component {
     this.submitDisabled(true)
     this.setState({ showLoader: true })
     const cart = JSON.parse(localStorage.getItem('cart'))
+    let items = cart.items;
+    Object.keys(items).forEach((id) => {
+      items[id] = { quantity: cart.items[id].quantity, name: cart.items[id].item_name }
+    })
 
     let params = {
-      items: cart.items,
+      items: items,
       vendor: cart.vendor,
       card_id: this.state.card_id,
       trip_time: this.state.trip_time

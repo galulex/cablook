@@ -1,5 +1,7 @@
 ActiveAdmin.register Driver do
   DRIVER_COLUMNS = %w[name username password address car].freeze
+  preserve_default_filters!
+  remove_filter :car, :trips, :address, :address_location
 
   controller do
     def permitted_params
@@ -29,4 +31,3 @@ ActiveAdmin.register Driver do
 
   remove_filter :encrypted_password, :auth_token
 end
-

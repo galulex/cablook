@@ -1,5 +1,6 @@
 ActiveAdmin.register User do
-  remove_filter :trips, :business, :bussinesses, :cards, :bonus_trips
+  remove_filter :trips, :business, :bussinesses, :cards, :bonus_trips, :favorite_addresses,
+                :parent_bonus, :orders, :referral_code, :notification_settings
 
   controller do
     def scoped_collection
@@ -22,6 +23,7 @@ ActiveAdmin.register User do
   index do
     selectable_column
     displayed_user_columns.each { |title| column title }
+    column(:trips) { |user| link_to 'trips', admin_trips_path(q: { user_id_eq: user.id }) }
     actions do |user|
       item 'Send Gift', create_gift_admin_user_path(user),
         method: :post, class: 'member_link'
