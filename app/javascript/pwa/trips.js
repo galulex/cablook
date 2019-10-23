@@ -16,7 +16,6 @@ export default class Trips extends Component {
       isLoading: true,
       page: 0,
       hasMore: true,
-      upcoming: true
     }
   }
 
@@ -35,7 +34,6 @@ export default class Trips extends Component {
     page: prevState.page + 1,
     isLoading: false,
     hasMore: !!result.trips.length,
-    upcoming: prevState.upcoming
   });
 
   handleScroll = () => {
@@ -57,32 +55,13 @@ export default class Trips extends Component {
     });
   };
 
-  upcomingTab = (val) => {
-    this.setState({upcoming: val});
-  }
-
   render() {
     return (
       <section class='trips'>
         <header>{i18n.trips.header}</header>
-        <nav>
-          <label for='upcoming_trips' onClick={() => this.upcomingTab(true)} class={this.state.upcoming ? 'active': ''}>{i18n.trips.upcoming}</label>
-          <label for='previous_trips' onClick={() => this.upcomingTab(false)} class={!this.state.upcoming ? 'active': ''}>{i18n.trips.past}</label>
-        </nav>
-
-        <input id='upcoming_trips' type='radio' name='trips' class='trips-radio' checked/>
-        <div class='trips-content'>
-          <ul>
-            {this.state.trips.filter((e) => e.status < 4).map((trip) => <TripCard trip={trip} />)}
-          </ul>
-        </div>
-
-        <input id='previous_trips' type='radio' name='trips' class='trips-radio' checked={!this.state.upcoming}/>
-        <div class='trips-content'>
-          <ul>
-            {this.state.trips.filter((e) => e.status > 3).map((trip) => <TripCard trip={trip} />)}
-          </ul>
-        </div>
+        <ul>
+          {this.state.trips.map((trip) => <TripCard trip={trip} />)}
+        </ul>
 
         {this.state.isLoading && <div class="loader">{i18n.trips.loading}</div>}
       </section>

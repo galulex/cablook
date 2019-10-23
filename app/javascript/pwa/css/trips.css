@@ -97,12 +97,7 @@ address:last-of-type {
 .trips .active {
   color: white;
 }
-.trips-content {
-  display: none;
-}
-.trips-radio:checked + .trips-content {
-  display: block;
-}
+
 .trip-details section {
   padding: 54px 0 0;
 }
@@ -147,10 +142,6 @@ nav {
   width: 100%;
   left: 0;
   z-index: 10;
-}
-
-.trips-content {
-  margin-top: 70px;
 }
 
 .trip-details {
