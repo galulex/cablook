@@ -16,7 +16,17 @@ ActiveAdmin.register User do
     def notify_all_about_unpaid_trip
       users_ids = Trip.all.unpaid.pluck(:user_id).uniq
       Jobs::NotifyUsers.perform_later(users_ids)
+      redis.set("button_state", true)
       redirect_to collection_path, notice: 'Notifications successfully sent!'
+    end
+
+    def redis
+      @redis ||= Redis.current
+    end
+
+    def index
+      @button_blocked = redis.get('button_state')
+      index!
     end
   end
 
@@ -45,7 +55,7 @@ ActiveAdmin.register User do
     actions
   end
 
-  action_item(:notify) { link_to 'Notify all users about UNPAID trip', notify_admin_users_path, method: :post }
+  action_item(:notify) { button_to 'Notify all users about UNPAID trip', notify_admin_users_path, disabled: controller.instance_variable_get(:@button_blocked) == 'true' }
 
   collection_action :notify, method: :post do
     notify_all_about_unpaid_trip

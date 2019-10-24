@@ -1,0 +1,14 @@
+.title_bar {
+  .action_items {
+    display: flex;
+    align-items: center;
+
+    .action_item {
+      margin: 5px;
+
+      input {
+        height:  29px;
+      }
+    }
+  }
+}
