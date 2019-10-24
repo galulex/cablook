@@ -11,6 +11,12 @@ import Widget from './widget.js'
 import Loader from './loader.js'
 import Wheel from './images/wheel.svg'
 import Dollar from './images/dollar.svg'
+import Entrance from './images/entrance.svg'
+import Card from './images/credit-cards-payment.svg'
+import Comment from './images/contacts.svg'
+import UAH from './images/ukraine-hryvna.svg'
+
+const ENTRANCES = Array.from({length: 15}, (v, k) => (k+1))
 
 export default class Cart extends Component {
   constructor(props) {
@@ -28,6 +34,7 @@ export default class Cart extends Component {
       entrance_list: Array.from({length: 15}, (v, k) => (k+1)),
       trip_cost: null,
       trip_time: '',
+      trip_comment: '',
       cards: this.props.cards(),
       card_id: null,
       showWidget: false,
@@ -279,57 +286,72 @@ export default class Cart extends Component {
           }),
           <div class='order-price'>
             <b>{i18n.cart.order_price}</b>
-            <b class='price'>{total_price} {i18n.cart.uah}</b>
+            <b class='price'>{total_price}</b>
+            <UAH fill='#19a160' height='16px' width='16px'/>
           </div>,
+          <br/>,
           !vendor_closed &&
-            (cards.length > 0) &&
-              <div class='select-section'>
-                <label for='card'>{i18n.confirm_trip.card}</label>
-                <div class='select'>
-                  <select id='card' onChange={(e) => this.selectCard(e)}>
-                    {cards.map((el) => this.renderCard(el))}
-                  </select>
-                </div>
-              </div>,
+          (cards.length < 1) &&
+          <button class='button' type='button' disabled={showWidget} onClick={() => this.setState({showWidget: true}) }>+ {i18n.cards.add}</button>,
           !vendor_closed &&
-            (cards.length < 1) &&
-              <button class='button' type='button' disabled={showWidget} onClick={() => this.setState({showWidget: true}) }>+ {i18n.cards.add}</button>,
-          !vendor_closed &&
-            <form action='#' onSubmit={(e) => e.preventDefault()}>
-              <AddressInput
-                  setAddress={this.setAddress}
-                  placeholder={i18n.cart.where}
-                  favorite_addresses={() => this.props.favorite_addresses()}/>
+          <form action='#' onSubmit={(e) => e.preventDefault()}>
+            <AddressInput
+              setAddress={this.setAddress}
+              placeholder={i18n.cart.where}
+              favorite_addresses={() => this.props.favorite_addresses()}/>
+            <div class='additions'>
+              {(cards.length > 1) && <label class='select' for='card'>
+                <Card width='24'/>
+                <select id='card' onChange={(e) => this.selectCard(e)}>
+                  {cards.map(card => <option value={card.id}>{card.pan}</option>)}
+                </select>
+              </label>}
               <label for='entrance'>
-                <span>{i18n.cart.entrance}</span>
+                <Entrance height='27'/>
                 <select id='entrance' onChange={this.updateEntrance}>
                   <option value=''>{i18n.current_trip.select_entrance}</option>
-                  {this.state.entrance_list.map((el) => {
+                  {ENTRANCES.map((el) => {
                     return(<option value={el}>{el} {i18n.current_trip.entrance}</option>)
                   })}
                 </select>
               </label>
               <GenerateArrayTimes
-                  open_at={open_at.split(':')}
-                  close_at={close_at.split(':')}
-                  updateTripTime={this.updateTripTime}
-                  setTripTime={this.setTripTime}/>
-              {trip_cost &&
+                open_at={open_at.split(':')}
+                close_at={close_at.split(':')}
+                updateTripTime={this.updateTripTime}
+                setTripTime={this.setTripTime}
+              />
+            </div>
+            <label for='comment'>
+              <Comment width='24'/>
+              <input id='comment' type='text' class='comment' value={this.state.trip_comment} placeholder={i18n.current_trip.comment} onChange={this.setComment}/>
+            </label>
+            <br/>
+            {trip_cost &&
                 <div class='prices'>
                   <div class='mb-1'>
-                    <Wheel class='align-middle'/><span class='align-middle'><b>{i18n.cart.trip_price}</b> <b class='price'>{trip_cost} {i18n.cart.uah}</b></span>
+                    <Wheel class='align-middle' fill='#19a160' width='20'/>{' '}
+                    <span class='align-middle'>
+                      <b>{i18n.cart.trip_price} </b>
+                      <b class='price'>{trip_cost}<UAH fill='#19a160' height='14' width='14'/></b>
+                    </span>
                   </div>
                   <div>
-                    <Dollar class='align-middle'/><span class='align-middle'><b>{i18n.cart.total_price}</b> <b class='price'>{trip_cost + total_price} {i18n.cart.uah}</b></span>
+                    <Dollar class='align-middle' fill='#19a160' height='20' width='20'/>{' '}
+                    <span class='align-middle'>
+                      <b>{i18n.cart.total_price} </b>
+                      <b class='price'>{trip_cost + total_price}<UAH fill='#19a160' height='14' width='14'/></b>
+                    </span>
                   </div>
                 </div>}
-              {(cards.length !== 0) &&
-                <input type='submit' class={`button ${vendor_name_slug}`} onClick={this.createOrder} value={i18n.cart.create_order}/>}
-            </form>,
+                <br/>
+                {(cards.length !== 0) &&
+                    <input type='submit' class={`button ${vendor_name_slug}`} onClick={this.createOrder} value={i18n.cart.create_order}/>}
+                  </form>,
           !vendor_closed &&
-            showWidget && <Widget createCard={this.createCard} showWidget={() => this.setState({showWidget: false}) }/>,
+          showWidget && <Widget createCard={this.createCard} showWidget={() => this.setState({showWidget: false}) }/>,
           vendor_closed &&
-            <p>{i18n.cart.vendor_closed}</p>]
+          <p>{i18n.cart.vendor_closed}</p>]
         ) : (
           <p>{i18n.cart.empty_cart}</p>
         )}

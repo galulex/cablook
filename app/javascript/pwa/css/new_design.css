@@ -1,9 +1,13 @@
+svg {
+  vertical-align: middle;
+}
+
 section.new_design {
   padding: 60px 0 0;
   max-width: 100%;
 }
 
-.new_design fieldset.address {
+fieldset.address {
   background: rgba(255, 255, 255, 0.9);
   background: var(--bg);
   margin: 5px 0;

@@ -3,6 +3,7 @@ import { Link } from 'preact-router/match';
 
 import i18n from './i18n.js';
 import './css/item_preview.css'
+import UAH from './images/ukraine-hryvna.svg'
 
 export default class CartItem extends Component {
   constructor(props) {
@@ -115,18 +116,20 @@ export default class CartItem extends Component {
     return (
       <div class='item-preview'>
         <div class='row'>
-          <div class='col-4'>
-            <b class='name'>{item.item_name + ' (' + item.item_price + 'грн.)'}</b>
+          <div class='col-6'>
+            <b class='name'>{item.item_name}</b>
           </div>
           <div class='col-2 text-center'>
-            <b class='name'>{item.quantity} шт.</b>
-          </div>
-          <div class='col-2 text-center'>
-            <span class='price'>{item.total_price} грн.</span>
+            <span class='price'>
+              {item.total_price}<UAH height='16px' width='16px'/>
+            </span>
           </div>
           <div class='col-2'>
             <div>
               <button class='button plus-button' onClick={this.addToCart}>{ '+' }</button>
+              <div class='circle'>
+                <span class='number'>{ item.quantity }</span>
+              </div>
               <button class='button minus-button' onClick={this.removeFromCart}>{ '-' }</button>
             </div>
           </div>

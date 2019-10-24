@@ -222,7 +222,7 @@ svg.map-pick {
   cursor: pointer;
 }
 
-select#entrance, input#time, .select select {
+select#entrance, input#time, .select select, select#select_time {
   color: #312d50;
   color: var(--navy);
   font-size: 16px;
@@ -301,12 +301,16 @@ label[for='entrance'], label[for='time'] {
   text-align: right;
 }
 
-.option label svg {
+.option label svg, .additions label svg, label[for='comment'] svg {
   position: absolute;
   top: 50%;
   left: 10px;
   transform: translateY(-50%);
   pointer-events: none;
+}
+
+label[for='comment'] {
+  display: block;
 }
 
 input.comment {

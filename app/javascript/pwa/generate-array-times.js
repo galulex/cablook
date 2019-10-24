@@ -1,8 +1,8 @@
 import { h, render, Component } from 'preact';
 
 import i18n from './i18n.js';
-import './css/time_array.css'
 import './css/current_trip.css'
+import Clock from './images/trip_time.svg'
 
 export default class GenerateArrayTimes extends Component {
   constructor(props) {
@@ -45,7 +45,7 @@ export default class GenerateArrayTimes extends Component {
   render() {
     return (
       <label for='select_time'>
-        <span>{i18n.current_trip.when}</span>
+        <Clock width='24'/>
         <select id='select_time' onChange={(e) => this.updateTripTime(e)}>
           {this.state.times.map((val, index) => {
             return(<option key={index} value={val}>{val}</option>)
