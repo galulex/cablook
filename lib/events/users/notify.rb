@@ -12,7 +12,7 @@ module Events
       def run
         send_to_email if user.email
         send_push
-        send_sms
+        # send_sms
       end
 
       private
