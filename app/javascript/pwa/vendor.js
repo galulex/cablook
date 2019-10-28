@@ -62,12 +62,12 @@ export default class Vendor extends Component {
     const { vendor, cart, showLoader } = this.state
 
     return (
-      <section class='vendor-page'>
+      <div>
         {showLoader && <Loader/>}
         <button
-            type='button'
-            class='burger'
-            onClick={(event) => window.ios ? this.handleBack() : window.history.back()}>
+          type='button'
+          class='burger'
+          onClick={(event) => window.ios ? this.handleBack() : window.history.back()}>
           <Back/>
         </button>
         <header>
@@ -76,27 +76,29 @@ export default class Vendor extends Component {
             { cart && cart.items &&
               <span class='orange-dot'/>
             }
-            <ShoppingCart class='cart'/>
+            <ShoppingCart class='cart' fill='#132d50'/>
           </Link>
         </header>
-        <VendorPreview
+        <section class='vendor-page'>
+          <VendorPreview
             key={vendor.id}
             vendor={vendor}
             hide_content={true}
             active={'active'}
             cart_with_items={cart && cart.items}
             updateLoaderState={this.updateLoaderState}/>
-        {Object.keys(vendor.items).map((category, index) => {
-          return(
-            <Category
+          {Object.keys(vendor.items).map((category, index) => {
+            return(
+              <Category
                 key={index}
                 category={category}
                 items={vendor.items[category]}
                 vendor={vendor}
                 updateCart={this.updateCart}/>
-          )
-        })}
-      </section>
+            )
+          })}
+        </section>
+      </div>
     )
   }
 }

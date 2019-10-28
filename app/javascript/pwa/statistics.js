@@ -55,22 +55,24 @@ export default class Statistics extends Component {
       {name: i18n.statistics.periods.last_month, value: 'last_month'}
     ]
     return (
-      <section class='statistics'>
+      <div>
         <header>{i18n.statistics.header}</header>
-        <div class='select-section'>
-        <label for='period'>{i18n.statistics.period}</label>
-          <div class='select'>
-            <select id='period' onChange={this.selectPeriod}>
-              {Periods.map(el => this.renderPeriod(el))}
-            </select>
+        <section class='statistics'>
+          <div class='select-section'>
+            <label for='period'>{i18n.statistics.period}</label>
+            <div class='select'>
+              <select id='period' onChange={this.selectPeriod}>
+                {Periods.map(el => this.renderPeriod(el))}
+              </select>
+            </div>
           </div>
-        </div>
-        <div class='trip-details-content'><Pin/>{i18n.statistics.distance}<span>{this.state.statistics.distance / 1000}{i18n.statistics.km}</span></div>
-        <div class='trip-details-content'><Amount/>{i18n.statistics.amount}<span>{this.state.statistics.amount}{i18n.statistics.uah}</span></div>
-        <div class='trip-details-content'><Leaf/>{i18n.statistics.trips_count}<span>{this.state.statistics.trips_count}</span></div>
-        <div class='trip-details-content'><Star/>{i18n.statistics.rate}<span>{this.state.statistics.rate}</span></div>
-        <div class='trip-details-content'><Tips/>{i18n.statistics.tips}<span>{this.state.statistics.tips}{i18n.statistics.uah}</span></div>
-      </section>
+          <div class='trip-details-content'><Pin/>{i18n.statistics.distance}<span>{this.state.statistics.distance / 1000}{i18n.statistics.km}</span></div>
+          <div class='trip-details-content'><Amount/>{i18n.statistics.amount}<span>{this.state.statistics.amount}{i18n.statistics.uah}</span></div>
+          <div class='trip-details-content'><Leaf/>{i18n.statistics.trips_count}<span>{this.state.statistics.trips_count}</span></div>
+          <div class='trip-details-content'><Star/>{i18n.statistics.rate}<span>{this.state.statistics.rate}</span></div>
+          <div class='trip-details-content'><Tips/>{i18n.statistics.tips}<span>{this.state.statistics.tips}{i18n.statistics.uah}</span></div>
+        </section>
+      </div>
     )
   }
 }

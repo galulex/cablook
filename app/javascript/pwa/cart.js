@@ -272,90 +272,90 @@ export default class Cart extends Component {
     const { total_price, trip_cost, cards, card_id, showWidget, showLoader, vendor_closed } = this.state
 
     return (
-      <section class='cart'>
-        {showLoader && <Loader/>}
+      <div>
         <button type='button' class='burger' onClick={(event) => window.ios ? this.handleBack() : window.history.back()}><Back fill='#132d50'/></button>
-        <header>
-          {i18n.cart.header}
-        </header>
-        { items ? ([
-          Object.keys(items).map((item, index) => {
-            return(
-              <CartItem key={index} id={item} item={items[item]} vendor={vendor} calculateTotalPrice={this.calculateTotalPrice}/>
-            )
-          }),
-          <div class='order-price'>
-            <b>{i18n.cart.order_price}</b>
-            <b class='price'>{total_price}</b>
-            <UAH fill='#19a160' height='16px' width='16px'/>
-          </div>,
-          <br/>,
-          !vendor_closed &&
-          (cards.length < 1) &&
-          <button class='button' type='button' disabled={showWidget} onClick={() => this.setState({showWidget: true}) }>+ {i18n.cards.add}</button>,
-          !vendor_closed &&
-          <form action='#' onSubmit={(e) => e.preventDefault()}>
-            <AddressInput
-              setAddress={this.setAddress}
-              placeholder={i18n.cart.where}
-              favorite_addresses={() => this.props.favorite_addresses()}/>
-            <div class='additions'>
-              {(cards.length > 1) && <label class='select' for='card'>
-                <Card width='24'/>
-                <select id='card' onChange={(e) => this.selectCard(e)}>
-                  {cards.map(card => <option value={card.id}>{card.pan}</option>)}
-                </select>
-              </label>}
-              <label for='entrance'>
-                <Entrance height='27'/>
-                <select id='entrance' onChange={this.updateEntrance}>
-                  <option value=''>{i18n.current_trip.select_entrance}</option>
-                  {ENTRANCES.map((el) => {
-                    return(<option value={el}>{el} {i18n.current_trip.entrance}</option>)
-                  })}
-                </select>
+        <header>{i18n.cart.header}</header>
+        <section class='cart'>
+          {showLoader && <Loader/>}
+          { items ? ([
+            Object.keys(items).map((item, index) => {
+              return(
+                <CartItem key={index} id={item} item={items[item]} vendor={vendor} calculateTotalPrice={this.calculateTotalPrice}/>
+              )
+            }),
+            <div class='order-price'>
+              <b>{i18n.cart.order_price}</b>
+              <b class='price'>{total_price}</b>
+              <UAH fill='#19a160' height='16px' width='16px'/>
+            </div>,
+            <br/>,
+            !vendor_closed &&
+            (cards.length < 1) &&
+            <button class='button' type='button' disabled={showWidget} onClick={() => this.setState({showWidget: true}) }>+ {i18n.cards.add}</button>,
+            !vendor_closed &&
+            <form action='#' onSubmit={(e) => e.preventDefault()}>
+              <AddressInput
+                setAddress={this.setAddress}
+                placeholder={i18n.cart.where}
+                favorite_addresses={() => this.props.favorite_addresses()}/>
+              <div class='additions'>
+                {(cards.length > 1) && <label class='select' for='card'>
+                  <Card width='24'/>
+                  <select id='card' onChange={(e) => this.selectCard(e)}>
+                    {cards.map(card => <option value={card.id}>{card.pan}</option>)}
+                  </select>
+                </label>}
+                <label for='entrance'>
+                  <Entrance height='27'/>
+                  <select id='entrance' onChange={this.updateEntrance}>
+                    <option value=''>{i18n.current_trip.select_entrance}</option>
+                    {ENTRANCES.map((el) => {
+                      return(<option value={el}>{el} {i18n.current_trip.entrance}</option>)
+                    })}
+                  </select>
+                </label>
+                <GenerateArrayTimes
+                  open_at={open_at.split(':')}
+                  close_at={close_at.split(':')}
+                  updateTripTime={this.updateTripTime}
+                  setTripTime={this.setTripTime}
+                />
+              </div>
+              <label for='comment'>
+                <Comment width='24'/>
+                <input id='comment' type='text' class='comment' value={this.state.trip_comment} placeholder={i18n.current_trip.comment} onChange={this.setComment}/>
               </label>
-              <GenerateArrayTimes
-                open_at={open_at.split(':')}
-                close_at={close_at.split(':')}
-                updateTripTime={this.updateTripTime}
-                setTripTime={this.setTripTime}
-              />
-            </div>
-            <label for='comment'>
-              <Comment width='24'/>
-              <input id='comment' type='text' class='comment' value={this.state.trip_comment} placeholder={i18n.current_trip.comment} onChange={this.setComment}/>
-            </label>
-            <br/>
-            {trip_cost &&
-                <div class='prices'>
-                  <div class='mb-1'>
-                    <Wheel class='align-middle' fill='#19a160' width='20'/>{' '}
-                    <span class='align-middle'>
-                      <b>{i18n.cart.trip_price} </b>
-                      <b class='price'>{trip_cost}<UAH fill='#19a160' height='14' width='14'/></b>
-                    </span>
-                  </div>
-                  <div>
-                    <Dollar class='align-middle' fill='#19a160' height='20' width='20'/>{' '}
-                    <span class='align-middle'>
-                      <b>{i18n.cart.total_price} </b>
-                      <b class='price'>{trip_cost + total_price}<UAH fill='#19a160' height='14' width='14'/></b>
-                    </span>
-                  </div>
-                </div>}
-                <br/>
-                {(cards.length !== 0) &&
-                    <input type='submit' class={`button ${vendor_name_slug}`} onClick={this.createOrder} value={i18n.cart.create_order}/>}
-                  </form>,
-          !vendor_closed &&
-          showWidget && <Widget createCard={this.createCard} showWidget={() => this.setState({showWidget: false}) }/>,
-          vendor_closed &&
-          <p>{i18n.cart.vendor_closed}</p>]
-        ) : (
-          <p>{i18n.cart.empty_cart}</p>
-        )}
-      </section>
+              <br/>
+              {trip_cost &&
+                  <div class='prices'>
+                    <div class='mb-1'>
+                      <Wheel class='align-middle' fill='#19a160' width='20'/>{' '}
+                      <span class='align-middle'>
+                        <b>{i18n.cart.trip_price} </b>
+                        <b class='price'>{trip_cost}<UAH fill='#19a160' height='14' width='14'/></b>
+                      </span>
+                    </div>
+                    <div>
+                      <Dollar class='align-middle' fill='#19a160' height='20' width='20'/>{' '}
+                      <span class='align-middle'>
+                        <b>{i18n.cart.total_price} </b>
+                        <b class='price'>{trip_cost + total_price}<UAH fill='#19a160' height='14' width='14'/></b>
+                      </span>
+                    </div>
+                  </div>}
+                  <br/>
+                  {(cards.length !== 0) &&
+                      <input type='submit' class={`button ${vendor_name_slug}`} onClick={this.createOrder} value={i18n.cart.create_order}/>}
+                    </form>,
+            !vendor_closed &&
+            showWidget && <Widget createCard={this.createCard} showWidget={() => this.setState({showWidget: false}) }/>,
+            vendor_closed &&
+            <p>{i18n.cart.vendor_closed}</p>]
+          ) : (
+            <p>{i18n.cart.empty_cart}</p>
+          )}
+        </section>
+      </div>
     )
   }
 }

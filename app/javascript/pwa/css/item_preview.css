@@ -52,6 +52,7 @@
   transition: none;
   box-shadow: none;
   margin-bottom: 0;
+  padding-right: 5px;
 }
 
 .button.minus-button {
@@ -61,6 +62,7 @@
   transition: none;
   box-shadow: none;
   margin-bottom: 0;
+  padding-left: 5px;
 }
 
 .item-preview .circle {

@@ -76,11 +76,6 @@ html lang="#{I18n.locale}"
       }
 
       main {
-        height: 100vh;
-        min-height: 100vh;
-        min-height: calc(var(--vh, 1vh) * 100);
-        overflow-y: auto;
-        -webkit-overflow-scrolling: touch;
       }
 
       header {
@@ -105,9 +100,12 @@ html lang="#{I18n.locale}"
         width: 100%;
         max-width: 600px;
         margin: 0 auto;
-        padding: 54px 30px 0;
-        min-height: 100vh;
-        min-height: calc(var(--vh, 1vh) * 100);
+        padding: 0 10px 50px 10px;
+        height: 100vh;
+        height: calc((var(--vh, 1vh) * 100) - 50px);
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        margin-top: 50px;
       }
 
       ul {
@@ -257,6 +255,30 @@ html lang="#{I18n.locale}"
         font-weight: 100;
         font-display: swap;
       }
+
+      ::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+        background-color: rgba(0,0,0,0);
+        -webkit-border-radius: 100px;
+      }
+
+      ::-webkit-scrollbar:hover {
+        background-color: rgba(0, 0, 0, 0.09);
+      }
+
+      ::-webkit-scrollbar-thumb {
+        background: rgba(0,0,0,0.3);
+        -webkit-border-radius: 100px;
+      }
+      ::-webkit-scrollbar-thumb:active {
+        background: rgba(0,0,0,0.6); / Some darker color when you click it */
+        -webkit-border-radius: 100px;
+      }
+
+      /* add vertical min-height & horizontal min-width */
+      ::-webkit-scrollbar-thumb:vertical { min-height: 10px; }
+      ::-webkit-scrollbar-thumb:horizontal { min-width: 10px; }
 
   body ontouchstart=''
     h1.offline Offline

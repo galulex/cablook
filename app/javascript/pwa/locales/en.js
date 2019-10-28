@@ -187,7 +187,7 @@ const en = {
     open: 'Open',
     close: 'Close',
     menu: 'Menu',
-    go_to: 'Go to this place',
+    go_to: 'Go here',
     accepts_orders: 'The restaurant accepts orders from',
     to: 'to',
     create_order: 'Create order'

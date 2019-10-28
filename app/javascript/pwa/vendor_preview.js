@@ -91,51 +91,42 @@ export default class VendorPreview extends Component {
     const latlong = (vendor.location ? vendor.location.split(',') : '')
 
     return (
-      <ul>
-        <li class={ 'vendor ' + this.props.active } id={vendor.name_slug}>
-          <div class='row'>
-            <div class='col-7'>
-              <div class='container'>
-                <b class='name'>{vendor.name}</b>
-                <br/>
-                <span class='address'>{vendor.address}</span>
-                <a href={'https://www.google.com/maps/@' + latlong[0] + ',' + latlong[1] + ',20z'} target='_blank'>
-                  <Pin class={this.props.active}/>
-                </a>
-              </div>
-              <div class='container buttons-container'>
-                <div class='row'>
-                  {!this.props.hide_content &&
+      <li class={ 'vendor ' + this.props.active } id={vendor.name_slug}>
+        <div class='row'>
+          <div class='col-7'>
+            <div class='container'>
+              <b class='name'>{vendor.name}</b>
+              <br/>
+              <span class='address'>{vendor.address}</span>
+              <a href={'https://www.google.com/maps/@' + latlong[0] + ',' + latlong[1] + ',20z'} target='_blank'>
+                <Pin class={this.props.active}/>
+              </a>
+            </div>
+            <div class='container buttons-container'>
+              <div class='row'>
+                {!this.props.hide_content &&
                     <div class='col-5'>
                       <button onClick={this.goToMenu} class='button link-button'>
                         {i18n.vendor_preview.menu}
                       </button>
                     </div>
-                  }
-                  <div class='col-5'>
-                    <button onClick={this.buildTrip} class='button go-to'>
-                      {i18n.vendor_preview.go_to}
-                    </button>
-                  </div>
+                }
+                <div class='col-5'>
+                  <button onClick={this.buildTrip} class='button go-to'>
+                    {i18n.vendor_preview.go_to}
+                  </button>
                 </div>
               </div>
             </div>
-            <div class='col-3'>
-              <img src={vendor.logo_url} class='vendor-logo' />
-            </div>
           </div>
-          <div class='time-container'>
-            {i18n.vendor_preview.accepts_orders} {vendor.open_time} {i18n.vendor_preview.to} {vendor.close_time}
+          <div class='col-3'>
+            <img src={vendor.logo_url} class='vendor-logo' />
           </div>
-        </li>
-        { cart_with_items &&
-          <Link href={'/delivery/cart'}>
-            <li class='create-order'>
-              {i18n.vendor_preview.create_order}
-            </li>
-          </Link>
-        }
-      </ul>
+        </div>
+        <div class='time-container'>
+          {i18n.vendor_preview.accepts_orders} {vendor.open_time} {i18n.vendor_preview.to} {vendor.close_time}
+        </div>
+      </li>
     )
   }
 }

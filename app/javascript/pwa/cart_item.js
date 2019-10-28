@@ -133,7 +133,6 @@ export default class CartItem extends Component {
               <button class='button minus-button' onClick={this.removeFromCart}>{ '-' }</button>
             </div>
           </div>
-          <button class='remove-item' onClick={this.removeAllCurrentItem}>×</button>
         </div>
       </div>
     )

@@ -57,14 +57,16 @@ export default class Trips extends Component {
 
   render() {
     return (
-      <section class='trips'>
+      <div>
         <header>{i18n.trips.header}</header>
-        <ul>
-          {this.state.trips.map((trip) => <TripCard trip={trip} />)}
-        </ul>
+        <section class='trips'>
+          <ul>
+            {this.state.trips.map((trip) => <TripCard trip={trip} />)}
+          </ul>
 
-        {this.state.isLoading && <div class="loader">{i18n.trips.loading}</div>}
-      </section>
+          {this.state.isLoading && <div class="loader">{i18n.trips.loading}</div>}
+        </section>
+      </div>
     );
   }
 }

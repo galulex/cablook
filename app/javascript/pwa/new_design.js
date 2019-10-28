@@ -387,35 +387,37 @@ export default class NewDesign extends Component {
     let cost = (trip.cost) ? `${trip.cost} ${i18n.grn}` : ''
 
     return (
-      <section class={`new_design ${this.state.klass}`}>
-      { trip.status == FINISHED && <Feedback trip={trip} updateTrip={this.resetTrip} handleBack={this.resetTrip} /> }
-        <style>{`fieldset.address:nth-child(${this.state.picker + 1}) { opacity: 1;}`}</style>
+      <div>
         <header></header>
-        <PreviewMap trip={() => trip}
-                    car={this.state.car}
-                    driver={this.state.driver}
-                    isValid={this.isValid}
-                    language={this.props.language}
-                    picker={this.state.picker}
-                    setAddress={this.setAddress}
-                    zoom={this.state.zoom} />
-        <div class='wrapper'>
-          { [CONFIRM_UPDATE_TRIP, CANCELED, CANCELED_BY_DRIVER, undefined, null].includes(trip.status) && this.renderFields(trip, isValid, cards) }
-          { [PENDING].includes(trip.status) && this.renderLoading() }
-        </div>
-        <Buttons trip={trip}
-                 isValid={this.isValid}
-                 cost={cost}
-                 createTrip={this.createTrip}
-                 updateRoute={this.updateRoute}
-                 confirmUpdate={this.confirmUpdate}
-                 handleBackEdit={this.handleBackEdit}
-                 cancel={this.cancel}
-                 retry={this.retry}
-                 cancelDeclined={this.cancelDeclined}
-                 picker={this.state.picker}
-                 pickAddress={this.pickAddress} />
-      </section>
+        <section class={`new_design ${this.state.klass}`}>
+          { trip.status == FINISHED && <Feedback trip={trip} updateTrip={this.resetTrip} handleBack={this.resetTrip} /> }
+          <style>{`fieldset.address:nth-child(${this.state.picker + 1}) { opacity: 1;}`}</style>
+          <PreviewMap trip={() => trip}
+            car={this.state.car}
+            driver={this.state.driver}
+            isValid={this.isValid}
+            language={this.props.language}
+            picker={this.state.picker}
+            setAddress={this.setAddress}
+            zoom={this.state.zoom} />
+          <div class='wrapper'>
+            { [CONFIRM_UPDATE_TRIP, CANCELED, CANCELED_BY_DRIVER, undefined, null].includes(trip.status) && this.renderFields(trip, isValid, cards) }
+            { [PENDING].includes(trip.status) && this.renderLoading() }
+          </div>
+          <Buttons trip={trip}
+            isValid={this.isValid}
+            cost={cost}
+            createTrip={this.createTrip}
+            updateRoute={this.updateRoute}
+            confirmUpdate={this.confirmUpdate}
+            handleBackEdit={this.handleBackEdit}
+            cancel={this.cancel}
+            retry={this.retry}
+            cancelDeclined={this.cancelDeclined}
+            picker={this.state.picker}
+            pickAddress={this.pickAddress} />
+        </section>
+      </div>
     )
   }
 }

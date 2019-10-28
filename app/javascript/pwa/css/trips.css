@@ -76,9 +76,7 @@ address:last-of-type {
   flex-wrap: wrap;
   justify-content: space-between;
 }
-.trips {
-  padding: 54px 0;
-}
+
 .trips input[type='radio'] {
   display: none;
 }
@@ -99,7 +97,7 @@ address:last-of-type {
 }
 
 .trip-details section {
-  padding: 50px 0 0;
+  padding: 0 0 50px 0;
 }
 .trip-details img {
   width: 100%;

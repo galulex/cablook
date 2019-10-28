@@ -221,23 +221,25 @@ export default class Trip extends Component {
   render() {
     const { trip } = this.props;
     return (
-      <section class='trips'>
+      <div>
         <header>{i18n.trip.header}</header>
-        {this.renderMap()}
-        {is_mapbox_supported && this.renderButton()}
-        <div class='trip-details-content'><Car/>{`${trip.driver_name} ${i18n.trip.on} ${trip.car_number}`}</div>
-        <div class='trip-details-content'><TripTime/>{trip.start_time}</div>
-        <div class='trip-details-content'><a href={`tel:${trip.car_phone_number}`}><Phone/>{trip.car_phone_number}</a></div>
-        <div class='trip-details-content'>
-          <address class='details-address'>{trip.departure_address}</address>
-          {this.renderStops()}
-          <address class='details-address'>{trip.destination_address}</address>
-        </div>
-        <div class='trip-details-content'><TripPrice/>{`${trip.cost} ${i18n.trip.currency}`}</div>
-        <div class='trip-details-content'><TripStatus/>{`${i18n.trips.status} - ${i18n.trips.statuses[trip.status]}`}</div>
-        {this.renderPin()}
-        {!is_mapbox_supported && this.renderButton()}
-      </section>
+        <section class='trips'>
+          {this.renderMap()}
+          {is_mapbox_supported && this.renderButton()}
+          <div class='trip-details-content'><Car/>{`${trip.driver_name} ${i18n.trip.on} ${trip.car_number}`}</div>
+          <div class='trip-details-content'><TripTime/>{trip.start_time}</div>
+          <div class='trip-details-content'><a href={`tel:${trip.car_phone_number}`}><Phone/>{trip.car_phone_number}</a></div>
+          <div class='trip-details-content'>
+            <address class='details-address'>{trip.departure_address}</address>
+            {this.renderStops()}
+            <address class='details-address'>{trip.destination_address}</address>
+          </div>
+          <div class='trip-details-content'><TripPrice/>{`${trip.cost} ${i18n.trip.currency}`}</div>
+          <div class='trip-details-content'><TripStatus/>{`${i18n.trips.status} - ${i18n.trips.statuses[trip.status]}`}</div>
+          {this.renderPin()}
+          {!is_mapbox_supported && this.renderButton()}
+        </section>
+      </div>
     );
   }
 

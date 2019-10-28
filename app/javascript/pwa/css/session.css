@@ -1,4 +1,9 @@
-main.login section { padding: 30px 30px 0 30px; }
+main.login section {
+  padding: 30px 30px 0 30px;
+  margin: 0;
+  height: 100vh;
+}
+
 main.login div { font-size: 1.6rem; }
 
 main.login div,
