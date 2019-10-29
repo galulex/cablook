@@ -21,13 +21,7 @@ describe Events::Trips::Accept do
     context 'when trip was accepted' do
       let(:trip) { create(:trip, status: Constants::Trip::ON_THE_WAY, user_id: user.id) }
 
-      it { is_expected.not_to change { trip.reload.status } }
-
-      context 'and broadcast to channel' do
-        after { subject.call }
-
-        it { expect(ActionCable.server).to receive(:broadcast).once }
-      end
+      it { is_expected.to raise_error(Events::InvalidParamsError) }
     end
 
     context 'when data is invalid' do
