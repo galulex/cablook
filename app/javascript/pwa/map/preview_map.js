@@ -179,7 +179,7 @@ export default class PreviewMap extends Component {
       marker.carAngleDeg = this.bearing(car.location, car.position);
     }
     var popupContent = render(<CarPopup car={car} trip={trip} driver={driver}/>)
-    var popup = new mapboxgl.Popup({closeOnClick: false, closeButton: false, className: 'car-popup', anchor: 'bottom', offset: 10}).setHTML(popupContent.outerHTML);
+    var popup = new mapboxgl.Popup({closeOnClick: false, closeButton: true, className: 'car-popup', anchor: 'bottom', offset: 10}).setHTML(popupContent.outerHTML);
     marker.setPopup(popup).addTo(this.map).togglePopup();
     this.updateCarDirection(marker);
 
@@ -225,14 +225,15 @@ export default class PreviewMap extends Component {
   }
 
   componentWillReceiveProps(props) {
-    if (props.trip().status == FINISHED) {
-      this.state.car.remove()
+    if ([FINISHED, CANCELED].includes(props.trip().status)) {
+      if (this.state.car) {
+        this.state.car.remove()
+      }
       this.setState({ car: null })
 
       this.markers.map(m => m.remove())
       return this.map.getSource('line').setData(GEOJSON);
     }
-
     if (props.car) {
       if (!this.state.car) this.renderCar(props.car, props.trip(), props.driver);
       let popupContent = render(<CarPopup car={props.car} trip={props.trip()} driver={props.driver}/>);

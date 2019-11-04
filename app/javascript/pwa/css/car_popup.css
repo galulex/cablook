@@ -1,15 +1,19 @@
 .car-popup.mapboxgl-popup .mapboxgl-popup-content {
-  padding: 10px;
-  font-size: 1rem;
+  padding: 5px;
+  font-size: 0.9rem;
   font-weight: 100;
   background: #19A160;
   background: var(--green);
   color: white;
   border-radius: 10px;
+  width: 150px;
 }
 
 .car-popup.mapboxgl-popup svg {
   fill: white;
+  width: 15px;
+  height: 15px;
+  margin: 0 8px 0 10px !important;
 }
 
 .car-popup.mapboxgl-popup a {
@@ -23,5 +27,40 @@
 }
 
 .car-popup.mapboxgl-popup .mapboxgl-popup-content-line {
-  margin-bottom: 10px;
+  margin-bottom: 8px;
+}
+
+.car svg {
+  height: 18px  !important;
+  width: 18px  !important;
+}
+
+.car {
+  align-items: center;
+  display: flex;
+}
+
+.car span {
+  margin-bottom: -5px;
+}
+
+.test_leaf {
+  bottom: -34px;
+  /* left: 46px; */
+  left: 50%;
+  margin-left: 20%;
+  position: absolute;
+  transform: translateX(-50%);
+  z-index: 5;
+}
+
+.test_leaf svg {
+  height: 88px !important;
+  width: 88px !important;
+}
+
+.mapboxgl-popup-close-button {
+  color: white;
+  font-size: 1.2rem;
+  z-index: 2;
 }
