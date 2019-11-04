@@ -102,13 +102,10 @@ export default class PreviewMap extends Component {
     });
 
     this.map.on('movestart', () => {
-      // if (!this.car) return;
-      // if (this.state.car._popup.isOpen()) return;
       this.setState({transition: 0})
     });
 
     this.map.on('moveend', () => {
-      // if (!this.car) return;
       this.setState({transition: TRANSITION})
     });
 

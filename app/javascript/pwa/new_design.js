@@ -1,7 +1,6 @@
 import { h, render, Component } from 'preact'
 import axios from 'axios'
 
-import { pick } from 'lodash';
 import i18n from './i18n.js'
 import './css/map.css'
 import PreviewMap from './map/preview_map.js'
@@ -25,6 +24,7 @@ const ActionCable = require('actioncable')
 const cable = ActionCable.createConsumer()
 const pathColor = (localStorage.getItem('dark') === 'true') ? ['#ffffff', '#19a160'] : ['#312d50', '#19a160']
 const ENTRANCES = Array.from({length: 15}, (v, k) => (k+1))
+const TRIP_FIELDS = ['departure', 'departure_address', 'destination', 'destination_address', 'path', 'status', 'id', 'stops', 'waypoints', 'cost', 'distance', 'duration', 'start_time']
 
 export default class NewDesign extends Component {
   constructor(props) {
@@ -195,8 +195,9 @@ export default class NewDesign extends Component {
 
   getTripThroughProps = (propsTrip) => {
     if (!propsTrip) return;
-    const trip = pick(propsTrip, ['departure', 'departure_address', 'destination', 'destination_address', 'path', 'status',
-                                  'id', 'stops', 'waypoints', 'cost', 'distance', 'duration', 'start_time'])
+    let trip = {}
+    TRIP_FIELDS.map(f => trip[f] = propsTrip[f] )
+    console.log(trip)
     const car = { location: propsTrip.car_location, color: propsTrip.car_color, number: propsTrip.car_number }
     const driver = { name: propsTrip.driver_name, phone_number: propsTrip.car_phone_number }
     this.setState({ trip: trip, car: car, driver: driver })
@@ -229,8 +230,8 @@ export default class NewDesign extends Component {
     window.ios ? this.props.fetchUser() : window.history.back()
   }
 
-  setOrderTime = (e) => {
-    this.state.trip.time = (e.target.value == '' ? null : e.target.value)
+  setField = (e) => {
+    this.state.trip[e.target.id] = (e.target.id !== 'no_call') ? e.target.value : e.target.checked
     this.setState(this.state);
   }
 
@@ -333,14 +334,14 @@ export default class NewDesign extends Component {
         </div>
         <div class='option'>
           <div class='additions'>
-            <label for='nocall' class='nocall'>
-              <input id='nocall' type='checkbox' checked={trip.no_call} onChange={this.setNoCall}/>
+            <label for='no_call' class='nocall'>
+              <input id='no_call' type='checkbox' checked={trip.no_call} onChange={this.setField}/>
               <Phone width='24' class='cross'/>
               {i18n.current_trip.no_call}
             </label>
             <label for='entrance'>
               <Entrance height='27'/>
-              <select id='entrance' value={trip.entrance} onChange={(e) => this.setEntrance(e)}>
+              <select id='entrance' value={trip.entrance} onChange={this.setField}>
                 <option value=''>{i18n.current_trip.select_entrance}</option>
                 {ENTRANCES.map((el) => {
                   return(<option value={el}>{el} {i18n.current_trip.entrance}</option>)
@@ -349,7 +350,7 @@ export default class NewDesign extends Component {
             </label>
             <label for='time' data-placeholder={!trip.time}>
               <Clock width='24'/>
-              <input id='time' type='time' step='60' title='HH:MM' pattern='([01]?[0-9]|2[0-3]):[0-5][0-9]' value={trip.time} placeholder='Now' onChange={this.setOrderTime}/>
+              <input id='time' type='time' step='60' title='HH:MM' pattern='([01]?[0-9]|2[0-3]):[0-5][0-9]' value={trip.time} placeholder='Now' onChange={this.setField}/>
               <span class='time-placeholder'>{i18n.current_trip.now}</span>
             </label>{' '}
             <label class='select' for='card'>
@@ -361,7 +362,7 @@ export default class NewDesign extends Component {
           </div>
           <label for='comment'>
             <Comment width='24'/>
-            <input id='comment' type='text' class='comment' value={trip.comment} placeholder={i18n.current_trip.comment} onChange={this.setComment}/>
+            <input id='comment' type='text' class='comment' value={trip.comment} placeholder={i18n.current_trip.comment} onChange={this.setField}/>
           </label>
         </div>
       </div>
@@ -407,6 +408,7 @@ export default class NewDesign extends Component {
           <Buttons trip={trip}
             isValid={this.isValid}
             cost={cost}
+            bonusTrips={this.props.bonus_trips()}
             createTrip={this.createTrip}
             updateRoute={this.updateRoute}
             confirmUpdate={this.confirmUpdate}
