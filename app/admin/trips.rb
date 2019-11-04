@@ -33,6 +33,7 @@ ActiveAdmin.register Trip do
 
   form do |f|
     semantic_errors
+    f.hidden_field :lock_version
     inputs do
       %w[driver car status].each { |title| input title }
     end

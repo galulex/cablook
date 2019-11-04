@@ -30,13 +30,15 @@ export default class Drawer extends Component {
         <style>
           {`aside:before { opacity: ${(1 - (Math.abs(this.state.x)/300)).toFixed(2)}; transition: opacity 0.${this.state.transition}s, width 0s 0.${this.state.delay}s; }`}
         </style>
-        <div>
-          { localStorage.username }
-          <br/>
-          { localStorage.car }
+        <div class='nav-wrapper' onTouchMove={this.touchMove}>
+          <div class='nav-header'>
+            { localStorage.username }
+            <br/>
+            { localStorage.car }
+          </div>
+          <Link activeClassName='active' href='/' onClick={this.close}><Home/>{i18n.drawer.home}</Link>
+          <Link activeClassName='active' href='' onClick={this.props.logOut}><LogOut/>{i18n.drawer.logout}</Link>
         </div>
-        <Link activeClassName='active' href='/' onClick={this.close}><Home/>{i18n.drawer.home}</Link>
-        <Link activeClassName='active' href='' onClick={this.props.logOut}><LogOut/>{i18n.drawer.logout}</Link>
       </aside>
     );
   }

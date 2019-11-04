@@ -22,6 +22,7 @@ module Events
           notify
         else
           broadcast_with_error
+          invalid!([I18n.t('trips.assigned_or_canceled')])
         end
       end
 
