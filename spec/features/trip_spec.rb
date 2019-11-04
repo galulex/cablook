@@ -20,57 +20,46 @@ RSpec.feature 'Trip', type: :feature, js: true do
 
   it 'orders taxi' do
     wait 3 do
-      has_text? 'Search'
-    end
-    first('input').trigger(:focus)
-    first('input').set('')
-    wait 3 do
-      first('li.prediction', visible: false).trigger(:click)
+      has_text? 'GO'
     end
     all('input')[1].trigger(:focus)
     all('input')[1].set('')
-    all('li.prediction', visible: false)[1].trigger(:click)
-    find_button('OK').trigger(:click)
     wait 3 do
-      has_text? 'Confirm Trip'
+      first('li.prediction', visible: false).trigger(:click)
     end
-    find_button('GO').trigger(:click)
+    all('input')[2].trigger(:focus)
+    all('input')[2].set('')
+    all('li.prediction', visible: false)[1].trigger(:click)
+    wait 3 do
+      find_button('GO 56 grn.').trigger(:click)
+    end
     wait 3 do
       has_text? 'Cancel'
     end
     Events::Trips::Accept.(trip_id: trip.id, driver_id: driver.id, car_id: car.id)
     wait 3 do
-      has_text? driver.name
       has_no_text? 'Edit'
     end
     Events::Trips::WaitingClient.(trip_id: trip.id)
     wait 3 do
-      has_text? driver.name
       has_text? 'Edit'
     end
-    expect(page).to have_content('56 uah')
+    expect(page).to have_content('56')
     Events::Trips::Start.(trip_id: trip.id)
     wait 3 do
-      has_text? driver.name
       has_text? 'Edit'
     end
-    expect(page).to have_selector("button[class='button edit']")
-    expect(page).to have_content(driver.name)
-    find('button#edit_trip').trigger(:click)
+    find_button('Edit').trigger(:click)
     find('button.add-address').trigger(:click)
-    all('input')[2].trigger(:focus)
-    all('input')[2].set('')
+    all('input')[3].trigger(:focus)
+    all('input')[3].set('')
     first('li.prediction', visible: false).trigger(:click)
-    find_button('OK').trigger(:click)
     wait 3 do
-      has_text? 'Confirm Trip'
+      find_button('GO 56 grn.').trigger(:click)
     end
-    find_button('GO').trigger(:click)
     wait 3 do
       has_text? 'Edit'
     end
-    expect(page).to have_content('Haharina, 55')
-    expect(page).to have_content('Active Bridge')
     expect(page).to have_content(trip.cost)
     Events::Trips::Finish.(trip_id: trip.id)
     wait 3 do
@@ -79,7 +68,7 @@ RSpec.feature 'Trip', type: :feature, js: true do
     first('textarea').set('Nice!')
     find_button('OK').trigger(:click)
     wait 3 do
-      has_text? 'Search'
+      has_text? 'GO'
     end
   end
 
