@@ -13,7 +13,7 @@ export default class CarPopup extends Component {
     const car = this.props.car
     const trip = this.props.trip
     const driver = this.props.driver
-    let driver_name = driver.name.split(' ')[1]
+    let driver_name = driver.name.split(' ').length == 1 ? driver.name : driver.name.split(' ')[1]
     return (
       <div>
         <div>
