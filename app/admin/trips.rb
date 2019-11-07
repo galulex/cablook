@@ -57,7 +57,7 @@ end
 
 def ordered_trip_columns
   %w[id cost idle total departure_address destination_address stops status trip_payment
-     car driver user created_at comment]
+     car driver user created_at start_at finish_at started_at finished_at comment]
 end
 
 def view_trip_columns(columns, element)
