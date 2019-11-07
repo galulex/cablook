@@ -81,6 +81,9 @@ export default class PreviewMap extends Component {
   componentDidMount() {
     const { lng, lat, zoom } = this.state
 
+    this.car = new mapboxgl.Marker(this.nissan)
+    window.car = this.car
+
     this.map = new mapboxgl.Map({
       container: this.mapContainer,
       style: MAPSTYLE,
@@ -183,8 +186,21 @@ export default class PreviewMap extends Component {
     marker.setPopup(popup).addTo(this.map).togglePopup();
     this.updateCarDirection(marker);
 
+    this.carFocus = new FocusOnCarControl({eventHandler: this.focusOnCar});
+    this.map.addControl(this.carFocus);
+
     this.setState({ car: marker });
     if (this.state.car._popup.isOpen()) this.map.flyTo({ center: this.state.car.getLngLat(), speed: 1 });
+  }
+
+  focusOnCar = () => {
+    console.log(this.state.car);
+    if (this.state.car.getLngLat().lat == 0 || this.state.car.getLngLat().lat == 0) return
+    if (this.map.getZoom() == this.map.getMinZoom()) {
+      this.map.panTo(this.state.car.getLngLat());
+    } else {
+      this.map.flyTo({center: this.state.car.getLngLat()});
+    }
   }
 
   pick = (index) => {
@@ -231,9 +247,12 @@ export default class PreviewMap extends Component {
       }
       this.setState({ car: null })
 
+      this.map.removeControl(this.carFocus)
+
       this.markers.map(m => m.remove())
       return this.map.getSource('line').setData(GEOJSON);
     }
+
     if (props.car) {
       if (!this.state.car) this.renderCar(props.car, props.trip(), props.driver);
       let popupContent = render(<CarPopup car={props.car} trip={props.trip()} driver={props.driver}/>);

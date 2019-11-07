@@ -26,6 +26,9 @@ const cable = ActionCable.createConsumer()
 const pathColor = (localStorage.getItem('dark') === 'true') ? ['#ffffff', '#19a160'] : ['#312d50', '#19a160']
 const ENTRANCES = Array.from({length: 15}, (v, k) => (k+1))
 
+const Shake = require('shake.js')
+let myShakeEvent = null
+
 export default class NewDesign extends Component {
   constructor(props) {
     super(props)
@@ -35,8 +38,9 @@ export default class NewDesign extends Component {
       car: null,
       driver: null,
       picker: null,
-      bonus: null,
-    }
+      bonus: null
+    },
+    this.shake_trip_params = null
   }
 
   setAddress = (text, coords, index) => {
@@ -123,7 +127,7 @@ export default class NewDesign extends Component {
       return;
     }
     axios.patch(`trips/${this.state.trip.id}/cancel`).then((res) => {
-      this.setState({ trip: { ...this.state.trip, status: CANCELED }, car: null, driver: null })
+      this.setState({ trip: { stops: ['', ''], waypoints: [], osrm: true, status: CANCELED }, cost: null, car: null, driver: null })
       delete this.state.trip.start_time
       this.unsubscribe()
     }).catch((error) => {
@@ -183,14 +187,113 @@ export default class NewDesign extends Component {
 
   componentDidMount() {
     this.getTripThroughProps(this.props.trip)
+
+    myShakeEvent = new Shake({threshold: 20, timeout: 2000})
+    myShakeEvent.start()
+
+    window.addEventListener('shake', this.shakeEvent, false)
   }
 
   componentWillUnmount() {
+    myShakeEvent.stop()
+    window.removeEventListener('shake', this.shakeEvent)
+
     this.unsubscribe()
   }
 
   componentWillReceiveProps(props) {
     this.getTripThroughProps(props.trip)
+  }
+
+  shakeEvent = () => {
+    const { trip } = this.state
+    const { cards } = this.props
+    console.log(trip);
+
+    if (trip && trip.id) {
+      return (alert(i18n.trips.pending_trip_exists))
+    } else if (cards().length < 1 ) {
+      if (confirm(`${i18n.cards.no_cards}. ${i18n.cards.please_add}`)) return (route('/cards', true))
+    } else { this.createShakeTrip() }
+  }
+
+  createShakeTrip = () => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((result) => {
+        let geocoder = new google.maps.Geocoder()
+        let location = new google.maps.LatLng(result.coords.latitude, result.coords.longitude)
+
+        geocoder.geocode( { 'location': location }, (res, status) => {
+          if (status == 'OK') this.setTripParams(res)
+        })
+      },
+        (error) => {
+          switch(error.code) {
+            case error.PERMISSION_DENIED :
+              alert(i18n.location.permission_denied)
+              break
+            case error.TIMEOUT:
+              alert(i18n.location.timeout)
+              break
+            case error.POSITION_UNAVAILABLE :
+              alert(i18n.location.position_unavailable)
+              break
+            default:
+              alert(error.message)
+              break
+          }
+        }
+      )
+    } else alert(i18n.location.not_supported)
+  }
+
+  setTripParams = (res) => {
+    let place = res[0]
+    let address = `${place.address_components[1].long_name}, ${place.address_components[0].long_name}`
+    let coords = `${place.geometry.location.lat()},${place.geometry.location.lng()}`
+
+    this.shake_trip_params = {
+      departure: coords,
+      destination: coords,
+      departure_address: address,
+      destination_address: address,
+      osrm: true,
+      bonus: false,
+      comment: 'Швидка поїдка. Я зміню кінцеву точку після посадки.'
+    }
+    this.sendCreateRequest()
+  }
+
+  sendCreateRequest = () => {
+    axios.post('trips', {trip: this.shake_trip_params}).then((res) => {
+      this.setState({trip: res.data})
+      this.subscribe(res.data)
+    }).catch((error) => {
+      if (!error.response) return
+      if (error.response.status == 418) {
+        if (confirm(`${error.response.data.errors} ${i18n.confirm_trip.retry_payment}`)) {
+          this.retryPendingPayment(false)
+        }
+      } else alert(error.response.data.errors)
+    })
+  }
+
+  retryPendingPayment = () => {
+    const { cards } = this.props
+    const { card_id } = this.state
+
+    axios.post('payments/retry_pendings', {card_id: card_id ? card_id : cards()[0].id}).then((res) => {
+      if (res.data.length === 0) {
+        if (unpaid_trip) {
+          return;
+        }
+        this.sendCreateRequest()
+      } else {
+        setTimeout(() => {alert(i18n.confirm_trip.payment_error)}, 500)
+      }
+    }).catch((error) => {
+      if (error.response) alert(error.response.data.errors)
+    })
   }
 
   getTripThroughProps = (propsTrip) => {
@@ -385,6 +488,7 @@ export default class NewDesign extends Component {
     const cards = this.props.cards()
     let isValid = trip.stops.includes('')
     let cost = (trip.cost) ? `${trip.cost} ${i18n.grn}` : ''
+    console.log(trip);
 
     return (
       <div>
