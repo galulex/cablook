@@ -188,10 +188,22 @@ export default class NewDesign extends Component {
   componentDidMount() {
     this.getTripThroughProps(this.props.trip)
 
-    myShakeEvent = new Shake({threshold: 20, timeout: 2000})
-    myShakeEvent.start()
+    this.addShakeListener()
+  }
 
-    window.addEventListener('shake', this.shakeEvent, false)
+  componentDidUpdate() {
+    this.addShakeListener()
+  }
+
+  addShakeListener = () => {
+    if (!this.props.trip || ![ON_THE_WAY, WAITING_CLIENT, DRIVING].includes(this.props.trip.status)) {
+      myShakeEvent = new Shake({threshold: 20, timeout: 2000})
+      myShakeEvent.start()
+
+      window.addEventListener('shake', this.shakeEvent, false)
+    } else {
+      window.removeEventListener('shake', this.shakeEvent, false)
+    }
   }
 
   componentWillUnmount() {
