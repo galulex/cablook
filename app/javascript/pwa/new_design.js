@@ -22,7 +22,6 @@ import { PENDING, ON_THE_WAY, WAITING_CLIENT, DRIVING, FINISHED, CANCELED, DECLI
 
 const ActionCable = require('actioncable')
 const cable = ActionCable.createConsumer()
-const pathColor = (localStorage.getItem('dark') === 'true') ? ['#ffffff', '#19a160'] : ['#312d50', '#19a160']
 const ENTRANCES = Array.from({length: 15}, (v, k) => (k+1))
 const TRIP_FIELDS = ['departure', 'departure_address', 'destination', 'destination_address', 'path', 'status', 'id', 'stops', 'waypoints', 'cost', 'distance', 'duration', 'start_time']
 
