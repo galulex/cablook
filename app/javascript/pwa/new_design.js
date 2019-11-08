@@ -27,7 +27,7 @@ const pathColor = (localStorage.getItem('dark') === 'true') ? ['#ffffff', '#19a1
 const ENTRANCES = Array.from({length: 15}, (v, k) => (k+1))
 
 const Shake = require('shake.js')
-let myShakeEvent = null
+let myShakeEvent = false
 
 export default class NewDesign extends Component {
   constructor(props) {
@@ -196,13 +196,13 @@ export default class NewDesign extends Component {
   }
 
   addShakeListener = () => {
-    if (!this.props.trip || ![ON_THE_WAY, WAITING_CLIENT, DRIVING].includes(this.props.trip.status)) {
+    let listenerEnable = !this.props.trip || ![ON_THE_WAY, WAITING_CLIENT, DRIVING].includes(this.props.trip.status)
+
+    if (listenerEnable && !myShakeEvent) {
       myShakeEvent = new Shake({threshold: 20, timeout: 2000})
       myShakeEvent.start()
-
-      window.addEventListener('shake', this.shakeEvent, false)
-    } else {
-      window.removeEventListener('shake', this.shakeEvent, false)
+      console.log(this.props.trip);
+      window.addEventListener('shake', this.shakeEvent, {once: true})
     }
   }
 
@@ -220,7 +220,6 @@ export default class NewDesign extends Component {
   shakeEvent = () => {
     const { trip } = this.state
     const { cards } = this.props
-    console.log(trip);
 
     if (trip && trip.id) {
       return (alert(i18n.trips.pending_trip_exists))

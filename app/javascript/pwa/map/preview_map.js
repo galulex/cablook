@@ -75,6 +75,7 @@ export default class PreviewMap extends Component {
       subscription: null,
       car: null,
       transition: TRANSITION
+      // carVisible: true
     }
   }
 
@@ -125,6 +126,8 @@ export default class PreviewMap extends Component {
 
     // this.map.addControl(geolocate, 'bottom-right')
     this.map.addControl(language)
+    this.carFocus = new FocusOnCarControl({eventHandler: this.focusOnCar});
+    this.map.addControl(this.carFocus);
     // this.map.addControl(new mapboxgl.NavigationControl({showCompass: false}), 'bottom-right')
 
     this.map.on('load', () => {
@@ -186,15 +189,11 @@ export default class PreviewMap extends Component {
     marker.setPopup(popup).addTo(this.map).togglePopup();
     this.updateCarDirection(marker);
 
-    this.carFocus = new FocusOnCarControl({eventHandler: this.focusOnCar});
-    this.map.addControl(this.carFocus);
-
-    this.setState({ car: marker });
+    this.setState({ car: marker});
     if (this.state.car._popup.isOpen()) this.map.flyTo({ center: this.state.car.getLngLat(), speed: 1 });
   }
 
   focusOnCar = () => {
-    console.log(this.state.car);
     if (this.state.car.getLngLat().lat == 0 || this.state.car.getLngLat().lat == 0) return
     if (this.map.getZoom() == this.map.getMinZoom()) {
       this.map.panTo(this.state.car.getLngLat());
@@ -241,25 +240,34 @@ export default class PreviewMap extends Component {
   }
 
   componentWillReceiveProps(props) {
+    if (props.trip() && ([ON_THE_WAY].includes(props.trip().status))) {
+      this.carFocus._btn.className = 'mapboxgl-ctrl-icon focus-icon'
+    } else {
+      this.carFocus._btn.className = 'mapboxgl-ctrl-icon focus-icon test'
+    }
+
     if ([FINISHED, CANCELED].includes(props.trip().status)) {
       if (this.state.car) {
         this.state.car.remove()
       }
-      this.setState({ car: null })
+      this.setState({ car: null, carVisible: true })
 
-      // this.map.removeControl(this.carFocus)
-
-      // this.carFocus.map(m => m.remove())
 
       this.markers.map(m => m.remove())
       return this.map.getSource('line').setData(GEOJSON);
     }
+
+    // if ([ON_THE_WAY].includes(props.trip().status)) {
+    //   this.setState({enableFocusCar: false })
+    //
+    // }
 
     if (props.car) {
       if (!this.state.car) this.renderCar(props.car, props.trip(), props.driver);
       let popupContent = render(<CarPopup car={props.car} trip={props.trip()} driver={props.driver}/>);
       this.state.car._popup.setHTML(popupContent.outerHTML);
       this.updateCarPosition(props.car);
+
     }
 
     if (props.picker !== null) return this.pick(props.picker)
