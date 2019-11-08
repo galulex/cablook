@@ -178,7 +178,7 @@ class TelegramOrder
 
   def self.send_order_message(chat_id, time, items, phone_number, order_id)
     formatted_items = ["🔸Отримане нове замовлення!🔸\n\nНомер замовлення: ##{order_id}\n\n🕑 Час подачі: #{time}\n\n📝 Замовлення:\n"]
-    items.each { |item_name, info| formatted_items << "#{eval(info)['name']} - #{eval(info)['quantity']}шт.\n" }
+    items.each { |item_name, info| formatted_items << "#{eval(info)['category']}, #{eval(info)['name']} - #{eval(info)['quantity']}шт.\n" }
     formatted_items << "\n📞 Номер телефону клієнта: [#{phone_number}](tel:#{phone_number})"
     Telegram.bot.send_message(chat_id: chat_id, text: formatted_items.join(''), parse_mode: 'Markdown', reply_markup:
       {

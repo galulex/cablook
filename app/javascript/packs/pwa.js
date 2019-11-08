@@ -41,7 +41,6 @@ import Cart from '../pwa/cart.js';
 import NotFound from '../pwa/not_found.js';
 
 import '../pwa/css/buttons.css';
-// import '../pwa/inobounce.js';
 
 import axios from 'axios';
 axios.defaults.baseURL = '/api';

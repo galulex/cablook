@@ -25,12 +25,16 @@ export default class AddressInput extends Component {
 
   componentDidMount() {
     this.input.setCustomValidity(this.state.address ? '' : i18n.choose_address)
-    if (this.props.index === 0) window.geolocate = this.getLocation
+    // if (this.props.index === 0) window.geolocate = this.getLocation
     if (this.props.index === this.props.fieldsCount - 1) this.input.focus()
   }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.address || nextProps.address === '') this.setState({address: nextProps.address})
+  }
+
+  componentWillUnmount() {
+    if (window.timeout) clearTimeout(window.timeout)
   }
 
   favoriteAddressesPredictions = () => {
@@ -220,11 +224,11 @@ export default class AddressInput extends Component {
 
   render() {
     let placeholder = this.setPlaceholder()
-    const { fieldsCount, address, index, readonly, language} = this.props
+    const { fieldsCount, address, index, readonly, language, hideRemove} = this.props
 
     return (
       <fieldset class='address'>
-        {(fieldsCount > 2 || address !== '') && !readonly && (<button class='remove-address' type='button' onClick={() => this.eraseAddress(index)}>×</button>)}
+        {(fieldsCount > 2 || address !== '') && !hideRemove && !readonly && (<button class='remove-address' type='button' onClick={() => this.eraseAddress(index)}>×</button>)}
         {mapboxgl.supported() && <Pin onClick={this.openMap} disabled={readonly} height='24px' class='map-pick'/>}
         {this.state.isShowMap && <MapPicker onCloseMap={this.closeMap} handleBack={this.handleBack} language={language}/>}
 

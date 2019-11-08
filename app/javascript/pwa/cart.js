@@ -146,7 +146,7 @@ export default class Cart extends Component {
     const cart = JSON.parse(localStorage.getItem('cart'))
     let items = cart.items;
     Object.keys(items).forEach((id) => {
-      items[id] = { quantity: cart.items[id].quantity, name: cart.items[id].item_name }
+      items[id] = { quantity: cart.items[id].quantity, category: cart.items[id].category, name: cart.items[id].item_name }
     })
 
     let params = {

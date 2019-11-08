@@ -1,5 +1,4 @@
 import { h, render, Component } from 'preact';
-import L from 'lodash'
 import axios from 'axios';
 import i18n from './i18n.js'
 import Copy from './images/copy.svg'
@@ -22,7 +21,7 @@ export default class Bonus extends Component {
   }
 
   render() {
-    const groupByStatus = L.groupBy(this.state.bonus_trips, 'status')
+    const groupByStatus = this.state.bonus_trips.reduce((a, b) => { (a[b['status']] = a[b['status']] || []).push(b); return a; }, {})
     const bonusTrips = Object.keys(groupByStatus).map(el => ({ status: el, count: groupByStatus[el].length }))
     return (
       <div>
