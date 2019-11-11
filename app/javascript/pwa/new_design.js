@@ -27,12 +27,13 @@ const TRIP_FIELDS = ['departure', 'departure_address', 'destination', 'destinati
 
 const Shake = require('shake.js')
 let myShakeEvent = false
+const initialTripState = { stops: ['', ''], waypoints: [], osrm: true }
 
 export default class NewDesign extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      trip: { stops: ['', ''], waypoints: [], osrm: true },
+      trip: initialTripState,
       subscription: null,
       car: null,
       driver: null,
@@ -115,7 +116,7 @@ export default class NewDesign extends Component {
   }
 
   create = (e) => {
-    let params = { ...this.state.trip, id: null, osrm: true, card_id: this.state.card_id }
+    let params = { ...initialTripState, status: PENDING, card_id: this.state.card_id }
     if (this.state.bonus === 'true') params.bonus = this.state.bonus
     this.sendRequest(params)
   }
@@ -126,8 +127,10 @@ export default class NewDesign extends Component {
       return;
     }
     axios.patch(`trips/${this.state.trip.id}/cancel`).then((res) => {
-      this.setState({ trip: { stops: ['', ''], waypoints: [], osrm: true, status: CANCELED }, cost: null, car: null, driver: null })
-      delete this.state.trip.start_time
+      this.setState({ trip: initialTripState, cost: null, car: null, driver: null })
+      this.previewMapRef.cleanup();
+
+      // delete this.state.trip.start_time
       this.unsubscribe()
     }).catch((error) => {
       if (error.response) alert(error.response.data.errors)
@@ -511,7 +514,8 @@ export default class NewDesign extends Component {
             language={this.props.language}
             picker={this.state.picker}
             setAddress={this.setAddress}
-            zoom={this.state.zoom} />
+            zoom={this.state.zoom}
+            ref={(el) => this.previewMapRef = el}/>
           <div class='wrapper'>
             { [CONFIRM_UPDATE_TRIP, CANCELED, CANCELED_BY_DRIVER, undefined, null].includes(trip.status) && this.renderFields(trip, isValid, cards) }
             { [PENDING].includes(trip.status) && this.renderLoading() }

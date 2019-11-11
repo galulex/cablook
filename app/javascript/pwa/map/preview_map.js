@@ -271,14 +271,13 @@ export default class PreviewMap extends Component {
       let marker = new mapboxgl.Marker(render(<div><Pin class={`pin-${klass}`} width='25px'/></div>))
 
       var popup = new mapboxgl.Popup({closeOnClick: false, closeButton: false, className: `point-${klass}`, anchor: 'left', offset: 10, opened: true}).setHTML(trip.stops[i]);
-      if (trip && [ON_THE_WAY, PENDING, WAITING_CLIENT, DRIVING].includes(trip.status)) {
+      if (trip && [PENDING].includes(trip.status)) {
         marker.setLngLat(w.split(',').reverse()).setPopup(popup).addTo(this.map).togglePopup()
       } else {
         marker.setLngLat(w.split(',').reverse()).setPopup(popup).addTo(this.map)
       }
       this.markers.push(marker)
     })
-
   }
 
   componentWillReceiveProps(props) {
@@ -288,7 +287,7 @@ export default class PreviewMap extends Component {
       this.carFocus._btn.className = 'mapboxgl-ctrl-icon focus-icon hide'
     }
 
-    if ([FINISHED, CANCELED].includes(props.trip().status)) return this.cleanup()
+    if ([FINISHED].includes(props.trip().status)) return this.cleanup()
     if (props.car) this.addCar(props)
     if (props.picker !== null) return this.pick(props.picker)
 
