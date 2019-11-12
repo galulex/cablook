@@ -192,9 +192,11 @@ export default class NewDesign extends Component {
   }
 
   componentDidMount() {
+    document.activeElement.blur()
     this.getTripThroughProps(this.props.trip)
 
     this.addShakeListener()
+    document.addEventListener('visibilitychange', this.onVisibilityChange, false);
   }
 
   componentDidUpdate() {
@@ -214,12 +216,17 @@ export default class NewDesign extends Component {
   componentWillUnmount() {
     myShakeEvent.stop()
     window.removeEventListener('shake', this.shakeEvent)
+    document.removeEventListener('visibilitychange', this.onVisibilityChange)
 
     this.unsubscribe()
   }
 
   componentWillReceiveProps(props) {
     this.getTripThroughProps(props.trip)
+  }
+
+  onVisibilityChange = () => {
+    if (document.visibilityState === 'visible') this.props.fetchUser()
   }
 
   shakeEvent = () => {

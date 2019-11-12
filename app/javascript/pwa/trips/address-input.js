@@ -25,7 +25,7 @@ export default class AddressInput extends Component {
 
   componentDidMount() {
     this.input.setCustomValidity(this.state.address ? '' : i18n.choose_address)
-    // if (this.props.index === 0) window.geolocate = this.getLocation
+    if (this.props.index === 0) window.geolocate = this.getLocation
     if (this.props.index === this.props.fieldsCount - 1) this.input.focus()
   }
 
@@ -34,7 +34,7 @@ export default class AddressInput extends Component {
   }
 
   componentWillUnmount() {
-    if (window.timeout) clearTimeout(window.timeout)
+    if (window.timeout && this.props.index === 0) clearTimeout(window.timeout)
   }
 
   favoriteAddressesPredictions = () => {
