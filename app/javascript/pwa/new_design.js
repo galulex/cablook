@@ -8,6 +8,7 @@ import Buttons from './new_design/buttons.js'
 import AddressInput from '../pwa/trips/address-input.js';
 import Feedback from '../pwa/feedback.js';
 import Add from './images/+.svg'
+import Widget from './widget.js'
 import Entrance from './images/entrance.svg'
 import Clock from './images/trip_time.svg'
 import Card from './images/credit-cards-payment.svg'
@@ -38,6 +39,9 @@ export default class NewDesign extends Component {
       car: null,
       driver: null,
       picker: null,
+      cards: this.props.cards(),
+      card_id: null,
+      showWidget: false,
       bonus: null
     },
     this.shake_trip_params = null
@@ -416,7 +420,17 @@ export default class NewDesign extends Component {
     if (navigator.vibrate) navigator.vibrate([200, 100, 200])
   }
 
+  createCard = (data) => {
+    this.props.createCard(data)
+    this.setState({showWidget: false})
+  }
+
+  showWidgetTrue = () => {
+    this.setState({showWidget: true})
+  }
+
   renderFields(trip, isValid, cards) {
+
     return(
       <div id='fields' class='options' ref={fields => this.fields = fields}>
         <button class='trigger' onClick={ () => this.scroll(1) }>
@@ -496,10 +510,11 @@ export default class NewDesign extends Component {
   }
 
   render() {
+    const showWidget = this.state.showWidget
     const trip = this.state.trip
     const cards = this.props.cards()
     let isValid = trip.stops.includes('')
-    let cost = (trip.cost) ? `${trip.cost} ${i18n.grn}` : ''
+    let cost = (trip.cost) ? `${trip.cost}` : ''
 
     return (
       <div>
@@ -532,7 +547,11 @@ export default class NewDesign extends Component {
             retry={this.retry}
             cancelDeclined={this.cancelDeclined}
             picker={this.state.picker}
-            pickAddress={this.pickAddress} />
+            pickAddress={this.pickAddress}
+            showWidget={this.showWidget}
+            showWidgetTrue={this.showWidgetTrue}
+            cards={cards}/>
+          { showWidget && <Widget createCard={this.createCard} showWidget={() => this.setState({showWidget: false}) }/> }
         </section>
       </div>
     )

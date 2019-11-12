@@ -19,6 +19,14 @@ fieldset.address {
   border: none;
 }
 
+.trip_add_card {
+  z-index: 5;
+}
+
+.new_design .button svg {
+  fill: white;
+}
+
 .new_design .map-pick {
   right: auto;
   left: 7px;

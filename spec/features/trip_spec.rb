@@ -31,7 +31,7 @@ RSpec.feature 'Trip', type: :feature, js: true do
     all('input')[2].set('')
     all('li.prediction', visible: false)[1].trigger(:click)
     wait 3 do
-      find_button('GO 56 grn.').trigger(:click)
+      find_button('GO 56').trigger(:click)
     end
     wait 3 do
       has_text? 'Cancel'
@@ -55,7 +55,7 @@ RSpec.feature 'Trip', type: :feature, js: true do
     all('input')[3].set('')
     first('li.prediction', visible: false).trigger(:click)
     wait 3 do
-      find_button('GO 56 grn.').trigger(:click)
+      find_button('GO 56').trigger(:click)
     end
     wait 3 do
       has_text? 'Edit'
