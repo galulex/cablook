@@ -42,9 +42,8 @@ export default class NewDesign extends Component {
       cards: this.props.cards(),
       card_id: null,
       showWidget: false,
-      bonus: null
-    },
-    this.shake_trip_params = null
+      bonus: null,
+    }
   }
 
   setAddress = (text, coords, index) => {
@@ -192,11 +191,9 @@ export default class NewDesign extends Component {
   }
 
   componentDidMount() {
-    document.activeElement.blur()
     this.getTripThroughProps(this.props.trip)
 
     this.addShakeListener()
-    document.addEventListener('visibilitychange', this.onVisibilityChange, false);
   }
 
   componentDidUpdate() {
@@ -216,17 +213,12 @@ export default class NewDesign extends Component {
   componentWillUnmount() {
     myShakeEvent.stop()
     window.removeEventListener('shake', this.shakeEvent)
-    document.removeEventListener('visibilitychange', this.onVisibilityChange)
 
     this.unsubscribe()
   }
 
   componentWillReceiveProps(props) {
     this.getTripThroughProps(props.trip)
-  }
-
-  onVisibilityChange = () => {
-    if (document.visibilityState === 'visible') this.props.fetchUser()
   }
 
   shakeEvent = () => {
@@ -275,7 +267,7 @@ export default class NewDesign extends Component {
     let address = `${place.address_components[1].long_name}, ${place.address_components[0].long_name}`
     let coords = `${place.geometry.location.lat()},${place.geometry.location.lng()}`
 
-    this.shake_trip_params = {
+    this.trip = {
       departure: coords,
       destination: coords,
       departure_address: address,
@@ -288,7 +280,7 @@ export default class NewDesign extends Component {
   }
 
   sendCreateRequest = () => {
-    axios.post('trips', {trip: this.shake_trip_params}).then((res) => {
+    axios.post('trips', {trip: this.state.trip}).then((res) => {
       this.setState({trip: res.data})
       this.subscribe(res.data)
     }).catch((error) => {
@@ -301,7 +293,7 @@ export default class NewDesign extends Component {
     })
   }
 
-  retryPendingPayment = () => {
+  retryPendingPayment = (unpaid_trip) => {
     const { cards } = this.props
     const { card_id } = this.state
 
@@ -506,8 +498,13 @@ export default class NewDesign extends Component {
 
   renderLoading() {
     return (
-      <div className="loaderWrapper">
-        <SearchLogo className="search_logo" />
+      <div>
+        <div className="driverSearch">
+          {`${i18n.trip.driver_search}`}
+        </div>
+        <div className="loaderWrapper">
+          <SearchLogo className="search_logo" />
+        </div>
       </div>
     )
   }

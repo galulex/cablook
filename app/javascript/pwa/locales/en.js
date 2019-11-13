@@ -8,6 +8,7 @@ const en = {
   trip: {
     cancel: 'Cancel',
     canceled: 'Trip is canceled',
+    driver_search: 'Driver search',
     car_not_found: 'No cars available right now.\nDo you want to try one more time?',
     currency: 'uah',
     edit: 'Edit',
