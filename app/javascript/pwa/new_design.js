@@ -352,6 +352,20 @@ export default class NewDesign extends Component {
     this.setState(this.state);
   }
 
+  setTime = (e) => {
+    let now = new Date
+    let time = new Date(`${now.toDateString()} ${e.target.value}`)
+    let range = (time.getTime() - now.getTime())/60000
+
+    if (range <= -1) alert(i18n.current_trip.tomorrow)
+    if (range <= 15 && range > -1) {
+      e.target.value = ''
+      e.target.blur()
+      alert(i18n.current_trip.preorder)
+    }
+    this.setField(e)
+  }
+
   subscribe = (trip = this.state.trip) => {
     if ([FINISHED, CANCELED, DECLINED, CANCELED_BY_DRIVER].includes(trip.status)) return;
     if (this.state.subscription) return this.state.subscription
@@ -477,7 +491,7 @@ export default class NewDesign extends Component {
             </label>
             <label for='time' data-placeholder={!trip.time}>
               <Clock width='24'/>
-              <input id='time' type='time' step='60' title='HH:MM' pattern='([01]?[0-9]|2[0-3]):[0-5][0-9]' value={trip.time} placeholder='Now' onChange={this.setField}/>
+              <input id='time' type='time' step='60' title='HH:MM' pattern='([01]?[0-9]|2[0-3]):[0-5][0-9]' value={trip.time} placeholder='Now' onChange={this.setTime}/>
               <span class='time-placeholder'>{i18n.current_trip.now}</span>
             </label>{' '}
             <label class='select' for='card'>

@@ -57,7 +57,9 @@ const en = {
     unpaid_trips: 'You have an unpaid trips:',
     uah: 'uah',
     pay: 'Pay now',
-    add_card: 'Add card'
+    add_card: 'Add card',
+    preorder: 'Pre-order time should be more than 15 minutes from now',
+    tomorrow: 'It is pre order for tomorrow'
   },
   confirm_trip: {
     add_card: "Add a card",
