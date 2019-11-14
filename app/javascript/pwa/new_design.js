@@ -354,6 +354,7 @@ export default class NewDesign extends Component {
   }
 
   setTime = (e) => {
+    if (e.target.value === '') return this.setField(e)
     let now = new Date
     let time = new Date(`${now.toDateString()} ${e.target.value}`)
     let range = (time.getTime() - now.getTime())/60000
@@ -492,7 +493,7 @@ export default class NewDesign extends Component {
             </label>
             <label for='time' data-placeholder={!trip.time}>
               <Clock width='24'/>
-              <input id='time' type='time' step='60' title='HH:MM' pattern='([01]?[0-9]|2[0-3]):[0-5][0-9]' value={trip.time} placeholder='Now' onChange={this.setTime}/>
+              <input id='time' type='time' step='60' title='HH:MM' pattern='([01]?[0-9]|2[0-3]):[0-5][0-9]' value={trip.time} placeholder='Now' onBlur={this.setTime}/>
               <span class='time-placeholder'>{i18n.current_trip.now}</span>
             </label>{' '}
             <label class='select' for='card'>
