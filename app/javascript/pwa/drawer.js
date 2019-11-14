@@ -33,12 +33,12 @@ export default class Drawer extends Component {
 
   render() {
     return (
-      <aside class={this.state.class} onClick={this.click} onTouchMove={this.touchMove} onTouchStart={this.touchStart} onTouchEnd={this.touchEnd} style={`left: ${this.state.x}px; transition: left 0.${this.state.transition}s`}>
+      <aside>
         <style>
           {`aside:before { opacity: ${(1 - (Math.abs(this.state.x)/300)).toFixed(2)}; transition: opacity 0.${this.state.transition}s, width 0s 0.${this.state.delay}s; }`}
         </style>
-        <div class='nav-wrapper'onTouchMove={this.touchMove}>
-          <Link class='nav-header' href='/profile' onClick={this.close}>
+        <div class='nav-wrapper'>
+          <Link class='nav-header' href='/profile'>
             <Profile/>
             <div>{ localStorage.email }</div>
             { localStorage.phone }

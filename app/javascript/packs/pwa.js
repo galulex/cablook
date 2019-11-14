@@ -182,8 +182,8 @@ export default class App extends Component {
     localStorage.removeItem('delivery_trip')
   }
 
-  triggerDrawer = (open) => {
-    this.setState({drawer: open})
+  triggerDrawer = (e) => {
+    e.target.parentNode.scrollTo(0,0)
   }
 
   updateCards = (cards) => {
@@ -237,8 +237,7 @@ export default class App extends Component {
     if (this.state.currentUser) {
       return(
         <main id="app">
-          <Drawer active={this.state.drawer} triggerDrawer = {this.triggerDrawer} logOut={this.logOut} />
-          <button class='burger' onClick={() => this.triggerDrawer(true)}><Burger/></button>
+          <button class='burger' onClick={this.triggerDrawer}><Burger/></button>
           <Router history={window.ios ? createMemoryHistory() : null}>
             <NewDesign path='/'
               trip={currentTrip}
@@ -271,6 +270,7 @@ export default class App extends Component {
             <NotFound type='404' default />
             <Cart path='/delivery/cart' cards={() => this.state.cards} createCard={this.createCard} favorite_addresses={() => this.state.favorite_addresses} />
           </Router>
+          <Drawer active={this.state.drawer} triggerDrawer = {this.triggerDrawer} logOut={this.logOut} />
           <Prompt />
         </main>
       )
