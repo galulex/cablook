@@ -126,7 +126,7 @@ export default class PreviewMap extends Component {
       //geolocate.trigger()
     });
 
-    window.map = this.map
+    window.map = this.mapfocus
     document.addEventListener('visibilitychange', this.onVisibilityChange, false);
   }
 
@@ -226,7 +226,7 @@ export default class PreviewMap extends Component {
   }
 
   addCar = (props) => {
-    if (!this.state.car) this.renderCar(props.car, props.trip(), props.driver);
+    if (!this.props.car) this.renderCar(props.car, props.trip(), props.driver);
     let popupContent = render(<CarPopup car={props.car} trip={props.trip()} driver={props.driver}/>);
     this.state.car._popup.setHTML(popupContent.outerHTML);
     this.updateCarPosition(props.car);

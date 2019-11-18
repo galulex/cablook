@@ -82,6 +82,7 @@ export default class App extends Component {
     if (!navigator.onLine) this.offline()
   }
 
+
   onVisibilityChange = () => {
     if (document.visibilityState !== 'visible') return;
     navigator.onLine ? this.online() : this.offline()
@@ -134,6 +135,10 @@ export default class App extends Component {
   online = () => {
     document.documentElement.style.setProperty('--body-bg', '#19a160')
     document.body.className = ''
+  }
+
+  setCurrentTrip = (trip) => {
+    this.setState({currentTrip:trip})
   }
 
   fetchUser = () => {
@@ -244,7 +249,9 @@ export default class App extends Component {
               favorite_addresses={() => this.state.favorite_addresses}
               fetchUser={this.fetchUser}
             />
-            <Trips path='/trips/:id?' />
+            <Trips path='/trips/:id?'
+              setCurrentTrip={this.setCurrentTrip}
+            />
             <Bonus path='/bonus_trips' bonus_trips={() => this.state.bonus_trips} parent_bonus={() => this.state.parent_bonus} />
             <Cards path='/cards' cards={() => this.state.cards} create={this.createCard} currentUserID={() => this.state.currentUserID} />
             <Contacts path='/contacts' />

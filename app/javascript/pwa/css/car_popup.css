@@ -30,6 +30,10 @@
   margin-bottom: 8px;
 }
 
+.mapboxgl-popup-content-line {
+  z-index: 6;
+}
+
 .car svg {
   height: 18px  !important;
   width: 18px  !important;

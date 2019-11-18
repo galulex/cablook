@@ -35,7 +35,7 @@ const ru = {
     past: 'Прошедшие',
     rate: 'Оценить поездку',
     repeat: 'Повторить поездку',
-    reverse: 'Обратная поездку',
+    reverse: 'Обратная поездка',
     pending_trip_exists: 'Заказ уже в обработке'
   },
   location: {

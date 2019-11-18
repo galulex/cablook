@@ -120,7 +120,7 @@ export default class NewDesign extends Component {
   }
 
   create = (e) => {
-    let params = { ...initialTripState, status: PENDING, card_id: this.state.card_id }
+    let params = { ...this.state.trip, status: PENDING, card_id: this.state.card_id }
     if (this.state.bonus === 'true') params.bonus = this.state.bonus
     this.sendRequest(params)
   }
@@ -318,7 +318,12 @@ export default class NewDesign extends Component {
     TRIP_FIELDS.map(f => trip[f] = propsTrip[f] )
     const car = { location: propsTrip.car_location, color: propsTrip.car_color, number: propsTrip.car_number }
     const driver = { name: propsTrip.driver_name, phone_number: propsTrip.car_phone_number }
-    this.setState({ trip: trip, car: car, driver: driver })
+    if (propsTrip.car_location) {
+      this.setState({ trip: trip, car: car, driver: driver })
+    } else {
+      this.setState({ trip: trip, car: null, driver: null })
+    }
+
     this.updateTrip()
     this.subscribe()
   }
@@ -368,7 +373,7 @@ export default class NewDesign extends Component {
   }
 
   subscribe = (trip = this.state.trip) => {
-    if ([FINISHED, CANCELED, DECLINED, CANCELED_BY_DRIVER].includes(trip.status)) return;
+    if ([FINISHED, CANCELED, DECLINED, CANCELED_BY_DRIVER, undefined].includes(trip.status)) return;
     if (this.state.subscription) return this.state.subscription
     let component = this
     this.setState({subscription: cable.subscriptions.create(
