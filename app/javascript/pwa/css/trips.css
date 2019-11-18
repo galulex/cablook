@@ -46,7 +46,7 @@ address:last-of-type {
 .trip-card {
   background: #d1d1d1;
   background: var(--grey);
-  margin: 20px 10px;
+  margin: 10px 0;
   font-size: 17px;
   border-bottom: none;
   cursor: pointer;
@@ -156,7 +156,7 @@ nav {
   -webkit-overflow-scrolling: touch;
 }
 
-div.map {
+.trip-details div.map {
   height: 500px;
 }
 

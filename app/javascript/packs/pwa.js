@@ -13,7 +13,10 @@ if (window.dark) {
   document.documentElement.style.setProperty('--focus-shadow', '0 3px 6px rgba(255,255,255,0.2), 0 3px 6px rgba(255,255,255,255.23)');
   document.documentElement.style.setProperty('--bg', 'rgba(0,0,0,0.9)');
 }
+
 import '../pwa/android_polyfills.js';
+import smoothscroll from 'smoothscroll-polyfill';
+smoothscroll.polyfill();
 
 import { h, render, Component } from 'preact';
 import { Router } from 'preact-router';
@@ -54,7 +57,6 @@ export default class App extends Component {
     this.state = {
       currentUser: localStorage.token,
       currentUserID: '',
-      drawer: false,
       cards: [],
       bonus_trips: [],
       parent_bonus: [],
@@ -67,6 +69,7 @@ export default class App extends Component {
   }
 
   componentDidMount() {
+    this.triggerDrawer(false)
     i18n.setLanguage(this.state.language)
     this.loadScript()
     if (window.ios) this.focusOutForIos()
@@ -174,7 +177,7 @@ export default class App extends Component {
 
   removeData = () => {
     firebaseAuth().signOut()
-    this.setState({currentUser: null, drawer: false})
+    this.setState({currentUser: null})
     localStorage.removeItem('email')
     localStorage.removeItem('token')
     localStorage.removeItem('trip')
@@ -182,20 +185,21 @@ export default class App extends Component {
     localStorage.removeItem('delivery_trip')
   }
 
-  triggerDrawer = (e) => {
-    e.target.parentNode.scrollTo(0,0)
+  triggerDrawer = (open = true) => {
+    let val = (open) ? 0 : 300
+    document.getElementById('app').scrollTo({left: val, behavior: 'smooth'})
   }
 
   updateCards = (cards) => {
-    this.setState({cards: cards, drawer: false})
+    this.setState({cards: cards})
   }
 
   updateFavoriteAddresses = (favorite_addresses) => {
-    this.setState({favorite_addresses: favorite_addresses, drawer: false})
+    this.setState({favorite_addresses: favorite_addresses})
   }
 
   updateNotificationSettings = (notification_settings) => {
-    this.setState({notification_settings, drawer: false})
+    this.setState({notification_settings})
   }
 
   createCard = (data) => {
@@ -210,7 +214,7 @@ export default class App extends Component {
   }
 
   setLanguage = (e) => {
-    this.setState({language: e.target.value, drawer: false})
+    this.setState({language: e.target.value})
     localStorage.setItem('language', e.target.value)
     i18n.setLanguage(this.state.language)
     this.setScriptLanguage()
@@ -237,7 +241,8 @@ export default class App extends Component {
     if (this.state.currentUser) {
       return(
         <main id="app">
-          <button class='burger' onClick={this.triggerDrawer}><Burger/></button>
+          <button class='burger' onClick={() => this.triggerDrawer(true)}><Burger/></button>
+          <Drawer triggerDrawer={this.triggerDrawer} logOut={this.logOut} />
           <Router history={window.ios ? createMemoryHistory() : null}>
             <NewDesign path='/'
               trip={currentTrip}
@@ -270,7 +275,6 @@ export default class App extends Component {
             <NotFound type='404' default />
             <Cart path='/delivery/cart' cards={() => this.state.cards} createCard={this.createCard} favorite_addresses={() => this.state.favorite_addresses} />
           </Router>
-          <Drawer active={this.state.drawer} triggerDrawer = {this.triggerDrawer} logOut={this.logOut} />
           <Prompt />
         </main>
       )

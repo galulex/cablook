@@ -212,7 +212,7 @@ export default class NewDesign extends Component {
   }
 
   componentWillUnmount() {
-    myShakeEvent.stop()
+    if (myShakeEvent) myShakeEvent.stop()
     window.removeEventListener('shake', this.shakeEvent)
 
     this.unsubscribe()

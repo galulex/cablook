@@ -27,10 +27,6 @@ export default class Drawer extends Component {
     }
   }
 
-  componentWillReceiveProps(props) {
-    (props.active) ? this.open() : this.close();
-  }
-
   render() {
     return (
       <aside>
@@ -38,7 +34,7 @@ export default class Drawer extends Component {
           {`aside:before { opacity: ${(1 - (Math.abs(this.state.x)/300)).toFixed(2)}; transition: opacity 0.${this.state.transition}s, width 0s 0.${this.state.delay}s; }`}
         </style>
         <div class='nav-wrapper'>
-          <Link class='nav-header' href='/profile'>
+          <Link class='nav-header' href='/profile' onClick={this.close}>
             <Profile/>
             <div>{ localStorage.email }</div>
             { localStorage.phone }
@@ -55,33 +51,7 @@ export default class Drawer extends Component {
     );
   }
 
-  close = () => {
-    this.setState({transition: 3, x: -300, left: -300, class: '', delay: 3})
-  }
-
-  open = () => {
-    this.setState({transition: 3, x: 0, left: 0, class: 'active', delay: 0})
-  }
-
-  click = (e) => {
-    if (e.pageX > 300) this.props.triggerDrawer(false)
-  }
-
-  touchMove = (e) => {
-    let distance = this.state.start - e.touches[0].pageX
-    let x = this.state.left - distance
-    x = (x < -300) ? -300 : x
-    x = (x > 0) ? 0 : x
-    this.setState({transition: 0, x: x, class: 'active'})
-  }
-
-  touchStart = (e) => {
-    this.setState({start: e.touches[0].pageX, delay: 0})
-  }
-
-  touchEnd = (e) => {
-    let distance = this.state.start - e.changedTouches[0].pageX
-    if (distance === 0) return;
-    this.props.triggerDrawer(distance < 20)
+  close = (e) => {
+    this.props.triggerDrawer(false)
   }
 }

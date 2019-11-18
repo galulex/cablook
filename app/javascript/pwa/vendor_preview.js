@@ -82,7 +82,6 @@ export default class VendorPreview extends Component {
   goToMenu = () => {
     const { vendor } = this.props
 
-    history.pushState(null, null, document.URL)
     route(`/delivery/${vendor.id}`, true)
   }
 
