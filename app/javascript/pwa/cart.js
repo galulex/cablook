@@ -35,6 +35,7 @@ export default class Cart extends Component {
       trip_cost: null,
       trip_time: '',
       trip_comment: '',
+      comment: '',
       cards: this.props.cards(),
       card_id: null,
       showWidget: false,
@@ -93,10 +94,12 @@ export default class Cart extends Component {
   }
 
   goDeliveryTrip = (e) => {
-    const { departure, destination, departure_address, destination_address, entrance } = this.state
+    const { departure, destination, departure_address, destination_address, entrance, trip_comment } = this.state
     const cart = JSON.parse(localStorage.cart)
     const phone_number = cart.vendor_phone_number
     const vendor = cart.vendor
+    const comment_text = this.state.trip_comment.length < 1 ? '' : `Коментар користувача: ${this.state.trip_comment}`
+    const comment = `Доставка їжі з закладу: ${vendor}. Номер телефону закладу: ${phone_number}. ${comment_text}`
     const params = {
       waypoints: [],
       stops: [],
@@ -107,8 +110,10 @@ export default class Cart extends Component {
       destination_address: destination_address,
       no_call: false,
       osrm: true,
-      comment: `Доставка їжі з закладу: ${vendor}. Номер телефону закладу: ${phone_number}`
+      comment
     }
+    this.setState({comment})
+
 
     axios.post('trips/new', {trip: params}).then((res) => {
       let trip = res.data
@@ -118,6 +123,10 @@ export default class Cart extends Component {
     }).catch((error) => {
       if (error.response) alert(error.response.data.errors)
     })
+  }
+
+  setComment = (e) => {
+    this.setState({trip_comment: e.target.value})
   }
 
   updateTripTime = (e) => {
@@ -164,6 +173,7 @@ export default class Cart extends Component {
   }
 
   createTrip = (order_id) => {
+    let comment_text = this.state.trip_comment.length < 1 ? '' : `Коментар користувача: ${this.state.trip_comment}`
     let params = JSON.parse(localStorage.getItem('delivery_trip'))
     params.departure = params.departure.join(',')
     params.destination = params.destination.join(',')
@@ -171,6 +181,7 @@ export default class Cart extends Component {
     params.order_id = order_id
     params.time = this.state.trip_time
     params.entrance = this.state.entrance
+    params.comment = `${this.state.comment} ${comment_text}`
     this.sendTripRequest(params)
   }
 

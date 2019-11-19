@@ -109,7 +109,7 @@ module Events
       end
 
       def send_message_to_vendor
-        Jobs::TelegramNotification.perform_later(@order.vendor.telegram_account, data[:time], @order.items, @order.user.phone_number, @order.id)
+        Jobs::TelegramNotification.perform_later(@order.vendor.telegram_account, data[:time], @order.items, @order.user.phone_number, @order.id, data[:comment].split('Коментар користувача: ')[-1])
       end
 
       def bonus_trips
