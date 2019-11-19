@@ -152,4 +152,5 @@ aside div.nav-wrapper {
   max-height: 100%;
   margin: 0;
   fill: #312d50;
+  pointer-events: none;
 }

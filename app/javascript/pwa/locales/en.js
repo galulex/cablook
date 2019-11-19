@@ -143,7 +143,7 @@ const en = {
   },
   contacts: {
     header: 'Contacts',
-    message: 'Phone is only for support. Order by phone are not accepted. Technical support works since 9:00 to 18:00, Mon-Fri'
+    message: 'Phone number is for support issues only. Orders by phone are not accepted. Technical support works from 9:00 to 18:00, Mon- Fri'
   },
   feedback: {
     header: 'Rate trip',

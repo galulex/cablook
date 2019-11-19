@@ -234,7 +234,7 @@ export default class App extends Component {
   }
 
   closeDrawer = (e) => {
-    if (!e.target.classList.contains('nav-wrapper')) this.triggerDrawer(false)
+    if (!e.target.classList.contains('nav-wrapper') && !e.target.classList.contains('burger')) this.triggerDrawer(false)
   }
 
   render() {
@@ -294,6 +294,6 @@ export default class App extends Component {
 render(<App />, document.body);
 
 document.documentElement.style.setProperty('--vh', `${window.innerHeight * 0.01}px`);
-// window.addEventListener('resize', function() {
-//   document.documentElement.style.setProperty('--vh', `${window.innerHeight * 0.01}px`);
-// });
+window.addEventListener('resize', function() {
+  document.documentElement.style.setProperty('--vh', `${window.innerHeight * 0.01}px`);
+});
