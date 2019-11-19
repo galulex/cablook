@@ -1,19 +1,5 @@
-section.statistics {
-  padding: 0 0 50px 0;
-}
-
-.statistics .select-section {
-  border-top: none;
-}
-
-.statistics .select-section label {
-  background: #d1d1d1;
-  background: var(--grey);
-}
-
-.statistics select {
-  text-decoration: underline #19a160;
-  text-decoration: underline var(--green);
+.statistics .select select {
+  width: auto;
 }
 
 .statistics .trip-details-content {
@@ -22,7 +8,7 @@ section.statistics {
   flex-direction: row;
   align-items: center;
   font-size: 1rem;
-  padding: 20px 2px;
+  padding: 20px 0;
   font-weight: 500;
 }
 

@@ -7,6 +7,8 @@ import Pin from './images/pin.svg'
 import Amount from './images/trip_price.svg'
 import Leaf from './images/leaf_icon.svg'
 import i18n from './i18n.js'
+import Clock from './images/trip_time.svg'
+
 import './css/statistics.css'
 
 const initState = {distance: 0, amount: 0, trips_count: 0, rate: 0, tips: 0}
@@ -58,14 +60,12 @@ export default class Statistics extends Component {
       <div>
         <header>{i18n.statistics.header}</header>
         <section class='statistics'>
-          <div class='select-section'>
-            <label for='period'>{i18n.statistics.period}</label>
-            <div class='select'>
-              <select id='period' onChange={this.selectPeriod}>
-                {Periods.map(el => this.renderPeriod(el))}
-              </select>
-            </div>
-          </div>
+          <label for='period' class='select'>
+            <Clock width='24'/>
+            <select id='period' onChange={this.selectPeriod}>
+              {Periods.map(el => this.renderPeriod(el))}
+            </select>
+          </label>
           <div class='trip-details-content'><Pin/>{i18n.statistics.distance}<span>{this.state.statistics.distance / 1000}{i18n.statistics.km}</span></div>
           <div class='trip-details-content'><Amount/>{i18n.statistics.amount}<span>{this.state.statistics.amount}{i18n.statistics.uah}</span></div>
           <div class='trip-details-content'><Leaf/>{i18n.statistics.trips_count}<span>{this.state.statistics.trips_count}</span></div>

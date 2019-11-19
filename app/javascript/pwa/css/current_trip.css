@@ -301,7 +301,7 @@ label[for='entrance'], label[for='time'] {
   text-align: right;
 }
 
-.option label svg, .additions label svg, label[for='comment'] svg {
+.option label svg, .additions label svg, label[for='comment'] svg, .select svg {
   position: absolute;
   top: 50%;
   left: 10px;
