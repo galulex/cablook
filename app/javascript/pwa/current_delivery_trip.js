@@ -16,39 +16,39 @@ export default class CurrentDeliveryTrip extends Component {
     const time = localStorage.getItem('delivery_time')
 
     return(
-      <section class='delivery-trip'>
-        <header>
-          {i18n.current_delivery_trip.header}
-        </header>
-        { dark_mode ? <TaxiDriverDT class='driver_icon'/>  : <TaxiDriverLT class='driver_icon'/> }
-        <br/>
-        <h4>{i18n.current_delivery_trip.order_accepted}</h4>
-        <p class='info'>{i18n.current_delivery_trip.info}</p>
-        <div class='info-container'>
-          <div class='info-item'>
-            <TripTime/>
-            <b>{i18n.current_delivery_trip.time}</b>
-            <b class='desc'>{time}</b>
+      <div>
+        <header>{i18n.current_delivery_trip.header}</header>
+        <section class='delivery-trip'>
+          { dark_mode ? <TaxiDriverDT class='driver_icon'/>  : <TaxiDriverLT class='driver_icon'/> }
+          <br/>
+          <h4>{i18n.current_delivery_trip.order_accepted}</h4>
+          <p class='info'>{i18n.current_delivery_trip.info}</p>
+          <div class='info-container'>
+            <div class='info-item'>
+              <TripTime/>
+              <b>{i18n.current_delivery_trip.time}</b>
+              <b class='desc'>{time}</b>
+            </div>
+            <div class='info-item'>
+              <Pin/>
+              <b>{i18n.current_delivery_trip.address}</b>
+              <b class='desc'>{delivery_trip.destination_address}</b>
+            </div>
+            <div class='info-item'>
+              <Pizza/>
+              <b>{i18n.current_delivery_trip.order}</b>
+              { Object.keys(items).map((item) => {
+                return(
+                  <span>
+                    <b class='desc'>{items[item].item_name} - {items[item].quantity} шт.</b>
+                    <br/>
+                  </span>
+                )
+              })}
+            </div>
           </div>
-          <div class='info-item'>
-            <Pin/>
-            <b>{i18n.current_delivery_trip.address}</b>
-            <b class='desc'>{delivery_trip.destination_address}</b>
-          </div>
-          <div class='info-item'>
-            <Pizza/>
-            <b>{i18n.current_delivery_trip.order}</b>
-            { Object.keys(items).map((item) => {
-              return(
-                <span>
-                  <b class='desc'>{items[item].item_name} - {items[item].quantity} шт.</b>
-                  <br/>
-                </span>
-              )
-            })}
-          </div>
-        </div>
-      </section>
+        </section>
+      </div>
     )
   }
 }

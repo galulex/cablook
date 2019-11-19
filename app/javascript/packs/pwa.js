@@ -23,7 +23,6 @@ import { Router } from 'preact-router';
 import { createMemoryHistory } from 'history';
 
 import i18n from '../pwa/i18n.js'
-import Home from '../pwa/home.js';
 import NewDesign from '../pwa/new_design.js';
 import Session from '../pwa/session.js';
 import Cards from '../pwa/cards.js';
@@ -31,7 +30,6 @@ import Bonus from '../pwa/bonus_trips.js';
 import Contacts from '../pwa/contacts.js';
 import Trips from '../pwa/trips.js';
 import Drawer from '../pwa/drawer.js';
-import FindDriver from '../pwa/find_driver.js';
 import Prompt from '../pwa/prompt.js';
 import Statistics from '../pwa/statistics.js';
 import Profile from '../pwa/profile.js';
