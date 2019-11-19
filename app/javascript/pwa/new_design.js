@@ -497,7 +497,7 @@ export default class NewDesign extends Component {
               </select>
             </label>
             <label for='time' data-placeholder={!trip.time}>
-              <Clock width='24'/>
+              <Clock width='24' fill='#312d50'/>
               <input id='time' type='time' step='60' title='HH:MM' pattern='([01]?[0-9]|2[0-3]):[0-5][0-9]' value={trip.time} placeholder='Now' onBlur={this.setTime}/>
               <span class='time-placeholder'>{i18n.current_trip.now}</span>
             </label>{' '}

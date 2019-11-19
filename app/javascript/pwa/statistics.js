@@ -61,7 +61,7 @@ export default class Statistics extends Component {
         <header>{i18n.statistics.header}</header>
         <section class='statistics'>
           <label for='period' class='select'>
-            <Clock width='24'/>
+            <Clock width='24' fill='#312d50'/>
             <select id='period' onChange={this.selectPeriod}>
               {Periods.map(el => this.renderPeriod(el))}
             </select>
