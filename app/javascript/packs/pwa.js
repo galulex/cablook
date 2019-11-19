@@ -69,7 +69,6 @@ export default class App extends Component {
   }
 
   componentDidMount() {
-    this.triggerDrawer(false)
     i18n.setLanguage(this.state.language)
     this.loadScript()
     if (window.ios) this.focusOutForIos()
@@ -186,8 +185,7 @@ export default class App extends Component {
   }
 
   triggerDrawer = (open = true) => {
-    let val = (open) ? 0 : 300
-    document.getElementById('app').scrollTo({left: val, behavior: 'smooth'})
+    this.main.scrollTo({left: (open) ? 0 : 300, behavior: 'smooth'})
   }
 
   updateCards = (cards) => {
@@ -235,12 +233,16 @@ export default class App extends Component {
     }
   }
 
+  closeDrawer = (e) => {
+    if (!e.target.classList.contains('nav-wrapper')) this.triggerDrawer(false)
+  }
+
   render() {
     const { currentTrip } = this.state;
 
     if (this.state.currentUser) {
       return(
-        <main id="app">
+        <main id="app" onClick={this.closeDrawer} ref={main => this.main = main}>
           <button class='burger' onClick={() => this.triggerDrawer(true)}><Burger/></button>
           <Drawer triggerDrawer={this.triggerDrawer} logOut={this.logOut} />
           <Router history={window.ios ? createMemoryHistory() : null}>
@@ -280,7 +282,7 @@ export default class App extends Component {
       )
     } else {
       return(
-        <main id='app' class='login'>
+        <main id='app' class='login' ref={main => this.main = main}>
           <Session login = {this.logIn} />
           <Prompt />
         </main>

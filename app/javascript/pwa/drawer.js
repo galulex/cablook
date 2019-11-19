@@ -15,24 +15,15 @@ import './css/drawer.css'
 export default class Drawer extends Component {
   constructor(props) {
     super(props)
-    let x = (props.active) ? 0 : -300;
-    this.state = {
-      start: 0,
-      left: x,
-      x: x,
-      transition: 0,
-      delay: 0,
-      class: '',
-      locales: ['en', 'uk', 'ru']
-    }
+  }
+
+  componentDidMount() {
+    this.close()
   }
 
   render() {
     return (
       <aside>
-        <style>
-          {`aside:before { opacity: ${(1 - (Math.abs(this.state.x)/300)).toFixed(2)}; transition: opacity 0.${this.state.transition}s, width 0s 0.${this.state.delay}s; }`}
-        </style>
         <div class='nav-wrapper'>
           <Link class='nav-header' href='/profile' onClick={this.close}>
             <Profile/>
@@ -51,7 +42,7 @@ export default class Drawer extends Component {
     );
   }
 
-  close = (e) => {
+  close = () => {
     this.props.triggerDrawer(false)
   }
 }
