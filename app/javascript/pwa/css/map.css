@@ -143,3 +143,16 @@ svg.picker {
 .mapboxgl-ctrl-top-right.dark .mapboxgl-ctrl-group > button + button {
   border-color: #000;
 }
+
+.mapboxgl-ctrl-bottom-right {
+  bottom: 40% !important;
+}
+
+.mapboxgl-control-container .mapboxgl-ctrl-icon {
+  background-color: white;
+  background-color: var(--controls);
+}
+
+.mapboxgl-control-container .mapboxgl-ctrl-zoom-out {
+  border-color: var(--grey);
+}

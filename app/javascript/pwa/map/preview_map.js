@@ -113,12 +113,13 @@ export default class PreviewMap extends Component {
     this.map.on('zoomend', (event) => {
       this.setState({zoom: this.map.getZoom()})
     });
+    // controls + -
+    this.map.addControl(new mapboxgl.NavigationControl({showCompass: false}), 'bottom-right')
 
     this.map.addControl(geolocate, 'bottom-right')
     this.map.addControl(language)
     this.carFocus = new FocusOnCarControl({eventHandler: this.focusOnCar});
-    this.map.addControl(this.carFocus);
-    // this.map.addControl(new mapboxgl.NavigationControl({showCompass: false}), 'bottom-right')
+    this.map.addControl(this.carFocus, 'bottom-right');
 
     this.map.on('load', () => {
       this.map.addSource('line', { type: 'geojson', lineMetrics: true, data: this.state.geojson || GEOJSON })
@@ -324,7 +325,6 @@ export default class PreviewMap extends Component {
         <Pin class='picker' width='30px' ref={pin => this.pin = pin}/>
         <style>{ `.mapboxgl-marker.leaf.smooth, .car-popup { transition: transform ${this.state.transition}s linear; } .mapboxgl-marker.leaf > svg { transition: transform 4s; }` }</style>
         <div class='map' ref={el => this.mapContainer = el}/>
-        <input type='range' min='8' max='17' onInput={this.setZoom} value={this.state.zoom}/>
       </div>
     )
   }
