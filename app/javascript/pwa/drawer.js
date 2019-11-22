@@ -18,31 +18,27 @@ export default class Drawer extends Component {
   }
 
   componentDidMount() {
-    this.close()
+    this.props.triggerDrawer(false)
   }
 
   render() {
     return (
       <aside>
         <div class='nav-wrapper'>
-          <Link class='nav-header' href='/profile' onClick={this.close}>
+          <Link class='nav-header' href='/profile'>
             <Profile/>
             <div>{ localStorage.email }</div>
             { localStorage.phone }
           </Link>
-          <Link activeClassName='active' href='/' onClick={this.close}><Home/>{i18n.drawer.home}</Link>
-          <Link activeClassName='active' href='/trips' onClick={this.close}><Trip/>{i18n.drawer.trips}</Link>
-          <Link activeClassName='active' href='/cards' onClick={this.close}><Card/>{i18n.drawer.cards}</Link>
-          <Link activeClassName='active' href='/contacts' onClick={this.close}><Contact/>{i18n.drawer.contacts}</Link>
-          <Link activeClassName='active' href='/statistics' onClick={this.close}><Statistics/>{i18n.drawer.statistics}</Link>
-          <Link activeClassName='active' href='/delivery' onClick={this.close}><Vendors/>{i18n.drawer.vendors}</Link>
+          <Link activeClassName='active' href='/'><Home/>{i18n.drawer.home}</Link>
+          <Link activeClassName='active' href='/trips'><Trip/>{i18n.drawer.trips}</Link>
+          <Link activeClassName='active' href='/cards'><Card/>{i18n.drawer.cards}</Link>
+          <Link activeClassName='active' href='/contacts'><Contact/>{i18n.drawer.contacts}</Link>
+          <Link activeClassName='active' href='/statistics'><Statistics/>{i18n.drawer.statistics}</Link>
+          <Link activeClassName='active' href='/delivery'><Vendors/>{i18n.drawer.vendors}</Link>
           <Link activeClassName='active' href='' onClick={this.props.logOut}><LogOut/>{i18n.drawer.logout}</Link>
         </div>
       </aside>
     );
-  }
-
-  close = () => {
-    this.props.triggerDrawer(false)
   }
 }

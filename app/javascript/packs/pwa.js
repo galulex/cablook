@@ -184,7 +184,7 @@ export default class App extends Component {
   }
 
   triggerDrawer = (open = true) => {
-    this.main.scrollTo({left: (open) ? 0 : 300, behavior: 'smooth'})
+    this.main && this.main.scrollTo({left: (open) ? 0 : 300, behavior: 'smooth'})
   }
 
   updateCards = (cards) => {
@@ -244,7 +244,7 @@ export default class App extends Component {
         <main id="app" onClick={this.closeDrawer} ref={main => this.main = main}>
           <button class='burger' onClick={() => this.triggerDrawer(true)}><Burger/></button>
           <Drawer triggerDrawer={this.triggerDrawer} logOut={this.logOut} />
-          <Router history={window.ios ? createMemoryHistory() : null}>
+          <Router history={window.ios ? createMemoryHistory() : null} onChange={() => this.triggerDrawer(false)}>
             <NewDesign path='/'
               trip={currentTrip}
               cards={() => this.state.cards}
