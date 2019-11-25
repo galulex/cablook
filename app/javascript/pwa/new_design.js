@@ -43,6 +43,55 @@ export default class NewDesign extends Component {
       card_id: null,
       showWidget: false,
       bonus: null,
+      currentLocation: [],
+    }
+  }
+
+  getLocation = () => {
+    let cur = []
+    let component = this
+    if (navigator.geolocation) {
+      // e.target.classList.add('running')
+      navigator.geolocation.getCurrentPosition((result) => {
+        let geocoder = new google.maps.Geocoder()
+        let location = new google.maps.LatLng(result.coords.latitude, result.coords.longitude)
+        geocoder.geocode( { 'location': location}, function(res, status) {
+          if (status == 'OK') {
+            let place = res[0]
+            // component.setState({ address: `${place.address_components[1].long_name}, ${place.address_components[0].long_name}`, predictions: [], isValid: true, geocoded: true });
+            component.setAddress(`${place.address_components[1].long_name}, ${place.address_components[0].long_name}`, `${place.geometry.location.lat()},${place.geometry.location.lng()}`, 0);
+
+            cur.push({location: `${place.geometry.location.lat()},${place.geometry.location.lng()}`,
+                      address: `${place.address_components[1].long_name}, ${place.address_components[0].long_name}`,
+                      favorite_address: true,
+                      structured_formatting: { main_text: `${place.address_components[1].long_name}, ${place.address_components[0].long_name}`, secondary_text: i18n.address_input.location }})
+            component.setState({currentLocation: cur})
+
+            // component.input.setCustomValidity('')
+          } else {
+            alert(status)
+          }
+        })
+        // e.target.classList.remove('running')
+      },
+        (error) => {
+          // e.target.classList.remove('running')
+          switch(error.code) {
+            case error.PERMISSION_DENIED :
+              console.log(i18n.location.permission_denied);
+              break;
+            case error.TIMEOUT:
+              alert(i18n.location.timeout);
+              break;
+            case error.POSITION_UNAVAILABLE :
+              alert(i18n.location.position_unavailable);
+              break;
+            default:
+              alert(error.message)
+              break;
+          }
+        }
+      )
     }
   }
 
@@ -471,7 +520,9 @@ export default class NewDesign extends Component {
                             address={e}
                             index={i}
                             fieldsCount={trip.stops.length}
-                            pickAddress={this.pickAddress} />
+                            pickAddress={this.pickAddress}
+                            getLocation={this.getLocation}
+                            currentLocation={this.state.currentLocation}/>
             )
           })}
           <div>

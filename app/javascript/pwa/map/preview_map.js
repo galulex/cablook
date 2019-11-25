@@ -18,7 +18,7 @@ import FocusOnCarControl from '../../pwa/trips/custom-control.js'
 
 const polyline = require('@mapbox/polyline')
 
-const TRANSITION = 10;
+const TRANSITION = 0;
 const LANGUAGES = {en: 'en', uk: 'ru', ru: 'ru'}
 const MAPSTYLE = (localStorage.getItem('dark') === 'true') ? 'mapbox://styles/galulex/cju84cmu11atr1flfoxocwbq7' : 'mapbox://styles/okunieva/cjzwn3wx40yhq1cpjl3yo8p1z';
 const PATHCOLORS = (localStorage.getItem('dark') === 'true') ? ['#ffffff', '#19a160'] : ['#312d50', '#19a160']
@@ -288,7 +288,9 @@ export default class PreviewMap extends Component {
       this.carFocus._btn.className = 'mapboxgl-ctrl-icon focus-icon hide'
     }
 
+
     if ([FINISHED].includes(props.trip().status)) return this.cleanup()
+    if (props.car) this.setState({transition: 10})
     if (props.car) this.addCar(props)
     if (props.picker !== null) return this.pick(props.picker)
 

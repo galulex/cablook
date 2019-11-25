@@ -90,6 +90,11 @@ li.prediction svg {
   height: 20px;
 }
 
+li.current_location svg {
+  width: 34px;
+  height: 34px;
+}
+
 li.prediction:hover {
   background: rgba(0,0,0,0.2);
 }

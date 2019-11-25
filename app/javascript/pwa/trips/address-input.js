@@ -7,6 +7,7 @@ import Pin from '../images/pin.svg'
 import MapPicker from '../mapPicker'
 import i18n from '../i18n.js'
 import Cablook  from '../images/cablook.svg'
+import Target from '../images/target.svg'
 import Location  from '../images/target.svg'
 
 export default class AddressInput extends Component {
@@ -25,7 +26,7 @@ export default class AddressInput extends Component {
 
   componentDidMount() {
     this.input.setCustomValidity(this.state.address ? '' : i18n.choose_address)
-    if (this.props.index === 0) window.geolocate = this.getLocation
+    if (this.props.index === 0) window.geolocate = this.props.getLocation()
   }
 
   componentWillReceiveProps(nextProps) {
@@ -37,7 +38,7 @@ export default class AddressInput extends Component {
   }
 
   favoriteAddressesPredictions = () => {
-    let fav = [];
+    let fav = [this.props.currentLocation[0]];
     {this.props.favorite_addresses().map((el) => {
       fav.push({location: el.location,
                 address: el.address,
@@ -50,53 +51,13 @@ export default class AddressInput extends Component {
 
   renderPrediction = (prediction) => {
     return(
-      <li disabled={this.state.disabled} onClick={() => this.setLocation(prediction)} class='prediction'>
-        <Cablook width='32px'/>
+      <li disabled={this.state.disabled} onClick={() => this.setLocation(prediction)} class= {prediction === this.props.currentLocation[0] ? 'prediction current_location' : 'prediction'}>
+        {prediction === this.props.currentLocation[0] ? <Target/> : <Cablook width='32px'/>}
         <b>{(prediction.structured_formatting) ? prediction.structured_formatting.main_text : prediction}</b>
         <br/>
         <sub>{(prediction.structured_formatting) ? prediction.structured_formatting.secondary_text : 'Cherkasy'}</sub>
       </li>
     )
-  }
-
-  getLocation = (e) => {
-    let component = this
-    if (navigator.geolocation) {
-      // e.target.classList.add('running')
-      navigator.geolocation.getCurrentPosition((result) => {
-        let geocoder = new google.maps.Geocoder()
-        let location = new google.maps.LatLng(result.coords.latitude, result.coords.longitude)
-        geocoder.geocode( { 'location': location}, function(res, status) {
-          if (status == 'OK') {
-            let place = res[0]
-            component.setState({ address: `${place.address_components[1].long_name}, ${place.address_components[0].long_name}`, predictions: [], isValid: true, geocoded: true });
-            component.props.setAddress(`${place.address_components[1].long_name}, ${place.address_components[0].long_name}`, `${place.geometry.location.lat()},${place.geometry.location.lng()}`, component.props.index);
-            component.input.setCustomValidity('')
-          } else {
-            alert(status)
-          }
-        })
-        // e.target.classList.remove('running')
-      },
-        (error) => {
-          // e.target.classList.remove('running')
-          switch(error.code) {
-            case error.PERMISSION_DENIED :
-              console.log(i18n.location.permission_denied);
-              break;
-            case error.TIMEOUT:
-              alert(i18n.location.timeout);
-              break;
-            case error.POSITION_UNAVAILABLE :
-              alert(i18n.location.position_unavailable);
-              break;
-            default:
-              alert(error.message)
-              break;
-          }
-        }
-      )
-    }
   }
 
   setLocation = (place) => {
