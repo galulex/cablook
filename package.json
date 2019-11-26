@@ -24,6 +24,9 @@
     "react-localization": "^1.0.12",
     "shake.js": "^1.2.2"
   },
+  "engines": {
+    "node": "10.15.2"
+  },
   "devDependencies": {
     "webpack-dev-server": "3.2.1"
   }
