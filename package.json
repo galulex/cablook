@@ -28,6 +28,9 @@
   "devDependencies": {
     "webpack-dev-server": "^3.9"
   },
+  "engines": {
+    "node": "10.15.2"
+  },
   "scripts": {
     "heroku-postbuild": "npm rebuild node-sass"
   }
