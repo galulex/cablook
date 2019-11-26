@@ -47,7 +47,7 @@ import { PENDING, ON_THE_WAY, WAITING_CLIENT, DRIVING, FINISHED, CANCELED, DECLI
 import '../pwa/css/buttons.css';
 
 import axios from 'axios';
-axios.defaults.baseURL = '/api';
+axios.defaults.baseURL = 'https://cablook.taxi/api/';
 axios.defaults.headers.common['Auth-Token'] = localStorage.token;
 axios.defaults.headers.common['Content-Type'] = 'application/json';
 
