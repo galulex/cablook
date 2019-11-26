@@ -54,7 +54,7 @@ export default class TripCard extends Component {
       <div class="trip-details">
         <button type='button' id='arrow' class='burger' style='z-index: 100000;' onClick={() => window.ios ? this.handleBack(event) : window.history.back()}><Back/></button>
         <header>{i18n.trip.header}</header>
-        <section>
+        <section class="trip-details-section">
           <MapImg trip={() => this.props.trip} />
           <div class="buttons">
             <button type='button' class= 'button' onClick={this.repeatTrip}>{i18n.trips.repeat}</button>

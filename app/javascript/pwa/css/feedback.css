@@ -128,3 +128,26 @@ section.feedback .tips-container label.tip:nth-of-type(1) {
   border-left: 2px solid var(--orange);
 }
 
+.trip-details-section {
+  margin-left: 50%;
+  position: fixed;
+  transform: translateX(-50%);
+}
+
+.find_driver {
+  background: linear-gradient(to left, var(--green), #312d50);
+}
+
+.trip-details .find_driver header {
+  top: -50px;
+}
+
+.new_design .find_driver {
+  position: fixed;
+  z-index: 10000;
+  max-width: 100%;
+  left: 0;
+  right: 0;
+  top: 0;
+  margin-top: 0;
+}

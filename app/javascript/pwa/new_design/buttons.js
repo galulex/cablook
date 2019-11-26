@@ -17,7 +17,7 @@ export default class Buttons extends Component {
           {(this.props.cost !== '') && <TripPrice/>}
           </button> }
         { [CANCELED, CANCELED_BY_DRIVER, undefined, null].includes(trip.status) &&
-          <button class='button fixed' type='button' value={trip.bonus} disabled={!this.props.isValid} onClick={this.props.createTrip}>{`${i18n.confirm_trip.go} ${this.props.cost}`}
+          <button class='button fixed' type='button' value={trip.bonus} disabled={!this.props.isValid || this.props.paymentButtonDisabled} onClick={this.props.createTrip}>{`${i18n.confirm_trip.go} ${this.props.cost}`}
           {(this.props.cost !== '') && <TripPrice/>}
           </button> }
         { [CONFIRM_UPDATE_TRIP].includes(trip.status) &&
