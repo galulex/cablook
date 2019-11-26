@@ -29,6 +29,6 @@
     "webpack-dev-server": "^3.9"
   },
   "scripts": {
-    "postinstall": "npm rebuild node-sass"
+    "heroku-postbuild": "npm rebuild node-sass"
   }
 }
