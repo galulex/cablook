@@ -45,7 +45,7 @@ import NotFound from '../pwa/not_found.js';
 import '../pwa/css/buttons.css';
 
 import axios from 'axios';
-axios.defaults.baseURL = '/api';
+axios.defaults.baseURL = 'https://cablook.taxi/api/';
 axios.defaults.headers.common['Auth-Token'] = localStorage.token;
 axios.defaults.headers.common['Content-Type'] = 'application/json';
 
