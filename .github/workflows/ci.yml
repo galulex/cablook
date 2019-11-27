@@ -29,6 +29,6 @@ jobs:
         cp config/database.yml.github-actions config/database.yml
         gem install bundler
         bundle install --jobs 4 --retry 3
-        bundle exec rake db:setup
+        bundle exec rake db:setup RAILS_ENV=test
         yarn install
         bundle exec rspec
