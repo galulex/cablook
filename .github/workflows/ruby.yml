@@ -18,4 +18,4 @@ jobs:
         sudo apt-get -y install libpq-dev redis-server
         gem install bundler
         bundle install --jobs 4 --retry 3
-        bundle exec rake
+        bundle exec rspec
