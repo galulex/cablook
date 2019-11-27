@@ -38,7 +38,7 @@ export default class Trips extends Component {
 
   handleScroll = () => {
     if (this.state.isLoading || !this.state.hasMore) return;
-    let app = document.getElementById('app')
+    let app = this.section
     if ((window.innerHeight + app.scrollTop >= (app.scrollHeight - 300)) && this.state.trips.length) {
       this.loadTrips()
     }
@@ -60,7 +60,7 @@ export default class Trips extends Component {
     return (
       <div>
         <header>{i18n.trips.header}</header>
-        <section class='trips'>
+        <section class='trips' ref={section => this.section = section}>
           <ul>
             {this.state.trips.map((trip) => <TripCard trip={trip} setCurrentTrip={this.props.setCurrentTrip} />)}
           </ul>
