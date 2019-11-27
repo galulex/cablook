@@ -23,10 +23,11 @@ jobs:
       uses: actions/setup-ruby@v1
       with:
         ruby-version: 2.6.x
-    - name: Build and test with Rake
+    - name: Build and Test
       run: |
         sudo apt-get -y install libpq-dev redis-server
         cp config/database.yml.github-actions config/database.yml
         gem install bundler
         bundle install --jobs 4 --retry 3
+        bundle exec rake db:setup
         bundle exec rspec
