@@ -26,7 +26,6 @@ export default class AddressInput extends Component {
 
   componentDidMount() {
     this.input.setCustomValidity(this.state.address ? '' : i18n.choose_address)
-    if (this.props.index === 0) window.geolocate = this.props.getLocation()
   }
 
   componentWillReceiveProps(nextProps) {
@@ -38,7 +37,10 @@ export default class AddressInput extends Component {
   }
 
   favoriteAddressesPredictions = () => {
-    let fav = [this.props.currentLocation[0]];
+    let fav = []
+    if (this.props.currentLocation) {
+      fav.push(this.props.currentLocation)
+    }
     {this.props.favorite_addresses().map((el) => {
       fav.push({location: el.location,
                 address: el.address,
@@ -51,8 +53,8 @@ export default class AddressInput extends Component {
 
   renderPrediction = (prediction) => {
     return(
-      <li disabled={this.state.disabled} onClick={() => this.setLocation(prediction)} class= {prediction === this.props.currentLocation[0] ? 'prediction current_location' : 'prediction'}>
-        {prediction === this.props.currentLocation[0] ? <Target/> : <Cablook width='32px'/>}
+      <li disabled={this.state.disabled} onClick={() => this.setLocation(prediction)} class= {prediction === this.props.currentLocation ? 'prediction current_location' : 'prediction'}>
+        {prediction === this.props.currentLocation ? <Target/> : <Cablook width='32px'/>}
         <b>{(prediction.structured_formatting) ? prediction.structured_formatting.main_text : prediction}</b>
         <br/>
         <sub>{(prediction.structured_formatting) ? prediction.structured_formatting.secondary_text : 'Cherkasy'}</sub>

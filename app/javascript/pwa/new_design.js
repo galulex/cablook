@@ -43,13 +43,12 @@ export default class NewDesign extends Component {
       card_id: null,
       showWidget: false,
       bonus: null,
-      currentLocation: [],
+      currentLocation: null,
       paymentButtonDisabled: false
     }
   }
 
   getLocation = () => {
-    let cur = []
     let component = this
     if (navigator.geolocation) {
       // e.target.classList.add('running')
@@ -62,11 +61,10 @@ export default class NewDesign extends Component {
             // component.setState({ address: `${place.address_components[1].long_name}, ${place.address_components[0].long_name}`, predictions: [], isValid: true, geocoded: true });
             component.setAddress(`${place.address_components[1].long_name}, ${place.address_components[0].long_name}`, `${place.geometry.location.lat()},${place.geometry.location.lng()}`, 0);
 
-            cur.push({location: `${place.geometry.location.lat()},${place.geometry.location.lng()}`,
+            component.setState({currentLocation: {location: `${place.geometry.location.lat()},${place.geometry.location.lng()}`,
                       address: `${place.address_components[1].long_name}, ${place.address_components[0].long_name}`,
                       favorite_address: true,
-                      structured_formatting: { main_text: `${place.address_components[1].long_name}, ${place.address_components[0].long_name}`, secondary_text: i18n.address_input.location }})
-            component.setState({currentLocation: cur})
+                      structured_formatting: { main_text: `${place.address_components[1].long_name}, ${place.address_components[0].long_name}`, secondary_text: i18n.address_input.location }}})
 
             // component.input.setCustomValidity('')
           } else {
@@ -220,16 +218,18 @@ export default class NewDesign extends Component {
         case 418:
           if (confirm(`${error.response.data.errors} ${i18n.confirm_trip.retry_payment}`)) {
             this.retryPendingPayment()
+          } else {
+            this.setState({paymentButtonDisabled: false})
           }
-          this.setState({paymentButtonDisabled: false})
           break
         case 406:
           if (confirm(`${error.response.data.errors} ${i18n.confirm_trip.trip_payment}`)) {
             this.setState({bonus: false})
             this.state.trip.bonus = false
             this.create()
+          } else {
+            this.setState({paymentButtonDisabled: false})
           }
-          this.setState({paymentButtonDisabled: false})
           break
         default:
           alert(error.response.data.errors)
@@ -244,6 +244,7 @@ export default class NewDesign extends Component {
   }
 
   componentDidMount() {
+    window.geolocate = this.getLocation
     this.getTripThroughProps(this.props.trip)
 
     this.addShakeListener()
@@ -527,7 +528,6 @@ export default class NewDesign extends Component {
                             index={i}
                             fieldsCount={trip.stops.length}
                             pickAddress={this.pickAddress}
-                            getLocation={this.getLocation}
                             currentLocation={this.state.currentLocation}/>
             )
           })}
