@@ -57,9 +57,17 @@ svg.picker {
 
 .main_map svg.nissan {
   width: 40px;
-  width: calc(var(--zoom-level) * 4px);
+  width: calc(var(--zoom-level) * 5px);
   height: 40px;
-  height: calc(var(--zoom-level) * 4px);
+  height: calc(var(--zoom-level) * 5px);
+}
+
+.mapboxgl-marker.leaf, .car-popup {
+  transition: transform var(--car-transition) linear;
+}
+
+.mapboxgl-marker.leaf > svg {
+  transition: transform 4s;
 }
 
 .main_map svg.nissan[fill='white'] path:not(:first-child), .main_map svg.nissan[fill='white'] ellipse {

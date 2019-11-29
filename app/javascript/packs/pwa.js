@@ -85,6 +85,7 @@ export default class App extends Component {
 
 
   onVisibilityChange = () => {
+    document.documentElement.style.setProperty('--car-transition', '0s')
     if (document.visibilityState !== 'visible') return;
     navigator.onLine ? this.online() : this.offline()
   }

@@ -18,7 +18,6 @@ import FocusOnCarControl from '../../pwa/trips/custom-control.js'
 
 const polyline = require('@mapbox/polyline')
 
-const TRANSITION = 0;
 const LANGUAGES = {en: 'en', uk: 'ru', ru: 'ru'}
 const MAPSTYLE = (localStorage.getItem('dark') === 'true') ? 'mapbox://styles/galulex/cju84cmu11atr1flfoxocwbq7' : 'mapbox://styles/okunieva/cjzwn3wx40yhq1cpjl3yo8p1z';
 const PATHCOLORS = (localStorage.getItem('dark') === 'true') ? ['#ffffff', '#19a160'] : ['#312d50', '#19a160']
@@ -67,8 +66,7 @@ export default class PreviewMap extends Component {
       lat: CHERKASY_LONG_LAT[1],
       zoom: 12,
       waypoints: [],
-      car: null,
-      transition: TRANSITION
+      car: null
     }
   }
 
@@ -99,11 +97,12 @@ export default class PreviewMap extends Component {
     });
 
     this.map.on('movestart', () => {
-      this.setState({transition: 0})
+      this.move = true
+      document.documentElement.style.setProperty('--car-transition', '0s')
     });
 
     this.map.on('moveend', () => {
-      this.setState({transition: TRANSITION})
+      this.move = false
     });
 
     this.map.on('zoom', () => {
@@ -128,21 +127,6 @@ export default class PreviewMap extends Component {
     });
 
     window.map = this.mapfocus
-    document.addEventListener('visibilitychange', this.onVisibilityChange, false);
-  }
-
-  componentWillUnmount() {
-    document.removeEventListener('visibilitychange', this.onVisibilityChange)
-  }
-
-  onVisibilityChange = () => {
-    if (document.visibilityState === 'visible') {
-      setTimeout(() => {
-        this.setState({transition: TRANSITION})
-      }, 10)
-    } else {
-      this.setState({transition: 0})
-    }
   }
 
   bearing = (start, end) => {
@@ -161,7 +145,7 @@ export default class PreviewMap extends Component {
     marker.setLngLat(car.location)
     marker._element.className += ' leaf'
     marker._element.addEventListener('transitionend', (event) => {
-      event.target.classList.remove('smooth')
+      document.documentElement.style.setProperty('--car-transition', '0s')
     })
     marker.carAngleDeg = this.bearing(car.location, car.position || 180);
     var popupContent = render(<CarPopup car={car} trip={trip} driver={driver}/>)
@@ -290,7 +274,6 @@ export default class PreviewMap extends Component {
 
 
     if ([FINISHED].includes(props.trip().status)) return this.cleanup()
-    if (props.car) this.setState({transition: 10})
     if (props.car) this.addCar(props)
     if (props.picker !== null) return this.pick(props.picker)
 
@@ -307,7 +290,7 @@ export default class PreviewMap extends Component {
   updateCarPosition(data) {
     let car = this.state.car;
     let deg = this.bearing(data.location, [car.getLngLat().lng, car.getLngLat().lat]);
-    car._element.className += ' smooth';
+    if (!this.move) document.documentElement.style.setProperty('--car-transition', '10s')
     car.carAngleDeg = deg;
     car.setLngLat(data.location);
     this.updateCarDirection(car);
@@ -325,7 +308,6 @@ export default class PreviewMap extends Component {
     return (
       <div class='main_map'>
         <Pin class='picker' width='30px' ref={pin => this.pin = pin}/>
-        <style>{ `.mapboxgl-marker.leaf.smooth, .car-popup { transition: transform ${this.state.transition}s linear; } .mapboxgl-marker.leaf > svg { transition: transform 4s; }` }</style>
         <div class='map' ref={el => this.mapContainer = el}/>
       </div>
     )
