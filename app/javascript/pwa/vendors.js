@@ -70,7 +70,7 @@ export default class Vendors extends Component {
           <section class='vendors'>
             {showLoader && <Loader/>}
             <ul>
-              { vendors.map(vendor => (<VendorPreview key={vendor.id} vendor={vendor} updateLoaderState={this.updateLoaderState}/>)) }
+              { vendors.map(vendor => (<VendorPreview key={vendor.id} vendor={vendor} updateLoaderState={this.updateLoaderState} setCurrentTrip={this.props.setCurrentTrip}/>)) }
             </ul>
           </section>
         </div>

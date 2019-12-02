@@ -52,26 +52,34 @@ export default class VendorPreview extends Component {
 
   setTripParams = (res) => {
     let place = res[0]
-    let address = `${place.address_components[1].long_name}, ${place.address_components[0].long_name}`
+    let departure_address = `${place.address_components[1].long_name}, ${place.address_components[0].long_name}`
     let coords = `${place.geometry.location.lat()},${place.geometry.location.lng()}`
     const { vendor } = this.props
 
+    let vendorAddressFull = vendor.address.split(', ')
+    let vendorAddressShort = `${vendorAddressFull[0]}, ${vendorAddressFull[1]}`
+    let destination = vendor.location
+    let waypoints = [coords, vendor.location]
+    let stops = [departure_address, vendorAddressShort]
+
     const params = {
       departure: coords,
-      destination: vendor.location,
-      departure_address: address,
-      destination_address: vendor.address,
+      destination,
+      departure_address,
+      destination_address: vendorAddressShort,
       osrm: true,
       bonus: false,
-      waypoints: [],
-      stops: [],
+      waypoints,
+      stops,
       no_call: false
     }
 
     axios.post('trips/new', {trip: params}).then((res) => {
       let trip = res.data
-      localStorage.setItem('trip', JSON.stringify(trip))
+      params.path = trip.path
+      params.cost = trip.cost
       this.props.updateLoaderState(false)
+      this.props.setCurrentTrip(params)
       route('/', true)
     }).catch((error) => {
       this.props.updateLoaderState(false)

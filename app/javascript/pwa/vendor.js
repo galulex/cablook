@@ -86,7 +86,8 @@ export default class Vendor extends Component {
             hide_content={true}
             active={'active'}
             cart_with_items={cart && cart.items}
-            updateLoaderState={this.updateLoaderState}/>
+            updateLoaderState={this.updateLoaderState}
+            setCurrentTrip={this.props.setCurrentTrip} />
           {Object.keys(vendor.items).map((category, index) => {
             return(
               <Category

@@ -272,8 +272,12 @@ export default class App extends Component {
               bonus_trips={() => this.state.bonus_trips}
               parent_bonus={() => this.state.parent_bonus}
             />
-            <Vendors path='/delivery'/>
-            <Vendor path='/delivery/:id' />
+            <Vendors path='/delivery'
+              setCurrentTrip={this.setCurrentTrip}
+            />
+            <Vendor path='/delivery/:id'
+              setCurrentTrip={this.setCurrentTrip}
+            />
             <NotFound type='404' default />
             <Cart path='/delivery/cart' cards={() => this.state.cards} createCard={this.createCard} favorite_addresses={() => this.state.favorite_addresses} />
           </Router>
