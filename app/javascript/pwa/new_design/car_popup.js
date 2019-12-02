@@ -22,7 +22,7 @@ export default class CarPopup extends Component {
           <div class="mapboxgl-popup-content-line"><TripTime/>{trip.start_time}</div>
           <div><TripPrice/>{`${trip.cost}`}</div>
         </div>
-        <div class="test_leaf"><Leaves/></div>
+        <div class="popup_leaf"><Leaves/></div>
       </div>
     )
   }
