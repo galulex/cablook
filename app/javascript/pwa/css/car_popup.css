@@ -51,7 +51,7 @@
   margin-bottom: -5px;
 }
 
-.test_leaf {
+.popup_leaf {
   bottom: -34px;
   /* left: 46px; */
   left: 50%;
@@ -61,7 +61,7 @@
   z-index: 5;
 }
 
-.test_leaf svg {
+.popup_leaf svg {
   height: 88px !important;
   width: 88px !important;
 }
@@ -70,5 +70,5 @@
   color: white;
   color: var(--white);
   font-size: 1.2rem;
-  z-index: 2;
+  z-index: 10;
 }
