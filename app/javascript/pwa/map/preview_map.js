@@ -66,6 +66,7 @@ export default class PreviewMap extends Component {
       lat: CHERKASY_LONG_LAT[1],
       zoom: 12,
       waypoints: [],
+      carPrevAngleDeg: 0,
       car: null
     }
   }
@@ -137,7 +138,24 @@ export default class PreviewMap extends Component {
   }
 
   updateCarDirection = (l) => {
-    l._element.firstChild.style.transform = "rotate(" + (l.carAngleDeg - this.map.getBearing()) + "deg)";
+    let short = Math.abs(this.state.carPrevAngleDeg) + Math.abs(l.carAngleDeg) > 180
+    if (this.state.carPrevAngleDeg > 0 && l.carAngleDeg < 0 && short || this.state.carPrevAngleDeg < 0 && l.carAngleDeg > 0 && short ) {
+      let test = []
+      l._element.firstChild.style.transition = 'none'
+      if (l.carAngleDeg > 0) {
+        test.push(((180 - l.carAngleDeg) * -1) - 180);
+      } else if (l.carAngleDeg < 0) {
+        test.push(((180 + l.carAngleDeg) + 180));
+      } else {
+        test.push(0);
+      }
+      l._element.firstChild.style.transform = "rotate(" + (test[0]- this.map.getBearing()) + "deg)";
+      l._element.firstChild.style.transition = 'transform 4s'
+      this.setState({ carPrevAngleDeg: test[0] })
+    } else  {
+      l._element.firstChild.style.transform = "rotate(" + (l.carAngleDeg - this.map.getBearing()) + "deg)";
+      this.setState({ carPrevAngleDeg: l.carAngleDeg })
+    }
   }
 
   renderCar(car, trip, driver) {
@@ -272,7 +290,6 @@ export default class PreviewMap extends Component {
       this.carFocus._btn.className = 'mapboxgl-ctrl-icon focus-icon hide'
     }
 
-
     if ([FINISHED].includes(props.trip().status)) return this.cleanup()
     if (props.car) this.addCar(props)
     if (props.picker !== null) return this.pick(props.picker)
@@ -283,7 +300,7 @@ export default class PreviewMap extends Component {
 
     this.drawMarkers(trip)
     if (![CONFIRM_UPDATE_TRIP, undefined, null].includes(trip.status) && this.map.getSource('line')) return;
-    this.pathFocus(trip)
+    if (![CONFIRM_UPDATE_TRIP].includes(props.trip().status)) this.pathFocus(trip)
     this.drawPath(trip)
   }
 
@@ -293,7 +310,9 @@ export default class PreviewMap extends Component {
     if (!this.move) document.documentElement.style.setProperty('--car-transition', '10s')
     car.carAngleDeg = deg;
     car.setLngLat(data.location);
-    this.updateCarDirection(car);
+    if (deg !== 0) {
+      this.updateCarDirection(car);
+    }
   }
 
   setZoom = (event) => {
