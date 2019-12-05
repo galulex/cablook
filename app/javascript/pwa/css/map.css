@@ -55,18 +55,19 @@ svg.picker {
   fill: var(--orange)
 }
 
-.main_map svg.nissan {
+.main_map .leaf img {
   width: 40px;
-  width: calc(var(--zoom-level) * 5px);
+  width: calc(var(--zoom-level) * 3px);
   height: 40px;
-  height: calc(var(--zoom-level) * 5px);
+  height: calc(var(--zoom-level) * 9px);
 }
 
 .mapboxgl-marker.leaf, .car-popup {
   transition: transform var(--car-transition) linear;
+  z-index: 10;
 }
 
-.mapboxgl-marker.leaf > svg {
+.mapboxgl-marker.leaf > img {
   transition: transform 4s;
 }
 
