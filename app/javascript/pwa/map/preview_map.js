@@ -140,18 +140,18 @@ export default class PreviewMap extends Component {
   updateCarDirection = (l) => {
     let short = Math.abs(this.state.carPrevAngleDeg) + Math.abs(l.carAngleDeg) > 180
     if (this.state.carPrevAngleDeg > 0 && l.carAngleDeg < 0 && short || this.state.carPrevAngleDeg < 0 && l.carAngleDeg > 0 && short ) {
-      let test = []
+      let reversCarAngle = []
       l._element.firstChild.style.transition = 'none'
       if (l.carAngleDeg > 0) {
-        test.push(((180 - l.carAngleDeg) * -1) - 180);
+        reversCarAngle.push(((180 - l.carAngleDeg) * -1) - 180);
       } else if (l.carAngleDeg < 0) {
-        test.push(((180 + l.carAngleDeg) + 180));
+        reversCarAngle.push(((180 + l.carAngleDeg) + 180));
       } else {
-        test.push(0);
+        reversCarAngle.push(0);
       }
-      l._element.firstChild.style.transform = "rotate(" + (test[0]- this.map.getBearing()) + "deg)";
+      l._element.firstChild.style.transform = "rotate(" + (reversCarAngle[0]- this.map.getBearing()) + "deg)";
       l._element.firstChild.style.transition = 'transform 4s'
-      this.setState({ carPrevAngleDeg: test[0] })
+      this.setState({ carPrevAngleDeg: reversCarAngle[0] })
     } else  {
       l._element.firstChild.style.transform = "rotate(" + (l.carAngleDeg - this.map.getBearing()) + "deg)";
       this.setState({ carPrevAngleDeg: l.carAngleDeg })
