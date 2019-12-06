@@ -66,7 +66,6 @@ export default class PreviewMap extends Component {
       lat: CHERKASY_LONG_LAT[1],
       zoom: 12,
       waypoints: [],
-      carPrevAngleDeg: 0,
       car: null
     }
   }
@@ -138,8 +137,8 @@ export default class PreviewMap extends Component {
   }
 
   updateCarDirection = (l) => {
-    let short = Math.abs(this.state.carPrevAngleDeg) + Math.abs(l.carAngleDeg) > 180
-    if (this.state.carPrevAngleDeg > 0 && l.carAngleDeg < 0 && short || this.state.carPrevAngleDeg < 0 && l.carAngleDeg > 0 && short ) {
+    let short = Math.abs(l.prevAngleDeg) + Math.abs(l.carAngleDeg) > 180
+    if (l.prevAngleDeg > 0 && l.carAngleDeg < 0 && short || l.prevAngleDeg < 0 && l.carAngleDeg > 0 && short ) {
       l._element.firstChild.style.transition = 'none'
       let reversCarAngle
       if (l.carAngleDeg > 0) {
@@ -149,12 +148,12 @@ export default class PreviewMap extends Component {
       } else {
         reversCarAngle = 0;
       }
+      l.prevAngleDeg = reversCarAngle
       l._element.firstChild.style.transform = "rotate(" + (reversCarAngle - this.map.getBearing()) + "deg)";
       l._element.firstChild.style.transition = 'transform 4s'
-      this.setState({ carPrevAngleDeg: reversCarAngle })
     } else  {
+      l.prevAngleDeg = l.carAngleDeg
       l._element.firstChild.style.transform = "rotate(" + (l.carAngleDeg - this.map.getBearing()) + "deg)";
-      this.setState({ carPrevAngleDeg: l.carAngleDeg })
     }
   }
 
