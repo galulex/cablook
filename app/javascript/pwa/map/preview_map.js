@@ -154,7 +154,6 @@ export default class PreviewMap extends Component {
       l.prevAngleDeg = l.carAngleDeg
       l._element.firstChild.style.transform = "rotate(" + (l.carAngleDeg - this.map.getBearing()) + "deg)";
     }
-    l._element.firstChild.style.transform = "rotate(" + (l.carAngleDeg - this.map.getBearing()) + "deg)";
   }
 
   renderCar(car, trip, driver) {
