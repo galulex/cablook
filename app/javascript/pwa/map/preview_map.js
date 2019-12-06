@@ -12,7 +12,6 @@ import i18n from '../i18n.js'
 import '../css/map.css'
 import Pin from '../images/pin.svg'
 
-import NissanLeaf from '../../pwa/trips/nissan-leaf.js'
 import CarPopup from '../new_design/car_popup.js'
 import FocusOnCarControl from '../../pwa/trips/custom-control.js'
 
@@ -155,10 +154,15 @@ export default class PreviewMap extends Component {
       l.prevAngleDeg = l.carAngleDeg
       l._element.firstChild.style.transform = "rotate(" + (l.carAngleDeg - this.map.getBearing()) + "deg)";
     }
+    l._element.firstChild.style.transform = "rotate(" + (l.carAngleDeg - this.map.getBearing()) + "deg)";
   }
 
   renderCar(car, trip, driver) {
-    let marker = new mapboxgl.Marker(render(<div><NissanLeaf class='nissan' color={car.color} car='trip_car'/></div>))
+    let div = document.createElement('div')
+    let img = document.createElement('img')
+    img.src = `/leafs/leaf${(window.dark) ? '_lights' : '' }_${car.color}.svg`
+    div.appendChild(img)
+    let marker = new mapboxgl.Marker(div)
     marker.setLngLat(car.location)
     marker._element.className += ' leaf'
     marker._element.addEventListener('transitionend', (event) => {
