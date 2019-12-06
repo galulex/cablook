@@ -160,7 +160,7 @@ export default class PreviewMap extends Component {
   renderCar(car, trip, driver) {
     let div = document.createElement('div')
     let img = document.createElement('img')
-    img.src = `/leafs/leaf${(window.dark) ? '_lights' : '' }_${car.color}.svg`
+    img.src = `https://res.cloudinary.com/active-bridge/image/upload/leafs/leaf${(window.dark) ? '_lights' : '' }_${car.color}.svg`
     div.appendChild(img)
     let marker = new mapboxgl.Marker(div)
     marker.setLngLat(car.location)
