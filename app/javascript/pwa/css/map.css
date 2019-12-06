@@ -155,6 +155,7 @@ svg.picker {
 
 .mapboxgl-ctrl-bottom-right {
   bottom: 30% !important;
+  z-index: 11 !important;
 }
 
 .mapboxgl-control-container .mapboxgl-ctrl-icon {
@@ -164,4 +165,12 @@ svg.picker {
 
 .mapboxgl-control-container .mapboxgl-ctrl-zoom-out {
   border-color: var(--grey);
+}
+
+.new_design .button {
+  z-index: 10;
+}
+
+.new_design .option {
+  z-index: 10;
 }
