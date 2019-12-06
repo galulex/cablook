@@ -278,7 +278,7 @@ GEM
     pg (0.21.0)
     powerpack (0.1.1)
     public_suffix (3.1.1)
-    puma (3.11.4)
+    puma (3.12.2)
     rack (2.0.7)
     rack-protection (2.0.5)
       rack
@@ -484,7 +484,7 @@ DEPENDENCIES
   multi_json
   one_signal
   pg (~> 0.18)
-  puma (~> 3.7)
+  puma (~> 3.12)
   rails (~> 5.2.2)
   react-rails
   redis (~> 3.0)
