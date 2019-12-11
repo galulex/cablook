@@ -53,7 +53,7 @@ export default class AddressInput extends Component {
 
   renderPrediction = (prediction) => {
     return(
-      <li disabled={this.state.disabled} onClick={() => this.setLocation(prediction)} class= {prediction === this.props.currentLocation ? 'prediction current_location' : 'prediction'}>
+      <li disabled={this.state.disabled} onClick={() => this.setLocation(prediction)} class={prediction === this.props.currentLocation ? 'prediction current_location' : 'prediction'}>
         {prediction === this.props.currentLocation ? <Target/> : <Cablook width='32px'/>}
         <b>{(prediction.structured_formatting) ? prediction.structured_formatting.main_text : prediction}</b>
         <br/>
@@ -186,15 +186,15 @@ export default class AddressInput extends Component {
 
   render() {
     let placeholder = this.setPlaceholder()
-    const { fieldsCount, address, index, readonly, language, hideRemove} = this.props
+    const { fieldsCount, address, index, readonly, language, hideRemove, inputDisabled } = this.props
 
     return (
       <fieldset class='address'>
-        {(fieldsCount > 2 || address !== '') && !hideRemove && !readonly && (<button class='remove-address' type='button' onClick={() => this.eraseAddress(index)}>×</button>)}
-        {mapboxgl.supported() && <Pin onClick={this.openMap} disabled={readonly} height='24px' class='map-pick'/>}
+        {(fieldsCount > 2 || address !== '') && !hideRemove && !readonly && (<button disabled={index === 0 ? inputDisabled : false} class='remove-address' type='button' onClick={() => this.eraseAddress(index)}>×</button>)}
+        {mapboxgl.supported() && <Pin onClick={this.openMap} disabled={readonly || ( index === 0 ? inputDisabled : false )} height='24px' class='map-pick'/>}
         {this.state.isShowMap && <MapPicker onCloseMap={this.closeMap} handleBack={this.handleBack} language={language}/>}
 
-        <input required class='address' placeholder={placeholder} type='text'
+        <input required class='address' placeholder={placeholder} type='text' disabled={index === 0 ? inputDisabled : false}
           onClick={this.focus} onFocus={this.focus} onKeyDown={this.keydown} onBlur={this.blur} onInput={this.autocomplete}
           value={this.state.address} ref={input => this.input = input} readonly={readonly}
         />

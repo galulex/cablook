@@ -44,6 +44,7 @@ export default class NewDesign extends Component {
       showWidget: false,
       bonus: null,
       currentLocation: null,
+      inputDisabled: false,
       paymentButtonDisabled: false
     }
   }
@@ -59,8 +60,9 @@ export default class NewDesign extends Component {
           if (status == 'OK') {
             let place = res[0]
             // component.setState({ address: `${place.address_components[1].long_name}, ${place.address_components[0].long_name}`, predictions: [], isValid: true, geocoded: true });
-            component.setAddress(`${place.address_components[1].long_name}, ${place.address_components[0].long_name}`, `${place.geometry.location.lat()},${place.geometry.location.lng()}`, 0);
-
+            if (!component.props.trip || [FINISHED, CANCELED, DECLINED, CANCELED_BY_DRIVER, undefined].includes(component.props.trip.status)) {
+              component.setAddress(`${place.address_components[1].long_name}, ${place.address_components[0].long_name}`, `${place.geometry.location.lat()},${place.geometry.location.lng()}`, 0);
+            }
             component.setState({currentLocation: {location: `${place.geometry.location.lat()},${place.geometry.location.lng()}`,
                       address: `${place.address_components[1].long_name}, ${place.address_components[0].long_name}`,
                       favorite_address: true,
@@ -272,6 +274,9 @@ export default class NewDesign extends Component {
   }
 
   componentWillReceiveProps(props) {
+    if (!props.trip && typeof google !== "undefined") {
+      this.getLocation()
+    }
     this.getTripThroughProps(props.trip)
   }
 
@@ -379,7 +384,6 @@ export default class NewDesign extends Component {
     } else {
       this.setState({ trip: trip, car: null, driver: null })
     }
-
     this.updateTrip()
     this.subscribe()
   }
@@ -394,7 +398,7 @@ export default class NewDesign extends Component {
   }
 
   updateRoute = (e) => {
-    this.setState({ trip: { ...this.state.trip, status: CONFIRM_UPDATE_TRIP } })
+    this.setState({ trip: { ...this.state.trip, status: CONFIRM_UPDATE_TRIP }, inputDisabled: true })
     if (window.ios) return;
     history.pushState(null, null,'/')
     window.addEventListener('popstate', this.cancelConfirmUpdate, { once: true })
@@ -457,7 +461,7 @@ export default class NewDesign extends Component {
 
   TripDeclined = (data) => {
     this.vibrate()
-    this.setState({ trip: { ...this.state.trip, status: DECLINED  } })
+    this.setState({ trip: { ...this.state.trip, status: DECLINED } })
   }
 
   TripUnavailable = (data) => {
@@ -477,7 +481,7 @@ export default class NewDesign extends Component {
 
   finish_trip = () => {
     this.vibrate()
-    this.setState({ trip: { ...this.state.trip, status: FINISHED }, car: null, driver: null, paymentButtonDisabled: false })
+    this.setState({ trip: { ...this.state.trip, status: FINISHED }, car: null, driver: null, paymentButtonDisabled: false, inputDisabled: false })
     // this.props.fetchUser()
     this.unsubscribe()
   }
@@ -528,7 +532,8 @@ export default class NewDesign extends Component {
                             index={i}
                             fieldsCount={trip.stops.length}
                             pickAddress={this.pickAddress}
-                            currentLocation={this.state.currentLocation}/>
+                            currentLocation={this.state.currentLocation}
+                            inputDisabled={this.state.inputDisabled}/>
             )
           })}
           <div>

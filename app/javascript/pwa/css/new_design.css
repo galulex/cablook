@@ -38,7 +38,7 @@ fieldset.address {
 }
 
 .trip_add_card {
-  z-index: 5;
+  z-index: 11 !important;
 }
 
 .new_design .button svg {

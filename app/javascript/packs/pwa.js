@@ -42,6 +42,8 @@ import Vendor from '../pwa/vendor.js';
 import Cart from '../pwa/cart.js';
 import NotFound from '../pwa/not_found.js';
 
+import { PENDING, ON_THE_WAY, WAITING_CLIENT, DRIVING, FINISHED, CANCELED, DECLINED, CANCELED_BY_DRIVER, CONFIRM_UPDATE_TRIP, MAP_MIN_ZOOM, MAP_MAX_ZOOM, CHERKASY_LONG_LAT } from '../pwa/lib/constants.js'
+
 import '../pwa/css/buttons.css';
 
 import axios from 'axios';
@@ -141,7 +143,11 @@ export default class App extends Component {
   }
 
   setCurrentTrip = (trip) => {
-    this.setState({currentTrip:trip})
+    if (!this.state.currentTrip || ![PENDING, ON_THE_WAY, WAITING_CLIENT, DRIVING, CONFIRM_UPDATE_TRIP].includes(this.state.currentTrip.status)) {
+      this.setState({currentTrip:trip})
+    } else {
+      return
+    }
   }
 
   fetchUser = () => {
