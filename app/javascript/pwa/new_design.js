@@ -372,7 +372,7 @@ export default class NewDesign extends Component {
     if (!propsTrip) return;
     let trip = {}
     TRIP_FIELDS.map(f => trip[f] = propsTrip[f] )
-    const car = { location: propsTrip.car_location, color: propsTrip.car_color, number: propsTrip.car_number }
+    const car = { location: propsTrip.car_location, color: propsTrip.car_color, number: propsTrip.car_number, position: propsTrip.car_position }
     const driver = { name: propsTrip.driver_name, phone_number: propsTrip.car_phone_number }
     if (propsTrip.car_location) {
       this.setState({ trip: trip, car: car, driver: driver })
