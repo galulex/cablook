@@ -4,6 +4,7 @@ import './css/trips.css'
 
 import i18n from './i18n.js'
 import TripCard from './tripCard.js'
+import Back from './images/arrow-left.svg'
 
 const PER_PAGE = 10;
 
@@ -16,6 +17,7 @@ export default class Trips extends Component {
       isLoading: true,
       page: 0,
       hasMore: true,
+      showDet: false,
     }
   }
 
@@ -55,14 +57,29 @@ export default class Trips extends Component {
     });
   };
 
+  handleBack = () => {
+    this.setState({showDet: false})
+  };
+
+  changeShowDet = () => {
+    this.setState({showDet: true})
+  }
+
   render() {
 
     return (
       <div>
+        <button
+          type='button'
+          class='burger'
+          onClick={() => this.handleBack()}
+          style={this.state.showDet ? "z-index:1000000" : "display: none"}>
+          <Back/>
+        </button>
         <header>{i18n.trips.header}</header>
         <section class='trips' ref={section => this.section = section}>
           <ul>
-            {this.state.trips.map((trip) => <TripCard trip={trip} setCurrentTrip={this.props.setCurrentTrip} />)}
+            {this.state.trips.map((trip) => <TripCard handleBack={this.handleBack} showDet={this.state.showDet} changeShowDet={this.changeShowDet} trip={trip} setCurrentTrip={this.props.setCurrentTrip}/>)}
           </ul>
 
           {this.state.isLoading && <div class="loader">{i18n.trips.loading}</div>}

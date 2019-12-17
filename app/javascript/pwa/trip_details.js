@@ -23,28 +23,23 @@ export default class TripCard extends Component {
     this.setRate()
     this.setState({showDetails: true})
     if (window.ios) return;
-    history.pushState(null, 'Trip Details',`/trips/${this.props.trip.id}`);
-    window.addEventListener('popstate', this.handleBack, {once: true});
+    // history.pushState(null, 'Trip Details',`/trips/${this.props.trip.id}`);
+    window.addEventListener('popstate', this.props.handleBack, {once: true});
   };
 
   componentWillUnmount() {
-    window.removeEventListener('popstate', this.handleBack)
+    window.removeEventListener('popstate', this.props.handleBack)
   }
 
   showFeedback = () => {
     if (this.state.isFeedbackVisible) return;
     this.setState({isFeedbackVisible: true})
-    window.removeEventListener('popstate', this.handleBack)
-  };
-
-  handleBack = (event) => {
-    this.props.showDetails(false)
-    if (event) event.stopPropagation()
+    window.removeEventListener('popstate', this.props.handleBack)
   };
 
   handleFeedbackBack = (event) => {
     this.setState({isFeedbackVisible: false})
-    window.addEventListener('popstate', this.handleBack, {once: true});
+    window.addEventListener('popstate', this.props.handleBack, {once: true});
   };
 
   render() {
@@ -52,7 +47,6 @@ export default class TripCard extends Component {
 
     return (
       <div class="trip-details">
-        <button type='button' id='arrow' class='burger' style='z-index: 100000;' onClick={() => window.ios ? this.handleBack(event) : window.history.back()}><Back/></button>
         <header>{i18n.trip.header}</header>
         <section class="trip-details-section">
           <MapImg trip={() => this.props.trip} />

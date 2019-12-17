@@ -60,7 +60,7 @@ export default class NewDesign extends Component {
           if (status == 'OK') {
             let place = res[0]
             // component.setState({ address: `${place.address_components[1].long_name}, ${place.address_components[0].long_name}`, predictions: [], isValid: true, geocoded: true });
-            if (!component.props.trip || [FINISHED, CANCELED, DECLINED, CANCELED_BY_DRIVER, undefined].includes(component.props.trip.status)) {
+            if (!component.props.trip || [FINISHED, CANCELED, DECLINED, CANCELED_BY_DRIVER].includes(component.props.trip.status)) {
               component.setAddress(`${place.address_components[1].long_name}, ${place.address_components[0].long_name}`, `${place.geometry.location.lat()},${place.geometry.location.lng()}`, 0);
             }
             component.setState({currentLocation: {location: `${place.geometry.location.lat()},${place.geometry.location.lng()}`,
@@ -247,12 +247,16 @@ export default class NewDesign extends Component {
 
   componentDidMount() {
     window.geolocate = this.getLocation
+    if (this.state.currentLocation === null) {
+      this.getLocation()
+    }
     this.getTripThroughProps(this.props.trip)
 
     this.addShakeListener()
   }
 
   componentDidUpdate() {
+    // window.geolocate = this.getLocation
     this.addShakeListener()
   }
 

@@ -67,7 +67,7 @@ export default class Vendor extends Component {
         <button
           type='button'
           class='burger'
-          onClick={(event) => window.ios ? this.handleBack() : window.history.back()}>
+          onClick={(event) => this.handleBack()}>
           <Back/>
         </button>
         <header>

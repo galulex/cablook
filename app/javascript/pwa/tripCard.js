@@ -15,8 +15,15 @@ export default class TripCard extends Component {
   }
 
   showDetails = (val) => {
+    this.props.changeShowDet()
     this.setState({showDetails: val})
   };
+
+  componentWillReceiveProps() {
+    if (this.props.showDet === true) {
+      this.setState({showDetails: false})
+    }
+  }
 
   showRate = () => {
     if (this.props.trip.feedbacks.length >= 1) {
@@ -25,7 +32,7 @@ export default class TripCard extends Component {
   }
 
   render() {
-    const { trip } = this.props;
+    const { trip, handleBack } = this.props;
     return (
       <li class="trip-card" onClick={() => this.showDetails(true) }>
         <div class='address-block'>
@@ -36,7 +43,7 @@ export default class TripCard extends Component {
           <span>{[`${trip.cost} ${i18n.trip.currency}`, trip.formatted_date, i18n.trips.statuses[trip.status]].join(", ")}</span>
           <span>{ this.showRate() }</span>
         </p>
-        {this.state.showDetails && <Details trip={trip} setCurrentTrip={this.props.setCurrentTrip} showDetails={this.showDetails}/>}
+        {this.state.showDetails && <Details handleBack={handleBack} showDetails={this.showDetails} trip={trip} setCurrentTrip={this.props.setCurrentTrip}/>}
       </li>
     );
   }
