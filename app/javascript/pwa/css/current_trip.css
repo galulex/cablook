@@ -207,6 +207,12 @@ input[type='checkbox']:checked + label:before {
   z-index: 1;
 }
 
+.profile .nocall label {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
 input[type='checkbox'] + label:before {
   content: '';
   width: 0px;
