@@ -174,7 +174,7 @@ svg.pin-last path {
 }
 
 .options.noscroll .option:nth-of-type(2) {
-  display: none;
+  /* display: none; */
 }
 
 .options::-webkit-scrollbar { display: none; }
