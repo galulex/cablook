@@ -22,13 +22,13 @@ RSpec.feature 'Trip', type: :feature, js: true do
     wait 3 do
       has_text? 'GO'
     end
-    all('input')[1].trigger(:focus)
-    all('input')[1].set('')
+    all('input')[0].trigger(:focus)
+    all('input')[0].set('')
     wait 3 do
       first('li.prediction', visible: false).trigger(:click)
     end
-    all('input')[2].trigger(:focus)
-    all('input')[2].set('')
+    all('input')[1].trigger(:focus)
+    all('input')[1].set('')
     all('li.prediction', visible: false)[1].trigger(:click)
     wait 3 do
       find_button('GO 56').trigger(:click)
