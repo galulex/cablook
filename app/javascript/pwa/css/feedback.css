@@ -2,6 +2,10 @@ svg.star {
   width: 50px;
 }
 
+.tip svg {
+  margin: 0 !important;
+}
+
 label.star:before {
   content: '★';
   font-size: 40px;
@@ -68,6 +72,12 @@ input[name='tip']:checked + label.tip  {
 
 section.feedback {
   padding: 70px 30px 0;
+}
+
+@media screen and (max-width: 325px) {
+  section.feedback {
+    padding: 20px 30px 0;
+  }
 }
 
 section.feedback .star-container {

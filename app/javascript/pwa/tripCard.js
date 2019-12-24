@@ -19,8 +19,8 @@ export default class TripCard extends Component {
     this.setState({showDetails: val})
   };
 
-  componentWillReceiveProps() {
-    if (this.props.showDet === true) {
+  componentWillReceiveProps(nextProps) {
+    if (!nextProps.showDet) {
       this.setState({showDetails: false})
     }
   }

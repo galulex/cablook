@@ -96,9 +96,6 @@ address:last-of-type {
   color: white;
 }
 
-.trip-details section {
-  padding: 0 0 50px 0;
-}
 .trip-details img {
   width: 100%;
   background: #e6e4e0;
