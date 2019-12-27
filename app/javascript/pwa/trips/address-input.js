@@ -153,6 +153,8 @@ export default class AddressInput extends Component {
   }
 
   blur = (e) => {
+    this.props.scrollChange(false)
+    setTimeout(() => {this.props.scrollChange(true)}, 400)
     this.input.classList.remove('focus')
     window.timeout = setTimeout(() => {
       if (e.target.value === '' ||  e.target.checkValidity() || this.state.disabled || this.state.isFetching) return;
