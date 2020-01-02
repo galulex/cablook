@@ -20,7 +20,6 @@ const polyline = require('@mapbox/polyline')
 const LANGUAGES = {en: 'en', uk: 'ru', ru: 'ru'}
 const MAPSTYLE = (localStorage.getItem('dark') === 'true') ? 'mapbox://styles/galulex/cju84cmu11atr1flfoxocwbq7' : 'mapbox://styles/okunieva/cjzwn3wx40yhq1cpjl3yo8p1z';
 const PATHCOLORS = (localStorage.getItem('dark') === 'true') ? ['#ffffff', '#19a160'] : ['#312d50', '#19a160']
-const YANDEX_API_KEY = '9bbf546a-a5ca-44e1-abb2-8785a76fcbb4'
 let timeout
 
 const GEOJSON = {
@@ -132,7 +131,6 @@ export default class PreviewMap extends Component {
     });
 
     window.map = this.mapfocus
-    this.includeScript(`https://api-maps.yandex.ru/2.1/?apikey=${YANDEX_API_KEY}&lang=uk_UA`)
   }
 
   updatePoint = (latlng) => {
