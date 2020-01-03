@@ -87,21 +87,19 @@ export default class AddressInput extends Component {
   }
 
   setLocationFromMap = ([lng, lat]) => {
-    const latlng = {lat, lng};
-    const geocoder = new google.maps.Geocoder();
-    geocoder.geocode({'location': latlng}, (results, status) => {
-      if (status === 'OK') {
-        if (results[0]) {
-          this.setState({ address: `${results[0].address_components[1].long_name}, ${results[0].address_components[0].long_name}`, predictions: [], isValid: true });
-          this.props.setAddress(`${results[0].address_components[1].long_name}, ${results[0].address_components[0].long_name}`, `${lat},${lng}`, this.props.index);
+    window.ymaps.geocode([lat, lng]).then((results, status) => {
+      if (results.geoObjects) {
+        if (results.geoObjects.get(0)) {
+          this.setState({ address: `${results.geoObjects.get(0).properties._data.metaDataProperty.GeocoderMetaData.Address.Components[4].name}, ${results.geoObjects.get(0).properties._data.metaDataProperty.GeocoderMetaData.Address.Components[5].name}`, predictions: [], isValid: true });
+          this.props.setAddress(`${results.geoObjects.get(0).properties._data.metaDataProperty.GeocoderMetaData.Address.Components[4].name}, ${results.geoObjects.get(0).properties._data.metaDataProperty.GeocoderMetaData.Address.Components[5].name}`, `${lat},${lng}`, this.props.index)
           this.input.setCustomValidity('')
         } else {
-          window.alert('No results found');
+          this.setState({ address: 'No results found' });
         }
       } else {
         window.alert('Geocoder failed due to: ' + status);
       }
-    });
+    })
   }
 
   autocomplete = e => {
