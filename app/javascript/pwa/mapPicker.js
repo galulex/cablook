@@ -91,8 +91,11 @@ export default class MapPicker extends Component {
     const latlng = {lat, lng};
     window.ymaps.geocode([lat, lng]).then((results, status) => {
       if (results.geoObjects) {
-        if (results.geoObjects.get(0)) {
-          this.setState({ address_bar: true, address: `${results.geoObjects.get(0).properties._data.metaDataProperty.GeocoderMetaData.Address.Components[4].name}, ${results.geoObjects.get(0).properties._data.metaDataProperty.GeocoderMetaData.Address.Components[5].name}` });
+        let place = results.geoObjects.get(0)
+        if (place) {
+          let streetName = place.properties._data.metaDataProperty.GeocoderMetaData.Address.Components[4].name
+          let houseNumber = place.properties._data.metaDataProperty.GeocoderMetaData.Address.Components[5] ? `, ${place.properties._data.metaDataProperty.GeocoderMetaData.Address.Components[5].name}` : ''
+          this.setState({ address_bar: true, address: `${streetName}${houseNumber}` });
         } else {
           this.setState({ address: 'No results found' });
         }

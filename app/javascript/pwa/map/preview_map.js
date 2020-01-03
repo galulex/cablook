@@ -140,15 +140,6 @@ export default class PreviewMap extends Component {
     }})
   }
 
-  includeScript = (url) => {
-    const script = document.createElement('script')
-
-    script.src = url
-    script.async = true
-
-    document.body.appendChild(script)
-  }
-
   bearing = (start, end) => {
     let y = Math.sin(end[0] - start[0]) * Math.cos(end[1]);
     let x = Math.cos(start[1]) * Math.sin(end[1]) -
@@ -227,14 +218,16 @@ export default class PreviewMap extends Component {
 
   geocode = () => {
     const { lng, lat } = this.map.getCenter();
-    const latlng = {lat, lng};
     const waypoint = Object.values(this.map.getCenter()).reverse().toString()
 
     if (this.state.point.lat !== lat && this.state.point.lng !== lng) {
       window.ymaps.geocode([lat, lng]).then((results, status) => {
         if (results.geoObjects) {
-          if (results.geoObjects.get(0)) {
-            this.props.setAddress(`${results.geoObjects.get(0).properties._data.metaDataProperty.GeocoderMetaData.Address.Components[4].name}, ${results.geoObjects.get(0).properties._data.metaDataProperty.GeocoderMetaData.Address.Components[5].name}`, waypoint, this.state.index)
+          let place = results.geoObjects.get(0)
+          if (place) {
+            let streetName = place.properties._data.metaDataProperty.GeocoderMetaData.Address.Components[4].name
+            let houseNumber = place.properties._data.metaDataProperty.GeocoderMetaData.Address.Components[5] ? `, ${place.properties._data.metaDataProperty.GeocoderMetaData.Address.Components[5].name}` : ''
+            this.props.setAddress(`${streetName}${houseNumber}`, waypoint, this.state.index)
           } else {
             this.props.setAddress('No results found', waypoint, this.state.index)
           }
