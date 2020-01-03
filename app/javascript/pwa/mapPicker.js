@@ -89,11 +89,10 @@ export default class MapPicker extends Component {
     const { lng, lat } = this.map.getCenter();
 
     const latlng = {lat, lng};
-    const geocoder = new google.maps.Geocoder();
-    geocoder.geocode({'location': latlng}, (results, status) => {
-      if (status === 'OK') {
-        if (results[0]) {
-          this.setState({ address_bar: true, address: `${results[0].address_components[1].long_name}, ${results[0].address_components[0].long_name}` });
+    window.ymaps.geocode([lat, lng]).then((results, status) => {
+      if (results.geoObjects) {
+        if (results.geoObjects.get(0)) {
+          this.setState({ address_bar: true, address: `${results.geoObjects.get(0).properties._data.metaDataProperty.GeocoderMetaData.Address.Components[4].name}, ${results.geoObjects.get(0).properties._data.metaDataProperty.GeocoderMetaData.Address.Components[5].name}` });
         } else {
           this.setState({ address: 'No results found' });
         }

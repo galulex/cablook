@@ -55,6 +55,7 @@ const PATHLAYER = {
   }
 }
 
+
 export default class PreviewMap extends Component {
   constructor(props) {
     super(props)
@@ -65,7 +66,11 @@ export default class PreviewMap extends Component {
       lat: CHERKASY_LONG_LAT[1],
       zoom: 12,
       waypoints: [],
-      car: null
+      car: null,
+      point: {
+        lat: null,
+        lng: null
+      }
     }
   }
 
@@ -126,6 +131,22 @@ export default class PreviewMap extends Component {
     });
 
     window.map = this.mapfocus
+  }
+
+  updatePoint = (latlng) => {
+    this.setState({point: {
+      lat: latlng[0],
+      lng: latlng[1]
+    }})
+  }
+
+  includeScript = (url) => {
+    const script = document.createElement('script')
+
+    script.src = url
+    script.async = true
+
+    document.body.appendChild(script)
   }
 
   bearing = (start, end) => {
@@ -208,19 +229,21 @@ export default class PreviewMap extends Component {
     const { lng, lat } = this.map.getCenter();
     const latlng = {lat, lng};
     const waypoint = Object.values(this.map.getCenter()).reverse().toString()
-    const geocoder = new google.maps.Geocoder();
 
-    geocoder.geocode({'location': latlng}, (results, status) => {
-      if (status === 'OK') {
-        if (results[0]) {
-          this.props.setAddress(`${results[0].address_components[1].long_name}, ${results[0].address_components[0].long_name}`, waypoint, this.state.index)
+    if (this.state.point.lat !== lat && this.state.point.lng !== lng) {
+      window.ymaps.geocode([lat, lng]).then((results, status) => {
+        if (results.geoObjects) {
+          if (results.geoObjects.get(0)) {
+            this.props.setAddress(`${results.geoObjects.get(0).properties._data.metaDataProperty.GeocoderMetaData.Address.Components[4].name}, ${results.geoObjects.get(0).properties._data.metaDataProperty.GeocoderMetaData.Address.Components[5].name}`, waypoint, this.state.index)
+          } else {
+            this.props.setAddress('No results found', waypoint, this.state.index)
+          }
         } else {
-          this.props.setAddress('No results found', waypoint, this.state.index)
+          console.log('Geocoder failed due to: ' + status);
         }
-      } else {
-        console.log('Geocoder failed due to: ' + status);
-      }
-    });
+      })
+      this.updatePoint([lat, lng])
+    }
   }
 
   cleanup = () => {

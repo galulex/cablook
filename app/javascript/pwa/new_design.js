@@ -25,6 +25,8 @@ import { PENDING, ON_THE_WAY, WAITING_CLIENT, DRIVING, FINISHED, CANCELED, DECLI
 const cable = createConsumer()
 const ENTRANCES = Array.from({length: 15}, (v, k) => (k+1))
 const TRIP_FIELDS = ['departure', 'departure_address', 'destination', 'destination_address', 'path', 'status', 'id', 'stops', 'waypoints', 'cost', 'distance', 'duration', 'start_time']
+const YANDEX_API_KEY = '9bbf546a-a5ca-44e1-abb2-8785a76fcbb4'
+const YANDEX_LANG = {en: 'en-US', uk: 'uk_UA', ru: 'ru_RU'}
 
 const Shake = require('shake.js')
 let myShakeEvent = false
@@ -255,11 +257,24 @@ export default class NewDesign extends Component {
     this.getTripThroughProps(this.props.trip)
 
     this.addShakeListener()
+
+    const yandex_api_lang = YANDEX_LANG[this.props.language]
+
+    this.includeScript(`https://api-maps.yandex.ru/2.1/?apikey=${YANDEX_API_KEY}&lang=${yandex_api_lang}`)
   }
 
   componentDidUpdate() {
     // window.geolocate = this.getLocation
     this.addShakeListener()
+  }
+
+  includeScript = (url) => {
+    const script = document.createElement('script')
+
+    script.src = url
+    script.async = true
+
+    document.body.appendChild(script)
   }
 
   addShakeListener = () => {
