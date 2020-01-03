@@ -1,6 +1,7 @@
 import { h, render, Component } from 'preact'
 import axios from 'axios'
 import { createConsumer } from '@rails/actioncable';
+import ymaps from 'ymaps'
 
 import i18n from './i18n.js'
 import './css/map.css'
@@ -57,24 +58,31 @@ export default class NewDesign extends Component {
     if (navigator.geolocation) {
       // e.target.classList.add('running')
       navigator.geolocation.getCurrentPosition((result) => {
-        let geocoder = new google.maps.Geocoder()
-        let location = new google.maps.LatLng(result.coords.latitude, result.coords.longitude)
-        geocoder.geocode( { 'location': location}, function(res, status) {
-          if (status == 'OK') {
-            let place = res[0]
-            // component.setState({ address: `${place.address_components[1].long_name}, ${place.address_components[0].long_name}`, predictions: [], isValid: true, geocoded: true });
-            if (!component.props.trip || [FINISHED, CANCELED, DECLINED, CANCELED_BY_DRIVER].includes(component.props.trip.status)) {
-              component.setAddress(`${place.address_components[1].long_name}, ${place.address_components[0].long_name}`, `${place.geometry.location.lat()},${place.geometry.location.lng()}`, 0);
-            }
-            component.setState({currentLocation: {location: `${place.geometry.location.lat()},${place.geometry.location.lng()}`,
-                      address: `${place.address_components[1].long_name}, ${place.address_components[0].long_name}`,
-                      favorite_address: true,
-                      structured_formatting: { main_text: `${place.address_components[1].long_name}, ${place.address_components[0].long_name}`, secondary_text: i18n.address_input.location }}})
+        let lat = result.coords.latitude
+        let lng = result.coords.longitude
+        const yandex_api_lang = YANDEX_LANG[this.props.language]
 
-            // component.input.setCustomValidity('')
-          } else {
-            alert(status)
-          }
+        ymaps.load(`https://api-maps.yandex.ru/2.1/?apikey=${YANDEX_API_KEY}&lang=${yandex_api_lang}`).then(maps => {
+          maps.geocode([lat, lng]).then((results, status) => {
+            if (results.geoObjects) {
+              let place = results.geoObjects.get(0)
+              if (place) {
+                let streetName = place.properties._data.metaDataProperty.GeocoderMetaData.Address.Components[4].name
+                let houseNumber = place.properties._data.metaDataProperty.GeocoderMetaData.Address.Components[5] ? `, ${place.properties._data.metaDataProperty.GeocoderMetaData.Address.Components[5].name}` : ''
+                if (!component.props.trip || [FINISHED, CANCELED, DECLINED, CANCELED_BY_DRIVER].includes(component.props.trip.status)) {
+                  component.setAddress(`${streetName}${houseNumber}`, `${place.geometry._coordinates[0]},${place.geometry._coordinates[1]}`, 0);
+                }
+                component.setState({currentLocation: {location: `${place.geometry._coordinates[0]},${place.geometry._coordinates[1]}`,
+                          address: `${streetName}${houseNumber}`,
+                          favorite_address: true,
+                  structured_formatting: { main_text: `${streetName}${houseNumber}`, secondary_text: i18n.address_input.location }}})
+              } else {
+                this.setState({ address: 'No results found' });
+              }
+            } else {
+              window.alert('Geocoder failed due to: ' + status);
+            }
+          })
         })
         // e.target.classList.remove('running')
       },
@@ -258,9 +266,6 @@ export default class NewDesign extends Component {
 
     this.addShakeListener()
 
-    const yandex_api_lang = YANDEX_LANG[this.props.language]
-
-    this.includeScript(`https://api-maps.yandex.ru/2.1/?apikey=${YANDEX_API_KEY}&lang=${yandex_api_lang}`)
   }
 
   componentDidUpdate() {

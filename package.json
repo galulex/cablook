@@ -22,7 +22,8 @@
     "prop-types": "^15.6.2",
     "react-localization": "^1.0.12",
     "shake.js": "^1.2.2",
-    "smoothscroll-polyfill": "^0.4.4"
+    "smoothscroll-polyfill": "^0.4.4",
+    "ymaps": "^0.2.1"
   },
   "devDependencies": {
     "webpack-dev-server": "^3.9"
