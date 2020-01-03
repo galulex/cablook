@@ -64,12 +64,15 @@ export default class App extends Component {
       language: localStorage.getItem('language') || i18n.getInterfaceLanguage().split('-')[0],
       favorite_addresses: [],
       notification_settings: [],
+      activateFeedback: false,
+      lastTripId: null,
       currentTrip: null
     }
     axios.defaults.headers.common['Pwa-Language'] = this.state.language
   }
 
   componentDidMount() {
+    this.loadTrips()
     i18n.setLanguage(this.state.language)
     this.loadScript()
     if (window.ios) this.focusOutForIos()
@@ -85,6 +88,18 @@ export default class App extends Component {
     if (!navigator.onLine) this.offline()
   }
 
+  loadTrips = () => {
+    axios.get(`trips?page=0&per=1`).then((res) => {
+      this.setState({ activateFeedback: res.data.trips[0].feedbacks[0] == undefined && [FINISHED].includes(res.data.trips[0].status) })
+      this.setState({ lastTripId: res.data.trips[0].id })
+    }).catch((error) => {
+      if (error.response) alert(error.response.data.errors)
+    });
+  };
+
+  setActivateFeedback = () => {
+    this.setState({activateFeedback: false})
+  }
 
   onVisibilityChange = () => {
     document.documentElement.style.setProperty('--car-transition', '0s')
@@ -261,6 +276,9 @@ export default class App extends Component {
               language={this.state.language}
               favorite_addresses={() => this.state.favorite_addresses}
               fetchUser={this.fetchUser}
+              activateFeedback={this.state.activateFeedback}
+              setActivateFeedback={this.setActivateFeedback}
+              lastTripId={this.state.lastTripId}
             />
             <Trips path='/trips/:id?'
               setCurrentTrip={this.setCurrentTrip}
