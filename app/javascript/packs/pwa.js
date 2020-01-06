@@ -199,11 +199,7 @@ export default class App extends Component {
   removeData = () => {
     firebaseAuth().signOut()
     this.setState({currentUser: null})
-    localStorage.removeItem('email')
-    localStorage.removeItem('token')
-    localStorage.removeItem('trip')
-    localStorage.removeItem('cart')
-    localStorage.removeItem('delivery_trip')
+    localStorage.clear()
   }
 
   triggerDrawer = (open = true) => {
