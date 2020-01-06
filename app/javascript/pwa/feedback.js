@@ -105,7 +105,7 @@ export default class Feedback extends Component {
             <Driver class='driver'/>
             <h4>{i18n.feedback.tips}</h4>
             <div class='tips-container'>
-              {[0,3,5,10,20].map(i => this.renderTips(i))}
+              {[0,5,10,20,50].map(i => this.renderTips(i))}
             </div>
           </form>
           <button class='button fixed warning' type='button' disabled={this.state.submitDisabled} onClick={this.create}>{i18n.feedback.ok}</button>
