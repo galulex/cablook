@@ -48,6 +48,8 @@ export default class NewDesign extends Component {
       currentLocation: null,
       inputDisabled: false,
       paymentButtonDisabled: false,
+      upaidTrips: [],
+      showAlert: false,
       scroll: true
     }
   }
@@ -244,6 +246,15 @@ export default class NewDesign extends Component {
     })
   }
 
+  sendRequestForUnpaidTrips = () => {
+    axios.get('trips/unpaid_trips').then((res) => {
+      if (res.data.trips.length === 0) return;
+      this.setState({unpaid_trips: res.data.trips, showAlert: true})
+    }).catch((error) => {
+      if (error.response) alert(error.response.data.errors)
+    })
+  }
+
   pickAddress = (i) => {
     if (this.state.picker !== null) return this.setState({picker: null, klass: ''})
     this.setState({picker: i, klass: 'pick'})
@@ -261,6 +272,7 @@ export default class NewDesign extends Component {
     const yandex_api_lang = YANDEX_LANG[this.props.language]
 
     this.includeScript(`https://api-maps.yandex.ru/2.1/?apikey=${YANDEX_API_KEY}&lang=${yandex_api_lang}`)
+    setTimeout(this.sendRequestForUnpaidTrips(), 500)
   }
 
   componentDidUpdate() {
@@ -275,6 +287,20 @@ export default class NewDesign extends Component {
     script.async = true
 
     document.body.appendChild(script)
+  }
+
+  selectCard = (event) => {
+    this.setState({card_id: parseInt(event.target.value)})
+  }
+
+  renderUpaidTripsAlert = () => {
+    if (this.state.showAlert) {
+      let result = confirm(i18n.retry_payment.unpaid_trips)
+      if (result) {
+        this.retryPayment()
+      }
+      this.setState({showAlert: false})
+    }
   }
 
   addShakeListener = () => {
@@ -390,6 +416,21 @@ export default class NewDesign extends Component {
       }
     }).catch((error) => {
       this.setState({paymentButtonDisabled: false})
+      if (error.response) alert(error.response.data.errors)
+    })
+  }
+
+  retryPayment = () => {
+    const { cards } = this.props
+    const { card_id } = this.state
+
+    axios.post('payments/retry_pendings', {card_id: card_id ? card_id : cards()[0].id}).then((res) => {
+      if (res.data.length === 0) {
+        alert(i18n.retry_payment.success)
+      } else {
+        alert(i18n.confirm_trip.payment_error)
+      }
+    }).catch((error) => {
       if (error.response) alert(error.response.data.errors)
     })
   }
@@ -669,6 +710,7 @@ export default class NewDesign extends Component {
             paymentButtonDisabled={this.state.paymentButtonDisabled}/>
           { showWidget && <Widget createCard={this.createCard} showWidget={() => this.setState({showWidget: false}) }/> }
         </section>
+        { this.renderUpaidTripsAlert() }
       </div>
     )
   }

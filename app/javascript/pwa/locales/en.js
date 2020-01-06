@@ -103,9 +103,13 @@ const en = {
     cancel: 'Cancel',
     confirm_cancel: 'Do you want to cancel this trip?'
   },
+  retry_payment: {
+    unpaid_trips: 'You have unpaid trips. Do you want to pay for them?',
+    success: 'Payment successful'
+  },
   retry_trip: {
     retry_message: 'Car not found. Click «Retry» to try one more time.',
-    retry: 'Retry',
+    retry: 'Retry'
   },
   feedback: {
     ok: 'OK'
