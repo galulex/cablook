@@ -429,7 +429,9 @@ export default class NewDesign extends Component {
   }
 
   confirmUpdate = (e) => {
-    let params = { ...this.state.trip, osrm: true }
+    const { card_id } = this.state
+    let params = { ...this.state.trip, card_id: card_id, osrm: true }
+    this.props.selectCard(card_id)
     this.sendRequest(params)
   }
 
@@ -602,7 +604,7 @@ export default class NewDesign extends Component {
             <label class='select' for='card'>
               <Card width='24'/>
               <select id='card' onChange={(e) => this.selectCard(e)}>
-                {cards.map(card => <option value={card.id}>{card.pan}</option>)}
+                {cards.map(card => <option selected={ this.props.card_id == card.id } value={card.id}>{card.pan}</option>)}
               </select>
             </label>
           </div>

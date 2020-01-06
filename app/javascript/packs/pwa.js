@@ -70,6 +70,7 @@ export default class App extends Component {
       notification_settings: [],
       activateFeedback: false,
       lastTripId: null,
+      card_id: null,
       currentTrip: null
     }
     axios.defaults.headers.common['Pwa-Language'] = this.state.language
@@ -171,13 +172,16 @@ export default class App extends Component {
 
   fetchUser = () => {
     axios.get('user').then((res) => {
+      let currentTrip = JSON.parse(res.data.current_trip)
+      let card_id = (res.data.current_trip == null) ? res.data.cards[0].id : currentTrip.card_id
       this.setState({cards: res.data.cards,
         favorite_addresses: res.data.favorite_addresses,
         notification_settings: res.data.enabled_notifications,
         bonus_trips: res.data.bonus_trips,
         parent_bonus: res.data.parent_bonus || [],
         currentUserID: res.data.id,
-        currentTrip: JSON.parse(res.data.current_trip)
+        currentTrip,
+        card_id
       })
     }).catch((error) => {
       if (error.response) alert(error.response.data.errors)
@@ -292,6 +296,10 @@ export default class App extends Component {
     if (!e.target.classList.contains('nav-wrapper') && !e.target.classList.contains('burger')) this.triggerDrawer(false)
   }
 
+  selectCard = (id) => {
+    this.setState({card_id: id})
+  }
+
   render() {
     const { currentTrip } = this.state;
 
@@ -313,6 +321,8 @@ export default class App extends Component {
               setActivateFeedback={this.setActivateFeedback}
               lastTripId={this.state.lastTripId}
               getAddressInfo={this.getAddressInfo}
+              card_id={this.state.card_id}
+              selectCard={this.selectCard}
             />
             <Trips path='/trips/:id?'
               setCurrentTrip={this.setCurrentTrip}
