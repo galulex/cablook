@@ -293,7 +293,7 @@ export default class NewDesign extends Component {
     this.setState({card_id: parseInt(event.target.value)})
   }
 
-  renderUpaidTripsAlert = () => {
+  renderUnpaidTripsAlert = () => {
     if (this.state.showAlert) {
       let result = confirm(i18n.retry_payment.unpaid_trips)
       if (result) {
@@ -710,7 +710,7 @@ export default class NewDesign extends Component {
             paymentButtonDisabled={this.state.paymentButtonDisabled}/>
           { showWidget && <Widget createCard={this.createCard} showWidget={() => this.setState({showWidget: false}) }/> }
         </section>
-        { this.renderUpaidTripsAlert() }
+        { setTimeout(() => { this.renderUnpaidTripsAlert() }, 3000) }
       </div>
     )
   }
