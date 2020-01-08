@@ -20,7 +20,7 @@ class Presenters::Trips::Detailed < Presenters::BaseSingle
   property :card_id, exec_context: :decorator
 
   def card_id
-    represented.payments.last.try(:card_id)
+    represented.payments.last&.card_id
   end
 
   def driver_name

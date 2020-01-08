@@ -15,6 +15,10 @@ fieldset.address {
   box-shadow: var(--shadow);
 }
 
+.new_design.background {
+  background-color: black;
+}
+
 .new_design fieldset.address input {
   border: none;
 }

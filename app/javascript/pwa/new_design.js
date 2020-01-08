@@ -646,7 +646,7 @@ export default class NewDesign extends Component {
     return (
       <div>
         <header></header>
-        <section class={`new_design ${this.state.klass}`}>
+        <section class={`new_design ${this.state.klass} ${[PENDING].includes(trip.status) ? 'background' : ''}`}>
           { (activateFeedback || trip.status == FINISHED) && <Feedback trip={trip} updateTrip={this.resetTrip} handleBack={this.resetTrip} lastTripId={lastTripId} /> }
           <style>{`fieldset.address:nth-child(${this.state.picker + 1}) { opacity: 1;}`}</style>
           <PreviewMap trip={() => trip}
