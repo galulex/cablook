@@ -89,9 +89,11 @@ export default class AddressInput extends Component {
   setLocationFromMap = ([lng, lat]) => {
     window.ymaps.geocode([lat, lng]).then((results, status) => {
       if (results.geoObjects) {
-        if (results.geoObjects.get(0)) {
-          this.setState({ address: `${results.geoObjects.get(0).properties._data.metaDataProperty.GeocoderMetaData.Address.Components[4].name}, ${results.geoObjects.get(0).properties._data.metaDataProperty.GeocoderMetaData.Address.Components[5].name}`, predictions: [], isValid: true });
-          this.props.setAddress(`${results.geoObjects.get(0).properties._data.metaDataProperty.GeocoderMetaData.Address.Components[4].name}, ${results.geoObjects.get(0).properties._data.metaDataProperty.GeocoderMetaData.Address.Components[5].name}`, `${lat},${lng}`, this.props.index)
+        let place = results.geoObjects.get(0)
+        if (place) {
+          const addressInfo = this.props.getAddressInfo(place)
+          this.setState({ address: `${addressInfo[0]}${addressInfo[1]}`, predictions: [], isValid: true });
+          this.props.setAddress(`${addressInfo[0]}${addressInfo[1]}`, `${lat},${lng}`, this.props.index)
           this.input.setCustomValidity('')
         } else {
           this.setState({ address: 'No results found' });
@@ -192,7 +194,7 @@ export default class AddressInput extends Component {
       <fieldset class='address'>
         {(fieldsCount > 2 || address !== '') && !hideRemove && !readonly && (<button disabled={index === 0 ? inputDisabled : false} class='remove-address' type='button' onClick={() => this.eraseAddress(index)}>×</button>)}
         {mapboxgl.supported() && <Pin onClick={this.openMap} disabled={readonly || ( index === 0 ? inputDisabled : false )} height='24px' class='map-pick'/>}
-        {this.state.isShowMap && <MapPicker onCloseMap={this.closeMap} handleBack={this.handleBack} language={language}/>}
+        {this.state.isShowMap && <MapPicker onCloseMap={this.closeMap} handleBack={this.handleBack} language={language} getAddressInfo={this.props.getAddressInfo}/>}
 
         <input required class='address' placeholder={placeholder} type='text' disabled={index === 0 ? inputDisabled : false}
           onClick={this.focus} onFocus={this.focus} onKeyDown={this.keydown} onBlur={this.blur} onInput={this.autocomplete}

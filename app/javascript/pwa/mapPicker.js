@@ -93,9 +93,8 @@ export default class MapPicker extends Component {
       if (results.geoObjects) {
         let place = results.geoObjects.get(0)
         if (place) {
-          let streetName = place.properties._data.metaDataProperty.GeocoderMetaData.Address.Components[4].name
-          let houseNumber = place.properties._data.metaDataProperty.GeocoderMetaData.Address.Components[5] ? `, ${place.properties._data.metaDataProperty.GeocoderMetaData.Address.Components[5].name}` : ''
-          this.setState({ address_bar: true, address: `${streetName}${houseNumber}` });
+          const addressInfo = this.props.getAddressInfo(place)
+          this.setState({ address_bar: true, address: `${addressInfo[0]}${addressInfo[1]}` });
         } else {
           this.setState({ address: 'No results found' });
         }

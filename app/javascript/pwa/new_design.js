@@ -67,15 +67,14 @@ export default class NewDesign extends Component {
             if (results.geoObjects) {
               let place = results.geoObjects.get(0)
               if (place) {
-                let streetName = place.properties._data.metaDataProperty.GeocoderMetaData.Address.Components[4].name
-                let houseNumber = place.properties._data.metaDataProperty.GeocoderMetaData.Address.Components[5] ? `, ${place.properties._data.metaDataProperty.GeocoderMetaData.Address.Components[5].name}` : ''
+                const addressInfo = component.props.getAddressInfo(place)
                 if (!component.props.trip || [FINISHED, CANCELED, DECLINED, CANCELED_BY_DRIVER].includes(component.props.trip.status)) {
-                  component.setAddress(`${streetName}${houseNumber}`, `${place.geometry._coordinates[0]},${place.geometry._coordinates[1]}`, 0);
+                  component.setAddress(`${addressInfo[0]}${addressInfo[1]}`, `${place.geometry._coordinates[0]},${place.geometry._coordinates[1]}`, 0);
                 }
                 component.setState({currentLocation: {location: `${place.geometry._coordinates[0]},${place.geometry._coordinates[1]}`,
-                          address: `${streetName}${houseNumber}`,
+                          address: `${addressInfo[0]}${addressInfo[1]}`,
                           favorite_address: true,
-                  structured_formatting: { main_text: `${streetName}${houseNumber}`, secondary_text: i18n.address_input.location }}})
+                  structured_formatting: { main_text: `${addressInfo[0]}${addressInfo[1]}`, secondary_text: i18n.address_input.location }}})
               } else {
                 this.setState({ address: 'No results found' });
               }
@@ -676,6 +675,7 @@ export default class NewDesign extends Component {
             picker={this.state.picker}
             setAddress={this.setAddress}
             zoom={this.state.zoom}
+            getAddressInfo={this.getAddressInfo}
             ref={(el) => this.previewMapRef = el}/>
           <div class='wrapper'>
             { [CONFIRM_UPDATE_TRIP, CANCELED, CANCELED_BY_DRIVER, undefined, null].includes(trip.status) && this.renderFields(trip, isValid, cards) }

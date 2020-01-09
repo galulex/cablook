@@ -139,7 +139,13 @@ export default class FavoriteAddresses extends Component {
     return(
       <form id="newFavoriteAddressForm" onsubmit={(e) => e.preventDefault()}>
         <input required class="address" type="text" name="name" placeholder={i18n.profile_page.type_name} value={this.state.name} onChange={this.handleChange} />
-        <AddressInput hideRemove={true} setAddress={this.setAddress} favorite_addresses={() => []} placeholder={i18n.profile_page.placeholder} />
+        <AddressInput
+          hideRemove={true}
+          setAddress={this.setAddress}
+          favorite_addresses={() => []}
+          placeholder={i18n.profile_page.placeholder}
+          getAddressInfo={this.props.getAddressInfo}
+        />
         <button class="button add_fav_address" type="button" disabled={this.state.disabled} onClick={this.create}>OK</button>
         <input type="submit" onClick={this.create} hidden/>
       </form>
