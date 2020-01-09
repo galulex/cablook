@@ -225,9 +225,8 @@ export default class PreviewMap extends Component {
         if (results.geoObjects) {
           let place = results.geoObjects.get(0)
           if (place) {
-            let streetName = place.properties._data.metaDataProperty.GeocoderMetaData.Address.Components[4].name
-            let houseNumber = place.properties._data.metaDataProperty.GeocoderMetaData.Address.Components[5] ? `, ${place.properties._data.metaDataProperty.GeocoderMetaData.Address.Components[5].name}` : ''
-            this.props.setAddress(`${streetName}${houseNumber}`, waypoint, this.state.index)
+            const addressInfo = this.props.getAddressInfo(place)
+            this.props.setAddress(`${addressInfo[0]}${addressInfo[1]}`, waypoint, this.state.index)
           } else {
             this.props.setAddress('No results found', waypoint, this.state.index)
           }

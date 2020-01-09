@@ -229,6 +229,13 @@ export default class App extends Component {
     })
   }
 
+  getAddressInfo = (place) => {
+    let addressInfo = []
+    addressInfo[0] = place.properties._data.metaDataProperty.GeocoderMetaData.Address.Components[4].name
+    addressInfo[1] = place.properties._data.metaDataProperty.GeocoderMetaData.Address.Components[5] ? `, ${place.properties._data.metaDataProperty.GeocoderMetaData.Address.Components[5].name}` : ''
+    return addressInfo
+  }
+
   setLanguage = (e) => {
     this.setState({language: e.target.value})
     localStorage.setItem('language', e.target.value)
@@ -275,6 +282,7 @@ export default class App extends Component {
               activateFeedback={this.state.activateFeedback}
               setActivateFeedback={this.setActivateFeedback}
               lastTripId={this.state.lastTripId}
+              getAddressInfo={this.getAddressInfo}
             />
             <Trips path='/trips/:id?'
               setCurrentTrip={this.setCurrentTrip}
@@ -292,6 +300,7 @@ export default class App extends Component {
               setLanguage = {this.setLanguage}
               bonus_trips={() => this.state.bonus_trips}
               parent_bonus={() => this.state.parent_bonus}
+              getAddressInfo={this.getAddressInfo}
             />
             <Vendors path='/delivery'
               setCurrentTrip={this.setCurrentTrip}
