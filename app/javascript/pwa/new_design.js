@@ -547,6 +547,13 @@ export default class NewDesign extends Component {
     this.setState({showWidget: true})
   }
 
+  selectCard = (event) => {
+    if (this.state.trip && ![CONFIRM_UPDATE_TRIP].includes(this.state.trip.status)) {
+      this.props.selectCard(parseInt(event.target.value))
+    }
+    this.setState({card_id: parseInt(event.target.value)})
+  }
+
   renderFields(trip, isValid, cards) {
 
     return(
@@ -557,7 +564,7 @@ export default class NewDesign extends Component {
         <button class='trigger back' onClick={ () => this.scroll(1000) }>
           <Arrows width='50'/>
         </button>
-        <div class='option'>
+        <div id='option' class='option scroll'>
           { trip.stops.map((e, i) => {
             return (
               <AddressInput setAddress={this.setAddress}
@@ -580,7 +587,7 @@ export default class NewDesign extends Component {
             </button>
           </div>
         </div>
-        <div class='option'>
+        <div id='option' class='option scroll'>
           <div class='additions'>
             <label for='no_call' class='nocall'>
               <input id='no_call' type='checkbox' checked={trip.no_call} onChange={this.setField}/>

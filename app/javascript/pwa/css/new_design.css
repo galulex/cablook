@@ -15,8 +15,16 @@ fieldset.address {
   box-shadow: var(--shadow);
 }
 
-.new_design.background {
-  background-color: black;
+.search_logo {
+  pointer-events: none;
+}
+
+.background .map {
+  background-color: rgba(0,0,0,0.9);
+}
+
+.background .mapboxgl-canvas {
+  opacity: 0.85;
 }
 
 .new_design fieldset.address input {
