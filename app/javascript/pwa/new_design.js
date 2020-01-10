@@ -264,7 +264,6 @@ export default class NewDesign extends Component {
   }
 
   componentDidUpdate() {
-    // window.geolocate = this.getLocation
     this.addShakeListener()
   }
 
@@ -587,7 +586,7 @@ export default class NewDesign extends Component {
             </button>
           </div>
         </div>
-        <div id='option' class='option scroll'>
+        <div class='option scroll'>
           <div class='additions'>
             <label for='no_call' class='nocall'>
               <input id='no_call' type='checkbox' checked={trip.no_call} onChange={this.setField}/>

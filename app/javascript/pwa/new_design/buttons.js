@@ -13,12 +13,12 @@ export default class Buttons extends Component {
     return (
       <div className="buttons">
         { (this.props.cards.length < 1) && [CANCELED, CANCELED_BY_DRIVER, undefined, null].includes(trip.status) &&
-          <button class='button trip_add_card fixed' type='button' value={trip.bonus} onClick={this.props.showWidgetTrue}>{(this.props.cost === '') ? `${i18n.confirm_trip.add_card}` : `${i18n.confirm_trip.go} ${this.props.cost}`}
-          {(this.props.cost !== '') && <TripPrice/>}
+          <button class='button trip_add_card fixed' type='button' value={trip.bonus} onClick={this.props.showWidgetTrue}>{(this.props.cost === '') ? `${i18n.confirm_trip.add_card}` : this.props.trip.stops.includes('') ? `${i18n.confirm_trip.go}` : `${i18n.confirm_trip.go} ${this.props.cost}`}
+          {(this.props.cost !== '' && !this.props.trip.stops.includes('')) && <TripPrice/>}
           </button> }
         { [CANCELED, CANCELED_BY_DRIVER, undefined, null].includes(trip.status) &&
-          <button class='button fixed' type='button' value={trip.bonus} disabled={!this.props.isValid || this.props.paymentButtonDisabled} onClick={this.props.createTrip}>{`${i18n.confirm_trip.go} ${this.props.cost}`}
-          {(this.props.cost !== '') && <TripPrice/>}
+          <button class='button fixed' type='button' value={trip.bonus} disabled={!this.props.isValid || this.props.paymentButtonDisabled} onClick={this.props.createTrip}>{this.props.trip.stops.includes('') ? `${i18n.confirm_trip.go}` : `${i18n.confirm_trip.go} ${!this.props.trip.stops.includes('') && this.props.cost}`}
+          {(this.props.cost !== '' && !this.props.trip.stops.includes('')) && <TripPrice/>}
           </button> }
         { [CONFIRM_UPDATE_TRIP].includes(trip.status) &&
           <button class='button fixed' type='button' value={trip.bonus} disabled={!this.props.isValid} onClick={this.props.confirmUpdate}>{`${i18n.confirm_trip.go} ${this.props.cost}`}
