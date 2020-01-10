@@ -145,6 +145,7 @@ export default class FavoriteAddresses extends Component {
           favorite_addresses={() => []}
           placeholder={i18n.profile_page.placeholder}
           getAddressInfo={this.props.getAddressInfo}
+          language={this.props.language}
         />
         <button class="button add_fav_address" type="button" disabled={this.state.disabled} onClick={this.create}>OK</button>
         <input type="submit" onClick={this.create} hidden/>

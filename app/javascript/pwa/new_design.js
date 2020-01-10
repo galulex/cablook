@@ -1,7 +1,6 @@
 import { h, render, Component } from 'preact'
 import axios from 'axios'
 import { createConsumer } from '@rails/actioncable';
-import ymaps from 'ymaps'
 
 import i18n from './i18n.js'
 import './css/map.css'
@@ -26,8 +25,6 @@ import { PENDING, ON_THE_WAY, WAITING_CLIENT, DRIVING, FINISHED, CANCELED, DECLI
 const cable = createConsumer()
 const ENTRANCES = Array.from({length: 15}, (v, k) => (k+1))
 const TRIP_FIELDS = ['departure', 'departure_address', 'destination', 'destination_address', 'path', 'status', 'id', 'stops', 'waypoints', 'cost', 'distance', 'duration', 'start_time']
-const YANDEX_API_KEY = '9bbf546a-a5ca-44e1-abb2-8785a76fcbb4'
-const YANDEX_LANG = {en: 'en-US', uk: 'uk_UA', ru: 'ru_RU'}
 
 const Shake = require('shake.js')
 let myShakeEvent = false
@@ -53,6 +50,17 @@ export default class NewDesign extends Component {
     }
   }
 
+  setAddressData = (addressData) => {
+    let { addressInfo, place } =  addressData
+    if (!this.props.trip || [FINISHED, CANCELED, DECLINED, CANCELED_BY_DRIVER].includes(component.props.trip.status)) {
+      this.setAddress(`${addressInfo[0]}${addressInfo[1]}`, `${place.geometry._coordinates[0]},${place.geometry._coordinates[1]}`, 0);
+    }
+    this.setState({currentLocation: {location: `${place.geometry._coordinates[0]},${place.geometry._coordinates[1]}`,
+              address: `${addressInfo[0]}${addressInfo[1]}`,
+              favorite_address: true,
+      structured_formatting: { main_text: `${addressInfo[0]}${addressInfo[1]}`, secondary_text: i18n.address_input.location }}})
+  }
+
   getLocation = () => {
     let component = this
     if (navigator.geolocation) {
@@ -60,29 +68,8 @@ export default class NewDesign extends Component {
       navigator.geolocation.getCurrentPosition((result) => {
         let lat = result.coords.latitude
         let lng = result.coords.longitude
-        const yandex_api_lang = YANDEX_LANG[this.props.language]
 
-        ymaps.load(`https://api-maps.yandex.ru/2.1/?apikey=${YANDEX_API_KEY}&lang=${yandex_api_lang}`).then(maps => {
-          maps.geocode([lat, lng]).then((results, status) => {
-            if (results.geoObjects) {
-              let place = results.geoObjects.get(0)
-              if (place) {
-                const addressInfo = component.props.getAddressInfo(place)
-                if (!component.props.trip || [FINISHED, CANCELED, DECLINED, CANCELED_BY_DRIVER].includes(component.props.trip.status)) {
-                  component.setAddress(`${addressInfo[0]}${addressInfo[1]}`, `${place.geometry._coordinates[0]},${place.geometry._coordinates[1]}`, 0);
-                }
-                component.setState({currentLocation: {location: `${place.geometry._coordinates[0]},${place.geometry._coordinates[1]}`,
-                          address: `${addressInfo[0]}${addressInfo[1]}`,
-                          favorite_address: true,
-                  structured_formatting: { main_text: `${addressInfo[0]}${addressInfo[1]}`, secondary_text: i18n.address_input.location }}})
-              } else {
-                this.setState({ address: 'No results found' });
-              }
-            } else {
-              window.alert('Geocoder failed due to: ' + status);
-            }
-          })
-        })
+        component.props.getAddressInfo([lat, lng], this.setAddressData)
         // e.target.classList.remove('running')
       },
         (error) => {
@@ -675,7 +662,7 @@ export default class NewDesign extends Component {
             picker={this.state.picker}
             setAddress={this.setAddress}
             zoom={this.state.zoom}
-            getAddressInfo={this.getAddressInfo}
+            getAddressInfo={this.props.getAddressInfo}
             ref={(el) => this.previewMapRef = el}/>
           <div class='wrapper'>
             { [CONFIRM_UPDATE_TRIP, CANCELED, CANCELED_BY_DRIVER, undefined, null].includes(trip.status) && this.renderFields(trip, isValid, cards) }

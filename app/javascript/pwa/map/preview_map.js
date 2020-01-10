@@ -216,25 +216,18 @@ export default class PreviewMap extends Component {
     timeout = null
   }
 
+  setAddressData = (addressData) => {
+    const waypoint = Object.values(this.map.getCenter()).reverse().toString()
+    this.props.setAddress(`${addressData.addressInfo[0]}${addressData.addressInfo[1]}`, waypoint, this.state.index)
+  }
+
   geocode = () => {
     const { lng, lat } = this.map.getCenter();
-    const waypoint = Object.values(this.map.getCenter()).reverse().toString()
+    let component = this
 
     if (this.state.point.lat !== lat && this.state.point.lng !== lng) {
-      window.ymaps.geocode([lat, lng]).then((results, status) => {
-        if (results.geoObjects) {
-          let place = results.geoObjects.get(0)
-          if (place) {
-            const addressInfo = this.props.getAddressInfo(place)
-            this.props.setAddress(`${addressInfo[0]}${addressInfo[1]}`, waypoint, this.state.index)
-          } else {
-            this.props.setAddress('No results found', waypoint, this.state.index)
-          }
-        } else {
-          console.log('Geocoder failed due to: ' + status);
-        }
-      })
       this.updatePoint([lat, lng])
+      this.props.getAddressInfo([lat, lng], component.setAddressData)
     }
   }
 

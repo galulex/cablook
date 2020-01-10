@@ -85,23 +85,14 @@ export default class MapPicker extends Component {
     this.map.remove()
   }
 
+  setAddressData = (addressData) => {
+    this.setState({ address_bar: true, address: `${addressData.addressInfo[0]}${addressData.addressInfo[1]}` });
+  }
+
   showAddressBar = () => {
     const { lng, lat } = this.map.getCenter();
 
-    const latlng = {lat, lng};
-    window.ymaps.geocode([lat, lng]).then((results, status) => {
-      if (results.geoObjects) {
-        let place = results.geoObjects.get(0)
-        if (place) {
-          const addressInfo = this.props.getAddressInfo(place)
-          this.setState({ address_bar: true, address: `${addressInfo[0]}${addressInfo[1]}` });
-        } else {
-          this.setState({ address: 'No results found' });
-        }
-      } else {
-        window.alert('Geocoder failed due to: ' + status);
-      }
-    });
+    this.props.getAddressInfo([lat, lng], this.setAddressData)
   }
 
   hideAddressBar = () => {
