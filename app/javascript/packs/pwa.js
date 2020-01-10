@@ -234,43 +234,35 @@ export default class App extends Component {
   }
 
   getAddressInfo = (latlng, setAddress) => {
-    let addressInfo = []
-    let place = null
     if (!window.ymaps) {
       const yandex_api_lang = YANDEX_LANG[this.state.language]
       ymaps.load(`https://api-maps.yandex.ru/2.1/?apikey=${YANDEX_API_KEY}&lang=${yandex_api_lang}`).then(maps => {
         maps.geocode([latlng[0], latlng[1]]).then((results, status) => {
-          if (results.geoObjects) {
-            place = results.geoObjects.get(0)
-            if (place) {
-              addressInfo[0] = place.properties._data.metaDataProperty.GeocoderMetaData.Address.Components[4].name
-              addressInfo[1] = place.properties._data.metaDataProperty.GeocoderMetaData.Address.Components[5] ? `, ${place.properties._data.metaDataProperty.GeocoderMetaData.Address.Components[5].name}` : ''
-            } else {
-              addressInfo[0] = i18n.address_input.no_results
-              addressInfo[1] = ''
-            }
-            setAddress({addressInfo, place})
-          } else {
-            window.alert('Geocoder failed due to: ' + status);
-          }
+          this.setAddressInfo(results, status, setAddress)
         })
       })
     } else {
       window.ymaps.geocode([latlng[0], latlng[1]]).then((results, status) => {
-        if (results.geoObjects) {
-          place = results.geoObjects.get(0)
-          if (place) {
-            addressInfo[0] = place.properties._data.metaDataProperty.GeocoderMetaData.Address.Components[4].name
-            addressInfo[1] = place.properties._data.metaDataProperty.GeocoderMetaData.Address.Components[5] ? `, ${place.properties._data.metaDataProperty.GeocoderMetaData.Address.Components[5].name}` : ''
-          } else {
-            addressInfo[0] = i18n.address_input.no_results
-            addressInfo[1] = ''
-          }
-          setAddress({addressInfo, place})
-        } else {
-          window.alert('Geocoder failed due to: ' + status);
-        }
+        this.setAddressInfo(results, status, setAddress)
       })
+    }
+  }
+
+  setAddressInfo = (results, status, setAddress) => {
+    let addressInfo = []
+    let place = null
+    if (results.geoObjects) {
+      place = results.geoObjects.get(0)
+      if (place) {
+        addressInfo[0] = place.properties._data.metaDataProperty.GeocoderMetaData.Address.Components[4].name
+        addressInfo[1] = place.properties._data.metaDataProperty.GeocoderMetaData.Address.Components[5] ? `, ${place.properties._data.metaDataProperty.GeocoderMetaData.Address.Components[5].name}` : ''
+      } else {
+        addressInfo[0] = i18n.address_input.no_results
+        addressInfo[1] = ''
+      }
+      setAddress({addressInfo, place})
+    } else {
+      window.alert('Geocoder failed due to: ' + status);
     }
   }
 
