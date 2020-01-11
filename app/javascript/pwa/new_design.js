@@ -25,8 +25,6 @@ import { PENDING, ON_THE_WAY, WAITING_CLIENT, DRIVING, FINISHED, CANCELED, DECLI
 const cable = createConsumer()
 const ENTRANCES = Array.from({length: 15}, (v, k) => (k+1))
 const TRIP_FIELDS = ['departure', 'departure_address', 'destination', 'destination_address', 'path', 'status', 'id', 'stops', 'waypoints', 'cost', 'distance', 'duration', 'start_time']
-const YANDEX_API_KEY = '9bbf546a-a5ca-44e1-abb2-8785a76fcbb4'
-const YANDEX_LANG = {en: 'en-US', uk: 'uk_UA', ru: 'ru_RU'}
 
 const Shake = require('shake.js')
 let myShakeEvent = false
@@ -52,30 +50,26 @@ export default class NewDesign extends Component {
     }
   }
 
+  setAddressData = (addressData) => {
+    let { addressInfo, place } =  addressData
+    if (!this.props.trip || [FINISHED, CANCELED, DECLINED, CANCELED_BY_DRIVER].includes(component.props.trip.status)) {
+      this.setAddress(`${addressInfo[0]}${addressInfo[1]}`, `${place.geometry._coordinates[0]},${place.geometry._coordinates[1]}`, 0);
+    }
+    this.setState({currentLocation: {location: `${place.geometry._coordinates[0]},${place.geometry._coordinates[1]}`,
+              address: `${addressInfo[0]}${addressInfo[1]}`,
+              favorite_address: true,
+      structured_formatting: { main_text: `${addressInfo[0]}${addressInfo[1]}`, secondary_text: i18n.address_input.location }}})
+  }
+
   getLocation = () => {
     let component = this
     if (navigator.geolocation) {
       // e.target.classList.add('running')
       navigator.geolocation.getCurrentPosition((result) => {
-        let geocoder = new google.maps.Geocoder()
-        let location = new google.maps.LatLng(result.coords.latitude, result.coords.longitude)
-        geocoder.geocode( { 'location': location}, function(res, status) {
-          if (status == 'OK') {
-            let place = res[0]
-            // component.setState({ address: `${place.address_components[1].long_name}, ${place.address_components[0].long_name}`, predictions: [], isValid: true, geocoded: true });
-            if (!component.props.trip || [FINISHED, CANCELED, DECLINED, CANCELED_BY_DRIVER].includes(component.props.trip.status)) {
-              component.setAddress(`${place.address_components[1].long_name}, ${place.address_components[0].long_name}`, `${place.geometry.location.lat()},${place.geometry.location.lng()}`, 0);
-            }
-            component.setState({currentLocation: {location: `${place.geometry.location.lat()},${place.geometry.location.lng()}`,
-                      address: `${place.address_components[1].long_name}, ${place.address_components[0].long_name}`,
-                      favorite_address: true,
-                      structured_formatting: { main_text: `${place.address_components[1].long_name}, ${place.address_components[0].long_name}`, secondary_text: i18n.address_input.location }}})
+        let lat = result.coords.latitude
+        let lng = result.coords.longitude
 
-            // component.input.setCustomValidity('')
-          } else {
-            alert(status)
-          }
-        })
+        component.props.getAddressInfo([lat, lng], this.setAddressData)
         // e.target.classList.remove('running')
       },
         (error) => {
@@ -268,9 +262,6 @@ export default class NewDesign extends Component {
 
     this.addShakeListener()
 
-    const yandex_api_lang = YANDEX_LANG[this.props.language]
-
-    this.includeScript(`https://api-maps.yandex.ru/2.1/?apikey=${YANDEX_API_KEY}&lang=${yandex_api_lang}`)
     setTimeout(this.sendRequestForUnpaidTrips, 3000)
   }
 
@@ -671,6 +662,7 @@ export default class NewDesign extends Component {
             picker={this.state.picker}
             setAddress={this.setAddress}
             zoom={this.state.zoom}
+            getAddressInfo={this.props.getAddressInfo}
             ref={(el) => this.previewMapRef = el}/>
           <div class='wrapper'>
             { [CONFIRM_UPDATE_TRIP, CANCELED, CANCELED_BY_DRIVER, undefined, null].includes(trip.status) && this.renderFields(trip, isValid, cards) }

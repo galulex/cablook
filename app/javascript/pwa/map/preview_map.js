@@ -140,15 +140,6 @@ export default class PreviewMap extends Component {
     }})
   }
 
-  includeScript = (url) => {
-    const script = document.createElement('script')
-
-    script.src = url
-    script.async = true
-
-    document.body.appendChild(script)
-  }
-
   bearing = (start, end) => {
     let y = Math.sin(end[0] - start[0]) * Math.cos(end[1]);
     let x = Math.cos(start[1]) * Math.sin(end[1]) -
@@ -225,24 +216,18 @@ export default class PreviewMap extends Component {
     timeout = null
   }
 
+  setAddressData = (addressData) => {
+    const waypoint = Object.values(this.map.getCenter()).reverse().toString()
+    this.props.setAddress(`${addressData.addressInfo[0]}${addressData.addressInfo[1]}`, waypoint, this.state.index)
+  }
+
   geocode = () => {
     const { lng, lat } = this.map.getCenter();
-    const latlng = {lat, lng};
-    const waypoint = Object.values(this.map.getCenter()).reverse().toString()
+    let component = this
 
     if (this.state.point.lat !== lat && this.state.point.lng !== lng) {
-      window.ymaps.geocode([lat, lng]).then((results, status) => {
-        if (results.geoObjects) {
-          if (results.geoObjects.get(0)) {
-            this.props.setAddress(`${results.geoObjects.get(0).properties._data.metaDataProperty.GeocoderMetaData.Address.Components[4].name}, ${results.geoObjects.get(0).properties._data.metaDataProperty.GeocoderMetaData.Address.Components[5].name}`, waypoint, this.state.index)
-          } else {
-            this.props.setAddress('No results found', waypoint, this.state.index)
-          }
-        } else {
-          console.log('Geocoder failed due to: ' + status);
-        }
-      })
       this.updatePoint([lat, lng])
+      this.props.getAddressInfo([lat, lng], component.setAddressData)
     }
   }
 
