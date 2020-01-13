@@ -158,17 +158,13 @@ svg.pin-last path {
 .option {
   display: inline-block;
   width: 100%;
-  /* scroll-snap-align: start; */
+  scroll-snap-align: start;
   padding: 0 15px;
   white-space: normal;
   vertical-align: top;
   padding-bottom: 50px;
   min-height: 200px;
   transition: opacity .3s;
-}
-
-.scroll {
-  scroll-snap-align: start;
 }
 
 .additions {
@@ -178,7 +174,7 @@ svg.pin-last path {
 }
 
 .options.noscroll .option:nth-of-type(2) {
-  display: none;
+  /* display: none; */
 }
 
 .options::-webkit-scrollbar { display: none; }

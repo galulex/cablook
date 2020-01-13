@@ -45,8 +45,7 @@ export default class NewDesign extends Component {
       bonus: null,
       currentLocation: null,
       inputDisabled: false,
-      paymentButtonDisabled: false,
-      scroll: true
+      paymentButtonDisabled: false
     }
   }
 
@@ -167,8 +166,7 @@ export default class NewDesign extends Component {
   }
 
   create = (e) => {
-    const { trip, card_id, comment, entrance } = this.state;
-    let params = { ...trip, status: PENDING, card_id: card_id }
+    let params = { ...this.state.trip, status: PENDING, card_id: this.state.card_id }
     if (this.state.bonus === 'true') params.bonus = this.state.bonus
     this.sendRequest(params)
   }
@@ -547,10 +545,6 @@ export default class NewDesign extends Component {
     this.setState({showWidget: true})
   }
 
-  scrollChange = (value) => {
-    this.setState({scroll: value})
-  }
-
   renderFields(trip, isValid, cards) {
 
     return(
@@ -561,7 +555,7 @@ export default class NewDesign extends Component {
         <button class='trigger back' onClick={ () => this.scroll(1000) }>
           <Arrows width='50'/>
         </button>
-        <div class={this.state.scroll ? 'option scroll' : 'option'}>
+        <div class='option'>
           { trip.stops.map((e, i) => {
             return (
               <AddressInput setAddress={this.setAddress}
@@ -575,7 +569,6 @@ export default class NewDesign extends Component {
                             fieldsCount={trip.stops.length}
                             pickAddress={this.pickAddress}
                             currentLocation={this.state.currentLocation}
-                            scrollChange={this.scrollChange}
                             inputDisabled={this.state.inputDisabled}/>
             )
           })}
@@ -585,7 +578,7 @@ export default class NewDesign extends Component {
             </button>
           </div>
         </div>
-        <div class={this.state.scroll ? 'option scroll' : 'option'}>
+        <div class='option'>
           <div class='additions'>
             <label for='no_call' class='nocall'>
               <input id='no_call' type='checkbox' checked={trip.no_call} onChange={this.setField}/>
