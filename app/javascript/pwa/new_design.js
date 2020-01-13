@@ -40,7 +40,6 @@ export default class NewDesign extends Component {
       driver: null,
       picker: null,
       cards: this.props.cards(),
-      card_id: null,
       showWidget: false,
       bonus: null,
       currentLocation: null,
@@ -166,7 +165,8 @@ export default class NewDesign extends Component {
   }
 
   create = (e) => {
-    let params = { ...this.state.trip, status: PENDING, card_id: this.state.card_id }
+    const { trip, comment, entrance } = this.state;
+    let params = { ...trip, status: PENDING }
     if (this.state.bonus === 'true') params.bonus = this.state.bonus
     this.sendRequest(params)
   }
@@ -428,9 +428,8 @@ export default class NewDesign extends Component {
   }
 
   confirmUpdate = (e) => {
-    const { card_id } = this.state
-    let params = { ...this.state.trip, card_id: card_id, osrm: true }
-    this.props.selectCard(card_id)
+    let params = { ...this.state.trip, osrm: true }
+    this.props.selectCard(this.state.trip.card_id)
     this.sendRequest(params)
   }
 
@@ -451,7 +450,14 @@ export default class NewDesign extends Component {
   }
 
   setField = (e) => {
-    this.state.trip[e.target.id] = (e.target.id !== 'no_call') ? e.target.value : e.target.checked
+    if (e.target.id == 'card_id') {
+      if (this.state.trip && ![CONFIRM_UPDATE_TRIP].includes(this.state.trip.status)) {
+        this.props.selectCard(parseInt(e.target.value))
+      }
+      this.state.trip[e.target.id] = parseInt(e.target.value)
+    } else {
+      this.state.trip[e.target.id] = (e.target.id !== 'no_call') ? e.target.value : e.target.checked
+    }
     this.setState(this.state);
   }
 
@@ -546,13 +552,6 @@ export default class NewDesign extends Component {
     this.setState({showWidget: true})
   }
 
-  selectCard = (event) => {
-    if (this.state.trip && ![CONFIRM_UPDATE_TRIP].includes(this.state.trip.status)) {
-      this.props.selectCard(parseInt(event.target.value))
-    }
-    this.setState({card_id: parseInt(event.target.value)})
-  }
-
   renderFields(trip, isValid, cards) {
 
     return(
@@ -609,7 +608,7 @@ export default class NewDesign extends Component {
             </label>{' '}
             <label class='select' for='card'>
               <Card width='24'/>
-              <select id='card' onChange={(e) => this.selectCard(e)}>
+              <select id='card_id' onChange={this.setField}>
                 {cards.map(card => <option selected={ this.props.card_id == card.id } value={card.id}>{card.pan}</option>)}
               </select>
             </label>
