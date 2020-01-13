@@ -46,7 +46,7 @@ describe Events::Trips::Accept do
       let(:driver) { create(:driver, car_id: car.id) }
       let(:trip) { create(:trip, user_id: user.id, car_id: car.id) }
 
-      before { allow_any_instance_of(Directions).to receive(:duration).and_return(300) }
+      before { allow_any_instance_of(OsrmDirections).to receive(:duration).and_return(300) }
 
       context 'when free driver accept trip' do
         it { is_expected.to change { trip.reload.start_at.to_s }.to(7.minutes.since.to_s) }
