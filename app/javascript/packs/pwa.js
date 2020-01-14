@@ -292,12 +292,22 @@ export default class App extends Component {
     if (!e.target.classList.contains('nav-wrapper') && !e.target.classList.contains('burger')) this.triggerDrawer(false)
   }
 
+  scrollEnd = (e) => {
+    let target = e.target
+    clearTimeout(window.scrollTimeout)
+    window.scrollTimeout = setTimeout(() => {
+      if (target.scrollLeft == 0 || target.scrollLeft == target.offsetWidth) return
+      let x = (target.scrollLeft > 0 && target.scrollLeft < target.offsetWidth / 2) ? 0 : target.offsetWidth
+      target.scrollTo({left: x})
+    }, 300)
+  }
+
   render() {
     const { currentTrip } = this.state;
 
     if (this.state.currentUser) {
       return(
-        <main id="app" onClick={this.closeDrawer} ref={main => this.main = main}>
+        <main id="app" onClick={this.closeDrawer} ref={main => this.main = main} onScroll={this.scrollEnd}>
           <button class='burger' onClick={() => this.triggerDrawer(true)}><Burger/></button>
           <Drawer triggerDrawer={this.triggerDrawer} logOut={this.logOut} />
           <Router history={window.ios ? createMemoryHistory() : null} onChange={() => this.triggerDrawer(false)}>
@@ -313,6 +323,7 @@ export default class App extends Component {
               setActivateFeedback={this.setActivateFeedback}
               lastTripId={this.state.lastTripId}
               getAddressInfo={this.getAddressInfo}
+              scrollEnd={this.scrollEnd}
             />
             <Trips path='/trips/:id?'
               setCurrentTrip={this.setCurrentTrip}

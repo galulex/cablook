@@ -548,7 +548,7 @@ export default class NewDesign extends Component {
   renderFields(trip, isValid, cards) {
 
     return(
-      <div id='fields' class='options' ref={fields => this.fields = fields}>
+      <div id='fields' class='options' ref={fields => this.fields = fields} onScroll={this.props.scrollEnd}>
         <button class='trigger' onClick={ () => this.scroll(1) }>
           <Arrows width='50'/>
         </button>
