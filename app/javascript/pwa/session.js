@@ -71,8 +71,8 @@ export default class Session extends Component {
                  value={code} autocomplete='off' autoFocus
                  onInput={this.updateCode} ref={input => this.codeInput = input}/>
         </div>
-        <button class='button change' disabled={disabled} type='button' onClick={this.resetNumber}>{i18n.session.change}</button>
         <button class='button' type='submit' disabled={disabled}>{i18n.session.code_button}</button>
+        <button class='button change' disabled={disabled} type='button' onClick={this.resetNumber}>{i18n.session.change}</button>
         <button class='button resend' disabled={disabled} onClick={this.resendCode} type='button'>{i18n.session.resend_code}</button>
       </form>
     )
@@ -151,7 +151,7 @@ export default class Session extends Component {
   sendRequest = (verification_token) => {
     const { number } = this.state
 
-    let params = { phone_number: number, firebase: true, auth_token: verification_token }
+    let params = { phone_number: number, auth_token: verification_token }
     let platform = localStorage.getItem('device')
     let token  = localStorage.getItem('fcm_token')
 

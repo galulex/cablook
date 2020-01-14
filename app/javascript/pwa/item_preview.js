@@ -50,6 +50,7 @@ export default class ItemPreview extends Component {
       item_price,
       category,
       total_price: item_price * qty,
+      category,
       item_name: item.name
     }
     cart.vendor = vendor.name

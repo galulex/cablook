@@ -18,6 +18,7 @@
   position: absolute;
   top: 0;
   left: 0;
+  z-index: 1;
 }
 
 .cart .order-price {
@@ -40,14 +41,6 @@
   font-size: 16px;
 }
 
-.cart .prices svg {
-  width: 20px;
-  height: 20px;
-  margin-right: 5px;
-  fill: #19a160;
-  fill: var(--green)
-}
-
 .cart .prices b {
   font-weight: 500;
 }
@@ -63,8 +56,4 @@
 
 .cart .align-middle {
   vertical-align: middle;
-}
-
-.cart form {
-  margin-top: 3rem;
 }

@@ -85,22 +85,14 @@ export default class MapPicker extends Component {
     this.map.remove()
   }
 
+  setAddressData = (addressData) => {
+    this.setState({ address_bar: true, address: `${addressData.addressInfo[0]}${addressData.addressInfo[1]}` });
+  }
+
   showAddressBar = () => {
     const { lng, lat } = this.map.getCenter();
 
-    const latlng = {lat, lng};
-    const geocoder = new google.maps.Geocoder();
-    geocoder.geocode({'location': latlng}, (results, status) => {
-      if (status === 'OK') {
-        if (results[0]) {
-          this.setState({ address_bar: true, address: `${results[0].address_components[1].long_name}, ${results[0].address_components[0].long_name}` });
-        } else {
-          this.setState({ address: 'No results found' });
-        }
-      } else {
-        window.alert('Geocoder failed due to: ' + status);
-      }
-    });
+    this.props.getAddressInfo([lat, lng], this.setAddressData)
   }
 
   hideAddressBar = () => {

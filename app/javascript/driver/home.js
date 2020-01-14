@@ -4,8 +4,8 @@ import axios from 'axios';
 import i18n from '../pwa/i18n.js'
 import Map from '../mapbox/map.js'
 
-const ActionCable = require('actioncable')
-const cable = ActionCable.createConsumer()
+import { createConsumer } from '@rails/actioncable';
+const cable = createConsumer()
 
 export default class Home extends Component {
   constructor(props) {

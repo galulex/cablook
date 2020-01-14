@@ -2,6 +2,10 @@ svg.star {
   width: 50px;
 }
 
+.tip svg {
+  margin: 0 !important;
+}
+
 label.star:before {
   content: '★';
   font-size: 40px;
@@ -70,6 +74,12 @@ section.feedback {
   padding: 70px 30px 0;
 }
 
+@media screen and (max-width: 325px) {
+  section.feedback {
+    padding: 20px 30px 0;
+  }
+}
+
 section.feedback .star-container {
   display: flex;
   justify-content: center;
@@ -78,6 +88,7 @@ section.feedback .star-container {
 section.feedback svg.driver {
   all: unset;
   max-width: 300px;
+  max-height: 30vh;
   margin: 0 25%;
 }
 
@@ -127,3 +138,26 @@ section.feedback .tips-container label.tip:nth-of-type(1) {
   border-left: 2px solid var(--orange);
 }
 
+.trip-details-section {
+  margin-left: 50%;
+  position: fixed;
+  transform: translateX(-50%);
+}
+
+.find_driver {
+  background: linear-gradient(to left, var(--green), #312d50);
+}
+
+.trip-details .find_driver header {
+  top: -50px;
+}
+
+.new_design .find_driver {
+  position: fixed;
+  z-index: 10000;
+  max-width: 100%;
+  left: 0;
+  right: 0;
+  top: 0;
+  margin-top: 0;
+}

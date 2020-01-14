@@ -11,6 +11,12 @@ import Widget from './widget.js'
 import Loader from './loader.js'
 import Wheel from './images/wheel.svg'
 import Dollar from './images/dollar.svg'
+import Entrance from './images/entrance.svg'
+import Card from './images/credit-cards-payment.svg'
+import Comment from './images/contacts.svg'
+import UAH from './images/ukraine-hryvna.svg'
+
+const ENTRANCES = Array.from({length: 15}, (v, k) => (k+1))
 
 export default class Cart extends Component {
   constructor(props) {
@@ -28,6 +34,8 @@ export default class Cart extends Component {
       entrance_list: Array.from({length: 15}, (v, k) => (k+1)),
       trip_cost: null,
       trip_time: '',
+      trip_comment: '',
+      comment: '',
       cards: this.props.cards(),
       card_id: null,
       showWidget: false,
@@ -86,10 +94,12 @@ export default class Cart extends Component {
   }
 
   goDeliveryTrip = (e) => {
-    const { departure, destination, departure_address, destination_address, entrance } = this.state
+    const { departure, destination, departure_address, destination_address, entrance, trip_comment } = this.state
     const cart = JSON.parse(localStorage.cart)
     const phone_number = cart.vendor_phone_number
     const vendor = cart.vendor
+    const comment_text = this.state.trip_comment.length < 1 ? '' : `Коментар користувача: ${this.state.trip_comment}`
+    const comment = `Доставка їжі з закладу: ${vendor}. Номер телефону закладу: ${phone_number}. ${comment_text}`
     const params = {
       waypoints: [],
       stops: [],
@@ -100,8 +110,10 @@ export default class Cart extends Component {
       destination_address: destination_address,
       no_call: false,
       osrm: true,
-      comment: `Доставка їжі з закладу: ${vendor}. Номер телефону закладу: ${phone_number}`
+      comment
     }
+    this.setState({comment})
+
 
     axios.post('trips/new', {trip: params}).then((res) => {
       let trip = res.data
@@ -111,6 +123,10 @@ export default class Cart extends Component {
     }).catch((error) => {
       if (error.response) alert(error.response.data.errors)
     })
+  }
+
+  setComment = (e) => {
+    this.setState({trip_comment: e.target.value})
   }
 
   updateTripTime = (e) => {
@@ -157,6 +173,7 @@ export default class Cart extends Component {
   }
 
   createTrip = (order_id) => {
+    let comment_text = this.state.trip_comment.length < 1 ? '' : `Коментар користувача: ${this.state.trip_comment}`
     let params = JSON.parse(localStorage.getItem('delivery_trip'))
     params.departure = params.departure.join(',')
     params.destination = params.destination.join(',')
@@ -164,6 +181,7 @@ export default class Cart extends Component {
     params.order_id = order_id
     params.time = this.state.trip_time
     params.entrance = this.state.entrance
+    params.comment = `${this.state.comment} ${comment_text}`
     this.sendTripRequest(params)
   }
 
@@ -265,75 +283,90 @@ export default class Cart extends Component {
     const { total_price, trip_cost, cards, card_id, showWidget, showLoader, vendor_closed } = this.state
 
     return (
-      <section class='cart'>
-        {showLoader && <Loader/>}
+      <div>
         <button type='button' class='burger' onClick={(event) => window.ios ? this.handleBack() : window.history.back()}><Back fill='#132d50'/></button>
-        <header>
-          {i18n.cart.header}
-        </header>
-        { items ? ([
-          Object.keys(items).map((item, index) => {
-            return(
-              <CartItem key={index} id={item} item={items[item]} vendor={vendor} calculateTotalPrice={this.calculateTotalPrice}/>
-            )
-          }),
-          <div class='order-price'>
-            <b>{i18n.cart.order_price}</b>
-            <b class='price'>{total_price} {i18n.cart.uah}</b>
-          </div>,
-          !vendor_closed &&
-            (cards.length > 0) &&
-              <div class='select-section'>
-                <label for='card'>{i18n.confirm_trip.card}</label>
-                <div class='select'>
-                  <select id='card' onChange={(e) => this.selectCard(e)}>
-                    {cards.map((el) => this.renderCard(el))}
-                  </select>
-                </div>
-              </div>,
-          !vendor_closed &&
+        <header>{i18n.cart.header}</header>
+        <section class='cart'>
+          {showLoader && <Loader/>}
+          { items ? ([
+            Object.keys(items).map((item, index) => {
+              return(
+                <CartItem key={index} id={item} item={items[item]} vendor={vendor} calculateTotalPrice={this.calculateTotalPrice}/>
+              )
+            }),
+            <div class='order-price'>
+              <b>{i18n.cart.order_price}</b>
+              <b class='price'>{total_price}</b>
+              <UAH fill='#19a160' height='16px' width='16px'/>
+            </div>,
+            <br/>,
+            !vendor_closed &&
             (cards.length < 1) &&
-              <button class='button' type='button' disabled={showWidget} onClick={() => this.setState({showWidget: true}) }>+ {i18n.cards.add}</button>,
-          !vendor_closed &&
+            <button class='button' type='button' disabled={showWidget} onClick={() => this.setState({showWidget: true}) }>+ {i18n.cards.add}</button>,
+            !vendor_closed &&
             <form action='#' onSubmit={(e) => e.preventDefault()}>
               <AddressInput
-                  setAddress={this.setAddress}
-                  placeholder={i18n.cart.where}
-                  favorite_addresses={() => this.props.favorite_addresses()}/>
-              <label for='entrance'>
-                <span>{i18n.cart.entrance}</span>
-                <select id='entrance' onChange={this.updateEntrance}>
-                  <option value=''>{i18n.current_trip.select_entrance}</option>
-                  {this.state.entrance_list.map((el) => {
-                    return(<option value={el}>{el} {i18n.current_trip.entrance}</option>)
-                  })}
-                </select>
-              </label>
-              <GenerateArrayTimes
+                setAddress={this.setAddress}
+                placeholder={i18n.cart.where}
+                favorite_addresses={() => this.props.favorite_addresses()}/>
+              <div class='additions'>
+                {(cards.length > 1) && <label class='select' for='card'>
+                  <Card width='24'/>
+                  <select id='card' onChange={(e) => this.selectCard(e)}>
+                    {cards.map(card => <option value={card.id}>{card.pan}</option>)}
+                  </select>
+                </label>}
+                <label for='entrance'>
+                  <Entrance height='27'/>
+                  <select id='entrance' onChange={this.updateEntrance}>
+                    <option value=''>{i18n.current_trip.select_entrance}</option>
+                    {ENTRANCES.map((el) => {
+                      return(<option value={el}>{el} {i18n.current_trip.entrance}</option>)
+                    })}
+                  </select>
+                </label>
+                <GenerateArrayTimes
                   open_at={open_at.split(':')}
                   close_at={close_at.split(':')}
                   updateTripTime={this.updateTripTime}
-                  setTripTime={this.setTripTime}/>
+                  setTripTime={this.setTripTime}
+                />
+              </div>
+              <label for='comment'>
+                <Comment width='24'/>
+                <input id='comment' type='text' class='comment' value={this.state.trip_comment} placeholder={i18n.current_trip.comment} onChange={this.setComment}/>
+              </label>
+              <br/>
               {trip_cost &&
-                <div class='prices'>
-                  <div class='mb-1'>
-                    <Wheel class='align-middle'/><span class='align-middle'><b>{i18n.cart.trip_price}</b> <b class='price'>{trip_cost} {i18n.cart.uah}</b></span>
-                  </div>
-                  <div>
-                    <Dollar class='align-middle'/><span class='align-middle'><b>{i18n.cart.total_price}</b> <b class='price'>{trip_cost + total_price} {i18n.cart.uah}</b></span>
-                  </div>
-                </div>}
-              {(cards.length !== 0) &&
-                <input type='submit' class={`button ${vendor_name_slug}`} onClick={this.createOrder} value={i18n.cart.create_order}/>}
-            </form>,
-          !vendor_closed &&
+                  <div class='prices'>
+                    <div class='mb-1'>
+                      <Wheel class='align-middle' fill='#19a160' width='20'/>{' '}
+                      <span class='align-middle'>
+                        <b>{i18n.cart.trip_price} </b>
+                        <b class='price'>{trip_cost}<UAH fill='#19a160' height='14' width='14'/></b>
+                      </span>
+                    </div>
+                    <div>
+                      <Dollar class='align-middle' fill='#19a160' height='20' width='20'/>{' '}
+                      <span class='align-middle'>
+                        <b>{i18n.cart.total_price} </b>
+                        <b class='price'>{trip_cost + total_price}<UAH fill='#19a160' height='14' width='14'/></b>
+                      </span>
+                    </div>
+                  </div>}
+                  <br/>
+                  {(cards.length !== 0) &&
+                      <input type='submit' class={`button ${vendor_name_slug}`} onClick={this.createOrder} value={i18n.cart.create_order}/>}
+                    </form>,
+            !vendor_closed &&
             showWidget && <Widget createCard={this.createCard} showWidget={() => this.setState({showWidget: false}) }/>,
-          vendor_closed &&
+            vendor_closed &&
             <p>{i18n.cart.vendor_closed}</p>]
-        ) : (
-          <p>{i18n.cart.empty_cart}</p>
-        )}
-      </section>
+          ) : (
+            <p>{i18n.cart.empty_cart}</p>
+          )}
+        </section>
+      </div>
     )
   }
 }

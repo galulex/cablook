@@ -7,16 +7,16 @@ input.address {
   display: block;
   width: 90%;
   border: none;
-  border-bottom: 1px solid #d1d1d1;
   background: transparent;
-  padding: 4% 25px 4% 10px;
+  padding: 10px 25px 10px 10px;
   font-size: 18px;
   color: #312d50;
   color: var(--navy);
-  font-weight: 900;
+  font-weight: 100;
   margin: 0 3% 0 7%;
   border-radius: 0;
   box-shadow: none;
+  transition: color .3s;
 }
 
 input.address:invalid {
@@ -27,7 +27,7 @@ input.address:focus {
   outline: none;
 }
 
-input.address:focus + ul {
+input.address:focus + ul, input.address.focus + ul {
   visibility: visible;
   opacity: 1;
   transition: opacity .3s, visibility 0s 0s;
@@ -38,50 +38,7 @@ fieldset {
   margin: 0;
   padding: 0;
   position: relative;
-}
-
-fieldset.address:after {
-  position: absolute;
-  content: '';
-  border-radius: 50%;
-  width: 0;
-  height: 0;
-  border: 6px solid #efcc3a;
-  top: calc(50% - 6px);
-  left: 0;
-  transition: border-color .3s;
-}
-
-fieldset.address:before {
-  content: '';
-  height: 77%;
-  width: 0;
-  top: calc(50% + 5px);
-  border: 1px solid #d1d1d1;
-  left: 5px;
-  position: absolute;
-}
-
-fieldset.address:first-child:before {
-  height: 60%;
-  top: 76%;
-}
-
-fieldset.address:first-of-type:after {
-  content: none;
-}
-
-fieldset.address:last-of-type:after {
-  border-color: #312d50;
-  border-color: var(--navy);
-}
-
-fieldset.address:last-of-type:before {
-  height: 50%;
-}
-
-fieldset.address:nth-of-type(7):before {
-  content: none;
+  transition: opacity .3s;
 }
 
 fieldset.address:nth-of-type(7) + div {
@@ -133,6 +90,11 @@ li.prediction svg {
   height: 20px;
 }
 
+li.current_location svg {
+  width: 34px;
+  height: 34px;
+}
+
 li.prediction:hover {
   background: rgba(0,0,0,0.2);
 }
@@ -161,23 +123,30 @@ svg.running {
 }
 
 button.add-address {
-  background: none;
-  font-size: 18px;
-  font-weight: 500;
-  color: #312d50;
-  color: var(--navy);
+  background: transparent;
   border: none;
-  margin: 5px 0;
-  padding: 7px 32px;
+  padding: 0;
   outline: none;
   cursor: pointer;
+  line-height: 0;
+  position: absolute;
+  top: -5px;
+  left: 20px;
+  height: 40px;
+  padding: 0;
+  transition: opacity .3s;
+}
+
+button.add-address svg > path:first-child {
+  fill: rgba(255, 255, 255, 0.9);
+  fill: var(--bg);
 }
 
 button.remove-address {
   position: absolute;
   right: -15px;
   font-size: 2rem;
-  top: 50%;
+  top: 53%;
   transform: translateY(-50%);
   background: none;
   border: none;
@@ -186,6 +155,7 @@ button.remove-address {
   margin: 0;
   outline: none;
   cursor: pointer;
+  transition: opacity .3s;
 }
 
 input[type='checkbox'] {
@@ -237,6 +207,20 @@ input[type='checkbox']:checked + label:before {
   z-index: 1;
 }
 
+.profile .nocall label {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.profile .lang label {
+  display: inline-block;
+}
+
+.profile .nocall input {
+  left: 1px;
+}
+
 input[type='checkbox'] + label:before {
   content: '';
   width: 0px;
@@ -257,10 +241,7 @@ svg.map-pick {
   cursor: pointer;
 }
 
-select#entrance, input#time {
-  padding: 5px 20px 5px 5px;
-  width: 150px;
-  max-width: 50%;
+select#entrance, input#time, .select select, select#select_time {
   color: #312d50;
   color: var(--navy);
   font-size: 16px;
@@ -269,18 +250,23 @@ select#entrance, input#time {
   transition: box-shadow .3s;
   box-shadow: 0 3px 6px rgba(0,0,0,0.16);
   box-shadow: var(--shadow);
-  margin: 15px 0;
+  margin: 5px 0;
   height: 40px;
   border-radius: 0;
-  border: 2px solid #19a160;
-  border: 2px solid var(--green);
+  border: none;
+  background: rgba(255, 255, 255, 0.9);
+  background: var(--bg);
+  padding: 13px 5px 10px 45px;
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
+  width: 140px;
+  font-weight: 100;
+  text-align: right;
 }
 
 label[for='entrance']:after, label[for='time']:after {
-  content: '▼';
+  /* content: '▼'; */
   color: #19a160;
   color: var(--green);
   right: 10px;
@@ -292,11 +278,12 @@ label[for='entrance']:after, label[for='time']:after {
 
 .time-placeholder {
   color: var(--navy);
-  right: 30px;
+  left: 45px;
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
   pointer-events: none;
+  font-weight: 100;
 }
 
 input[type='time']:valid::-webkit-datetime-edit {
@@ -330,9 +317,19 @@ select#entrance:focus, input#time:focus, input.comment:focus {
 }
 
 label[for='entrance'], label[for='time'] {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  text-align: right;
+}
+
+.option label svg, .additions label svg, label[for='comment'] svg, .select svg {
+  position: absolute;
+  top: 50%;
+  left: 10px;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+label[for='comment'] {
+  display: block;
 }
 
 input.comment {
@@ -341,12 +338,14 @@ input.comment {
   color: #312d50;
   color: var(--navy);
   width: 100%;
-  margin: 15px 0;
-  padding: 10px;
-  border: 2px solid #19a160;
-  border: 2px solid var(--green);
+  margin: 5px 0;
+  padding: 10px 10px 10px 45px;
+  background: rgba(255, 255, 255, 0.9);
+  background: var(--bg);
+  border: none;
   font-size: 16px;
   outline: none;
+  font-weight: 100;
   transition: box-shadow .3s;
   box-shadow: 0 3px 6px rgba(0,0,0,0.16);
   box-shadow: var(--shadow);

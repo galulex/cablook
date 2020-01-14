@@ -1,6 +1,7 @@
 //Apply dark theme
 window.dark = localStorage.getItem('dark') === 'true'
 window.ios = ['iPhone', 'iPad', 'iPod'].includes(navigator.platform)
+window.geolocate = () => {}
 if (window.dark) {
   document.documentElement.style.setProperty('--white', 'black');
   document.documentElement.style.setProperty('--navy', 'white');
@@ -10,22 +11,26 @@ if (window.dark) {
   document.documentElement.style.setProperty('--placeholder', 'rgba(255, 255, 255, 0.5)');
   document.documentElement.style.setProperty('--shadow', '0 3px 6px rgba(255,255,255,0.2)');
   document.documentElement.style.setProperty('--focus-shadow', '0 3px 6px rgba(255,255,255,0.2), 0 3px 6px rgba(255,255,255,255.23)');
+  document.documentElement.style.setProperty('--bg', 'rgba(0,0,0,0.9)');
+  document.documentElement.style.setProperty('--controls', '#19A160');
 }
+
 import '../pwa/android_polyfills.js';
+import smoothscroll from 'smoothscroll-polyfill';
+smoothscroll.polyfill();
 
 import { h, render, Component } from 'preact';
 import { Router } from 'preact-router';
 import { createMemoryHistory } from 'history';
 
 import i18n from '../pwa/i18n.js'
-import Home from '../pwa/home.js';
+import NewDesign from '../pwa/new_design.js';
 import Session from '../pwa/session.js';
 import Cards from '../pwa/cards.js';
 import Bonus from '../pwa/bonus_trips.js';
 import Contacts from '../pwa/contacts.js';
 import Trips from '../pwa/trips.js';
 import Drawer from '../pwa/drawer.js';
-import FindDriver from '../pwa/find_driver.js';
 import Prompt from '../pwa/prompt.js';
 import Statistics from '../pwa/statistics.js';
 import Profile from '../pwa/profile.js';
@@ -37,13 +42,18 @@ import Vendor from '../pwa/vendor.js';
 import Cart from '../pwa/cart.js';
 import NotFound from '../pwa/not_found.js';
 
+import { PENDING, ON_THE_WAY, WAITING_CLIENT, DRIVING, FINISHED, CANCELED, DECLINED, CANCELED_BY_DRIVER, CONFIRM_UPDATE_TRIP, MAP_MIN_ZOOM, MAP_MAX_ZOOM, CHERKASY_LONG_LAT } from '../pwa/lib/constants.js'
+
 import '../pwa/css/buttons.css';
-import '../pwa/inobounce.js';
 
 import axios from 'axios';
+import ymaps from 'ymaps'
 axios.defaults.baseURL = '/api';
 axios.defaults.headers.common['Auth-Token'] = localStorage.token;
 axios.defaults.headers.common['Content-Type'] = 'application/json';
+
+const YANDEX_API_KEY = '9bbf546a-a5ca-44e1-abb2-8785a76fcbb4'
+const YANDEX_LANG = {en: 'en-US', uk: 'uk_UA', ru: 'ru_RU'}
 
 export default class App extends Component {
 
@@ -52,19 +62,21 @@ export default class App extends Component {
     this.state = {
       currentUser: localStorage.token,
       currentUserID: '',
-      drawer: false,
       cards: [],
       bonus_trips: [],
       parent_bonus: [],
       language: localStorage.getItem('language') || i18n.getInterfaceLanguage().split('-')[0],
       favorite_addresses: [],
       notification_settings: [],
+      activateFeedback: false,
+      lastTripId: null,
       currentTrip: null
     }
     axios.defaults.headers.common['Pwa-Language'] = this.state.language
   }
 
   componentDidMount() {
+    this.loadTrips()
     i18n.setLanguage(this.state.language)
     this.loadScript()
     if (window.ios) this.focusOutForIos()
@@ -80,8 +92,23 @@ export default class App extends Component {
     if (!navigator.onLine) this.offline()
   }
 
+  loadTrips = () => {
+    axios.get(`trips?page=0&per=1`).then((res) => {
+      this.setState({ activateFeedback: res.data.trips[0].feedbacks[0] == undefined && [FINISHED].includes(res.data.trips[0].status) })
+      this.setState({ lastTripId: res.data.trips[0].id })
+    }).catch((error) => {
+      if (error.response) alert(error.response.data.errors)
+    });
+  };
+
+  setActivateFeedback = () => {
+    this.setState({activateFeedback: false})
+  }
+
   onVisibilityChange = () => {
+    document.documentElement.style.setProperty('--car-transition', '0s')
     if (document.visibilityState !== 'visible') return;
+    this.fetchUser()
     navigator.onLine ? this.online() : this.offline()
   }
 
@@ -134,6 +161,14 @@ export default class App extends Component {
     document.body.className = ''
   }
 
+  setCurrentTrip = (trip) => {
+    if (!this.state.currentTrip || ![PENDING, ON_THE_WAY, WAITING_CLIENT, DRIVING, CONFIRM_UPDATE_TRIP].includes(this.state.currentTrip.status)) {
+      this.setState({currentTrip:trip})
+    } else {
+      return
+    }
+  }
+
   fetchUser = () => {
     axios.get('user').then((res) => {
       this.setState({cards: res.data.cards,
@@ -142,11 +177,11 @@ export default class App extends Component {
         bonus_trips: res.data.bonus_trips,
         parent_bonus: res.data.parent_bonus || [],
         currentUserID: res.data.id,
-        currentTrip: res.data.current_trip
+        currentTrip: JSON.parse(res.data.current_trip)
       })
     }).catch((error) => {
       if (error.response) alert(error.response.data.errors)
-      this.removeData()
+      // this.removeData()
     })
   }
 
@@ -167,28 +202,24 @@ export default class App extends Component {
 
   removeData = () => {
     firebaseAuth().signOut()
-    this.setState({currentUser: null, drawer: false})
-    localStorage.removeItem('email')
-    localStorage.removeItem('token')
-    localStorage.removeItem('trip')
-    localStorage.removeItem('cart')
-    localStorage.removeItem('delivery_trip')
+    this.setState({currentUser: null})
+    localStorage.clear()
   }
 
-  triggerDrawer = (open) => {
-    this.setState({drawer: open})
+  triggerDrawer = (open = true) => {
+    this.main && this.main.scrollTo({left: (open) ? 0 : 300, behavior: 'smooth'})
   }
 
   updateCards = (cards) => {
-    this.setState({cards: cards, drawer: false})
+    this.setState({cards: cards})
   }
 
   updateFavoriteAddresses = (favorite_addresses) => {
-    this.setState({favorite_addresses: favorite_addresses, drawer: false})
+    this.setState({favorite_addresses: favorite_addresses})
   }
 
   updateNotificationSettings = (notification_settings) => {
-    this.setState({notification_settings, drawer: false})
+    this.setState({notification_settings})
   }
 
   createCard = (data) => {
@@ -202,8 +233,41 @@ export default class App extends Component {
     })
   }
 
+  getAddressInfo = (latlng, setAddress) => {
+    if (!window.ymaps) {
+      const yandex_api_lang = YANDEX_LANG[this.state.language]
+      ymaps.load(`https://api-maps.yandex.ru/2.1/?apikey=${YANDEX_API_KEY}&lang=${yandex_api_lang}`).then(maps => {
+        maps.geocode([latlng[0], latlng[1]]).then((results, status) => {
+          this.setAddressInfo(results, status, setAddress)
+        })
+      })
+    } else {
+      window.ymaps.geocode([latlng[0], latlng[1]]).then((results, status) => {
+        this.setAddressInfo(results, status, setAddress)
+      })
+    }
+  }
+
+  setAddressInfo = (results, status, setAddress) => {
+    let addressInfo = []
+    let place = null
+    if (results.geoObjects) {
+      place = results.geoObjects.get(0)
+      if (place) {
+        addressInfo[0] = place.properties._data.metaDataProperty.GeocoderMetaData.Address.Components[4].name
+        addressInfo[1] = place.properties._data.metaDataProperty.GeocoderMetaData.Address.Components[5] ? `, ${place.properties._data.metaDataProperty.GeocoderMetaData.Address.Components[5].name}` : ''
+      } else {
+        addressInfo[0] = i18n.address_input.no_results
+        addressInfo[1] = ''
+      }
+      setAddress({addressInfo, place})
+    } else {
+      window.alert('Geocoder failed due to: ' + status);
+    }
+  }
+
   setLanguage = (e) => {
-    this.setState({language: e.target.value, drawer: false})
+    this.setState({language: e.target.value})
     localStorage.setItem('language', e.target.value)
     i18n.setLanguage(this.state.language)
     this.setScriptLanguage()
@@ -219,9 +283,24 @@ export default class App extends Component {
     if (document.getElementById('google-script') === null) {
       let script = document.createElement('script');
       script.setAttribute('id', 'google-script');
-      script.setAttribute('src', `https://maps.googleapis.com/maps/api/js?key=AIzaSyDg2-aLroQJWY8LV8x1Gv5ZYDhIArWCDeU&libraries=places&language=${this.props.language}`);
+      script.setAttribute('src', `https://maps.googleapis.com/maps/api/js?key=AIzaSyDg2-aLroQJWY8LV8x1Gv5ZYDhIArWCDeU&libraries=places&language=${this.props.language}&callback=window.geolocate`);
       document.body.appendChild(script);
     }
+  }
+
+  closeDrawer = (e) => {
+    if (!e.target.classList.contains('nav-wrapper') && !e.target.classList.contains('burger')) this.triggerDrawer(false)
+  }
+
+  scrollEnd = (e) => {
+    if (window.ios) return
+    let target = e.target
+    clearTimeout(window.scrollTimeout)
+    window.scrollTimeout = setTimeout(() => {
+      if (target.scrollLeft == 0 || target.scrollLeft == target.offsetWidth || target.scrollLeft == 300) return
+      let x = (target.scrollLeft > 0 && target.scrollLeft < target.offsetWidth / 2) ? 0 : target.offsetWidth
+      target.scrollTo({left: x})
+    }, 300)
   }
 
   render() {
@@ -229,20 +308,27 @@ export default class App extends Component {
 
     if (this.state.currentUser) {
       return(
-        <main id="app">
-          <Drawer active={this.state.drawer} triggerDrawer = {this.triggerDrawer} logOut={this.logOut} />
+        <main id="app" onClick={this.closeDrawer} ref={main => this.main = main} onScroll={this.scrollEnd}>
           <button class='burger' onClick={() => this.triggerDrawer(true)}><Burger/></button>
-          <Router history={window.ios ? createMemoryHistory() : null}>
-            <Home path='/'
-              currentTrip={currentTrip}
+          <Drawer triggerDrawer={this.triggerDrawer} logOut={this.logOut} />
+          <Router history={window.ios ? createMemoryHistory() : null} onChange={() => this.triggerDrawer(false)}>
+            <NewDesign path='/'
+              trip={currentTrip}
               cards={() => this.state.cards}
               bonus_trips={() => this.state.bonus_trips}
               createCard={this.createCard}
               language={this.state.language}
               favorite_addresses={() => this.state.favorite_addresses}
               fetchUser={this.fetchUser}
+              activateFeedback={this.state.activateFeedback}
+              setActivateFeedback={this.setActivateFeedback}
+              lastTripId={this.state.lastTripId}
+              getAddressInfo={this.getAddressInfo}
+              scrollEnd={this.scrollEnd}
             />
-            <Trips path='/trips/:id?' />
+            <Trips path='/trips/:id?'
+              setCurrentTrip={this.setCurrentTrip}
+            />
             <Bonus path='/bonus_trips' bonus_trips={() => this.state.bonus_trips} parent_bonus={() => this.state.parent_bonus} />
             <Cards path='/cards' cards={() => this.state.cards} create={this.createCard} currentUserID={() => this.state.currentUserID} />
             <Contacts path='/contacts' />
@@ -256,9 +342,14 @@ export default class App extends Component {
               setLanguage = {this.setLanguage}
               bonus_trips={() => this.state.bonus_trips}
               parent_bonus={() => this.state.parent_bonus}
+              getAddressInfo={this.getAddressInfo}
             />
-            <Vendors path='/delivery'/>
-            <Vendor path='/delivery/:id' />
+            <Vendors path='/delivery'
+              setCurrentTrip={this.setCurrentTrip}
+            />
+            <Vendor path='/delivery/:id'
+              setCurrentTrip={this.setCurrentTrip}
+            />
             <NotFound type='404' default />
             <Cart path='/delivery/cart' cards={() => this.state.cards} createCard={this.createCard} favorite_addresses={() => this.state.favorite_addresses} />
           </Router>
@@ -267,7 +358,7 @@ export default class App extends Component {
       )
     } else {
       return(
-        <main id='app' class='login'>
+        <main id='app' class='login' ref={main => this.main = main}>
           <Session login = {this.logIn} />
           <Prompt />
         </main>
@@ -279,6 +370,6 @@ export default class App extends Component {
 render(<App />, document.body);
 
 document.documentElement.style.setProperty('--vh', `${window.innerHeight * 0.01}px`);
-window.addEventListener('resize', function() {
-  document.documentElement.style.setProperty('--vh', `${window.innerHeight * 0.01}px`);
-});
+// window.addEventListener('orientationchange', function() {
+  // document.documentElement.style.setProperty('--vh', `${window.innerHeight * 0.01}px`);
+// });

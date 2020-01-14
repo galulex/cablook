@@ -1,11 +1,11 @@
-section.vendor-page {
-  padding: 54px 10px;
-}
-
 .vendor-page .load-background {
   position: absolute;
   top: 0;
   left: 0;
+}
+
+.order_page .hide {
+  display: none;
 }
 
 .vendor-page a:link {
@@ -15,5 +15,5 @@ section.vendor-page {
 
 .vendor-page ul a:link {
   color: black;
-  color: black;
+  color: var(--black);
 }

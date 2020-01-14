@@ -1,4 +1,5 @@
 const en = {
+  grn: 'grn.',
   prompt: {
     add: ' Add to homescreen',
     and: ' and then ',
@@ -7,6 +8,7 @@ const en = {
   trip: {
     cancel: 'Cancel',
     canceled: 'Trip is canceled',
+    driver_search: 'Driver search',
     car_not_found: 'No cars available right now.\nDo you want to try one more time?',
     currency: 'uah',
     edit: 'Edit',
@@ -47,7 +49,7 @@ const en = {
     comment: 'Comment',
     entrance: 'Entrance',
     header: 'Search',
-    select_entrance: 'Select Entrance',
+    select_entrance: 'Entrance',
     no_call: 'No Call',
     where_to_pick: 'Where to pick?',
     when: 'When?',
@@ -55,7 +57,9 @@ const en = {
     unpaid_trips: 'You have an unpaid trips:',
     uah: 'uah',
     pay: 'Pay now',
-    add_card: 'Add card'
+    add_card: 'Add card',
+    preorder: 'Pre-order time should be more than 15 minutes from now',
+    tomorrow: 'It is pre order for tomorrow'
   },
   confirm_trip: {
     add_card: "Add a card",
@@ -99,9 +103,13 @@ const en = {
     cancel: 'Cancel',
     confirm_cancel: 'Do you want to cancel this trip?'
   },
+  retry_payment: {
+    unpaid_trips: 'You have unpaid trips. Do you want to pay for them?',
+    success: 'Payment successful'
+  },
   retry_trip: {
     retry_message: 'Car not found. Click «Retry» to try one more time.',
-    retry: 'Retry',
+    retry: 'Retry'
   },
   feedback: {
     ok: 'OK'
@@ -139,7 +147,7 @@ const en = {
   },
   contacts: {
     header: 'Contacts',
-    message: 'Phone is only for support. Order by phone are not accepted. Technical support works since 9:00 to 18:00, Mon-Fri'
+    message: 'Phone number is for support issues only. Orders by phone are not accepted. Technical support works from 9:00 to 18:00, Mon- Fri'
   },
   feedback: {
     header: 'Rate trip',
@@ -186,7 +194,7 @@ const en = {
     open: 'Open',
     close: 'Close',
     menu: 'Menu',
-    go_to: 'Go to this place',
+    go_to: 'Go here',
     accepts_orders: 'The restaurant accepts orders from',
     to: 'to',
     create_order: 'Create order'

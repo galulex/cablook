@@ -1,8 +1,4 @@
 aside {
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  left: 0;
   z-index: 1000;
   background: white;
   background: var(--white);
@@ -10,6 +6,12 @@ aside {
   overscroll-behavior-y: contain;
   -webkit-tap-highlight-color: rgba(0,0,0,0);
   -webkit-touch-callout: none;
+  width: 300px;
+  box-shadow: 0px 0px 10px 0px black;
+  flex: 0 0 auto;
+  position: relative;
+  scroll-snap-align: start;
+  direction: ltr;
 }
 
 aside:before {
@@ -133,11 +135,11 @@ aside div.nav-wrapper {
   left: 0;
   top: 0;
   z-index: 300;
-  height: 54px;
-  width: 54px;
+  height: 50px;
+  width: 51px;
   line-height: 1;
   border: none;
-  padding: 15px;
+  padding: 12px;
   font-size: 20px;
   color: #312d50;
   color: var(--navy);
@@ -150,4 +152,5 @@ aside div.nav-wrapper {
   max-height: 100%;
   margin: 0;
   fill: #312d50;
+  pointer-events: none;
 }

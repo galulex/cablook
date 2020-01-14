@@ -2,10 +2,8 @@
   "dependencies": {
     "@mapbox/mapbox-gl-language": "^0.10.0",
     "@mapbox/polyline": "^1.0.0",
+    "@rails/actioncable": "^6.0.1",
     "@rails/webpacker": "3.5",
-    "@turf/helpers": "^6.1.4",
-    "@turf/rhumb-bearing": "^6.0.1",
-    "actioncable": "^5.2.2",
     "axios": "^0.18.0",
     "babel-plugin-module-resolver": "^3.1.1",
     "babel-plugin-transform-react-jsx": "^6.24.1",
@@ -22,12 +20,14 @@
     "preact-svg-loader": "^0.2.1",
     "prop-types": "^15.6.2",
     "react-localization": "^1.0.12",
-    "shake.js": "^1.2.2"
+    "shake.js": "^1.2.2",
+    "smoothscroll-polyfill": "^0.4.4",
+    "ymaps": "^0.2.1"
   },
   "engines": {
     "node": "10.15.2"
   },
   "devDependencies": {
-    "webpack-dev-server": "3.2.1"
+    "webpack-dev-server": "^3.9"
   }
 }

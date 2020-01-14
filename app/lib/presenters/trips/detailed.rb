@@ -16,6 +16,12 @@ class Presenters::Trips::Detailed < Presenters::BaseSingle
   property :trips_count, exec_context: :decorator
   property :user_number, exec_context: :decorator
   property :car_location, exec_context: :decorator
+  property :car_position, exec_context: :decorator
+  property :card_id, exec_context: :decorator
+
+  def card_id
+    represented.payments.last&.card_id
+  end
 
   def driver_name
     represented.try(:driver_name) || represented.driver&.name
@@ -67,5 +73,9 @@ class Presenters::Trips::Detailed < Presenters::BaseSingle
 
   def car_location
     Redis.current.get("car_#{represented.car&.id}")&.split(",")&.reverse || [0, 0]
+  end
+
+  def car_position
+    Redis.current.get("position_#{represented.car&.id}")&.split(",")&.reverse || [0, 0]
   end
 end

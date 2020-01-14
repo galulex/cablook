@@ -83,13 +83,14 @@ export default class FavoriteAddresses extends Component {
     const { showing, notification_settings } = this.state;
 
     return (
-      <section class='profile'>
+      <div>
         <header>{i18n.profile_page.header}</header>
+        <section class='profile'>
           <div class='nocall'>
             <input id='dark' type='checkbox' value='dark' onChange={this.changeTheme} checked={window.dark}/>
             <label for='dark'>{i18n.profile_page.theme}</label>
           </div>
-          <div class='nocall'>
+          <div class='nocall lang'>
             <label for='language'>{i18n.profile_page.language}</label>
             <select onChange={this.props.setLanguage} id='language'>
               {Object.keys(LOCALES).map(key => {
@@ -110,7 +111,8 @@ export default class FavoriteAddresses extends Component {
           { this.favoriteAddressesList() }
           { showing ? this.newForm() : <button class='button add_fav_address' type='button' onClick={() => this.setState({ showing: !showing })}>+ {i18n.profile_page.add_address}</button> }
           <Bonus bonus_trips={this.props.bonus_trips} parent_bonus={this.props.parent_bonus}/>
-      </section>
+        </section>
+      </div>
     )
   }
 
@@ -137,7 +139,14 @@ export default class FavoriteAddresses extends Component {
     return(
       <form id="newFavoriteAddressForm" onsubmit={(e) => e.preventDefault()}>
         <input required class="address" type="text" name="name" placeholder={i18n.profile_page.type_name} value={this.state.name} onChange={this.handleChange} />
-        <AddressInput setAddress={this.setAddress} favorite_addresses={() => []} placeholder={i18n.profile_page.placeholder} />
+        <AddressInput
+          hideRemove={true}
+          setAddress={this.setAddress}
+          favorite_addresses={() => []}
+          placeholder={i18n.profile_page.placeholder}
+          getAddressInfo={this.props.getAddressInfo}
+          language={this.props.language}
+        />
         <button class="button add_fav_address" type="button" disabled={this.state.disabled} onClick={this.create}>OK</button>
         <input type="submit" onClick={this.create} hidden/>
       </form>

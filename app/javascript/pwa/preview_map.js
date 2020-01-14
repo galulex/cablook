@@ -178,4 +178,3 @@ export default class PreviewMap extends Component {
     })
   }
 }
-

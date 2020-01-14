@@ -1,0 +1,75 @@
+.car-popup.mapboxgl-popup .mapboxgl-popup-content {
+  padding: 5px;
+  font-size: 0.9rem;
+  font-weight: 100;
+  background: #19A160;
+  background: var(--green);
+  color: white;
+  color: var(--white);
+  border-radius: 10px;
+  width: 150px;
+}
+
+.car-popup.mapboxgl-popup svg {
+  fill: white;
+  fill: var(--white);
+  width: 15px;
+  height: 15px;
+  margin: 0 8px 0 10px !important;
+}
+
+.car-popup.mapboxgl-popup a {
+  color: white;
+  color: var(--white);
+  text-decoration: none;
+}
+
+.car-popup.mapboxgl-popup .mapboxgl-popup-tip {
+  border-top-color: #19A160;
+  border-top-color: var(--green);
+}
+
+.car-popup.mapboxgl-popup .mapboxgl-popup-content-line {
+  margin-bottom: 8px;
+}
+
+.mapboxgl-popup-content-line {
+  z-index: 6;
+}
+
+.car svg {
+  height: 18px  !important;
+  width: 18px  !important;
+}
+
+.car {
+  align-items: center;
+  display: flex;
+}
+
+.car span {
+  margin-bottom: -5px;
+}
+
+.popup_leaf {
+  bottom: -34px;
+  /* left: 46px; */
+  left: 50%;
+  margin-left: 20%;
+  position: absolute;
+  transform: translateX(-50%);
+  z-index: 5;
+}
+
+.popup_leaf svg {
+  height: 88px !important;
+  width: 88px !important;
+}
+
+.mapboxgl-popup-close-button {
+  color: white;
+  color: var(--white);
+  font-size: 1.2rem;
+  z-index: 10;
+  padding: 0 6px 0 6px;
+}

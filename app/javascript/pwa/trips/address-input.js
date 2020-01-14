@@ -7,6 +7,7 @@ import Pin from '../images/pin.svg'
 import MapPicker from '../mapPicker'
 import i18n from '../i18n.js'
 import Cablook  from '../images/cablook.svg'
+import Target from '../images/target.svg'
 import Location  from '../images/target.svg'
 
 export default class AddressInput extends Component {
@@ -31,8 +32,15 @@ export default class AddressInput extends Component {
     if (nextProps.address || nextProps.address === '') this.setState({address: nextProps.address})
   }
 
+  componentWillUnmount() {
+    if (window.timeout && this.props.index === 0) clearTimeout(window.timeout)
+  }
+
   favoriteAddressesPredictions = () => {
-    let fav = [];
+    let fav = []
+    if (this.props.currentLocation) {
+      fav.push(this.props.currentLocation)
+    }
     {this.props.favorite_addresses().map((el) => {
       fav.push({location: el.location,
                 address: el.address,
@@ -45,53 +53,13 @@ export default class AddressInput extends Component {
 
   renderPrediction = (prediction) => {
     return(
-      <li disabled={this.state.disabled} onClick={() => this.setLocation(prediction)} class='prediction'>
-        <Cablook width='32px'/>
+      <li disabled={this.state.disabled} onClick={() => this.setLocation(prediction)} class={prediction === this.props.currentLocation ? 'prediction current_location' : 'prediction'}>
+        {prediction === this.props.currentLocation ? <Target/> : <Cablook width='32px'/>}
         <b>{(prediction.structured_formatting) ? prediction.structured_formatting.main_text : prediction}</b>
         <br/>
         <sub>{(prediction.structured_formatting) ? prediction.structured_formatting.secondary_text : 'Cherkasy'}</sub>
       </li>
     )
-  }
-
-  getLocation = (e) => {
-    let component = this
-    if (navigator.geolocation) {
-      e.target.classList.add('running')
-      navigator.geolocation.getCurrentPosition((result) => {
-        let geocoder = new google.maps.Geocoder()
-        let location = new google.maps.LatLng(result.coords.latitude, result.coords.longitude)
-        geocoder.geocode( { 'location': location}, function(res, status) {
-          if (status == 'OK') {
-            let place = res[0]
-            component.setState({ address: `${place.address_components[1].long_name}, ${place.address_components[0].long_name}`, predictions: [], isValid: true, geocoded: true });
-            component.props.setAddress(`${place.address_components[1].long_name}, ${place.address_components[0].long_name}`, `${place.geometry.location.lat()},${place.geometry.location.lng()}`, component.props.index);
-            component.input.setCustomValidity('')
-          } else {
-            alert(status)
-          }
-        })
-        e.target.classList.remove('running')
-      },
-        (error) => {
-          e.target.classList.remove('running')
-          switch(error.code) {
-            case error.PERMISSION_DENIED :
-              alert(i18n.location.permission_denied);
-              break;
-            case error.TIMEOUT:
-              alert(i18n.location.timeout);
-              break;
-            case error.POSITION_UNAVAILABLE :
-              alert(i18n.location.position_unavailable);
-              break;
-            default:
-              alert(error.message)
-              break;
-          }
-        }
-      )
-    }
   }
 
   setLocation = (place) => {
@@ -118,22 +86,15 @@ export default class AddressInput extends Component {
     })
   }
 
+  setAddressData = (addressData) => {
+    const { addressInfo, place } = addressData
+    this.setState({ address: `${addressInfo[0]}${addressInfo[1]}`, predictions: [], isValid: true });
+    this.props.setAddress(`${addressInfo[0]}${addressInfo[1]}`, `${place.geometry._coordinates[0]},${place.geometry._coordinates[1]}`, this.props.index)
+  }
+
   setLocationFromMap = ([lng, lat]) => {
-    const latlng = {lat, lng};
-    const geocoder = new google.maps.Geocoder();
-    geocoder.geocode({'location': latlng}, (results, status) => {
-      if (status === 'OK') {
-        if (results[0]) {
-          this.setState({ address: `${results[0].address_components[1].long_name}, ${results[0].address_components[0].long_name}`, predictions: [], isValid: true });
-          this.props.setAddress(`${results[0].address_components[1].long_name}, ${results[0].address_components[0].long_name}`, `${lat},${lng}`, this.props.index);
-          this.input.setCustomValidity('')
-        } else {
-          window.alert('No results found');
-        }
-      } else {
-        window.alert('Geocoder failed due to: ' + status);
-      }
-    });
+    this.props.getAddressInfo([lat, lng], this.setAddressData)
+    this.input.setCustomValidity('')
   }
 
   autocomplete = e => {
@@ -144,6 +105,7 @@ export default class AddressInput extends Component {
     }
     this.input.setCustomValidity(i18n.choose_address)
     let hits = streets.filter(function(s) { return s.toLowerCase().indexOf(e.target.value.toLowerCase()) != -1 }).slice(0, 5)
+
     if (hits.length > 0) {
       this.setState({ predictions: hits, address: e.target.value, disabled: false });
       return false
@@ -156,7 +118,13 @@ export default class AddressInput extends Component {
     })
   }
 
-  openMap = () => {
+  openMap = (event) => {
+    if (this.props.pickAddress) {
+      event.target.classList.add('current')
+      this.props.pickAddress(this.props.index)
+      return
+    }
+
     this.setState({isShowMap: true});
     if (window.ios) return;
     history.pushState(null, null,'/');
@@ -169,18 +137,29 @@ export default class AddressInput extends Component {
   }
 
   focus = (e) => {
+    const fields = document.getElementById('fields')
+    this.input.classList.add('focus')
     if (this.state.address == '') {
       this.favoriteAddressesPredictions()
     }
-    e.target.focus()
+    // e.target.focus()
+    if (window.timeout) clearTimeout(window.timeout)
+    if (fields) {
+      fields.classList.add('noscroll')
+    }
   }
 
   blur = (e) => {
-    setTimeout(() => {
+    const fields = document.getElementById('fields')
+    this.input.classList.remove('focus')
+    window.timeout = setTimeout(() => {
       if (e.target.value === '' ||  e.target.checkValidity() || this.state.disabled || this.state.isFetching) return;
       let prediction = this.state.predictions[0]
       if (prediction) this.setLocation(prediction)
     }, 500)
+    if (fields) {
+      window.timeout = setTimeout(() => { fields.classList.remove('noscroll') }, 300)
+    }
   }
 
   handleBack = (event) => {
@@ -200,19 +179,23 @@ export default class AddressInput extends Component {
     return (this.props.index !== 0) ? i18n.address_input.where : i18n.address_input.from
   }
 
+  eraseAddress =  () => {
+    if (this.state.address !== '') setTimeout(() => { this.input.focus() }, 300)
+    this.props.eraseAddress(this.props.index)
+  }
+
   render() {
     let placeholder = this.setPlaceholder()
-    const { fieldsCount, address, index, readonly, language, eraseAddress} = this.props
+    const { fieldsCount, address, index, readonly, language, hideRemove, inputDisabled, getAddressInfo } = this.props
 
     return (
       <fieldset class='address'>
-        {(fieldsCount > 2 || address !== '') && !readonly && (<button class='remove-address' type='button' onClick={() => eraseAddress(index)}>×</button>)}
-        {(index === 0) && <Location width='32px' class='get-location' onClick={this.getLocation} disabled={this.state.geocoded} disabled={readonly}/>}
-        {mapboxgl.supported() && <Pin onClick={this.openMap} disabled={readonly} height='24px' class='map-pick'/>}
-        {this.state.isShowMap && <MapPicker onCloseMap={this.closeMap} handleBack={this.handleBack} language={language}/>}
+        {(fieldsCount > 2 || address !== '') && !hideRemove && !readonly && (<button disabled={index === 0 ? inputDisabled : false} class='remove-address' type='button' onClick={() => this.eraseAddress(index)}>×</button>)}
+        {mapboxgl.supported() && <Pin onClick={this.openMap} disabled={readonly || ( index === 0 ? inputDisabled : false )} height='24px' class='map-pick'/>}
+        {this.state.isShowMap && <MapPicker onCloseMap={this.closeMap} handleBack={this.handleBack} language={language} getAddressInfo={getAddressInfo}/>}
 
-        <input required class='address' placeholder={placeholder} type='text'
-          onClick={this.focus} onKeyDown={this.keydown} onBlur={this.blur} onInput={this.autocomplete}
+        <input required class='address' placeholder={placeholder} type='text' disabled={index === 0 ? inputDisabled : false}
+          onClick={this.focus} onFocus={this.focus} onKeyDown={this.keydown} onBlur={this.blur} onInput={this.autocomplete}
           value={this.state.address} ref={input => this.input = input} readonly={readonly}
         />
 

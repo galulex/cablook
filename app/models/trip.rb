@@ -20,6 +20,8 @@ class Trip < ApplicationRecord
 
   delegate :phone_number, to: :user, prefix: true
 
+  before_validation :set_comment
+
   scope :sum_cost, -> do
     joins(:driver)
       .joins("LEFT JOIN payments ON trips.id = payments.trip_id AND payments.type = 'Payments::Tip'")
@@ -48,9 +50,9 @@ class Trip < ApplicationRecord
   scope :last_month, -> { where('created_at BETWEEN ? AND ?', 1.month.ago.to_date.beginning_of_month, 1.month.ago.to_date.end_of_month) }
 
   # Time for pre-order trip
-  attr_reader :time, :entrance, :vip
+  attr_reader :time, :vip
   attr_writer :pre_order, :vip
-  attr_accessor :osrm, :formatted_date, :image
+  attr_accessor :osrm, :formatted_date, :entrance, :image
 
   scope :sum_cost, (lambda do
     joins(:driver)
@@ -69,10 +71,11 @@ class Trip < ApplicationRecord
     super || preorder_time
   end
 
-  def entrance=(val)
-    return if val.blank?
-    self[:comment] = "#{comment} #{I18n.t('trips.entrance', val: val)}"
-  end
+  # def entrance=(val)
+  #   binding.pry
+  #   return if val.blank?
+  #   self[:comment] = "#{comment} #{I18n.t('trips.entrance', val: val)}"
+  # end
 
   def preorder?
     preorder_time.present?
@@ -102,5 +105,10 @@ class Trip < ApplicationRecord
 
   def image
     @image ||= "https://api.mapbox.com/styles/v1/mapbox/streets-v10/static/pin-s-s+188753(#{departure.reverse.join(',')}),#{waypoints.map { |w| "pin-s-w+facc1f(#{w.split(',').reverse.join(',')})," }.join('')}pin-s-f+312d50(#{destination.reverse.join(',')}),path-5+188753-0.8(#{CGI.escape(path)})/auto/400x400?access_token=#{ENV['MAPBOX_KEY']}"
+  end
+
+  def set_comment
+    entr = entrance.blank? ? nil : I18n.t('trips.entrance', val: entrance)
+    self[:comment] = "#{comment} #{entr}"
   end
 end

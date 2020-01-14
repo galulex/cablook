@@ -23,28 +23,23 @@ export default class TripCard extends Component {
     this.setRate()
     this.setState({showDetails: true})
     if (window.ios) return;
-    history.pushState(null, 'Trip Details',`/trips/${this.props.trip.id}`);
-    window.addEventListener('popstate', this.handleBack, {once: true});
+    // history.pushState(null, 'Trip Details',`/trips/${this.props.trip.id}`);
+    window.addEventListener('popstate', this.props.handleBack, {once: true});
   };
 
   componentWillUnmount() {
-    window.removeEventListener('popstate', this.handleBack)
+    window.removeEventListener('popstate', this.props.handleBack)
   }
 
   showFeedback = () => {
     if (this.state.isFeedbackVisible) return;
     this.setState({isFeedbackVisible: true})
-    window.removeEventListener('popstate', this.handleBack)
-  };
-
-  handleBack = (event) => {
-    this.props.showDetails(false)
-    if (event) event.stopPropagation()
+    window.removeEventListener('popstate', this.props.handleBack)
   };
 
   handleFeedbackBack = (event) => {
     this.setState({isFeedbackVisible: false})
-    window.addEventListener('popstate', this.handleBack, {once: true});
+    window.addEventListener('popstate', this.props.handleBack, {once: true});
   };
 
   render() {
@@ -52,11 +47,8 @@ export default class TripCard extends Component {
 
     return (
       <div class="trip-details">
-        <button type='button' id='arrow' class='burger' onClick={() => window.ios ? this.handleBack(event) : window.history.back()}><Back/></button>
-        <header>
-          {i18n.trip.header}
-        </header>
-        <section>
+        <header>{i18n.trip.header}</header>
+        <section class="trip-details-section">
           <MapImg trip={() => this.props.trip} />
           <div class="buttons">
             <button type='button' class= 'button' onClick={this.repeatTrip}>{i18n.trips.repeat}</button>
@@ -77,29 +69,33 @@ export default class TripCard extends Component {
   }
 
   repeatTrip = () => {
-    const { trip } = this.props
-    trip.status = null
-    trip.id = null
+    const trip = { ...this.props.trip, status: undefined, id: undefined }
+
     delete trip.formatted_date
-    localStorage.setItem('trip', JSON.stringify(trip))
+    this.props.setCurrentTrip(trip)
     route('/', true)
   }
 
   reverseTrip = () => {
-    const { trip } = this.props;
-    trip.status = 0
-    trip.id = null
+    let start = this.props.trip.departure;
+    let start_address = this.props.trip.departure_address;
+    let finish = this.props.trip.destination;
+    let finish_address = this.props.trip.destination_address;
+    let waypoints = this.props.trip.waypoints.reverse();
+    let stops = this.props.trip.stops.reverse();
+
+    const trip = {
+      ...this.props.trip,
+      status: undefined,
+      id: undefined,
+      departure: finish,
+      departure_address: finish_address,
+      destination: start,
+      destination_address: start_address
+    }
     delete trip.formatted_date
-    let start = trip.departure
-    let address = trip.departure_address
-    trip.departure_address = trip.destination_address
-    trip.departure = trip.destination
-    trip.destination_address = address
-    trip.destination = start
-    trip.waypoints = trip.waypoints.reverse()
-    trip.stops = trip.stops.reverse()
-    trip.osrm = true
-    localStorage.setItem('trip', JSON.stringify(trip))
+
+    this.props.setCurrentTrip(trip)
     route('/', true)
   }
 
