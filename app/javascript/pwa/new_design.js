@@ -24,7 +24,7 @@ import { PENDING, ON_THE_WAY, WAITING_CLIENT, DRIVING, FINISHED, CANCELED, DECLI
 
 const cable = createConsumer()
 const ENTRANCES = Array.from({length: 15}, (v, k) => (k+1))
-const TRIP_FIELDS = ['departure', 'departure_address', 'destination', 'destination_address', 'path', 'status', 'id', 'stops', 'waypoints', 'cost', 'distance', 'duration', 'start_time']
+const TRIP_FIELDS = ['departure', 'departure_address', 'destination', 'destination_address', 'path', 'status', 'id', 'stops', 'waypoints', 'cost', 'distance', 'duration', 'start_time', 'card_id']
 
 const Shake = require('shake.js')
 let myShakeEvent = false
@@ -429,7 +429,6 @@ export default class NewDesign extends Component {
 
   confirmUpdate = (e) => {
     let params = { ...this.state.trip, osrm: true }
-    this.props.selectCard(this.state.trip.card_id)
     this.sendRequest(params)
   }
 
@@ -450,14 +449,7 @@ export default class NewDesign extends Component {
   }
 
   setField = (e) => {
-    if (e.target.id == 'card_id') {
-      if (this.state.trip && ![CONFIRM_UPDATE_TRIP].includes(this.state.trip.status)) {
-        this.props.selectCard(parseInt(e.target.value))
-      }
-      this.state.trip[e.target.id] = parseInt(e.target.value)
-    } else {
-      this.state.trip[e.target.id] = (e.target.id !== 'no_call') ? e.target.value : e.target.checked
-    }
+    this.state.trip[e.target.id] = (e.target.id !== 'no_call') ? e.target.value : e.target.checked
     this.setState(this.state);
   }
 
@@ -609,7 +601,7 @@ export default class NewDesign extends Component {
             <label class='select' for='card'>
               <Card width='24'/>
               <select id='card_id' onChange={this.setField}>
-                {cards.map(card => <option selected={ this.props.card_id == card.id } value={card.id}>{card.pan}</option>)}
+                {cards.map(card => <option selected={ trip.card_id == card.id } value={card.id}>{card.pan}</option>)}
               </select>
             </label>
           </div>

@@ -70,7 +70,6 @@ export default class App extends Component {
       notification_settings: [],
       activateFeedback: false,
       lastTripId: null,
-      card_id: null,
       currentTrip: null
     }
     axios.defaults.headers.common['Pwa-Language'] = this.state.language
@@ -294,10 +293,6 @@ export default class App extends Component {
 
   closeDrawer = (e) => {
     if (!e.target.classList.contains('nav-wrapper') && !e.target.classList.contains('burger')) this.triggerDrawer(false)
-  }
-
-  selectCard = (id) => {
-    this.setState({card_id: id})
   }
 
   render() {
