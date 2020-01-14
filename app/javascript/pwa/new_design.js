@@ -253,10 +253,10 @@ export default class NewDesign extends Component {
 
   componentDidMount() {
     window.geolocate = this.getLocation
-    if (this.state.currentLocation === null) {
+    this.getTripThroughProps(this.props.trip)
+    if (this.state.currentLocation === null && this.state.trip.stops[0] === '') {
       this.getLocation()
     }
-    this.getTripThroughProps(this.props.trip)
 
     this.addShakeListener()
 
@@ -295,10 +295,10 @@ export default class NewDesign extends Component {
   }
 
   componentWillReceiveProps(props) {
-    if (!props.trip && typeof google !== "undefined") {
+    this.getTripThroughProps(props.trip)
+    if (!props.trip && this.state.trip.stops[0] === '') {
       this.getLocation()
     }
-    this.getTripThroughProps(props.trip)
   }
 
   shakeEvent = () => {
