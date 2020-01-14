@@ -1,8 +1,6 @@
 module Events
   require_relative 'events/base_event'
-  require_relative 'events/verifications/send_number_verification'
   require_relative 'events/users/authorize'
-  require_relative 'events/users/verify'
   require_relative 'events/drivers/create'
   require_relative 'events/feedbacks/create'
   require_relative 'events/cars/create'
