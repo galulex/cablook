@@ -151,12 +151,6 @@ export default class AddressInput extends Component {
 
   blur = (e) => {
     const fields = document.getElementById('fields')
-    const option = document.getElementById('option')
-    if (option) {
-      option.classList.remove('scroll')
-      setTimeout(() => { option.classList.add('scroll') }, 400)
-    }
-    // document.getElementById('option').classList.remove('scroll')
     this.input.classList.remove('focus')
     window.timeout = setTimeout(() => {
       if (e.target.value === '' ||  e.target.checkValidity() || this.state.disabled || this.state.isFetching) return;

@@ -313,8 +313,6 @@ export default class App extends Component {
               setActivateFeedback={this.setActivateFeedback}
               lastTripId={this.state.lastTripId}
               getAddressInfo={this.getAddressInfo}
-              card_id={this.state.card_id}
-              selectCard={this.selectCard}
             />
             <Trips path='/trips/:id?'
               setCurrentTrip={this.setCurrentTrip}

@@ -554,7 +554,7 @@ export default class NewDesign extends Component {
         <button class='trigger back' onClick={ () => this.scroll(1000) }>
           <Arrows width='50'/>
         </button>
-        <div id='option' class='option scroll'>
+        <div class='option'>
           { trip.stops.map((e, i) => {
             return (
               <AddressInput setAddress={this.setAddress}
@@ -577,7 +577,7 @@ export default class NewDesign extends Component {
             </button>
           </div>
         </div>
-        <div class='option scroll'>
+        <div class='option'>
           <div class='additions'>
             <label for='no_call' class='nocall'>
               <input id='no_call' type='checkbox' checked={trip.no_call} onChange={this.setField}/>
