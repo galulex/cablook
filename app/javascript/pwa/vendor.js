@@ -62,7 +62,7 @@ export default class Vendor extends Component {
     const { vendor, cart, showLoader } = this.state
 
     return (
-      <div>
+      <div class='order_page'>
         {showLoader && <Loader/>}
         <button
           type='button'
@@ -79,7 +79,7 @@ export default class Vendor extends Component {
             <ShoppingCart class='cart' fill='#132d50'/>
           </Link>
         </header>
-        <section class='vendor-page'>
+        <section class={showLoader ? 'vendor-page hide' : 'vendor-page'}>
           <VendorPreview
             key={vendor.id}
             vendor={vendor}

@@ -105,6 +105,7 @@ export default class AddressInput extends Component {
     }
     this.input.setCustomValidity(i18n.choose_address)
     let hits = streets.filter(function(s) { return s.toLowerCase().indexOf(e.target.value.toLowerCase()) != -1 }).slice(0, 5)
+
     if (hits.length > 0) {
       this.setState({ predictions: hits, address: e.target.value, disabled: false });
       return false
@@ -136,23 +137,29 @@ export default class AddressInput extends Component {
   }
 
   focus = (e) => {
+    const fields = document.getElementById('fields')
     this.input.classList.add('focus')
     if (this.state.address == '') {
       this.favoriteAddressesPredictions()
     }
     // e.target.focus()
     if (window.timeout) clearTimeout(window.timeout)
-    document.getElementById('fields').classList.add('noscroll')
+    if (fields) {
+      fields.classList.add('noscroll')
+    }
   }
 
   blur = (e) => {
+    const fields = document.getElementById('fields')
     this.input.classList.remove('focus')
     window.timeout = setTimeout(() => {
       if (e.target.value === '' ||  e.target.checkValidity() || this.state.disabled || this.state.isFetching) return;
       let prediction = this.state.predictions[0]
       if (prediction) this.setLocation(prediction)
     }, 500)
-    window.timeout = setTimeout(() => { document.getElementById('fields').classList.remove('noscroll') }, 300)
+    if (fields) {
+      window.timeout = setTimeout(() => { fields.classList.remove('noscroll') }, 300)
+    }
   }
 
   handleBack = (event) => {

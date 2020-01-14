@@ -19,6 +19,7 @@ module Events
           optional(:stops) { none? | array? }
           optional(:time) { str? }
           optional(:no_call)
+          optional(:card_id)
           optional(:osrm)
           optional(:entrance)
           optional(:comment) { str? }
@@ -47,7 +48,7 @@ module Events
           bonus_trip.update(status: Constants::BonusTrip::NEW, trip_id: nil)
           update_trip_payment
         else
-          trip.trip_payment.update(amount: trip.cost)
+          trip.trip_payment.update(payment_params)
         end
       end
 
@@ -106,7 +107,12 @@ module Events
         data.slice(:path, :cost, :departure, :destination, :departure_address,
                    :destination_address, :duration, :distance, :stops, :waypoints)
       end
+
+      def payment_params
+        params = {amount: trip.cost}
+        params[:card_id] = data[:card_id] if data[:card_id]
+        params
+      end
     end
   end
 end
-

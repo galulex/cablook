@@ -4,6 +4,10 @@
   left: 0;
 }
 
+.order_page .hide {
+  display: none;
+}
+
 .vendor-page a:link {
   color: #312d50;
   color: var(--navy);

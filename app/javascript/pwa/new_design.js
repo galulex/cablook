@@ -24,7 +24,7 @@ import { PENDING, ON_THE_WAY, WAITING_CLIENT, DRIVING, FINISHED, CANCELED, DECLI
 
 const cable = createConsumer()
 const ENTRANCES = Array.from({length: 15}, (v, k) => (k+1))
-const TRIP_FIELDS = ['departure', 'departure_address', 'destination', 'destination_address', 'path', 'status', 'id', 'stops', 'waypoints', 'cost', 'distance', 'duration', 'start_time']
+const TRIP_FIELDS = ['departure', 'departure_address', 'destination', 'destination_address', 'path', 'status', 'id', 'stops', 'waypoints', 'cost', 'distance', 'duration', 'start_time', 'card_id']
 
 const Shake = require('shake.js')
 let myShakeEvent = false
@@ -40,7 +40,6 @@ export default class NewDesign extends Component {
       driver: null,
       picker: null,
       cards: this.props.cards(),
-      card_id: null,
       showWidget: false,
       bonus: null,
       currentLocation: null,
@@ -166,7 +165,8 @@ export default class NewDesign extends Component {
   }
 
   create = (e) => {
-    let params = { ...this.state.trip, status: PENDING, card_id: this.state.card_id }
+    const { trip, comment, entrance } = this.state;
+    let params = { ...trip, status: PENDING }
     if (this.state.bonus === 'true') params.bonus = this.state.bonus
     this.sendRequest(params)
   }
@@ -264,7 +264,6 @@ export default class NewDesign extends Component {
   }
 
   componentDidUpdate() {
-    // window.geolocate = this.getLocation
     this.addShakeListener()
   }
 
@@ -601,8 +600,8 @@ export default class NewDesign extends Component {
             </label>{' '}
             <label class='select' for='card'>
               <Card width='24'/>
-              <select id='card' onChange={(e) => this.selectCard(e)}>
-                {cards.map(card => <option value={card.id}>{card.pan}</option>)}
+              <select id='card_id' onChange={this.setField}>
+                {cards.map(card => <option selected={ trip.card_id == card.id } value={card.id}>{card.pan}</option>)}
               </select>
             </label>
           </div>
@@ -644,7 +643,7 @@ export default class NewDesign extends Component {
     return (
       <div>
         <header></header>
-        <section class={`new_design ${this.state.klass}`}>
+        <section class={`new_design ${this.state.klass} ${[PENDING].includes(trip.status) ? 'background' : ''}`}>
           { (activateFeedback || trip.status == FINISHED) && <Feedback trip={trip} updateTrip={this.resetTrip} handleBack={this.resetTrip} lastTripId={lastTripId} /> }
           <style>{`fieldset.address:nth-child(${this.state.picker + 1}) { opacity: 1;}`}</style>
           <PreviewMap trip={() => trip}

@@ -17,6 +17,11 @@ class Presenters::Trips::Detailed < Presenters::BaseSingle
   property :user_number, exec_context: :decorator
   property :car_location, exec_context: :decorator
   property :car_position, exec_context: :decorator
+  property :card_id, exec_context: :decorator
+
+  def card_id
+    represented.payments.last&.card_id
+  end
 
   def driver_name
     represented.try(:driver_name) || represented.driver&.name

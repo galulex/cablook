@@ -213,6 +213,14 @@ input[type='checkbox']:checked + label:before {
   align-items: center;
 }
 
+.profile .lang label {
+  display: inline-block;
+}
+
+.profile .nocall input {
+  left: 1px;
+}
+
 input[type='checkbox'] + label:before {
   content: '';
   width: 0px;
