@@ -10,11 +10,9 @@ en:
       confirmation_subject: Email Confirmation
       already_confirmed: This email is already confirmed
     number:
-      send_verification_token: "Verification cоdе: %{token}. https://cablook.taxi"
       send_retry_message: Dear client, you have unpaid trip. Pay the debt in our application.
 
     errors:
-      invalid_or_expired: Verification token is invalid or expired. Try again.
       email:
         does_not_exist: A user with this email does not exist
       number:

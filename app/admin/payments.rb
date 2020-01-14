@@ -19,13 +19,13 @@ ActiveAdmin.register Payment do
       Sidekiq::Queue.new('retry_payments')
     end
 
-    def retry_all(with_sms)
+    def retry_all_payments
       if retry_queue.size.zero?
         Payment.where(status: Constants::Payments::PENDING).joins(:trip).where(trips: { status: Constants::Trip::STATUS_CODES[Constants::Trip::FINISHED] }).find_each do |payment|
           begin
             card = payment.card || payment.user.cards.last
             if card
-              Jobs::PaymentRetry.perform_later(payment.id, payment.card_id, with_sms)
+              Jobs::PaymentRetry.perform_later(payment.id, payment.card_id)
             end
           end
         end
@@ -69,14 +69,11 @@ ActiveAdmin.register Payment do
     actions
   end
 
-  action_item(:retry) { link_to 'Retry All', retry_all_without_sms_admin_payments_path, method: :post }
+  action_item(:retry) { link_to 'Retry All', retry_all_admin_payments_path, method: :post }
 
-  collection_action :retry_all_without_sms, method: :post do
-    retry_all(false)
-  end
-
-  collection_action :retry_all_with_sms, method: :post do
-    retry_all(true)
+  collection_action :retry_all, method: :post do
+    retry_all_payments
+    
   end
 
   member_action :refund_payment, method: :post do
