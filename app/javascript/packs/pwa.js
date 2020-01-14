@@ -296,7 +296,7 @@ export default class App extends Component {
     let target = e.target
     clearTimeout(window.scrollTimeout)
     window.scrollTimeout = setTimeout(() => {
-      if (target.scrollLeft == 0 || target.scrollLeft == target.offsetWidth) return
+      if (target.scrollLeft == 0 || target.scrollLeft == target.offsetWidth || target.scrollLeft == 300) return
       let x = (target.scrollLeft > 0 && target.scrollLeft < target.offsetWidth / 2) ? 0 : target.offsetWidth
       target.scrollTo({left: x})
     }, 300)
