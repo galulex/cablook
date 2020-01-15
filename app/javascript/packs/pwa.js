@@ -48,7 +48,7 @@ import '../pwa/css/buttons.css';
 
 import axios from 'axios';
 import ymaps from 'ymaps'
-axios.defaults.baseURL = 'https://staging.app.cablook.taxi/api/';
+axios.defaults.baseURL = 'https://staging-app.cablook.taxi/api/';
 axios.defaults.headers.common['Auth-Token'] = localStorage.token;
 axios.defaults.headers.common['Content-Type'] = 'application/json';
 
