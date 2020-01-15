@@ -167,6 +167,10 @@ svg.pin-last path {
   display: none;
 }
 
+.options.noscroll .option {
+  scroll-snap-align: none;
+}
+
 .option {
   display: inline-block;
   width: 100%;
