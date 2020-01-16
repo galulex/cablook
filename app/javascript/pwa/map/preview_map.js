@@ -129,14 +129,9 @@ export default class PreviewMap extends Component {
       this.map.addLayer(PATHLAYER);
       //geolocate.trigger()
     });
-
-    document.addEventListener('visibilitychange', this.focusOnCar, false);
-    document.addEventListener('focus', this.focusOnCar, false);
   }
 
   componentWillUnmount() {
-    document.removeEventListener('visibilitychange', this.focusOnCar);
-    document.removeEventListener('focus', this.focusOnCar);
   }
 
   updatePoint = (latlng) => {
