@@ -253,6 +253,7 @@ export default class NewDesign extends Component {
 
   componentDidMount() {
     window.geolocate = this.getLocation
+    this.props.fetchUser()
     this.getTripThroughProps(this.props.trip)
     if (this.state.currentLocation === null && this.state.trip.stops[0] === '') {
       this.getLocation()
