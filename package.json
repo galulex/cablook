@@ -25,7 +25,7 @@
     "ymaps": "^0.2.1"
   },
   "engines": {
-    "node": "10.15.2"
+    "node": "10.18.1"
   },
   "devDependencies": {
     "webpack-dev-server": "^3.9"
