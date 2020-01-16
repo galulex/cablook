@@ -1,6 +1,7 @@
 import { h, render, Component } from 'preact'
 import axios from 'axios'
 import mapboxgl from 'mapbox-gl'
+import distance from '@turf/distance'
 import MapboxLanguage from '@mapbox/mapbox-gl-language';
 
 import { MAP_MIN_ZOOM, MAP_MAX_ZOOM, CHERKASY_LONG_LAT, NUM_DELTAS, TELEPORT_DISTANCE } from '../lib/constants.js'
@@ -67,6 +68,7 @@ export default class PreviewMap extends Component {
       zoom: 12,
       waypoints: [],
       car: null,
+      prevCarLoc: [],
       point: {
         lat: null,
         lng: null
@@ -321,14 +323,21 @@ export default class PreviewMap extends Component {
   }
 
   updateCarPosition(data) {
+    if (this.state.prevCarLoc.length == 2) {
+      var from = this.state.prevCarLoc.map(Number);
+      var to = data.location.map(Number);
+      var length = (distance(from, to) * 1000) < 200;
+    }
+
     let car = this.state.car;
     let deg = this.bearing(data.location, [car.getLngLat().lng, car.getLngLat().lat]);
-    if (!this.move) document.documentElement.style.setProperty('--car-transition', '10s')
+    if (!this.move && length) document.documentElement.style.setProperty('--car-transition', '10s')
     car.carAngleDeg = deg;
     car.setLngLat(data.location);
     if (deg !== 0) {
       this.updateCarDirection(car);
     }
+    this.setState({ prevCarLoc: data.location })
   }
 
   setZoom = (event) => {
