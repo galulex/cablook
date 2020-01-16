@@ -375,7 +375,7 @@ export default class NewDesign extends Component {
 
   retryPendingPayment = (unpaid_trip) => {
     const { cards } = this.props
-    const { card_id } = this.state
+    const { card_id } = this.state.trip
 
     axios.post('payments/retry_pendings', {card_id: card_id ? card_id : cards()[0].id}).then((res) => {
       if (res.data.length === 0) {
@@ -396,7 +396,7 @@ export default class NewDesign extends Component {
 
   retryPayment = () => {
     const { cards } = this.props
-    const { card_id } = this.state
+    const { card_id } = this.state.trip
 
     axios.post('payments/retry_pendings', {card_id: card_id ? card_id : cards()[0].id}).then((res) => {
       if (res.data.length === 0) {
