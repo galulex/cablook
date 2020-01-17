@@ -1,6 +1,5 @@
 import { h, render, Component } from 'preact';
 import { Router } from 'preact-router';
-import { createContext } from "preact-context";
 
 import i18n from '../pwa/i18n.js'
 import Session from '../driver/session.js';
