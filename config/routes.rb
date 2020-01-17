@@ -77,5 +77,5 @@ Rails.application.routes.draw do
   resources :cards, only: %i[create new]
   post 'webhook', to: 'api/webhooks#update'
 
-  root to: 'welcome#pwa'
+  root to: 'welcome#index'
 end
