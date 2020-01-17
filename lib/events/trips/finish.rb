@@ -10,8 +10,17 @@ module Events
         end
       end
 
-      # TODO: Impement logic when the price changed
+
       def run
+        if trip.status != Constants::Trip::STATUS_CODES[Constants::Trip::FINISHED]
+          run_methods
+        else
+          invalid!([I18n.t('trips.trip_already_finished')])
+        end
+      end
+
+      # TODO: Impement logic when the price changed
+      def run_methods
         telegram_message
         update_trip
         Jobs::PaymentSettle.perform_later(data[:trip_id])
