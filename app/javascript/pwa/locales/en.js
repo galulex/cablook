@@ -104,7 +104,7 @@ const en = {
     confirm_cancel: 'Do you want to cancel this trip?'
   },
   retry_payment: {
-    unpaid_trips: 'You have unpaid trips. Do you want to pay for them?',
+    unpaid_payments: 'You have unpaid payments. Do you want to pay debt with selected card?',
     success: 'Payment successful'
   },
   retry_trip: {

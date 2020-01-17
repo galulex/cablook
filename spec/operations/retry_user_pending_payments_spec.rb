@@ -3,9 +3,10 @@ describe Operations::RetryUserPendingPayments do
   let(:user) { create(:user) }
   let(:card) { create(:card, user_id: user.id) }
   let(:wayforpay_body) { { reasonCode: Constants::Payments::WAYFORPAY_SUCCESS }.to_json }
+  let(:wfp) { double(call: OpenStruct.new(body: wayforpay_body)) }
 
   before do
-    allow_any_instance_of(Operations::Wayforpay::RetryPayment).to receive(:call)
+    allow_any_instance_of(Operations::Wayforpay::RetryPayment).to receive(:call) { OpenStruct.new(body: wayforpay_body) }
   end
 
   describe '#call' do
@@ -17,6 +18,27 @@ describe Operations::RetryUserPendingPayments do
     it do
       expect_any_instance_of(Operations::Wayforpay::RetryPayment).to receive(:call).once
       subject.call
+    end
+
+    context 'when ok response' do
+      it do
+        expect_any_instance_of(Operations::Wayforpay::RetryPayment).to receive(:call).once
+        subject.call
+      end
+    end
+
+    context 'when bad reponse' do
+      let(:wayforpay_body) { { reasonCode: '1104' }.to_json }
+      let!(:another_card) { create(:card, user_id: user.id) }
+
+      before do
+        allow(Operations::Wayforpay::RetryPayment).to receive(:new) { wfp }
+      end
+
+      it do
+        expect(wfp).to receive(:call).twice
+        subject.call
+      end
     end
 
     context 'when card not found' do

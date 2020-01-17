@@ -236,10 +236,10 @@ export default class NewDesign extends Component {
     })
   }
 
-  sendRequestForUnpaidTrips = () => {
-    axios.get('trips/unpaid_trips').then((res) => {
-      if (res.data.trips.length === 0) return;
-      let result = confirm(i18n.retry_payment.unpaid_trips)
+  sendRequestForUnpaidPayments = () => {
+    axios.get('payments/pending').then((res) => {
+      if (res.data.length === 0) return;
+      let result = confirm(i18n.retry_payment.unpaid_payments)
       if (result) this.retryPayment()
     }).catch((error) => {
       if (error.response) alert(error.response.data.errors)
@@ -261,7 +261,7 @@ export default class NewDesign extends Component {
 
     this.addShakeListener()
 
-    setTimeout(this.sendRequestForUnpaidTrips, 3000)
+    setTimeout(this.sendRequestForUnpaidPayments, 3000)
   }
 
   componentDidUpdate() {
@@ -375,7 +375,7 @@ export default class NewDesign extends Component {
 
   retryPendingPayment = (unpaid_trip) => {
     const { cards } = this.props
-    const { card_id } = this.state
+    const { card_id } = this.state.trip
 
     axios.post('payments/retry_pendings', {card_id: card_id ? card_id : cards()[0].id}).then((res) => {
       if (res.data.length === 0) {
@@ -396,7 +396,7 @@ export default class NewDesign extends Component {
 
   retryPayment = () => {
     const { cards } = this.props
-    const { card_id } = this.state
+    const { card_id } = this.state.trip
 
     axios.post('payments/retry_pendings', {card_id: card_id ? card_id : cards()[0].id}).then((res) => {
       if (res.data.length === 0) {
