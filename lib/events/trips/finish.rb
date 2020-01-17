@@ -10,7 +10,6 @@ module Events
         end
       end
 
-
       def run
         if trip.status != Constants::Trip::STATUS_CODES[Constants::Trip::FINISHED]
           run_methods

@@ -11,7 +11,7 @@ describe Events::Trips::Finish do
     it { is_expected.to change { trip.reload.status }.to(Constants::Trip::STATUS_CODES[Constants::Trip::FINISHED]) }
     it { is_expected.to change { car.reload.status }.to('free') }
 
-    context 'when trip is already canceled' do
+    context 'when trip is already finished' do
       let(:trip) { create(:trip, status: Constants::Trip::FINISHED) }
 
       it { is_expected.to raise_error(Events::InvalidParamsError) }
@@ -28,7 +28,7 @@ describe Events::Trips::Finish do
 
       it { is_expected.not_to have_enqueued_job(Jobs::PaymentIdleSettle).with(trip.id, 8) }
     end
-    
+
     context 'and broadcast to driver map channel' do
       it do
         expect(ActionCable.server).to receive(:broadcast).with(

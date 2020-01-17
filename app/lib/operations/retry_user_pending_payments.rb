@@ -11,11 +11,10 @@ module Operations
       return unless card&.user_id == user_id
 
       payments.each do |payment|
-        response = Operations::Wayforpay::RetryPayment.new(payment.id, card_id).call
-        return if response['reasonCode'] == Constants::Payments::WAYFORPAY_SUCCESS
+        next if retry_payment(payment.id, card_id)
+
         user.cards.where.not(id: card_id).each do |card|
-          response = Operations::Wayforpay::RetryPayment.new(payment.id, card.id).call
-          return if response['reasonCode'] == Constants::Payments::WAYFORPAY_SUCCESS
+          break if retry_payment(payment.id, card.id)
         end
       end
     end
@@ -32,6 +31,11 @@ module Operations
 
     def payments
       @payments ||= Payment.pending(user_id)
+    end
+
+    def retry_payment(payment_id, card_id)
+      response = Operations::Wayforpay::RetryPayment.new(payment_id, card_id).call
+      response['reasonCode'] == Constants::Payments::WAYFORPAY_SUCCESS
     end
   end
 end
