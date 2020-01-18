@@ -23,9 +23,10 @@ jobs:
       uses: actions/setup-ruby@v1
       with:
         ruby-version: 2.6.x
-    - uses: borales/actions-yarn@v2.0.0
+    - uses: actions/setup-node@v1
       with:
-        cmd: install # will run `yarn install` command
+        node-version: '10'
+    - run: yarn install
     - name: Build and Test
       run: |
         sudo apt-get -y install libpq-dev redis-server
