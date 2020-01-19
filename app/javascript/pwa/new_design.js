@@ -87,8 +87,7 @@ export default class NewDesign extends Component {
               alert(error.message)
               break;
           }
-          const yandex_api_lang = this.props.YANDEX_LANG[this.props.language]
-          ymaps.load(`https://api-maps.yandex.ru/2.1/?apikey=${this.props.YANDEX_API_KEY}&lang=${yandex_api_lang}`).then(maps => {})
+          ymaps.load(`https://api-maps.yandex.ru/2.1/?apikey=${this.props.YANDEX_API_KEY}&lang=${this.props.YANDEX_LANG[this.props.language]}`).then(maps => {})
         }
       )
     }

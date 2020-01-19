@@ -52,8 +52,9 @@ axios.defaults.baseURL = '/api';
 axios.defaults.headers.common['Auth-Token'] = localStorage.token;
 axios.defaults.headers.common['Content-Type'] = 'application/json';
 
-const YANDEX_API_KEY = '9bbf546a-a5ca-44e1-abb2-8785a76fcbb4'
 const YANDEX_LANG = {en: 'en-US', uk: 'uk_UA', ru: 'ru_RU'}
+const YANDEX_API_KEY = '9bbf546a-a5ca-44e1-abb2-8785a76fcbb4'
+let yandex_api_lang = 'uk_UA'
 
 export default class App extends Component {
 
@@ -77,6 +78,7 @@ export default class App extends Component {
   }
 
   componentDidMount() {
+    yandex_api_lang = YANDEX_LANG[this.state.language]
     this.loadTrips()
     i18n.setLanguage(this.state.language)
     this.loadScript()
@@ -237,21 +239,21 @@ export default class App extends Component {
 
 
   getAddressInfo = (latlng, setAddress) => {
+    if (this.state.isYmapsLoading) return;
     if (!window.ymaps) {
-      if (!this.state.isYmapsLoading) {
-        this.setState({isYmapsLoading: true})
-        const yandex_api_lang = YANDEX_LANG[this.state.language]
-        ymaps.load(`https://api-maps.yandex.ru/2.1/?apikey=${YANDEX_API_KEY}&lang=${yandex_api_lang}`).then(maps => {
-          maps.geocode([latlng[0], latlng[1]]).then((results, status) => {
-            this.setAddressInfo(results, status, setAddress)
-            this.setState({isYmapsLoading: false})
-          })
+      this.setState({isYmapsLoading: true})
+      ymaps.load(`https://api-maps.yandex.ru/2.1/?apikey=${YANDEX_API_KEY}&lang=${yandex_api_lang}`).then(maps => {
+        maps.geocode([latlng[0], latlng[1]]).then((results, status) => {
+          this.setAddressInfo(results, status, setAddress)
+          this.setState({isYmapsLoading: false})
+        })
+      })
+    } else {
+      if (window.ymaps.geocode) {
+        window.ymaps.geocode([latlng[0], latlng[1]]).then((results, status) => {
+          this.setAddressInfo(results, status, setAddress)
         })
       }
-    } else {
-      window.ymaps.geocode([latlng[0], latlng[1]]).then((results, status) => {
-        this.setAddressInfo(results, status, setAddress)
-      })
     }
   }
 
