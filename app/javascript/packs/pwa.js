@@ -70,7 +70,8 @@ export default class App extends Component {
       notification_settings: [],
       activateFeedback: false,
       lastTripId: null,
-      currentTrip: null
+      currentTrip: null,
+      isYmapsLoading: false
     }
     axios.defaults.headers.common['Pwa-Language'] = this.state.language
   }
@@ -233,14 +234,20 @@ export default class App extends Component {
     })
   }
 
+
+
   getAddressInfo = (latlng, setAddress) => {
     if (!window.ymaps) {
-      const yandex_api_lang = YANDEX_LANG[this.state.language]
-      ymaps.load(`https://api-maps.yandex.ru/2.1/?apikey=${YANDEX_API_KEY}&lang=${yandex_api_lang}`).then(maps => {
-        maps.geocode([latlng[0], latlng[1]]).then((results, status) => {
-          this.setAddressInfo(results, status, setAddress)
+      if (!this.state.isYmapsLoading) {
+        this.setState({isYmapsLoading: true})
+        const yandex_api_lang = YANDEX_LANG[this.state.language]
+        ymaps.load(`https://api-maps.yandex.ru/2.1/?apikey=${YANDEX_API_KEY}&lang=${yandex_api_lang}`).then(maps => {
+          maps.geocode([latlng[0], latlng[1]]).then((results, status) => {
+            this.setAddressInfo(results, status, setAddress)
+            this.setState({isYmapsLoading: false})
+          })
         })
-      })
+      }
     } else {
       window.ymaps.geocode([latlng[0], latlng[1]]).then((results, status) => {
         this.setAddressInfo(results, status, setAddress)
@@ -325,6 +332,9 @@ export default class App extends Component {
               lastTripId={this.state.lastTripId}
               getAddressInfo={this.getAddressInfo}
               scrollEnd={this.scrollEnd}
+              isYmapsLoading={this.state.isYmapsLoading}
+              YANDEX_API_KEY={YANDEX_API_KEY}
+              YANDEX_LANG={YANDEX_LANG}
             />
             <Trips path='/trips/:id?'
               setCurrentTrip={this.setCurrentTrip}
