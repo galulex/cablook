@@ -45,8 +45,23 @@ export default class NewDesign extends Component {
       bonus: null,
       currentLocation: null,
       inputDisabled: false,
+      activateFeedback: false,
+      lastTripId: null,
       paymentButtonDisabled: false
     }
+  }
+
+  loadTrips = () => {
+    axios.get(`trips?page=0&per=1`).then((res) => {
+      this.setState({ activateFeedback: res.data.trips[0].feedbacks[0] == undefined && [FINISHED].includes(res.data.trips[0].status) })
+      this.setState({ lastTripId: res.data.trips[0].id })
+    }).catch((error) => {
+      if (error.response) alert(error.response.data.errors)
+    })
+  }
+
+  setActivateFeedback = () => {
+    this.setState({activateFeedback: false})
   }
 
   setAddressData = (addressData) => {
@@ -255,6 +270,7 @@ export default class NewDesign extends Component {
 
   componentDidMount() {
     this.props.fetchUser()
+    this.loadTrips()
     this.getTripThroughProps(this.props.trip)
     if (this.state.currentLocation === null && this.state.trip.stops[0] === '' && !this.props.isYmapsLoading) {
       this.getLocation()
