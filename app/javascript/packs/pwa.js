@@ -293,7 +293,6 @@ export default class App extends Component {
   }
 
   scrollEnd = (e) => {
-    if (window.ios) return
     let target = e.target
     clearTimeout(window.scrollTimeout)
     window.scrollTimeout = setTimeout(() => {
