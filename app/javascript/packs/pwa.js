@@ -1,7 +1,6 @@
 //Apply dark theme
 window.dark = localStorage.getItem('dark') === 'true'
 window.ios = ['iPhone', 'iPad', 'iPod'].includes(navigator.platform)
-window.geolocate = () => {}
 if (window.dark) {
   document.documentElement.style.setProperty('--white', 'black');
   document.documentElement.style.setProperty('--navy', 'white');
@@ -52,8 +51,9 @@ axios.defaults.baseURL = '/api';
 axios.defaults.headers.common['Auth-Token'] = localStorage.token;
 axios.defaults.headers.common['Content-Type'] = 'application/json';
 
-const YANDEX_API_KEY = '9bbf546a-a5ca-44e1-abb2-8785a76fcbb4'
 const YANDEX_LANG = {en: 'en-US', uk: 'uk_UA', ru: 'ru_RU'}
+const YANDEX_API_KEY = '9bbf546a-a5ca-44e1-abb2-8785a76fcbb4'
+let yandex_api_lang = 'uk_UA'
 
 export default class App extends Component {
 
@@ -70,12 +70,14 @@ export default class App extends Component {
       notification_settings: [],
       activateFeedback: false,
       lastTripId: null,
-      currentTrip: null
+      currentTrip: null,
+      isYmapsLoading: false
     }
     axios.defaults.headers.common['Pwa-Language'] = this.state.language
   }
 
   componentDidMount() {
+    yandex_api_lang = YANDEX_LANG[this.state.language]
     this.loadTrips()
     i18n.setLanguage(this.state.language)
     this.loadScript()
@@ -233,18 +235,24 @@ export default class App extends Component {
     })
   }
 
+
+
   getAddressInfo = (latlng, setAddress) => {
+    if (this.state.isYmapsLoading) return;
     if (!window.ymaps) {
-      const yandex_api_lang = YANDEX_LANG[this.state.language]
+      this.setState({isYmapsLoading: true})
       ymaps.load(`https://api-maps.yandex.ru/2.1/?apikey=${YANDEX_API_KEY}&lang=${yandex_api_lang}`).then(maps => {
         maps.geocode([latlng[0], latlng[1]]).then((results, status) => {
           this.setAddressInfo(results, status, setAddress)
+          this.setState({isYmapsLoading: false})
         })
       })
     } else {
-      window.ymaps.geocode([latlng[0], latlng[1]]).then((results, status) => {
-        this.setAddressInfo(results, status, setAddress)
-      })
+      if (window.ymaps.geocode) {
+        window.ymaps.geocode([latlng[0], latlng[1]]).then((results, status) => {
+          this.setAddressInfo(results, status, setAddress)
+        })
+      }
     }
   }
 
@@ -283,7 +291,7 @@ export default class App extends Component {
     if (document.getElementById('google-script') === null) {
       let script = document.createElement('script');
       script.setAttribute('id', 'google-script');
-      script.setAttribute('src', `https://maps.googleapis.com/maps/api/js?key=AIzaSyDg2-aLroQJWY8LV8x1Gv5ZYDhIArWCDeU&libraries=places&language=${this.props.language}&callback=window.geolocate`);
+      script.setAttribute('src', `https://maps.googleapis.com/maps/api/js?key=AIzaSyDg2-aLroQJWY8LV8x1Gv5ZYDhIArWCDeU&libraries=places&language=${this.props.language}`);
       document.body.appendChild(script);
     }
   }
@@ -324,6 +332,9 @@ export default class App extends Component {
               lastTripId={this.state.lastTripId}
               getAddressInfo={this.getAddressInfo}
               scrollEnd={this.scrollEnd}
+              isYmapsLoading={this.state.isYmapsLoading}
+              YANDEX_API_KEY={YANDEX_API_KEY}
+              YANDEX_LANG={YANDEX_LANG}
             />
             <Trips path='/trips/:id?'
               setCurrentTrip={this.setCurrentTrip}

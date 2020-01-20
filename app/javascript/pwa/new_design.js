@@ -1,6 +1,7 @@
 import { h, render, Component } from 'preact'
 import axios from 'axios'
 import { createConsumer } from '@rails/actioncable';
+import ymaps from 'ymaps'
 
 import i18n from './i18n.js'
 import './css/map.css'
@@ -86,6 +87,7 @@ export default class NewDesign extends Component {
               alert(error.message)
               break;
           }
+          ymaps.load(`https://api-maps.yandex.ru/2.1/?apikey=${this.props.YANDEX_API_KEY}&lang=${this.props.YANDEX_LANG[this.props.language]}`).then(maps => {})
         }
       )
     }
@@ -252,10 +254,9 @@ export default class NewDesign extends Component {
   }
 
   componentDidMount() {
-    window.geolocate = this.getLocation
     this.props.fetchUser()
     this.getTripThroughProps(this.props.trip)
-    if (this.state.currentLocation === null && this.state.trip.stops[0] === '') {
+    if (this.state.currentLocation === null && this.state.trip.stops[0] === '' && !this.props.isYmapsLoading) {
       this.getLocation()
     }
 
@@ -296,7 +297,7 @@ export default class NewDesign extends Component {
 
   componentWillReceiveProps(props) {
     this.getTripThroughProps(props.trip)
-    if (!props.trip && this.state.trip.stops[0] === '') {
+    if (!props.trip && this.state.trip.stops[0] === '' && !this.props.isYmapsLoading) {
       this.getLocation()
     }
   }
