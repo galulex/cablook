@@ -77,8 +77,7 @@ export default class App extends Component {
   }
 
   componentDidMount() {
-    yandex_api_lang = YANDEX_LANG[this.state.language]
-    this.loadTrips()
+    if (this.state.currentUser) this.loadTrips()
     i18n.setLanguage(this.state.language)
     this.loadScript()
     if (window.ios) this.focusOutForIos()

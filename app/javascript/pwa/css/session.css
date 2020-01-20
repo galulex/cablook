@@ -71,6 +71,16 @@ main.login button.resend {
   width: auto;
 }
 
+main.login .buttons__container {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+}
+
+main.login span.separator {
+  margin: 0 5px;
+}
+
 main.login svg.logo {
   max-width: 200px;
   margin: 0 30%;
