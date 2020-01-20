@@ -1,5 +1,5 @@
-importScripts('https://www.gstatic.com/firebasejs/6.0.1/firebase-app.js');
-importScripts('https://www.gstatic.com/firebasejs/6.0.1/firebase-messaging.js');
+importScripts('https://www.gstatic.com/firebasejs/7.7.0/firebase-app.js');
+importScripts('https://www.gstatic.com/firebasejs/7.7.0/firebase-messaging.js');
 
 var CACHE_VERSION = 'v1';
 var CACHE_NAME = CACHE_VERSION + ':sw-cache-';
@@ -98,5 +98,13 @@ self.addEventListener('notificationclick', function(event) {
 
 }, false);
 
-firebase.initializeApp({ messagingSenderId: '530018467398' });
+firebase.initializeApp({
+  apiKey: 'AIzaSyCw0swS8LhKYSdxMXdMo2BLa46uE0i7vDA',
+  authDomain: 'cablook-2225665.firebaseapp.com',
+  databaseURL: 'https://cablook-2225665.firebaseio.com',
+  projectId: 'cablook-2225665',
+  storageBucket: 'cablook-2225665.appspot.com',
+  messagingSenderId: '530018467398',
+  appId: '1:530018467398:web:c5dd0a6d759483b95ad447'
+});
 const messaging = firebase.messaging();
