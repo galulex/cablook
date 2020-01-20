@@ -1,7 +1,6 @@
 //Apply dark theme
 window.dark = localStorage.getItem('dark') === 'true'
 window.ios = ['iPhone', 'iPad', 'iPod'].includes(navigator.platform)
-window.geolocate = () => {}
 if (window.dark) {
   document.documentElement.style.setProperty('--white', 'black');
   document.documentElement.style.setProperty('--navy', 'white');
@@ -292,7 +291,7 @@ export default class App extends Component {
     if (document.getElementById('google-script') === null) {
       let script = document.createElement('script');
       script.setAttribute('id', 'google-script');
-      script.setAttribute('src', `https://maps.googleapis.com/maps/api/js?key=AIzaSyDg2-aLroQJWY8LV8x1Gv5ZYDhIArWCDeU&libraries=places&language=${this.props.language}&callback=window.geolocate`);
+      script.setAttribute('src', `https://maps.googleapis.com/maps/api/js?key=AIzaSyDg2-aLroQJWY8LV8x1Gv5ZYDhIArWCDeU&libraries=places&language=${this.props.language}`);
       document.body.appendChild(script);
     }
   }
