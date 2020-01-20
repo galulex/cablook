@@ -82,9 +82,8 @@ export default class Session extends Component {
         </div>
         <button class='button' type='submit' disabled={disabled}>{i18n.session.code_button}</button>
         <div class='buttons__container'>
-          <button class='button resend' disabled={disabled} type='button' onClick={this.resetNumber} ref={submitCode => this.submitCode = submitCode}>{i18n.session.change}</button>
-          <span class='separator'>|</span>
           <button class='button resend' disabled={disabled} onClick={this.resendCode} type='button'>{i18n.session.resend_code}</button>
+          <button class='button resend' disabled={disabled} type='button' onClick={this.resetNumber} ref={submitCode => this.submitCode = submitCode}>{i18n.session.change}</button>
         </div>
       </form>
     )
@@ -146,8 +145,8 @@ export default class Session extends Component {
       });
   }
 
-  autoSubmitForm = (e) => {
-    if (e.target.checkValidity()) document.querySelector('button[type="submit"]').click()
+  autoSubmitForm = (e, submitButton) => {
+    if (e.target.checkValidity()) submitButton.click()
   }
 
   createSession = (e) => {
