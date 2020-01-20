@@ -51,10 +51,26 @@ export default class NewDesign extends Component {
     }
   }
 
+  componentDidMount() {
+    this.props.fetchUser()
+    this.loadTrips()
+    this.getTripThroughProps(this.props.trip)
+    if (this.state.currentLocation === null && this.state.trip.stops[0] === '' && !this.props.isYmapsLoading) {
+      this.getLocation()
+    }
+
+    this.addShakeListener()
+
+    setTimeout(this.sendRequestForUnpaidPayments, 3000)
+  }
+
+  componentDidUpdate() {
+    this.addShakeListener()
+  }
+
   loadTrips = () => {
     axios.get(`trips?page=0&per=1`).then((res) => {
-      this.setState({ activateFeedback: res.data.trips[0].feedbacks[0] == undefined && [FINISHED].includes(res.data.trips[0].status) })
-      this.setState({ lastTripId: res.data.trips[0].id })
+      this.setState({ activateFeedback: res.data.trips[0].feedbacks[0] == undefined && [FINISHED].includes(res.data.trips[0].status), lastTripId: res.data.trips[0].id })
     }).catch((error) => {
       if (error.response) alert(error.response.data.errors)
     })
@@ -266,23 +282,6 @@ export default class NewDesign extends Component {
   pickAddress = (i) => {
     if (this.state.picker !== null) return this.setState({picker: null, klass: ''})
     this.setState({picker: i, klass: 'pick'})
-  }
-
-  componentDidMount() {
-    this.props.fetchUser()
-    this.loadTrips()
-    this.getTripThroughProps(this.props.trip)
-    if (this.state.currentLocation === null && this.state.trip.stops[0] === '' && !this.props.isYmapsLoading) {
-      this.getLocation()
-    }
-
-    this.addShakeListener()
-
-    setTimeout(this.sendRequestForUnpaidPayments, 3000)
-  }
-
-  componentDidUpdate() {
-    this.addShakeListener()
   }
 
   includeScript = (url) => {
