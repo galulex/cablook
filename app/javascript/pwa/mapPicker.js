@@ -9,6 +9,8 @@ import Pin from './images/pin.svg'
 import './css/picker.css'
 
 mapboxgl.accessToken = 'pk.eyJ1IjoiZ2FsdWxleCIsImEiOiJjamx6ampoZjgyMnYxM3FvZ2ppNjV2M2x5In0.bPgk2WI9NT-DJwnE-OtiLA';
+const MAPSTYLE = (localStorage.getItem('dark') === 'true') ? 'mapbox://styles/galulex/cju84cmu11atr1flfoxocwbq7' : 'mapbox://styles/okunieva/cjzwn3wx40yhq1cpjl3yo8p1z';
+const LANGUAGES = {en: 'en', uk: 'ru', ru: 'ru'}
 
 var timeout
 var delay_time = 500
@@ -29,10 +31,9 @@ export default class MapPicker extends Component {
   componentDidMount() {
     const { lng, lat, zoom } = this.state;
 
-    let style = window.dark ? 'mapbox://styles/galulex/cju84cmu11atr1flfoxocwbq7' : 'mapbox://styles/mapbox/streets-v10';
     this.map = new mapboxgl.Map({
       container: this.mapContainer,
-      style: style,
+      style: MAPSTYLE,
       center: [lng, lat],
       zoom
     });
@@ -47,15 +48,11 @@ export default class MapPicker extends Component {
       });
     });
 
-    this.map.on('dragstart', () => {
+    this.map.on('movestart', () => {
       this.hideAddressBar()
     });
 
-    this.map.on('zoom', () => {
-      this.hideAddressBar()
-    });
-
-    this.map.on('dragend', () => {
+    this.map.on('moveend', () => {
       timeout = setTimeout(this.showAddressBar, delay_time)
     });
 
@@ -63,11 +60,11 @@ export default class MapPicker extends Component {
       positionOptions: {
         enableHighAccuracy: true
       },
-      trackUserLocation: true
+      trackUserLocation: false
     });
 
     const language = new MapboxLanguage({
-      defaultLanguage: this.setMapboxLangauge()
+      defaultLanguage: LANGUAGES[this.props.language]
     });
 
     this.map.addControl(language);
@@ -85,23 +82,18 @@ export default class MapPicker extends Component {
     this.map.remove()
   }
 
-  setAddressData = (addressData) => {
-    this.setState({ address_bar: true, address: `${addressData.addressInfo[0]}${addressData.addressInfo[1]}` });
-  }
-
   showAddressBar = () => {
     const { lng, lat } = this.map.getCenter();
 
-    this.props.getAddressInfo([lat, lng], this.setAddressData)
+    this.props.geocode(`${lng},${lat}`, (address) => {
+      this.setState({ address_bar: true, address: address });
+    })
   }
 
   hideAddressBar = () => {
-    clearTimeout(timeout)
+    if (timeout) clearTimeout(timeout)
+    timeout = null
     this.setState({ address_bar: false, address: '' })
-  }
-
-  setMapboxLangauge = () => {
-    return (this.props.language === 'uk') ? 'ru' : this.props.language
   }
 
   render() {
@@ -109,7 +101,7 @@ export default class MapPicker extends Component {
       position: "fixed",
       left: "0",
       right: "0",
-      top: "54px",
+      top: "50px",
       bottom: "0",
       background: 'var(--map-bg)'
     };
@@ -137,7 +129,7 @@ export default class MapPicker extends Component {
           <div class='address-bar'>{ this.state.address }</div>
         }
         <Pin class='picker-pin'/>
-        <button type='button' class='button fixed' onClick={this.props.onCloseMap([this.state.lng, this.state.lat])}>OK</button>
+        <button type='button' class='button fixed' onClick={() => { this.props.onCloseMap(`${this.state.lat},${this.state.lng}`, this.state.address) }}>OK</button>
       </div>
     );
   }

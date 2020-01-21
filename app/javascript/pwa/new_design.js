@@ -1,7 +1,6 @@
 import { h, render, Component } from 'preact'
 import axios from 'axios'
 import { createConsumer } from '@rails/actioncable';
-import ymaps from 'ymaps'
 
 import i18n from './i18n.js'
 import './css/map.css'
@@ -55,7 +54,7 @@ export default class NewDesign extends Component {
     this.props.fetchUser()
     this.loadTrips()
     this.getTripThroughProps(this.props.trip)
-    if (this.state.currentLocation === null && this.state.trip.stops[0] === '' && !this.props.isYmapsLoading) {
+    if (this.state.currentLocation === null && this.state.trip.stops[0] === '') {
       this.getLocation()
     }
 
@@ -80,30 +79,20 @@ export default class NewDesign extends Component {
     this.setState({activateFeedback: false})
   }
 
-  setAddressData = (addressData) => {
-    let { addressInfo, place } =  addressData
-    if (!this.props.trip || [FINISHED, CANCELED, DECLINED, CANCELED_BY_DRIVER].includes(component.props.trip.status)) {
-      this.setAddress(`${addressInfo[0]}${addressInfo[1]}`, `${place.geometry._coordinates[0]},${place.geometry._coordinates[1]}`, 0);
-    }
-    this.setState({currentLocation: {location: `${place.geometry._coordinates[0]},${place.geometry._coordinates[1]}`,
-              address: `${addressInfo[0]}${addressInfo[1]}`,
-              favorite_address: true,
-      structured_formatting: { main_text: `${addressInfo[0]}${addressInfo[1]}`, secondary_text: i18n.address_input.location }}})
-  }
-
   getLocation = () => {
     let component = this
     if (navigator.geolocation) {
-      // e.target.classList.add('running')
       navigator.geolocation.getCurrentPosition((result) => {
         let lat = result.coords.latitude
         let lng = result.coords.longitude
 
-        component.props.getAddressInfo([lat, lng], this.setAddressData)
-        // e.target.classList.remove('running')
+        this.props.geocode(`${lng},${lat}`, (address) => {
+          this.setAddress(address, `${lat},${lng}`, 0)
+          this.setState({currentLocation: {location: `${lat},${lng}`, address: address, favorite_address: true,
+            structured_formatting: { main_text: address, secondary_text: i18n.address_input.location }}})
+        })
       },
         (error) => {
-          // e.target.classList.remove('running')
           switch(error.code) {
             case error.PERMISSION_DENIED :
               console.log(i18n.location.permission_denied);
@@ -112,13 +101,12 @@ export default class NewDesign extends Component {
               alert(i18n.location.timeout);
               break;
             case error.POSITION_UNAVAILABLE :
-              alert(i18n.location.position_unavailable);
+              console.log(i18n.location.position_unavailable);
               break;
             default:
               alert(error.message)
               break;
           }
-          ymaps.load(`https://api-maps.yandex.ru/2.1/?apikey=${this.props.YANDEX_API_KEY}&lang=${this.props.YANDEX_LANG[this.props.language]}`).then(maps => {})
         }
       )
     }
@@ -312,9 +300,6 @@ export default class NewDesign extends Component {
 
   componentWillReceiveProps(props) {
     this.getTripThroughProps(props.trip)
-    if (!props.trip && this.state.trip.stops[0] === '' && !this.props.isYmapsLoading) {
-      this.getLocation()
-    }
   }
 
   shakeEvent = () => {
@@ -670,8 +655,7 @@ export default class NewDesign extends Component {
             language={this.props.language}
             picker={this.state.picker}
             setAddress={this.setAddress}
-            zoom={this.state.zoom}
-            getAddressInfo={this.props.getAddressInfo}
+            geocode={this.props.geocode}
             ref={(el) => this.previewMapRef = el}/>
           <div class='wrapper'>
             { [CONFIRM_UPDATE_TRIP, CANCELED, CANCELED_BY_DRIVER, undefined, null].includes(trip.status) && this.renderFields(trip, isValid, cards) }

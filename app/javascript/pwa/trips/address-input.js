@@ -18,7 +18,6 @@ export default class AddressInput extends Component {
       address: props.address || '',
       isValid: false,
       isShowMap: false,
-      geocoded: false,
       disabled: false,
       isFetching: false
     }
@@ -86,17 +85,6 @@ export default class AddressInput extends Component {
     })
   }
 
-  setAddressData = (addressData) => {
-    const { addressInfo, place } = addressData
-    this.setState({ address: `${addressInfo[0]}${addressInfo[1]}`, predictions: [], isValid: true });
-    this.props.setAddress(`${addressInfo[0]}${addressInfo[1]}`, `${place.geometry._coordinates[0]},${place.geometry._coordinates[1]}`, this.props.index)
-  }
-
-  setLocationFromMap = ([lng, lat]) => {
-    this.props.getAddressInfo([lat, lng], this.setAddressData)
-    this.input.setCustomValidity('')
-  }
-
   autocomplete = e => {
     if (e.target.value === '') {
       this.setState({ predictions: [], address: e.target.value});
@@ -131,9 +119,10 @@ export default class AddressInput extends Component {
     window.addEventListener('popstate', this.handleBack, {once: true});
   }
 
-  closeMap = (coords) => () => {
-    this.setLocationFromMap(coords);
-    this.setState({isShowMap: false});
+  closeMap = (point, address) => {
+    this.props.setAddress(address, point, this.props.index)
+    this.setState({ address: address, predictions: [], isValid: true, isShowMap: false });
+    this.input.setCustomValidity('');
   }
 
   focus = (e) => {
@@ -186,13 +175,13 @@ export default class AddressInput extends Component {
 
   render() {
     let placeholder = this.setPlaceholder()
-    const { fieldsCount, address, index, readonly, language, hideRemove, inputDisabled, getAddressInfo } = this.props
+    const { fieldsCount, address, index, readonly, language, hideRemove, inputDisabled, geocode } = this.props
 
     return (
       <fieldset class='address'>
         {(fieldsCount > 2 || address !== '') && !hideRemove && !readonly && (<button disabled={index === 0 ? inputDisabled : false} class='remove-address' type='button' onClick={() => this.eraseAddress(index)}>×</button>)}
         {mapboxgl.supported() && <Pin onClick={this.openMap} disabled={readonly || ( index === 0 ? inputDisabled : false )} height='24px' class='map-pick'/>}
-        {this.state.isShowMap && <MapPicker onCloseMap={this.closeMap} handleBack={this.handleBack} language={language} getAddressInfo={getAddressInfo}/>}
+        {this.state.isShowMap && <MapPicker onCloseMap={this.closeMap} handleBack={this.handleBack} language={language} geocode={geocode}/>}
 
         <input required class='address' placeholder={placeholder} type='text' disabled={index === 0 ? inputDisabled : false}
           onClick={this.focus} onFocus={this.focus} onKeyDown={this.keydown} onBlur={this.blur} onInput={this.autocomplete}

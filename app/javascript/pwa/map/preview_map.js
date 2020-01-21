@@ -217,19 +217,17 @@ export default class PreviewMap extends Component {
     timeout = null
   }
 
-  setAddressData = (addressData) => {
-    const waypoint = Object.values(this.map.getCenter()).reverse().toString()
-    this.props.setAddress(`${addressData.addressInfo[0]}${addressData.addressInfo[1]}`, waypoint, this.state.index)
-  }
-
   geocode = () => {
     const { lng, lat } = this.map.getCenter();
     let component = this
 
-    if (this.state.point.lat !== lat && this.state.point.lng !== lng) {
-      this.updatePoint([lat, lng])
-      this.props.getAddressInfo([lat, lng], component.setAddressData)
-    }
+    if (this.state.point.lat === lat && this.state.point.lng === lng) return
+
+    this.updatePoint([lat, lng])
+    const waypoint = Object.values(this.map.getCenter())
+    this.props.geocode(waypoint.toString(), (address) => {
+      this.props.setAddress(address, waypoint.reverse().toString(), this.state.index)
+    })
   }
 
   cleanup = () => {

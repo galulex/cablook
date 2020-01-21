@@ -46,14 +46,9 @@ import { PENDING, ON_THE_WAY, WAITING_CLIENT, DRIVING, FINISHED, CANCELED, DECLI
 import '../pwa/css/buttons.css';
 
 import axios from 'axios';
-import ymaps from 'ymaps'
 axios.defaults.baseURL = '/api';
 axios.defaults.headers.common['Auth-Token'] = localStorage.token;
 axios.defaults.headers.common['Content-Type'] = 'application/json';
-
-const YANDEX_LANG = {en: 'en-US', uk: 'uk_UA', ru: 'ru_RU'}
-const YANDEX_API_KEY = '9bbf546a-a5ca-44e1-abb2-8785a76fcbb4'
-let yandex_api_lang = 'uk_UA'
 
 export default class App extends Component {
 
@@ -221,43 +216,12 @@ export default class App extends Component {
     })
   }
 
-
-
-  getAddressInfo = (latlng, setAddress) => {
-    if (this.state.isYmapsLoading) return;
-    if (!window.ymaps) {
-      this.setState({isYmapsLoading: true})
-      ymaps.load(`https://api-maps.yandex.ru/2.1/?apikey=${YANDEX_API_KEY}&lang=${yandex_api_lang}`).then(maps => {
-        maps.geocode([latlng[0], latlng[1]]).then((results, status) => {
-          this.setAddressInfo(results, status, setAddress)
-          this.setState({isYmapsLoading: false})
-        })
-      })
-    } else {
-      if (window.ymaps.geocode) {
-        window.ymaps.geocode([latlng[0], latlng[1]]).then((results, status) => {
-          this.setAddressInfo(results, status, setAddress)
-        })
-      }
-    }
-  }
-
-  setAddressInfo = (results, status, setAddress) => {
-    let addressInfo = []
-    let place = null
-    if (results.geoObjects) {
-      place = results.geoObjects.get(0)
-      if (place) {
-        addressInfo[0] = place.properties._data.metaDataProperty.GeocoderMetaData.Address.Components[4].name
-        addressInfo[1] = place.properties._data.metaDataProperty.GeocoderMetaData.Address.Components[5] ? `, ${place.properties._data.metaDataProperty.GeocoderMetaData.Address.Components[5].name}` : ''
-      } else {
-        addressInfo[0] = i18n.address_input.no_results
-        addressInfo[1] = ''
-      }
-      setAddress({addressInfo, place})
-    } else {
-      window.alert('Geocoder failed due to: ' + status);
-    }
+  geocode = (point, callback) => {
+    axios.get(`address?coords=${point}`).then((res) => {
+      callback(res.data.address)
+    }).catch((error) => {
+      if (error.response) alert(error.response.data.errors)
+    })
   }
 
   setLanguage = (e) => {
@@ -313,11 +277,9 @@ export default class App extends Component {
               language={this.state.language}
               favorite_addresses={() => this.state.favorite_addresses}
               fetchUser={this.fetchUser}
-              getAddressInfo={this.getAddressInfo}
+              geocode={this.geocode}
               scrollEnd={this.scrollEnd}
               isYmapsLoading={this.state.isYmapsLoading}
-              YANDEX_API_KEY={YANDEX_API_KEY}
-              YANDEX_LANG={YANDEX_LANG}
             />
             <Trips path='/trips/:id?'
               setCurrentTrip={this.setCurrentTrip}
@@ -335,7 +297,7 @@ export default class App extends Component {
               setLanguage = {this.setLanguage}
               bonus_trips={() => this.state.bonus_trips}
               parent_bonus={() => this.state.parent_bonus}
-              getAddressInfo={this.getAddressInfo}
+              geocode={this.geocode}
             />
             <Vendors path='/delivery'
               setCurrentTrip={this.setCurrentTrip}
@@ -344,7 +306,12 @@ export default class App extends Component {
               setCurrentTrip={this.setCurrentTrip}
             />
             <NotFound type='404' default />
-            <Cart path='/delivery/cart' cards={() => this.state.cards} createCard={this.createCard} favorite_addresses={() => this.state.favorite_addresses} />
+            <Cart path='/delivery/cart'
+              cards={() => this.state.cards}
+              createCard={this.createCard}
+              favorite_addresses={() => this.state.favorite_addresses}
+              geocode={this.geocode}
+            />
           </Router>
           <Prompt />
         </main>

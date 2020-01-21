@@ -308,6 +308,7 @@ export default class Cart extends Component {
               <AddressInput
                 setAddress={this.setAddress}
                 placeholder={i18n.cart.where}
+                geocode={this.props.geocode}
                 favorite_addresses={() => this.props.favorite_addresses()}/>
               <div class='additions'>
                 {(cards.length > 1) && <label class='select' for='card'>

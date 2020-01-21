@@ -25,6 +25,7 @@ Rails.application.routes.draw do
     resource :statistics, only: :show
 
     post 'cards/update', to: 'cards#update'
+    resource :address, only: :show
 
     resources :referrals, only: %i[index create]
 
