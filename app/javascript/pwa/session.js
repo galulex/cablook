@@ -100,7 +100,7 @@ export default class Session extends Component {
 
   updateCode = (e) => {
     this.setState({code: e.target.value})
-    this.autoSubmitForm(e, this.submitCode)
+    // this.autoSubmitForm(e, this.submitCode)
   }
 
   resetNumber = () => {
