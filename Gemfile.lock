@@ -140,7 +140,7 @@ GEM
       execjs
     coffee-script-source (1.12.2)
     concurrent-ruby (1.1.5)
-    connection_pool (2.2.1)
+    connection_pool (2.2.2)
     crack (0.4.3)
       safe_yaml (~> 1.0.0)
     crass (1.0.6)
@@ -279,8 +279,8 @@ GEM
     powerpack (0.1.1)
     public_suffix (3.1.1)
     puma (3.11.4)
-    rack (2.1.1)
-    rack-protection (2.0.5)
+    rack (2.0.7)
+    rack-protection (2.0.8.1)
       rack
     rack-proxy (0.6.4)
       rack
@@ -385,9 +385,9 @@ GEM
       thor (~> 0.14)
     serviceworker-rails (0.5.5)
       railties (>= 3.1)
-    sidekiq (5.1.3)
-      concurrent-ruby (~> 1.0)
-      connection_pool (~> 2.2, >= 2.2.0)
+    sidekiq (5.2.7)
+      connection_pool (~> 2.2, >= 2.2.2)
+      rack (>= 1.5.0)
       rack-protection (>= 1.5.0)
       redis (>= 3.3.5, < 5)
     simplecov (0.16.1)
@@ -485,6 +485,7 @@ DEPENDENCIES
   one_signal
   pg (~> 0.18)
   puma (~> 3.7)
+  rack (= 2.0.7)
   rails (~> 5.2.2)
   react-rails
   redis (~> 3.0)
