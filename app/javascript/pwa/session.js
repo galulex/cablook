@@ -60,7 +60,7 @@ export default class Session extends Component {
                  onInput={this.updateNumber}
                  ref={(input) => this.numberInput = input}/>
         </div>
-        <button class='button' disabled={disabled} type='submit' ref={submitNumber => this.submitNumber = submitNumber}>{i18n.session.number}</button>
+        <button class='button' disabled={disabled} type='submit' ref={submitForm => this.submitForm = submitForm}>{i18n.session.number}</button>
         <p><i>{i18n.session.policy} <a href='/privacy-policy' target='_blank'>{i18n.session.policy_link}</a></i></p>
       </form>
     )
@@ -80,10 +80,10 @@ export default class Session extends Component {
                  value={code} autocomplete='off' autoFocus
                  onInput={this.updateCode} ref={input => this.codeInput = input}/>
         </div>
-        <button class='button' type='submit' disabled={disabled}>{i18n.session.code_button}</button>
+        <button class='button' type='submit' disabled={disabled} ref={submitForm => this.submitForm = submitForm}>{i18n.session.code_button}</button>
         <div class='buttons__container'>
           <button class='button resend' disabled={disabled} onClick={this.resendCode} type='button'>{i18n.session.resend_code}</button>
-          <button class='button resend' disabled={disabled} type='button' onClick={this.resetNumber} ref={submitCode => this.submitCode = submitCode}>{i18n.session.change}</button>
+          <button class='button resend' disabled={disabled} type='button' onClick={this.resetNumber}>{i18n.session.change}</button>
         </div>
       </form>
     )
@@ -95,12 +95,12 @@ export default class Session extends Component {
 
   updateNumber = (e) => {
     this.setState({number: NUMBER_CODE + e.target.value})
-    this.autoSubmitForm(e, this.submitNumber)
+    this.autoSubmitForm(e)
   }
 
   updateCode = (e) => {
     this.setState({code: e.target.value})
-    // this.autoSubmitForm(e, this.submitCode)
+    this.autoSubmitForm(e)
   }
 
   resetNumber = () => {
@@ -145,8 +145,8 @@ export default class Session extends Component {
       });
   }
 
-  autoSubmitForm = (e, submitButton) => {
-    if (e.target.checkValidity()) submitButton.click()
+  autoSubmitForm = (e) => {
+    if (e.target.checkValidity()) this.submitForm.click()
   }
 
   createSession = (e) => {

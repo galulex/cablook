@@ -645,7 +645,7 @@ export default class NewDesign extends Component {
   }
 
   resetTrip = () => {
-    this.props.setActivateFeedback()
+    this.setActivateFeedback()
     this.setState({ trip: { stops: ['', ''], waypoints: [], osrm: true }, car: null, driver: null })
   }
 
