@@ -77,8 +77,6 @@ export default class App extends Component {
   }
 
   componentDidMount() {
-    yandex_api_lang = YANDEX_LANG[this.state.language]
-    this.loadTrips()
     i18n.setLanguage(this.state.language)
     this.loadScript()
     if (window.ios) this.focusOutForIos()
@@ -94,18 +92,6 @@ export default class App extends Component {
     if (!navigator.onLine) this.offline()
   }
 
-  loadTrips = () => {
-    axios.get(`trips?page=0&per=1`).then((res) => {
-      this.setState({ activateFeedback: res.data.trips[0].feedbacks[0] == undefined && [FINISHED].includes(res.data.trips[0].status) })
-      this.setState({ lastTripId: res.data.trips[0].id })
-    }).catch((error) => {
-      if (error.response) alert(error.response.data.errors)
-    });
-  };
-
-  setActivateFeedback = () => {
-    this.setState({activateFeedback: false})
-  }
 
   onVisibilityChange = () => {
     document.documentElement.style.setProperty('--car-transition', '0s')
@@ -327,9 +313,6 @@ export default class App extends Component {
               language={this.state.language}
               favorite_addresses={() => this.state.favorite_addresses}
               fetchUser={this.fetchUser}
-              activateFeedback={this.state.activateFeedback}
-              setActivateFeedback={this.setActivateFeedback}
-              lastTripId={this.state.lastTripId}
               getAddressInfo={this.getAddressInfo}
               scrollEnd={this.scrollEnd}
               isYmapsLoading={this.state.isYmapsLoading}

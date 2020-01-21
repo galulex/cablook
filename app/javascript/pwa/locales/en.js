@@ -115,7 +115,7 @@ const en = {
     ok: 'OK'
   },
   session: {
-    change: 'Change phone number',
+    change: 'Change number',
     code_button: 'Next',
     code: 'Enter SMS code',
     number: 'Sign in',
@@ -123,7 +123,7 @@ const en = {
     policy: 'By pressing sign in you\'re accepting',
     phone_number_error: 'Something went wrong. Please check your phone number and try again',
     code_error: 'Please check your verification code and try again',
-    resend_code: 'Resend verification code',
+    resend_code: 'Resend code',
     digits: ' digits',
     code_sent: 'A verification code has been sent to ',
     confirm_resend_code: 'Resend Verification code?'

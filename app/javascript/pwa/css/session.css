@@ -69,6 +69,12 @@ main.login button.resend {
   box-shadow: none;
   text-decoration: underline;
   width: auto;
+  margin-bottom: 0;
+}
+
+main.login .buttons__container {
+  display: flex;
+  flex-direction: column;
 }
 
 main.login svg.logo {
