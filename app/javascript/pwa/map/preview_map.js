@@ -312,10 +312,34 @@ export default class PreviewMap extends Component {
     this.drawPath(trip)
   }
 
+  getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
+    var R = 6371; // Radius of the earth in km
+    var dLat = this.deg2rad(lat2-lat1);  // deg2rad below
+    var dLon = this.deg2rad(lon2-lon1);
+    var a =
+      Math.sin(dLat/2) * Math.sin(dLat/2) +
+      Math.cos(this.deg2rad(lat1)) * Math.cos(this.deg2rad(lat2)) *
+      Math.sin(dLon/2) * Math.sin(dLon/2)
+      ;
+    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+    var d = R * c; // Distance in km
+    return d;
+  }
+
+  deg2rad(deg) {
+    return deg * (Math.PI/180)
+  }
+
   updateCarPosition(data) {
+    let lat1 = parseFloat(data.location[0])
+    let lon1 = parseFloat(data.location[1])
+    let lat2 = parseFloat(data.position[0])
+    let lon2 = parseFloat(data.position[1])
+    let distance = this.getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) < 0.2
+
     let car = this.state.car;
     let deg = this.bearing(data.location, [car.getLngLat().lng, car.getLngLat().lat]);
-    if (!this.move) document.documentElement.style.setProperty('--car-transition', '10s')
+    if (!this.move && distance) document.documentElement.style.setProperty('--car-transition', '10s')
     car.carAngleDeg = deg;
     car.setLngLat(data.location);
     if (deg !== 0) {
