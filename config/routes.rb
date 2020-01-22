@@ -9,7 +9,7 @@ Rails.application.routes.draw do
     resource :business, only: %i[create update show destroy]
     resource :session, only: %i[create update]
     resources :bonus_trips, only: %i[index]
-    resources :cards, only: %i[index create destroy]
+    resources :cards, only: %i[index new create destroy]
     resources :orders, only: %i[create destroy]
     resources :payments, only: %i[index] do
       post 'retry_pendings', on: :collection

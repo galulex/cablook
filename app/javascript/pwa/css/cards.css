@@ -34,8 +34,8 @@ button.x-card svg {
   margin: 0;
 }
 
-body.wfp-widget-open main {
-  margin-right: -15px;
+body.wfp-widget-open {
+  padding-right: 0 !important;
 }
 
 h1.nocards {

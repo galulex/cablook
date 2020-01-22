@@ -6,6 +6,10 @@ module Api
       render json: { cards: cards }, status: 200
     end
 
+    def new
+      render json: WFP.new(current_user).params
+    end
+
     # https://wiki.wayforpay.com/pages/viewpage.action?pageId=852102
     # params: spec/fixtures/card_callback.json
     def create

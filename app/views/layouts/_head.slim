@@ -25,9 +25,6 @@ link rel="apple-touch-startup-image" media="(device-width: 768px) and (device-he
 = csrf_meta_tags
 = render 'shared/favicon_links'
 javascript:
-  window._TOKEN = "#{ENV['WAYFORPAY_SECRET']}"
-  window._MERCHANT = "#{ENV['WAYFORPAY_MERCHANT']}"
-
   var _bugnoConfig = {
     enabled: 'true' == "#{Rails.env.production?}",
     accessToken: 'UAQmtJvMXq3AUTyJCQZ6mS7E',
