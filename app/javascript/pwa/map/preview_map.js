@@ -312,7 +312,12 @@ export default class PreviewMap extends Component {
     this.drawPath(trip)
   }
 
-  getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
+  getDistanceFromLatLonInKm(location, position) {
+    let lat1 = parseFloat(location[0])
+    let lon1 = parseFloat(location[1])
+    let lat2 = parseFloat(position[0])
+    let lon2 = parseFloat(position[1])
+
     var R = 6371; // Radius of the earth in km
     var dLat = this.deg2rad(lat2-lat1);  // deg2rad below
     var dLon = this.deg2rad(lon2-lon1);
@@ -331,11 +336,7 @@ export default class PreviewMap extends Component {
   }
 
   updateCarPosition(data) {
-    let lat1 = parseFloat(data.location[0])
-    let lon1 = parseFloat(data.location[1])
-    let lat2 = parseFloat(data.position[0])
-    let lon2 = parseFloat(data.position[1])
-    let distance = this.getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) < 0.2
+    let distance = this.getDistanceFromLatLonInKm(data.location, data.position) < 0.3
 
     let car = this.state.car;
     let deg = this.bearing(data.location, [car.getLngLat().lng, car.getLngLat().lat]);
