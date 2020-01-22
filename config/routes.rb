@@ -24,7 +24,7 @@ Rails.application.routes.draw do
 
     resource :statistics, only: :show
 
-    post 'cards/update', to: 'cards#update'
+    post 'cards/update', to: 'cards#update', as: :card_callback
     resource :address, only: :show
 
     resources :referrals, only: %i[index create]

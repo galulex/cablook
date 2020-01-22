@@ -7,7 +7,7 @@ module Api
     end
 
     def new
-      render json: WFP.new(current_user).params
+      render json: WFP.new(current_user, api_card_callback_url).params
     end
 
     # https://wiki.wayforpay.com/pages/viewpage.action?pageId=852102

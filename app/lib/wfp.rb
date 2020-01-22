@@ -6,7 +6,6 @@ class WFP
     merchantTransactionType: 'AUTH',
     holdTimeout: 60,
     authorizationType: 'SimpleSignature',
-    serviceUrl: 'https://${window.location.hostname}/api/cards/update',
     amount: '1',
     currency: 'UAH',
     productName: 'Удержание за добавление карты',
@@ -19,7 +18,7 @@ class WFP
 
   attr_reader :params
 
-  def initialize(user)
+  def initialize(user, url)
     date = Time.now.to_i
     ref = OpenSSL::Digest::MD5.new("#{date} #{user.auth_token}").to_s
     @params = {
@@ -27,6 +26,7 @@ class WFP
       clientEmail: user.email,
       orderDate: date,
       orderReference: ref,
+      serviceUrl: url,
       merchantSignature: sign(ref, date)
     }.merge(DEFAULTS)
   end
