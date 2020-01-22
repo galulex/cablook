@@ -46,7 +46,8 @@ export default class NewDesign extends Component {
       inputDisabled: false,
       activateFeedback: false,
       lastTripId: null,
-      paymentButtonDisabled: false
+      paymentButtonDisabled: false,
+      updatePath: false
     }
   }
 
@@ -283,15 +284,6 @@ export default class NewDesign extends Component {
     this.setState({picker: i, klass: 'pick'})
   }
 
-  includeScript = (url) => {
-    const script = document.createElement('script')
-
-    script.src = url
-    script.async = true
-
-    document.body.appendChild(script)
-  }
-
   addShakeListener = () => {
     let listenerEnable = !this.props.trip || ![ON_THE_WAY, WAITING_CLIENT, DRIVING].includes(this.props.trip.status)
 
@@ -457,6 +449,10 @@ export default class NewDesign extends Component {
     window.addEventListener('popstate', this.cancelConfirmUpdate, { once: true })
   }
 
+  resetUpdatePath = () => {
+    this.setState({updatePath: false})
+  }
+
   cancelConfirmUpdate = (e) => {
     window.removeEventListener('popstate', this.cancelConfirmUpdate, true);
     this.props.fetchUser();
@@ -464,6 +460,7 @@ export default class NewDesign extends Component {
 
   handleBackEdit = (e) => {
     window.ios ? this.props.fetchUser() : window.history.back()
+    this.setState({updatePath: true})
   }
 
   setField = (e) => {
@@ -674,6 +671,8 @@ export default class NewDesign extends Component {
             picker={this.state.picker}
             setAddress={this.setAddress}
             geocode={this.props.geocode}
+            updatePath={this.state.updatePath}
+            resetUpdatePath={this.resetUpdatePath}
             ref={(el) => this.previewMapRef = el}/>
           <div class='wrapper'>
             { [CONFIRM_UPDATE_TRIP, CANCELED, CANCELED_BY_DRIVER, undefined, null].includes(trip.status) && this.renderFields(trip, isValid, cards) }
