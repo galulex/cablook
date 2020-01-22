@@ -15,8 +15,6 @@ axios.defaults.baseURL = '/api/drivers_app';
 axios.defaults.headers.common['Auth-Token'] = localStorage.token;
 axios.defaults.headers.common['Content-Type'] = 'application/json';
 
-i18n.setLanguage(i18n.getInterfaceLanguage())
-
 export default class App extends Component {
 
   constructor(props){

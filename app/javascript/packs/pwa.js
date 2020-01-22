@@ -60,7 +60,7 @@ export default class App extends Component {
       cards: [],
       bonus_trips: [],
       parent_bonus: [],
-      language: localStorage.getItem('language') || i18n.getInterfaceLanguage().split('-')[0],
+      language: localStorage.getItem('language') || i18n.interfaceLanguage.split('-')[0],
       favorite_addresses: [],
       notification_settings: [],
       activateFeedback: false,
@@ -72,7 +72,6 @@ export default class App extends Component {
   }
 
   componentDidMount() {
-    i18n.setLanguage(this.state.language)
     this.loadScript()
     if (window.ios) this.focusOutForIos()
     if (this.state.currentUser) {
@@ -227,14 +226,8 @@ export default class App extends Component {
   setLanguage = (e) => {
     this.setState({language: e.target.value})
     localStorage.setItem('language', e.target.value)
-    i18n.setLanguage(this.state.language)
-    this.setScriptLanguage()
     axios.defaults.headers.common['Pwa-Language'] = e.target.value
-  }
-
-  setScriptLanguage = () => {
-    let script = document.getElementById('google-script')
-    if (script !== null) script.setAttribute('src', `https://maps.googleapis.com/maps/api/js?key=AIzaSyDg2-aLroQJWY8LV8x1Gv5ZYDhIArWCDeU&libraries=places&language=${this.state.language}`);
+    window.location.reload()
   }
 
   loadScript = () => {
