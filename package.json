@@ -1,5 +1,8 @@
 {
   "dependencies": {
+    "@firebase/app": "^0.5.2",
+    "@firebase/auth": "^0.13.4",
+    "@firebase/messaging": "^0.6.2",
     "@mapbox/mapbox-gl-language": "^0.10.0",
     "@mapbox/polyline": "^1.0.0",
     "@rails/actioncable": "^6.0.1",
@@ -9,7 +12,6 @@
     "babel-plugin-transform-react-jsx": "^6.24.1",
     "babel-preset-react": "^6.24.1",
     "css-loader": "^3.4.2",
-    "firebase": "^7.7.0",
     "history": "^4.9.0",
     "mapbox-gl": "^1.6.1",
     "preact": "^8.4.2",
