@@ -26,13 +26,31 @@ jobs:
     - uses: actions/setup-node@v1
       with:
         node-version: '10'
-    - run: yarn install
-    - name: Build and Test
+    - uses: actions/cache@v1
+      with:
+        path: vendor/bundle
+        key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-gems-
+    - name: Bundle install
       run: |
         sudo apt-get -y install libpq-dev redis-server
-        cp config/database.yml.github-actions config/database.yml
         gem install bundler
+        bundle config path vendor/bundle
         bundle install --jobs 4 --retry 3
+    - name: Get yarn cache
+      id: yarn-cache
+      run: echo "::set-output name=dir::$(yarn cache dir)"
+    - name: Install yarn packages
+      run: yarn install
+    - uses: actions/cache@v1
+      with:
+        path: ${{ steps.yarn-cache.outputs.dir }}
+        key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-yarn-
+    - name: Build and Test
+      run: |
+        cp config/database.yml.github-actions config/database.yml
         bundle exec rake db:setup RAILS_ENV=test
-        yarn install
         bundle exec rspec
