@@ -127,7 +127,6 @@ export default class PreviewMap extends Component {
     this.map.on('load', () => {
       this.map.addSource('line', { type: 'geojson', lineMetrics: true, data: this.state.geojson || GEOJSON })
       this.map.addLayer(PATHLAYER);
-      //geolocate.trigger()
     });
   }
 
@@ -201,7 +200,7 @@ export default class PreviewMap extends Component {
 
   pick = (index) => {
     this.setState({index: index})
-    this.map.getSource('line').setData(this.state.geojson || GEOJSON)
+    if (this.map.getSource('line')) this.map.getSource('line').setData(this.state.geojson || GEOJSON)
     this.markers.map(m => m.remove())
     this.map.on('movestart', this.movestart);
     this.map.on('moveend', this.moveend);
