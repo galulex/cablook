@@ -28,6 +28,7 @@ const TRIP_FIELDS = ['departure', 'departure_address', 'destination', 'destinati
 const Shake = require('shake.js')
 let myShakeEvent = false
 const initialTripState = { stops: ['', ''], waypoints: [], osrm: true }
+let fetchTripTimeout
 
 export default class NewDesign extends Component {
   constructor(props) {
@@ -184,6 +185,14 @@ export default class NewDesign extends Component {
     })
   }
 
+  setFetchTripTimeout = () => {
+    fetchTripTimeout = setTimeout(this.props.fetchUser, 76000)
+  }
+
+  clearFetchTripTimeout = () => {
+    clearTimeout(fetchTripTimeout)
+  }
+
   create = (e) => {
     const { trip, comment, entrance } = this.state;
     let params = { ...trip, status: PENDING }
@@ -202,6 +211,7 @@ export default class NewDesign extends Component {
 
       // delete this.state.trip.start_time
       this.unsubscribe()
+      this.clearFetchTripTimeout()
     }).catch((error) => {
       if (error.response) alert(error.response.data.errors)
     })
@@ -215,6 +225,7 @@ export default class NewDesign extends Component {
   retry = (e, callback = () => {}) => {
     axios.patch(`trips/${this.state.trip.id}/retry`).then((res) => {
       this.setState({ trip: { ...this.state.trip, status: PENDING } })
+      this.setFetchTripTimeout()
     }).catch((error) => {
       if (error.response) alert(error.response.data.errors)
       callback()
@@ -230,6 +241,7 @@ export default class NewDesign extends Component {
       this.setState({trip: res.data})
       this.updateTrip()
       if (!params.id) { this.subscribe(res.data) }
+      this.setFetchTripTimeout()
     }).catch((error) => {
       if (!error.response) return
       switch(error.response.status) {
@@ -410,8 +422,13 @@ export default class NewDesign extends Component {
   }
 
   getTripThroughProps = (propsTrip) => {
-    if (!propsTrip) return;
     let trip = {}
+    if (!propsTrip) {
+      trip = this.state.trip
+      if (trip.status !== PENDING) return
+      this.setState({ trip: { ...trip, status: DECLINED} })
+      return
+    }
     TRIP_FIELDS.map(f => trip[f] = propsTrip[f] )
     const car = { location: propsTrip.car_location, color: propsTrip.car_color, number: propsTrip.car_number, position: propsTrip.car_position }
     const driver = { name: propsTrip.driver_name, phone_number: propsTrip.car_phone_number }
@@ -493,11 +510,13 @@ export default class NewDesign extends Component {
     this.setState({ trip: { ...this.state.trip, status: ON_THE_WAY, start_time: data.trip.start_time },
                     car: { location: data.trip.car_location ,color: data.trip.car_color, number: data.trip.car_number },
                     driver: { name: data.trip.driver_name, phone_number: data.trip.car_phone_number } })
+    this.clearFetchTripTimeout()
   }
 
   TripDeclined = (data) => {
     this.vibrate()
     this.setState({ trip: { ...this.state.trip, status: DECLINED } })
+    this.clearFetchTripTimeout()
   }
 
   TripUnavailable = (data) => {
