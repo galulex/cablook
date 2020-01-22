@@ -72,6 +72,10 @@ fieldset.address {
   background: var(--orange);
 }
 
+.button.pick_address {
+  z-index: 11;
+}
+
 .new_design .remove-address {
   right: 5px;
   font-size: 2.2rem;
