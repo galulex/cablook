@@ -4,7 +4,10 @@ import uk from './locales/uk.js'
 
 class i18n {
   constructor() {
-    Object.assign(this, this.locales[localStorage.getItem('language') || this.interfaceLanguage])
+    let locale = this.locales[localStorage.getItem('language') || this.interfaceLanguage.split('-')[0]]
+    Object.keys(locale).forEach(key => {
+      if (!this[key]) this[key] = locale[key]
+    })
     return this
   }
 

@@ -224,9 +224,9 @@ export default class PreviewMap extends Component {
     if (this.state.point.lat === lat && this.state.point.lng === lng) return
 
     this.updatePoint([lat, lng])
-    const waypoint = Object.values(this.map.getCenter())
-    this.props.geocode(waypoint.toString(), (address) => {
-      this.props.setAddress(address, waypoint.reverse().toString(), this.state.index)
+
+    this.props.geocode(`${lng},${lat}`, (address) => {
+      this.props.setAddress(address, `${lat},${lng}`, this.state.index)
     })
   }
 
