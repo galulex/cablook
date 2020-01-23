@@ -16,6 +16,7 @@ import Card from './images/credit-cards-payment.svg'
 import Phone from './images/phone_crossed.svg'
 import Comment from './images/contacts.svg'
 import Arrows from './images/arrows.svg'
+import Back from './images/arrow-left.svg'
 import SearchLogo from './images/search_logo.svg'
 import './css/new_design.css'
 
@@ -47,7 +48,8 @@ export default class NewDesign extends Component {
       activateFeedback: false,
       lastTripId: null,
       paymentButtonDisabled: false,
-      updatePath: false
+      updatePath: false,
+      showEdit: false
     }
   }
 
@@ -444,6 +446,7 @@ export default class NewDesign extends Component {
 
   updateRoute = (e) => {
     this.setState({ trip: { ...this.state.trip, status: CONFIRM_UPDATE_TRIP }, inputDisabled: true })
+    this.setState({showEdit: true})
     if (window.ios) return;
     history.pushState(null, null,'/')
     window.addEventListener('popstate', this.cancelConfirmUpdate, { once: true })
@@ -459,8 +462,9 @@ export default class NewDesign extends Component {
   }
 
   handleBackEdit = (e) => {
+    if (this.state.picker !== null) this.setState({picker: null, klass: ''})
+    this.setState({updatePath: true, showEdit: false})
     window.ios ? this.props.fetchUser() : window.history.back()
-    this.setState({updatePath: true})
   }
 
   setField = (e) => {
@@ -660,6 +664,7 @@ export default class NewDesign extends Component {
     return (
       <div>
         <header></header>
+        { [CONFIRM_UPDATE_TRIP].includes(trip.status) && <button type='button' class='burger' onClick={this.handleBackEdit} style={this.state.showEdit ? "z-index:1000000" : "display: none"}><Back/></button> }
         <section class={`new_design ${this.state.klass} ${[PENDING].includes(trip.status) ? 'background' : ''}`}>
           { (activateFeedback || trip.status == FINISHED) && <Feedback trip={trip} updateTrip={this.resetTrip} handleBack={this.resetTrip} lastTripId={lastTripId} /> }
           <style>{`fieldset.address:nth-child(${this.state.picker + 1}) { opacity: 1;}`}</style>
@@ -685,7 +690,6 @@ export default class NewDesign extends Component {
             createTrip={this.createTrip}
             updateRoute={this.updateRoute}
             confirmUpdate={this.confirmUpdate}
-            handleBackEdit={this.handleBackEdit}
             cancel={this.cancel}
             retry={this.retry}
             cancelDeclined={this.cancelDeclined}
