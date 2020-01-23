@@ -1,4 +1,8 @@
 Rails.application.configure do
+  config.action_cable.url = 'ws://localhost:3000/cable'
+  config.action_cable.allowed_request_origins = [
+    'http://app.lvh.me:9887'
+  ]
   # Settings specified here will take precedence over those in config/application.rb.
 
   # The test environment is used exclusively to run your application's
