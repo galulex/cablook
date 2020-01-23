@@ -73,7 +73,7 @@ export default class Trips extends Component {
           type='button'
           class='burger'
           onClick={() => this.handleBack()}
-          style={this.state.showDet ? "z-index:1000000" : "display: none"}>
+          style={this.state.showDet ? "z-index:301" : "display: none"}>
           <Back/>
         </button>
         <header>{i18n.trips.header}</header>

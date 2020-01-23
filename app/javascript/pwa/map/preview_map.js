@@ -218,7 +218,6 @@ export default class PreviewMap extends Component {
 
   geocode = () => {
     const { lng, lat } = this.map.getCenter();
-    let component = this
 
     if (this.state.point.lat === lat && this.state.point.lng === lng) return
 
@@ -270,7 +269,6 @@ export default class PreviewMap extends Component {
     };
     this.setState({ geojson: geojson })
     if (this.map.getSource('line')) this.map.getSource('line').setData(geojson);
-    if (this.props.updatePath) this.props.resetUpdatePath()
   }
 
   drawMarkers = (trip) => {
@@ -308,9 +306,9 @@ export default class PreviewMap extends Component {
     let trip = props.trip()
 
     this.drawMarkers(trip)
-    if (![CONFIRM_UPDATE_TRIP, undefined, null].includes(trip.status) && this.map.getSource('line') && !props.updatePath) return;
-    if (![CONFIRM_UPDATE_TRIP].includes(props.trip().status)) this.pathFocus(trip)
     this.drawPath(trip)
+    if (![CONFIRM_UPDATE_TRIP, undefined, null].includes(trip.status) && this.map.getSource('line')) return;
+    if (![CONFIRM_UPDATE_TRIP].includes(props.trip().status)) this.pathFocus(trip)
   }
 
   updateCarPosition(data) {

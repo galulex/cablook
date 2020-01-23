@@ -128,14 +128,10 @@ export default class AddressInput extends Component {
   focus = (e) => {
     const fields = document.getElementById('fields')
     this.input.classList.add('focus')
-    if (this.state.address == '') {
-      this.favoriteAddressesPredictions()
-    }
+    if (this.state.address == '') this.favoriteAddressesPredictions()
     // e.target.focus()
     if (window.timeout) clearTimeout(window.timeout)
-    if (fields) {
-      fields.classList.add('noscroll')
-    }
+    if (fields) fields.classList.add('noscroll')
   }
 
   blur = (e) => {
@@ -175,8 +171,8 @@ export default class AddressInput extends Component {
 
   render() {
     let placeholder = this.setPlaceholder()
-    const { fieldsCount, address, index, readonly, language, hideRemove, inputDisabled, geocode } = this.props
 
+    const { fieldsCount, address, index, readonly, language, hideRemove, inputDisabled, geocode } = this.props
     return (
       <fieldset class='address'>
         {(fieldsCount > 2 || address !== '') && !hideRemove && !readonly && (<button disabled={index === 0 ? inputDisabled : false} class='remove-address' type='button' onClick={() => this.eraseAddress(index)}>×</button>)}
