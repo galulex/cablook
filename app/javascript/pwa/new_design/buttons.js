@@ -29,7 +29,7 @@ export default class Buttons extends Component {
         { [DECLINED].includes(trip.status) && <button class='button fixed retry' type='button' onClick={this.props.retry}>{i18n.retry_trip.retry}</button> }
         { [DECLINED].includes(trip.status) && <button class='button fixed cancel' type='button' onClick={this.props.cancelDeclined}>{i18n.find_driver.cancel}</button> }
         { [WAITING_CLIENT, DRIVING].includes(trip.status) && <button class='button fixed edit' type='button' onClick={this.props.updateRoute}>{i18n.trip.edit}</button> }
-        { (this.props.picker !== null) && <button class='button fixed' type='button' onClick={this.props.pickAddress}>OK</button> }
+        { (this.props.picker !== null) && <button class='button pick_address fixed' type='button' onClick={this.props.pickAddress}>OK</button> }
       </div>
     )
   }

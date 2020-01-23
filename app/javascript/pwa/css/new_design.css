@@ -32,7 +32,7 @@ fieldset.address {
 }
 
 .wrapper {
-  z-index: 10;
+  z-index: 30;
 }
 
 .new_design .wrapper .driverSearch {
@@ -54,7 +54,7 @@ fieldset.address {
 }
 
 .trip_add_card {
-  z-index: 11 !important;
+  z-index: 20 !important;
 }
 
 .new_design .button svg {
@@ -70,6 +70,10 @@ fieldset.address {
 .button.edit {
   background: #efcc3a;
   background: var(--orange);
+}
+
+.button.pick_address {
+  z-index: 20;
 }
 
 .new_design .remove-address {
