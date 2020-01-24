@@ -335,7 +335,10 @@ export default class PreviewMap extends Component {
   }
 
   updateCarPosition(data) {
-    let distance = this.getDistanceFromLatLonInKm(data.location, data.position) < 0.3
+    let distance
+    if (data.position) {
+      distance = this.getDistanceFromLatLonInKm(data.location, data.position) < 0.3
+    }
 
     let car = this.state.car;
     let deg = this.bearing(data.location, [car.getLngLat().lng, car.getLngLat().lat]);
