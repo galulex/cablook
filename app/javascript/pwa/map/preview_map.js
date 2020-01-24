@@ -219,12 +219,12 @@ export default class PreviewMap extends Component {
   geocode = () => {
     const { lng, lat } = this.map.getCenter();
 
-    if (this.state.point.lat === lat && this.state.point.lng === lng) return
+    if ((this.state.point.lat === lat && this.state.point.lng === lng) || this.move || ![CONFIRM_UPDATE_TRIP, undefined, null].includes(this.props.trip().status)) return
 
     this.updatePoint([lat, lng])
 
     this.props.geocode(`${lng},${lat}`, (address) => {
-      this.props.setAddress(address, `${lat},${lng}`, this.state.index)
+      if (!this.move) this.props.setAddress(address, `${lat},${lng}`, this.state.index)
     })
   }
 

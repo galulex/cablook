@@ -76,8 +76,8 @@ fieldset.address {
   z-index: 20;
 }
 
-.burger.edit {
-  z-index: 301;
+.burger.back{
+  z-index: 310;
 }
 
 .new_design .remove-address {
