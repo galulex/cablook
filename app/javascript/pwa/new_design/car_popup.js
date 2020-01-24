@@ -10,10 +10,9 @@ import '../css/car_popup.css'
 
 export default class CarPopup extends Component {
   render() {
-    const car = this.props.car
-    const trip = this.props.trip
-    const driver = this.props.driver
+    let { car, trip, driver } = this.props
     let driver_name = driver.name.split(' ').length == 1 ? driver.name : driver.name.split(' ')[1]
+
     return (
       <div>
         <div>
