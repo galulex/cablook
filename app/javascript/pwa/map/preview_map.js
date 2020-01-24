@@ -218,14 +218,13 @@ export default class PreviewMap extends Component {
 
   geocode = () => {
     const { lng, lat } = this.map.getCenter();
-    let component = this
 
-    if (this.state.point.lat === lat && this.state.point.lng === lng) return
+    if ((this.state.point.lat === lat && this.state.point.lng === lng) || this.move || ![CONFIRM_UPDATE_TRIP, undefined, null].includes(this.props.trip().status)) return
 
     this.updatePoint([lat, lng])
 
     this.props.geocode(`${lng},${lat}`, (address) => {
-      this.props.setAddress(address, `${lat},${lng}`, this.state.index)
+      if (!this.move) this.props.setAddress(address, `${lat},${lng}`, this.state.index)
     })
   }
 
@@ -307,9 +306,9 @@ export default class PreviewMap extends Component {
     let trip = props.trip()
 
     this.drawMarkers(trip)
+    this.drawPath(trip)
     if (![CONFIRM_UPDATE_TRIP, undefined, null].includes(trip.status) && this.map.getSource('line')) return;
     if (![CONFIRM_UPDATE_TRIP].includes(props.trip().status)) this.pathFocus(trip)
-    this.drawPath(trip)
   }
 
   getDistanceFromLatLonInKm(location, position) {

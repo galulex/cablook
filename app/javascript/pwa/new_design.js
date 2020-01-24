@@ -16,6 +16,7 @@ import Card from './images/credit-cards-payment.svg'
 import Phone from './images/phone_crossed.svg'
 import Comment from './images/contacts.svg'
 import Arrows from './images/arrows.svg'
+import Back from './images/arrow-left.svg'
 import SearchLogo from './images/search_logo.svg'
 import './css/new_design.css'
 
@@ -283,15 +284,6 @@ export default class NewDesign extends Component {
     this.setState({picker: i, klass: 'pick'})
   }
 
-  includeScript = (url) => {
-    const script = document.createElement('script')
-
-    script.src = url
-    script.async = true
-
-    document.body.appendChild(script)
-  }
-
   addShakeListener = () => {
     let listenerEnable = !this.props.trip || ![ON_THE_WAY, WAITING_CLIENT, DRIVING].includes(this.props.trip.status)
 
@@ -463,6 +455,7 @@ export default class NewDesign extends Component {
   }
 
   handleBackEdit = (e) => {
+    if (this.state.picker !== null) this.setState({picker: null, klass: ''})
     window.ios ? this.props.fetchUser() : window.history.back()
   }
 
@@ -663,6 +656,7 @@ export default class NewDesign extends Component {
     return (
       <div>
         <header></header>
+        { [CONFIRM_UPDATE_TRIP].includes(trip.status) && <button type='button' class='burger back' onClick={this.handleBackEdit}><Back/></button> }
         <section class={`new_design ${this.state.klass} ${[PENDING].includes(trip.status) ? 'background' : ''}`}>
           { (activateFeedback || trip.status == FINISHED) && <Feedback trip={trip} updateTrip={this.resetTrip} handleBack={this.resetTrip} lastTripId={lastTripId} /> }
           <style>{`fieldset.address:nth-child(${this.state.picker + 1}) { opacity: 1;}`}</style>
@@ -686,7 +680,6 @@ export default class NewDesign extends Component {
             createTrip={this.createTrip}
             updateRoute={this.updateRoute}
             confirmUpdate={this.confirmUpdate}
-            handleBackEdit={this.handleBackEdit}
             cancel={this.cancel}
             retry={this.retry}
             cancelDeclined={this.cancelDeclined}
