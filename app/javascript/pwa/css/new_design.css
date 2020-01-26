@@ -27,10 +27,6 @@ fieldset.address {
   opacity: 0.85;
 }
 
-.new_design fieldset.address input {
-  border: none;
-}
-
 .wrapper {
   z-index: 30;
 }

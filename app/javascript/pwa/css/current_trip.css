@@ -1,8 +1,3 @@
-div.addresses {
-  min-height: calc(100vh - 390px);
-  min-height: calc(var(--vh, 1vh) * 100 - 390px);
-}
-
 input.address {
   display: block;
   width: 90%;
@@ -17,10 +12,6 @@ input.address {
   border-radius: 0;
   box-shadow: none;
   transition: color .3s;
-}
-
-input.address:invalid {
-  border-color: #a925ad;
 }
 
 input.address:focus {
