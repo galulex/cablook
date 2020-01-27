@@ -1,2 +1,35 @@
 @import "variables";
 @import "global";
+
+//TODO find a way to correctly import css
+@import '../../node_modules/mapbox-gl/src/css/mapbox-gl.css';
+
+.map {
+  height: 500px;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  height: 100vh;
+
+  img {
+    height: auto;
+    width: 40px;
+    transition: transform var(--car-rotation);
+  }
+
+  .mapboxgl-marker {
+    transition: transform var(--car-transition);
+  }
+
+  .free .mapboxgl-popup-tip {
+    border-top-color: green;
+  }
+
+  .free .mapboxgl-popup-content {
+    background: green;
+  }
+}
