@@ -6,7 +6,7 @@ module Events
           configure { config.messages = :i18n }
 
           required(:driver_id).filled(:int?)
-          required(:car_id).filled(:int?)
+          required(:car_id)
         end
       end
 
