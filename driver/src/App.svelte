@@ -21,8 +21,9 @@
   let trips = {}
 
   onMount(() => {
+    if (!token) return
+    subscribe()
     getTrips()
-    if (token) subscribe()
   })
 
   onDestroy(() => {
@@ -31,6 +32,7 @@
 
   let login = (driver) => {
     localStorage.token = driver.auth_token
+    localStorage.id = driver.id
     token = driver.auth_token
     subscribe()
   }
@@ -54,6 +56,13 @@
     }).catch((error) => {
       if (error.response) alert(error.response.data.errors)
     })
+    axios.get('trips/currents').then((res) => {
+      res.data.trips.forEach(trip => {
+        trips[trip.id] = trip
+      })
+    }).catch((error) => {
+      if (error.response) alert(error.response.data.errors)
+    })
   }
 
   let subscribe = () => {
@@ -70,6 +79,7 @@
     TripPropose: (data) => {
       let trip = JSON.parse(data.trip)
       console.log(trip)
+      trips[trip.id] = trip
     },
 
     TripUnavailable: (data) => {
