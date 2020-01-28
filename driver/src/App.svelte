@@ -1,7 +1,7 @@
 <script>
   import './styles/App.scss';
 
-  import { onMount } from 'svelte'
+  import { onMount, onDestroy } from 'svelte'
   import { Router, Route, Link } from 'svelte-routing'
   import { createConsumer } from '@rails/actioncable'
 
@@ -15,20 +15,24 @@
   import Map from './routes/Map.svelte';
 
   let token = localStorage.token
-  export let url = ''
 
   let subscription = null
   const cable = createConsumer('wss://cablook.taxi/cable')
-  let car
-  let location
+  let trips = {}
 
-  onMount(async () => {
-    /* subscribe() */
+  onMount(() => {
+    getTrips()
+    if (token) subscribe()
+  })
+
+  onDestroy(() => {
+    if (subscription) subscription.unsubscribe()
   })
 
   let login = (driver) => {
     localStorage.token = driver.auth_token
     token = driver.auth_token
+    subscribe()
   }
 
   let logout = () => {
@@ -36,6 +40,17 @@
     axios.delete('sessions').then(() => {
       localStorage.clear()
       token = null
+      subscription.unsubscribe()
+    }).catch((error) => {
+      if (error.response) alert(error.response.data.errors)
+    })
+  }
+
+  let getTrips = () => {
+    axios.get('trips').then((res) => {
+      res.data.trips.forEach(trip => {
+        trips[trip.id] = trip
+      })
     }).catch((error) => {
       if (error.response) alert(error.response.data.errors)
     })
@@ -43,37 +58,47 @@
 
   let subscribe = () => {
     if (subscription) return subscription
-    subscription = cable.subscriptions.create({ channel: 'DriverMapChannel' },
-      {
-        received: data => {
-          cableActions[data.action](data)
-        }
-      }
-    )
+    subscription = cable.subscriptions.create({ channel: 'DriverMapChannel' }, {
+      received: data => { cableActions[data.action](data) }
+    })
   }
 
   let cableActions = {
     SendLocation: (data) => {
+    },
+
+    TripPropose: (data) => {
+      let trip = JSON.parse(data.trip)
+      console.log(trip)
+    },
+
+    TripUnavailable: (data) => {
+      console.log(data)
+    },
+
+    TripAccepted: (data) => {
+      console.log(data)
+    },
+
+    TripUpdated: (data) => {
       console.log(data)
     }
   }
 
 </script>
 
-<Router url={url}>
-  <main>
-    {#if token}
-      <nav>
-        <Link to="/">Home</Link>
-        <Link to="/map">Map</Link>
-      </nav>
-      <button type='button' on:click={logout}>Log out</button>
-      <Route path="/" component={Home} />
-      <Route path="/map">
-        <Map cable={cable}/>
-      </Route>
-    {:else}
-      <Route path="/" component={Session} login={login} />
-    {/if}
-  </main>
+<Router>
+  {#if token}
+    <main>
+      <Route path="/"><Home trips={trips} /></Route>
+      <Route path="/map"><Map cable={cable}/></Route>
+    </main>
+    <nav>
+      <Link to="/map">🌐</Link>
+      <Link to="/">🏠</Link>
+      <button class='button-clear' type='button' on:click={logout}>⏻</button>
+    </nav>
+  {:else}
+    <Route path="/" component={Session} login={login} />
+  {/if}
 </Router>

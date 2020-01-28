@@ -33,3 +33,29 @@
     background: green;
   }
 }
+
+nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  border-top: 1px solid grey;
+  background: white;
+  z-index: 1000;
+  flex-wrap: nowrap;
+  align-items: stretch;
+
+  * {
+    width: 100%;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    height: auto;
+    font-size: 2rem;
+  }
+
+  *:not(:last-child) {
+    border-right: 1px solid grey;
+  }
+}
