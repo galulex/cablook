@@ -46,7 +46,7 @@ class User < ApplicationRecord
 
   def current_trip
     trip = trips.includes(:order, :payments).where(orders: { trip_id: nil }).find_by(status: Constants::Trip::CURRENT_TRIP_STATUSES)
-    Presenters::Trips::Detailed.new(trip).to_json if trip
+    Presenters::Trips::Detailed.new(trip).as_json if trip
   end
 
   private
