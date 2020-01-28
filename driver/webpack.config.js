@@ -30,6 +30,7 @@ module.exports = {
     })
   ],
   devServer: {
-    open: true
+    open: false,
+    historyApiFallback: true
   }
 };
