@@ -15,10 +15,13 @@
   import Map from './routes/Map.svelte';
 
   let token = localStorage.token
+  let carSpeed
+  let watcher
 
   let subscription = null
-  const cable = createConsumer('wss://cablook.taxi/cable')
+  const cable = createConsumer('ws://localhost:3000/cable')
   let trips = {}
+
 
   onMount(() => {
     if (!token) return
@@ -28,11 +31,30 @@
 
   onDestroy(() => {
     if (subscription) subscription.unsubscribe()
+    if (watcher) watcher.clearWatch()
   })
 
-  let login = (driver) => {
+  let sendLocation = (geo) => {
+    let { latitude, longitude, speed } = geo.coords
+    carSpeed = speed
+    if (!subscription) return
+
+    let params = {
+      car_id: parseInt(localStorage.carId),
+      speed: speed,
+      latitude: latitude,
+      longitude: longitude
+    }
+    subscription.perform('send_location', { body: JSON.stringify(params) })
+  }
+  watcher = navigator.geolocation.watchPosition(sendLocation)
+
+
+  let login = (driver, car) => {
     localStorage.token = driver.auth_token
     localStorage.id = driver.id
+    localStorage.carId = car.id
+    localStorage.carNumber = car.number
     token = driver.auth_token
     subscribe()
   }
@@ -78,7 +100,6 @@
 
     TripPropose: (data) => {
       let trip = JSON.parse(data.trip)
-      console.log(trip)
       trips[trip.id] = trip
     },
 
@@ -92,6 +113,28 @@
 
     TripUpdated: (data) => {
       console.log(data)
+    },
+
+    DriverSignOut: (data) => {
+      console.log(data)
+    },
+
+    PaymentResponse: (data) => {
+      console.log(data)
+    },
+
+    SOS: (data) => {
+      console.log(data)
+    },
+
+    TripAssigned: (data) => {
+    },
+
+    TripAccepted: (data) => {
+      console.log(data)
+    },
+
+    TripDeclined: (data) => {
     }
   }
 
@@ -106,6 +149,7 @@
     <nav>
       <Link to="/map">🌐</Link>
       <Link to="/">🏠</Link>
+      <a href='#'>☠👠🚀⏲</a>
       <button class='button-clear' type='button' on:click={logout}>⏻</button>
     </nav>
   {:else}

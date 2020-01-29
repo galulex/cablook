@@ -25,9 +25,11 @@
 
   let update = (e) => {
     e.preventDefault()
-    axios.patch('assign_car', { driver: formData(e.target) }).then((res) => {
+    let params = formData(e.target)
+    axios.patch('assign_car', { driver: params }).then((res) => {
       disabled = false
-      login(res.data.driver)
+      let car = cars.find((car) => { return car.id.toString() === params.car_id })
+      login(res.data.driver, car)
     }).catch((error) => {
       disabled = false
       if (error.response) alert(error.response.data.errors)

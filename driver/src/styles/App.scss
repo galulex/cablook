@@ -23,14 +23,6 @@ section {
   scroll-behavior: smooth;
 }
 
-ol {
-  height: calc(100vh - 41px);
-  overflow: auto;
-  flex: 0 0 auto;
-  width: 100%;
-  scroll-snap-align: start;
-}
-
 .map {
   height: 500px;
   position: absolute;

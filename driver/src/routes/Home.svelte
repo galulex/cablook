@@ -1,6 +1,22 @@
 <script>
+  import Trip from './home/trip.svelte'
+
   export let trips = {}
 </script>
+
+<style>
+  ol {
+    height: calc(100vh - 41px);
+    overflow-y: auto;
+    overflow-x: hidden;
+    flex: 0 0 auto;
+    width: 100%;
+    scroll-snap-align: start;
+    list-style: none;
+    scroll-snap-type: y mandatory;
+    scroll-behavior: smooth;
+  }
+</style>
 
 <section>
   <ol id='proposals'>
@@ -19,18 +35,8 @@
     {/each}
   </ol>
   <ol id='current'>
-    {#each Object.values(trips).filter(trip => { return trip.driver_id === parseInt(localStorage.id) }) as trip, i}
-      <li>
-        <ul>
-          {#each trip.stops as stop, i}
-            <li>{stop}</li>
-          {/each}
-        </ul>
-        <blockquote>{trip.comment}</blockquote>
-        <a class='button' disabled={trip.no_call} href={`tel:${trip.user_number}`}>✆</a>
-        <br/>
-        <button type='button'>Arrived</button>
-      </li>
+    {#each Object.values(trips).filter(trip => { return trip.driver_id === parseInt(localStorage.id) }) as trip (trip.id)}
+      <Trip trip={trip}/>
     {/each}
   </ol>
 </section>
