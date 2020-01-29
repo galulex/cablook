@@ -109,6 +109,28 @@ export default class PreviewMap extends Component {
       this.move = false
     });
 
+    this.map.on('rotatestart', () => {
+      this.rotate = true
+      document.documentElement.style.setProperty('--car-transition', '0s')
+      if (this.state.car !== null) {
+        this.state.car._element.firstChild.style.transition = 'none'
+      }
+    })
+
+    this.map.on('rotate', () => {
+      if (this.state.car !== null) {
+        this.updateCarDirection(this.state.car)
+        this.state.car._element.firstChild.style.transition = 'none'
+      }
+    });
+
+    this.map.on('rotateend', () => {
+      this.rotate = false
+      if (this.state.car !== null) {
+        this.state.car._element.firstChild.style.transition = 'transform 4s'
+      }
+    })
+
     this.map.on('zoom', () => {
       document.documentElement.style.setProperty('--zoom-level', this.map.getZoom())
     });
@@ -161,10 +183,12 @@ export default class PreviewMap extends Component {
       }
       l.prevAngleDeg = reversCarAngle
       l._element.firstChild.style.transform = "rotate(" + (reversCarAngle - this.map.getBearing()) + "deg)";
-      l._element.firstChild.style.transition = 'transform 4s'
     } else  {
       l.prevAngleDeg = l.carAngleDeg
       l._element.firstChild.style.transform = "rotate(" + (l.carAngleDeg - this.map.getBearing()) + "deg)";
+    }
+    if (document.visibilityState == 'visible') {
+      l._element.firstChild.style.transition = 'transform 4s'
     }
   }
 
@@ -335,17 +359,20 @@ export default class PreviewMap extends Component {
   }
 
   updateCarPosition(data) {
-    let distance
-    if (data.position) {
-      distance = this.getDistanceFromLatLonInKm(data.location, data.position) < 0.3
-    }
-
     let car = this.state.car;
-    let deg = this.bearing(data.location, [car.getLngLat().lng, car.getLngLat().lat]);
-    if (!this.move && distance) document.documentElement.style.setProperty('--car-transition', '10s')
+    let position = [car.getLngLat().lng, car.getLngLat().lat]
+    let distance
+    if (position) {
+      distance = this.getDistanceFromLatLonInKm(data.location, position) < 0.3
+    }
+    let deg = this.bearing(data.location, position);
+    if (!this.move && distance && !this.rotate && document.visibilityState == 'visible') document.documentElement.style.setProperty('--car-transition', '10s')
     car.carAngleDeg = deg;
     car.setLngLat(data.location);
     if (deg !== 0) {
+      if (document.visibilityState !== 'visible') {
+        car._element.firstChild.style.transition = 'none'
+      }
       this.updateCarDirection(car);
     }
   }
