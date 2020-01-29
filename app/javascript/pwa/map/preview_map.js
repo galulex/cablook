@@ -210,7 +210,7 @@ export default class PreviewMap extends Component {
     this.updateCarDirection(marker);
 
     this.setState({ car: marker});
-    if (this.state.car._popup.isOpen()) this.map.flyTo({ center: this.state.car.getLngLat(), speed: 1 });
+    if (this.state.car && this.state.car._popup.isOpen()) this.map.flyTo({ center: this.state.car.getLngLat(), speed: 1 });
   }
 
   focusOnCar = () => {
@@ -262,7 +262,7 @@ export default class PreviewMap extends Component {
   addCar = (props) => {
     if (!this.props.car) this.renderCar(props.car, props.trip(), props.driver);
     let popupContent = render(<CarPopup car={props.car} trip={props.trip()} driver={props.driver}/>);
-    this.state.car._popup.setHTML(popupContent.outerHTML);
+    if (this.state.car) this.state.car._popup.setHTML(popupContent.outerHTML);
     this.updateCarPosition(props.car);
   }
 
