@@ -1,12 +1,10 @@
 <script>
-  import './styles/App.scss';
-
   import { onMount, onDestroy } from 'svelte'
   import { Router, Route, Link } from 'svelte-routing'
-  import { createConsumer } from '@rails/actioncable'
+  import actioncable from '@rails/actioncable'
 
   import axios from 'axios';
-  axios.defaults.baseURL = 'https://cablook.taxi/api/drivers_app/'
+  axios.defaults.baseURL = 'http://localhost:3000/api/drivers_app/'
   axios.defaults.headers.common['Auth-Token'] = localStorage.token;
   axios.defaults.headers.common['Content-Type'] = 'application/json';
 
@@ -19,7 +17,7 @@
   let watcher
 
   let subscription = null
-  const cable = createConsumer('wss://cablook.taxi/cable')
+  const cable = actioncable.createConsumer('ws://localhost:3000/cable')
   let trips = {}
 
 
@@ -27,6 +25,7 @@
     if (!token) return
     subscribe()
     getTrips()
+    watcher = navigator.geolocation.watchPosition(sendLocation)
   })
 
   onDestroy(() => {
@@ -47,8 +46,6 @@
     }
     subscription.perform('send_location', { body: JSON.stringify(params) })
   }
-  watcher = navigator.geolocation.watchPosition(sendLocation)
-
 
   let login = (driver, car) => {
     localStorage.token = driver.auth_token
@@ -140,6 +137,60 @@
 
 </script>
 
+<style>
+  :root {
+    --car-transition: 10s;
+    --car-rotation: 4s;
+  }
+
+  html, body {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+  }
+
+  nav a, nav button {
+    width: 100%;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    height: auto;
+    font-size: 2rem;
+  }
+
+  nav > a {
+    border-right: 1px solid grey;
+  }
+
+  main {
+    height: calc(100vh - 41px);
+  }
+
+  nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    border-top: 1px solid grey;
+    background: white;
+    z-index: 1000;
+    flex-wrap: nowrap;
+    align-items: stretch;
+  }
+
+  @media (min-width: 80.0rem) {
+    ol {
+      width: 50%;
+    }
+  }
+</style>
+
+
+
 <Router>
   {#if token}
     <main>
@@ -149,7 +200,7 @@
     <nav>
       <Link to="/map">🌐</Link>
       <Link to="/">🏠</Link>
-      <a href='#'>☠👠🚀⏲</a>
+      <a href='#'>👠</a>
       <button class='button-clear' type='button' on:click={logout}>⏻</button>
     </nav>
   {:else}

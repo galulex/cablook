@@ -1,50 +1,25 @@
 {
-  "name": "svelte-boilerplate",
-  "version": "1.2.2",
-  "description": "A svelte.js boilterplate / testing playground.",
-  "main": "src/index.js",
+  "name": "CabLookDriver",
+  "version": "1.0.0",
   "scripts": {
-    "build": "webpack",
-    "ci": "cypress install && cypress run",
-    "cypress": "cypress open",
-    "dev": "webpack-dev-server",
-    "storybook": "start-storybook",
-    "test": "cypress run"
+    "build": "rollup -c",
+    "dev": "rollup -c -w",
+    "start": "sirv public"
   },
-  "author": "Stephane P. Pericat <contact@pericat.net>",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/stephanepericat/svelte-boilerplate.git"
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^11.0.0",
+    "@rollup/plugin-node-resolve": "^7.0.0",
+    "rollup": "^1.20.0",
+    "rollup-plugin-livereload": "^1.0.0",
+    "rollup-plugin-svelte": "^5.0.3",
+    "rollup-plugin-terser": "^5.1.2",
+    "svelte": "^3.0.0"
   },
-  "license": "MIT",
   "dependencies": {
     "@rails/actioncable": "^6.0.2-1",
     "axios": "^0.19.2",
-    "mapbox-gl": "^1.6.1",
-    "svelte": "^3.18.0",
+    "mapbox-gl": "^1.7.0",
+    "sirv-cli": "^0.4.4",
     "svelte-routing": "^1.4.0"
-  },
-  "devDependencies": {
-    "@babel/core": "^7.7.7",
-    "@cypress/webpack-preprocessor": "^4.1.1",
-    "@storybook/addon-a11y": "^5.2.8",
-    "@storybook/addon-actions": "^5.2.8",
-    "@storybook/addon-knobs": "^5.2.8",
-    "@storybook/addon-links": "^5.2.8",
-    "@storybook/addon-notes": "^5.2.8",
-    "@storybook/addon-storysource": "^5.2.8",
-    "@storybook/addon-viewport": "^5.2.8",
-    "@storybook/svelte": "^5.2.8",
-    "babel-loader": "^8.0.6",
-    "cypress": "^3.8.1",
-    "cypress-svelte-unit-test": "^1.5.0",
-    "eslint-plugin-svelte3": "^2.7.3",
-    "html-webpack-plugin": "^3.2.0",
-    "node-sass": "^4.13.1",
-    "sass-loader": "^8.0.0",
-    "svelte-loader": "^2.13.6",
-    "webpack": "^4.41.5",
-    "webpack-cli": "^3.3.10",
-    "webpack-dev-server": "^3.10.1"
   }
 }

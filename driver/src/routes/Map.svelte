@@ -1,7 +1,9 @@
 <script>
   import { onMount, onDestroy } from 'svelte'
 
-  import { Map, NavigationControl, Marker, Popup } from 'mapbox-gl'
+  import mapboxgl from 'mapbox-gl'
+
+  let { Map, NavigationControl, Marker, Popup } = mapboxgl
 
   export let cable
 
@@ -107,5 +109,37 @@
   }
 
 </script>
+
+<style>
+  .map {
+    height: 500px;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    height: 100vh;
+  }
+
+  .map img {
+    height: auto;
+    width: 40px;
+    transition: transform var(--car-rotation);
+  }
+
+  .mapboxgl-marker {
+    transition: transform var(--car-transition);
+  }
+
+  .free .mapboxgl-popup-tip {
+    border-top-color: green;
+  }
+
+  .free .mapboxgl-popup-content {
+    background: green;
+  }
+</style>
 
 <div class='map' bind:this={mapContainer}></div>

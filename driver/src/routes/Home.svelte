@@ -5,6 +5,15 @@
 </script>
 
 <style>
+  section {
+    display: flex;
+    width: 100%;
+    overflow-x: auto;
+    flex: 1 1 auto;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+  }
+
   ol {
     height: calc(100vh - 41px);
     overflow-y: auto;
@@ -13,6 +22,7 @@
     width: 100%;
     scroll-snap-align: start;
     list-style: none;
+    padding: 0;
     scroll-snap-type: y mandatory;
     scroll-behavior: smooth;
   }
