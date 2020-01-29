@@ -9,6 +9,6 @@ class WelcomeController < ApplicationController
   end
 
   def driver
-    render layout: 'driver'
+    render file: 'public/driver.html', layout: false
   end
 end
