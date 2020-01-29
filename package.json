@@ -22,7 +22,9 @@
     "shake.js": "^1.2.2",
     "smoothscroll-polyfill": "^0.4.4"
   },
-  "engines": {},
+  "engines": {
+    "node": "10.15.2"
+  },
   "devDependencies": {
     "webpack-bundle-analyzer": "^3.6.0",
     "webpack-dev-server": "^3.9"
