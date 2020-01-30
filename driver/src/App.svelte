@@ -4,7 +4,7 @@
   import actioncable from '@rails/actioncable'
 
   import axios from 'axios';
-  axios.defaults.baseURL = 'https://cablook.taxi/api/drivers_app/'
+  axios.defaults.baseURL = 'https://driver.cablook.taxi/api/drivers_app/'
   axios.defaults.headers.common['Auth-Token'] = localStorage.token;
   axios.defaults.headers.common['Content-Type'] = 'application/json';
 
@@ -189,8 +189,6 @@
   }
 </style>
 
-
-
 <Router>
   {#if token}
     <main>
@@ -204,6 +202,8 @@
       <button class='button-clear' type='button' on:click={logout}>⏻</button>
     </nav>
   {:else}
-    <Route path="/" component={Session} login={login} />
+    <main>
+      <Route path="/" component={Session} login={login} />
+    </main>
   {/if}
 </Router>
