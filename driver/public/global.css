@@ -1,0 +1,21 @@
+html, body {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+nav a, nav button {
+  width: 100%;
+  text-align: center;
+  margin: 0;
+  padding: 0;
+  height: auto;
+  font-size: 2rem;
+}
+
+nav > a {
+  border-right: 1px solid grey;
+}
