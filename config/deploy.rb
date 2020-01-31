@@ -19,3 +19,13 @@ set :linked_dirs, fetch(:linked_dirs, []).push(
   'vendor/bundle',
   'public/system'
 )
+
+desc 'Deploy driver app'
+namespace :driver do
+  task :deploy do
+    on roles(:all) do
+      execute 'rm -rf ~/cablook && git clone git@github.com:galulex/cablook.git ~/cablook'
+      execute ' cd ~/cablook/driver && npm install && npm run build'
+    end
+  end
+end
