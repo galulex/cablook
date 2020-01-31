@@ -27,6 +27,7 @@ namespace :driver do
       execute 'rm -rf ~/cablook && git clone git@github.com:galulex/cablook.git ~/cablook'
       execute ' cd ~/cablook/driver && npm install && npm run build'
       execute ' cd ~/current/public && rm -rf build && ln -s ~/cablook/driver/public/build build'
+      execute ' cd ~/current/public && rm driver.html && ln -s ~/cablook/driver/public/index.html driver.html'
     end
   end
 end
