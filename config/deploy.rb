@@ -26,6 +26,7 @@ namespace :driver do
     on roles(:all) do
       execute 'rm -rf ~/cablook && git clone git@github.com:galulex/cablook.git ~/cablook'
       execute ' cd ~/cablook/driver && npm install && npm run build'
+      execute ' cd ~/current/public && rm -rf build && ln -s ~/cablook/driver/public/build build'
     end
   end
 end
