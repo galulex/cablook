@@ -24,10 +24,7 @@ desc 'Deploy driver app'
 namespace :driver do
   task :deploy do
     on roles(:all) do
-      execute 'rm -rf ~/cablook && git clone git@github.com:galulex/cablook.git ~/cablook'
-      execute ' cd ~/cablook/driver && npm install && npm run build'
-      execute ' cd ~/current/public && rm -rf build && ln -s ~/cablook/driver/public/build build'
-      execute ' cd ~/current/public && rm driver.html && ln -s ~/cablook/driver/public/index.html driver.html'
+      execute ' cd ~/current/driver && npm install && npm run build'
     end
   end
 end
