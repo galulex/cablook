@@ -17,7 +17,7 @@
   let watcher
 
   let subscription = null
-  const cable = actioncable.createConsumer('wss://cablook.taxi/cable')
+  const cable = actioncable.createConsumer('wss://driver.cablook.taxi/cable')
   let trips = {}
 
 
