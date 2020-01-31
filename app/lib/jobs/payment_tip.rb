@@ -3,7 +3,7 @@ module Jobs
     queue_as :payments
 
     def perform(trip_id, amount)
-      Operations::TipForTrip.new(trip_id, amount).call
+      Operations::Wayforpay::DoPayment.new(trip_id, 'Tip', amount).call
     end
   end
 end

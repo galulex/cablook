@@ -138,10 +138,11 @@ module Events
       end
 
       def order_reference
+        secure_code = SecureRandom.base58(6)
         @order_reference ||= if Rails.env.production?
-                               "cablook_trip_#{@trip.id}"
+                               "cablook_#{@trip.id}_trip_#{secure_code}"
                              else
-                               "cablook_#{Rails.env}_trip_#{@trip.id}"
+                               "cablook_#{Rails.env}_#{@trip.id}_trip_#{secure_code}"
                              end
       end
     end

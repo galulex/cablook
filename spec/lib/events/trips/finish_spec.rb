@@ -18,9 +18,11 @@ describe Events::Trips::Finish do
     end
 
     context 'when idle is bigger than 10' do
-      let(:data) { { trip_id: trip.id, idle: 800} }
+      let(:data) { { trip_id: trip.id, idle: idle} }
+      let(:price) { Price.create }
+      let(:idle) { 800 }
 
-      it { is_expected.to have_enqueued_job(Jobs::PaymentIdleSettle).with(trip.id, 800) }
+      it { is_expected.to have_enqueued_job(Jobs::PaymentIdleSettle).with(trip.id, idle / 60 * price.idle_price) }
     end
 
     context 'when idle is lower than 10' do

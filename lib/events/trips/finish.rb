@@ -50,7 +50,7 @@ module Events
 
       def settle_payment_idle
         return if data[:idle] < Constants::Trip::FREE_IDLE_VALUE
-        Jobs::PaymentIdleSettle.perform_later(data[:trip_id], data[:idle])
+        Jobs::PaymentIdleSettle.perform_later(data[:trip_id], idle)
       end
 
       def settle_order_payment
@@ -74,12 +74,20 @@ module Events
         @trip ||= Trip.find(data[:trip_id])
       end
 
+      def price
+        @price ||= Price.last
+      end
+
       def delivery_trip?
         @trip.order.present?
       end
 
       def trip_channel
         "#{Constants::Channels::TRIP}_#{data[:trip_id]}"
+      end
+
+      def idle
+        @idle ||= data[:idle] / 60 * price.idle_price
       end
 
       def telegram_message

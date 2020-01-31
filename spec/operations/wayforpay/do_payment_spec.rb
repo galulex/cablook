@@ -1,0 +1,124 @@
+describe Operations::Wayforpay::DoPayment do
+  let(:instance) { described_class.new(trip.id, payment_type) }
+  let(:wayforpay_body) { { reasonCode: Constants::Payments::WAYFORPAY_SUCCESS }.to_json }
+
+  before { allow(Wayforpay::Payments).to receive(:hold) { OpenStruct.new(body: wayforpay_body) } }
+
+  describe '#call' do
+    subject { -> { instance.call } }
+
+    let!(:payment) { create(:payment, trip_id: trip.id, user_id: user.id, card_id: card.id) }
+    let!(:payment_type) { 'Trip' }
+    let(:trip) { create(:trip, user_id: user.id, status: Constants::Trip::FINISHED) }
+    let(:card) { create(:card, user_id: user.id) }
+    let(:user) { create(:user) }
+
+    context 'when payment_type is Trip' do
+      context 'and payment status is Bonus' do
+        let(:payment) { create(:payment, trip_id: trip.id, user_id: user.id, card_id: card.id, status: Constants::Payments::BONUS) }
+
+        it { is_expected.not_to change { payment.reload.status } }
+        it { is_expected.not_to change { payment.reload.response } }
+        it { is_expected.not_to change { trip.reload.total } }
+      end
+
+      context 'and wayforpay status is ok' do
+        it { is_expected.to change { payment.reload.status }.to(Constants::Payments::SUCCESS) }
+        it { is_expected.to change { payment.reload.response }.from(nil) }
+        it { is_expected.to change { trip.reload.total }.from(0).to(trip.cost) }
+
+        it do
+          expect(Wayforpay::Payments).to receive(:hold).once
+          subject.call
+        end
+      end
+
+      context 'and something went wrong' do
+        let(:wayforpay_body) { { reasonCode: '1234' }.to_json }
+
+        it { is_expected.not_to change { payment.reload.status } }
+        it { is_expected.to change { payment.reload.response } }
+      end
+    end
+
+    context 'when payment_type is Tip' do
+      let!(:payment_type) { 'Tip' }
+      let!(:amount) { 5 }
+      let(:instance) { described_class.new(trip.id, payment_type, amount) }
+
+      it { is_expected.to change { Payments::Tip.count }.by(+1) }
+
+      context 'and wayforpay status is ok' do
+        before { subject.call }
+
+        it { is_expected.to change { trip.reload.total } }
+        it { expect(Payments::Tip.last.status).to eq(Constants::Payments::SUCCESS) }
+      end
+
+      context 'and something went wrong' do
+        let(:wayforpay_body) { { reasonCode: '1234' }.to_json }
+
+        before { subject.call }
+
+        it { expect(Payments::Tip.last.status).to eq(Constants::Payments::PENDING) }
+      end
+    end
+
+    context 'when payment_type is Idle' do
+      let!(:payment_type) { 'Idle' }
+      let!(:idle) { 15 }
+      let!(:price) { Price.create }
+      let(:trip) { create(:trip, user_id: user.id, total: total, cost: total) }
+      let(:payment) { create(:payment, user_id: user.id, trip_id: trip.id, card_id: card.id, amount: total) }
+      let(:total) { 40 }
+      let(:instance) { described_class.new(trip.id, payment_type, idle) }
+
+      it { is_expected.to change { Payments::Idle.count }.by(+1) }
+      it { is_expected.to change { trip.reload.total }.from(total).to(total + idle) }
+      it { is_expected.to change { trip.reload.idle }.from(0).to(idle) }
+
+      context 'and wayforpay status is ok' do
+        let(:idle_payment) { Payments::Idle.last }
+
+        before { subject.call }
+
+        it { expect(Payments::Idle.last.status).to eq(Constants::Payments::SUCCESS) }
+      end
+
+      context 'and something went wrong' do
+        let(:wayforpay_body) { { reasonCode: '1234' }.to_json }
+
+        before { subject.call }
+
+        it { expect(Payments::Idle.last.status).to eq(Constants::Payments::PENDING) }
+      end
+    end
+
+    context 'when payment_type is FakeTaxi' do
+      let!(:payment_type) { 'FakeTaxi' }
+      let!(:price) { Price.create }
+      let(:amount) { price.landing / 100 }
+      let(:trip) { create(:trip, user_id: user.id, total: total, cost: total) }
+      let(:total) { 40 }
+      let(:instance) { described_class.new(trip.id, payment_type, amount) }
+
+      it { is_expected.to change { Payments::FakeTaxi.count }.by(+1) }
+      it { is_expected.to change { trip.reload.total }.from(trip.total).to(trip.total + amount) }
+
+      context 'and wayforpay status is ok' do
+        before { subject.call }
+
+        it { expect(Payments::FakeTaxi.last.status).to eq(Constants::Payments::SUCCESS) }
+      end
+
+      context 'and something went wrong' do
+        let(:wayforpay_body) { { reasonCode: '1234' }.to_json }
+
+        before { subject.call }
+
+        it { expect(Payments::FakeTaxi.last.status).to eq(Constants::Payments::PENDING) }
+        it { is_expected.not_to change { trip.reload.total } }
+      end
+    end
+  end
+end
