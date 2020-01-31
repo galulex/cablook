@@ -4,7 +4,7 @@
   import actioncable from '@rails/actioncable'
 
   import axios from 'axios';
-  axios.defaults.baseURL = 'https://driver.cablook.taxi/api/drivers_app/'
+  axios.defaults.baseURL = 'https://cablook.taxi/api/drivers_app/'
   axios.defaults.headers.common['Auth-Token'] = localStorage.token;
   axios.defaults.headers.common['Content-Type'] = 'application/json';
 
@@ -17,7 +17,7 @@
   let watcher
 
   let subscription = null
-  const cable = actioncable.createConsumer('wss://driver.cablook.taxi/cable')
+  const cable = actioncable.createConsumer('wss://cablook.taxi/cable')
   let trips = {}
 
 
