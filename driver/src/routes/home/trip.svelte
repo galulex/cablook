@@ -1,4 +1,5 @@
 <script>
+  import axios from 'axios'
   import Map from './map.svelte'
 
   export let trip
@@ -7,8 +8,8 @@
   let distance = (trip.distance/1000).toFixed(1)
 
   let cancel = () => {
-    if (!confirm('Are you sure?')) return
-    //TODO cancel
+    axios.patch(`trips/${trip.id}/cancel`)
+    /* if (!confirm('Are you sure?')) return */
   }
 </script>
 
@@ -35,6 +36,6 @@
     <br/>
     <a class='button' href={`tel:${trip.user_number}`}>NAVIGATOR</a>
     <br/>
-    <button type='button'>Cancel</button>
+    <button type='button' on:click={cancel}>Cancel</button>
   </div>
 </li>

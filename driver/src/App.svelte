@@ -4,7 +4,7 @@
   import actioncable from '@rails/actioncable'
 
   import axios from 'axios';
-  axios.defaults.baseURL = 'https://cablook.taxi/api/drivers_app/'
+  axios.defaults.baseURL = 'http://localhost:3000/api/drivers_app/'
   axios.defaults.headers.common['Auth-Token'] = localStorage.token;
   axios.defaults.headers.common['Content-Type'] = 'application/json';
 
@@ -13,19 +13,17 @@
   import Map from './routes/Map.svelte';
 
   let token = localStorage.token
-  let carSpeed
+  let carSpeed = 0
   let watcher
 
   let subscription = null
-  const cable = actioncable.createConsumer('wss://cablook.taxi/cable')
-  let trips = {}
+  const cable = actioncable.createConsumer('ws://localhost:3000/cable')
+  let trips = []
 
 
   onMount(() => {
     if (!token) return
-    subscribe()
-    getTrips()
-    watcher = navigator.geolocation.watchPosition(sendLocation)
+    watcher = navigator.geolocation.watchPosition(sendLocation, null, { enableHighAccuracy: true })
   })
 
   onDestroy(() => {
@@ -35,12 +33,12 @@
 
   let sendLocation = (geo) => {
     let { latitude, longitude, speed } = geo.coords
-    carSpeed = speed
+    carSpeed = Math.round(speed * 3.6)
     if (!subscription) return
 
     let params = {
       car_id: parseInt(localStorage.carId),
-      speed: speed,
+      speed: carSpeed,
       latitude: latitude,
       longitude: longitude
     }
@@ -67,22 +65,12 @@
     })
   }
 
-  let getTrips = () => {
-    axios.get('trips').then((res) => {
-      res.data.trips.forEach(trip => {
-        trips[trip.id] = trip
-      })
-    }).catch((error) => {
-      if (error.response) alert(error.response.data.errors)
-    })
-    axios.get('trips/currents').then((res) => {
-      res.data.trips.forEach(trip => {
-        trips[trip.id] = trip
-      })
-    }).catch((error) => {
-      if (error.response) alert(error.response.data.errors)
-    })
-  }
+  let getTrips = (async () => {
+    let res = await axios.get('trips/all')
+    trips = res.data.trips
+    subscribe()
+    return trips
+  })
 
   let subscribe = () => {
     if (subscription) return subscription
@@ -91,21 +79,38 @@
     })
   }
 
+  let updateTrip = (attrs) => {
+    let i = trips.findIndex(trip => trip.id === attrs.id)
+    let trip = trips[i]
+    if (trip) {
+      trips[i] = attrs
+    } else {
+      trips.unshift(attrs)
+    }
+    trips = trips
+  }
+
   let cableActions = {
     SendLocation: (data) => {
     },
 
     TripPropose: (data) => {
-      let trip = JSON.parse(data.trip)
-      trips[trip.id] = trip
+      updateTrip(JSON.parse(data.trip))
     },
 
     TripUnavailable: (data) => {
-      console.log(data)
+      let i = trips.findIndex(trip => trip.id === data.trip_id)
+      trips.splice(i, 1)
+      trips = trips
     },
 
     TripAccepted: (data) => {
-      console.log(data)
+      let i = trips.findIndex(trip => trip.id === data.trip_id)
+      let trip = trips[i]
+      trip.driver_id = data.driver_id
+      trip.car_id = data.car_id
+      trip.status = 1
+      trips[i] = trip
     },
 
     TripUpdated: (data) => {
@@ -125,10 +130,6 @@
     },
 
     TripAssigned: (data) => {
-    },
-
-    TripAccepted: (data) => {
-      console.log(data)
     },
 
     TripDeclined: (data) => {
@@ -192,13 +193,19 @@
 <Router>
   {#if token}
     <main>
-      <Route path="/"><Home trips={trips} /></Route>
+      <Route path="/">
+        {#await getTrips()}
+          <h1>Loading...</h1>
+        {:then}
+          <Home trips={trips} />
+        {/await}
+      </Route>
       <Route path="/map"><Map cable={cable}/></Route>
     </main>
     <nav>
       <Link to="/map">🌐</Link>
       <Link to="/">🏠</Link>
-      <a href='#'>👠</a>
+        <a href='#'>{carSpeed}</a>
       <button class='button-clear' type='button' on:click={logout}>⏻</button>
     </nav>
   {:else}

@@ -16,10 +16,9 @@
     const y = offsetY / zoomer.offsetHeight * 100
     zoomer.style.backgroundPosition = `${x}% ${y}%`
     e.preventDefault()
-    e.stopPropagation()
   }
 
-  let touchEnd = (e) => {
+  let zoomEnd = (e) => {
     e.currentTarget.firstChild.style.opacity = 1
   }
 </script>
@@ -43,6 +42,6 @@
   }
 </style>
 
-<figure class='zoom' style={`background: url('${url}')`} on:touchmove={zoom} on:touchstart={zoom} on:touchend={touchEnd}>
+<figure class='zoom' style={`background: url('${url}')`} on:touchmove={zoom} on:touchstart={zoom} on:touchend={zoomEnd} on:mousemove={zoom} on:mouseleave={zoomEnd}>
   <img alt='Map' src={url}>
 </figure>

@@ -1,5 +1,5 @@
 <script>
-  import { onMount, onDestroy } from 'svelte'
+  import { onDestroy } from 'svelte'
 
   import mapboxgl from 'mapbox-gl'
   import { Map, controls } from '@beyonk/svelte-mapbox'
@@ -13,10 +13,6 @@
   let map
   let cars = []
   let subscription
-
-  onMount(() => {
-    getCars()
-  })
 
   onDestroy(() => {
     if (subscription) subscription.unsubscribe()
@@ -38,14 +34,12 @@
     cars[i] = car
   }
 
-  let getCars = () => {
-    axios.get('maps').then((res) => {
-      cars = res.data
-      subscribe()
-    }).catch((error) => {
-      if (error.response) alert(error.response.data.errors)
-    })
-  }
+  let getCars = (async () => {
+    let res = await axios.get('maps')
+    cars = res.data
+    subscribe()
+    return cars
+  })
 </script>
 
 <style>
@@ -69,9 +63,12 @@
   maxZoom=17
   zoom=12
   >
-  {#each cars as car (car.id)}
-    <Marker car={car} />
-  {/each}
+  {#await getCars()}
+  {:then}
+    {#each cars as car (car.id)}
+      <Marker car={car} />
+    {/each}
+  {/await}
   <NavigationControl/>
   <GeolocateControl/>
 </Map>

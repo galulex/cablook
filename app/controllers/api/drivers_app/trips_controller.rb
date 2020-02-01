@@ -8,6 +8,12 @@ module Api
         render json: Presenters::Trips::DetailedCollection.new(trips).to_json, status: 200
       end
 
+      #TODO Remove replace index with all and remove currents
+      def all
+        trips = Trip.for_driver(current_driver)
+        render json: Presenters::Trips::DetailedCollection.new(trips).to_json, status: 200
+      end
+
       def currents
         render json: Presenters::Trips::DetailedCollection.new(current_driver.trips.current).to_json, status: 200
       end
