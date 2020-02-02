@@ -3,14 +3,44 @@
   import Map from './map.svelte'
 
   export let trip
+  export let updateTrip
 
   let duration = (trip.duration/60).toFixed(1)
   let distance = (trip.distance/1000).toFixed(1)
 
   let cancel = () => {
-    axios.patch(`trips/${trip.id}/cancel`)
     /* if (!confirm('Are you sure?')) return */
+    axios.patch(`trips/${trip.id}/cancel`)
   }
+
+  const actions = [
+    {
+      action: () => {
+        axios.patch(`trips/${trip.id}/waiting_client`).then(res => {
+          updateTrip(res.data)
+        })
+      },
+      title: 'Arrived'
+    },
+    {
+      action: () => {
+        axios.patch(`trips/${trip.id}/start`).then(res => {
+          updateTrip(res.data)
+        })
+      },
+      title: 'Start'
+    },
+    {
+      action: () => {
+        axios.patch(`trips/${trip.id}/finish`, {idle: 0}).then(res => {
+          updateTrip(res.data)
+        })
+      },
+      title: 'Finish'
+    }
+  ]
+
+  const button = actions[trip.status - 1]
 </script>
 
 <style>
@@ -30,7 +60,7 @@
     <br/>
     <span>{distance} KM</span>
     <blockquote>{trip.comment}</blockquote>
-    <button type='button'>Arrived</button>
+    <button type='button' on:click={button.action}>{button.title}</button>
     <br/>
     <a class='button' disabled={trip.no_call} href={`tel:${trip.user_number}`}>✆</a>
     <br/>

@@ -14,6 +14,7 @@
 
   let token = localStorage.token
   let carSpeed = 0
+  let location = [32.0734339, 49.4185698]
   let watcher
 
   let subscription = null
@@ -34,6 +35,7 @@
   let sendLocation = (geo) => {
     let { latitude, longitude, speed } = geo.coords
     carSpeed = Math.round(speed * 3.6)
+    location = [longitude, latitude]
     if (!subscription) return
 
     let params = {
@@ -197,7 +199,7 @@
         {#await getTrips()}
           <h1>Loading...</h1>
         {:then}
-          <Home trips={trips} />
+          <Home trips={trips} updateTrip={updateTrip} location={location} />
         {/await}
       </Route>
       <Route path="/map"><Map cable={cable}/></Route>

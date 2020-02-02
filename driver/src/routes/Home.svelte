@@ -3,6 +3,8 @@
   import Proposal from './home/proposal.svelte'
 
   export let trips = {}
+  export let updateTrip
+  export let location
 </script>
 
 <style>
@@ -32,12 +34,12 @@
 <section>
   <ol id='proposals'>
     {#each trips.filter(trip => { return trip.status === 0 }) as trip (trip.id)}
-      <Proposal trip={trip}/>
+      <Proposal trip={trip} location={location} />
     {/each}
   </ol>
   <ol id='current'>
     {#each trips.filter(trip => { return trip.driver_id === parseInt(localStorage.id) }) as trip (trip.id)}
-      <Trip trip={trip}/>
+      <Trip trip={trip} updateTrip={updateTrip} />
     {/each}
   </ol>
 </section>

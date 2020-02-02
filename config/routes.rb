@@ -47,6 +47,7 @@ Rails.application.routes.draw do
       end
       resources :trips, only: %i[index] do
         get 'currents', on: :collection
+        get 'all', on: :collection
         patch 'accept'
         patch 'update'
         patch 'cancel'
