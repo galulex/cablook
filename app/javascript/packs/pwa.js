@@ -152,22 +152,19 @@ export default class App extends Component {
   }
 
   fetchUser = () => {
-    return new Promise((resolve) =>
-      axios.get('user').then((res) => {
-        this.setState({cards: res.data.cards,
-          favorite_addresses: res.data.favorite_addresses,
-          notification_settings: res.data.enabled_notifications,
-          bonus_trips: res.data.bonus_trips,
-          parent_bonus: res.data.parent_bonus || [],
-          currentUserID: res.data.id,
-          currentTrip: res.data.current_trip
-        })
-        resolve()
-      }).catch((error) => {
-        if (error.response) alert(error.response.data.errors)
-        // this.removeData()
+    return axios.get('user').then((res) => {
+      this.setState({cards: res.data.cards,
+        favorite_addresses: res.data.favorite_addresses,
+        notification_settings: res.data.enabled_notifications,
+        bonus_trips: res.data.bonus_trips,
+        parent_bonus: res.data.parent_bonus || [],
+        currentUserID: res.data.id,
+        currentTrip: res.data.current_trip
       })
-    )
+    }).catch((error) => {
+      if (error.response) alert(error.response.data.errors)
+      // this.removeData()
+    })
   }
 
   logIn = (data) => {

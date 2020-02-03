@@ -52,12 +52,8 @@ export default class NewDesign extends Component {
   }
 
   componentDidMount() {
-    this.props.fetchUser().then((res) => {
-      this.getTripThroughProps(this.props.trip)
-      if (this.props.trip === null && this.state.currentLocation === null && this.state.trip.stops[0] === '') {
-        this.getLocation()
-      }
-    })
+    this.props.fetchUser()
+
     this.loadTrips()
 
     this.addShakeListener()
@@ -417,6 +413,7 @@ export default class NewDesign extends Component {
   getTripThroughProps = (propsTrip) => {
     let trip = {}
     if (!propsTrip) {
+      this.getLocation()
       trip = this.state.trip
       if (trip.status !== PENDING) return
       this.setState({ trip: { ...trip, status: DECLINED} })
