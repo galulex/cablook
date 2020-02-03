@@ -644,7 +644,7 @@ export default class NewDesign extends Component {
   }
 
   render() {
-    const { activateFeedback, lastTripId } = this.props
+    const { activateFeedback, lastTripId } = this.state
     const showWidget = this.state.showWidget
     const trip = this.state.trip
     const cards = this.props.cards()

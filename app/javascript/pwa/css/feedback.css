@@ -74,7 +74,7 @@ section.feedback {
   padding: 70px 30px 0;
 }
 
-@media screen and (max-width: 325px) {
+@media screen and (max-width: 376px) {
   section.feedback {
     padding: 20px 30px 0;
   }
