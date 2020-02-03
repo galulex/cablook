@@ -98,16 +98,16 @@ export default class PreviewMap extends Component {
         enableHighAccuracy: true
       },
       trackUserLocation: false
-    });
+    })
 
     this.map.on('movestart', () => {
       this.move = true
       document.documentElement.style.setProperty('--car-transition', '0s')
-    });
+    })
 
     this.map.on('moveend', () => {
       this.move = false
-    });
+    })
 
     this.map.on('rotatestart', () => {
       this.rotate = true
@@ -115,29 +115,29 @@ export default class PreviewMap extends Component {
       if (this.state.car !== null) {
         this.state.car._element.firstChild.style.transition = 'none'
       }
-    });
+    })
 
     this.map.on('rotate', () => {
       if (this.state.car !== null) {
         this.updateCarDirection(this.state.car)
         this.state.car._element.firstChild.style.transition = 'none'
       }
-    });
+    })
 
     this.map.on('rotateend', () => {
       this.rotate = false
       if (this.state.car !== null) {
         this.state.car._element.firstChild.style.transition = 'transform 4s'
       }
-    });
+    })
 
     this.map.on('zoom', () => {
       document.documentElement.style.setProperty('--zoom-level', this.map.getZoom())
-    });
+    })
 
     this.map.on('zoomend', (event) => {
       this.setState({zoom: this.map.getZoom()})
-    });
+    })
     // controls + -
     this.map.addControl(new mapboxgl.NavigationControl({showCompass: false}), 'bottom-right')
 
