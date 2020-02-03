@@ -52,12 +52,13 @@ export default class NewDesign extends Component {
   }
 
   componentDidMount() {
-    this.props.fetchUser()
+    this.props.fetchUser().then((res) => {
+      this.getTripThroughProps(this.props.trip)
+      if (this.props.trip === null && this.state.currentLocation === null && this.state.trip.stops[0] === '') {
+        this.getLocation()
+      }
+    })
     this.loadTrips()
-    this.getTripThroughProps(this.props.trip)
-    if (this.state.currentLocation === null && this.state.trip.stops[0] === '') {
-      this.getLocation()
-    }
 
     this.addShakeListener()
 
