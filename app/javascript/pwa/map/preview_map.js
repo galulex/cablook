@@ -255,10 +255,12 @@ export default class PreviewMap extends Component {
   }
 
   cleanup = () => {
-    if (this.state.car) { this.state.car.remove() }
+    if (this.state.car) {
+      this.state.car.remove()
+      this.map.removeControl(this.carFocus);
+    }
     this.setState({ car: null })
     this.markers.map(m => m.remove())
-    this.map.removeControl(this.carFocus);
     this.map.getSource('line').setData(GEOJSON)
   }
 
