@@ -26,6 +26,7 @@
     scroll-snap-align: start;
     list-style: none;
     padding: 0;
+    margin: 0;
     scroll-snap-type: y mandatory;
     scroll-behavior: smooth;
   }
@@ -38,7 +39,7 @@
     {/each}
   </ol>
   <ol id='current'>
-    {#each trips.filter(trip => { return trip.driver_id === parseInt(localStorage.id) }) as trip (trip.id)}
+    {#each trips.filter(trip => { return trip.driver_id === parseInt(localStorage.id) && trip.status !== 0 }) as trip (trip.id)}
       <Trip trip={trip} updateTrip={updateTrip} />
     {/each}
   </ol>

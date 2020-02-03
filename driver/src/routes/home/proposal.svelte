@@ -20,18 +20,18 @@
 </script>
 
 <style>
-  li {
+  ol > li {
     scroll-snap-align: start;
-    height: inherit;
+    padding: 20px;
+    margin: 20px;
+    border: 1px solid gray;
   }
 </style>
 
 <li>
-  <ul>
-    {#each trip.stops as stop, i}
-      <li>{stop}</li>
-    {/each}
-  </ul>
+  {#each trip.stops as stop, i}
+    <address>{stop}</address>
+  {/each}
   {#await osrm()}
     <p>⌛</p>
   {:then result}
