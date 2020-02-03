@@ -16,7 +16,7 @@ class FocusOnCarControl {
     return this._container;
   }
   onRemove() {
-    this._container.parentNode.removeChild(this._container);
+    // this._container.parentNode.removeChild(this._container);
     this._map = undefined;
   }
 }
