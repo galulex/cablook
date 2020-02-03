@@ -152,7 +152,7 @@ export default class App extends Component {
   }
 
   fetchUser = () => {
-    axios.get('user').then((res) => {
+    return axios.get('user').then((res) => {
       this.setState({cards: res.data.cards,
         favorite_addresses: res.data.favorite_addresses,
         notification_settings: res.data.enabled_notifications,
