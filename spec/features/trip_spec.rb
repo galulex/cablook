@@ -6,6 +6,7 @@ RSpec.feature 'Trip', type: :feature, js: true do
   let!(:car) { create(:car) }
   let!(:driver) { create(:driver, car: car) }
   let!(:price) { Price.delete_all && Price.create }
+  let!(:prev_trip) { user.trips.create(status: 'finished') }
 
   before do
     Redis.current.set("car_#{car.id}", '49.4412378,32.0650127')
@@ -19,6 +20,11 @@ RSpec.feature 'Trip', type: :feature, js: true do
   end
 
   it 'orders taxi' do
+    wait 3 do
+      has_text? 'Rate trip'
+    end
+    first('textarea').set('Nice!')
+    find_button('OK').trigger(:click)
     wait 3 do
       has_text? 'GO'
     end
