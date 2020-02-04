@@ -64,10 +64,9 @@ COORDS = [
 task broadcast: :environment do
   car = Trip.find(ENV['id']).car
   COORDS.each do |location|
-    position = Redis.current.get("position_#{car.id}").split(',')
     Redis.current.set("position_#{car.id}", Redis.current.get("car_#{car.id}"))
     Redis.current.set("car_#{car.id}", location.join(','))
-    ActionCable.server.broadcast("TripChannel_#{ENV['id']}", { action: 'DriverLocationUpdated', body: { location: { longitude: location[1], latitude: location[0] }, position: { longitude: position[1], latitude: position[0] } } }.as_json)
+    ActionCable.server.broadcast("TripChannel_#{ENV['id']}", { action: 'DriverLocationUpdated', body: { location: { longitude: location[1], latitude: location[0] } } }.as_json)
     p location
     sleep(7)
   end
