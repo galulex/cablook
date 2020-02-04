@@ -63,8 +63,6 @@ export default class App extends Component {
       language: localStorage.getItem('language') || i18n.interfaceLanguage.split('-')[0],
       favorite_addresses: [],
       notification_settings: [],
-      activateFeedback: false,
-      lastTripId: null,
       currentTrip: null,
       isYmapsLoading: false
     }

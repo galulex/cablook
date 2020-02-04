@@ -644,9 +644,7 @@ export default class NewDesign extends Component {
   }
 
   render() {
-    const { activateFeedback, lastTripId } = this.props
-    const showWidget = this.state.showWidget
-    const trip = this.state.trip
+    const { activateFeedback, lastTripId, showWidget, trip } = this.state
     const cards = this.props.cards()
     let isValid = trip.stops.includes('')
     let cost = (trip.cost) ? `${trip.cost}` : ''
