@@ -40,11 +40,15 @@
 
     <script>
       document.addEventListener('gesturestart', function(e) { e.preventDefault(); });
-      window.addEventListener('online', function(e) { window.location = '/' });
-      document.addEventListener('visibilitychange', function(e) { window.location = '/' });
+      window.addEventListener('online', function(e) { window.location.replace('/') });
+      document.addEventListener('visibilitychange', reload);
+
+      function reload() {
+        if (navigator.onLine) window.location.replace('/')
+      }
     </script>
   </head>
-  <body onclick='window.location = "/"'>
+  <body onclick='reload()'>
     <div class='offline'>
       <h1>Offline</h1>
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="-41 309.8 512 367.1" class="search_logo">
