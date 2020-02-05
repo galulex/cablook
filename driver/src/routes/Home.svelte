@@ -35,7 +35,7 @@
 <section>
   <ol id='proposals'>
     {#each trips.filter(trip => { return trip.status === 0 }) as trip (trip.id)}
-      <Proposal trip={trip} location={location} />
+      <Proposal trip={trip} updateTrip={updateTrip} location={location} />
     {/each}
   </ol>
   <ol id='current'>

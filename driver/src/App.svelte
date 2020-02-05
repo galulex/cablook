@@ -1,6 +1,7 @@
 <script>
   import { onMount, onDestroy } from 'svelte'
   import { Router, Route, Link } from 'svelte-routing'
+  import sounds from './sounds'
   import actioncable from '@rails/actioncable'
 
   import axios from 'axios';
@@ -84,8 +85,10 @@
   let updateTrip = (attrs) => {
     let i = trips.findIndex(trip => trip.id === attrs.id)
     let trip = trips[i]
-    if (trip) {
+    if (trip && attrs.status !== 4) {
       trips[i] = attrs
+    } else if (trip && attrs.status === 4) {
+      trips.splice(i, 1)
     } else {
       trips.unshift(attrs)
     }
@@ -98,12 +101,14 @@
 
     TripPropose: (data) => {
       updateTrip(JSON.parse(data.trip))
+      sounds.proposal.play()
     },
 
     TripUnavailable: (data) => {
       let i = trips.findIndex(trip => trip.id === data.trip_id)
       trips.splice(i, 1)
       trips = trips
+      sounds.cancel.play()
     },
 
     TripAccepted: (data) => {
@@ -113,6 +118,7 @@
       trip.car_id = data.car_id
       trip.status = 1
       trips[i] = trip
+      sounds.accept.play()
     },
 
     TripUpdated: (data) => {
@@ -135,6 +141,10 @@
     },
 
     TripDeclined: (data) => {
+      let i = trips.findIndex(trip => trip.id === data.trip_id)
+      trips.splice(i, 1)
+      trips = trips
+      sounds.cancel.play()
     }
   }
 

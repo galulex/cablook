@@ -40,7 +40,6 @@
     }
   ]
 
-  const button = actions[trip.status - 1]
 </script>
 
 <style>
@@ -60,7 +59,7 @@
     <br/>
     <span>{distance} KM</span>
     <blockquote>{trip.comment}</blockquote>
-    <button type='button' on:click={button.action}>{button.title}</button>
+    <button type='button' on:click={actions[trip.status - 1].action}>{actions[trip.status - 1].title}</button>
     <br/>
     <a class='button' disabled={trip.no_call} href={`tel:${trip.user_number}`}>✆</a>
     <br/>

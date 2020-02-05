@@ -1,11 +1,38 @@
 <script>
+  import { onMount, onDestroy } from 'svelte'
   import axios from 'axios'
 
   export let trip
   export let location
+  export let updateTrip
+  let interval
+
+  let createTime = new Date(trip.created_at).getTime()
+  let current = new Date().getTime()
+  let time = 70 - Math.floor((current - createTime)/1000)
+
+  onMount(() => {
+    interval = setInterval(countdown, 1000)
+  })
+
+  onDestroy(() => {
+    clearInterval(interval)
+  })
+
+  let countdown = () => {
+    //TODO handle timer on trip retry. Require back-end updates
+    let current = new Date().getTime()
+    time = 70 - Math.floor((current - createTime)/1000)
+    if (time < 0) {
+      clearInterval(interval)
+      time = 'WTF'
+    }
+  }
 
   let accept = () => {
-    axios.patch(`trips/${trip.id}/accept`)
+    axios.patch(`trips/${trip.id}/accept`).then(res => {
+      updateTrip(res.data)
+    })
   }
 
   let start = location
@@ -37,6 +64,7 @@
   {:then result}
     <p>📍{result.distance}KM - ⏰{result.duration}XB</p>
   {/await}
+  <time>⏰ {time}</time>
   <blockquote>{trip.comment}</blockquote>
   <br/>
   <button type='button' on:click={accept}>GO</button>
