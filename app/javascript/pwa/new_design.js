@@ -217,6 +217,7 @@ export default class NewDesign extends Component {
 
   cancelDeclined = (e, callback = () => {}) => {
     delete this.state.trip.status
+    this.setState({ trip: initialTripState, paymentButtonDisabled: false })
     this.unsubscribe()
   }
 
@@ -513,7 +514,7 @@ export default class NewDesign extends Component {
   TripUnavailable = (data) => {
     this.unsubscribe()
     const status = data.by_driver ? CANCELED_BY_DRIVER : CANCELED
-    this.setState({ trip: { ...this.state.trip, status } })
+    this.setState({ trip: { ...this.state.trip, status }, paymentButtonDisabled: false })
     if (data.by_driver) alert(i18n.trip.canceled)
   }
 
