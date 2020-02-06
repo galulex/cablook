@@ -522,9 +522,11 @@ export default class NewDesign extends Component {
   }
 
   TripUnavailable = (data) => {
-    this.unsubscribe()
     const status = data.by_driver ? CANCELED_BY_DRIVER : CANCELED
-    this.setState({ trip: { ...this.state.trip, status }, paymentButtonDisabled: false })
+    this.setState({ trip: { ...initialTripState, status }, car: null, driver: null, paymentButtonDisabled: false, inputDisabled: false })
+    this.previewMapRef.cleanup();
+    this.unsubscribe()
+    this.clearFetchTripTimeout()
     if (data.by_driver) alert(i18n.trip.canceled)
   }
 
