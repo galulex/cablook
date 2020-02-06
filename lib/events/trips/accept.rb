@@ -14,12 +14,13 @@ module Events
       def run
         if trip.status == Constants::Trip::STATUS_CODES[Constants::Trip::PENDING]
           update_car_status
-          update_trip
-          send_notify_for_vendor if trip.order
-          telegram_message
-          broadcast_accepted_trip
-          broadcast_accepted_trip_to_trip_channel
-          notify
+          if update_trip
+            send_notify_for_vendor if trip.order
+            telegram_message
+            broadcast_accepted_trip
+            broadcast_accepted_trip_to_trip_channel
+            notify
+          end
         else
           broadcast_with_error
           invalid!([I18n.t('trips.assigned_or_canceled')])
