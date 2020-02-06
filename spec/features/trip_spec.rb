@@ -78,6 +78,55 @@ RSpec.feature 'Trip', type: :feature, js: true do
     end
   end
 
+  it "orders taxi after cancelled by driver" do
+    find_button('OK').trigger(:click)
+    wait 3 do
+      has_text? 'GO'
+    end
+    all('input')[0].trigger(:focus)
+    all('input')[0].set('')
+    wait 3 do
+      first('li.prediction', visible: false).trigger(:click)
+    end
+    all('input')[1].trigger(:focus)
+    all('input')[1].set('')
+    all('li.prediction', visible: false)[1].trigger(:click)
+    wait 3 do
+      find_button('GO 56').trigger(:click)
+    end
+    wait 3 do
+      has_text? 'Cancel'
+    end
+    Events::Trips::Accept.(trip_id: trip.id, driver_id: driver.id, car_id: car.id)
+    wait 3 do
+      has_no_text? 'Edit'
+    end
+    Events::Trips::WaitingClient.(trip_id: trip.id)
+    wait 3 do
+      has_text? 'Edit'
+    end
+    Events::Trips::Cancel.(trip_id: trip.id, by_driver: true)
+    wait 3 do
+      accept_alert  do
+        'OK'
+      end
+    end
+    all('input')[0].trigger(:focus)
+    all('input')[0].set('')
+    wait 3 do
+      first('li.prediction', visible: false).trigger(:click)
+    end
+    all('input')[1].trigger(:focus)
+    all('input')[1].set('')
+    all('li.prediction', visible: false)[1].trigger(:click)
+    wait 3 do
+      find_button('GO 56').trigger(:click)
+    end
+    wait 3 do
+      has_text? 'Cancel'
+    end
+  end
+
   def trip
     @trip ||= Trip.last
   end
