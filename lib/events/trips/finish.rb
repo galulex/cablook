@@ -22,7 +22,7 @@ module Events
       def run_methods
         telegram_message
         update_trip
-        Jobs::PaymentSettle.perform_later(data[:trip_id])
+        Jobs::PaymentSettle.perform_later(data[:trip_id], Constants::Payments::TYPES[:trip].camelcase)
         broadcast
         update_car
         settle_payment_idle if data[:idle]
@@ -50,7 +50,7 @@ module Events
 
       def settle_payment_idle
         return if data[:idle] < Constants::Trip::FREE_IDLE_VALUE
-        Jobs::PaymentIdleSettle.perform_later(data[:trip_id], idle)
+        Jobs::PaymentSettle.perform_later(data[:trip_id], Constants::Payments::TYPES[:idle].camelcase, idle)
       end
 
       def settle_order_payment

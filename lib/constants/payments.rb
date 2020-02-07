@@ -10,7 +10,11 @@ module Constants
     WAYFORPAY_SUCCESS = 1100
 
     TYPES = {
-      order: 'order'.freeze
+      order: 'order'.freeze,
+      trip: 'trip'.freeze,
+      tip: 'tip'.freeze,
+      idle: 'idle'.freeze,
+      fake: 'fake_settle'.freeze
     }.freeze
   end
 end

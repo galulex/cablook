@@ -1,5 +1,5 @@
 describe Operations::Wayforpay::DoPayment do
-  let(:instance) { described_class.new(trip.id, payment_type) }
+  let(:instance) { described_class.new(trip.id, payment_type, amount) }
   let(:wayforpay_body) { { reasonCode: Constants::Payments::WAYFORPAY_SUCCESS }.to_json }
 
   before { allow(Wayforpay::Payments).to receive(:hold) { OpenStruct.new(body: wayforpay_body) } }
@@ -9,6 +9,7 @@ describe Operations::Wayforpay::DoPayment do
 
     let!(:payment) { create(:payment, trip_id: trip.id, user_id: user.id, card_id: card.id) }
     let!(:payment_type) { 'Trip' }
+    let(:amount) { payment.amount }
     let(:trip) { create(:trip, user_id: user.id, status: Constants::Trip::FINISHED) }
     let(:card) { create(:card, user_id: user.id) }
     let(:user) { create(:user) }
@@ -70,16 +71,15 @@ describe Operations::Wayforpay::DoPayment do
 
     context 'when payment_type is Idle' do
       let!(:payment_type) { 'Idle' }
-      let!(:idle) { 15 }
+      let!(:amount) { 15 }
       let!(:price) { Price.create }
       let(:trip) { create(:trip, user_id: user.id, cost: total) }
       let(:payment) { create(:payment, user_id: user.id, trip_id: trip.id, card_id: card.id, amount: total) }
       let(:total) { 40 }
-      let(:instance) { described_class.new(trip.id, payment_type, idle) }
+      let(:instance) { described_class.new(trip.id, payment_type, amount) }
 
       it { is_expected.to change { Payments::Idle.count }.by(+1) }
-      it { is_expected.to change { trip.reload.total }.from(0).to(total + idle) }
-      it { is_expected.to change { trip.reload.idle }.from(0).to(idle) }
+      it { is_expected.to change { trip.reload.total }.from(0).to(total + amount) }
 
       context 'and wayforpay status is ok' do
         let(:idle_payment) { Payments::Idle.last }

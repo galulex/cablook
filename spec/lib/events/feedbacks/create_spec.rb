@@ -7,7 +7,7 @@ describe Events::Feedbacks::Create do
     let(:trip) { create(:trip, user_id: user.id) }
 
     it { is_expected.to change { Feedback.count }.by(+1) }
-    it { is_expected.not_to have_enqueued_job(Jobs::PaymentTip) }
+    it { is_expected.not_to have_enqueued_job(Jobs::PaymentSettle) }
 
     context 'when rate is empty' do
       let(:data) { attributes_for(:feedback).except(:rate) }
@@ -43,7 +43,7 @@ describe Events::Feedbacks::Create do
       let(:data) { super().merge(tip: amount) }
       let(:amount) { 10 }
 
-      it { is_expected.to have_enqueued_job(Jobs::PaymentTip).with(trip.id, amount) }
+      it { is_expected.to have_enqueued_job(Jobs::PaymentSettle).with(trip.id, Constants::Payments::TYPES[:tip].camelcase, amount) }
     end
   end
 end

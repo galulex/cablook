@@ -1,13 +1,13 @@
 module Operations
   module Wayforpay
     class DoPayment
-      def initialize(trip_id, payment_type, amount=nil)
+      def initialize(trip_id, payment_type, amount)
         @trip_id = trip_id
         @payment_type = payment_type
         @amount = amount
       end
 
-      attr_reader :trip_id, :payment_type, :idle
+      attr_reader :trip_id, :payment_type, :amount
 
       def call
         send("set_#{payment_type.underscore}_payment")
@@ -28,13 +28,13 @@ module Operations
         payment.update(
           response: wayforpay_response,
           status: status,
-          amount: @amount || payment.amount,
+          amount: amount || payment.amount,
           order_reference: payment.order_reference || order_reference
         )
       end
 
       def wayforpay_response
-        @wayforpay_response ||= Operations::Wayforpay::SendPayment.new(card, @amount || trip.cost, "Payments::#{payment_type}", payment.order_reference || order_reference).call
+        @wayforpay_response ||= Operations::Wayforpay::SendPayment.new(card, amount || trip.cost, "Payments::#{payment_type}", payment.order_reference || order_reference).call
       end
 
       def success_response?
@@ -45,9 +45,8 @@ module Operations
         frozen_bonuses.first.update(status: Constants::BonusTrip::STATUS[Constants::BonusTrip::FRESH]) if frozen_bonuses.any? && count_of_finished_trips.positive?
       end
 
-      def update_total(idle)
-        total = trip.payments.sum(:amount)
-        idle ? trip.update(idle: @amount, total: total) : trip.update(total: total)
+      def update_total
+        trip.update(total: trip.payments.sum(:amount))
       end
 
       def card
@@ -65,16 +64,16 @@ module Operations
       end
 
       def set_idle_payment
-        update_payment_and_total(true)
+        update_payment_and_total
       end
 
       def set_tip_payment
         update_payment_and_total
       end
 
-      def update_payment_and_total(idle = false)
+      def update_payment_and_total
         update_payment(success_response? ? Constants::Payments::SUCCESS : Constants::Payments::PENDING)
-        update_total(idle) if success_response?
+        update_total if success_response?
       end
 
       def trip
@@ -85,20 +84,12 @@ module Operations
         @payment ||= Payment.find_or_create_by(payment_attributes)
       end
 
-      def price
-        @price ||= Price.last
-      end
-
-      def user
-        @user ||= User.find(trip.user_id)
-      end
-
       def frozen_bonuses
-        @frozen_bonuses ||= user.bonus_trips.iced
+        @frozen_bonuses ||= trip.user.bonus_trips.iced
       end
 
       def count_of_finished_trips
-        Trip.where(user_id: trip.user_id, status: Constants::Trip::FINISHED).count
+        trip.user.trips.finished.count
       end
 
       def order_reference

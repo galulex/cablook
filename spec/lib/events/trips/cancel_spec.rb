@@ -19,11 +19,11 @@ describe Events::Trips::Cancel do
     context 'and have fake settle job' do
       let(:trip) { create(:trip, status: Constants::Trip::WAITING_CLIENT) }
 
-      it { is_expected.to have_enqueued_job(Jobs::PaymentFakeSettle).with(trip.id, price.landing / 100) }
+      it { is_expected.to have_enqueued_job(Jobs::PaymentSettle).with(trip.id, Constants::Payments::TYPES[:fake].camelcase, price.landing / 100) }
     end
 
     context 'and not have fake settle job when waiting for client' do
-      it { is_expected.not_to have_enqueued_job(Jobs::PaymentFakeSettle).with(trip.id, price.landing / 100) }
+      it { is_expected.not_to have_enqueued_job(Jobs::PaymentSettle).with(trip.id, Constants::Payments::TYPES[:fake].camelcase, price.landing / 100) }
     end
 
     context 'and broadcast to channel' do
@@ -127,7 +127,7 @@ describe Events::Trips::Cancel do
         let(:trip) { create(:trip, status: Constants::Trip::DRIVING) }
         let(:data) { { trip_id: trip.id, by_driver: true } }
 
-        it { is_expected.not_to have_enqueued_job(Jobs::PaymentFakeSettle).with(trip.id) }
+        it { is_expected.not_to have_enqueued_job(Jobs::PaymentSettle).with(trip.id) }
       end
 
       context 'and payment by bonus' do
