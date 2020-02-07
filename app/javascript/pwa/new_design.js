@@ -414,7 +414,9 @@ export default class NewDesign extends Component {
   getTripThroughProps = (propsTrip) => {
     let trip = {}
     if (!propsTrip) {
-      this.getLocation()
+      if (this.state.trip.stops[0]  == '') {
+        this.getLocation()
+      }
       trip = this.state.trip
       if (trip.status !== PENDING) return
       this.setState({ trip: { ...trip, status: DECLINED} })
