@@ -42,19 +42,12 @@ module Operations
       end
 
       def update_bonus_trip_if_necessary
-        frozen_bonuses.first.update(status: Constants::BonusTrip::NEW) if frozen_bonuses.any? && count_of_finished_trips.positive?
+        frozen_bonuses.first.update(status: Constants::BonusTrip::STATUS[Constants::BonusTrip::FRESH]) if frozen_bonuses.any? && count_of_finished_trips.positive?
       end
 
-      def update_total
-        trip.update(total: trip.cost)
-      end
-
-      def update_trip_total_and_idle
-        trip.update(idle: @amount, total: trip.total + @amount)
-      end
-
-      def update_trip_total
-        trip.update(total: trip.total + @amount)
+      def update_total(idle)
+        total = trip.payments.sum(:amount)
+        idle ? trip.update(idle: @amount, total: total) : trip.update(total: total)
       end
 
       def card
@@ -63,35 +56,25 @@ module Operations
 
       def set_trip_payment
         return if payment.nil? || payment.status == Constants::Payments::BONUS
-        set_payment
-        if success_response?
-          update_bonus_trip_if_necessary
-          update_total
-        end
+        update_payment_and_total
+        update_bonus_trip_if_necessary if success_response?
       end
 
       def set_fake_taxi_payment
-        set_payment
-        update_trip_total if success_response?
+        update_payment_and_total
       end
 
       def set_idle_payment
-        set_payment
-        update_trip_total_and_idle if success_response?
+        update_payment_and_total(true)
       end
 
       def set_tip_payment
-        set_payment
-        update_trip_total if success_response?
+        update_payment_and_total
       end
 
-      def set_payment
-        status = if success_response?
-                   Constants::Payments::SUCCESS
-                 else
-                   Constants::Payments::PENDING
-                 end
-        update_payment(status)
+      def update_payment_and_total(idle = false)
+        update_payment(success_response? ? Constants::Payments::SUCCESS : Constants::Payments::PENDING)
+        update_total(idle) if success_response?
       end
 
       def trip
@@ -106,8 +89,12 @@ module Operations
         @price ||= Price.last
       end
 
+      def user
+        @user ||= User.find(trip.user_id)
+      end
+
       def frozen_bonuses
-        @frozen_bonuses ||= BonusTrip.where(friend_id: trip.user_id, status: Constants::BonusTrip::FROZEN)
+        @frozen_bonuses ||= user.bonus_trips.iced
       end
 
       def count_of_finished_trips

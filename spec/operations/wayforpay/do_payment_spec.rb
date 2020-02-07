@@ -25,7 +25,7 @@ describe Operations::Wayforpay::DoPayment do
       context 'and wayforpay status is ok' do
         it { is_expected.to change { payment.reload.status }.to(Constants::Payments::SUCCESS) }
         it { is_expected.to change { payment.reload.response }.from(nil) }
-        it { is_expected.to change { trip.reload.total }.from(0).to(trip.cost) }
+        it { is_expected.to change { trip.reload.total }.from(0).to(trip.payments.sum(:amount)) }
 
         it do
           expect(Wayforpay::Payments).to receive(:hold).once
@@ -43,15 +43,18 @@ describe Operations::Wayforpay::DoPayment do
 
     context 'when payment_type is Tip' do
       let!(:payment_type) { 'Tip' }
-      let!(:amount) { 5 }
+      let(:amount) { 5 }
+      let(:trip) { create(:trip, user_id: user.id, cost: total) }
+      let(:payment) { create(:payment, user_id: user.id, trip_id: trip.id, card_id: card.id, amount: total) }
+      let(:total) { 25 }
       let(:instance) { described_class.new(trip.id, payment_type, amount) }
 
       it { is_expected.to change { Payments::Tip.count }.by(+1) }
+      it { is_expected.to change { trip.reload.total }.from(0).to(total + amount) }
 
       context 'and wayforpay status is ok' do
         before { subject.call }
 
-        it { is_expected.to change { trip.reload.total } }
         it { expect(Payments::Tip.last.status).to eq(Constants::Payments::SUCCESS) }
       end
 
@@ -61,6 +64,7 @@ describe Operations::Wayforpay::DoPayment do
         before { subject.call }
 
         it { expect(Payments::Tip.last.status).to eq(Constants::Payments::PENDING) }
+        it { is_expected.not_to change { trip.reload.total } }
       end
     end
 
@@ -68,13 +72,13 @@ describe Operations::Wayforpay::DoPayment do
       let!(:payment_type) { 'Idle' }
       let!(:idle) { 15 }
       let!(:price) { Price.create }
-      let(:trip) { create(:trip, user_id: user.id, total: total, cost: total) }
+      let(:trip) { create(:trip, user_id: user.id, cost: total) }
       let(:payment) { create(:payment, user_id: user.id, trip_id: trip.id, card_id: card.id, amount: total) }
       let(:total) { 40 }
       let(:instance) { described_class.new(trip.id, payment_type, idle) }
 
       it { is_expected.to change { Payments::Idle.count }.by(+1) }
-      it { is_expected.to change { trip.reload.total }.from(total).to(total + idle) }
+      it { is_expected.to change { trip.reload.total }.from(0).to(total + idle) }
       it { is_expected.to change { trip.reload.idle }.from(0).to(idle) }
 
       context 'and wayforpay status is ok' do
@@ -91,6 +95,7 @@ describe Operations::Wayforpay::DoPayment do
         before { subject.call }
 
         it { expect(Payments::Idle.last.status).to eq(Constants::Payments::PENDING) }
+        it { is_expected.not_to change { trip.reload.total } }
       end
     end
 
@@ -98,12 +103,13 @@ describe Operations::Wayforpay::DoPayment do
       let!(:payment_type) { 'FakeTaxi' }
       let!(:price) { Price.create }
       let(:amount) { price.landing / 100 }
-      let(:trip) { create(:trip, user_id: user.id, total: total, cost: total) }
+      let(:trip) { create(:trip, user_id: user.id, cost: total) }
+      let(:payment) { create(:payment, trip_id: trip.id, user_id: user.id, card_id: card.id, amount: total) }
       let(:total) { 40 }
       let(:instance) { described_class.new(trip.id, payment_type, amount) }
 
       it { is_expected.to change { Payments::FakeTaxi.count }.by(+1) }
-      it { is_expected.to change { trip.reload.total }.from(trip.total).to(trip.total + amount) }
+      it { is_expected.to change { trip.reload.total }.from(0).to(total + amount) }
 
       context 'and wayforpay status is ok' do
         before { subject.call }
