@@ -18,7 +18,7 @@ module Events
       def create_bonus_trip
         BonusTrip.create(
           user_id: data[:user_id],
-          status: Constants::BonusTrip::NEW,
+          status:  Constants::BonusTrip::STATUSES[Constants::BonusTrip::FRESH],
           code: SecureRandom.base58(24),
           type: Constants::BonusTrip::GIFT
         )

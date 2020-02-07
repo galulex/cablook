@@ -34,9 +34,9 @@ module Events
       def bonus_status
         count = Trip.where(user_id: data[:friend_id], status: Constants::Trip::FINISHED).count
         if count.positive?
-          Constants::BonusTrip::NEW
+          Constants::BonusTrip::STATUSES[Constants::BonusTrip::FRESH]
         else
-          Constants::BonusTrip::FROZEN
+          Constants::BonusTrip::STATUSES[Constants::BonusTrip::ICED]
         end
       end
     end

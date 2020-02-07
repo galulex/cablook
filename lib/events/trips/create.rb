@@ -96,7 +96,7 @@ module Events
           trip_id: @trip.id,
           user_id: data[:user_id]
         )
-        bonus_trips.first.update(status: Constants::BonusTrip::USED, trip_id: @trip.id)
+        bonus_trips.first.update(status: Constants::BonusTrip::STATUSES[Constants::BonusTrip::USED], trip_id: @trip.id)
       end
 
       def create_trip
@@ -113,7 +113,7 @@ module Events
       end
 
       def bonus_trips
-        @bonus_trips ||= BonusTrip.where(user_id: data[:user_id], status: Constants::BonusTrip::NEW)
+        @bonus_trips ||= BonusTrip.where(user_id: data[:user_id], status:  Constants::BonusTrip::STATUSES[Constants::BonusTrip::FRESH])
       end
 
       def card_id

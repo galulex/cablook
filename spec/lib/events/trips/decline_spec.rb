@@ -21,7 +21,7 @@ describe Events::Trips::Decline do
       let!(:payment) { create(:payment, trip_id: trip.id, status: Constants::Payments::BONUS, user_id: trip.user_id) }
       let!(:bonus_trip) { create(:bonus_trip, trip_id: trip.id, status: Constants::BonusTrip::USED, user_id: trip.user_id) }
 
-      it { is_expected.to change { bonus_trip.reload.status }.to(Constants::BonusTrip::NEW) }
+      it { is_expected.to change { bonus_trip.reload.status }.to( Constants::BonusTrip::STATUSES[Constants::BonusTrip::FRESH]) }
     end
 
     context 'and broadcast to channel' do

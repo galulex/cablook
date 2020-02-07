@@ -39,7 +39,7 @@ describe Operations::Wayforpay::Refund do
 
       before { instance.call }
 
-      it { expect(bonus_trip.reload.status).to eq(Constants::BonusTrip::NEW) }
+      it { expect(bonus_trip.reload.status).to eq(Constants::BonusTrip::STATUSES[Constants::BonusTrip::FRESH]) }
     end
 
     context 'when fake taxi' do

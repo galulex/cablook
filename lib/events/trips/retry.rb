@@ -35,7 +35,7 @@ module Events
       end
 
       def update_bonus_trip
-        trip.bonus_trip.update(status: Constants::BonusTrip::USED)
+        trip.bonus_trip.update(status: Constants::BonusTrip::STATUSES[Constants::BonusTrip::USED])
       end
 
       def bonus?

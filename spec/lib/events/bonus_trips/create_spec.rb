@@ -12,7 +12,7 @@ describe Events::BonusTrips::Create do
 
       it do
         subject.call
-        expect(bonus[:status]).to eq(Constants::BonusTrip::FROZEN)
+        expect(bonus[:status]).to eq(Constants::BonusTrip::STATUSES[Constants::BonusTrip::ICED])
       end
 
       context 'when referral have finished trips' do
@@ -20,7 +20,7 @@ describe Events::BonusTrips::Create do
 
         it do
           subject.call
-          expect(bonus[:status]).to eq(Constants::BonusTrip::NEW)
+          expect(bonus[:status]).to eq(Constants::BonusTrip::STATUSES[Constants::BonusTrip::FRESH])
         end
       end
     end
