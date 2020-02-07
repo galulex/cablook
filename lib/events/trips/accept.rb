@@ -13,13 +13,15 @@ module Events
 
       def run
         if trip.status == Constants::Trip::STATUS_CODES[Constants::Trip::PENDING]
-          update_car_status
-          update_trip
-          send_notify_for_vendor if trip.order
-          telegram_message
-          broadcast_accepted_trip
-          broadcast_accepted_trip_to_trip_channel
-          notify
+          trip.with_lock do
+            update_car_status
+            update_trip
+            send_notify_for_vendor if trip.order
+            telegram_message
+            broadcast_accepted_trip
+            broadcast_accepted_trip_to_trip_channel
+            notify
+          end
         else
           broadcast_with_error
           invalid!([I18n.t('trips.assigned_or_canceled')])
@@ -29,14 +31,12 @@ module Events
       private
 
       def update_trip
-        trip.with_lock do
-          trip.update(
-            status: trip_status,
-            car_id: data[:car_id],
-            driver_id: data[:driver_id],
-            start_at: start_time
-          )
-        end
+        trip.update(
+          status: trip_status,
+          car_id: data[:car_id],
+          driver_id: data[:driver_id],
+          start_at: start_time
+        )
       end
 
       def update_car_status
