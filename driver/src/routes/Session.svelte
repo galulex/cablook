@@ -40,9 +40,9 @@
 <h1>Log In</h1>
 {#if cars.length < 1}
   <form action='#' on:submit={create}>
-    <input name='username' type='text' required/>
+    <input name='username' type='text' placeholder='Username' required/>
     <br/>
-    <input name='password' type='password' required/>
+    <input name='password' type='password' placeholder='Password' required/>
     <br/>
     <button disabled={disabled} type='submit'>OK</button>
   </form>

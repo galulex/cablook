@@ -165,19 +165,6 @@
     overflow: hidden;
   }
 
-  nav a, nav button {
-    width: 100%;
-    text-align: center;
-    margin: 0;
-    padding: 0;
-    height: auto;
-    font-size: 2rem;
-  }
-
-  nav > a {
-    border-right: 1px solid grey;
-  }
-
   main {
     height: calc(100vh - 41px);
   }
@@ -193,6 +180,7 @@
     z-index: 1000;
     flex-wrap: nowrap;
     align-items: stretch;
+    background: linear-gradient(to left, #19a160, #312d50);
   }
 
   @media (min-width: 80.0rem) {
@@ -218,7 +206,7 @@
       <Link to="/map">🌐</Link>
       <Link to="/">🏠</Link>
         <a href='#'>{carSpeed}</a>
-      <button class='button-clear' type='button' on:click={logout}>⏻</button>
+      <button type='button' on:click={logout}>x</button>
     </nav>
   {:else}
     <main>

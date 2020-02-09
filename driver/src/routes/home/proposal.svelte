@@ -53,19 +53,38 @@
     margin: 20px;
     border: 1px solid gray;
   }
+
+  p span, p time {
+    display: inline-block;
+    width: 32%;
+  }
+
+  p {
+    text-align: justify;
+  }
+
+  p time {
+    text-align: right;
+  }
+
+  button {
+    width: 100%;
+  }
 </style>
 
 <li>
   {#each trip.stops as stop, i}
-    <address>{stop}</address>
+    <address>📍 {stop}</address>
   {/each}
   {#await osrm()}
     <p>⌛</p>
   {:then result}
-    <p>📍{result.distance}KM - ⏰{result.duration}XB</p>
+    <p>
+      <span>⏰{result.duration}XB</span>
+      <span>{result.distance}KM</span>
+      <time>⏰ {time}</time>
+    </p>
   {/await}
-  <time>⏰ {time}</time>
   <blockquote>{trip.comment}</blockquote>
-  <br/>
   <button type='button' on:click={accept}>GO</button>
 </li>

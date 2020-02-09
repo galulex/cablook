@@ -14,8 +14,11 @@ nav a, nav button {
   padding: 0;
   height: auto;
   font-size: 2rem;
+  color: white;
+  background: none;
+  border: none;
 }
 
-nav > a {
-  border-right: 1px solid grey;
+button, .button {
+  background: linear-gradient(to left, #19a160, #312d50);
 }
