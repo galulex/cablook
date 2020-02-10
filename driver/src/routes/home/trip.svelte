@@ -55,11 +55,12 @@
   li {
     scroll-snap-align: start;
     height: inherit;
-    margin: 0;
+    overflow-y: auto;
+    position: relative;
   }
 
-  div {
-    padding: 0 20px;
+  li > div {
+    margin: 0 30px;
   }
 
   p {
@@ -75,8 +76,15 @@
     text-align: right;
   }
 
+  .buttons {
+    display: flex;
+    justify-content: space-between;
+  }
+
   button, .button {
-    width: 100%;
+    padding: 10px;
+    color: white;
+    text-decoration: none;
   }
 </style>
 
@@ -91,12 +99,11 @@
       <time datatime={trip.start_at}>⏰ {trip.start_time}</time>
     </p>
     <blockquote>{trip.comment}</blockquote>
-    <button type='button' disabled={disabled} on:click={actions[trip.status - 1].action}>{actions[trip.status - 1].title}</button>
-    <br/>
-    <a class='button' disabled={trip.no_call} href={`tel:${trip.user_number}`}>✆</a>
-    <br/>
-    <a class='button' href={`tel:${trip.user_number}`}>NAVIGATOR</a>
-    <br/>
-    <button type='button' disabled={disabled} on:click={cancel}>Cancel</button>
+    <div class='buttons'>
+      <button type='button' title={actions[trip.status - 1].title} disabled={disabled} on:click={actions[trip.status - 1].action}>🏁</button>
+      <a class='button' disabled={trip.no_call} href={`tel:${trip.user_number}`}>☎️</a>
+      <a class='button' href={`tel:${trip.user_number}`}>🧭</a>
+      <button type='button' disabled={disabled} on:click={cancel}>❌</button>
+    </div>
   </div>
 </li>

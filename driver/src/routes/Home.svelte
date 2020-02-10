@@ -15,6 +15,7 @@
     flex: 1 1 auto;
     scroll-snap-type: x mandatory;
     scroll-behavior: smooth;
+    position: relative;
   }
 
   ol {
@@ -30,9 +31,28 @@
     scroll-snap-type: y mandatory;
     scroll-behavior: smooth;
   }
+
+  .slider {
+    position: absolute;
+    bottom: 10px;
+    right: 0;
+    transform: translateX(48%);
+    z-index: 100;
+  }
+
+  .slider button {
+    padding: 0;
+    font-size: 5rem;
+    border: none;
+    background: none;
+  }
 </style>
 
 <section>
+  <div class='slider'>
+    <button type='button'>‹</button>
+    <button type='button'>›</button>
+  </div>
   <ol id='proposals'>
     {#each trips.filter(trip => { return trip.status === 0 }) as trip (trip.id)}
       <Proposal trip={trip} updateTrip={updateTrip} location={location} />
