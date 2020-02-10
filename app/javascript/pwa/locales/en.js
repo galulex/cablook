@@ -140,9 +140,9 @@ const en = {
     success: 'Referral code is applied. Your friend will receive a free trip as soon as you make a trip',
     your_code: 'Your referral code:',
     statuses: {
-      0: 'Frozen',
-      1: 'Ready',
-      2: 'Used'
+      iced: 'Frozen',
+      fresh: 'Ready',
+      used: 'Used'
     }
   },
   contacts: {

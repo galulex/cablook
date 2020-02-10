@@ -75,7 +75,7 @@ describe Events::Trips::Create do
       it { is_expected.to change { bonus_trip.reload.used? }.to be_truthy }
 
       context 'but bonus was used before' do
-        before { bonus_trip.update(status: BonusTrip.statuses[:used]) }
+        before { bonus_trip.used! }
 
         it { is_expected.to raise_error(Events::InvalidParamsError) }
       end

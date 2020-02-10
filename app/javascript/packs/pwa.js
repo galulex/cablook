@@ -60,6 +60,7 @@ export default class App extends Component {
       cards: [],
       bonus_trips: [],
       parent_bonus: [],
+      availableBonusTrips: [],
       language: localStorage.getItem('language') || i18n.interfaceLanguage.split('-')[0],
       favorite_addresses: [],
       notification_settings: [],
@@ -149,12 +150,23 @@ export default class App extends Component {
     }
   }
 
+  setBonusTrips = (data) => {
+    this.setState({parent_bonus: data.parent_bonus, bonus_trips: data.bonus_trips, availableBonusTrips: data.availableBonusTrips})
+  }
+
+  getAvailableBonusTrips = (bonus_trips) => {
+    return bonus_trips.filter(trip => trip.status === 'fresh')
+  }
+
   fetchUser = () => {
     return axios.get('user').then((res) => {
+      let availableBonusTrips = []
+      if (res.data.bonus_trips) availableBonusTrips = this.getAvailableBonusTrips(res.data.bonus_trips)
       this.setState({cards: res.data.cards,
         favorite_addresses: res.data.favorite_addresses,
         notification_settings: res.data.enabled_notifications,
         bonus_trips: res.data.bonus_trips,
+        availableBonusTrips: availableBonusTrips,
         parent_bonus: res.data.parent_bonus || [],
         currentUserID: res.data.id,
         currentTrip: res.data.current_trip
@@ -271,6 +283,9 @@ export default class App extends Component {
               geocode={this.geocode}
               scrollEnd={this.scrollEnd}
               isYmapsLoading={this.state.isYmapsLoading}
+              setBonusTrips={this.setBonusTrips}
+              getAvailableBonusTrips={this.getAvailableBonusTrips}
+              availableBonusTrips={this.state.availableBonusTrips}
             />
             <Trips path='/trips/:id?'
               setCurrentTrip={this.setCurrentTrip}

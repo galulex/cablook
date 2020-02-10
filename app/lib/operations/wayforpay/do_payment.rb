@@ -37,12 +37,12 @@ module Operations
           response: wayforpay_response,
           status: status,
           amount: amount || payment.amount,
-          order_reference: payment.order_reference || order_reference
+          order_reference: order_reference
         )
       end
 
       def wayforpay_response
-        @wayforpay_response ||= Operations::Wayforpay::SendPayment.new(card, amount || trip.cost, "Payments::#{payment_type}", payment.order_reference || order_reference).call
+        @wayforpay_response ||= Operations::Wayforpay::SendPayment.new(card, amount || trip.cost, "Payments::#{payment_type}", order_reference).call
       end
 
       def success_response?

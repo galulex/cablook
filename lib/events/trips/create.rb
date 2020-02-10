@@ -84,8 +84,7 @@ module Events
           amount: @trip.cost,
           user_id: @trip.user_id,
           card_id: card_id,
-          trip_id: @trip.id,
-          order_reference: order_reference
+          trip_id: @trip.id
         )
       end
 
@@ -96,7 +95,7 @@ module Events
           trip_id: @trip.id,
           user_id: data[:user_id]
         )
-        bonus_trips.first.update(status: BonusTrip.statuses[:used], trip_id: @trip.id)
+        bonus_trips.first.update(status: :used, trip_id: @trip.id)
       end
 
       def create_trip
@@ -135,15 +134,6 @@ module Events
 
       def update_trip_time
         data[:time] = (data[:time].in_time_zone - data[:duration].seconds).strftime('%H:%M')
-      end
-
-      def order_reference
-        secure_code = SecureRandom.base58(6)
-        @order_reference ||= if Rails.env.production?
-                               "cablook_#{@trip.id}_trip_#{secure_code}"
-                             else
-                               "cablook_#{Rails.env}_#{@trip.id}_trip_#{secure_code}"
-                             end
       end
     end
   end
