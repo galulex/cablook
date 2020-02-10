@@ -86,7 +86,7 @@ module Events
       end
 
       def start_at
-        @start_at ||= matrix.duration.seconds.since + 2.minutes
+        @start_at ||= matrix.duration.seconds.since + (matrix.distance / 1000).ceil.minutes
       end
 
       def start_point
@@ -99,7 +99,7 @@ module Events
 
       def car_trip_remaining_time
         expected_finish_time = ((car_trip.started_at || car_trip.start_at) + car_trip.duration)
-        Time.now > expected_finish_time ? 0.minutes : ((expected_finish_time - Time.now) / 60).round.minutes
+        Time.now > expected_finish_time ? 0.minutes : ((expected_finish_time - Time.now) / 60).ceil.minutes
       end
 
       def notify
