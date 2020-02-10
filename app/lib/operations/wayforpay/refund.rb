@@ -58,7 +58,7 @@ module Operations
 
       def refund_bonus
         bonus_trip = BonusTrip.find_by(trip_id: payment.trip_id)
-        bonus_trip&.update(status:  Constants::BonusTrip::STATUSES[Constants::BonusTrip::FRESH])
+        bonus_trip&.fresh!
       end
 
       def payment

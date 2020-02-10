@@ -10,7 +10,15 @@ module Operations
       attr_reader :trip_id, :payment_type, :amount
 
       def call
-        send("set_#{payment_type.underscore}_payment")
+        types = Constants::Payments::TYPES.except(:order).values
+        case payment_type
+        when types[1], types[2], types[3]
+          update_payment_and_total
+        when types[0]
+          return if payment.nil? || payment.status == Constants::Payments::BONUS
+          update_payment_and_total
+          update_bonus_trip_if_necessary if success_response?
+        end
       end
 
       private
@@ -42,7 +50,8 @@ module Operations
       end
 
       def update_bonus_trip_if_necessary
-        frozen_bonuses.first.update(status: Constants::BonusTrip::STATUS[Constants::BonusTrip::FRESH]) if frozen_bonuses.any? && count_of_finished_trips.positive?
+        frozen_bonuses = trip.user.bonus_trips.iced
+        frozen_bonuses.first.update.fresh! if frozen_bonuses.any? && trip.user.trips.finished.count.positive?
       end
 
       def update_total
@@ -53,27 +62,9 @@ module Operations
         trip.trip_payment.card || trip.user.cards.last
       end
 
-      def set_trip_payment
-        return if payment.nil? || payment.status == Constants::Payments::BONUS
-        update_payment_and_total
-        update_bonus_trip_if_necessary if success_response?
-      end
-
-      def set_fake_taxi_payment
-        update_payment_and_total
-      end
-
-      def set_idle_payment
-        update_payment_and_total
-      end
-
-      def set_tip_payment
-        update_payment_and_total
-      end
-
       def update_payment_and_total
         update_payment(success_response? ? Constants::Payments::SUCCESS : Constants::Payments::PENDING)
-        update_total if success_response?
+        update_total
       end
 
       def trip
@@ -84,13 +75,6 @@ module Operations
         @payment ||= Payment.find_or_create_by(payment_attributes)
       end
 
-      def frozen_bonuses
-        @frozen_bonuses ||= trip.user.bonus_trips.iced
-      end
-
-      def count_of_finished_trips
-        trip.user.trips.finished.count
-      end
 
       def order_reference
         secure_code = SecureRandom.base58(6)

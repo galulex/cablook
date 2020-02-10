@@ -43,7 +43,7 @@ describe Events::Feedbacks::Create do
       let(:data) { super().merge(tip: amount) }
       let(:amount) { 10 }
 
-      it { is_expected.to have_enqueued_job(Jobs::PaymentSettle).with(trip.id, Constants::Payments::TYPES[:tip].camelcase, amount) }
+      it { is_expected.to have_enqueued_job(Jobs::PaymentSettle).with(trip.id, Constants::Payments::TYPES[:tip], amount) }
     end
   end
 end

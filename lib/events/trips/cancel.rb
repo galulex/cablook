@@ -61,7 +61,7 @@ module Events
 
       def fake_taxi_payment
         return unless trip.status == Constants::Trip::STATUS_CODES[Constants::Trip::WAITING_CLIENT]
-        Jobs::PaymentSettle.perform_later(data[:trip_id], Constants::Payments::TYPES[:fake].camelcase, fake_amount)
+        Jobs::PaymentSettle.perform_later(data[:trip_id], Constants::Payments::TYPES[:fake], fake_amount)
       end
 
       def broadcast_unavailable_to_map
@@ -102,7 +102,7 @@ module Events
 
       def refund_bonus
         bonus_trip = BonusTrip.find_by(trip_id: trip.id)
-        bonus_trip&.update(status:  Constants::BonusTrip::STATUSES[Constants::BonusTrip::FRESH])
+        bonus_trip&.fresh!
       end
 
       def fake_amount

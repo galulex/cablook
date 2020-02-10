@@ -35,11 +35,11 @@ describe Operations::Wayforpay::Refund do
 
     context 'when payment by bonus' do
       let!(:payment) { create(:payment, trip_id: trip.id, status: Constants::Payments::BONUS, user_id: trip.user_id) }
-      let!(:bonus_trip) { create(:bonus_trip, trip_id: trip.id, status: Constants::BonusTrip::USED, user_id: trip.user_id) }
+      let!(:bonus_trip) { create(:bonus_trip, trip_id: trip.id, status: :used, user_id: trip.user_id) }
 
       before { instance.call }
 
-      it { expect(bonus_trip.reload.status).to eq(Constants::BonusTrip::STATUSES[Constants::BonusTrip::FRESH]) }
+      it { expect(bonus_trip.reload).to be_fresh }
     end
 
     context 'when fake taxi' do

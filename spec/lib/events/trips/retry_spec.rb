@@ -20,11 +20,11 @@ describe Events::Trips::Retry do
     end
 
     context 'when payment by bonus' do
-      let!(:bonus_trip) { create(:bonus_trip, trip: trip, user_id: user.id, status:  Constants::BonusTrip::STATUSES[Constants::BonusTrip::FRESH]) }
+      let!(:bonus_trip) { create(:bonus_trip, trip: trip, user_id: user.id, status: :fresh) }
 
       after { subject.call }
 
-      it { is_expected.to change { bonus_trip.reload.status }.to(Constants::BonusTrip::STATUSES[Constants::BonusTrip::USED]) }
+      it { is_expected.to change { bonus_trip.reload.used? }.to be_truthy }
       it { is_expected.to change { trip_payment.reload.status }.to(Constants::Payments::BONUS) }
     end
 

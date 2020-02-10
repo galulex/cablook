@@ -19,11 +19,11 @@ describe Events::Trips::Cancel do
     context 'and have fake settle job' do
       let(:trip) { create(:trip, status: Constants::Trip::WAITING_CLIENT) }
 
-      it { is_expected.to have_enqueued_job(Jobs::PaymentSettle).with(trip.id, Constants::Payments::TYPES[:fake].camelcase, price.landing / 100) }
+      it { is_expected.to have_enqueued_job(Jobs::PaymentSettle).with(trip.id, Constants::Payments::TYPES[:fake], price.landing / 100) }
     end
 
     context 'and not have fake settle job when waiting for client' do
-      it { is_expected.not_to have_enqueued_job(Jobs::PaymentSettle).with(trip.id, Constants::Payments::TYPES[:fake].camelcase, price.landing / 100) }
+      it { is_expected.not_to have_enqueued_job(Jobs::PaymentSettle).with(trip.id, Constants::Payments::TYPES[:fake], price.landing / 100) }
     end
 
     context 'and broadcast to channel' do
@@ -73,9 +73,9 @@ describe Events::Trips::Cancel do
 
     context 'when payment by bonus' do
       let!(:payment) { create(:payment, trip_id: trip.id, status: Constants::Payments::BONUS, user_id: trip.user_id) }
-      let!(:bonus_trip) { create(:bonus_trip, trip_id: trip.id, status: Constants::BonusTrip::USED, user_id: trip.user_id) }
+      let!(:bonus_trip) { create(:bonus_trip, trip_id: trip.id, status: :used, user_id: trip.user_id) }
 
-      it { is_expected.to change { bonus_trip.reload.status }.to( Constants::BonusTrip::STATUSES[Constants::BonusTrip::FRESH]) }
+      it { is_expected.to change { bonus_trip.reload.fresh? }.to be_truthy }
     end
 
     context 'when trip is finished' do
@@ -134,9 +134,9 @@ describe Events::Trips::Cancel do
         let(:trip) { create(:trip, status: Constants::Trip::DRIVING) }
         let(:data) { { trip_id: trip.id, by_driver: true } }
         let!(:payment) { create(:payment, trip_id: trip.id, status: Constants::Payments::BONUS, user_id: trip.user_id) }
-        let!(:bonus_trip) { create(:bonus_trip, trip_id: trip.id, status: Constants::BonusTrip::USED, user_id: trip.user_id) }
+        let!(:bonus_trip) { create(:bonus_trip, trip_id: trip.id, status: :used, user_id: trip.user_id) }
 
-        it { is_expected.to change { bonus_trip.reload.status }.to( Constants::BonusTrip::STATUSES[Constants::BonusTrip::FRESH]) }
+        it { is_expected.to change { bonus_trip.reload.fresh? }.to be_truthy }
       end
     end
   end

@@ -23,10 +23,11 @@ describe Operations::Wayforpay::DoPayment do
         it { is_expected.not_to change { trip.reload.total } }
       end
 
+      it { is_expected.to change { trip.reload.total }.from(0).to(trip.payments.sum(:amount)) }
+      
       context 'and wayforpay status is ok' do
         it { is_expected.to change { payment.reload.status }.to(Constants::Payments::SUCCESS) }
         it { is_expected.to change { payment.reload.response }.from(nil) }
-        it { is_expected.to change { trip.reload.total }.from(0).to(trip.payments.sum(:amount)) }
 
         it do
           expect(Wayforpay::Payments).to receive(:hold).once
@@ -65,14 +66,12 @@ describe Operations::Wayforpay::DoPayment do
         before { subject.call }
 
         it { expect(Payments::Tip.last.status).to eq(Constants::Payments::PENDING) }
-        it { is_expected.not_to change { trip.reload.total } }
       end
     end
 
     context 'when payment_type is Idle' do
       let!(:payment_type) { 'Idle' }
       let!(:amount) { 15 }
-      let!(:price) { Price.create }
       let(:trip) { create(:trip, user_id: user.id, cost: total) }
       let(:payment) { create(:payment, user_id: user.id, trip_id: trip.id, card_id: card.id, amount: total) }
       let(:total) { 40 }
@@ -95,7 +94,6 @@ describe Operations::Wayforpay::DoPayment do
         before { subject.call }
 
         it { expect(Payments::Idle.last.status).to eq(Constants::Payments::PENDING) }
-        it { is_expected.not_to change { trip.reload.total } }
       end
     end
 
@@ -123,7 +121,6 @@ describe Operations::Wayforpay::DoPayment do
         before { subject.call }
 
         it { expect(Payments::FakeTaxi.last.status).to eq(Constants::Payments::PENDING) }
-        it { is_expected.not_to change { trip.reload.total } }
       end
     end
   end

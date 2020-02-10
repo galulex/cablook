@@ -32,12 +32,7 @@ module Events
       end
 
       def bonus_status
-        count = Trip.where(user_id: data[:friend_id], status: Constants::Trip::FINISHED).count
-        if count.positive?
-          Constants::BonusTrip::STATUSES[Constants::BonusTrip::FRESH]
-        else
-          Constants::BonusTrip::STATUSES[Constants::BonusTrip::ICED]
-        end
+        Trip.finished.where(user_id: data[:friend_id]).count.positive? ? BonusTrip.statuses[:fresh] : BonusTrip.statuses[:iced]
       end
     end
   end
