@@ -39,7 +39,9 @@ RSpec.feature 'Trip', type: :feature, js: true do
     wait 3 do
       find_button('GO 56').trigger(:click)
     end
-    sleep 1
+    wait 3 do
+      has_text? 'Cancel'
+    end
     Events::Trips::Accept.(trip_id: trip.id, driver_id: driver.id, car_id: car.id)
     accept_alert do
       Events::Trips::Cancel.(trip_id: trip.id, by_driver: true)
