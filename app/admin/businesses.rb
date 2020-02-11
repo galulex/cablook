@@ -10,8 +10,8 @@ ActiveAdmin.register Business do
   form do |f|
     semantic_errors
     inputs do
-      f.input :user_id, label: 'Owner', as: :select, collection: User.all.map { |u| [u.phone_number, u.id] }
-      f.input :card, label: 'Card', as: :select, collection: Card.all.map { |c| [c.pan, c.id] }
+      f.input :user_id, label: 'Owner', as: :select2, collection: User.all.map { |u| [u.phone_number, u.id] }
+      f.input :card, label: 'Card', as: :select2, collection: Card.all.map { |c| [c.pan, c.id] }
       %w[name email].each { |title| input title }
     end
     actions

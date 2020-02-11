@@ -68,6 +68,18 @@ fieldset.address {
   background: var(--orange);
 }
 
+.button.bonus {
+  background: #efcc3a;
+  background: var(--orange);
+  position: fixed;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  bottom: 80px;
+  width: calc(100% - 60px);
+  max-width: 540px;
+}
+
 .button.pick_address {
   z-index: 20;
 }

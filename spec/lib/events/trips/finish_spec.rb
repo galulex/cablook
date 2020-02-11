@@ -18,15 +18,17 @@ describe Events::Trips::Finish do
     end
 
     context 'when idle is bigger than 10' do
-      let(:data) { { trip_id: trip.id, idle: 800} }
+      let(:data) { { trip_id: trip.id, idle: idle} }
+      let(:price) { Price.create }
+      let(:idle) { 800 }
 
-      it { is_expected.to have_enqueued_job(Jobs::PaymentIdleSettle).with(trip.id, 800) }
+      it { is_expected.to have_enqueued_job(Jobs::PaymentSettle).with(trip.id, Constants::Payments::TYPES[:idle], idle / 60 * price.idle_price) }
     end
 
     context 'when idle is lower than 10' do
       let(:data) { { trip_id: trip.id, idle: 8} }
 
-      it { is_expected.not_to have_enqueued_job(Jobs::PaymentIdleSettle).with(trip.id, 8) }
+      it { is_expected.not_to have_enqueued_job(Jobs::PaymentSettle).with(trip.id, Constants::Payments::TYPES[:idle],  8) }
     end
 
     context 'and broadcast to driver map channel' do

@@ -45,7 +45,7 @@ module Events
 
       def update_payment
         if bonus_trip
-          bonus_trip.update(status: Constants::BonusTrip::NEW, trip_id: nil)
+          bonus_trip.update(status: :fresh, trip_id: nil)
           update_trip_payment
         else
           trip.trip_payment.update(payment_params)

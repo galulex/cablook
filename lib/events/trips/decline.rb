@@ -43,7 +43,7 @@ module Events
 
       def refund_bonus
         bonus_trip = BonusTrip.find_by(trip_id: trip.id)
-        bonus_trip&.update(status: Constants::BonusTrip::NEW)
+        bonus_trip&.fresh!
       end
 
       def notify

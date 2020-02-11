@@ -5,6 +5,7 @@ ActiveAdmin.register BonusTrip do
   remove_filter :trip, :code
   filter :user,   as: :select, collection: proc { User.joins(:bonus_trips).group(:id).all }
   filter :friend, as: :select, collection: proc { User.joins('INNER JOIN bonus_trips ON bonus_trips.friend_id = users.id GROUP BY users.id') }
+  filter :status, as: :select, collection: proc { BonusTrip.statuses }
 
   controller do
     def permitted_params

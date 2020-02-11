@@ -1,13 +1,13 @@
 module Constants
   module BonusTrip
-    FROZEN  = 0
-    NEW     = 1
+    ICED    = 0
+    FRESH   = 1
     USED    = 2
     EXPIRED = 3
 
     STATUSES = {
-      FROZEN  => 'frozen'.freeze,
-      NEW     => 'new'.freeze,
+      ICED    => 'iced'.freeze,
+      FRESH   => 'fresh'.freeze,
       USED    => 'used'.freeze,
       EXPIRED => 'expired'.freeze
     }.freeze

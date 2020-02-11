@@ -84,8 +84,7 @@ module Events
           amount: @trip.cost,
           user_id: @trip.user_id,
           card_id: card_id,
-          trip_id: @trip.id,
-          order_reference: order_reference
+          trip_id: @trip.id
         )
       end
 
@@ -96,7 +95,7 @@ module Events
           trip_id: @trip.id,
           user_id: data[:user_id]
         )
-        bonus_trips.first.update(status: Constants::BonusTrip::USED, trip_id: @trip.id)
+        bonus_trips.first.update(status: :used, trip_id: @trip.id)
       end
 
       def create_trip
@@ -113,7 +112,7 @@ module Events
       end
 
       def bonus_trips
-        @bonus_trips ||= BonusTrip.where(user_id: data[:user_id], status: Constants::BonusTrip::NEW)
+        @bonus_trips ||= User.find(data[:user_id]).bonus_trips.fresh
       end
 
       def card_id
@@ -135,14 +134,6 @@ module Events
 
       def update_trip_time
         data[:time] = (data[:time].in_time_zone - data[:duration].seconds).strftime('%H:%M')
-      end
-
-      def order_reference
-        @order_reference ||= if Rails.env.production?
-                               "cablook_trip_#{@trip.id}"
-                             else
-                               "cablook_#{Rails.env}_trip_#{@trip.id}"
-                             end
       end
     end
   end

@@ -24,7 +24,7 @@ import { PENDING, ON_THE_WAY, WAITING_CLIENT, DRIVING, FINISHED, CANCELED, DECLI
 
 const cable = createConsumer()
 const ENTRANCES = Array.from({length: 15}, (v, k) => (k+1))
-const TRIP_FIELDS = ['departure', 'departure_address', 'destination', 'destination_address', 'path', 'status', 'id', 'stops', 'waypoints', 'cost', 'distance', 'duration', 'start_time', 'card_id']
+const TRIP_FIELDS = ['departure', 'departure_address', 'destination', 'destination_address', 'path', 'status', 'id', 'stops', 'waypoints', 'cost', 'distance', 'duration', 'start_time', 'card_id', 'bonus']
 
 const Shake = require('shake.js')
 let myShakeEvent = false
@@ -434,6 +434,14 @@ export default class NewDesign extends Component {
     this.subscribe()
   }
 
+  fetchBonusTrips = () => {
+    axios.get('/referrals').then((res) => {
+      let data = res.data
+      data.availableBonusTrips = this.props.getAvailableBonusTrips(data.bonus_trips)
+      this.props.setBonusTrips(data)
+    })
+  }
+
   scroll = val => {
     this.fields.scrollTo({left: this.fields.scrollWidth/val, behavior: 'smooth'})
   }
@@ -534,6 +542,7 @@ export default class NewDesign extends Component {
     this.setState({ trip: { ...this.state.trip, status: FINISHED }, car: null, driver: null, paymentButtonDisabled: false, inputDisabled: false })
     // this.props.fetchUser()
     this.unsubscribe()
+    if (this.state.trip.bonus) this.fetchBonusTrips()
   }
 
   waiting_client = () => {
@@ -688,7 +697,8 @@ export default class NewDesign extends Component {
             showWidget={this.showWidget}
             showWidgetTrue={this.showWidgetTrue}
             cards={cards}
-            paymentButtonDisabled={this.state.paymentButtonDisabled}/>
+            paymentButtonDisabled={this.state.paymentButtonDisabled}
+            availableBonusTrips={this.props.availableBonusTrips}/>
           { showWidget && <Widget createCard={this.createCard} showWidget={() => this.setState({showWidget: false}) }/> }
         </section>
       </div>

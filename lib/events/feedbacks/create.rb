@@ -25,7 +25,7 @@ module Events
       end
 
       def send_and_create_tip_for_driver
-        Jobs::PaymentTip.perform_later(data[:trip_id], data[:tip])
+        Jobs::PaymentSettle.perform_later(data[:trip_id], Constants::Payments::TYPES[:tip], data[:tip])
       end
     end
   end
