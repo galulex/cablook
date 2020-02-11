@@ -43,6 +43,24 @@ RSpec.feature 'Trip', type: :feature, js: true do
       has_text? 'Cancel'
     end
     Events::Trips::Accept.(trip_id: trip.id, driver_id: driver.id, car_id: car.id)
+    accept_alert do
+      Events::Trips::Cancel.(trip_id: trip.id, by_driver: true)
+    end
+    all('input')[0].trigger(:focus)
+    all('input')[0].set('')
+    wait 3 do
+      first('li.prediction', visible: false).trigger(:click)
+    end
+    all('input')[1].trigger(:focus)
+    all('input')[1].set('')
+    all('li.prediction', visible: false)[1].trigger(:click)
+    wait 3 do
+      find_button('GO 56').trigger(:click)
+    end
+    wait 3 do
+      has_text? 'Cancel'
+    end
+    Events::Trips::Accept.(trip_id: trip.id, driver_id: driver.id, car_id: car.id)
     wait 3 do
       has_no_text? 'Edit'
     end
@@ -79,7 +97,6 @@ RSpec.feature 'Trip', type: :feature, js: true do
   end
 
   def trip
-    @trip ||= Trip.last
+    @trip = Trip.last
   end
-
 end
