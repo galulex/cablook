@@ -288,8 +288,8 @@ export default class NewDesign extends Component {
     if (listenerEnable && !myShakeEvent) {
       myShakeEvent = new Shake({threshold: 20, timeout: 2000})
       myShakeEvent.start()
-      window.addEventListener('shake', this.shakeEvent, {once: true})
     }
+    window.addEventListener('shake', this.shakeEvent, {once: true})
   }
 
   componentWillUnmount() {
@@ -349,6 +349,7 @@ export default class NewDesign extends Component {
     let address = `${place.address_components[1].long_name}, ${place.address_components[0].long_name}`
     let coords = `${place.geometry.location.lat()},${place.geometry.location.lng()}`
 
+    this.setAddress(address, coords, 0)
     this.setState({trip : {
       ...this.state.trip,
       departure: coords,
