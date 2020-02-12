@@ -52,7 +52,7 @@ module Operations
 
       def update_bonus_trip_if_necessary
         frozen_bonuses = trip.user.bonus_trips.iced
-        frozen_bonuses.first.update.fresh! if frozen_bonuses.any? && trip.user.trips.finished.count.positive?
+        frozen_bonuses.first.fresh! if frozen_bonuses.any? && trip.user.trips.finished.count.positive?
       end
 
       def update_total
