@@ -24,7 +24,7 @@ describe Operations::Wayforpay::DoPayment do
       end
 
       it { is_expected.to change { trip.reload.total }.from(0).to(trip.payments.sum(:amount)) }
-      
+
       context 'and wayforpay status is ok' do
         it { is_expected.to change { payment.reload.status }.to(Constants::Payments::SUCCESS) }
         it { is_expected.to change { payment.reload.response }.from(nil) }
@@ -35,11 +35,29 @@ describe Operations::Wayforpay::DoPayment do
         end
       end
 
-      context 'and something went wrong' do
+      context 'and wayforpay status is not ok' do
         let(:wayforpay_body) { { reasonCode: '1234' }.to_json }
 
         it { is_expected.not_to change { payment.reload.status } }
         it { is_expected.to change { payment.reload.response } }
+      end
+
+      context 'and user have frozen bonuses' do
+        let(:frozen_bonus) { create(:bonus_trip, user_id: user.id, status: :iced) }
+
+        it { is_expected.to change { frozen_bonus.reload.fresh? }.to be_truthy }
+
+        context 'and user have not finished trips' do
+          let(:trip) { create(:trip, user_id: user.id, status: Constants::Trip::PENDING) }
+
+          it { is_expected.not_to change { frozen_bonus.reload.status } }
+        end
+
+        context 'and wayforpay status is not ok' do
+          let(:wayforpay_body) { { reasonCode: '1234' }.to_json }
+
+          it { is_expected.not_to change { frozen_bonus.reload.status } }
+        end
       end
     end
 
@@ -60,7 +78,7 @@ describe Operations::Wayforpay::DoPayment do
         it { expect(Payments::Tip.last.status).to eq(Constants::Payments::SUCCESS) }
       end
 
-      context 'and something went wrong' do
+      context 'and wayforpay status is not ok' do
         let(:wayforpay_body) { { reasonCode: '1234' }.to_json }
 
         before { subject.call }
@@ -88,7 +106,7 @@ describe Operations::Wayforpay::DoPayment do
         it { expect(Payments::Idle.last.status).to eq(Constants::Payments::SUCCESS) }
       end
 
-      context 'and something went wrong' do
+      context 'and wayforpay status is not ok' do
         let(:wayforpay_body) { { reasonCode: '1234' }.to_json }
 
         before { subject.call }
@@ -115,7 +133,7 @@ describe Operations::Wayforpay::DoPayment do
         it { expect(Payments::FakeTaxi.last.status).to eq(Constants::Payments::SUCCESS) }
       end
 
-      context 'and something went wrong' do
+      context 'and wayforpay status is not ok' do
         let(:wayforpay_body) { { reasonCode: '1234' }.to_json }
 
         before { subject.call }
