@@ -32,7 +32,8 @@ module Operations
         }
       end
 
-      def update_payment(status)
+      def update_payment
+        status = success_response? ? Constants::Payments::SUCCESS : Constants::Payments::PENDING
         payment.update(
           response: wayforpay_response,
           status: status,
@@ -46,7 +47,7 @@ module Operations
       end
 
       def success_response?
-        @success_response ||= wayforpay_response['reasonCode'] == Constants::Payments::WAYFORPAY_SUCCESS
+        @success_response ||= wayforpay_response ? wayforpay_response.dig('reasonCode') == Constants::Payments::WAYFORPAY_SUCCESS : false
       end
 
       def update_bonus_trip_if_necessary
@@ -63,7 +64,7 @@ module Operations
       end
 
       def update_payment_and_total
-        update_payment(success_response? ? Constants::Payments::SUCCESS : Constants::Payments::PENDING)
+        update_payment
         update_total
       end
 
