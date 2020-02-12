@@ -89,7 +89,7 @@ export default class Vendor extends Component {
             updateLoaderState={this.updateLoaderState}
             setCurrentTrip={this.props.setCurrentTrip} />
           {Object.keys(vendor.items).map((category, index) => {
-            return(
+            if (category !== 'Гарячі Вина' && vendor.items[category].length > 0) return(
               <Category
                 key={index}
                 category={category}
