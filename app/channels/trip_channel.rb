@@ -5,7 +5,7 @@ class TripChannel < ApplicationCable::Channel
 
   def receive(data)
     if data.action == 'DriverLocationUpdated'
-      ActionCable.server.broadcast(trip_channel, data[:car] = Car.find(JSON.parse(data.fetch('body')).fetch('car_id').as_json(methods: [:dis, :deg])))
+      ActionCable.server.broadcast(trip_channel, data[:car] = Car.find(JSON.parse(data.fetch('body')).fetch('car_id')).as_json(methods: [:dis, :deg]))
     else
       ActionCable.server.broadcast trip_channel, data
     end
