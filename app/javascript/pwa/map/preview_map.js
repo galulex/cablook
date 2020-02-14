@@ -160,12 +160,12 @@ export default class PreviewMap extends Component {
     }})
   }
 
-  bearing = (start, end) => {
-    let y = Math.sin(end[0] - start[0]) * Math.cos(end[1]);
-    let x = Math.cos(start[1]) * Math.sin(end[1]) -
-      Math.sin(start[1]) * Math.cos(end[1]) * Math.cos(end[0] - start[0]);
-    return Math.atan2(y, x) * 180 / Math.PI
-  }
+  // bearing = (start, end) => {
+  //   let y = Math.sin(end[0] - start[0]) * Math.cos(end[1]);
+  //   let x = Math.cos(start[1]) * Math.sin(end[1]) -
+  //     Math.sin(start[1]) * Math.cos(end[1]) * Math.cos(end[0] - start[0]);
+  //   return Math.atan2(y, x) * 180 / Math.PI
+  // }
 
   updateCarDirection = (l) => {
     let short = Math.abs(l.prevAngleDeg) + Math.abs(l.carAngleDeg) > 180
@@ -364,6 +364,7 @@ export default class PreviewMap extends Component {
       distance = data.distance < 0.3
       // distance = this.getDistanceFromLatLonInKm(data.location, position) < 0.3
     }
+    console.log(data.angle);
     let deg = data.angle
     // let deg = this.bearing(data.location, position);
     if (!this.move && distance && !this.rotate && document.visibilityState == 'visible') document.documentElement.style.setProperty('--car-transition', '10s')
