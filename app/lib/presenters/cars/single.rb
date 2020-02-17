@@ -32,7 +32,6 @@ class Presenters::Cars::Single < Presenters::BaseSingle
   private
 
   def location
-    # binding.pry
     @location ||= represented.location
   end
 
