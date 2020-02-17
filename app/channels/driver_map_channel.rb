@@ -10,13 +10,14 @@ class DriverMapChannel < ApplicationCable::Channel
 
   def send_location(data)
     body = JSON.parse(data.fetch('body'))
+    car_id = body.fetch('car_id')
+    car = Car.find(car_id)
     car.location = [body.fetch('latitude'), body.fetch('longitude')]
-    car = Car.find(body.fetch('car_id'))
     ActionCable.server.broadcast(
       Constants::Channels::DRIVER_MAP,
       action: Constants::BroadcastActions::SEND_LOCATION,
       car_id: car_id,
-      location: car.location
+      location: car.location,
       car: Presenters::Cars::Single.new(car).as_json
     )
   end

@@ -14,16 +14,18 @@ class Car < ApplicationRecord
   end
 
   def location=(val)
-    redis.set("position_#{car_id}", redis.get("car_#{car_id}"))
-    redis.set("car_#{car_id}", location.join(','))
+    redis.set("position_#{id}", redis.get("car_#{id}"))
+    redis.set("car_#{id}", val.join(','))
   end
 
   def location
-    @location = Redis.current.get("car_#{id}")&.split(',').map(&:to_f)
+    car_location = Redis.current.get("car_#{id}")
+    @location = car_location ? car_location&.split(',').map(&:to_f) : [0,0]
   end
 
   def position
-    @position = Redis.current.get("position_#{id}")&.split(',').map(&:to_f)
+    car_position = Redis.current.get("position_#{id}")
+    @position = car_position ? car_position&.split(',').map(&:to_f) : [0,0]
   end
 
   private
