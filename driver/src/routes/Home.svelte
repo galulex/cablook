@@ -1,10 +1,24 @@
 <script>
+  import { onMount } from 'svelte'
   import Trip from './home/trip.svelte'
   import Proposal from './home/proposal.svelte'
 
-  export let trips = {}
+  export let trips = []
   export let updateTrip
   export let location
+
+  let component
+
+  onMount(() => {
+    component.scrollIntoView()
+  })
+
+  //TODO Pass it to disable go button for 20 seconds if driver has a trip that is not pre_order
+  let isBusy = () => {
+    trips.some(trip => {
+      return (trip.driver_id === parseInt(localStorage.id) && !trip.pre_order && [1,2,3].include(trip.status))
+    })
+  }
 </script>
 
 <style>
@@ -32,6 +46,12 @@
     scroll-behavior: smooth;
   }
 
+  @media (min-width: 80.0rem) {
+    ol {
+      width: 50%;
+    }
+  }
+
   .slider {
     position: absolute;
     bottom: 10px;
@@ -48,7 +68,7 @@
   }
 </style>
 
-<section>
+<section bind:this={component}>
   <div class='slider'>
     <button type='button'>‹</button>
     <button type='button'>›</button>

@@ -1,17 +1,18 @@
 <script>
   import { onMount, onDestroy } from 'svelte'
-  import { Router, Route, Link } from 'svelte-routing'
+  import { Router, Route } from 'svelte-routing'
   import sounds from './sounds'
   import actioncable from '@rails/actioncable'
 
   import axios from 'axios';
   axios.defaults.baseURL = 'https://cablook.taxi/api/drivers_app/'
   axios.defaults.headers.common['Auth-Token'] = localStorage.token;
-  axios.defaults.headers.common['Content-Type'] = 'application/json';
+  axios.defaults.headers.common['Content-Type'] = 'application/json'
 
-  import Home from './routes/Home.svelte';
-  import Session from './routes/Session.svelte';
-  import Map from './routes/Map.svelte';
+  import Home from './routes/Home.svelte'
+  import Session from './routes/Session.svelte'
+  import Map from './routes/Map.svelte'
+  import Nav from './Nav.svelte'
 
   let token = localStorage.token
   let carSpeed = 0
@@ -34,6 +35,7 @@
   })
 
   let sendLocation = (geo) => {
+    console.log(geo)
     let { latitude, longitude, speed } = geo.coords
     carSpeed = Math.round(speed * 3.6)
     location = [longitude, latitude]
@@ -101,11 +103,13 @@
 
     TripPropose: (data) => {
       updateTrip(JSON.parse(data.trip))
+      console.log(data)
       sounds.proposal.play()
     },
 
     TripUnavailable: (data) => {
       let i = trips.findIndex(trip => trip.id === data.trip_id)
+      if (i < 0) return
       trips.splice(i, 1)
       trips = trips
       sounds.cancel.play()
@@ -123,6 +127,7 @@
 
     TripUpdated: (data) => {
       console.log(data)
+      sounds.update.play()
     },
 
     DriverSignOut: (data) => {
@@ -138,24 +143,20 @@
     },
 
     TripAssigned: (data) => {
+      console.log(data)
     },
 
     TripDeclined: (data) => {
       let i = trips.findIndex(trip => trip.id === data.trip_id)
       trips.splice(i, 1)
       trips = trips
-      sounds.cancel.play()
+      sounds.decline.play()
     }
   }
 
 </script>
 
 <style>
-  :root {
-    --car-transition: 10s;
-    --car-rotation: 4s;
-  }
-
   html, body {
     position: relative;
     width: 100%;
@@ -169,25 +170,6 @@
     height: calc(100vh - 41px);
   }
 
-  nav {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    display: flex;
-    border-top: 1px solid grey;
-    background: white;
-    z-index: 1000;
-    flex-wrap: nowrap;
-    align-items: stretch;
-    background: linear-gradient(to left, #19a160, #312d50);
-  }
-
-  @media (min-width: 80.0rem) {
-    ol {
-      width: 50%;
-    }
-  }
 </style>
 
 <Router>
@@ -202,12 +184,7 @@
       </Route>
       <Route path="/map"><Map cable={cable}/></Route>
     </main>
-    <nav>
-      <Link to="/map">🌐</Link>
-      <Link to="/">🏠</Link>
-        <a href='#'>{carSpeed}</a>
-      <button type='button' on:click={logout}>x</button>
-    </nav>
+    <Nav speed={carSpeed} logout={logout}/>
   {:else}
     <main>
       <Route path="/" component={Session} login={login} />

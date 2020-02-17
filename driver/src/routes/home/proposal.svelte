@@ -1,38 +1,26 @@
 <script>
-  import { onMount, onDestroy } from 'svelte'
+  import { onMount } from 'svelte'
   import axios from 'axios'
+  import Actions from './actions.svelte'
 
   export let trip
   export let location
   export let updateTrip
-  let interval
-
-  let createTime = new Date(trip.created_at).getTime()
-  let current = new Date().getTime()
-  let time = 70 - Math.floor((current - createTime)/1000)
+  let proposal
 
   onMount(() => {
-    interval = setInterval(countdown, 1000)
+    proposal.scrollIntoView()
   })
-
-  onDestroy(() => {
-    clearInterval(interval)
-  })
-
-  let countdown = () => {
-    //TODO handle timer on trip retry. Require back-end updates
-    let current = new Date().getTime()
-    time = 70 - Math.floor((current - createTime)/1000)
-    if (time < 0) {
-      clearInterval(interval)
-      time = 'WTF'
-    }
-  }
 
   let accept = () => {
     axios.patch(`trips/${trip.id}/accept`).then(res => {
       updateTrip(res.data)
     })
+  }
+
+  let klass = () => {
+    if (trip.vip) return 'vip'
+    if (trip.pre_order) return 'preorder'
   }
 
   let start = location
@@ -49,42 +37,31 @@
 <style>
   ol > li {
     scroll-snap-align: start;
-    padding: 20px;
+    padding: 20px 20px 40px 20px;
     margin: 20px;
     border: 1px solid gray;
+    position: relative;
+    background: wheat;
   }
 
-  p span, p time {
-    display: inline-block;
-    width: 32%;
+  .preorder {
+    background: #06a092;
   }
 
-  p {
-    text-align: justify;
-  }
-
-  p time {
-    text-align: right;
-  }
-
-  button {
-    width: 100%;
+  .vip {
+    background: #ff8484;
   }
 </style>
 
-<li>
+<li bind:this={proposal} class={klass()}>
   {#each trip.stops as stop, i}
-    <address>📍 {stop}</address>
+    <address><i>📍</i> {stop}</address>
   {/each}
   {#await osrm()}
-    <p>⌛</p>
+    <Actions trip={trip} duration={'⌛'} distance={'⌛'} accept={accept}/>
   {:then result}
-    <p>
-      <span>⏰{result.duration}XB</span>
-      <span>{result.distance}KM</span>
-      <time>⏰ {time}</time>
-    </p>
+    <Actions trip={trip} duration={result.duration} distance={result.distance} accept={accept}/>
+  {:catch error}
+    <Actions trip={trip} duration={'⌛'} distance={'⌛'} accept={accept}/>
   {/await}
-  <blockquote>{trip.comment}</blockquote>
-  <button type='button' on:click={accept}>GO</button>
 </li>

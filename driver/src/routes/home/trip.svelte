@@ -1,4 +1,5 @@
 <script>
+  import { onMount } from 'svelte'
   import axios from 'axios'
   import Map from './map.svelte'
 
@@ -8,6 +9,11 @@
   let duration = (trip.duration/60).toFixed(1)
   let distance = (trip.distance/1000).toFixed(1)
   let disabled = false
+  let item
+
+  onMount(() => {
+    item.scrollIntoView()
+  })
 
   let cancel = () => {
     if (!confirm('Are you sure?')) return
@@ -49,6 +55,11 @@
     }
   ]
 
+  let klass = () => {
+    if (trip.vip) return 'vip'
+    if (trip.pre_order) return 'preorder'
+  }
+
 </script>
 
 <style>
@@ -85,14 +96,33 @@
     padding: 10px;
     color: white;
     text-decoration: none;
+    width: 20%;
+    text-align: center;
+    border: none;
+  }
+
+  .arrived {
+    background: aqua;
+  }
+
+  .start {
+    background: orange;
+  }
+
+  .preorder {
+    background: #06a092;
+  }
+
+  .vip {
+    background: #ff8484;
   }
 </style>
 
-<li>
+<li bind:this={item} class={klass()}>
   <Map trip={trip}/>
   <div>
     {#each trip.stops as stop, i}
-      <address>📍 {stop}</address>
+      <address><i>📍</i> {stop}</address>
     {/each}
     <p>
       <span>{distance} KM</span>
@@ -100,7 +130,7 @@
     </p>
     <blockquote>{trip.comment}</blockquote>
     <div class='buttons'>
-      <button type='button' title={actions[trip.status - 1].title} disabled={disabled} on:click={actions[trip.status - 1].action}>🏁</button>
+      <button type='button' title={actions[trip.status - 1].title} disabled={disabled} class={actions[trip.status - 1].title.toLowerCase()} on:click={actions[trip.status - 1].action}>🏁</button>
       <a class='button' disabled={trip.no_call} href={`tel:${trip.user_number}`}>☎️</a>
       <a class='button' href={`tel:${trip.user_number}`}>🧭</a>
       <button type='button' disabled={disabled} on:click={cancel}>❌</button>
