@@ -258,7 +258,6 @@ export default class PreviewMap extends Component {
   }
 
   addCar = (props) => {
-    // debugger
     if (!this.props.car) this.renderCar(props.car, props.trip(), props.driver);
     this.updateCarPosition(props.car);
   }
@@ -312,7 +311,6 @@ export default class PreviewMap extends Component {
   }
 
   componentWillReceiveProps(props) {
-    // debugger
     if ([FINISHED].includes(props.trip().status)) return this.cleanup()
     if (props.car) this.addCar(props)
     if (props.picker !== null) return this.pick(props.picker)
