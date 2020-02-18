@@ -8,7 +8,6 @@ class Presenters::Cars::Single < Presenters::BaseSingle
   delegate :position, to: :represented
 
   def dis
-    binding.pry
     rad_per_deg = Math::PI/180
     rkm = 6371
     # rm = rkm * 1000
