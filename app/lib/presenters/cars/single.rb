@@ -5,7 +5,6 @@ class Presenters::Cars::Single < Presenters::BaseSingle
   property :deg, exec_context: :decorator
 
   def dis
-    position = position ? position : [0,0]
     rad_per_deg = Math::PI/180
     rkm = 6371
     # rm = rkm * 1000
@@ -24,7 +23,6 @@ class Presenters::Cars::Single < Presenters::BaseSingle
   end
 
   def deg
-    position = position ? position : [0,0]
     y = Math.sin(position[1] - location[1]) * Math.cos(position[0]);
     x = Math.cos(location[0]) * Math.sin(position[0]) -
       Math.sin(location[0]) * Math.cos(position[0]) * Math.cos(position[1] - location[1]);
@@ -34,10 +32,10 @@ class Presenters::Cars::Single < Presenters::BaseSingle
   private
 
   def location
-    @location ||= represented.location
+    @location = represented.location
   end
 
   def position
-    @position ||= represented.position
+    @position = represented.position
   end
 end

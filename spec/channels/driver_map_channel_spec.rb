@@ -6,6 +6,8 @@ describe DriverMapChannel do
     let(:car) {create(:car)}
     let(:latitude) { 50.846042486788605 }
     let(:longitude) { 14.88 }
+    let(:latitude_first) { 42.78437439386835 }
+    let(:longitude_first) { 15.2 }
     let(:data) do
       {
         'action' => 'send_location',
@@ -16,7 +18,18 @@ describe DriverMapChannel do
         }.to_json
       }
     end
+    let(:data_first) do
+      {
+        'action' => 'send_location',
+        'body' => {
+          'latitude': latitude_first,
+          'longitude': longitude_first,
+          'car_id': car.id
+        }.to_json
+      }
+    end
 
+    let(:redis_car_position) { Redis.current.set("position_#{car.id}", "#{latitude_first},#{longitude_first}") }
     let(:redis_car_location) { Redis.current.get("car_#{car.id}") }
 
     context 'that redis save location' do
@@ -26,6 +39,7 @@ describe DriverMapChannel do
     end
 
     context 'and broadcast car location to this channel' do
+      before { channel.perform_action(data_first) }
       after { channel.perform_action(data) }
 
       it do
@@ -35,8 +49,8 @@ describe DriverMapChannel do
           car_id: car.id,
           location: [latitude, longitude],
           car: {
-            'deg' => -63.266544604056165,
-            'dis' => 5825.910733992778,
+            'deg' => 173.2511321253247,
+            'dis' => 866.391195752578,
             'id' => car.id,
             'number' => car.number,
             'phone_number' => car.phone_number,
