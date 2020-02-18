@@ -32,10 +32,10 @@ class Presenters::Cars::Single < Presenters::BaseSingle
   private
 
   def location
-    @location = represented.location
+    @location ||= represented.location
   end
 
   def position
-    @position = represented.position
+    @position ||= represented.position
   end
 end

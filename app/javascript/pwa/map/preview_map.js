@@ -194,7 +194,7 @@ export default class PreviewMap extends Component {
     marker._element.addEventListener('transitionend', (event) => {
       document.documentElement.style.setProperty('--car-transition', '0s')
     })
-    marker.carAngleDeg = car.angle;
+    marker.carAngleDeg = car.deg;
     var popupContent = render(<CarPopup car={car} trip={trip} driver={driver}/>)
     var popup = new mapboxgl.Popup({closeOnClick: false, closeButton: true, className: 'car-popup', anchor: 'bottom', offset: 10}).setHTML(popupContent.outerHTML);
     marker.setPopup(popup).addTo(this.map).togglePopup();
@@ -332,7 +332,7 @@ export default class PreviewMap extends Component {
     if (position) {
       distance = data.distance < 0.3
     }
-    let deg = data.angle
+    let deg = data.deg
     if (!this.move && distance && !this.rotate && document.visibilityState == 'visible') document.documentElement.style.setProperty('--car-transition', '10s')
     car.carAngleDeg = deg;
     car.setLngLat(data.location);

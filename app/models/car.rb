@@ -7,8 +7,6 @@ class Car < ApplicationRecord
 
   scope :for_map, -> { includes(:driver).where.not(status: Constants::Car::OFFLINE) }
 
-  attr_accessor :dis, :deg
-
   def display_name
     number
   end

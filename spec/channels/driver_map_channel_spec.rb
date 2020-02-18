@@ -29,17 +29,22 @@ describe DriverMapChannel do
       }
     end
 
-    let(:redis_car_position) { Redis.current.set("position_#{car.id}", "#{latitude_first},#{longitude_first}") }
     let(:redis_car_location) { Redis.current.get("car_#{car.id}") }
 
     context 'that redis save location' do
-      before { channel.perform_action(data) }
+      before do
+        Redis.current.set("position_#{car.id}", "#{latitude_first},#{longitude_first}")
+        channel.perform_action(data)
+      end
 
       it { expect(redis_car_location).to eq("#{latitude},#{longitude}") }
     end
 
     context 'and broadcast car location to this channel' do
-      before { channel.perform_action(data_first) }
+      before do
+        Redis.current.set("position_#{car.id}", "#{latitude_first},#{longitude_first}")
+        channel.perform_action(data_first)
+      end
       after { channel.perform_action(data) }
 
       it do
