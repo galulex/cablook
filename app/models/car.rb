@@ -17,13 +17,15 @@ class Car < ApplicationRecord
   end
 
   def location
+    # binding.pry
     car_location = Redis.current.get("car_#{id}")
     @location = car_location ? car_location&.split(',').map(&:to_f) : [0,0]
   end
 
   def position
+    # binding.pry
     car_position = Redis.current.get("position_#{id}")
-    @position = car_position ? car_position&.split(',').map(&:to_f) : [0,0]
+    @position = car_position ? car_position&.split(',').map(&:to_f) : location
   end
 
   private

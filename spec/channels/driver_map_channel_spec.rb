@@ -33,7 +33,7 @@ describe DriverMapChannel do
 
     context 'that redis save location' do
       before do
-        Redis.current.set("position_#{car.id}", "#{latitude_first},#{longitude_first}")
+        Redis.current.set("car_#{car.id}", "#{latitude},#{longitude}")
         channel.perform_action(data)
       end
 
@@ -42,7 +42,7 @@ describe DriverMapChannel do
 
     context 'and broadcast car location to this channel' do
       before do
-        Redis.current.set("position_#{car.id}", "#{latitude_first},#{longitude_first}")
+        Redis.current.set("car_#{car.id}", "#{latitude},#{longitude}")
         channel.perform_action(data_first)
       end
       after { channel.perform_action(data) }

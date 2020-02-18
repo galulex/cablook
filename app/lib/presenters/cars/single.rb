@@ -4,7 +4,11 @@ class Presenters::Cars::Single < Presenters::BaseSingle
   property :dis, exec_context: :decorator
   property :deg, exec_context: :decorator
 
+  delegate :location, to: :represented
+  delegate :position, to: :represented
+
   def dis
+    binding.pry
     rad_per_deg = Math::PI/180
     rkm = 6371
     # rm = rkm * 1000
@@ -27,15 +31,5 @@ class Presenters::Cars::Single < Presenters::BaseSingle
     x = Math.cos(location[0]) * Math.sin(position[0]) -
       Math.sin(location[0]) * Math.cos(position[0]) * Math.cos(position[1] - location[1]);
     @deg ||= Math::atan2(y, x) * 180 / Math::PI
-  end
-
-  private
-
-  def location
-    @location ||= represented.location
-  end
-
-  def position
-    @position ||= represented.position
   end
 end
