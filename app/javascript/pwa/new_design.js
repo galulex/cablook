@@ -317,11 +317,11 @@ export default class NewDesign extends Component {
   createShakeTrip = () => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((result) => {
-        let geocoder = new google.maps.Geocoder()
-        let location = new google.maps.LatLng(result.coords.latitude, result.coords.longitude)
+        let lat = result.coords.latitude
+        let lng = result.coords.longitude
 
-        geocoder.geocode( { 'location': location }, (res, status) => {
-          if (status == 'OK') this.setTripParams(res)
+        this.props.geocode(`${lng},${lat}`, (address) => {
+          this.setTripParams(`${lat},${lng}`, address)
         })
       },
         (error) => {
@@ -344,11 +344,7 @@ export default class NewDesign extends Component {
     } else alert(i18n.location.not_supported)
   }
 
-  setTripParams = (res) => {
-    let place = res[0]
-    let address = `${place.address_components[1].long_name}, ${place.address_components[0].long_name}`
-    let coords = `${place.geometry.location.lat()},${place.geometry.location.lng()}`
-
+  setTripParams = (coords, address) => {
     this.setAddress(address, coords, 0)
     this.setState({trip : {
       ...this.state.trip,
