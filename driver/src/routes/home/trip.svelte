@@ -131,8 +131,8 @@
     <blockquote>{trip.comment}</blockquote>
     <div class='buttons'>
       <button type='button' title={actions[trip.status - 1].title} disabled={disabled} class={actions[trip.status - 1].title.toLowerCase()} on:click={actions[trip.status - 1].action}>🏁</button>
-      <a class='button' disabled={trip.no_call} href={`tel:${trip.user_number}`}>☎️</a>
-      <a class='button' href={`tel:${trip.user_number}`}>🧭</a>
+      <a class='button' href={`tel:${trip.user_number}`}>☎️</a>
+      <a class='button'>🧭</a>
       <button type='button' disabled={disabled} on:click={cancel}>❌</button>
     </div>
   </div>
