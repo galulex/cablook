@@ -421,7 +421,7 @@ export default class NewDesign extends Component {
       return
     }
     TRIP_FIELDS.map(f => trip[f] = propsTrip[f] )
-    const car = { location: propsTrip.car_location, color: propsTrip.car_color, number: propsTrip.car_number, position: propsTrip.car_position }
+    const car = { location: propsTrip.car_location, color: propsTrip.car_color, number: propsTrip.car_number, position: propsTrip.car_position, deg: propsTrip.car.deg }
     const driver = { name: propsTrip.driver_name, phone_number: propsTrip.car_phone_number }
     if (propsTrip.car_location && trip.status !== PENDING) {
       this.setState({ trip: trip, car: car, driver: driver })
@@ -534,7 +534,7 @@ export default class NewDesign extends Component {
 
   DriverLocationUpdated = (data) => {
     const position = this.state.car.location
-    this.setState({ car: { ...this.state.car, location: [data.body.location.longitude, data.body.location.latitude], position: position } })
+    this.setState({ car: { ...this.state.car, location: [data.body.location.longitude, data.body.location.latitude], position: position, distance: data.body.car.dis, deg: data.body.car.deg } })
   }
 
   finish_trip = () => {

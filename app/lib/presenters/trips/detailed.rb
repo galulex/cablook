@@ -18,6 +18,7 @@ class Presenters::Trips::Detailed < Presenters::BaseSingle
   property :car_location, exec_context: :decorator
   property :car_position, exec_context: :decorator
   property :card_id, exec_context: :decorator
+  property :car, decorator: Presenters::Cars::Single
 
   def card_id
     represented.payments.last&.card_id

@@ -160,13 +160,6 @@ export default class PreviewMap extends Component {
     }})
   }
 
-  bearing = (start, end) => {
-    let y = Math.sin(end[0] - start[0]) * Math.cos(end[1]);
-    let x = Math.cos(start[1]) * Math.sin(end[1]) -
-      Math.sin(start[1]) * Math.cos(end[1]) * Math.cos(end[0] - start[0]);
-    return Math.atan2(y, x) * 180 / Math.PI
-  }
-
   updateCarDirection = (l) => {
     let short = Math.abs(l.prevAngleDeg) + Math.abs(l.carAngleDeg) > 180
     if (l.prevAngleDeg > 0 && l.carAngleDeg < 0 && short || l.prevAngleDeg < 0 && l.carAngleDeg > 0 && short ) {
@@ -201,7 +194,7 @@ export default class PreviewMap extends Component {
     marker._element.addEventListener('transitionend', (event) => {
       document.documentElement.style.setProperty('--car-transition', '0s')
     })
-    marker.carAngleDeg = this.bearing(car.location, car.position || 180);
+    marker.carAngleDeg = car.deg;
     var popupContent = render(<CarPopup car={car} trip={trip} driver={driver}/>)
     var popup = new mapboxgl.Popup({closeOnClick: false, closeButton: true, className: 'car-popup', anchor: 'bottom', offset: 10}).setHTML(popupContent.outerHTML);
     marker.setPopup(popup).addTo(this.map).togglePopup();
@@ -332,37 +325,14 @@ export default class PreviewMap extends Component {
     if (![CONFIRM_UPDATE_TRIP].includes(props.trip().status)) this.pathFocus(trip)
   }
 
-  getDistanceFromLatLonInKm(location, position) {
-    let lat1 = parseFloat(location[0])
-    let lon1 = parseFloat(location[1])
-    let lat2 = parseFloat(position[0])
-    let lon2 = parseFloat(position[1])
-
-    var R = 6371; // Radius of the earth in km
-    var dLat = this.deg2rad(lat2-lat1);  // deg2rad below
-    var dLon = this.deg2rad(lon2-lon1);
-    var a =
-      Math.sin(dLat/2) * Math.sin(dLat/2) +
-      Math.cos(this.deg2rad(lat1)) * Math.cos(this.deg2rad(lat2)) *
-      Math.sin(dLon/2) * Math.sin(dLon/2)
-      ;
-    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-    var d = R * c; // Distance in km
-    return d;
-  }
-
-  deg2rad(deg) {
-    return deg * (Math.PI/180)
-  }
-
   updateCarPosition(data) {
     let car = this.state.car;
     let position = [car.getLngLat().lng, car.getLngLat().lat]
     let distance
     if (position) {
-      distance = this.getDistanceFromLatLonInKm(data.location, position) < 0.3
+      distance = data.distance < 0.3
     }
-    let deg = this.bearing(data.location, position);
+    let deg = data.deg
     if (!this.move && distance && !this.rotate && document.visibilityState == 'visible') document.documentElement.style.setProperty('--car-transition', '10s')
     car.carAngleDeg = deg;
     car.setLngLat(data.location);

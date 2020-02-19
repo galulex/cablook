@@ -3,38 +3,64 @@ describe DriverMapChannel do
   let(:connection) { TestConnection.new }
 
   context '#send_location' do
-    let(:car_id) { 0 }
-    let(:latitude) { Faker::Address.latitude }
-    let(:latitude) { Faker::Address.longitude }
+    let(:car) {create(:car)}
+    let(:latitude) { 50.846042486788605 }
     let(:longitude) { 14.88 }
+    let(:latitude_first) { 42.78437439386835 }
+    let(:longitude_first) { 15.2 }
     let(:data) do
       {
         'action' => 'send_location',
         'body' => {
           'latitude': latitude,
           'longitude': longitude,
-          'car_id': car_id
+          'car_id': car.id
+        }.to_json
+      }
+    end
+    let(:data_first) do
+      {
+        'action' => 'send_location',
+        'body' => {
+          'latitude': latitude_first,
+          'longitude': longitude_first,
+          'car_id': car.id
         }.to_json
       }
     end
 
-    let(:redis_car_location) { Redis.current.get("car_#{car_id}") }
+    let(:redis_car_location) { Redis.current.get("car_#{car.id}") }
 
     context 'that redis save location' do
-      before { channel.perform_action(data) }
+      before do
+        Redis.current.set("car_#{car.id}", "#{latitude},#{longitude}")
+        channel.perform_action(data)
+      end
 
       it { expect(redis_car_location).to eq("#{latitude},#{longitude}") }
     end
 
     context 'and broadcast car location to this channel' do
+      before do
+        Redis.current.set("car_#{car.id}", "#{latitude},#{longitude}")
+        channel.perform_action(data_first)
+      end
       after { channel.perform_action(data) }
 
       it do
         expect(ActionCable.server).to receive(:broadcast).with(
           Constants::Channels::DRIVER_MAP,
           action: Constants::BroadcastActions::SEND_LOCATION,
-          car_id: car_id,
-          location: [latitude, longitude]
+          car_id: car.id,
+          location: [latitude, longitude],
+          car: {
+            'deg' => 173.2511321253247,
+            'dis' => 866.391195752578,
+            'id' => car.id,
+            'number' => car.number,
+            'phone_number' => car.phone_number,
+            'status' => car.status,
+          }
         ).once
       end
     end
