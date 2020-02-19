@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_01_20_094929) do
+ActiveRecord::Schema.define(version: 2020_02_19_102548) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -148,7 +148,7 @@ ActiveRecord::Schema.define(version: 2020_01_20_094929) do
     t.bigint "car_id"
     t.bigint "driver_id"
     t.bigint "user_id"
-    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }
+    t.datetime "created_at", default: -> { "now()" }
     t.integer "distance"
     t.integer "duration"
     t.datetime "start_at"
@@ -163,7 +163,6 @@ ActiveRecord::Schema.define(version: 2020_01_20_094929) do
     t.integer "total", default: 0
     t.boolean "no_call", default: false
     t.datetime "preorder_time"
-    t.integer "lock_version", default: 0, null: false
     t.index ["car_id"], name: "index_trips_on_car_id"
     t.index ["driver_id"], name: "index_trips_on_driver_id"
     t.index ["user_id"], name: "index_trips_on_user_id"
@@ -187,7 +186,7 @@ ActiveRecord::Schema.define(version: 2020_01_20_094929) do
     t.string "verification_token"
     t.string "confirmation_token"
     t.string "referral_code"
-    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }
+    t.datetime "created_at", default: -> { "now()" }
     t.integer "trips_count", default: 0
     t.boolean "vip", default: false
     t.string "notification_settings", default: [], array: true
