@@ -2,6 +2,7 @@
   import { onMount } from 'svelte'
   import axios from 'axios'
   import Actions from './actions.svelte'
+  import sounds from '../../sounds'
 
   export let trip
   export let location
@@ -15,6 +16,7 @@
   let accept = () => {
     axios.patch(`trips/${trip.id}/accept`).then(res => {
       updateTrip(res.data)
+      sounds.accept.play()
     })
   }
 

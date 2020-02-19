@@ -9,6 +9,7 @@
   const { GeolocateControl, NavigationControl, ScalingControl } = controls
 
   export let cable
+  export let location
 
   let map
   let cars = []
@@ -58,10 +59,7 @@
 <Map
   accessToken='pk.eyJ1IjoiZ2FsdWxleCIsImEiOiJjamx6ampoZjgyMnYxM3FvZ2ppNjV2M2x5In0.bPgk2WI9NT-DJwnE-OtiLA'
   style='mapbox://styles/okunieva/cjzwn3wx40yhq1cpjl3yo8p1z'
-  center={[32.059769, 49.444431]}
-  minZoom=8
-  maxZoom=17
-  zoom=12
+  options={{center: location, minZoom: 8, maxZoom: 17, zoom: 12}}
   >
   {#await getCars()}
   {:then}

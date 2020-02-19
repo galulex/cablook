@@ -122,7 +122,6 @@
       trip.car_id = data.car_id
       trip.status = 1
       trips[i] = trip
-      sounds.accept.play()
     },
 
     TripUpdated: (data) => {
@@ -182,7 +181,7 @@
           <Home trips={trips} updateTrip={updateTrip} location={location} />
         {/await}
       </Route>
-      <Route path="/map"><Map cable={cable}/></Route>
+      <Route path="/map"><Map cable={cable} location={location}/></Route>
     </main>
     <Nav speed={carSpeed} logout={logout}/>
   {:else}
