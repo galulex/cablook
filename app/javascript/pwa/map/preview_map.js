@@ -258,8 +258,8 @@ export default class PreviewMap extends Component {
   }
 
   addCar = (props) => {
-    if (!this.props.car) this.renderCar(props.car, props.trip(), props.driver);
-    this.updateCarPosition(props.car);
+    if (!this.state.car) this.renderCar(props.car, props.trip(), props.driver)
+    this.updateCarPosition(props.car)
   }
 
   pathFocus = (trip) => {
