@@ -421,9 +421,10 @@ export default class NewDesign extends Component {
       return
     }
     TRIP_FIELDS.map(f => trip[f] = propsTrip[f] )
-    const car = { location: propsTrip.car_location, color: propsTrip.car_color, number: propsTrip.car_number, position: propsTrip.car_position, deg: propsTrip.car.deg }
-    const driver = { name: propsTrip.driver_name, phone_number: propsTrip.car_phone_number }
     if (propsTrip.car_location && trip.status !== PENDING) {
+      const car = { location: propsTrip.car_location, color: propsTrip.car_color, number: propsTrip.car_number, position: propsTrip.car_position, deg: propsTrip.car.deg }
+      const driver = { name: propsTrip.driver_name, phone_number: propsTrip.car_phone_number }
+
       this.setState({ trip: trip, car: car, driver: driver })
     } else {
       this.setState({ trip: trip, car: null, driver: null })
