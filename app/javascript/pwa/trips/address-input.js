@@ -1,6 +1,6 @@
-import { h, render, Component } from 'preact';
+import { h, render, Component } from 'preact'
 import mapboxgl from 'mapbox-gl'
-import axios from 'axios';
+import axios from 'axios'
 
 import { streets } from '../streets.js'
 import Pin from '../images/pin.svg'
@@ -12,7 +12,7 @@ import Location  from '../images/target.svg'
 
 export default class AddressInput extends Component {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       predictions: [],
       address: props.address || '',
@@ -46,7 +46,7 @@ export default class AddressInput extends Component {
                 favorite_address: true,
                 structured_formatting: { main_text: el.address, secondary_text: el.name }})
       })
-    };
+    }
     this.setState({predictions: fav})
   }
 
@@ -63,23 +63,23 @@ export default class AddressInput extends Component {
 
   setLocation = (place) => {
     if (place.favorite_address) {
-      this.setState({ address: place.address, predictions: [], isValid: true });
-      this.props.setAddress(place.address, place.location, this.props.index);
-      this.input.setCustomValidity('');
-      return;
+      this.setState({ address: place.address, predictions: [], isValid: true })
+      this.props.setAddress(place.address, place.location, this.props.index)
+      this.input.setCustomValidity('')
+      return
     }
 
     if (!place.place_id) {
-      this.setState({ address: `${place}, `, predictions: [], isValid: false });
-      this.input.focus();
-      return;
+      this.setState({ address: `${place}, `, predictions: [], isValid: false })
+      this.input.focus()
+      return
     }
 
     this.setState({isFetching: true})
-    let placeService = new google.maps.places.PlacesService(document.createElement('div'));
+    let placeService = new google.maps.places.PlacesService(document.createElement('div'))
     placeService.getDetails({placeId: place.place_id}, (result) => {
-      this.setState({ address: place.structured_formatting.main_text, predictions: [], isValid: true });
-      this.props.setAddress(place.structured_formatting.main_text, `${result.geometry.location.lat()},${result.geometry.location.lng()}`, this.props.index);
+      this.setState({ address: place.structured_formatting.main_text, predictions: [], isValid: true })
+      this.props.setAddress(place.structured_formatting.main_text, `${result.geometry.location.lat()},${result.geometry.location.lng()}`, this.props.index)
       this.setState({isFetching: false})
       this.input.setCustomValidity('')
     })
@@ -87,7 +87,7 @@ export default class AddressInput extends Component {
 
   autocomplete = e => {
     if (e.target.value === '') {
-      this.setState({ predictions: [], address: e.target.value});
+      this.setState({ predictions: [], address: e.target.value})
       this.favoriteAddressesPredictions()
       return false
     }
@@ -95,7 +95,7 @@ export default class AddressInput extends Component {
     let hits = streets.filter(function(s) { return s.toLowerCase().indexOf(e.target.value.toLowerCase()) != -1 }).slice(0, 5)
 
     if (hits.length > 0) {
-      this.setState({ predictions: hits, address: e.target.value, disabled: false });
+      this.setState({ predictions: hits, address: e.target.value, disabled: false })
       return false
     }
     if (!window.google) {
@@ -105,7 +105,7 @@ export default class AddressInput extends Component {
     this.setState({ predictions: [i18n.address_input.loading], address: e.target.value, disabled: true })
     autocomplete.getPlacePredictions({input: e.target.value + ' Cherkasy', componentRestrictions: {country: 'ua'}, location: new google.maps.LatLng(49.4311119, 31.9791903), radius: 100000, strictbounds: true, offset: 2}, data => {
       if (!data) return this.setState({ predictions: [i18n.address_input.no_result], address: e.target.value, disabled: true })
-      this.setState({ predictions: data, address: e.target.value, disabled: false });
+      this.setState({ predictions: data, address: e.target.value, disabled: false })
     })
   }
 
@@ -116,16 +116,16 @@ export default class AddressInput extends Component {
       return
     }
 
-    this.setState({isShowMap: true});
-    if (window.ios) return;
-    history.pushState(null, null,'/');
-    window.addEventListener('popstate', this.handleBack, {once: true});
+    this.setState({isShowMap: true})
+    if (window.ios) return
+    history.pushState(null, null,'/')
+    window.addEventListener('popstate', this.handleBack, {once: true})
   }
 
   closeMap = (point, address) => {
     this.props.setAddress(address, point, this.props.index)
-    this.setState({ address: address, predictions: [], isValid: true, isShowMap: false });
-    this.input.setCustomValidity('');
+    this.setState({ address: address, predictions: [], isValid: true, isShowMap: false })
+    this.input.setCustomValidity('')
   }
 
   focus = (e) => {
@@ -141,7 +141,7 @@ export default class AddressInput extends Component {
     const fields = document.getElementById('fields')
     this.input.classList.remove('focus')
     window.timeout = setTimeout(() => {
-      if (e.target.value === '' ||  e.target.checkValidity() || this.state.disabled || this.state.isFetching) return;
+      if (e.target.value === '' ||  e.target.checkValidity() || this.state.disabled || this.state.isFetching) return
       let prediction = this.state.predictions[0]
       if (prediction) this.setLocation(prediction)
     }, 500)
@@ -153,11 +153,11 @@ export default class AddressInput extends Component {
   handleBack = (event) => {
     this.setState({isShowMap: false})
     if (event) event.stopPropagation()
-  };
+  }
 
   keydown = (e) => {
     let prediction = this.state.predictions[0]
-    if (![13, 9].includes(e.which) || !prediction || this.state.disabled) return;
+    if (![13, 9].includes(e.which) || !prediction || this.state.disabled) return
     this.setLocation(prediction)
     if (!prediction.place_id) e.preventDefault()
   }
@@ -191,6 +191,6 @@ export default class AddressInput extends Component {
           { this.state.predictions.map(this.renderPrediction) }
         </ul>
       </fieldset>
-    );
+    )
   }
 }

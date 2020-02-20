@@ -1,13 +1,13 @@
 import { h, render, Component } from 'preact'
 import axios from 'axios'
-import { createConsumer } from '@rails/actioncable';
+import { createConsumer } from '@rails/actioncable'
 
 import i18n from './i18n.js'
 import './css/map.css'
 import PreviewMap from './map/preview_map.js'
 import Buttons from './new_design/buttons.js'
-import AddressInput from '../pwa/trips/address-input.js';
-import Feedback from '../pwa/feedback.js';
+import AddressInput from '../pwa/trips/address-input.js'
+import Feedback from '../pwa/feedback.js'
 import Add from './images/+.svg'
 import Widget from './widget.js'
 import Entrance from './images/entrance.svg'
@@ -122,7 +122,7 @@ export default class NewDesign extends Component {
 
   addAddress = () => {
     this.setState(state => {
-      state.trip.stops.push('');
+      state.trip.stops.push('')
     })
     setTimeout(() => { document.querySelector('fieldset:last-of-type input').focus() }, 100)
   }
@@ -165,7 +165,7 @@ export default class NewDesign extends Component {
 
   build = (e) => {
     let params = {...this.state.trip, osrm: true}
-    if (!this.isValid) return;
+    if (!this.isValid) return
     axios.post('trips/new', {trip: params}).then((res) => {
       this.setState(state => {
         state.trip.path = res.data.path
@@ -192,7 +192,7 @@ export default class NewDesign extends Component {
   }
 
   create = (e) => {
-    const { trip, comment, entrance } = this.state;
+    const { trip, comment, entrance } = this.state
     let params = { ...trip, status: PENDING }
     if (this.state.bonus === 'true') params.bonus = this.state.bonus
     this.sendRequest(params)
@@ -201,11 +201,11 @@ export default class NewDesign extends Component {
   cancel = (e, callback = false) => {
     if (!confirm(i18n.find_driver.confirm_cancel)) {
       if (callback) callback()
-      return;
+      return
     }
     axios.patch(`trips/${this.state.trip.id}/cancel`).then((res) => {
-      this.setState({ trip: initialTripState, cost: null, car: null, driver: null, paymentButtonDisabled: false })
-      this.previewMapRef.cleanup();
+      this.setState({ trip: {...this.state.trip}, cost: null, car: null, driver: null, paymentButtonDisabled: false })
+      this.previewMapRef.cleanup()
 
       // delete this.state.trip.start_time
       this.unsubscribe()
@@ -269,7 +269,7 @@ export default class NewDesign extends Component {
 
   sendRequestForUnpaidPayments = () => {
     axios.get('payments/pending').then((res) => {
-      if (res.data.length === 0) return;
+      if (res.data.length === 0) return
       let result = confirm(i18n.retry_payment.unpaid_payments)
       if (result) this.retryPayment()
     }).catch((error) => {
@@ -381,7 +381,7 @@ export default class NewDesign extends Component {
       if (res.data.length === 0) {
         if (unpaid_trip) {
           this.setState({paymentButtonDisabled: false})
-          return;
+          return
         }
         this.sendCreateRequest()
       } else {
@@ -452,14 +452,14 @@ export default class NewDesign extends Component {
 
   updateRoute = (e) => {
     this.setState({ trip: { ...this.state.trip, status: CONFIRM_UPDATE_TRIP }, inputDisabled: true })
-    if (window.ios) return;
+    if (window.ios) return
     history.pushState(null, null,'/')
     window.addEventListener('popstate', this.cancelConfirmUpdate, { once: true })
   }
 
   cancelConfirmUpdate = (e) => {
-    window.removeEventListener('popstate', this.cancelConfirmUpdate, true);
-    this.props.fetchUser();
+    window.removeEventListener('popstate', this.cancelConfirmUpdate, true)
+    this.props.fetchUser()
   }
 
   handleBackEdit = (e) => {
@@ -469,7 +469,7 @@ export default class NewDesign extends Component {
 
   setField = (e) => {
     this.state.trip[e.target.id] = (e.target.id !== 'no_call') ? e.target.value : e.target.checked
-    this.setState(this.state);
+    this.setState(this.state)
   }
 
   setTime = (e) => {
@@ -488,7 +488,7 @@ export default class NewDesign extends Component {
   }
 
   subscribe = (trip = this.state.trip) => {
-    if ([FINISHED, CANCELED, DECLINED, CANCELED_BY_DRIVER, undefined].includes(trip.status)) return;
+    if ([FINISHED, CANCELED, DECLINED, CANCELED_BY_DRIVER, undefined].includes(trip.status)) return
     if (this.state.subscription) return this.state.subscription
     let component = this
     this.setState({subscription: cable.subscriptions.create(
@@ -507,7 +507,7 @@ export default class NewDesign extends Component {
   }
 
   TripAccepted = (data) => {
-    this.previewMapRef.cleanup();
+    this.previewMapRef.cleanup()
     this.vibrate()
     this.setState({ trip: { ...this.state.trip, status: ON_THE_WAY, start_time: data.trip.start_time },
                     car: { location: data.trip.car_location ,color: data.trip.car_color, number: data.trip.car_number, deg: data.trip.car.deg },
@@ -524,7 +524,7 @@ export default class NewDesign extends Component {
   TripUnavailable = (data) => {
     const status = data.by_driver ? CANCELED_BY_DRIVER : CANCELED
     this.setState({ trip: { ...initialTripState, status }, car: null, driver: null, paymentButtonDisabled: false, inputDisabled: false })
-    this.previewMapRef.cleanup();
+    this.previewMapRef.cleanup()
     this.unsubscribe()
     this.clearFetchTripTimeout()
     if (data.by_driver) alert(i18n.trip.canceled)
