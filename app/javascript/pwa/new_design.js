@@ -510,7 +510,7 @@ export default class NewDesign extends Component {
     this.previewMapRef.cleanup();
     this.vibrate()
     this.setState({ trip: { ...this.state.trip, status: ON_THE_WAY, start_time: data.trip.start_time },
-                    car: { location: data.trip.car_location ,color: data.trip.car_color, number: data.trip.car_number },
+                    car: { location: data.trip.car_location ,color: data.trip.car_color, number: data.trip.car_number, deg: data.trip.car.deg },
                     driver: { name: data.trip.driver_name, phone_number: data.trip.car_phone_number } })
     this.clearFetchTripTimeout()
   }
