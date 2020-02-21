@@ -204,7 +204,7 @@ export default class NewDesign extends Component {
       return
     }
     axios.patch(`trips/${this.state.trip.id}/cancel`).then((res) => {
-      this.setState({ trip: {...this.state.trip}, cost: null, car: null, driver: null, paymentButtonDisabled: false })
+      this.setState({ trip: initialTripState, cost: null, car: null, driver: null, paymentButtonDisabled: false })
       this.previewMapRef.cleanup()
 
       // delete this.state.trip.start_time
