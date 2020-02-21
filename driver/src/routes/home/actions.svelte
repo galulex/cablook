@@ -36,8 +36,8 @@
   let isDisabled = (time) => {
     return !(
       (distance <= 2) ||
-      (distance > 2 && distance <= 4 && time <= 65) ||
-      (distance > 4 && time <= 60) ||
+      (distance > 2 && distance <= 4 && time <= 60) ||
+      (distance > 4 && time <= 55) ||
       (time <= 50)
     )
   }

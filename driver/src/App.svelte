@@ -16,7 +16,7 @@
 
   let token = localStorage.token
   let carSpeed = 0
-  let location = [32.0734339, 49.4185698]
+  let location
   let watcher
 
   let subscription = null
@@ -57,6 +57,7 @@
     localStorage.carNumber = car.number
     token = driver.auth_token
     subscribe()
+    watcher = navigator.geolocation.watchPosition(sendLocation, null, { enableHighAccuracy: true })
   }
 
   let logout = () => {
