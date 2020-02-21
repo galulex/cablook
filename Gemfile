@@ -53,6 +53,7 @@ group :development, :test do
 end
 
 group :test do
+  gem 'capybara'
   gem 'cuprite'
   gem 'database_cleaner'
   gem 'factory_bot_rails', '~> 4.0'
@@ -60,7 +61,6 @@ group :test do
   gem 'rspec-rails'
   gem 'rspec-retry'
   gem 'simplecov', require: false
-  gem 'capybara'
   gem 'webmock'
 end
 

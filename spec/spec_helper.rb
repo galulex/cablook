@@ -22,7 +22,7 @@ Dir[
 
 
 Capybara.register_driver :cuprite do |app|
-  Capybara::Cuprite::Driver.new(app, browser_options: { 'no-sandbox': nil })
+  Capybara::Cuprite::Driver.new(app, browser_options: { 'no-sandbox': nil, 'enable-auto-reload': nil }, process_timeout: 30, timeout: 15)
 end
 
 Capybara.javascript_driver = :cuprite
