@@ -1,7 +1,7 @@
 import { h, render, Component } from 'preact'
 import axios from 'axios'
 import mapboxgl from 'mapbox-gl'
-import MapboxLanguage from '@mapbox/mapbox-gl-language';
+import MapboxLanguage from '@mapbox/mapbox-gl-language'
 
 import { MAP_MIN_ZOOM, MAP_MAX_ZOOM, CHERKASY_LONG_LAT, NUM_DELTAS, TELEPORT_DISTANCE } from '../lib/constants.js'
 import { PENDING, ON_THE_WAY, WAITING_CLIENT, DRIVING, FINISHED, CANCELED, DECLINED, CANCELED_BY_DRIVER, CONFIRM_UPDATE_TRIP } from '../constants.js'
@@ -18,7 +18,7 @@ import FocusOnCarControl from '../../pwa/trips/custom-control.js'
 const polyline = require('@mapbox/polyline')
 
 const LANGUAGES = {en: 'en', uk: 'ru', ru: 'ru'}
-const MAPSTYLE = (localStorage.getItem('dark') === 'true') ? 'mapbox://styles/galulex/cju84cmu11atr1flfoxocwbq7' : 'mapbox://styles/okunieva/cjzwn3wx40yhq1cpjl3yo8p1z';
+const MAPSTYLE = (localStorage.getItem('dark') === 'true') ? 'mapbox://styles/galulex/cju84cmu11atr1flfoxocwbq7' : 'mapbox://styles/okunieva/cjzwn3wx40yhq1cpjl3yo8p1z'
 const PATHCOLORS = (localStorage.getItem('dark') === 'true') ? ['#ffffff', '#19a160'] : ['#312d50', '#19a160']
 let timeout
 
@@ -59,7 +59,7 @@ const PATHLAYER = {
 export default class PreviewMap extends Component {
   constructor(props) {
     super(props)
-    this.map = null;
+    this.map = null
     this.markers = []
     this.state = {
       lng: CHERKASY_LONG_LAT[0],
@@ -146,8 +146,8 @@ export default class PreviewMap extends Component {
 
     this.map.on('load', () => {
       this.map.addSource('line', { type: 'geojson', lineMetrics: true, data: this.state.geojson || GEOJSON })
-      this.map.addLayer(PATHLAYER);
-    });
+      this.map.addLayer(PATHLAYER)
+    })
   }
 
   componentWillUnmount() {
@@ -166,17 +166,17 @@ export default class PreviewMap extends Component {
       l._element.firstChild.style.transition = 'none'
       let reversCarAngle
       if (l.carAngleDeg > 0) {
-        reversCarAngle = ((180 - l.carAngleDeg) * -1) - 180;
+        reversCarAngle = ((180 - l.carAngleDeg) * -1) - 180
       } else if (l.carAngleDeg < 0) {
-        reversCarAngle = (180 + l.carAngleDeg) + 180;
+        reversCarAngle = (180 + l.carAngleDeg) + 180
       } else {
-        reversCarAngle = 0;
+        reversCarAngle = 0
       }
       l.prevAngleDeg = reversCarAngle
-      l._element.firstChild.style.transform = "rotate(" + (reversCarAngle - this.map.getBearing()) + "deg)";
+      l._element.firstChild.style.transform = "rotate(" + (reversCarAngle - this.map.getBearing()) + "deg)"
     } else  {
       l.prevAngleDeg = l.carAngleDeg
-      l._element.firstChild.style.transform = "rotate(" + (l.carAngleDeg - this.map.getBearing()) + "deg)";
+      l._element.firstChild.style.transform = "rotate(" + (l.carAngleDeg - this.map.getBearing()) + "deg)"
     }
     if (document.visibilityState == 'visible') {
       l._element.firstChild.style.transition = 'transform 4s'
@@ -194,26 +194,26 @@ export default class PreviewMap extends Component {
     marker._element.addEventListener('transitionend', (event) => {
       document.documentElement.style.setProperty('--car-transition', '0s')
     })
-    marker.carAngleDeg = car.deg;
+    marker.carAngleDeg = car.deg
     var popupContent = render(<CarPopup car={car} trip={trip} driver={driver}/>)
-    var popup = new mapboxgl.Popup({closeOnClick: false, closeButton: true, className: 'car-popup', anchor: 'bottom', offset: 10}).setHTML(popupContent.outerHTML);
-    marker.setPopup(popup).addTo(this.map).togglePopup();
+    var popup = new mapboxgl.Popup({closeOnClick: false, closeButton: true, className: 'car-popup', anchor: 'bottom', offset: 10}).setHTML(popupContent.outerHTML)
+    marker.setPopup(popup).addTo(this.map).togglePopup()
 
-    this.carFocus = new FocusOnCarControl({eventHandler: this.focusOnCar});
-    this.map.addControl(this.carFocus, 'bottom-right');
+    this.carFocus = new FocusOnCarControl({eventHandler: this.focusOnCar})
+    this.map.addControl(this.carFocus, 'bottom-right')
 
-    this.updateCarDirection(marker);
+    this.updateCarDirection(marker)
 
-    this.setState({ car: marker});
-    if (this.state.car && this.state.car._popup.isOpen()) this.map.flyTo({ center: this.state.car.getLngLat(), speed: 1 });
+    this.setState({ car: marker})
+    if (this.state.car && this.state.car._popup.isOpen()) this.map.flyTo({ center: this.state.car.getLngLat(), speed: 1 })
   }
 
   focusOnCar = () => {
     if (this.state.car.getLngLat().lat == 0 || this.state.car.getLngLat().lat == 0) return
     if (this.map.getZoom() == this.map.getMinZoom()) {
-      this.map.panTo(this.state.car.getLngLat());
+      this.map.panTo(this.state.car.getLngLat())
     } else {
-      this.map.flyTo({center: this.state.car.getLngLat()});
+      this.map.flyTo({center: this.state.car.getLngLat()})
     }
   }
 
@@ -221,8 +221,8 @@ export default class PreviewMap extends Component {
     this.setState({index: index})
     if (this.map.getSource('line')) this.map.getSource('line').setData(this.state.geojson || GEOJSON)
     this.markers.map(m => m.remove())
-    this.map.on('movestart', this.movestart);
-    this.map.on('moveend', this.moveend);
+    this.map.on('movestart', this.movestart)
+    this.map.on('moveend', this.moveend)
     this.geocode()
   }
 
@@ -236,7 +236,7 @@ export default class PreviewMap extends Component {
   }
 
   geocode = () => {
-    const { lng, lat } = this.map.getCenter();
+    const { lng, lat } = this.map.getCenter()
 
     if ((this.state.point.lat === lat && this.state.point.lng === lng) || this.move || ![CONFIRM_UPDATE_TRIP, undefined, null].includes(this.props.trip().status)) return
 
@@ -250,7 +250,7 @@ export default class PreviewMap extends Component {
   cleanup = () => {
     if (this.state.car) {
       this.state.car.remove()
-      this.map.removeControl(this.carFocus);
+      this.map.removeControl(this.carFocus)
     }
     this.setState({ car: null })
     this.markers.map(m => m.remove())
@@ -265,11 +265,11 @@ export default class PreviewMap extends Component {
   pathFocus = (trip) => {
     try {
       var bounds = trip.waypoints.reduce((bounds, coord) => {
-        return bounds.extend(coord.split(',').reverse());
-      }, new mapboxgl.LngLatBounds(trip.waypoints[0].split(',').reverse(), trip.waypoints[0].split(',').reverse()));
+        return bounds.extend(coord.split(',').reverse())
+      }, new mapboxgl.LngLatBounds(trip.waypoints[0].split(',').reverse(), trip.waypoints[0].split(',').reverse()))
       this.map.fitBounds(bounds, {
         padding: 100
-      });
+      })
     } catch(error) {
     }
   }
@@ -286,21 +286,21 @@ export default class PreviewMap extends Component {
           "type": "LineString"
         }
       }]
-    };
+    }
     this.setState({ geojson: geojson })
-    if (this.map.getSource('line')) this.map.getSource('line').setData(geojson);
+    if (this.map.getSource('line')) this.map.getSource('line').setData(geojson)
   }
 
   drawMarkers = (trip) => {
-    this.markers.map(m => m.remove());
-    if (trip.waypoints.length == 0) return;
+    this.markers.map(m => m.remove())
+    if (trip.waypoints.length == 0) return
     trip.waypoints.map((w, i) => {
-      if (w === '') return;
+      if (w === '') return
       let klass = (i === trip.waypoints.length - 1) ? 'last' : ''
       if (i === 0) klass = 'first'
       let marker = new mapboxgl.Marker(render(<div><Pin class={`pin-${klass}`} width='25px'/></div>))
 
-      var popup = new mapboxgl.Popup({closeOnClick: false, closeButton: false, className: `point-${klass}`, anchor: 'left', offset: 10, opened: true}).setHTML(trip.stops[i]);
+      var popup = new mapboxgl.Popup({closeOnClick: false, closeButton: false, className: `point-${klass}`, anchor: 'left', offset: 10, opened: true}).setHTML(trip.stops[i])
       if (trip && [PENDING].includes(trip.status)) {
         marker.setLngLat(w.split(',').reverse()).setPopup(popup).addTo(this.map).togglePopup()
       } else {
@@ -315,18 +315,18 @@ export default class PreviewMap extends Component {
     if (props.car) this.addCar(props)
     if (props.picker !== null) return this.pick(props.picker)
 
-    this.map.off('movestart', this.movestart);
-    this.map.off('moveend', this.moveend);
+    this.map.off('movestart', this.movestart)
+    this.map.off('moveend', this.moveend)
     let trip = props.trip()
 
     this.drawMarkers(trip)
     this.drawPath(trip)
-    if (![CONFIRM_UPDATE_TRIP, undefined, null].includes(trip.status) && this.map.getSource('line')) return;
+    if (![CONFIRM_UPDATE_TRIP, undefined, null].includes(trip.status) && this.map.getSource('line')) return
     if (![CONFIRM_UPDATE_TRIP].includes(props.trip().status)) this.pathFocus(trip)
   }
 
   updateCarPosition(data) {
-    let car = this.state.car;
+    let car = this.state.car
     let position = [car.getLngLat().lng, car.getLngLat().lat]
     let distance
     if (position) {
@@ -334,13 +334,13 @@ export default class PreviewMap extends Component {
     }
     let deg = data.deg
     if (!this.move && distance && !this.rotate && document.visibilityState == 'visible') document.documentElement.style.setProperty('--car-transition', '10s')
-    car.carAngleDeg = deg;
-    car.setLngLat(data.location);
+    car.carAngleDeg = deg
+    car.setLngLat(data.location)
     if (deg !== 0) {
       if (document.visibilityState !== 'visible') {
         car._element.firstChild.style.transition = 'none'
       }
-      this.updateCarDirection(car);
+      this.updateCarDirection(car)
     }
   }
 
