@@ -59,6 +59,7 @@
   {#each trip.stops as stop, i}
     <address><i>📍</i> {stop}</address>
   {/each}
+  <div><i>🚕</i> {trip.trips_count}</div>
   {#await osrm()}
     <Actions trip={trip} duration={'⌛'} distance={'⌛'} accept={accept}/>
   {:then result}

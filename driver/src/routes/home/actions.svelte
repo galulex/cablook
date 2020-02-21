@@ -76,7 +76,7 @@
       <time>{trip.start_time}</time>
     {:else}
       <select>
-        <option value='' selected>{duration}XB</option>
+        <option value='' selected>{duration + distance}XB</option>
         <option value='2'>2XB</option>
         <option value='5'>5XB</option>
         <option value='10'>10XB</option>
@@ -88,8 +88,8 @@
       </select>
     {/if}
   </span>
-  <span>{distance}KM</span>
+  <span><i>🚖</i>{distance}KM</span>
   <time><i>⏰</i>{time}</time>
 </p>
-<blockquote>{trip.comment}</blockquote>
+<blockquote><i>💬</i> {trip.comment}</blockquote>
 <button type='button' disabled={disabled} on:click={accept}><i>✔️</i> GO</button>

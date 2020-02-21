@@ -6,6 +6,7 @@
   export let trips = []
   export let updateTrip
   export let location
+  export let cable
 
   let component
 
@@ -80,7 +81,7 @@
   </ol>
   <ol id='current'>
     {#each trips.filter(trip => { return trip.driver_id === parseInt(localStorage.id) && trip.status !== 0 }) as trip (trip.id)}
-      <Trip trip={trip} updateTrip={updateTrip} />
+      <Trip trip={trip} updateTrip={updateTrip} cable={cable}/>
     {/each}
   </ol>
 </section>

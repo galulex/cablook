@@ -1,11 +1,10 @@
 <script>
+  import { afterUpdate } from 'svelte'
+
   export let trip
 
-  let markers = trip.waypoints.map((w, i) => {
-    return `pin-s-${i + 1}+188753(${w.split(',').reverse().join()})`
-  })
-
-  let url = `https://api.mapbox.com/styles/v1/okunieva/cjzwn3wx40yhq1cpjl3yo8p1z/static/path-3+19a160-0.8(${encodeURIComponent(trip.path)}),${markers}/auto/600x500@2x?access_token=pk.eyJ1IjoidHVwaWNraXl2IiwiYSI6ImNqcmJ1YjJsNDE2eTEzeXM3dnc4NGljZDIifQ.N5aaBOWqp1mCTjlxXrWzOQ`
+  let markers
+  let url
 
   let zoom = (e) => {
     let zoomer = e.currentTarget;
@@ -21,6 +20,14 @@
   let zoomEnd = (e) => {
     e.currentTarget.firstChild.style.opacity = 1
   }
+
+  afterUpdate(() => {
+    markers = trip.waypoints.map((w, i) => {
+      return `pin-s-${i + 1}+188753(${w.split(',').reverse().join()})`
+    })
+
+    url = `https://api.mapbox.com/styles/v1/okunieva/cjzwn3wx40yhq1cpjl3yo8p1z/static/path-3+19a160-0.8(${encodeURIComponent(trip.path)}),${markers}/auto/600x500@2x?access_token=pk.eyJ1IjoidHVwaWNraXl2IiwiYSI6ImNqcmJ1YjJsNDE2eTEzeXM3dnc4NGljZDIifQ.N5aaBOWqp1mCTjlxXrWzOQ`
+  })
 </script>
 
 <style>

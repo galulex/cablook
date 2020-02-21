@@ -69,7 +69,7 @@ module Events
         ActionCable.server.broadcast(
           "#{Constants::Channels::TRIP}_#{trip.id}",
           action: Constants::BroadcastActions::TRIP_UPDATED,
-          data: Presenters::Trips::Single.new(trip).to_json,
+          data: Presenters::Trips::Detailed.new(trip).to_json,
           by_driver: updated_by_driver?
         )
       end

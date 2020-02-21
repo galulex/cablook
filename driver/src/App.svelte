@@ -179,7 +179,7 @@
         {#await getTrips()}
           <h1>Loading...</h1>
         {:then}
-          <Home trips={trips} updateTrip={updateTrip} location={location} />
+          <Home trips={trips} updateTrip={updateTrip} location={location} cable={cable}/>
         {/await}
       </Route>
       <Route path="/map"><Map cable={cable} location={location}/></Route>
