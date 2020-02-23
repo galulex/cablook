@@ -9,9 +9,12 @@
   export let cable
 
   let component
+  let leftBtn
 
   onMount(() => {
     component.scrollIntoView()
+    //TODO hack for make sounds always playing https://stackoverflow.com/questions/49930680/how-to-handle-uncaught-in-promise-domexception-play-failed-because-the-use
+    leftBtn.click()
   })
 
   //TODO Pass it to disable go button for 20 seconds if driver has a trip that is not pre_order
@@ -71,7 +74,7 @@
 
 <section bind:this={component}>
   <div class='slider'>
-    <button type='button'>‹</button>
+    <button type='button' bind:this={leftBtn}>‹</button>
     <button type='button'>›</button>
   </div>
   <ol id='proposals'>

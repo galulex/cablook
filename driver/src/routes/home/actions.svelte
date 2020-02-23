@@ -1,17 +1,19 @@
 <script>
   import { onMount, onDestroy } from 'svelte'
   import axios from 'axios'
+  import sounds from '../../sounds'
 
   export let trip
   export let distance
   export let duration
-  export let accept
+  export let updateTrip
   let interval
 
   let createTime = new Date(trip.created_at).getTime()
   let current
   let time
   let disabled = false
+  let disabledButton = false
 
   onMount(() => {
     countdown()
@@ -31,6 +33,17 @@
       clearInterval(interval)
       time = 'WTF'
     }
+  }
+
+  let accept = () => {
+    disabledButton = true
+    axios.patch(`trips/${trip.id}/accept`).then(res => {
+      updateTrip(res.data)
+      sounds.accept.play()
+    }).catch((error) => {
+      disabledButton = false
+      if (error.response) alert(error.response.data.errors)
+    })
   }
 
   let isDisabled = (time) => {
@@ -76,7 +89,7 @@
       <time>{trip.start_time}</time>
     {:else}
       <select>
-        <option value='' selected>{duration + distance}XB</option>
+        <option value='' selected>{duration + 4}XB</option>
         <option value='2'>2XB</option>
         <option value='5'>5XB</option>
         <option value='10'>10XB</option>
@@ -92,4 +105,4 @@
   <time><i>⏰</i>{time}</time>
 </p>
 <blockquote><i>💬</i> {trip.comment}</blockquote>
-<button type='button' disabled={disabled} on:click={accept}><i>✔️</i> GO</button>
+<button type='button' disabled={disabledButton || disabled} on:click={accept}><i>✔️</i> GO</button>

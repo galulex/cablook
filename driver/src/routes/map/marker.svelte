@@ -39,6 +39,7 @@
     position = car.position.slice().reverse()
     deg = (bearing(location, position) || 180) - map.getBearing()
     pin.setLngLat(location)
+    if (pin.popup) pin.popup.setHTML(`<a href='tel:${car.phone_number}'>${car.number}: ${car.speed || 0}km/h </br> ${car.driver.name} </a>`)
     pin._element.firstChild.style.transform = `rotate(${deg}deg)`;
   }
 

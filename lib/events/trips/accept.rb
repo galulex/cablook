@@ -12,9 +12,9 @@ module Events
       end
 
       def run
-        if trip.status == Constants::Trip::STATUS_CODES[Constants::Trip::PENDING]
-          update_car_status
+        if trip.pending?
           update_trip
+          update_car_status
           send_notify_for_vendor if trip.order
           telegram_message
           broadcast_accepted_trip

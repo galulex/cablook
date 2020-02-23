@@ -2,7 +2,6 @@
   import { onMount } from 'svelte'
   import axios from 'axios'
   import Actions from './actions.svelte'
-  import sounds from '../../sounds'
 
   export let trip
   export let location
@@ -12,13 +11,6 @@
   onMount(() => {
     proposal.scrollIntoView()
   })
-
-  let accept = () => {
-    axios.patch(`trips/${trip.id}/accept`).then(res => {
-      updateTrip(res.data)
-      sounds.accept.play()
-    })
-  }
 
   let klass = () => {
     if (trip.vip) return 'vip'
@@ -61,10 +53,10 @@
   {/each}
   <div><i>🚕</i> {trip.trips_count}</div>
   {#await osrm()}
-    <Actions trip={trip} duration={'⌛'} distance={'⌛'} accept={accept}/>
+    <Actions trip={trip} duration={'⌛'} distance={'⌛'}, updateTrip={updateTrip}/>
   {:then result}
-    <Actions trip={trip} duration={result.duration} distance={result.distance} accept={accept}/>
+    <Actions trip={trip} duration={result.duration} distance={result.distance} updateTrip={updateTrip}/>
   {:catch error}
-    <Actions trip={trip} duration={'⌛'} distance={'⌛'} accept={accept}/>
+    <Actions trip={trip} duration={'⌛'} distance={'⌛'} updateTrip={updateTrip}/>
   {/await}
 </li>

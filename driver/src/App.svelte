@@ -119,30 +119,18 @@
     TripAccepted: (data) => {
       let i = trips.findIndex(trip => trip.id === data.trip_id)
       let trip = trips[i]
+      if (i < 0) return
       trip.driver_id = data.driver_id
       trip.car_id = data.car_id
       trip.status = 1
       trips[i] = trip
     },
 
-    TripUpdated: (data) => {
-      console.log(data)
-      sounds.update.play()
-    },
-
     DriverSignOut: (data) => {
       console.log(data)
     },
 
-    PaymentResponse: (data) => {
-      console.log(data)
-    },
-
     SOS: (data) => {
-      console.log(data)
-    },
-
-    TripAssigned: (data) => {
       console.log(data)
     },
 
