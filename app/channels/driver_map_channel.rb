@@ -18,6 +18,7 @@ class DriverMapChannel < ApplicationCable::Channel
       action: Constants::BroadcastActions::SEND_LOCATION,
       car_id: car_id,
       location: car.location,
+      speed: body['speed'],
       car: Presenters::Cars::Single.new(car).as_json
     )
   end
