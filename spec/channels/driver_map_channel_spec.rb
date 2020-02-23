@@ -53,6 +53,7 @@ describe DriverMapChannel do
           action: Constants::BroadcastActions::SEND_LOCATION,
           car_id: car.id,
           location: [latitude, longitude],
+          speed: nil,
           car: {
             'deg' => 173.2511321253247,
             'dis' => 866.391195752578,
