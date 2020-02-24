@@ -46,7 +46,7 @@ export default class Feedback extends Component {
         this.returnRate()
       } else {
         this.props.updateTrip(null)
-        if (!window.ios) window.history.back()
+        // if (!window.ios) window.history.back()
       }
     }).catch((error) => {
       this.submitDisabled(false)
@@ -96,7 +96,7 @@ export default class Feedback extends Component {
       <div class='find_driver'>
         <section class='feedback'>
           <header>{i18n.feedback.header}</header>
-          <button type='button' class='burger' onClick={() => window.ios ? this.props.handleBack() : window.history.back()}><Back/></button>
+          <button type='button' class='burger' onClick={() => this.props.handleBack()}><Back/></button>
           <form ref={form => this.feedbackForm = form}>
             <div class='star-container'>
               {[1,2,3,4,5].map(i => this.renderStar(i))}
