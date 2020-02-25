@@ -2,7 +2,6 @@
   import { onMount, onDestroy } from 'svelte'
   import axios from 'axios'
   import Map from './map.svelte'
-  import sounds from '../../sounds'
 
   export let trip
   export let updateTrip
@@ -26,7 +25,7 @@
   let update = (res) => {
     updateTrip(res.data)
     disabled = false
-    sounds.update.play()
+    window.play('update')
   }
 
   let cancel = () => {
@@ -77,7 +76,7 @@
   let TripUpdated = (attrs) => {
     updateTrip(attrs)
     item.scrollIntoView()
-    sounds.update.play()
+    window.play('update')
   }
 </script>
 

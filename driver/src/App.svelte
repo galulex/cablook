@@ -1,7 +1,7 @@
 <script>
   import { onMount, onDestroy } from 'svelte'
   import { Router, Route } from 'svelte-routing'
-  import sounds from './sounds'
+  import Sounds from './Sounds.svelte'
   import actioncable from '@rails/actioncable'
 
   import axios from 'axios';
@@ -102,7 +102,7 @@
     TripPropose: (data) => {
       updateTrip(JSON.parse(data.trip))
       console.log(data)
-      sounds.proposal.play()
+      window.play('proposal')
     },
 
     TripUnavailable: (data) => {
@@ -110,7 +110,7 @@
       if (i < 0) return
       trips.splice(i, 1)
       trips = trips
-      sounds.cancel.play()
+      window.play('cancel')
     },
 
     TripAccepted: (data) => {
@@ -135,7 +135,7 @@
       let i = trips.findIndex(trip => trip.id === data.trip_id)
       trips.splice(i, 1)
       trips = trips
-      sounds.decline.play()
+      window.play('decline')
     }
   }
 
@@ -160,6 +160,7 @@
 <Router>
   {#if token}
     <main>
+      <Sounds/>
       <Route path="/">
         {#await getTrips()}
           <h1><i>⌛</i> Завантаження...</h1>

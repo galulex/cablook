@@ -1,7 +1,6 @@
 <script>
   import { onMount, onDestroy } from 'svelte'
   import axios from 'axios'
-  import sounds from '../../sounds'
 
   export let trip
   export let distance
@@ -39,7 +38,7 @@
     disabledButton = true
     axios.patch(`trips/${trip.id}/accept`).then(res => {
       updateTrip(res.data)
-      sounds.accept.play()
+      window.play('accept')
     }).catch((error) => {
       disabledButton = false
       if (error.response) alert(error.response.data.errors)
