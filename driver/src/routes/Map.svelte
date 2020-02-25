@@ -32,6 +32,7 @@
     let car = cars[i]
     car.position = car.location
     car.location = data.location
+    car.speed = data.speed
     cars[i] = car
   }
 

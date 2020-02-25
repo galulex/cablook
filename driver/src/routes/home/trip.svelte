@@ -23,43 +23,42 @@
     if (subscription) subscription.unsubscribe()
   })
 
+  let update = (res) => {
+    updateTrip(res.data)
+    disabled = false
+    sounds.update.play()
+  }
+
   let cancel = () => {
     if (!confirm('Are you sure?')) return
-    axios.patch(`trips/${trip.id}/cancel`).then(res => {
-      updateTrip(res.data)
-    })
+    disabled = true
+    axios.patch(`trips/${trip.id}/cancel`).then(update)
   }
 
   const actions = [
     {
       action: () => {
         disabled = true
-        axios.patch(`trips/${trip.id}/waiting_client`).then(res => {
-          updateTrip(res.data)
-          disabled = false
-        })
+        axios.patch(`trips/${trip.id}/waiting_client`).then(update)
       },
-      title: 'Arrived'
+      title: 'Arrived',
+      icon: '🛬'
     },
     {
       action: () => {
         disabled = true
-        axios.patch(`trips/${trip.id}/start`).then(res => {
-          updateTrip(res.data)
-          disabled = false
-        })
+        axios.patch(`trips/${trip.id}/start`).then(update)
       },
-      title: 'Start'
+      title: 'Start',
+      icon: '🎬'
     },
     {
       action: () => {
         disabled = true
-        axios.patch(`trips/${trip.id}/finish`, {idle: 0}).then(res => {
-          updateTrip(res.data)
-          disabled = false
-        })
+        axios.patch(`trips/${trip.id}/finish`, {idle: 0}).then(update)
       },
-      title: 'Finish'
+      title: 'Finish',
+      icon: '🏁'
     }
   ]
 
@@ -151,7 +150,13 @@
     </p>
     <blockquote><i>💬</i> {trip.comment}</blockquote>
     <div class='buttons'>
-      <button type='button' title={actions[trip.status - 1].title} disabled={disabled} class={actions[trip.status - 1].title.toLowerCase()} on:click={actions[trip.status - 1].action}>🏁</button>
+      <button type='button'
+              title={actions[trip.status - 1].title}
+              disabled={disabled}
+              class={actions[trip.status - 1].title.toLowerCase()}
+              on:click={actions[trip.status - 1].action}>
+        <i>{actions[trip.status - 1].icon}</i>
+      </button>
       <a class='button' href={`tel:${trip.user_number}`}>
         {#if trip.no_call}
           <i>📵</i>

@@ -62,13 +62,10 @@
 
   let logout = () => {
     if (!confirm('Are you sure?')) return
-    axios.delete('sessions').then(() => {
-      localStorage.clear()
-      token = null
-      subscription.unsubscribe()
-    }).catch((error) => {
-      if (error.response) alert(error.response.data.errors)
-    })
+    localStorage.clear()
+    token = null
+    if (subscription) subscription.unsubscribe()
+    axios.delete('sessions')
   }
 
   let getTrips = (async () => {
@@ -165,9 +162,14 @@
     <main>
       <Route path="/">
         {#await getTrips()}
-          <h1>Loading...</h1>
+          <h1><i>⌛</i> Завантаження...</h1>
         {:then}
           <Home trips={trips} updateTrip={updateTrip} location={location} cable={cable}/>
+        {:catch error}
+          <h1>Сталася помилка перезайдіть в акаунт</h1>
+          <br/>
+          <h2>{error}</h2>
+          <h3>{localStorage.token}</h3>
         {/await}
       </Route>
       <Route path="/map"><Map cable={cable} location={location}/></Route>
