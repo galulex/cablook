@@ -34,6 +34,7 @@ let fetchTripTimeout
 export default class NewDesign extends Component {
   constructor(props) {
     super(props)
+
     this.state = {
       trip: initialTripState,
       subscription: null,
@@ -656,6 +657,7 @@ export default class NewDesign extends Component {
   resetTrip = () => {
     this.setActivateFeedback()
     this.setState({ trip: { stops: ['', ''], waypoints: [], osrm: true }, car: null, driver: null })
+    this.props.resetCurrentTrip()
   }
 
   render() {
