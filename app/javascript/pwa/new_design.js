@@ -549,6 +549,7 @@ export default class NewDesign extends Component {
     this.vibrate()
     this.setState({ trip: { ...this.state.trip, status: FINISHED }, car: null, driver: null, paymentButtonDisabled: false, inputDisabled: false })
     // this.props.fetchUser()
+    this.props.resetCurrentTrip()
     this.unsubscribe()
     if (this.state.trip.bonus) this.fetchBonusTrips()
   }
@@ -662,7 +663,6 @@ export default class NewDesign extends Component {
   resetTrip = () => {
     this.setActivateFeedback()
     this.setState({ trip: this.initialTripState, car: null, driver: null })
-    this.props.resetCurrentTrip()
   }
 
   render() {
