@@ -40,6 +40,7 @@ module Events
         bonus? ? pay_by_bonus : create_payment
         order_operations if delivery?
         create_trip_job(@trip.id) unless delivery?
+        notify
         @trip
       end
 
@@ -111,6 +112,11 @@ module Events
 
       def approve_by_vendor
         @order.vendor_need_approve ? send_message_to_vendor : Events::Trips::UpdateStatus.(trip_id: @order.trip_id)
+      end
+      
+      def notify
+        message = I18n.t('notification.loading')
+        Jobs::Notification.perform_later(@trip.user_id, message)
       end
 
       def send_message_to_vendor
