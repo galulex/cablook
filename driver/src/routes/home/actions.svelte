@@ -58,15 +58,20 @@
 <style>
   p span, p time {
     display: inline-block;
-    width: 32%;
-    text-align: center;
+    width: 48%;
+    text-align: left;
+  }
+
+  i {
+    text-shadow: 0 0 #312d50;
   }
 
   p {
+    margin: 5px 0;
     text-align: justify;
   }
 
-  p time {
+  p time, p span:last-child {
     text-align: right;
   }
 
@@ -79,11 +84,19 @@
     height: 40px;
     color: white;
   }
+
+  button i {
+    text-shadow: 0 0 white;
+  }
 </style>
 
 <p>
+  <span><b>🚕</b> {trip.trips_count}</span>
+  <time><b>⏰</b>{time}</time>
+</p>
+<p>
   <span>
-    <i>⏰</i>
+    <b>⏰</b>
     {#if trip.pre_order }
       <time>{trip.start_time}</time>
     {:else}
@@ -100,8 +113,7 @@
       </select>
     {/if}
   </span>
-  <span><i>🚖</i>{distance}KM</span>
-  <time><i>⏰</i>{time}</time>
+  <span><b>🚖</b> {distance}KM</span>
 </p>
-<blockquote><i>💬</i> {trip.comment}</blockquote>
+<blockquote><b>💬</b> {trip.comment}</blockquote>
 <button type='button' disabled={disabledButton || disabled} on:click={accept}><i>✔️</i> GO</button>

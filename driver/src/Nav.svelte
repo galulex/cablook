@@ -3,6 +3,7 @@
 
   export let speed
   export let logout
+  export let getTrips
 </script>
 
 <style>
@@ -24,6 +25,6 @@
 <nav>
   <Link to="/map"><i>🌐</i></Link>
   <Link to="/"><i>🏠</i></Link>
-  <a href='#'>{speed}</a>
+  <button type='button' on:click={getTrips}>{speed}</button>
   <button type='button' on:click={logout}>x</button>
 </nav>

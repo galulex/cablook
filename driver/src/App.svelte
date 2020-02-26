@@ -1,12 +1,12 @@
 <script>
-  import { onMount, onDestroy } from 'svelte'
+  import { onMount, onDestroy, setContext } from 'svelte'
   import { Router, Route } from 'svelte-routing'
   import Sounds from './Sounds.svelte'
   import actioncable from '@rails/actioncable'
 
-  import axios from 'axios';
+  import axios from 'axios'
   axios.defaults.baseURL = 'https://cablook.taxi/api/drivers_app/'
-  axios.defaults.headers.common['Auth-Token'] = localStorage.token;
+  axios.defaults.headers.common['Auth-Token'] = localStorage.token
   axios.defaults.headers.common['Content-Type'] = 'application/json'
 
   import Home from './routes/Home.svelte'
@@ -163,9 +163,9 @@
       <Sounds/>
       <Route path="/">
         {#await getTrips()}
-          <h1><i>⌛</i> Завантаження...</h1>
+          <h1><b>⌛</b> Завантаження...</h1>
         {:then}
-          <Home trips={trips} updateTrip={updateTrip} location={location} cable={cable}/>
+          <Home trips={trips} updateTrip={updateTrip} location={location} cable={cable} />
         {:catch error}
           <h1>Сталася помилка перезайдіть в акаунт</h1>
           <br/>
@@ -175,7 +175,7 @@
       </Route>
       <Route path="/map"><Map cable={cable} location={location}/></Route>
     </main>
-    <Nav speed={carSpeed} logout={logout}/>
+    <Nav speed={carSpeed} logout={logout} getTrips={getTrips}/>
   {:else}
     <main>
       <Route path="/" component={Session} login={login} />

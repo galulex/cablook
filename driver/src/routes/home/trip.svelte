@@ -12,6 +12,8 @@
   let disabled = false
   let item
   let subscription
+  let timer = parseInt(localStorage[`timer_${trip.id}`]) || 0
+  let interval
 
   onMount(() => {
     item.scrollIntoView()
@@ -22,6 +24,18 @@
     if (subscription) subscription.unsubscribe()
   })
 
+  let count = () => {
+    if (interval) {
+      clearInterval(interval)
+      interval = null
+      return
+    }
+    interval = setInterval(() => {
+      timer += 1
+      localStorage[`timer_${trip.id}`] = timer
+    }, 1000)
+  }
+
   let update = (res) => {
     updateTrip(res.data)
     disabled = false
@@ -29,9 +43,13 @@
   }
 
   let cancel = () => {
-    if (!confirm('Are you sure?')) return
+    if (!confirm('Відміняти поїздки не бажано. Можна перекинути іншому водієві. Точно відмінити?')) return
     disabled = true
-    axios.patch(`trips/${trip.id}/cancel`).then(update)
+    axios.patch(`trips/${trip.id}/cancel`).then(res => {
+      update(res)
+      clearInterval(interval)
+      localStorage.removeItem(`timer_${trip.id}`)
+    })
   }
 
   const actions = [
@@ -54,7 +72,11 @@
     {
       action: () => {
         disabled = true
-        axios.patch(`trips/${trip.id}/finish`, {idle: 0}).then(update)
+        axios.patch(`trips/${trip.id}/finish`, {idle: timer}).then(res => {
+          update(res)
+          clearInterval(interval)
+          localStorage.removeItem(`timer_${trip.id}`)
+        })
       },
       title: 'Finish',
       icon: '🏁'
@@ -140,14 +162,14 @@
   <Map trip={trip}/>
   <div>
     {#each trip.stops as stop, i}
-      <address><i>📍</i> {stop}</address>
+      <address><b>📍</b> {stop}</address>
     {/each}
     <p>
-      <span><i>🚕</i> {trip.trips_count}</span>
-      <span><i>🚖</i> {distance} KM</span>
-      <time datatime={trip.start_at}><i>⏰</i> {trip.start_time}</time>
+      <span><b>🚕</b> {trip.trips_count}</span>
+      <span><b>🚖</b> {distance} KM</span>
+      <time datatime={trip.start_at}><b>⏰</b> {trip.start_time}</time>
     </p>
-    <blockquote><i>💬</i> {trip.comment}</blockquote>
+    <blockquote><b>💬</b> {trip.comment}</blockquote>
     <div class='buttons'>
       <button type='button'
               title={actions[trip.status - 1].title}
@@ -163,8 +185,16 @@
           <i>📱</i>
         {/if}
       </a>
-      <a class='button'>🧭</a>
-      <button type='button' disabled={disabled} on:click={cancel}>❌</button>
+      <a class='button'
+         target='_blank'
+         href={`https://www.google.com/maps/dir/?api=1&waypoints=${trip.waypoints.join('|')}&destination=${trip.waypoints[trip.waypoints.length - 1]}&travelmode=driving&dir_action=navigate`} >
+         <i>🌐</i>
+      </a>
+      <button type='button' disabled={disabled} on:click={cancel}><i>❌</i></button>
+    </div>
+    <br/>
+    <div class='buttons'>
+      <button type='button' disabled={disabled} on:click={count}><i>⏰</i> {timer}</button>
     </div>
   </div>
 </li>

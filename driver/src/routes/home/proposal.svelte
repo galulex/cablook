@@ -49,9 +49,8 @@
 
 <li bind:this={proposal} class={klass()}>
   {#each trip.stops as stop, i}
-    <address><i>📍</i> {stop}</address>
+    <address><b>📍</b> {stop}</address>
   {/each}
-  <div><i>🚕</i> {trip.trips_count}</div>
   {#await osrm()}
     <Actions trip={trip} duration={'⌛'} distance={'⌛'}, updateTrip={updateTrip}/>
   {:then result}

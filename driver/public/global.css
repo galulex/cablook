@@ -5,6 +5,7 @@ html, body {
   margin: 0;
   padding: 0;
   overflow: hidden;
+  font-size: 18px;
 }
 
 * {
@@ -30,13 +31,20 @@ button, .button {
 }
 
 i {
-  color: inherit;
-  text-shadow: 0 0 currentColor;
+  color: transparent;
+  text-shadow: 0 0 white;
   font-style: normal;
+}
+
+b {
+  color: transparent;
+  text-shadow: 0 0 #312d50;
+  font-weight: normal !important;
 }
 
 blockquote {
   word-break: break-word;
+  margin: 5px 0;
 }
 
 [disabled] {

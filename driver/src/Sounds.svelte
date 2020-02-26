@@ -1,4 +1,6 @@
 <script>
+  import { onMount } from 'svelte'
+
   const sounds = {
     cancel: new Audio('sounds/cancel.mp3'),
     accept: new Audio('sounds/accept.mp3'),
@@ -25,6 +27,10 @@
     btn.click()
   }
 
+  onMount(() => {
+    btn.click()
+  })
+
 </script>
 
 <style>
@@ -35,4 +41,4 @@
   }
 </style>
 
-<button type='button' bind:this={btn}/>
+<button type='button' bind:this={btn} />
