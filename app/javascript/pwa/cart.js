@@ -177,6 +177,8 @@ export default class Cart extends Component {
     let params = JSON.parse(localStorage.getItem('delivery_trip'))
     params.departure = params.departure.join(',')
     params.destination = params.destination.join(',')
+    params.waypoints = [params.departure, params.destination]
+    params.stops = [params.departure_address, params.destination_address]
     params.card_id = this.state.card_id
     params.order_id = order_id
     params.time = this.state.trip_time
