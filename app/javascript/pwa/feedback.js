@@ -45,8 +45,7 @@ export default class Feedback extends Component {
       if (this.props.isFeedbackVisible) {
         this.returnRate()
       } else {
-        this.props.updateTrip(null)
-        if (!window.ios) window.history.back()
+        window.ios ? this.props.handleBack() : window.history.back()
       }
     }).catch((error) => {
       this.submitDisabled(false)

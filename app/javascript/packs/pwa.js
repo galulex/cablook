@@ -263,6 +263,10 @@ export default class App extends Component {
     }, 300)
   }
 
+  resetCurrentTrip = () => {
+    this.setState({currentTrip: null})
+  }
+
   render() {
     const { currentTrip } = this.state;
 
@@ -286,6 +290,7 @@ export default class App extends Component {
               setBonusTrips={this.setBonusTrips}
               getAvailableBonusTrips={this.getAvailableBonusTrips}
               availableBonusTrips={this.state.availableBonusTrips}
+              resetCurrentTrip={this.resetCurrentTrip}
             />
             <Trips path='/trips/:id?'
               setCurrentTrip={this.setCurrentTrip}

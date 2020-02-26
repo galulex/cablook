@@ -28,14 +28,14 @@ const TRIP_FIELDS = ['departure', 'departure_address', 'destination', 'destinati
 
 const Shake = require('shake.js')
 let myShakeEvent = false
-const initialTripState = { stops: ['', ''], waypoints: [], osrm: true }
 let fetchTripTimeout
 
 export default class NewDesign extends Component {
   constructor(props) {
     super(props)
+
     this.state = {
-      trip: initialTripState,
+      trip: this.initialTripState,
       subscription: null,
       car: null,
       driver: null,
@@ -48,6 +48,12 @@ export default class NewDesign extends Component {
       activateFeedback: false,
       lastTripId: null,
       paymentButtonDisabled: false
+    }
+  }
+
+  get initialTripState() {
+    return {
+      stops: ['', ''], waypoints: [], osrm: true
     }
   }
 
@@ -204,7 +210,7 @@ export default class NewDesign extends Component {
       return
     }
     axios.patch(`trips/${this.state.trip.id}/cancel`).then((res) => {
-      this.setState({ trip: initialTripState, cost: null, car: null, driver: null, paymentButtonDisabled: false })
+      this.setState({ trip: this.initialTripState, cost: null, car: null, driver: null, paymentButtonDisabled: false })
       this.previewMapRef.cleanup()
 
       // delete this.state.trip.start_time
@@ -217,7 +223,7 @@ export default class NewDesign extends Component {
 
   cancelDeclined = (e, callback = () => {}) => {
     delete this.state.trip.status
-    this.setState({ trip: initialTripState, paymentButtonDisabled: false })
+    this.setState({ trip: this.initialTripState, paymentButtonDisabled: false })
     this.unsubscribe()
   }
 
@@ -523,7 +529,7 @@ export default class NewDesign extends Component {
 
   TripUnavailable = (data) => {
     const status = data.by_driver ? CANCELED_BY_DRIVER : CANCELED
-    this.setState({ trip: { ...initialTripState, status }, car: null, driver: null, paymentButtonDisabled: false, inputDisabled: false })
+    this.setState({ trip: { ...this.initialTripState, status }, car: null, driver: null, paymentButtonDisabled: false, inputDisabled: false })
     this.previewMapRef.cleanup()
     this.unsubscribe()
     this.clearFetchTripTimeout()
@@ -543,6 +549,7 @@ export default class NewDesign extends Component {
     this.vibrate()
     this.setState({ trip: { ...this.state.trip, status: FINISHED }, car: null, driver: null, paymentButtonDisabled: false, inputDisabled: false })
     // this.props.fetchUser()
+    this.props.resetCurrentTrip()
     this.unsubscribe()
     if (this.state.trip.bonus) this.fetchBonusTrips()
   }
@@ -655,7 +662,7 @@ export default class NewDesign extends Component {
 
   resetTrip = () => {
     this.setActivateFeedback()
-    this.setState({ trip: { stops: ['', ''], waypoints: [], osrm: true }, car: null, driver: null })
+    this.setState({ trip: this.initialTripState, car: null, driver: null })
   }
 
   render() {
