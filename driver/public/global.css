@@ -30,14 +30,16 @@ button, .button {
   background: linear-gradient(to left, #19a160, #312d50);
 }
 
-i {
+i, b {
   color: transparent;
   text-shadow: 0 0 white;
   font-style: normal;
+  font-size: 1.5rem;
+  vertical-align: middle;
+  display: inline-block;
 }
 
 b {
-  color: transparent;
   text-shadow: 0 0 #312d50;
   font-weight: normal !important;
 }

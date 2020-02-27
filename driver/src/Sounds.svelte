@@ -1,6 +1,4 @@
 <script>
-  import { onMount } from 'svelte'
-
   const sounds = {
     cancel: new Audio('sounds/cancel.mp3'),
     accept: new Audio('sounds/accept.mp3'),
@@ -17,28 +15,40 @@
     update: [200, 100, 200],
   }
 
-  let btn
+  let klass
 
   window.play = (type) => {
-    btn.onclick = () => {
+    try {
       sounds[type].play()
-      if (navigator.vibrate) navigator.vibrate(vibrations[type])
+      navigator.vibrate(vibrations[type])
     }
-    btn.click()
   }
 
-  onMount(() => {
-    btn.click()
-  })
-
+  let click = (e) => {
+    klass = 'hidden'
+    window.play('update')
+  }
 </script>
 
 <style>
   button {
     position: absolute;
-    z-index: -1;
+    z-index: 10000;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    font-size: 3rem;
+    color: #efcc3a;
+    border: none;
+    width: 100%;
+    transition: opacity .3s, z-index .3s;
+  }
+
+  .hidden {
     opacity: 0;
+    z-index: -1;
   }
 </style>
 
-<button type='button' bind:this={btn} />
+<button type='button' class={klass} on:click={click}>START</button>
