@@ -41,10 +41,7 @@
   let update = (res) => {
     updateTrip(res.data)
     disabled = false
-    paymentCheck = false
     window.play('update')
-    if (res.config.url == `trips/${trip.id}/payments_verify`) paymentIcon = res.data.payment_status == 2 ? '✅' : '❌'
-    if (res.config.url == `trips/${trip.id}/payments_verify` && res.data.payment_status !== 2) alert('Payment failed!')
   }
 
   let cancel = () => {
@@ -60,7 +57,21 @@
   let paymentVerify = () => {
     paymentIcon = ''
     paymentCheck = true
-    axios.patch(`trips/${trip.id}/payments_verify`).then(update)
+    axios.patch(`trips/${trip.id}/payments_verify`).then(res => {
+      if (res.data.payment_status == 2) {
+        paymentIcon = '✅'
+      } else {
+        paymentVerifyError('Не вдалося здійснити оплату')
+      }
+    }).catch(error => {
+      paymentVerifyError(error.message)
+    })
+  }
+
+  const paymentVerifyError = (message) => {
+    paymentCheck = false
+    paymentIcon = '❌'
+    alert(message)
   }
 
   const actions = [
