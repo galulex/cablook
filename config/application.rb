@@ -37,4 +37,4 @@ end
 Rails.application.secrets.each { |key, value| ENV[key.to_s.upcase] ||= value }
 
 # Disable logs for AcitonCable
-# ActionCable.server.config.logger = Logger.new(nil)
+ActionCable.server.config.logger = Logger.new(nil)

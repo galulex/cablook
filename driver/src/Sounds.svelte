@@ -21,6 +21,7 @@
     try {
       sounds[type].play()
       navigator.vibrate(vibrations[type])
+    } catch(e) {
     }
   }
 
