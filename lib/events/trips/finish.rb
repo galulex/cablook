@@ -22,7 +22,7 @@ module Events
       def run_methods
         telegram_message
         update_trip
-        Jobs::PaymentSettle.perform_later(data[:trip_id], Constants::Payments::TYPES[:trip]) unless trip.bonus_trip
+        Jobs::PaymentSettle.perform_later(data[:trip_id], Constants::Payments::TYPES[:trip]) unless trip.bonus_trip || trip.payments.first.status == 2
         broadcast
         update_car
         settle_payment_idle if data[:idle]
