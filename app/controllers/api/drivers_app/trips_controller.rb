@@ -53,6 +53,11 @@ module Api
         render json: Presenters::Trips::Detailed.new(trip).to_json, status: 200
       end
 
+      def payments_verify
+        Operations::Wayforpay::DoPayment.new(trip.id, Constants::Payments::TYPES[:trip], nil).call
+        render json: Presenters::Trips::Detailed.new(trip).to_json, status: 200
+      end
+
       private
 
       def trip
