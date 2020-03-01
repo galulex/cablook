@@ -173,7 +173,9 @@
           <h3>{localStorage.token}</h3>
         {/await}
       </Route>
-      <Route path="/map"><Map cable={cable} location={location}/></Route>
+      <Route path="/map">
+        <Map cable={cable} location={location} trips={trips.filter(trip => { return trip.driver_id === parseInt(localStorage.id) && trip.status !== 0 })}/>
+      </Route>
     </main>
     <Nav speed={carSpeed} logout={logout} getTrips={getTrips}/>
   {:else}

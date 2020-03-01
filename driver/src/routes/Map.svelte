@@ -4,12 +4,14 @@
   import mapboxgl from 'mapbox-gl'
   import { Map, controls } from '@beyonk/svelte-mapbox'
   import Marker from './map/marker.svelte'
+  import Path from './map/path.svelte'
   import axios from 'axios'
 
   const { GeolocateControl, NavigationControl, ScalingControl } = controls
 
   export let cable
   export let location
+  export let trips
 
   let map
   let cars = []
@@ -68,6 +70,9 @@
       <Marker car={car} />
     {/each}
   {/await}
+  {#each trips as trip (trip.id)}
+    <Path trip={trip} />
+  {/each}
   <NavigationControl/>
   <GeolocateControl/>
 </Map>
