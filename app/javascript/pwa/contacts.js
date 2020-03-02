@@ -10,7 +10,7 @@ import './css/contacts.css'
 const MAILTO = 'mailto:contact@cablook.taxi'
 const NUMBER = '+380932225665'
 const TEL = 'tel:' + NUMBER
-const TELEGRAM = 'tg://resolve?domain=cablookk'
+const TELEGRAM = 'https://telegram.me/@cablookk'
 const VIBER = 'viber://chat/?number=%2B380932225665'
 
 export default class Contacts extends Component {
@@ -25,28 +25,28 @@ export default class Contacts extends Component {
         <section>
           <ul class='contacts'>
             <li>
-              <button onClick={this.openUrl.bind(this, MAILTO)}>
+              <a href={MAILTO}>
                 <Email/>
                 contact@cablook.taxi
-              </button>
+              </a>
             </li>
             <li>
-              <button onClick={this.openUrl.bind(this, TEL)}>
+              <a href={TEL}>
                 <Phone/>
                 {NUMBER}
-              </button>
+              </a>
             </li>
             <li>
-              <button onClick={this.openUrl.bind(this, TELEGRAM)}>
+              <a href={TELEGRAM}>
                 <Telegram/>
-                Telegram
-              </button>
+                @cablookk
+              </a>
             </li>
             <li>
-              <button onClick={this.openUrl.bind(this, VIBER)}>
+              <a href={VIBER}>
                 <Viber/>
-                Viber
-              </button>
+                {NUMBER}
+              </a>
             </li>
           </ul>
           <h3 class='notice'>{i18n.contacts.message}</h3>

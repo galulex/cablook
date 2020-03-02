@@ -1,4 +1,4 @@
-ul.contacts li button {
+ul.contacts li a {
   background: transparent;
   border: none;
   color: #312d50;
@@ -15,11 +15,11 @@ ul.contacts li button {
   width: 100%;
 }
 
-ul.contacts li button svg {
+ul.contacts li a svg {
   vertical-align: middle;
   display: inline-block;
   height: 30px;
-  margin-right: 5%;
+  margin-right: 10px;
   width: 30px;
 }
 
