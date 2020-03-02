@@ -102,4 +102,21 @@ describe Api::DriversApp::TripsController, type: :controller do
 
     it { is_expected.to be_successful }
   end
+
+  describe '#payments_verify' do
+    subject { response }
+
+    let(:wayforpay_body) { { reasonCode: Constants::Payments::WAYFORPAY_SUCCESS }.to_json }
+    let(:params) { { trip_id: trip.id } }
+    let(:trip) { create(:trip, car_id: car.id, driver_id: driver.id, user_id: user.id) }
+    let(:card) { create(:card, user_id: user.id) }
+    let!(:payment) { create(:payment, card_id: card.id, trip_id: trip.id, user_id: trip.user_id) }
+
+    before do
+      allow(Wayforpay::Payments).to receive(:hold) { OpenStruct.new(body: wayforpay_body) }
+      patch :payments_verify, params: params, as: :json
+    end
+
+    it { is_expected.to be_successful }
+  end
 end
