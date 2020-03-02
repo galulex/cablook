@@ -23,8 +23,6 @@
       navigator.vibrate(vibrations[type])
     } catch(e) {
     }
-    catch(e) {
-    }
   }
 
   let click = (e) => {
