@@ -14,10 +14,6 @@ const TELEGRAM = 'https://telegram.me/@cablookk'
 const VIBER = 'viber://chat/?number=%2B380932225665'
 
 export default class Contacts extends Component {
-  openUrl = (url) => {
-    window.location.href = url
-  }
-
   render(){
     return (
       <div>
