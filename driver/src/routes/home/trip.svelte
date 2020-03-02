@@ -14,6 +14,8 @@
   let subscription
   let timer = parseInt(localStorage[`timer_${trip.id}`]) || 0
   let interval
+  let paymentCheck = false
+  let paymentIcon = trip.payment_status == 2 ? '✅' : ''
 
   onMount(() => {
     item.scrollIntoView()
@@ -50,6 +52,26 @@
       clearInterval(interval)
       localStorage.removeItem(`timer_${trip.id}`)
     })
+  }
+
+  let paymentVerify = () => {
+    paymentIcon = ''
+    paymentCheck = true
+    axios.patch(`trips/${trip.id}/payments_verify`).then(res => {
+      if (res.data.payment_status == 2) {
+        paymentIcon = '✅'
+      } else {
+        paymentVerifyError('Не вдалося здійснити оплату')
+      }
+    }).catch(error => {
+      paymentVerifyError(error.message)
+    })
+  }
+
+  const paymentVerifyError = (message) => {
+    paymentCheck = false
+    paymentIcon = '❌'
+    alert(message)
   }
 
   const actions = [
@@ -191,6 +213,7 @@
          <i>🌐</i>
       </a>
       <button type='button' disabled={disabled} on:click={cancel}><i>❌</i></button>
+      <button type='button' disabled={trip.payment_status == 2 || paymentCheck} on:click={paymentVerify}>💵{paymentIcon}</button>
     </div>
     <br/>
     <div class='buttons'>
