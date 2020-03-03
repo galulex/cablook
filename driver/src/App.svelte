@@ -40,16 +40,13 @@
     carSpeed = Math.round(speed * 3.6)
     location = [longitude, latitude]
     if (!subscription) return
-
     let params = {
       car_id: parseInt(localStorage.carId),
       speed: carSpeed,
-      latitude: latitude,
-      longitude: longitude
+      location: location
     }
     subscription.perform('send_location', { body: JSON.stringify(params) })
   }
-
   let login = (driver, car) => {
     localStorage.token = driver.auth_token
     localStorage.id = driver.id
