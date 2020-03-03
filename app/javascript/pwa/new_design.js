@@ -542,7 +542,7 @@ export default class NewDesign extends Component {
 
   DriverLocationUpdated = (data) => {
     const position = this.state.car.location
-    this.setState({ car: { ...this.state.car, location: data.body.location.reverse(), position: position, distance: data.body.car.dis, deg: data.body.car.deg } })
+    this.setState({ car: { ...this.state.car, location: data.body.location, position: position, distance: data.body.car.dis, deg: data.body.car.deg } })
   }
 
   finish_trip = () => {
