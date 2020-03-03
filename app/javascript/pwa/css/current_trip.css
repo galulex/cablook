@@ -32,7 +32,7 @@ fieldset {
   transition: opacity .3s;
 }
 
-fieldset.address:nth-of-type(7) + div {
+fieldset.address:nth-of-type(8) + div {
   display: none;
 }
 
