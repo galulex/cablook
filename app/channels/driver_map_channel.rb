@@ -21,6 +21,20 @@ class DriverMapChannel < ApplicationCable::Channel
       speed: body['speed'],
       car: Presenters::Cars::Single.new(car).as_json
     )
+    car.trips.current.each do |trip|
+      ActionCable.server.broadcast(
+        "#{Constants::Channels::TRIP}_#{trip.id}",
+        action: Constants::BroadcastActions::DRIVER_LOCATION_UPDATED,
+        body: {
+          car_id: car_id,
+          location: {
+            latitude: car.location[0],
+            longitude: car.location[1]
+          },
+          car: Presenters::Cars::Single.new(car).as_json
+        }
+      )
+    end
   end
 
   def accept_trip(data)
