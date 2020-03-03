@@ -24,7 +24,7 @@ class DriverMapChannel < ApplicationCable::Channel
     car.trips.current.each do |trip|
       ActionCable.server.broadcast(
         "#{Constants::Channels::TRIP}_#{trip.id}",
-        action: 'DriverLocationUpdated',
+        action: Constants::BroadcastActions::DRIVER_LOCATION_UPDATED,
         body: {
           car_id: car_id,
           location: car.location,

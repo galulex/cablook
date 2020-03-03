@@ -3,6 +3,7 @@ describe DriverMapChannel do
   let(:connection) { TestConnection.new }
 
   context '#send_location' do
+    let(:trip) {create(:trip, car_id: car.id, status: Constants::Trip::DRIVING)}
     let(:car) {create(:car)}
     let(:latitude) { 50.846042486788605 }
     let(:longitude) { 14.88 }
@@ -26,6 +27,20 @@ describe DriverMapChannel do
         }.to_json
       }
     end
+    let(:body) do
+      {
+        car_id: car.id,
+        location: [latitude, longitude],
+        car: {
+          'deg' => 173.2511321253247,
+          'dis' => 866.391195752578,
+          'id' => car.id,
+          'number' => car.number,
+          'phone_number' => car.phone_number,
+          'status' => car.status,
+        }
+      }
+    end
 
     let(:redis_car_location) { Redis.current.get("car_#{car.id}") }
 
@@ -45,22 +60,41 @@ describe DriverMapChannel do
       end
       after { channel.perform_action(data) }
 
-      it do
-        expect(ActionCable.server).to receive(:broadcast).with(
-          Constants::Channels::DRIVER_MAP,
-          action: Constants::BroadcastActions::SEND_LOCATION,
-          car_id: car.id,
-          location: [latitude, longitude],
-          speed: nil,
-          car: {
-            'deg' => 173.2511321253247,
-            'dis' => 866.391195752578,
-            'id' => car.id,
-            'number' => car.number,
-            'phone_number' => car.phone_number,
-            'status' => car.status,
-          }
-        ).once
+      context 'with current trip' do
+        it do
+          expect(ActionCable.server).to receive(:broadcast).with(
+            Constants::Channels::DRIVER_MAP,
+            action: Constants::BroadcastActions::SEND_LOCATION,
+            car_id: car.id,
+            location: [latitude, longitude],
+            speed: nil,
+            car: {
+              'deg' => 173.2511321253247,
+              'dis' => 866.391195752578,
+              'id' => car.id,
+              'number' => car.number,
+              'phone_number' => car.phone_number,
+              'status' => car.status,
+            }
+          ).once
+
+          expect(ActionCable.server).to receive(:broadcast).with(
+            "TripChannel_#{trip.id}",
+            action: Constants::BroadcastActions::DRIVER_LOCATION_UPDATED,
+            body: body
+          ).once
+        end
+      end
+
+      context 'without current trip' do 
+        let(:trip) { create(:trip, car_id: car.id, status: Constants::Trip::FINISHED)}
+        it do 
+          expect(ActionCable.server).not_to receive(:broadcast).with(
+            "TripChannel_#{trip.id}",
+            action: Constants::BroadcastActions::DRIVER_LOCATION_UPDATED,
+            body: body
+          )
+        end
       end
     end
   end
