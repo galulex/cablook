@@ -35,7 +35,7 @@
     transition: opacity .5s;
     display: block;
     width: 100%;
-    max-height: 45vh;
+    max-height: 40vh;
     object-fit: cover;
   }
 

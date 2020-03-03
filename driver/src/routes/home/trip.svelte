@@ -130,6 +130,7 @@
     height: inherit;
     overflow-y: auto;
     position: relative;
+    padding-bottom: 60px;
   }
 
   li > div {
@@ -188,7 +189,7 @@
     {/each}
     <p>
       <span><b>🚕</b> {trip.trips_count}</span>
-      <span><b>🚖</b> {distance} KM</span>
+      <span><b>🚖</b> {distance}KM</span>
       <time datatime={trip.start_at}><b>⏰</b> {trip.start_time}</time>
     </p>
     <blockquote><b>💬</b> {trip.comment}</blockquote>
@@ -213,11 +214,11 @@
          <i>🌐</i>
       </a>
       <button type='button' disabled={disabled} on:click={cancel}><i>❌</i></button>
-      <button type='button' disabled={trip.payment_status == 2 || paymentCheck} on:click={paymentVerify}>💵{paymentIcon}</button>
     </div>
     <br/>
     <div class='buttons'>
       <button type='button' disabled={disabled} on:click={count}><i>⏰</i> {timer}</button>
+      <button type='button' disabled={trip.payment_status == 2 || paymentCheck} on:click={paymentVerify}>💵{paymentIcon}</button>
     </div>
   </div>
 </li>

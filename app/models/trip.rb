@@ -30,9 +30,6 @@ class Trip < ApplicationRecord
       .group(:driver_id)
       .order(:driver_id)
   end
-  scope :beetwen, ->(from, to) { where('created_at BETWEEN ? AND ?', from, to) }
-  scope :by_status, ->(status) { where(status: status) }
-  scope :unpaid, -> { joins(:trip_payment).where('payments.status = ? AND trips.status = ?', Constants::Payments::PENDING, Constants::Trip::FINISHED) }
 
   scope :statistics, (lambda do
     where(status: Constants::Trip::FINISHED)

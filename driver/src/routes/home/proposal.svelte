@@ -31,7 +31,7 @@
 <style>
   ol > li {
     scroll-snap-align: start;
-    padding: 20px 20px 40px 20px;
+    padding: 20px 20px 60px 20px;
     margin: 20px;
     border: 1px solid gray;
     position: relative;
