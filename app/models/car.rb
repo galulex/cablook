@@ -1,5 +1,6 @@
 class Car < ApplicationRecord
   has_one :driver
+  has_many :trips
 
   enum status: Constants::Car::STATUS_CODES.invert
 

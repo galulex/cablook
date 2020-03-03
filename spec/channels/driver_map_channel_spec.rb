@@ -32,7 +32,10 @@ describe DriverMapChannel do
     let(:body) do
       {
         car_id: car.id,
-        location: [latitude, longitude],
+        location: {
+          latitude: latitude, 
+          longitude: longitude
+        },
         car: {
           'deg' => 173.2511321253247,
           'dis' => 866.391195752578,

@@ -127,7 +127,7 @@ export default class PreviewMap extends Component {
     this.map.on('rotateend', () => {
       this.rotate = false
       if (this.state.car !== null) {
-        this.state.car._element.firstChild.style.transition = 'transform 4s'
+        this.state.car._element.firstChild.style.transition = 'transform 1s'
       }
     })
 
@@ -333,7 +333,7 @@ export default class PreviewMap extends Component {
       distance = data.distance < 0.3
     }
     let deg = data.deg
-    if (!this.move && distance && !this.rotate && document.visibilityState == 'visible') document.documentElement.style.setProperty('--car-transition', '10s')
+    if (!this.move && distance && !this.rotate && document.visibilityState == 'visible') document.documentElement.style.setProperty('--car-transition', '3s')
     car.carAngleDeg = deg
     car.setLngLat(data.location)
     if (deg !== 0) {
