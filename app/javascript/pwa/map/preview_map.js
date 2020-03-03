@@ -179,7 +179,7 @@ export default class PreviewMap extends Component {
       l._element.firstChild.style.transform = "rotate(" + (l.carAngleDeg - this.map.getBearing()) + "deg)"
     }
     if (document.visibilityState == 'visible') {
-      l._element.firstChild.style.transition = 'transform 2s'
+      l._element.firstChild.style.transition = 'transform 4s'
     }
   }
 
