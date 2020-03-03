@@ -17,7 +17,6 @@
   let token = localStorage.token
   let carSpeed = 0
   let location
-  let watcher
 
   let subscription = null
   const cable = actioncable.createConsumer('wss://cablook.taxi/cable')
@@ -26,30 +25,22 @@
 
   onMount(() => {
     if (!token) return
-    watcher = navigator.geolocation.watchPosition(sendLocation, null, { enableHighAccuracy: true })
+    setInterval(sendLocation, 10000)
   })
 
   onDestroy(() => {
     if (subscription) subscription.unsubscribe()
-    if (watcher) watcher.clearWatch()
   })
 
-  let sendLocation = (geo) => {
-    console.log(geo)
-    let { latitude, longitude, speed } = geo.coords
-    carSpeed = Math.round(speed * 3.6)
-    location = [longitude, latitude]
+  let sendLocation = () => {
     if (!subscription) return
-
     let params = {
       car_id: parseInt(localStorage.carId),
       speed: carSpeed,
-      latitude: latitude,
-      longitude: longitude
+      location: location
     }
     subscription.perform('send_location', { body: JSON.stringify(params) })
   }
-
   let login = (driver, car) => {
     localStorage.token = driver.auth_token
     localStorage.id = driver.id
@@ -57,7 +48,6 @@
     localStorage.carNumber = car.number
     token = driver.auth_token
     subscribe()
-    watcher = navigator.geolocation.watchPosition(sendLocation, null, { enableHighAccuracy: true })
   }
 
   let logout = () => {
@@ -97,6 +87,7 @@
 
   let cableActions = {
     SendLocation: (data) => {
+      location = [data.location[0], data.location[1]]
     },
 
     TripPropose: (data) => {

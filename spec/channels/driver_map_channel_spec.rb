@@ -12,8 +12,7 @@ describe DriverMapChannel do
       {
         'action' => 'send_location',
         'body' => {
-          'latitude': latitude,
-          'longitude': longitude,
+          'location': [latitude, longitude],
           'car_id': car.id
         }.to_json
       }
@@ -22,8 +21,7 @@ describe DriverMapChannel do
       {
         'action' => 'send_location',
         'body' => {
-          'latitude': latitude_first,
-          'longitude': longitude_first,
+          'location': [latitude_first, longitude_first],
           'car_id': car.id
         }.to_json
       }

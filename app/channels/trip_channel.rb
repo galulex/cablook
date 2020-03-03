@@ -4,14 +4,7 @@ class TripChannel < ApplicationCable::Channel
   end
 
   def receive(data)
-    action = data['action'] || data['body']['action']
-    if action == 'DriverLocationUpdated'
-      car = Trip.find(params[:trip_id]).car
-      data['body']['car'] = Presenters::Cars::Single.new(car).as_json
-      ActionCable.server.broadcast(trip_channel, data)
-    else
-      ActionCable.server.broadcast trip_channel, data
-    end
+    ActionCable.server.broadcast trip_channel, data
   end
 
   def waiting_client(data)

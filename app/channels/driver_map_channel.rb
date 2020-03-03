@@ -12,7 +12,7 @@ class DriverMapChannel < ApplicationCable::Channel
     body = JSON.parse(data.fetch('body'))
     car_id = body.fetch('car_id')
     car = Car.find(car_id)
-    car.location = [body.fetch('latitude'), body.fetch('longitude')]
+    car.location = body.fetch('location')
     ActionCable.server.broadcast(
       Constants::Channels::DRIVER_MAP,
       action: Constants::BroadcastActions::SEND_LOCATION,
@@ -21,6 +21,17 @@ class DriverMapChannel < ApplicationCable::Channel
       speed: body['speed'],
       car: Presenters::Cars::Single.new(car).as_json
     )
+    car.trips.current.each do |trip|
+      ActionCable.server.broadcast(
+        "#{Constants::Channels::TRIP}_#{trip.id}",
+        action: 'DriverLocationUpdated',
+        body: {
+          car_id: car_id,
+          location: car.location,
+          car: Presenters::Cars::Single.new(car).as_json
+        }
+      )
+    end
   end
 
   def accept_trip(data)
