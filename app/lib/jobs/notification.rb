@@ -26,7 +26,8 @@ module Jobs
       params = {
         app_id: ENV['ONE_SIGNAL_APP_ID'],
         contents: { en: message },
-        include_player_ids: registration_ids
+        include_player_ids: registration_ids,
+        collapse_id: user_id.to_s
       }
       OneSignal::Notification.create(params: params)
     end
