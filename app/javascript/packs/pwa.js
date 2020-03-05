@@ -195,6 +195,7 @@ export default class App extends Component {
     this.fetchUser()
   }
 
+
   logOut = (e) => {
     e.preventDefault()
     if (confirm('Are you sure?')) this.removeData();
