@@ -64,7 +64,7 @@ class Trip < ApplicationRecord
   scope :unpaid, -> { joins(:trip_payment).where('payments.status = ? AND trips.status = ?', Constants::Payments::PENDING, Constants::Trip::FINISHED) }
   scope :unfinished, -> { where(status: [Constants::Trip::ON_THE_WAY, Constants::Trip::WAITING_CLIENT, Constants::Trip::DRIVING]) }
   scope :current, -> { unfinished.order(:start_at) }
-  scope :for_driver, ->(driver) { unfinished.where(driver: driver).or(Trip.pending).order(start_at: :desc, preorder_time: :desc) }
+  scope :for_driver, ->(driver) { unfinished.where(driver: driver).or(Trip.pending).order(:start_at, :preorder_time) }
 
   def start_at
     super || preorder_time

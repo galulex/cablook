@@ -1,7 +1,6 @@
 <script>
   import { onMount, onDestroy } from 'svelte'
   import axios from 'axios'
-  import Map from './map.svelte'
 
   export let trip
   export let updateTrip
@@ -32,6 +31,7 @@
       interval = null
       return
     }
+    if (!confirm('Запустити таймер?')) return
     interval = setInterval(() => {
       timer += 1
       localStorage[`timer_${trip.id}`] = timer
@@ -130,7 +130,12 @@
     height: inherit;
     overflow-y: auto;
     position: relative;
-    padding-bottom: 60px;
+    padding: 40px 0 60px 0;
+    box-shadow: inset 0px 0px 20px 0px #312d50;
+  }
+
+  li:nth-child(even) {
+    box-shadow: inset 0px 0px 20px 0px #19a160;
   }
 
   li > div {
@@ -182,7 +187,6 @@
 </style>
 
 <li bind:this={item} class={klass()}>
-  <Map trip={trip}/>
   <div>
     {#each trip.stops as stop, i}
       <address><b>📍</b> {stop}</address>

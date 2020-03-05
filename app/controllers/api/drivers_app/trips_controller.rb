@@ -10,7 +10,7 @@ module Api
 
       #TODO Remove replace index with all and remove currents
       def all
-        trips = Trip.for_driver(current_driver)
+        trips = Trip.for_driver(current_driver).includes(:user, :trip_payment, :driver, :payments, :car, :bonus_trip)
         render json: Presenters::Trips::DetailedCollection.new(trips).to_json, status: 200
       end
 

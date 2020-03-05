@@ -92,7 +92,7 @@
     } else {
       trips.unshift(attrs)
     }
-    trips = trips
+    trips = trips.sort((a, b ) => {return (a.start_at - b.start_at)})
   }
 
   let cableActions = {
