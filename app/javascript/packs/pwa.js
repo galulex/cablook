@@ -71,6 +71,7 @@ export default class App extends Component {
   }
 
   componentDidMount() {
+    if (localStorage.fcm_token === 'null') waitForToken = setInterval(this.waitForFCMToken(localStorage.fcm_token), 3000)
     this.loadScript()
     if (window.ios) this.focusOutForIos()
     if (this.state.currentUser && this.state.currentUser.length !== 0) {
@@ -83,6 +84,13 @@ export default class App extends Component {
     window.addEventListener('online', this.online)
     document.addEventListener('visibilitychange', this.onVisibilityChange, false);
     if (!navigator.onLine) this.offline()
+  }
+
+  waitForFCMToken = (token) => {
+    if (token !== 'null') {
+      this.sendTokenToServer(token)
+      clearInterval(waitForToken)
+    }
   }
 
 
