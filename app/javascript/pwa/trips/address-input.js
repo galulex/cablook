@@ -28,7 +28,7 @@ export default class AddressInput extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.address || nextProps.address === '') this.setState({address: nextProps.address})
+    if ((nextProps.address || nextProps.address === '') && this.state.address === this.props.address) this.setState({address: nextProps.address})
   }
 
   componentWillUnmount() {
