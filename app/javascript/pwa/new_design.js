@@ -358,6 +358,8 @@ export default class NewDesign extends Component {
       destination: coords,
       departure_address: address,
       destination_address: address,
+      waypoints: [coords, coords],
+      stops: [address, address],
       osrm: true,
       bonus: false,
       comment: 'Швидка поїдка. Я зміню кінцеву точку після посадки.'

@@ -77,7 +77,7 @@ export default class Session extends Component {
           <Lock class='lock'/>
           <input id='code' title={6 + i18n.session.digits} pattern='\d*' placeholder='_ _ _ _ _ _'
                  maxlength='6' minlength='6' required type='tel'
-                 value={code} autocomplete='off' autoFocus
+                 value={code} autocomplete='one-time-code' autoFocus
                  onInput={this.updateCode} ref={input => this.codeInput = input}/>
         </div>
         <button class='button' type='submit' disabled={disabled} ref={submitForm => this.submitForm = submitForm}>{i18n.session.code_button}</button>
