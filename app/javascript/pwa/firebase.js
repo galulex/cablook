@@ -15,6 +15,16 @@ firebase.initializeApp({
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('/serviceworker.js').then((registration) => {
     firebase.messaging().useServiceWorker(registration)
+    firebase.messaging().onMessage((payload) => {
+      console.log('Received: ', payload)
+      let { title, ...options } = payload.notification
+      if (payload.data.actions){
+        let actions = JSON.parse(payload.data.actions)
+        options = {...options, ...actions}
+      }
+      console.log(options, title)
+      registration.showNotification(title, options)
+    })
   });
 }
 

@@ -116,7 +116,7 @@ module Events
       
       def notify
         message = I18n.t('notification.loading')
-        Jobs::Notification.perform_later(@trip.user_id, message)
+        Jobs::Notification.perform_later(@trip.user_id, message, @trip)
       end
 
       def send_message_to_vendor
