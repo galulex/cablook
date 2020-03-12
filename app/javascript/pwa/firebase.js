@@ -18,6 +18,7 @@ if ('serviceWorker' in navigator) {
     firebase.messaging().onMessage((payload) => {
       console.log('Received: ', payload)
       let { title, ...options } = payload.notification
+      options = Object.assign(options, { data: payload.data.trip })
       if (payload.data.actions){
         let actions = JSON.parse(payload.data.actions)
         options = {...options, ...actions}

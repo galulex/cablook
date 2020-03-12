@@ -11,41 +11,34 @@ module Jobs
       fcm = FCM.new('AAAAe2eP_kY:APA91bE0w-nciamie2P8nKia0VzPLZHfgMZD8pgTBS8qDSgxQGcNAWeuZrvn2CjDonM-IGywkX0B6eLcVrke5UL2EHg-OibvyqXW-Vuag42kCZt6b71G3IAvX1AvXlE9OLrr4J76aZXS')
       registration_ids = Device.where(user_id: user_id).where.not(platform: Constants::Device::IOS).pluck(:token)
       case trip&.status
-      when Constants::Trip::PENDING
+      when Constants::Trip::STATUS_CODES[Constants::Trip::PENDING]
         options = {
           notification: {
             title: 'CabLook',
             body: message,
-            icon: '/icon_128x128.png',
-            tag: trip.id.to_s
+            icon: '/icon_128x128.png'
           },
           data: {
-            trip_id: trip.id.to_s,
-            actions: {
-              actions: [
-                {
-                  action: 'retry',
-                  title: 'Retry'
-                },
-                {
-                  action: 'cancel',
-                  title: 'Cancel'
-                }
-              ]
+            trip: {
+              trip_id: trip.id.to_s,
+              auth_token: trip.user.auth_token,
+              loading: true
             }
           },
           collapse_key: user_id.to_s
         }
-      when Constants::Trip::DECLINED
+      when Constants::Trip::STATUS_CODES[Constants::Trip::DECLINED]
         options = {
           notification: {
             title: 'CabLook',
             body: message,
-            icon: '/icon_128x128.png',
-            tag: trip.id.to_s
+            icon: '/icon_128x128.png'
           },
           data: {
-            trip_id: trip.id.to_s,
+            trip: {
+              trip_id: trip.id.to_s,
+              auth_token: trip.user.auth_token
+            },
             actions: {
               actions: [
                 {
@@ -66,10 +59,13 @@ module Jobs
           notification: {
             title: 'CabLook',
             body: message,
-            icon: '/icon_128x128.png',
-            tag: trip.id.to_s
+            icon: '/icon_128x128.png'
           },
           data: {
+            trip: {
+              trip_id: trip.id.to_s,
+              auth_token: trip.user.auth_token
+            },
             actions: {
               actions: [
                 {
@@ -83,7 +79,7 @@ module Jobs
               ]
             }
           },
-          collapse_key: '1'
+          collapse_key: user_id.to_s
         }
       end
       response = fcm.send(registration_ids, options)

@@ -82,19 +82,47 @@ self.addEventListener('activate', onActivate);
 self.addEventListener('fetch', onFetch);
 
 self.addEventListener('notificationclick', function(event) {
-  event.notification.close();
+  let data = JSON.parse(event.notification.data)
+  let action = event.action
+  console.log(data)
 
-  event.waitUntil(clients.matchAll({
-    type: 'window'
-  }).then(function(clientList) {
-    for (var i = 0; i < clientList.length; i++) {
-      var client = clientList[i];
+  switch(action) {
+    case 'retry':
+      fetch('https://app.cablook.taxi/api/trips/' + data.trip_id + '/retry',{
+        method: 'PATCH',
+        headers: {
+          'Auth-Token': data.auth_token,
+          'Content-Type': 'application/json'
+        }
+      })
+      event.notification.close()
+      break
+    case 'cancel':
+      fetch('https://app.cablook.taxi/api/trips/' + data.trip_id + '/cancel',{
+        method: 'PATCH',
+        headers: {
+          'Auth-Token': data.auth_token,
+          'Content-Type': 'application/json'
+        }
+      })
+      event.notification.close()
+      break
+    default:
+      event.notification.close()
+      event.waitUntil(clients.matchAll({
+        type: 'window'
+      }).then(function(clientList) {
+        for (var i = 0; i < clientList.length; i++) {
+          var client = clientList[i];
 
-      if ('focus' in client) { return client.focus(); }
-    }
+          if ('focus' in client) { return client.focus(); }
+        }
 
-    if (clients.openWindow) return clients.openWindow('/');
-  }));
+        if (clients.openWindow) return clients.openWindow('/');
+      }));
+      break
+  }
+
 
 }, false);
 
