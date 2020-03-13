@@ -16,18 +16,16 @@ if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('/serviceworker.js').then((registration) => {
     firebase.messaging().useServiceWorker(registration)
     firebase.messaging().onMessage((payload) => {
-      console.log('Received: ', payload)
       let { title, ...options } = payload.notification
       options = Object.assign(options, { data: payload.data.trip })
       if (payload.data.actions){
         let actions = JSON.parse(payload.data.actions)
         options = {...options, ...actions}
       }
-      console.log(options, title)
       registration.showNotification(title, options)
     })
   });
 }
 
-export const messaging = (firebase.messaging.isSupported() ? firebase.messaging() : null );
-export const firebaseAuth = firebase.auth;
+export const messaging = (firebase.messaging.isSupported() ? firebase.messaging() : null )
+export const firebaseAuth = firebase.auth
