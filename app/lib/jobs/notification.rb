@@ -10,80 +10,65 @@ module Jobs
     def send_push_to_android_devices(user_id, message, trip)
       fcm = FCM.new('AAAAe2eP_kY:APA91bE0w-nciamie2P8nKia0VzPLZHfgMZD8pgTBS8qDSgxQGcNAWeuZrvn2CjDonM-IGywkX0B6eLcVrke5UL2EHg-OibvyqXW-Vuag42kCZt6b71G3IAvX1AvXlE9OLrr4J76aZXS')
       registration_ids = Device.where(user_id: user_id).where.not(platform: Constants::Device::IOS).pluck(:token)
+      options = {
+        notification: {
+          title: 'CabLook',
+          body: message,
+          icon: '/icon_128x128.png',
+          tag: 'renotify',
+          renotify: true
+        },
+        data: {
+          trip: {
+            trip_id: trip.id.to_s,
+            auth_token: trip.user.auth_token
+          }
+        }
+      }
       case trip&.status
       when Constants::Trip::STATUS_CODES[Constants::Trip::PENDING]
-        options = {
-          notification: {
-            title: 'CabLook',
-            body: message,
-            icon: '/icon_128x128.png'
-          },
-          data: {
-            trip: {
-              trip_id: trip.id.to_s,
-              auth_token: trip.user.auth_token,
-              loading: true
-            }
-          },
-          collapse_key: user_id.to_s
-        }
+        options[:data][:trip][:loading] = true
       when Constants::Trip::STATUS_CODES[Constants::Trip::DECLINED]
-        options = {
-          notification: {
-            title: 'CabLook',
-            body: message,
-            icon: '/icon_128x128.png'
-          },
-          data: {
-            trip: {
-              trip_id: trip.id.to_s,
-              auth_token: trip.user.auth_token
+        options[:data][:actions] = {
+          actions: [
+            {
+              action: 'retry',
+              title: 'Retry'
             },
-            actions: {
-              actions: [
-                {
-                  action: 'retry',
-                  title: 'Retry'
-                },
-                {
-                  action: 'cancel',
-                  title: 'Cancel'
-                }
-              ]
+            {
+              action: 'cancel',
+              title: 'Cancel'
             }
+          ]
+        }
+      when Constants::Trip::STATUS_CODES[Constants::Trip::WAITING_CLIENT]
+        options[:data] = {
+          actions: {
+            actions: [
+              {
+                action: 'coming',
+                title: 'Coming'
+              }
+            ]
           },
-          collapse_key: user_id.to_s
+          trip: options[:data][:trip],
+          message: 'Уже йду'
+        }
+      when Constants::Trip::STATUS_CODES[Constants::Trip::ON_THE_WAY]
+        options[:data][:actions] = {
+          actions: {
+            actions: [
+              {
+                action: 'reply',
+                title: 'Reply'
+              }
+            ]
+          }
         }
       else
-        options = {
-          notification: {
-            title: 'CabLook',
-            body: message,
-            icon: '/icon_128x128.png'
-          },
-          data: {
-            trip: {
-              trip_id: trip.id.to_s,
-              auth_token: trip.user.auth_token
-            },
-            actions: {
-              actions: [
-                {
-                  action: 'retry',
-                  title: 'Retry'
-                },
-                {
-                  action: 'cancel',
-                  title: 'Cancel'
-                }
-              ]
-            }
-          },
-          collapse_key: user_id.to_s
-        }
+        return
       end
-      response = fcm.send(registration_ids, options)
-      p response
+      fcm.send(registration_ids, options)
     end
 
     def send_push_to_ios_devices(user_id, message, trip)
