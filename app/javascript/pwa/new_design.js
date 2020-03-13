@@ -90,11 +90,13 @@ export default class NewDesign extends Component {
         let lat = result.coords.latitude
         let lng = result.coords.longitude
 
-        this.props.geocode(`${lng},${lat}`, (address) => {
-          this.setAddress(address, `${lat},${lng}`, 0)
-          this.setState({currentLocation: {location: `${lat},${lng}`, address: address, favorite_address: true,
-            structured_formatting: { main_text: address, secondary_text: i18n.address_input.location }}})
-        })
+        if (this.state.trip.stops[0] === '') {
+          this.props.geocode(`${lng},${lat}`, (address) => {
+            this.setAddress(address, `${lat},${lng}`, 0)
+            this.setState({currentLocation: {location: `${lat},${lng}`, address: address, favorite_address: true,
+              structured_formatting: { main_text: address, secondary_text: i18n.address_input.location }}})
+          })
+        }
       },
         (error) => {
           switch(error.code) {
@@ -420,10 +422,8 @@ export default class NewDesign extends Component {
   getTripThroughProps = (propsTrip) => {
     let trip = {}
     if (!propsTrip) {
-      if (this.state.trip.stops[0]  == '') {
-        this.getLocation()
-      }
       trip = this.state.trip
+      if (trip.stops[0] == '') this.getLocation()
       if (trip.status !== PENDING) return
       this.setState({ trip: { ...trip, status: DECLINED} })
       return
