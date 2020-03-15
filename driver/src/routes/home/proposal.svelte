@@ -18,7 +18,15 @@
   }
 
   let start = location
-  let finish = trip.waypoints[0].split(',').reverse().join(',')
+
+  let finish
+
+  //TODO catch very old app that does not have waypoints at all
+  try {
+    finish = trip.waypoints[0].split(',').reverse().join(',')
+  } catch {
+    finish = trip.departure.reverse().join(',')
+  }
 
   let osrm =(async () => {
     let res = await fetch(`https://osrm.cablook.taxi/route/v1/driving/${start};${finish}?overview=false`)

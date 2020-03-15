@@ -16,7 +16,7 @@
 
   let token = localStorage.token
   let carSpeed = 0
-  let location
+  let location = [32.073095,49.418461]
   let watcher
 
   let subscription = null
