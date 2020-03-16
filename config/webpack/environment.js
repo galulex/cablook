@@ -1,4 +1,5 @@
 const { environment } = require('@rails/webpacker')
+const svelte = require('./loaders/svelte')
 
 environment.loaders.insert('svg', {
         test: /\.svg$/,
@@ -13,4 +14,5 @@ environment.loaders.insert('css', {
   use: ['style-loader', 'css-loader']
 })
 
+environment.loaders.prepend('svelte', svelte)
 module.exports = environment
