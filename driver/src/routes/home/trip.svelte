@@ -1,6 +1,7 @@
 <script>
   import { onMount, onDestroy } from 'svelte'
   import axios from 'axios'
+  import Unrelease from './unrelease.svelte'
 
   export let trip
   export let updateTrip
@@ -223,6 +224,7 @@
     <div class='buttons'>
       <button type='button' disabled={disabled} on:click={count}><i>⏰</i> {timer}</button>
       <button type='button' disabled={trip.payment_status == 2 || paymentCheck} on:click={paymentVerify}>💵{paymentIcon}</button>
+      <Unrelease trip={trip} updateTrip={updateTrip} />
     </div>
   </div>
 </li>

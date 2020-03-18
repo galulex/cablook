@@ -55,6 +55,7 @@ Rails.application.routes.draw do
         patch 'start'
         patch 'waiting_client'
         patch 'payments_verify'
+        patch 'unrelease'
       end
     end
 

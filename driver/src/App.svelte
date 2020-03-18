@@ -1,6 +1,6 @@
 <script>
   import { onMount, onDestroy, setContext } from 'svelte'
-  import { Router, Route } from 'svelte-routing'
+  import { Router, Route, navigate } from 'svelte-routing'
   import Sounds from './Sounds.svelte'
   import actioncable from '@rails/actioncable'
 
@@ -65,6 +65,7 @@
     localStorage.clear()
     token = null
     if (subscription) subscription.unsubscribe()
+    navigate('/', { replace: true })
     axios.delete('sessions')
   }
 

@@ -58,6 +58,11 @@ module Api
         render json: Presenters::Trips::Detailed.new(trip).to_json, status: 200
       end
 
+      def unrelease
+        Events::Trips::Unrelease.(trip_id: params[:trip_id].to_i)
+        render json: Presenters::Trips::Detailed.new(trip).to_json, status: 200
+      end
+
       private
 
       def trip
