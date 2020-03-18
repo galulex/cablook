@@ -30,6 +30,7 @@ Rails.application.routes.draw do
     resources :referrals, only: %i[index create]
 
     post 'trips/new', to: 'v2/trips#new'
+    post 'notify_driver', to: 'notifications#new'
     resources :trips, only: %i[index show create update] do
       get 'unpaid_trips', on: :collection
       patch 'cancel'

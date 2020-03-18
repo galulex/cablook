@@ -68,6 +68,12 @@ ru:
     will_arrive: '%{name} на %{car} приедет в %{time}'
     waiting: Водитель уже ожидает вас.
     loading: Поиск машины.
+    coming: Сейчас буду.
+    actions:
+      reply: Ответить
+      cancel: Отменить
+      retry: Повторить
+      coming: Сейчас буду
   bot:
     request_contact:
       text: 'Мне нужно знать, кто вы. Не могли бы вы, пожалуйста, поделиться своим номером телефона?'

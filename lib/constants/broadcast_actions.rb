@@ -8,6 +8,7 @@ module Constants
     TRIP_UNAVAILABLE  = 'TripUnavailable'.freeze
     TRIP_DECLINED     = 'TripDeclined'.freeze
     DRIVER_LOCATION_UPDATED = 'DriverLocationUpdated'.freeze
+    NOTIFY_DRIVER    = 'NotifyDriver'.freeze
 
     TRIP_UPDATED      = 'TripUpdated'.freeze
     TRIP_FINISHED     = 'TripFinished'.freeze

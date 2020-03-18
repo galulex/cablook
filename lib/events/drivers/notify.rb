@@ -1,0 +1,46 @@
+module Events
+  module Drivers
+    class Notify < Events::BaseEvent
+      def schema
+        Dry::Validation.Schema do
+          configure { config.messages = :i18n }
+
+          required(:trip_id).filled(:int?)
+          required(:message_type).filled(:str?)
+          optional(:message).maybe(:str?)
+        end
+      end
+
+      def run
+        broadcast
+      end
+
+      private
+
+      def broadcast
+        message = set_message
+        ActionCable.server.broadcast(
+          Constants::Channels::DRIVER_MAP,
+          action: Constants::BroadcastActions::NOTIFY_DRIVER,
+          body: {
+            phone_number: trip.user.phone_number,
+            message: message
+          }
+        )
+      end
+
+      def set_message
+        case data[:message_type]
+        when 'reply'
+          data[:message]
+        when 'coming'
+          I18n.t('notification.coming')
+        end
+      end
+
+      def trip
+        @trip = Trip.find(data[:trip_id])
+      end
+    end
+  end
+end

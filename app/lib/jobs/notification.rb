@@ -20,8 +20,8 @@ module Jobs
         },
         data: {
           trip: {
-            trip_id: trip.id.to_s,
-            auth_token: trip.user.auth_token
+            id: trip.id.to_s,
+            user_token: trip.user.auth_token
           }
         }
       }
@@ -33,37 +33,31 @@ module Jobs
           actions: [
             {
               action: 'retry',
-              title: 'Retry'
+              title: I18n.t('notification.actions.retry')
             },
             {
               action: 'cancel',
-              title: 'Cancel'
+              title: I18n.t('notification.actions.cancel')
             }
           ]
         }
       when Constants::Trip::STATUS_CODES[Constants::Trip::WAITING_CLIENT]
-        options[:data] = {
-          actions: {
+        options[:data][:actions] = {
             actions: [
               {
                 action: 'coming',
-                title: 'Coming'
+                title: I18n.t('notification.actions.coming')
               }
             ]
-          },
-          trip: options[:data][:trip],
-          message: 'Уже йду'
         }
       when Constants::Trip::STATUS_CODES[Constants::Trip::ON_THE_WAY]
         options[:data][:actions] = {
-          actions: {
-            actions: [
-              {
-                action: 'reply',
-                title: 'Reply'
-              }
-            ]
-          }
+          actions: [
+            {
+              action: 'reply',
+              title: I18n.t('notification.actions.reply')
+            }
+          ]
         }
       else
         return
