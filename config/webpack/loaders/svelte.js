@@ -23,7 +23,7 @@ module.exports = {
       loader: 'babel-loader',
       exclude: [/node_modules\/(?!svelte)/, /\.legacy.js$/],
       options: {
-        presets: [['@babel/preset-env', { modules: false }]],
+        presets: [['@babel/preset-env', { modules: false, "useBuiltIns": 'usage' }]],
       },
     },
   ]
