@@ -16,6 +16,7 @@ module Events
         update_payment
         update_bonus_trip if bonus?
         retry_trip_job(trip.id)
+        notify
         trip
       end
 
@@ -40,6 +41,11 @@ module Events
 
       def bonus?
         trip.bonus_trip.present?
+      end
+      
+      def notify
+        message = I18n.t('notification.loading')
+        Jobs::Notification.perform_later(trip.user_id, message, trip)
       end
 
       def trip

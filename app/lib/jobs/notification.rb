@@ -8,17 +8,15 @@ module Jobs
     private
 
     def send_push_to_android_devices(user_id, message, trip)
-      fcm = FCM.new('AAAAe2eP_kY:APA91bE0w-nciamie2P8nKia0VzPLZHfgMZD8pgTBS8qDSgxQGcNAWeuZrvn2CjDonM-IGywkX0B6eLcVrke5UL2EHg-OibvyqXW-Vuag42kCZt6b71G3IAvX1AvXlE9OLrr4J76aZXS')
+      fcm = FCM.new(ENV['FCM_SERVER_KEY'])
       registration_ids = Device.where(user_id: user_id).where.not(platform: Constants::Device::IOS).pluck(:token)
       options = {
-        notification: {
+        data: {
           title: 'CabLook',
           body: message,
           icon: '/icon_128x128.png',
           tag: 'renotify',
-          renotify: true
-        },
-        data: {
+          renotify: true,
           trip: {
             id: trip.id.to_s,
             user_token: trip.user.auth_token

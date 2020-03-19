@@ -1,8 +1,7 @@
 importScripts('https://www.gstatic.com/firebasejs/7.7.0/firebase-app.js');
 importScripts('https://www.gstatic.com/firebasejs/7.7.0/firebase-messaging.js');
 
-var CACHE_VERSION = 'v1';
-var CACHE_NAME = CACHE_VERSION + ':sw-cache-';
+var CACHE_VERSION = 'v1'; var CACHE_NAME = CACHE_VERSION + ':sw-cache-';
 
 function onInstall(event) {
   console.log('[Serviceworker]', "Installing!", event);
@@ -87,7 +86,7 @@ self.addEventListener('notificationclick', function(event) {
 
   switch(action) {
     case 'retry':
-      fetch('https://app.cablook.taxi/api/trips/' + data.id + '/retry',{
+      fetch('https://4577881f.ngrok.io/api/trips/' + data.id + '/retry',{
         method: 'PATCH',
         headers: {
           'Auth-Token': data.user_token,
@@ -97,7 +96,7 @@ self.addEventListener('notificationclick', function(event) {
       event.notification.close()
       break
     case 'cancel':
-      fetch('https://app.cablook.taxi/api/trips/' + data.id + '/cancel',{
+      fetch('https://4577881f.ngrok.io/api/trips/' + data.id + '/cancel',{
         method: 'PATCH',
         headers: {
           'Auth-Token': data.user_token,
@@ -107,7 +106,15 @@ self.addEventListener('notificationclick', function(event) {
       event.notification.close()
       break
     case 'coming':
-      console.log(data.message)
+      let params = { message_type: 'coming', trip_id: data.id }
+      fetch('https://4577881f.ngrok.io/api/notify_driver',{
+        method: 'POST',
+        headers: {
+          'Auth-Token': data.user_token,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(params)
+      })
       event.notification.close()
       break
 
@@ -136,16 +143,20 @@ firebase.initializeApp({
   storageBucket: 'cablook-2225665.appspot.com',
   messagingSenderId: '530018467398',
   appId: '1:530018467398:web:c5dd0a6d759483b95ad447'
-});
-const messaging = firebase.messaging();
+})
+const messaging = firebase.messaging()
 
 messaging.setBackgroundMessageHandler((payload) => {
-  let { title, ...options } = payload.notification
-  options = Object.assign(options, { data: payload.data.trip })
-  if (payload.data.actions){
-    let actions = JSON.parse(payload.data.actions)
-    options = {...options, ...actions}
+  let { title, body, icon, tag, renotify, actions } = payload.data
+  let options = { title, body, icon, tag, renotify }
+  if (actions) {
+    let actionsData = JSON.parse(actions)
+    let showActions = true
+    actionsData.actions.map((el) => {
+      if (el.action === 'reply') return showActions = false
+    })
+    if (showActions) options = { ...options, ...actionsData }
   }
-  console.log(options)
+  options = Object.assign(options, { data: payload.data.trip })
   return self.registration.showNotification(title, options)
 })
