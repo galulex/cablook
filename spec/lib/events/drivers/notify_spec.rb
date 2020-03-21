@@ -10,12 +10,12 @@ describe Events::Drivers::Notify do
     context 'when message_type is reply' do
       it do
         expect(ActionCable.server).to receive(:broadcast).with(
-          Constants::Channels::DRIVER_MAP,
+          "#{Constants::Channels::TRIP}_#{trip.id}",
           action: Constants::BroadcastActions::NOTIFY_DRIVER,
-          body: {
+          data: {
             phone_number: trip.user.phone_number,
             message: message
-          }
+          }.to_json
         ).once
         subject.call
       end
@@ -24,12 +24,12 @@ describe Events::Drivers::Notify do
     context 'when message_type is coming' do
       it do
         expect(ActionCable.server).to receive(:broadcast).with(
-          Constants::Channels::DRIVER_MAP,
+          "#{Constants::Channels::TRIP}_#{trip.id}",
           action: Constants::BroadcastActions::NOTIFY_DRIVER,
-          body: {
+          data: {
             phone_number: trip.user.phone_number,
             message: message
-          }
+          }.to_json
         ).once
         subject.call
       end

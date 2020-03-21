@@ -114,14 +114,20 @@
   let subscribe = () => {
     if (subscription) return subscription
     subscription = cable.subscriptions.create({ channel: 'TripChannel', trip_id: trip.id }, {
-      received: data => { if (data.action === 'TripUpdated') TripUpdated(JSON.parse(data.data)) }
+      received: data => { if (['TripUpdated', 'NotifyDriver'].includes(data.action)) cableActions[data.action](JSON.parse(data.data)) }
     })
   }
 
-  let TripUpdated = (attrs) => {
-    updateTrip(attrs)
-    item.scrollIntoView()
-    window.play('update')
+  let cableActions = {
+    TripUpdated: (attrs) => {
+      updateTrip(attrs)
+      item.scrollIntoView()
+      window.play('update')
+    },
+
+    NotifyDriver: (data) => {
+      alert(`${data.phone_number}: ${data.message}`)
+    }
   }
 </script>
 

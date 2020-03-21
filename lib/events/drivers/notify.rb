@@ -20,13 +20,13 @@ module Events
       def broadcast
         message = set_message
         ActionCable.server.broadcast(
-          Constants::Channels::DRIVER_MAP,
+          "#{Constants::Channels::TRIP}_#{trip.id}",
           action: Constants::BroadcastActions::NOTIFY_DRIVER,
-          body: {
+          data: {
             phone_number: trip.user.phone_number,
             message: message
-          }
-        )
+          }.to_json
+        ) 
       end
 
       def set_message
@@ -39,7 +39,7 @@ module Events
       end
 
       def trip
-        @trip = Trip.find(data[:trip_id])
+        @trip ||= Trip.find(data[:trip_id])
       end
     end
   end

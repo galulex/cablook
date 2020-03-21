@@ -99,10 +99,6 @@
     SendLocation: (data) => {
     },
 
-    NotifyDriver: (data) => {
-      alert(`${data.body.phone_number}: ${data.body.message}`)
-    },
-
     TripPropose: (data) => {
       updateTrip(JSON.parse(data.trip))
       console.log(data)
