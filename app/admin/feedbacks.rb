@@ -29,6 +29,13 @@ ActiveAdmin.register Feedback do
     end
   end
 
+  form do |f|
+    inputs do
+      %w[rate description].each { |title| input title }
+    end
+    actions
+  end
+
   filter :driver
   preserve_default_filters!
 end
