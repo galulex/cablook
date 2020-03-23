@@ -514,6 +514,8 @@ export default class NewDesign extends Component {
     this.setState({ subscription: null })
   }
 
+  NotifyDriver = (data) => {}
+
   TripAccepted = (data) => {
     this.previewMapRef.cleanup()
     this.vibrate()
