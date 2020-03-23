@@ -168,10 +168,7 @@
         {:then}
           <Home trips={trips} updateTrip={updateTrip} location={location} cable={cable} />
         {:catch error}
-          <h1>Сталася помилка перезайдіть в акаунт</h1>
-          <br/>
-          <h2>{error}</h2>
-          <h3>{localStorage.token}</h3>
+          <h3>Сталася помилка перезайдіть в акаунт</h3>
         {/await}
       </Route>
       <Route path="/map">

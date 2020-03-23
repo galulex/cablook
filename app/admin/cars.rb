@@ -1,4 +1,6 @@
 ActiveAdmin.register Car do
+  remove_filter :trips
+
   controller do
     def permitted_params
       params.permit!
