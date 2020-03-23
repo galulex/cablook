@@ -69,8 +69,7 @@ export default class TripCard extends Component {
   }
 
   repeatTrip = () => {
-    const trip = { ...this.props.trip, status: undefined, id: undefined }
-
+    const trip = { ...this.props.trip, status: undefined, id: undefined, osrm: true }
     delete trip.formatted_date
     this.props.setCurrentTrip(trip)
     route('/', true)
@@ -91,7 +90,8 @@ export default class TripCard extends Component {
       departure: finish,
       departure_address: finish_address,
       destination: start,
-      destination_address: start_address
+      destination_address: start_address,
+      osrm: true
     }
     delete trip.formatted_date
 
