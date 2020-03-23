@@ -32,6 +32,7 @@
   let updateCar = (data) => {
     let i = cars.findIndex(car => car.id === data.car_id)
     let car = cars[i]
+    if (i < 0) return
     car.position = car.location
     car.location = data.location
     car.speed = data.speed
