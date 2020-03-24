@@ -80,7 +80,7 @@
     {/each}
   </ol>
   <ol id='current'>
-    {#each trips.filter(trip => { return trip.driver_id === parseInt(localStorage.id) && trip.status !== 0 }) as trip (trip.id)}
+    {#each trips.filter(trip => { return trip.driver_id === parseInt(localStorage.id) && [1,2,3].includes(trip.status) }) as trip (trip.id)}
       <Trip trip={trip} updateTrip={updateTrip} cable={cable}/>
     {/each}
   </ol>
