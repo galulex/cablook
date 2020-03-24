@@ -12,25 +12,7 @@ firebase.initializeApp({
   appId: '1:530018467398:web:c5dd0a6d759483b95ad447'
 })
 
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('/serviceworker.js').then((registration) => {
-    firebase.messaging().useServiceWorker(registration)
-    firebase.messaging().onMessage((payload) => {
-      let { title, body, icon, tag, renotify, actions } = payload.data
-      let options = { title, body, icon, tag, renotify }
-      if (actions) {
-        let actionsData = JSON.parse(actions)
-        let showActions = true
-        actionsData.actions.map((el) => {
-          if (el.action === 'reply') return showActions = false
-        })
-        if (showActions) options = { ...options, ...actionsData }
-      }
-      options = Object.assign(options, { data: payload.data.trip })
-      registration.showNotification(title, options)
-    })
-  })
-}
+const messaging = (firebase.messaging.isSupported() ? firebase.messaging() : null )
 
-export const messaging = (firebase.messaging.isSupported() ? firebase.messaging() : null )
+export { messaging }
 export const firebaseAuth = firebase.auth

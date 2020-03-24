@@ -17,6 +17,7 @@ module Events
         else
           run_methods
         end
+        trip
       end
 
       def run_methods
@@ -26,7 +27,6 @@ module Events
         update_bonus_trip if bonus?
         retry_trip_job(trip.id)
         notify
-        trip
       end
 
       private

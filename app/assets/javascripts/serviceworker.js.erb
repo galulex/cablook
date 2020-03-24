@@ -126,10 +126,9 @@ self.addEventListener('notificationclick', function(event) {
       focusOnTab(event)
       event.notification.close()
       break
-
     default:
-      event.notification.close()
       focusOnTab(event)
+      if (!data.loading) event.notification.close() 
       break
   }
 }, false)
