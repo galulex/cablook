@@ -75,7 +75,7 @@ module Events
       end
 
       def update_trip_comment
-        @trip.update(comment: @trip.comment.prepend("Номер замовлення: ##{@order.id}. "))
+        @trip.update(comment: @trip.comment.prepend("Номер замовлення: ##{@order.id}. Товари: #{@order.items} "))
       end
 
       def create_payment
