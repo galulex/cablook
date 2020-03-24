@@ -63,7 +63,7 @@ module Events
       end
 
       def update_trip_status
-        @trip.update(status: Constants::Trip::WAITING_FOR_VENDOR_APPROVE)
+        @trip.update(status: Constants::Trip::WAITING_FOR_VENDOR_APPROVE) if order.vendor.need_approve
       end
 
       def assign_trip_to_order
