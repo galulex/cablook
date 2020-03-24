@@ -25,8 +25,8 @@
 
   const PATHLAYER = {
     type: 'line',
-    source: 'line',
-    id: 'line',
+    source: `line_${trip.id}`,
+    id: `line_${trip.id}`,
     paint: {
       'line-color': '#19a160',
       'line-width': 40,
@@ -45,10 +45,9 @@
   }
 
   onMount(() => {
-    map.addSource('line', { type: 'geojson', lineMetrics: true, data: GEOJSON })
+    map.addSource(`line_${trip.id}`, { type: 'geojson', lineMetrics: true, data: GEOJSON })
     map.addLayer(PATHLAYER)
     trip.waypoints.map(addPin)
-    console.log(map)
   })
 
   let addPin = (w, i) => {

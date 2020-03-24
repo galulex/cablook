@@ -8,7 +8,8 @@
           "browsers": "> 1%",
           "uglify": true
         },
-        "useBuiltIns": 'usage'
+        "useBuiltIns": 'usage',
+        "corejs": 2
       }
     ],
     "@babel/preset-react"
@@ -33,13 +34,6 @@
             "react-dom-factories": "preact-compat/lib/react-dom-factories"
         }
     }],
-    ['transform-react-jsx', {pragma:'h'}],
-    "@babel/plugin-proposal-class-properties",
-    [
-        "@babel/plugin-proposal-decorators",
-        {
-            "legacy": true
-        }
-    ]
+    ['transform-react-jsx', {pragma:'h'}]
   ]
 }

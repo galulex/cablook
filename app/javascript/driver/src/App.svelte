@@ -1,8 +1,8 @@
 <script>
   import { onMount, onDestroy, setContext } from 'svelte'
-  import { Router, Route } from 'svelte-routing'
+  import { Router, Route, navigate } from 'svelte-routing'
   import Sounds from './Sounds.svelte'
-  import actioncable from '@rails/actioncable'
+  import { createConsumer } from '@rails/actioncable'
 
   import axios from 'axios'
   axios.defaults.baseURL = 'http://app.lvh.me:3000/api/drivers_app/'
@@ -16,13 +16,12 @@
 
   let token = localStorage.token
   let carSpeed = 0
-  let location
+  let location = [32.073095,49.418461]
   let watcher
 
   let subscription = null
-  const cable = actioncable.createConsumer('ws://localhost:3000/cable')
+  const cable = createConsumer('ws://localhost:3000/cable')
   let trips = []
-
 
   onMount(() => {
     if (!token) return
@@ -65,6 +64,7 @@
     localStorage.clear()
     token = null
     if (subscription) subscription.unsubscribe()
+    navigate('/', { replace: true })
     axios.delete('sessions')
   }
 
@@ -92,7 +92,7 @@
     } else {
       trips.unshift(attrs)
     }
-    trips = trips
+    trips = trips.sort((a, b ) => {return (a.start_at - b.start_at)})
   }
 
   let cableActions = {
@@ -138,7 +138,6 @@
       window.play('decline')
     }
   }
-
 </script>
 
 <style>
@@ -167,10 +166,7 @@
         {:then}
           <Home trips={trips} updateTrip={updateTrip} location={location} cable={cable} />
         {:catch error}
-          <h1>Сталася помилка перезайдіть в акаунт</h1>
-          <br/>
-          <h2>{error}</h2>
-          <h3>{localStorage.token}</h3>
+          <h3>Сталася помилка перезайдіть в акаунт</h3>
         {/await}
       </Route>
       <Route path="/map">

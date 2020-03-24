@@ -1,7 +1,7 @@
 <script>
   import { onMount, onDestroy } from 'svelte'
   import axios from 'axios'
-  import Map from './map.svelte'
+  import Unrelease from './unrelease.svelte'
 
   export let trip
   export let updateTrip
@@ -32,6 +32,7 @@
       interval = null
       return
     }
+    if (!confirm('Запустити таймер?')) return
     interval = setInterval(() => {
       timer += 1
       localStorage[`timer_${trip.id}`] = timer
@@ -130,6 +131,12 @@
     height: inherit;
     overflow-y: auto;
     position: relative;
+    padding: 40px 0 60px 0;
+    box-shadow: inset 0px 0px 20px 0px #312d50;
+  }
+
+  li:nth-child(even) {
+    box-shadow: inset 0px 0px 20px 0px #19a160;
   }
 
   li > div {
@@ -181,14 +188,13 @@
 </style>
 
 <li bind:this={item} class={klass()}>
-  <Map trip={trip}/>
   <div>
     {#each trip.stops as stop, i}
       <address><b>📍</b> {stop}</address>
     {/each}
     <p>
       <span><b>🚕</b> {trip.trips_count}</span>
-      <span><b>🚖</b> {distance} KM</span>
+      <span><b>🚖</b> {distance}KM</span>
       <time datatime={trip.start_at}><b>⏰</b> {trip.start_time}</time>
     </p>
     <blockquote><b>💬</b> {trip.comment}</blockquote>
@@ -213,11 +219,12 @@
          <i>🌐</i>
       </a>
       <button type='button' disabled={disabled} on:click={cancel}><i>❌</i></button>
-      <button type='button' disabled={trip.payment_status == 2 || paymentCheck} on:click={paymentVerify}>💵{paymentIcon}</button>
     </div>
     <br/>
     <div class='buttons'>
       <button type='button' disabled={disabled} on:click={count}><i>⏰</i> {timer}</button>
+      <button type='button' disabled={trip.payment_status == 2 || paymentCheck} on:click={paymentVerify}>💵{paymentIcon}</button>
+      <Unrelease trip={trip} updateTrip={updateTrip} />
     </div>
   </div>
 </li>

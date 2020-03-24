@@ -1,30 +1,23 @@
 module.exports = {
   rules: [
     {
-      test: /\.svelte$/,
-      exclude: /node_modules\/(?!svelte)/,
-      use: [
-        { //babel loader after the svelte loader
-          loader: 'babel-loader',
-          options: {
-            presets: ['@babel/preset-env'],
-          }
-        },
-        { //svelte loader first
-          loader: 'svelte-loader',
-          options: {
-            hydratable: true
-          }
-        }
-      ]
+      test: /\.(html|js)$/,
+      exclude: /node_modules/,
+      use: {
+        loader: 'babel-loader'
+      }
     },
     {
-      test: /\.js$/,
-      loader: 'babel-loader',
-      exclude: [/node_modules\/(?!svelte)/, /\.legacy.js$/],
-      options: {
-        presets: [['@babel/preset-env', { modules: false, "useBuiltIns": 'usage' }]],
-      },
-    },
+      test: /\.(html|svelte)$/,
+      use: {
+        loader: 'svelte-loader',
+        options: {
+          hotReload: true,
+          hotOptions: {
+            noPreserveState: true
+          }
+        }
+      }
+    }
   ]
 }

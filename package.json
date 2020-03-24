@@ -1,23 +1,24 @@
 {
   "dependencies": {
-    "@babel/cli": "^7.0.0-beta.40",
-    "@babel/core": "^7.0.0-beta.40",
-    "@babel/preset-env": "^7.0.0-beta.40",
-    "@babel/preset-react": "^7.0.0-beta.40",
+    "@beyonk/svelte-mapbox": "^2.2.3",
+    "@babel/preset-es2015": "^7.0.0-beta.53",
     "@firebase/app": "^0.5.2",
     "@firebase/auth": "^0.13.4",
     "@firebase/messaging": "^0.6.2",
     "@mapbox/mapbox-gl-language": "^0.10.0",
-    "@mapbox/polyline": "^1.0.0",
+    "@mapbox/polyline": "^1.1.0",
     "@rails/actioncable": "^6.0.1",
-    "@rails/webpacker": "3.5",
+    "@rails/webpacker": "^4.0.0",
     "axios": "^0.19.1",
-    "babel-core": "7.0.0-bridge.0",
-    "babel-loader": "7.0.0",
+    "babel-loader": "^8.0.0-beta.6",
     "babel-plugin-lodash": "^3.3.2",
     "babel-plugin-module-resolver": "^3.1.1",
     "babel-plugin-react-transform": "^3.0.0",
+    "babel-plugin-syntax-dynamic-import": "^6.18.0",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-plugin-transform-react-jsx": "^6.24.1",
+    "core-js": "2",
     "css-loader": "^3.4.2",
     "history": "^4.9.0",
     "mapbox-gl": "^1.6.1",
@@ -30,21 +31,20 @@
     "smoothscroll-polyfill": "^0.4.4",
     "svelte": "^3.19.2",
     "svelte-loader": "^2.13.6",
-    "svelte-routing": "^1.4.1"
+    "svelte-routing": "^1.4.1",
+    "webpack-cli": "^3.3.11"
   },
   "engines": {
     "node": "^10 || ^12"
   },
   "devDependencies": {
-    "@babel/plugin-proposal-class-properties": "^7.8.3",
-    "@babel/plugin-proposal-decorators": "^7.8.3",
+    "@babel/core": "^7.0.0-beta.40",
+    "@babel/plugin-proposal-class-properties": "^7.0.0-beta.40",
+    "@babel/plugin-proposal-decorators": "^7.0.0-beta.40",
+    "@babel/plugin-transform-object-assign": "^7.0.0-beta.40",
+    "@babel/preset-env": "^7.0.0-beta.40",
+    "@babel/preset-react": "^7.0.0-beta.40",
     "webpack-bundle-analyzer": "^3.6.0",
     "webpack-dev-server": "^3.9"
-  },
-  "browserslist": [
-    "last 1 chrome versions"
-  ],
-  "nohoist": [
-    "**/babel-preset-react/@babel/runtime"
-  ]
+  }
 }
