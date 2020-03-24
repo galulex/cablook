@@ -516,6 +516,10 @@ export default class NewDesign extends Component {
 
   NotifyDriver = (data) => {}
 
+  NotificationRetry = (data) => { this.retry() }
+
+  NotificationCancel = (data) => { this.cancel() }
+
   TripAccepted = (data) => {
     this.previewMapRef.cleanup()
     this.vibrate()

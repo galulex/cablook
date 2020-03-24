@@ -9,11 +9,14 @@ module Events
 
           required(:trip_id).filled(:int?)
           optional(:by_driver).filled(:bool?)
+          optional(:notification)
         end
       end
 
       def run
-        if trip && Trip.statuses[trip.status].in?(TRIP_STATUSES) || (trip && Trip.statuses[trip.status] == Constants::Trip::DRIVING) && data[:by_driver]
+        if data[:notification]
+          broadcast_notification_cancel
+        elsif trip && Trip.statuses[trip.status].in?(TRIP_STATUSES) || (trip && Trip.statuses[trip.status] == Constants::Trip::DRIVING) && data[:by_driver]
           run_methods
         else
           invalid!([I18n.t('trips.cancel_impossible')])
@@ -62,6 +65,16 @@ module Events
       def fake_taxi_payment
         return unless trip.status == Constants::Trip::STATUS_CODES[Constants::Trip::WAITING_CLIENT]
         Jobs::PaymentSettle.perform_later(data[:trip_id], Constants::Payments::TYPES[:fake], fake_amount)
+      end
+
+      def broadcast_notification_cancel
+        ActionCable.server.broadcast(
+          "#{Constants::Channels::TRIP}_#{trip.id}",
+          action: Constants::BroadcastActions::NOTIFICATION_CANCEL,
+          data: {
+            delivered: true
+          }
+        )
       end
 
       def broadcast_unavailable_to_map

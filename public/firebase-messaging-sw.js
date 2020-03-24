@@ -43,32 +43,37 @@ function focusOnTab(event) {
 self.addEventListener('notificationclick', function(event) {
   let data = JSON.parse(event.notification.data)
   let action = event.action
+  let params
 
   switch(action) {
     case 'retry':
+      params = { notification: true }
       fetch('https://staging-app.cablook.taxi/api/trips/' + data.id + '/retry',{
         method: 'PATCH',
         headers: {
           'Auth-Token': data.user_token,
           'Content-Type': 'application/json'
-        }
+        },
+        body: JSON.stringify(params)
       })
       event.notification.close()
       focusOnTab(event)
       break
     case 'cancel':
+      params = { notification: true }
       fetch('https://staging-app.cablook.taxi/api/trips/' + data.id + '/cancel',{
         method: 'PATCH',
         headers: {
           'Auth-Token': data.user_token,
           'Content-Type': 'application/json'
-        }
+        },
+        body: JSON.stringify(params)
       })
       focusOnTab(event)
       event.notification.close()
       break
     case 'coming':
-      let params = { message_type: 'coming', trip_id: data.id }
+      params = { message_type: 'coming', trip_id: data.id }
       fetch('https://staging-app.cablook.taxi/api/notify_driver',{
         method: 'POST',
         headers: {
