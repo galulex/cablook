@@ -53,5 +53,5 @@
 </style>
 
 <div class='marker' bind:this={marker}>
-  <img src={`//res.cloudinary.com/active-bridge/image/upload/leafs/leaf_lights_${car.color}.svg`} />
+  <img src={`//res.cloudinary.com/active-bridge/image/upload/leafs/leaf_lights_${car.color}.svg`} alt='car' />
 </div>
