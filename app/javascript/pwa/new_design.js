@@ -212,15 +212,17 @@ export default class NewDesign extends Component {
       return
     }
     axios.patch(`trips/${this.state.trip.id}/cancel`).then((res) => {
-      this.setState({ trip: this.initialTripState, cost: null, car: null, driver: null, paymentButtonDisabled: false })
-      this.previewMapRef.cleanup()
-
-      // delete this.state.trip.start_time
-      this.unsubscribe()
-      this.clearFetchTripTimeout()
+      this.clearTrip()
     }).catch((error) => {
       if (error.response) alert(error.response.data.errors)
     })
+  }
+
+  clearTrip = () => {
+    this.setState({ trip: this.initialTripState, cost: null, car: null, driver: null, paymentButtonDisabled: false })
+    this.previewMapRef.cleanup()
+    this.unsubscribe()
+    this.clearFetchTripTimeout()
   }
 
   cancelDeclined = (e, callback = () => {}) => {
@@ -518,7 +520,7 @@ export default class NewDesign extends Component {
 
   NotificationRetry = (data) => { this.retry() }
 
-  NotificationCancel = (data) => { this.cancel() }
+  NotificationCancel = (data) => { this.clearTrip() }
 
   TripAccepted = (data) => {
     this.previewMapRef.cleanup()

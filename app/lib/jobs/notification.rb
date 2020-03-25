@@ -39,6 +39,7 @@ module Jobs
             }
           ]
         }
+        options[:data][:trip][:action] = 'retry'
       when Constants::Trip::STATUS_CODES[Constants::Trip::WAITING_CLIENT]
         options[:data][:actions] = {
             actions: [
@@ -48,6 +49,7 @@ module Jobs
               }
             ]
         }
+        options[:data][:trip][:action] = 'coming'
       when Constants::Trip::STATUS_CODES[Constants::Trip::ON_THE_WAY]
         options[:data][:actions] = {
           actions: [
@@ -57,6 +59,7 @@ module Jobs
             }
           ]
         }
+        options[:data][:trip][:action] = 'reply'
       else
         return
       end

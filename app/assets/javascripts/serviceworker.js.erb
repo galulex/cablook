@@ -84,54 +84,49 @@ self.addEventListener('fetch', onFetch);
 self.addEventListener('notificationclick', function(event) {
   let data = JSON.parse(event.notification.data)
   let action = event.action
+  if (!action) { action = data.action }
   let params
 
   switch(action) {
     case 'retry':
       params = { notification: true }
-      fetch('https://staging-app.cablook.taxi/api/trips/' + data.id + '/retry',{
-        method: 'PATCH',
-        headers: {
-          'Auth-Token': data.user_token,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(params)
-      })
+      method = 'PATCH'
+      url = 'https://staging-app.cablook.taxi/api/trips/' + data.id + '/retry'
+      sendRequest(data.user_token, url, method, params)
+      if (event.action !== action) focusOnTab(event)
       event.notification.close()
-      focusOnTab(event)
       break
     case 'cancel':
       params = { notification: true }
-      fetch('https://staging-app.cablook.taxi/api/trips/' + data.id + '/cancel',{
-        method: 'PATCH',
-        headers: {
-          'Auth-Token': data.user_token,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(params)
-      })
-      focusOnTab(event)
+      method = 'PATCH'
+      url = 'https://staging-app.cablook.taxi/api/trips/' + data.id + '/cancel'
+      sendRequest(data.user_token, url, method, params)
       event.notification.close()
       break
     case 'coming':
       params = { message_type: 'coming', trip_id: data.id }
-      fetch('https://staging-app.cablook.taxi/api/notify_driver',{
-        method: 'POST',
-        headers: {
-          'Auth-Token': data.user_token,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(params)
-      })
-      focusOnTab(event)
+      method = 'POST'
+      url = 'https://staging-app.cablook.taxi/api/notify_driver'
+      sendRequest(data.user_token, url, method, params)
       event.notification.close()
       break
     default:
       focusOnTab(event)
-      if (!data.loading) event.notification.close() 
+      if (!data.loading) event.notification.close()
       break
   }
 }, false)
+
+function sendRequest(token, url, method, params) {
+  fetch(url,{
+    method: method,
+    headers: {
+      'Auth-Token': token,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(params)
+  })
+}
 
 function focusOnTab(event) {
   event.waitUntil(clients.matchAll({
