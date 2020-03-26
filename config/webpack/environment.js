@@ -15,6 +15,11 @@ environment.loaders.insert('css', {
   use: ['style-loader', 'css-loader']
 })
 
+environment.loaders.insert('mp3', {
+  test: /\.mp3$/,
+  loader: 'file-loader'
+})
+
 environment.config.resolve = {
     alias: {
 			svelte: path.resolve('node_modules', 'svelte')

@@ -1,10 +1,16 @@
 <script>
+  import CancelSound from '../public/sounds/cancel.mp3'
+  import AcceptSound from '../public/sounds/accept.mp3'
+  import ProposalSound from '../public/sounds/proposal.mp3'
+  import DecidedSound from '../public/sounds/decided.mp3'
+  import UpdateSound from '../public/sounds/update.mp3'
+
   const sounds = {
-    cancel: new Audio('sounds/cancel.mp3'),
-    accept: new Audio('sounds/accept.mp3'),
-    proposal: new Audio('sounds/proposal.mp3'),
-    decline: new Audio('sounds/cancel.mp3'),
-    update: new Audio('sounds/update.mp3'),
+    cancel: new Audio(CancelSound),
+    accept: new Audio(AcceptSound),
+    proposal: new Audio(ProposalSound),
+    decline: new Audio(DecidedSound),
+    update: new Audio(UpdateSound),
   }
 
   const vibrations = {
