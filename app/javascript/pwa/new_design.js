@@ -213,9 +213,14 @@ export default class NewDesign extends Component {
     }
     axios.patch(`trips/${this.state.trip.id}/cancel`).then((res) => {
       this.clearTrip()
+      this.clearNotifications()
     }).catch((error) => {
       if (error.response) alert(error.response.data.errors)
     })
+  }
+
+  clearNotifications = () => {
+    navigator.serviceWorker.ready.then((reg)=>reg.getNotifications().then((ns)=>ns.forEach((n)=>n.close())))
   }
 
   clearTrip = () => {
@@ -229,6 +234,7 @@ export default class NewDesign extends Component {
     delete this.state.trip.status
     this.setState({ trip: this.initialTripState, paymentButtonDisabled: false })
     this.unsubscribe()
+    this.clearNotifications()
   }
 
   retry = (e, callback = () => {}) => {
