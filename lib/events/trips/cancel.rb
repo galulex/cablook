@@ -34,6 +34,7 @@ module Events
         refund_order_payment if trip.order
         broadcast_unavailable_to_map
         broadcast_unavailable_to_trip
+        clear_notifications
       end
 
       def update_car
@@ -95,6 +96,11 @@ module Events
           trip_id: data[:trip_id],
           by_driver: data[:by_driver]
         )
+      end
+
+      def clear_notifications
+        message = ""
+        Jobs::Notification.perform_later(trip.user_id, message, trip)
       end
 
       def trip

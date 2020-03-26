@@ -114,6 +114,8 @@ export default class App extends Component {
         messaging.useServiceWorker(registration)
         this.requestPermission()
         messaging.onMessage((payload) => {
+          let trip = JSON.parse(payload.data.trip)
+          if (trip.action && trip.action === 'remove_notifications') { this.clearNotifications(registration); return }
           let { title, body, icon, tag, renotify, actions } = payload.data
           let options = { title, body, icon, tag, renotify }
           if (actions) {
@@ -279,6 +281,10 @@ export default class App extends Component {
       script.setAttribute('src', `https://maps.googleapis.com/maps/api/js?key=AIzaSyDg2-aLroQJWY8LV8x1Gv5ZYDhIArWCDeU&libraries=places&language=${this.props.language}`);
       document.body.appendChild(script);
     }
+  }
+
+  clearNotifications = (registration) => {
+    registration.getNotifications().then((ns)=>ns.forEach((n)=>n.close()))
   }
 
   closeDrawer = (e) => {

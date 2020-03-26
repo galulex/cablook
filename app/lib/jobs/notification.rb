@@ -60,6 +60,8 @@ module Jobs
           ]
         }
         options[:data][:trip][:action] = 'reply'
+      when Constants::Trip::STATUS_CODES[Constants::Trip::CANCELED]
+        options[:data][:trip][:action] = 'remove_notifications'
       else
         return
       end
