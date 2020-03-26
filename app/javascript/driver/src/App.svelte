@@ -141,19 +141,9 @@
 </script>
 
 <style>
-  /* html, body { */
-  /*   position: relative; */
-  /*   width: 100%; */
-  /*   height: 100%; */
-  /*   margin: 0; */
-  /*   padding: 0; */
-  /*   overflow: hidden; */
-  /* } */
-
   main {
     height: calc(100vh - 41px);
   }
-
 </style>
 
 <Router>

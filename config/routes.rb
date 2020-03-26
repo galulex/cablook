@@ -70,7 +70,6 @@ Rails.application.routes.draw do
 
   # scope '(:locale)', locale: /(ru)/, defaults: { locale: :uk } do
   get '/pwa(/*all)', to: redirect(subdomain: :app, path: '/')
-  get '/driver(/*all)', to: redirect(subdomain: :driver, path: '/')
   get '/(*all)', constraints: { subdomain: /app/ }, defaults: { subdomain: :app }, to: 'welcome#pwa', as: :pwa
   get '/(*all)', constraints: { subdomain: /driver/ }, defaults: { subdomain: :driver }, to: 'welcome#driver', as: :driver
   get ':page' => 'welcome#index', constraints: { page: /(about|faq|why|benefits|contacts|become_driver)/ }, defaults: { page: 'index' }, as: :page

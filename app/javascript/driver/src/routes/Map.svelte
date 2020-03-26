@@ -47,23 +47,10 @@
   })
 </script>
 
-<style>
-  /* .map { */
-  /*   position: absolute; */
-  /*   top: 0; */
-  /*   bottom: 0; */
-  /*   left: 0; */
-  /*   right: 0; */
-  /*   width: 100%; */
-  /*   height: 100%; */
-  /*   height: 100vh; */
-  /* } */
-</style>
-
 <Map
   accessToken='pk.eyJ1IjoiZ2FsdWxleCIsImEiOiJjamx6ampoZjgyMnYxM3FvZ2ppNjV2M2x5In0.bPgk2WI9NT-DJwnE-OtiLA'
   style='mapbox://styles/okunieva/cjzwn3wx40yhq1cpjl3yo8p1z'
-  options={{center: location, minZoom: 8, maxZoom: 17}}
+  options={{center: location, minZoom: 8, maxZoom: 17, zoom: 12}}
   >
   {#await getCars() then cars}
     {#each cars as car (car.id)}
