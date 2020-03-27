@@ -1,5 +1,5 @@
 class WelcomeController < ApplicationController
-  layout :defined_layout
+  layout 'pwa2', only: :pwa
 
   caches_action :index, cache_path: -> { "#{params[:page]}_#{session[:locale]}" }
   caches_action :pwa
@@ -8,16 +8,7 @@ class WelcomeController < ApplicationController
     render params[:page]
   end
 
-  private
-
-  def defined_layout
-    case action_name
-    when 'pwa'
-      'pwa2'
-    when 'driver'
-      'driver'
-    else
-      'application'
-    end
+  def driver
+    render layout: 'driver'
   end
 end
