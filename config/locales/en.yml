@@ -62,6 +62,7 @@ en:
     waiting: Driver is already waiting for you.
     loading: Looking for a car.
     coming: Coming.
+    coming_click: Client see that you arrived
     actions:
       reply: Reply
       cancel: Cancel

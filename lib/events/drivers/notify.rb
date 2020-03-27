@@ -35,6 +35,8 @@ module Events
           data[:message]
         when 'coming'
           I18n.t('notification.coming')
+        when 'coming_click'
+          I18n.t('notification.coming_click')
         end
       end
 

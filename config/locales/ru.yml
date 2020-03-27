@@ -69,6 +69,7 @@ ru:
     waiting: Водитель уже ожидает вас.
     loading: Поиск машины.
     coming: Сейчас буду.
+    coming_click: Клиент видит, что Вы приехали
     actions:
       reply: Ответить
       cancel: Отменить

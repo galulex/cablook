@@ -66,6 +66,7 @@ uk:
     waiting: Водій вже чекає вас.
     loading: Пошук машини.
     coming: Зараз буду.
+    coming_click: Клієнт бачить, що Ви прибули
     actions:
       reply: Відповісти
       cancel: Відмінити

@@ -105,9 +105,11 @@ self.addEventListener('notificationclick', function(event) {
       break
     case 'coming':
       params = { message_type: 'coming', trip_id: data.id }
+      if (event.action !== action) params.message_type = 'coming_click'
       method = 'POST'
       url = 'https://staging-app.cablook.taxi/api/notify_driver'
       sendRequest(data.user_token, url, method, params)
+      if (event.action !== action) focusOnTab(event)
       event.notification.close()
       break
     default:
