@@ -2,6 +2,7 @@ Rails.application.configure do
   config.serviceworker.routes.draw do
     # map to assets implicitly
     match "/serviceworker.js"
+    match "/serviceworker_driver.js"
     match "/manifest.json"
 
     # Examples
