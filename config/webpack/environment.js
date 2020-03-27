@@ -28,5 +28,7 @@ environment.config.resolve = {
 		mainFields: ['svelte', 'browser', 'module', 'main']
 }
 
+environment.loaders.delete('nodeModules')
+
 environment.loaders.prepend('svelte', svelte)
 module.exports = environment
