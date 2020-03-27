@@ -36,11 +36,11 @@ puts "=============================\n"
 puts 'Creating cars...'
 
 car_data = [
-  { number: '01', status: 0 },
-  { number: '02', status: 0 },
-  { number: '03', status: 0 },
-  { number: '04', status: 0 },
-  { number: '05', status: 0 }
+  { number: '01', status: 0, color: 'red' },
+  { number: '02', status: 0, color: 'black' },
+  { number: '03', status: 0, color: 'white' },
+  { number: '04', status: 0, color: 'black' },
+  { number: '05', status: 0, color: 'blue' }
 ]
 car_data.each { |data| Car.create(data) }
 

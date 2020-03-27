@@ -18,7 +18,6 @@
   }
 
   let start = location
-
   let finish
 
   //TODO catch very old app that does not have waypoints at all

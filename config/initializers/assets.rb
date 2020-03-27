@@ -1,1 +1,1 @@
-Rails.configuration.assets.precompile += %w[serviceworker.js pwa.css]
+Rails.configuration.assets.precompile += %w[serviceworker.js serviceworker_driver.js pwa.css driver.css]

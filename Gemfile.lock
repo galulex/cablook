@@ -518,7 +518,7 @@ DEPENDENCIES
   uglifier
   wayforpay
   webmock
-  webpacker
+  webpacker (~> 4.x)
   websocket-driver!
   whenever
 
@@ -526,4 +526,4 @@ RUBY VERSION
    ruby 2.4.2p198
 
 BUNDLED WITH
-   2.0.2
+   2.1.4

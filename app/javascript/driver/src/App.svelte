@@ -2,10 +2,10 @@
   import { onMount, onDestroy, setContext } from 'svelte'
   import { Router, Route, navigate } from 'svelte-routing'
   import Sounds from './Sounds.svelte'
-  import actioncable from '@rails/actioncable'
+  import { createConsumer } from '@rails/actioncable'
 
   import axios from 'axios'
-  axios.defaults.baseURL = 'https://cablook.taxi/api/drivers_app/'
+  axios.defaults.baseURL = '/api/drivers_app'
   axios.defaults.headers.common['Auth-Token'] = localStorage.token
   axios.defaults.headers.common['Content-Type'] = 'application/json'
 
@@ -20,9 +20,8 @@
   let watcher
 
   let subscription = null
-  const cable = actioncable.createConsumer('wss://cablook.taxi/cable')
+  const cable = createConsumer()
   let trips = []
-
 
   onMount(() => {
     if (!token) return
@@ -139,23 +138,12 @@
       window.play('decline')
     }
   }
-
 </script>
 
 <style>
-  html, body {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-  }
-
   main {
     height: calc(100vh - 41px);
   }
-
 </style>
 
 <Router>

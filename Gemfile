@@ -42,7 +42,7 @@ gem 'telegram-bot'
 gem 'turbolinks'
 gem 'uglifier'
 gem 'wayforpay'
-gem 'webpacker'
+gem 'webpacker', '~> 4.x'
 gem 'websocket-driver', git: 'https://github.com/faye/websocket-driver-ruby', ref: 'ee39af83d03ae3059c775583e4c4b291641257b8'
 gem 'whenever', require: false
 

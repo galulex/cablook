@@ -1,31 +1,46 @@
 {
   "dependencies": {
+    "@beyonk/svelte-mapbox": "^2.2.3",
     "@firebase/app": "^0.5.2",
     "@firebase/auth": "^0.13.4",
     "@firebase/messaging": "^0.6.2",
     "@mapbox/mapbox-gl-language": "^0.10.0",
-    "@mapbox/polyline": "^1.0.0",
-    "@rails/actioncable": "^6.0.1",
-    "@rails/webpacker": "3.5",
-    "axios": "^0.19.1",
+    "@mapbox/polyline": "^1.1.0",
+    "@rails/actioncable": "^6.0.2-1",
+    "@rails/webpacker": "^4.0.0",
+    "axios": "^0.19.2",
+    "babel-loader": "^8.0.0-beta.6",
+    "babel-plugin-lodash": "^3.3.2",
     "babel-plugin-module-resolver": "^3.1.1",
+    "babel-plugin-react-transform": "^3.0.0",
+    "babel-plugin-syntax-dynamic-import": "^6.18.0",
+    "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-plugin-transform-react-jsx": "^6.24.1",
-    "babel-preset-react": "^6.24.1",
+    "core-js": "2",
     "css-loader": "^3.4.2",
     "history": "^4.9.0",
-    "mapbox-gl": "^1.6.1",
+    "mapbox-gl": "^1.7.0",
     "preact": "^8.4.2",
     "preact-compat": "^3.18.4",
     "preact-router": "^2.6.1",
     "preact-svg-loader": "^0.2.1",
     "prop-types": "^15.6.2",
     "shake.js": "^1.2.2",
-    "smoothscroll-polyfill": "^0.4.4"
+    "smoothscroll-polyfill": "^0.4.4",
+    "svelte": "^3.19.2",
+    "svelte-loader": "^2.13.6",
+    "svelte-routing": "^1.4.1",
+    "webpack-cli": "^3.3.11"
   },
   "engines": {
     "node": "^10 || ^12"
   },
   "devDependencies": {
+    "@babel/core": "^7.0.0-beta.40",
+    "@babel/plugin-proposal-object-rest-spread": "^7.0.0-beta.40",
+    "@babel/plugin-transform-object-assign": "^7.0.0-beta.40",
+    "@babel/preset-env": "^7.0.0-beta.40",
+    "@babel/preset-react": "^7.0.0-beta.40",
     "webpack-bundle-analyzer": "^3.6.0",
     "webpack-dev-server": "^3.9"
   }

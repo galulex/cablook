@@ -1,10 +1,8 @@
 <script>
   import axios from 'axios'
-
   export let trip
   export let updateTrip
   export let disabled
-
   let unrelease = () => {
     if (!confirm('Викинути замовлення в ефір?')) return
     disabled = true
