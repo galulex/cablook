@@ -75,8 +75,8 @@ export default class Session extends Component {
         <label for='code'>{i18n.session.code}</label>
         <div>
           <Lock class='lock'/>
-          <input id='code' title={6 + i18n.session.digits} pattern='\d*' placeholder='_ _ _ _ _ _'
-                 maxlength='6' minlength='6' required type='tel'
+          <input id='code' title={6 + i18n.session.digits} pattern='[0-9]+' placeholder='_ _ _ _ _ _'
+                 maxlength='6' minlength='6' required type='text' inputmode='numeric'
                  value={code} autocomplete='one-time-code' autoFocus
                  onInput={this.updateCode} ref={input => this.codeInput = input}/>
         </div>
