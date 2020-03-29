@@ -55,7 +55,7 @@ module Events
         assign_trip_to_order
         assign_trip_to_order_payment
         update_trip_comment
-        send_message_to_vendor
+        approve_by_vendor
       end
 
       def order
@@ -63,7 +63,7 @@ module Events
       end
 
       def update_trip_status
-        @trip.update(status: Constants::Trip::WAITING_FOR_VENDOR_APPROVE) if order.vendor.need_approve
+        @trip.update(status: Constants::Trip::WAITING_FOR_VENDOR_APPROVE)
       end
 
       def assign_trip_to_order
@@ -105,6 +105,10 @@ module Events
       def create_trip_job(trip_id)
         Jobs::DeclineTrip.set(wait: Constants::Trip::EXPIRES_IN).perform_later(trip_id)
         Jobs::SearchCarForTrip.perform_later(trip_id)
+      end
+
+      def approve_by_vendor
+        order.vendor.need_approve ? send_message_to_vendor : Events::Trips::UpdateStatus.(trip_id: order.trip.id)
       end
 
       def send_message_to_vendor
