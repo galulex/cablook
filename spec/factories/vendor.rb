@@ -10,5 +10,6 @@ FactoryBot.define do
     open_at { DateTime.new(2000, 1, 1, 11, 0, 0) }
     close_at { DateTime.new(2000, 1, 1, 23, 0, 0) }
     telegram_account { Random.rand(100000000..999999999) }
+    need_approve { 'true' }
   end
 end

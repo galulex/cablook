@@ -112,5 +112,19 @@ describe Events::Trips::Create do
       it { is_expected.to_not have_enqueued_job(Jobs::SearchCarForTrip).with(data[:id]) }
       it { is_expected.to_not have_enqueued_job(Jobs::DeclineTrip).with(data[:id]) }
     end
+
+    context "when delivery trip don't need vendor approval" do
+      before {
+        allow_any_instance_of(described_class).to receive(:assign_trip_to_order_payment) { true }
+      }
+
+      let!(:vendor) { create(:vendor, need_approve: false) }
+      let!(:order) { create(:order, user_id: user.id, vendor_id: vendor.id) }
+      let(:data) { trip_params.merge(delivery: true, time: 15.minutes.since.strftime('%H:%M'), order_id: order.id) }
+
+      it { is_expected.to_not have_enqueued_job(Jobs::TelegramNotification).with(data[:id]) }
+      it { is_expected.to have_enqueued_job(Jobs::SearchCarForTrip).with(data[:id]) }
+      it { is_expected.to_not have_enqueued_job(Jobs::DeclineTrip).with(data[:id]) }
+    end
   end
 end
