@@ -51,7 +51,7 @@ module Events
       end
 
       def order_operations
-        update_trip_status
+        @trip.waiting_for_vendor_approve!
         assign_trip_to_order
         assign_trip_to_order_payment
         update_trip_comment
@@ -60,10 +60,6 @@ module Events
 
       def order
         @order ||= Order.find_by(id: data[:order_id])
-      end
-
-      def update_trip_status
-        @trip.update(status: Constants::Trip::WAITING_FOR_VENDOR_APPROVE)
       end
 
       def assign_trip_to_order
@@ -108,7 +104,7 @@ module Events
       end
 
       def approve_by_vendor
-        order.vendor.need_approve ? send_message_to_vendor : Events::Trips::UpdateStatus.(trip_id: order.trip.id)
+        @order.vendor.need_approve ? send_message_to_vendor : Events::Trips::UpdateStatus.(trip_id: @order.trip_id)
       end
 
       def send_message_to_vendor
