@@ -110,7 +110,7 @@ module Events
       end
 
       def approve_by_vendor
-        @order.need_approve ? send_message_to_vendor : Events::Trips::UpdateStatus.(trip_id: @order.trip_id)
+        @order.vendor_need_approve ? send_message_to_vendor : Events::Trips::UpdateStatus.(trip_id: @order.trip_id)
       end
 
       def send_message_to_vendor
