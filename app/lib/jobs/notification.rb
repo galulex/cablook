@@ -39,7 +39,9 @@ module Jobs
             }
           ]
         }
-        options[:data][:trip][:action] = 'retry'
+        options[:data][:trip][:action] =  message == 'clear' ? 'remove_notifications' : 'retry'
+      when Constants::Trip::STATUS_CODES[Constants::Trip::CANCELED]
+        options[:data][:trip][:action] = 'remove_notifications'
       when Constants::Trip::STATUS_CODES[Constants::Trip::WAITING_CLIENT]
         options[:data][:actions] = {
             actions: [
@@ -60,8 +62,6 @@ module Jobs
           ]
         }
         options[:data][:trip][:action] = 'reply'
-      when Constants::Trip::STATUS_CODES[Constants::Trip::CANCELED]
-        options[:data][:trip][:action] = 'remove_notifications'
       else
         return
       end

@@ -226,9 +226,11 @@ export default class NewDesign extends Component {
   }
 
   cancelDeclined = (e, callback = () => {}) => {
-    delete this.state.trip.status
-    this.setState({ trip: this.initialTripState, paymentButtonDisabled: false })
-    this.unsubscribe()
+    axios.patch(`trips/${this.state.trip.id}/cancel`).then((res) => {
+      this.clearTrip()
+    }).catch((error) => {
+      if (error.response) alert(error.response.data.errors)
+    })
   }
 
   retry = (e, callback = () => {}) => {

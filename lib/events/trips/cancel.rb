@@ -99,7 +99,7 @@ module Events
       end
 
       def clear_notifications
-        message = ""
+        message = 'clear'
         Jobs::Notification.perform_later(trip.user_id, message, trip)
       end
 

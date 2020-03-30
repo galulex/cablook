@@ -155,6 +155,8 @@ firebase.initializeApp({
 const messaging = firebase.messaging()
 
 messaging.setBackgroundMessageHandler((payload) => {
+  let trip = JSON.parse(payload.data.trip)
+  if (trip.action && trip.action === 'remove_notifications') { this.clearNotifications(registration); return }
   let { title, body, icon, tag, renotify, actions } = payload.data
   let options = { title, body, icon, tag, renotify }
   if (actions) {
