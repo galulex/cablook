@@ -51,19 +51,15 @@ module Events
       end
 
       def order_operations
-        update_trip_status
+        @trip.waiting_for_vendor_approve!
         assign_trip_to_order
         assign_trip_to_order_payment
         update_trip_comment
-        send_message_to_vendor
+        approve_by_vendor
       end
 
       def order
         @order ||= Order.find_by(id: data[:order_id])
-      end
-
-      def update_trip_status
-        @trip.update(status: Constants::Trip::WAITING_FOR_VENDOR_APPROVE)
       end
 
       def assign_trip_to_order
@@ -75,7 +71,13 @@ module Events
       end
 
       def update_trip_comment
-        @trip.update(comment: @trip.comment.prepend("Номер замовлення: ##{@order.id}. "))
+        @trip.update(comment: @trip.comment.prepend("Номер замовлення: ##{@order.id}. #{order_details}"))
+      end
+
+      def order_details
+        details = "Сума: #{@order.amount}. Товари:"
+        @order.items.values.each { |item| details << " #{eval(item)['name']} - #{eval(item)['quantity']}; " }
+        details
       end
 
       def create_payment
@@ -105,6 +107,10 @@ module Events
       def create_trip_job(trip_id)
         Jobs::DeclineTrip.set(wait: Constants::Trip::EXPIRES_IN).perform_later(trip_id)
         Jobs::SearchCarForTrip.perform_later(trip_id)
+      end
+
+      def approve_by_vendor
+        @order.vendor_need_approve ? send_message_to_vendor : Events::Trips::UpdateStatus.(trip_id: @order.trip_id)
       end
 
       def send_message_to_vendor

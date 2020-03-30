@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_27_092253) do
+ActiveRecord::Schema.define(version: 2020_03_24_140446) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -206,6 +206,7 @@ ActiveRecord::Schema.define(version: 2020_02_27_092253) do
     t.string "phone_number"
     t.boolean "active", default: true
     t.integer "orders_count", default: 0
+    t.boolean "need_approve", default: true
   end
 
   add_foreign_key "bonus_trips", "trips"
