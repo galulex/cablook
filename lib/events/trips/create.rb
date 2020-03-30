@@ -71,7 +71,13 @@ module Events
       end
 
       def update_trip_comment
-        @trip.update(comment: @trip.comment.prepend("Номер замовлення: ##{@order.id}. Товари: #{@order.items} "))
+        @trip.update(comment: @trip.comment.prepend("Номер замовлення: ##{@order.id}. #{order_details}"))
+      end
+
+      def order_details
+        details = "Сума: #{@order.amount}. Товари:"
+        @order.items.values.each { |item| details << " #{eval(item)['name']} - #{eval(item)['quantity']}; " }
+        details
       end
 
       def create_payment
