@@ -125,6 +125,15 @@ describe Events::Trips::Create do
       it { is_expected.to_not have_enqueued_job(Jobs::TelegramNotification).with(data[:id]) }
       it { is_expected.to have_enqueued_job(Jobs::SearchCarForTrip).with(data[:id]) }
       it { is_expected.to_not have_enqueued_job(Jobs::DeclineTrip).with(data[:id]) }
+
+      context 'comment includes order details' do
+        before { subject.call }
+
+        let(:amount) { "Сума: #{order.amount}" }
+        let(:item) { "Товари: #{eval(order.items.values[0])['name']} - #{eval(order.items.values[0])['quantity']}" }
+
+        it { expect(Trip.last.comment).to include(amount) && include(item) }
+      end
     end
   end
 end
