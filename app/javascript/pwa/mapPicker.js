@@ -50,6 +50,7 @@ export default class MapPicker extends Component {
 
     this.map.on('movestart', () => {
       this.hideAddressBar()
+      this.props.setGeocoding(true)
     });
 
     this.map.on('moveend', () => {
@@ -86,6 +87,7 @@ export default class MapPicker extends Component {
     const { lng, lat } = this.map.getCenter();
 
     this.props.geocode(`${lng},${lat}`, (address) => {
+      this.props.setGeocoding(false)
       this.setState({ address_bar: true, address: address });
     })
   }
@@ -129,7 +131,12 @@ export default class MapPicker extends Component {
           <div class='address-bar'>{ this.state.address }</div>
         }
         <Pin class='picker-pin'/>
-        <button type='button' class='button fixed' onClick={() => { this.props.onCloseMap(`${this.state.lat},${this.state.lng}`, this.state.address) }}>OK</button>
+        <button type='button' 
+                disabled={this.props.isGeocoding} 
+                class='button fixed' 
+                onClick={() => { this.props.onCloseMap(`${this.state.lat},${this.state.lng}`, this.state.address) }}>
+                OK
+                </button>
       </div>
     );
   }

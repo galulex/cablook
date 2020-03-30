@@ -180,7 +180,13 @@ export default class AddressInput extends Component {
       <fieldset class='address'>
         {(fieldsCount > 2 || address !== '') && !hideRemove && !readonly && (<button disabled={index === 0 ? inputDisabled : false} class='remove-address' type='button' onClick={() => this.eraseAddress(index)}>×</button>)}
         {mapboxgl.supported() && <Pin onClick={this.openMap} disabled={readonly || ( index === 0 ? inputDisabled : false )} height='24px' class='map-pick'/>}
-        {this.state.isShowMap && <MapPicker onCloseMap={this.closeMap} handleBack={this.handleBack} language={language} geocode={geocode}/>}
+        {this.state.isShowMap && <MapPicker 
+                                  onCloseMap={this.closeMap} 
+                                  handleBack={this.handleBack} 
+                                  language={language}
+                                  geocode={geocode}
+                                  isGeocoding={this.props.isGeocoding}
+                                  setGeocoding={this.props.setGeocoding}/> }
 
         <input required class='address' placeholder={placeholder} type='text' disabled={index === 0 ? inputDisabled : false}
           onClick={this.focus} onFocus={this.focus} onKeyDown={this.keydown} onBlur={this.blur} onInput={this.autocomplete}

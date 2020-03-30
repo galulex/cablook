@@ -169,6 +169,7 @@ export default class Cart extends Component {
 
   createOrder = (e) => {
     if (!e.target.form.checkValidity()) return e.target.form.reportValidity();
+    this.comment.disabled = true
     this.create()
   }
 
@@ -199,10 +200,12 @@ export default class Cart extends Component {
       localStorage.setItem('delivery_time', this.state.trip_time)
       localStorage.removeItem('cart')
       this.vibrate()
+      this.comment.disabled = false
       route('/delivery', true)
     }).catch((error) => {
       if (!error.response) return
       this.setState({ showLoader: false })
+      this.comment.disabled = false
       switch(error.response.status) {
         case 418:
           if (confirm(`${error.response.data.errors} ${i18n.confirm_trip.retry_payment}`)) {
@@ -225,6 +228,7 @@ export default class Cart extends Component {
       if (res.data.valid) {
         this.createTrip(res.data.order_id)
       } else {
+        this.comment.disabled = false
         this.setState({ showLoader: false })
         alert(i18n.cart.no_money)
       }
@@ -311,7 +315,9 @@ export default class Cart extends Component {
                 setAddress={this.setAddress}
                 placeholder={i18n.cart.where}
                 geocode={this.props.geocode}
-                favorite_addresses={() => this.props.favorite_addresses()}/>
+                favorite_addresses={() => this.props.favorite_addresses()}
+                isGeocoding={this.props.isGeocoding}
+                setGeocoding={this.props.setGeocoding}/>
               <div class='additions'>
                 {(cards.length > 1) && <label class='select' for='card'>
                   <Card width='24'/>
@@ -337,7 +343,7 @@ export default class Cart extends Component {
               </div>
               <label for='comment'>
                 <Comment width='24'/>
-                <input id='comment' type='text' class='comment' value={this.state.trip_comment} placeholder={i18n.current_trip.comment} onChange={this.setComment}/>
+                <input id='comment' ref={(el) => this.comment = el} type='text' class='comment' value={this.state.trip_comment} placeholder={i18n.current_trip.comment} onChange={this.setComment}/>
               </label>
               <br/>
               {trip_cost &&
