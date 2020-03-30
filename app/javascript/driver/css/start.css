@@ -1,0 +1,32 @@
+.start-page {
+  position: absolute;
+  z-index: 10000;
+  height: 100%;
+  width: 100%;
+  transition: opacity .3s, z-index .3s;
+  background: linear-gradient(to bottom, #19a160, #312d50);
+}
+
+.start-page label {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  font-size: 3.5em;
+  width: 100%;
+  text-align: center;
+  transform: translate(-50%, -50%);
+  letter-spacing: 2px;
+  background-color: white;
+  color: transparent;
+  opacity: 0.1;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -moz-background-clip: text;
+  text-shadow: -2px -2px 3px rgba(255,255,255,0.4), 2px 3px 3px rgba(0,0,0,0.8);
+}
+
+.hidden {
+  display: none;
+  opacity: 0;
+  z-index: -1;
+}
