@@ -148,8 +148,8 @@
 
 <Router>
   {#if token}
+    <Sounds/>
     <main>
-      <Sounds/>
       <Route path="/">
         {#await getTrips()}
           <h1><b>⌛</b> Завантаження...</h1>
@@ -165,8 +165,6 @@
     </main>
     <Nav speed={carSpeed} logout={logout} getTrips={getTrips}/>
   {:else}
-    <main>
-      <Route path="/" component={Session} login={login} />
-    </main>
+    <Route path="/" component={Session} login={login} />
   {/if}
 </Router>
