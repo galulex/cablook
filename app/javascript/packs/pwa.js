@@ -129,6 +129,8 @@ export default class App extends Component {
           options = Object.assign(options, { data: payload.data.trip })
           registration.showNotification(title, options)
         })
+      }).catch((err) => {
+        console.log('Error: ', err)
       })
     }
   }

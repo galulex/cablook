@@ -152,21 +152,23 @@ firebase.initializeApp({
   appId: '1:530018467398:web:c5dd0a6d759483b95ad447'
 })
 
-const messaging = firebase.messaging()
+const messaging = firebase.messaging.isSupported() ? firebase.messaging() : null
 
-messaging.setBackgroundMessageHandler((payload) => {
-  let trip = JSON.parse(payload.data.trip)
-  if (trip.action && trip.action === 'remove_notifications') { this.clearNotifications(registration); return }
-  let { title, body, icon, tag, renotify, actions } = payload.data
-  let options = { title, body, icon, tag, renotify }
-  if (actions) {
-    let actionsData = JSON.parse(actions)
-    let showActions = true
-    actionsData.actions.map((el) => {
-      if (el.action === 'reply') return showActions = false
-    })
-    if (showActions) options = { ...options, ...actionsData }
-  }
-  options = Object.assign(options, { data: payload.data.trip })
-  return self.registration.showNotification(title, options)
-})
+if (messaging) {
+  messaging.setBackgroundMessageHandler((payload) => {
+    let trip = JSON.parse(payload.data.trip)
+    if (trip.action && trip.action === 'remove_notifications') { self.registration.getNotifications().then((ns)=>ns.forEach((n)=>n.close())); return }
+    let { title, body, icon, tag, renotify, actions } = payload.data
+    let options = { title, body, icon, tag, renotify }
+    if (actions) {
+      let actionsData = JSON.parse(actions)
+      let showActions = true
+      actionsData.actions.map((el) => {
+        if (el.action === 'reply') return showActions = false
+      })
+      if (showActions) options = { ...options, ...actionsData }
+    }
+    options = Object.assign(options, { data: payload.data.trip })
+    return self.registration.showNotification(title, options)
+  })
+}
