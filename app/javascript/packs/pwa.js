@@ -50,6 +50,8 @@ axios.defaults.baseURL = '/api';
 axios.defaults.headers.common['Auth-Token'] = localStorage.token;
 axios.defaults.headers.common['Content-Type'] = 'application/json';
 
+let waitForToken
+
 export default class App extends Component {
 
   constructor(props){
@@ -79,7 +81,7 @@ export default class App extends Component {
       this.checkOneSignalToken()
       document.documentElement.style.setProperty('--body-bg', '#19a160')
     }
-    this.requestPermission()
+    this.registerServiceworker()
     window.addEventListener('offline', this.offline)
     window.addEventListener('online', this.online)
     document.addEventListener('visibilitychange', this.onVisibilityChange, false);
@@ -92,7 +94,6 @@ export default class App extends Component {
       clearInterval(waitForToken)
     }
   }
-
 
   onVisibilityChange = () => {
     document.documentElement.style.setProperty('--car-transition', '0s')
@@ -107,20 +108,47 @@ export default class App extends Component {
     if (token) this.sendTokenToServer(token)
   }
 
+  registerServiceworker = () => {
+    if ('serviceWorker' in navigator ) {
+      navigator.serviceWorker.register('/serviceworker.js').then((registration) => {
+        messaging.useServiceWorker(registration)
+        this.requestPermission()
+        messaging.onMessage((payload) => {
+          let trip = JSON.parse(payload.data.trip)
+          if (trip.action && trip.action === 'remove_notifications') { this.clearNotifications(registration); return }
+          let { title, body, icon, tag, renotify, actions } = payload.data
+          let options = { title, body, icon, tag, renotify }
+          if (actions) {
+            let actionsData = JSON.parse(actions)
+            let showActions = true
+            actionsData.actions.map((el) => {
+              if (el.action === 'reply') return showActions = false
+            })
+            if (showActions) options = { ...options, ...actionsData }
+          }
+          options = Object.assign(options, { data: payload.data.trip })
+          registration.showNotification(title, options)
+        })
+      }).catch((err) => {
+        console.log('Error: ', err)
+      })
+    }
+  }
+
   requestPermission = () => {
     if (!messaging) return;
     messaging.requestPermission()
-      .then(() => {
-        messaging.getToken().then((token) => {
-          if (localStorage.getItem('fcm_token') === token) return;
-          localStorage.setItem('fcm_token', token)
-          localStorage.setItem('device', navigator.platform)
-          if (this.state.currentUser) this.sendTokenToServer(token)
-        })
+    .then(() => {
+      messaging.getToken().then((token) => {
+        if (localStorage.getItem('fcm_token') === token) return
+        localStorage.setItem('fcm_token', token)
+        localStorage.setItem('device', navigator.platform)
+        if (this.state.currentUser) this.sendTokenToServer(token)
       })
-      .catch((err) => {
-        console.log('Unable to get permission to notify.', err);
-      });
+    })
+    .catch((err) => {
+      console.log('Unable to get permission to notify.', err)
+    })
   }
 
   sendTokenToServer = (token) => {
@@ -255,6 +283,10 @@ export default class App extends Component {
       script.setAttribute('src', `https://maps.googleapis.com/maps/api/js?key=AIzaSyDg2-aLroQJWY8LV8x1Gv5ZYDhIArWCDeU&libraries=places&language=${this.props.language}`);
       document.body.appendChild(script);
     }
+  }
+
+  clearNotifications = (registration) => {
+    registration.getNotifications().then((ns)=>ns.forEach((n)=>n.close()))
   }
 
   closeDrawer = (e) => {

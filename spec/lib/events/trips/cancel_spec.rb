@@ -11,6 +11,7 @@ describe Events::Trips::Cancel do
     let!(:price) { Price.create }
 
     it { is_expected.to change { trip.reload.status }.to(Constants::Trip::STATUS_CODES[Constants::Trip::CANCELED]) }
+    it { is_expected.to have_enqueued_job(Jobs::Notification) }
 
     context 'and payment status is changed' do
       it { is_expected.to change { payment.reload.status }.to(Constants::Payments::DECLINE) }
@@ -59,6 +60,21 @@ describe Events::Trips::Cancel do
       it { is_expected.to change { trip.reload.status }.to(Constants::Trip::STATUS_CODES[Constants::Trip::CANCELED_BY_DRIVER]) }
     end
 
+    context 'when notification param' do
+      let(:trip) { create(:trip, status: Constants::Trip::DECLINED)}
+      let(:data) { { trip_id: trip.id, notification: true } }
+
+      it do
+        expect(ActionCable.server).to receive(:broadcast).with(
+          "#{Constants::Channels::TRIP}_#{trip.id}",
+          action: Constants::BroadcastActions::NOTIFICATION_CANCEL,
+          data: {
+            delivered: true
+          }
+        ).once
+        subject.call
+      end
+    end
     context 'when trip not found' do
       let(:data) { { trip_id: 100_000 } }
 

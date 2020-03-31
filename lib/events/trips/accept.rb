@@ -103,7 +103,7 @@ module Events
       def notify
         return if trip.user.notification_settings.include?(Constants::User::ACCEPT_TRIP)
         message = I18n.t('notification.will_arrive', name: driver.name, car: car.number, time: start_time.strftime('%H:%M'))
-        Jobs::Notification.perform_later(trip.user_id, message)
+        Jobs::Notification.perform_later(trip.user_id, message, trip)
       end
 
       def car

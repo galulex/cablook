@@ -17,12 +17,12 @@ module Api
     end
 
     def cancel
-      Events::Trips::Cancel.(trip_id: params[:trip_id].to_i)
+      Events::Trips::Cancel.(trip_id: params[:trip_id].to_i, notification: params[:notification])
       render json: [I18n.t('trips.canceled')], status: 200
     end
 
     def retry
-      trip = Events::Trips::Retry.(trip_id: params[:trip_id].to_i, user_id: current_user.id)
+      trip = Events::Trips::Retry.(trip_id: params[:trip_id].to_i, user_id: current_user.id, notification: params[:notification])
       render json: Presenters::Trips::Single.new(trip).to_json, status: 200
     end
 

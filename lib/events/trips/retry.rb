@@ -7,16 +7,26 @@ module Events
 
           required(:trip_id).filled(:int?)
           required(:user_id).filled(:int?)
+          optional(:notification)
         end
       end
 
       def run
+        if data[:notification]
+          broadcast if trip.status == Constants::Trip::STATUS_CODES[Constants::Trip::DECLINED]
+        else
+          run_methods
+        end
+        trip
+      end
+
+      def run_methods
         validate_user_cards!
         update_trip
         update_payment
         update_bonus_trip if bonus?
         retry_trip_job(trip.id)
-        trip
+        notify
       end
 
       private
@@ -38,8 +48,23 @@ module Events
         trip.bonus_trip.used!
       end
 
+      def broadcast
+        ActionCable.server.broadcast(
+          "#{Constants::Channels::TRIP}_#{trip.id}",
+          action: Constants::BroadcastActions::NOTIFICATION_RETRY,
+          data: {
+            delivered: true
+          }
+        )
+      end
+
       def bonus?
         trip.bonus_trip.present?
+      end
+
+      def notify
+        message = I18n.t('notification.loading')
+        Jobs::Notification.perform_later(trip.user_id, message, trip)
       end
 
       def trip

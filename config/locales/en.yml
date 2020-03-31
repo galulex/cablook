@@ -59,7 +59,15 @@ en:
   notification:
     car_not_found: No cars available right now.
     will_arrive: '%{name} on %{car} will arrive at %{time}'
-    waiting: Driver is already waiting for you
+    waiting: Driver is already waiting for you.
+    loading: Looking for a car.
+    coming: Coming.
+    coming_click: Client see that you arrived
+    actions:
+      reply: Reply
+      cancel: Cancel
+      retry: Retry
+      coming: Coming
   bot:
     request_contact:
       text: 'I need to know who you are. Could you share your phone number please?'

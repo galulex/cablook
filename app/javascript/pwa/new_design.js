@@ -212,21 +212,25 @@ export default class NewDesign extends Component {
       return
     }
     axios.patch(`trips/${this.state.trip.id}/cancel`).then((res) => {
-      this.setState({ trip: this.initialTripState, cost: null, car: null, driver: null, paymentButtonDisabled: false })
-      this.previewMapRef.cleanup()
-
-      // delete this.state.trip.start_time
-      this.unsubscribe()
-      this.clearFetchTripTimeout()
+      this.clearTrip()
     }).catch((error) => {
       if (error.response) alert(error.response.data.errors)
     })
   }
 
-  cancelDeclined = (e, callback = () => {}) => {
-    delete this.state.trip.status
-    this.setState({ trip: this.initialTripState, paymentButtonDisabled: false })
+  clearTrip = () => {
+    this.setState({ trip: this.initialTripState, cost: null, car: null, driver: null, paymentButtonDisabled: false })
+    this.previewMapRef.cleanup()
     this.unsubscribe()
+    this.clearFetchTripTimeout()
+  }
+
+  cancelDeclined = (e, callback = () => {}) => {
+    axios.patch(`trips/${this.state.trip.id}/cancel`).then((res) => {
+      this.clearTrip()
+    }).catch((error) => {
+      if (error.response) alert(error.response.data.errors)
+    })
   }
 
   retry = (e, callback = () => {}) => {
@@ -513,6 +517,12 @@ export default class NewDesign extends Component {
     if (this.state.subscription) this.state.subscription.unsubscribe()
     this.setState({ subscription: null })
   }
+
+  NotifyDriver = (data) => {}
+
+  NotificationRetry = (data) => { this.retry() }
+
+  NotificationCancel = (data) => { this.clearTrip() }
 
   TripAccepted = (data) => {
     this.previewMapRef.cleanup()
