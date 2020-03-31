@@ -18,7 +18,7 @@
 }
 
 .login-form input, .login-form select {
-  box-shadow: inset 3px 2px 4px #24293038;
+  box-shadow: inset 3px 2px 4px #24293038, inset -2px -1px 4px white;
   width: 100%;
   box-sizing: border-box;
   transition: all 0.2s ease-in-out;
@@ -34,6 +34,10 @@
   margin: 10px 0;
 }
 
+.login-form input:focus, .login-form select:focus {
+  box-shadow: inset 1px 1px 2px #24293038, inset -1px -1px 2px white;
+}
+
 .login-form button {
   background: linear-gradient(to right, #e6efee, #f6faf8, #e6efee);
   padding: 16px;
@@ -44,11 +48,21 @@
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
-  box-shadow: 5px 3px 12px #24293038, inset 1px 0px 3px white;
+  box-shadow: 5px 3px 12px #24293038, inset 1px 0px 2px white;
   border-radius: 10px;
 }
 
-.login-form input:focus, .login-form select:focus {
+.login-form button:hover {
+  box-shadow: 2px 1px 4px #24293038, -1px -0px 2px white;
+}
+
+.login-form button:active {
+  box-shadow: inset 1px 1px 2px #24293038, inset -1px -1px 2px white;
+  /* remove blue background on click */
+  -webkit-tap-highlight-color: transparent;
+}
+
+.login-form input:focus, .login-form select:focus, .login-form button:focus {
   outline: none;
 }
 
