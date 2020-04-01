@@ -82,6 +82,23 @@ self.addEventListener('activate', onActivate);
 self.addEventListener('fetch', onFetch);
 
 self.addEventListener('notificationclick', function(event) {
+  let env = '<%= Rails.env %>'
+  let link = ''
+  switch(env) {
+    case 'development':
+      link = 'localhost:3000'
+      break
+    case 'staging':
+      link = 'https://staging-app.cablook.taxi'
+      break
+    case 'production':
+      link = 'https://app.cablook.taxi'
+      break
+    default:
+      link = 'https://app.cablook.taxi'
+      break   
+  }
+
   let data = JSON.parse(event.notification.data)
   let action = event.action
   if (!action) { action = data.action }
@@ -91,7 +108,7 @@ self.addEventListener('notificationclick', function(event) {
     case 'retry':
       params = { notification: true }
       method = 'PATCH'
-      url = 'https://staging-app.cablook.taxi/api/trips/' + data.id + '/retry'
+      url = `${link}/api/trips/${data.id}/retry`
       sendRequest(data.user_token, url, method, params)
       if (event.action !== action) focusOnTab(event)
       event.notification.close()
@@ -99,7 +116,7 @@ self.addEventListener('notificationclick', function(event) {
     case 'cancel':
       params = { notification: true }
       method = 'PATCH'
-      url = 'https://staging-app.cablook.taxi/api/trips/' + data.id + '/cancel'
+      url = `${link}/api/trips/${data.id}/cancel`
       sendRequest(data.user_token, url, method, params)
       event.notification.close()
       break
@@ -107,7 +124,7 @@ self.addEventListener('notificationclick', function(event) {
       params = { message_type: 'coming', trip_id: data.id }
       if (event.action !== action) params.message_type = 'coming_click'
       method = 'POST'
-      url = 'https://staging-app.cablook.taxi/api/notify_driver'
+      url = `${link}/api/notify_driver`
       sendRequest(data.user_token, url, method, params)
       if (event.action !== action) focusOnTab(event)
       event.notification.close()
