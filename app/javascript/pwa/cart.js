@@ -168,7 +168,7 @@ export default class Cart extends Component {
   }
 
   createOrder = (e) => {
-    if (!e.target.form.checkValidity()) return e.target.form.reportValidity();
+    if (!e.target.form.checkValidity()) return e.target.form.reportValidity()
     this.comment.disabled = true
     this.create()
   }

@@ -178,8 +178,8 @@ export default class App extends Component {
     document.body.className = ''
   }
 
-  setGeocoding = (value) => {
-    this.setState({isGeocoding: value})
+  setGeocoding = (isGeocoding) => {
+    this.setState({ isGeocoding })
   }
 
   setCurrentTrip = (trip) => {
@@ -312,7 +312,7 @@ export default class App extends Component {
   }
 
   render() {
-    const { currentTrip } = this.state;
+    const { currentTrip, isGeocoding } = this.state;
 
     if (this.state.currentUser) {
       return(
@@ -335,7 +335,7 @@ export default class App extends Component {
               getAvailableBonusTrips={this.getAvailableBonusTrips}
               availableBonusTrips={this.state.availableBonusTrips}
               resetCurrentTrip={this.resetCurrentTrip}
-              isGeocoding={this.state.isGeocoding}
+              isGeocoding={isGeocoding}
               setGeocoding={this.setGeocoding}
             />
             <Trips path='/trips/:id?'
@@ -355,7 +355,7 @@ export default class App extends Component {
               bonus_trips={() => this.state.bonus_trips}
               parent_bonus={() => this.state.parent_bonus}
               geocode={this.geocode}
-              isGeocoding={this.state.isGeocoding}
+              isGeocoding={isGeocoding}
               setGeocoding={this.setGeocoding}
             />
             <Vendors path='/delivery'
@@ -370,7 +370,7 @@ export default class App extends Component {
               createCard={this.createCard}
               favorite_addresses={() => this.state.favorite_addresses}
               geocode={this.geocode}
-              isGeocoding={this.state.isGeocoding}
+              isGeocoding={isGeocoding}
               setGeocoding={this.setGeocoding}
             />
           </Router>

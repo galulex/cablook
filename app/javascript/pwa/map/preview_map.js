@@ -244,10 +244,9 @@ export default class PreviewMap extends Component {
     this.updatePoint([lat, lng])
 
     this.props.geocode(`${lng},${lat}`, (address) => {
-      if (!this.move) {
-        this.props.setAddress(address, `${lat},${lng}`, this.state.index)
-        this.props.setGeocoding(false)
-      }
+      if (this.move) return
+      this.props.setAddress(address, `${lat},${lng}`, this.state.index)
+      this.props.setGeocoding(false)
     })
   }
 
