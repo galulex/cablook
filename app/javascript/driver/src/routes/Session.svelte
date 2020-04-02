@@ -1,8 +1,6 @@
 <script>
   import axios from 'axios';
 
-  import '../../css/login_page.css'
-
   export let login
 
   let disabled = false
@@ -39,15 +37,62 @@
   }
 </script>
 
-<div class='login-page'>
+<style>
+  main {
+    height: 100vh;
+    background: linear-gradient(to right, var(--bg_gradient_color_2), var(--bg_gradient_color_1), var(--bg_gradient_color_2));
+  }
+
+  h3 {
+    font-weight: 100;
+    margin-top: 0px;
+  }
+
+  button {
+    background: linear-gradient(to right, var(--bg_gradient_color_2), var(--bg_gradient_color_1), var(--bg_gradient_color_2));
+    padding: 16px;
+    margin: 10px 0;
+    width: 100%;
+    color: var(--main_green_color);
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  input, select {
+    width: 100%;
+    font-size: 14px;
+    padding: 16px;
+    margin: 10px 0;
+  }
+
+  .login-form {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+  }
+
+  @media only screen and (min-width : 720px) {
+    .login-form {
+      width: 50vh;
+    }
+  }
+
+  @media only screen and (min-width : 320px) and (max-width : 720px) {
+    .login-form {
+      width: 70%;
+    }
+  }
+</style>
+
+<main>
   <div class='login-form'>
-    <h1>Log In</h1>
+    <h3>Log In</h3>
     {#if cars.length < 1}
       <form action='#' on:submit={create}>
         <input name='username' type='text' placeholder='Username' required/>
-        <br/>
         <input name='password' type='password' placeholder='Password' required/>
-        <br/>
         <button disabled={disabled} type='submit'>OK</button>
       </form>
     {:else}
@@ -58,9 +103,8 @@
             <option value={car.id}>{car.number}</option>
           {/each}
         </select>
-        <br/>
         <button disabled={disabled} type='submit'>OK</button>
       </form>
     {/if}
   </div>
-</div>
+</main>
