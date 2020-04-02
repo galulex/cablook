@@ -29,6 +29,7 @@ const TRIP_FIELDS = ['departure', 'departure_address', 'destination', 'destinati
 const Shake = require('shake.js')
 let myShakeEvent = false
 let fetchTripTimeout
+let interval
 
 export default class NewDesign extends Component {
   constructor(props) {
@@ -47,7 +48,8 @@ export default class NewDesign extends Component {
       inputDisabled: false,
       activateFeedback: false,
       lastTripId: null,
-      paymentButtonDisabled: false
+      paymentButtonDisabled: false,
+      cancelTimer: null
     }
   }
 
@@ -65,6 +67,8 @@ export default class NewDesign extends Component {
     this.addShakeListener()
 
     setTimeout(this.sendRequestForUnpaidPayments, 3000)
+    if (!localStorage.accepted_at || localStorage.accepted_at === null) return
+    this.startCountdown()
   }
 
   componentDidUpdate() {
@@ -213,6 +217,7 @@ export default class NewDesign extends Component {
     }
     axios.patch(`trips/${this.state.trip.id}/cancel`).then((res) => {
       this.clearTrip()
+      this.clearCountdown()
     }).catch((error) => {
       if (error.response) alert(error.response.data.errors)
     })
@@ -484,6 +489,27 @@ export default class NewDesign extends Component {
     this.setState(this.state)
   }
 
+  clearCountdown = () => {
+    if (!localStorage.accepted_at) return
+    clearInterval(interval)
+    localStorage.removeItem('accepted_at')
+  }
+
+  startCountdown = () => {
+    this.countdown()
+    interval = setInterval(this.countdown, 1000)
+  }
+
+  countdown = () => {
+    let current = new Date().getTime()
+    console.log(localStorage.accepted_at, current)
+    this.setState({cancelTimer: (60 - Math.floor((current - (localStorage.accepted_at))/1000))}, () => {
+      if (this.state.cancelTimer > 0) return
+      this.setState({cancelTimer:null})
+      this.clearCountdown()
+    })
+  }
+
   setTime = (e) => {
     if (e.target.value === '') return this.setField(e)
     let now = new Date
@@ -531,6 +557,9 @@ export default class NewDesign extends Component {
                     car: { location: data.trip.car_location ,color: data.trip.car_color, number: data.trip.car_number, deg: data.trip.car.deg },
                     driver: { name: data.trip.driver_name, phone_number: data.trip.car_phone_number } })
     this.clearFetchTripTimeout()
+    localStorage.accepted_at = new Date().getTime()
+    this.countdown()
+    interval = setInterval(this.countdown, 1000)
   }
 
   TripDeclined = (data) => {
@@ -545,6 +574,7 @@ export default class NewDesign extends Component {
     this.previewMapRef.cleanup()
     this.unsubscribe()
     this.clearFetchTripTimeout()
+    this.clearCountdown()
     if (data.by_driver) alert(i18n.trip.canceled)
   }
 
@@ -569,6 +599,7 @@ export default class NewDesign extends Component {
   waiting_client = () => {
     this.vibrate()
     this.setState({ trip: { ...this.state.trip, status: WAITING_CLIENT }})
+    this.clearCountdown()
   }
 
   start_trip = () => {
@@ -724,6 +755,7 @@ export default class NewDesign extends Component {
             showWidgetTrue={this.showWidgetTrue}
             cards={cards}
             paymentButtonDisabled={this.state.paymentButtonDisabled}
+            cancelTimer={this.state.cancelTimer}
             availableBonusTrips={this.props.availableBonusTrips}/>
           { showWidget && <Widget createCard={this.createCard} showWidget={() => this.setState({showWidget: false}) }/> }
         </section>

@@ -257,7 +257,7 @@ export default class PreviewMap extends Component {
     }
     this.setState({ car: null })
     this.markers.map(m => m.remove())
-    this.map.getSource('line').setData(GEOJSON)
+    if (this.map.getSource('line')) this.map.getSource('line').setData(GEOJSON)
   }
 
   addCar = (props) => {
