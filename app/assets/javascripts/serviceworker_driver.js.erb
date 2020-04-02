@@ -5,9 +5,11 @@ function onInstall(event) {
   console.log('[DriverServiceworker]', "Installing!", event);
   event.waitUntil(
     caches.open(CACHE_NAME).then(function prefill(cache) {
-      var urls = ['<%= Webpacker.manifest.lookup 'driver.js' %>',
-                 'favicon.ico',
-                 '/offline.html'];
+      var urls = ['<%= asset_path "Gilroy-Bold.woff2" %>',
+                  '<%= asset_path "Gilroy-Regular.woff2" %>',
+                  '<%= Webpacker.manifest.lookup 'driver.js' %>',
+                  'favicon.ico',
+                  '/offline.html'];
       var req_objects = [];
       for (var i = 0; i < urls.length; i++) {
         req_objects.push(new Request(urls[i], {credentials: 'same-origin'}));

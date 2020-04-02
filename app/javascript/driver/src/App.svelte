@@ -13,6 +13,7 @@
   import Session from './routes/Session.svelte'
   import Map from './routes/Map.svelte'
   import Nav from './Nav.svelte'
+  import Spinner from './Spinner.svelte'
 
   let token = localStorage.token
   let carSpeed = 0
@@ -142,17 +143,18 @@
 
 <style>
   main {
-    height: calc(100vh - 41px);
+    height: calc(100vh - 39px);
+    background: linear-gradient(to right, var(--bg_gradient_color_2), var(--bg_gradient_color_1), var(--bg_gradient_color_2));
   }
 </style>
 
 <Router>
   {#if token}
+    <Sounds/>
     <main>
-      <Sounds/>
       <Route path="/">
         {#await getTrips()}
-          <h1><b>⌛</b> Завантаження...</h1>
+          <Spinner/>
         {:then}
           <Home trips={trips} updateTrip={updateTrip} location={location} cable={cable} />
         {:catch error}
@@ -165,8 +167,6 @@
     </main>
     <Nav speed={carSpeed} logout={logout} getTrips={getTrips}/>
   {:else}
-    <main>
-      <Route path="/" component={Session} login={login} />
-    </main>
+    <Route path="/" component={Session} login={login} />
   {/if}
 </Router>

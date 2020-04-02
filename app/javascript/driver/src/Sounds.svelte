@@ -21,7 +21,7 @@
     update: [200, 100, 200],
   }
 
-  let klass
+  let klass = 'start-page'
 
   window.play = (type) => {
     try {
@@ -38,24 +38,50 @@
 </script>
 
 <style>
-  button {
+  .start-page {
     position: absolute;
     z-index: 10000;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    font-size: 3rem;
-    color: #efcc3a;
-    border: none;
+    height: 100%;
     width: 100%;
     transition: opacity .3s, z-index .3s;
+    background: linear-gradient(to bottom, var(--main_green_color), var(--main_dark_color));
+  }
+
+  label {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    font-size: 3.5em;
+    width: 100%;
+    text-align: center;
+    transform: translate(-50%, -50%);
+    letter-spacing: 2px;
+    background-color: var(--white_color);
+    color: transparent;
+    opacity: 0.1;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -moz-background-clip: text;
+    text-shadow: -2px -2px 3px var(--text_shadow_white_color), 2px 3px 3px var(--text_shadow_dark_color);
+  }
+
+  label:hover {
+    text-shadow: -1px -1px 1px var(--text_shadow_white_color), 1px 1px 1px var(--text_shadow_dark_color);
+    cursor: pointer;
+  }
+
+  label:active {
+    text-shadow: 2px 2px 2px var(--text_shadow_white_color), 0px 0px 2px var(--text_shadow_dark_color);
+    background-color: var(--text_shadow_dark_color);
   }
 
   .hidden {
+    display: none;
     opacity: 0;
     z-index: -1;
   }
 </style>
 
-<button type='button' class={klass} on:click={click}>START</button>
+<div on:click={click} class={klass}>
+  <label> START </label>
+</div>

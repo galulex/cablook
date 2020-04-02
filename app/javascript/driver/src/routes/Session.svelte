@@ -37,82 +37,74 @@
   }
 </script>
 
-<div class='login-form'>
-  <h1>Log In</h1>
-  {#if cars.length < 1}
-    <form action='#' on:submit={create}>
-      <input name='username' type='text' placeholder='Username' required/>
-      <br/>
-      <input name='password' type='password' placeholder='Password' required/>
-      <br/>
-      <button disabled={disabled} type='submit'>OK</button>
-    </form>
-  {:else}
-    <form action='#' on:submit={update}>
-      <select name='car_id' required>
-        <option value='' selected disabled>Select Car</option>
-        {#each cars as car, i}
-          <option value={car.id}>{car.number}</option>
-        {/each}
-      </select>
-      <br/>
-      <button disabled={disabled} type='submit'>OK</button>
-    </form>
-  {/if}
-</div>
-
 <style>
-
-.login-form {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  text-align: center;
-}
-
-.login-form h1 {
-  margin-top: 0px;
-}
-
-.login-form input, .login-form select {
-  width: 100%;
-  padding: 12px 20px;
-  border: none;
-  border-bottom: 2px solid #312d50;
-  background: transparent;
-}
-
-.login-form input:focus, .login-form select:focus {
-  outline: none;
-}
-
-.login-form button {
-  padding: 6px 10px;
-  margin: 10px 0;
-  width: 100%;
-  border: none;
-  color: white;
-  background: #19a160;
-  cursor: pointer;
-}
-
-.login-form input:-webkit-autofill,
-.login-form input:-webkit-autofill:hover,
-.login-form input:-webkit-autofill:focus {
-  transition: background-color 5000s ease-in-out 0s;
-}
-
-@media only screen and (min-width : 720px) {
-  .login-form {
-    width: 50vh;
+  main {
+    height: 100vh;
+    background: linear-gradient(to right, var(--bg_gradient_color_2), var(--bg_gradient_color_1), var(--bg_gradient_color_2));
   }
-}
 
-@media only screen and (min-width : 320px) and (max-width : 720px) {
-  .login-form {
-    width: 70%;
+  h3 {
+    font-weight: 100;
+    margin-top: 0px;
   }
-}
 
+  button {
+    background: linear-gradient(to right, var(--bg_gradient_color_2), var(--bg_gradient_color_1), var(--bg_gradient_color_2));
+    padding: 16px;
+    margin: 10px 0;
+    width: 100%;
+    color: var(--main_green_color);
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  input, select {
+    width: 100%;
+    font-size: 14px;
+    padding: 16px;
+    margin: 10px 0;
+  }
+
+  .login-form {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+  }
+
+  @media only screen and (min-width : 720px) {
+    .login-form {
+      width: 50vh;
+    }
+  }
+
+  @media only screen and (min-width : 320px) and (max-width : 720px) {
+    .login-form {
+      width: 70%;
+    }
+  }
 </style>
+
+<main>
+  <div class='login-form'>
+    <h3>Log In</h3>
+    {#if cars.length < 1}
+      <form action='#' on:submit={create}>
+        <input name='username' type='text' placeholder='Username' required/>
+        <input name='password' type='password' placeholder='Password' required/>
+        <button disabled={disabled} type='submit'>OK</button>
+      </form>
+    {:else}
+      <form action='#' on:submit={update} class='select-car'>
+        <select name='car_id' required>
+          <option value='' selected disabled>Select the car</option>
+          {#each cars as car, i}
+            <option value={car.id}>{car.number}</option>
+          {/each}
+        </select>
+        <button disabled={disabled} type='submit'>OK</button>
+      </form>
+    {/if}
+  </div>
+</main>
