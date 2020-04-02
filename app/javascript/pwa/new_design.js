@@ -613,7 +613,9 @@ export default class NewDesign extends Component {
                             fieldsCount={trip.stops.length}
                             pickAddress={this.pickAddress}
                             currentLocation={this.state.currentLocation}
-                            inputDisabled={this.state.inputDisabled}/>
+                            inputDisabled={this.state.inputDisabled}
+                            isGeocoding={this.props.isGeocoding}
+                            setGeocoding={this.props.setGeocoding}/>
             )
           })}
           <div>
@@ -698,7 +700,9 @@ export default class NewDesign extends Component {
             picker={this.state.picker}
             setAddress={this.setAddress}
             geocode={this.props.geocode}
-            ref={(el) => this.previewMapRef = el}/>
+            ref={(el) => this.previewMapRef = el}
+            isGeocoding={this.props.isGeocoding}
+            setGeocoding={this.props.setGeocoding}/>
           <div class='wrapper'>
             { [CONFIRM_UPDATE_TRIP, CANCELED, CANCELED_BY_DRIVER, undefined, null].includes(trip.status) && this.renderFields(trip, isValid, cards) }
             { [PENDING].includes(trip.status) && this.renderLoading() }
@@ -714,6 +718,7 @@ export default class NewDesign extends Component {
             retry={this.retry}
             cancelDeclined={this.cancelDeclined}
             picker={this.state.picker}
+            isGeocoding={this.props.isGeocoding}
             pickAddress={this.pickAddress}
             showWidget={this.showWidget}
             showWidgetTrue={this.showWidgetTrue}

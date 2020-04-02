@@ -146,6 +146,8 @@ export default class FavoriteAddresses extends Component {
           placeholder={i18n.profile_page.placeholder}
           geocode={this.props.geocode}
           language={this.props.language}
+          isGeocoding={this.props.isGeocoding}
+          setGeocoding={this.props.setGeocoding}
         />
         <button class="button add_fav_address" type="button" disabled={this.state.disabled} onClick={this.create}>OK</button>
         <input type="submit" onClick={this.create} hidden/>

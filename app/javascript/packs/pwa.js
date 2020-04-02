@@ -67,7 +67,7 @@ export default class App extends Component {
       favorite_addresses: [],
       notification_settings: [],
       currentTrip: null,
-      isYmapsLoading: false
+      isGeocoding: false
     }
     axios.defaults.headers.common['Pwa-Language'] = this.state.language
   }
@@ -176,6 +176,10 @@ export default class App extends Component {
   online = () => {
     document.documentElement.style.setProperty('--body-bg', '#19a160')
     document.body.className = ''
+  }
+
+  setGeocoding = (isGeocoding) => {
+    this.setState({ isGeocoding })
   }
 
   setCurrentTrip = (trip) => {
@@ -308,7 +312,7 @@ export default class App extends Component {
   }
 
   render() {
-    const { currentTrip } = this.state;
+    const { currentTrip, isGeocoding } = this.state;
 
     if (this.state.currentUser) {
       return(
@@ -331,6 +335,8 @@ export default class App extends Component {
               getAvailableBonusTrips={this.getAvailableBonusTrips}
               availableBonusTrips={this.state.availableBonusTrips}
               resetCurrentTrip={this.resetCurrentTrip}
+              isGeocoding={isGeocoding}
+              setGeocoding={this.setGeocoding}
             />
             <Trips path='/trips/:id?'
               setCurrentTrip={this.setCurrentTrip}
@@ -349,6 +355,8 @@ export default class App extends Component {
               bonus_trips={() => this.state.bonus_trips}
               parent_bonus={() => this.state.parent_bonus}
               geocode={this.geocode}
+              isGeocoding={isGeocoding}
+              setGeocoding={this.setGeocoding}
             />
             <Vendors path='/delivery'
               setCurrentTrip={this.setCurrentTrip}
@@ -362,6 +370,8 @@ export default class App extends Component {
               createCard={this.createCard}
               favorite_addresses={() => this.state.favorite_addresses}
               geocode={this.geocode}
+              isGeocoding={isGeocoding}
+              setGeocoding={this.setGeocoding}
             />
           </Router>
           <Prompt />
