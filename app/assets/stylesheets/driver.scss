@@ -60,7 +60,7 @@ blockquote {
 }
 
 input, select {
-  box-shadow: inset 3px 2px 4px #24293038, inset -2px -1px 4px var(--white_color);
+  box-shadow: inset 3px 2px 4px var(--shadow_color), inset -2px -1px 4px var(--white_color);
   box-sizing: border-box;
   transition: all 0.2s ease-in-out;
   appearance: none;
