@@ -24,7 +24,7 @@ import { PENDING, ON_THE_WAY, WAITING_CLIENT, DRIVING, FINISHED, CANCELED, DECLI
 
 const cable = createConsumer()
 const ENTRANCES = Array.from({length: 15}, (v, k) => (k+1))
-const TRIP_FIELDS = ['departure', 'departure_address', 'destination', 'destination_address', 'path', 'status', 'id', 'stops', 'waypoints', 'cost', 'distance', 'duration', 'start_time', 'card_id', 'bonus', 'osrm']
+const TRIP_FIELDS = ['departure', 'departure_address', 'destination', 'destination_address', 'path', 'status', 'id', 'stops', 'waypoints', 'cost', 'distance', 'duration', 'start_time', 'card_id', 'bonus', 'osrm', 'accepted_at']
 
 const Shake = require('shake.js')
 let myShakeEvent = false
@@ -60,15 +60,13 @@ export default class NewDesign extends Component {
   }
 
   componentDidMount() {
-    this.props.fetchUser()
+    this.props.fetchUser().then(() => { this.startCountdown() })
 
     this.loadTrips()
 
     this.addShakeListener()
 
     setTimeout(this.sendRequestForUnpaidPayments, 3000)
-    if (!localStorage.accepted_at || localStorage.accepted_at === null) return
-    this.startCountdown()
   }
 
   componentDidUpdate() {
@@ -490,22 +488,28 @@ export default class NewDesign extends Component {
   }
 
   clearCountdown = () => {
-    if (!localStorage.accepted_at) return
     clearInterval(interval)
-    localStorage.removeItem('accepted_at')
+    this.setState({cancelTimer: null})
+  }
+
+  checkAcceptionTime = (current, accepted_at) => {
+    return ((60 - Math.floor((current - accepted_at)/1000)) < 60)
   }
 
   startCountdown = () => {
+    if (this.state.trip.status !== ON_THE_WAY) return
     this.countdown()
     interval = setInterval(this.countdown, 1000)
   }
 
   countdown = () => {
+    let { trip } = this.state
+    if (!trip.accepted_at) return
     let current = new Date().getTime()
-    console.log(localStorage.accepted_at, current)
-    this.setState({cancelTimer: (60 - Math.floor((current - (localStorage.accepted_at))/1000))}, () => {
+    let accepted_at = new Date(trip.accepted_at).getTime()
+    if (!this.checkAcceptionTime(current, accepted_at)) return
+    this.setState({cancelTimer: (60 - Math.floor((current - accepted_at)/1000))}, () => {
       if (this.state.cancelTimer > 0) return
-      this.setState({cancelTimer:null})
       this.clearCountdown()
     })
   }
@@ -553,13 +557,10 @@ export default class NewDesign extends Component {
   TripAccepted = (data) => {
     this.previewMapRef.cleanup()
     this.vibrate()
-    this.setState({ trip: { ...this.state.trip, status: ON_THE_WAY, start_time: data.trip.start_time },
+    this.setState({ trip: { ...this.state.trip, status: ON_THE_WAY, start_time: data.trip.start_time, accepted_at: data.trip.accepted_at },
                     car: { location: data.trip.car_location ,color: data.trip.car_color, number: data.trip.car_number, deg: data.trip.car.deg },
-                    driver: { name: data.trip.driver_name, phone_number: data.trip.car_phone_number } })
+                    driver: { name: data.trip.driver_name, phone_number: data.trip.car_phone_number } }, () => this.startCountdown())
     this.clearFetchTripTimeout()
-    localStorage.accepted_at = new Date().getTime()
-    this.countdown()
-    interval = setInterval(this.countdown, 1000)
   }
 
   TripDeclined = (data) => {

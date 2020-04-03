@@ -33,7 +33,8 @@ module Events
           status: trip_status,
           car_id: data[:car_id],
           driver_id: data[:driver_id],
-          start_at: start_time
+          start_at: start_time,
+          accepted_at: Time.now
         )
       end
 
