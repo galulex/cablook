@@ -68,7 +68,7 @@ class Presenters::Trips::Detailed < Presenters::BaseSingle
   end
 
   def accepted_at
-    represented.accepted_at.strftime('%a %b %d %Y %k:%M:%S')
+    represented.accepted_at.utc
   rescue
     nil
   end

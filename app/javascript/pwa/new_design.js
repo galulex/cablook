@@ -492,8 +492,8 @@ export default class NewDesign extends Component {
     this.setState({cancelTimer: null})
   }
 
-  checkAcceptionTime = (current, accepted_at) => {
-    return ((60 - Math.floor((current - accepted_at)/1000)) < 60)
+  checkAcceptionTime = (cancelTimer) => {
+    return cancelTimer < 60
   }
 
   startCountdown = () => {
@@ -503,14 +503,14 @@ export default class NewDesign extends Component {
   }
 
   countdown = () => {
-    let { trip } = this.state
+    const { trip } = this.state
     if (!trip.accepted_at) return
     let current = new Date().getTime()
     let accepted_at = new Date(trip.accepted_at).getTime()
-    if (!this.checkAcceptionTime(current, accepted_at)) return
-    this.setState({cancelTimer: (60 - Math.floor((current - accepted_at)/1000))}, () => {
-      if (this.state.cancelTimer > 0) return
-      this.clearCountdown()
+    let cancelTimer = 60 - Math.floor((current - accepted_at)/1000)
+    if (!this.checkAcceptionTime(cancelTimer)) return
+    this.setState({cancelTimer}, () => {
+      if (cancelTimer < 1) this.clearCountdown()
     })
   }
 
