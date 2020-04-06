@@ -1,0 +1,84 @@
+nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  z-index: 1000;
+  flex-wrap: nowrap;
+  align-items: stretch;
+  background: linear-gradient(to left, var(--main_green_color), var(--main_dark_color));
+  padding: 10px 0px;
+  height: 10vh;
+}
+
+nav a, nav button {
+  width: 100%;
+  text-align: center;
+  margin: 0 10px;
+  padding: 0;
+  height: auto;
+  font-size: 1.5rem;
+  font-weight: 400;
+  color: var(--white_color);
+  background: none;
+  border: none;
+  text-decoration: none;
+  box-shadow: 4px 3px 12px var(--shadow_color), inset 2px 2px 3px var(--nav_shadow_white_color), inset -2px -2px 3px var(--shadow_color);
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+nav a:hover, nav button:hover {
+  box-shadow: 2px 1px 4px var(--shadow_color), -1px -1px 2px var(--nav_shadow_white_color), -1px -1px 2px var(--shadow_color);
+}
+
+nav a:active, nav button:active {
+  box-shadow: inset 2px 2px 2px var(--shadow_color), inset -2px -2px 2px var(--nav_shadow_white_color);
+  -webkit-tap-highlight-color: transparent;
+}
+
+nav svg {
+  margin-left: auto;
+  margin-right: auto;
+  width: 20px;
+  height: 100%;
+  display: block;
+}
+
+nav svg path {
+  fill: var(--white_color);
+}
+
+@media only screen and (max-width: 720px) {
+  nav svg {
+    width: 15px;
+  }
+}
+
+@media only screen and (min-width: 720px) and (max-width: 1280px) {
+  nav {
+    height: 9vh;
+  }
+
+  nav a, nav button {
+    font-size: 2rem;
+    margin: 0 15px;
+  }
+}
+
+@media only screen and (min-width: 1280px) {
+  nav {
+    height: 8vh;
+  }
+
+  nav a, nav button {
+    position: relative;
+    left: 30%;
+    width: 10%;
+  }
+
+  nav svg {
+    width: 25px;
+  }
+}
