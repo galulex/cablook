@@ -6,7 +6,6 @@
 
   import axios from 'axios'
   axios.defaults.baseURL = '/api/drivers_app'
-  axios.defaults.headers.common['Auth-Token'] = localStorage.token
   axios.defaults.headers.common['Content-Type'] = 'application/json'
 
   import Home from './routes/Home.svelte'
@@ -15,7 +14,7 @@
   import Nav from './Nav.svelte'
   import Spinner from './Spinner.svelte'
 
-  let token = localStorage.token
+  let isLoggedIn = !!document.cookie.match(/token/)
   let carSpeed = 0
   let location = [32.073095,49.418461]
   let watcher
@@ -25,7 +24,7 @@
   let trips = []
 
   onMount(() => {
-    if (!token) return
+    if (!isLoggedIn) return
     watcher = navigator.geolocation.watchPosition(sendLocation, null, { enableHighAccuracy: true })
   })
 
@@ -51,11 +50,10 @@
   }
 
   let login = (driver, car) => {
-    localStorage.token = driver.auth_token
     localStorage.id = driver.id
     localStorage.carId = car.id
     localStorage.carNumber = car.number
-    token = driver.auth_token
+    isLoggedIn = true
     subscribe()
     watcher = navigator.geolocation.watchPosition(sendLocation, null, { enableHighAccuracy: true })
   }
@@ -63,7 +61,7 @@
   let logout = () => {
     if (!confirm('Are you sure?')) return
     localStorage.clear()
-    token = null
+    isLoggedIn = false
     if (subscription) subscription.unsubscribe()
     navigate('/', { replace: true })
     axios.delete('sessions')
@@ -149,7 +147,7 @@
 </style>
 
 <Router>
-  {#if token}
+  {#if isLoggedIn}
     <Sounds/>
     <main>
       <Route path="/">

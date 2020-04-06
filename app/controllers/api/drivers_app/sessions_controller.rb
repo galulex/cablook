@@ -10,6 +10,7 @@ module Api
 
       def destroy
         Events::DriversApp::SignOut.(driver_id: current_driver.id)
+        cookies.clear
         render json: {}, status: 200
       end
 

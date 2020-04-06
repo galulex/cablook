@@ -5,6 +5,7 @@
 
   let disabled = false
   let cars = []
+  let token
 
   let formData = (form) => {
     return Object.fromEntries(new FormData(form))
@@ -15,7 +16,7 @@
     disabled = true
     axios.post('sessions', { driver: formData(e.target) }).then((res) => {
       disabled = false
-      axios.defaults.headers.common['Auth-Token'] = res.data.auth_token
+      token = res.data.auth_token
       cars = res.data.cars
     }).catch((error) => {
       disabled = false
@@ -26,7 +27,7 @@
   let update = (e) => {
     e.preventDefault()
     let params = formData(e.target)
-    axios.patch('assign_car', { driver: params }).then((res) => {
+    axios.patch('assign_car', { driver: params }, { headers: { 'Auth-Token': token }}).then((res) => {
       disabled = false
       let car = cars.find((car) => { return car.id.toString() === params.car_id })
       login(res.data.driver, car)

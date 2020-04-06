@@ -5,6 +5,7 @@ module Api
 
       def update
         driver = Events::DriversApp::AssignCar.(driver_params)
+        cookies.encrypted[:token] = driver.auth_token
         render json: { driver: driver }
       end
 
