@@ -7,7 +7,7 @@ import '../css/new_design.css'
 
 export default class Buttons extends Component {
   render() {
-    const { trip, availableBonusTrips } = this.props
+    const { trip, availableBonusTrips, cancelTimer } = this.props
 
     return (
       <div className="buttons">
@@ -19,18 +19,18 @@ export default class Buttons extends Component {
           <button class='button fixed' type='button' value={trip.bonus} disabled={!this.props.isValid || this.props.paymentButtonDisabled} onClick={this.props.createTrip}>{this.props.trip.stops.includes('') ? `${i18n.confirm_trip.go}` : `${i18n.confirm_trip.go} ${!this.props.trip.stops.includes('') && this.props.cost}`}
           {(this.props.cost !== '' && !this.props.trip.stops.includes('')) && <TripPrice/>}
           </button> }
-        { [CANCELED, CANCELED_BY_DRIVER, undefined, null].includes(trip.status) && (this.props.picker === null) && availableBonusTrips.length > 0 && 
+        { [CANCELED, CANCELED_BY_DRIVER, undefined, null].includes(trip.status) && (this.props.picker === null) && availableBonusTrips.length > 0 &&
           <button class='button bonus' type='button' value='true' disabled={!this.props.isValid || this.props.paymentButtonDisabled} onClick={this.props.createTrip}>{`${i18n.confirm_trip.go} 0`} <TripPrice/></button>
         }
         { [CONFIRM_UPDATE_TRIP].includes(trip.status) &&
           <button class='button fixed' type='button' value={trip.bonus} disabled={!this.props.isValid} onClick={this.props.confirmUpdate}>{`${i18n.confirm_trip.go} ${this.props.cost}`}
           {(this.props.cost !== '') && <TripPrice/>}
           </button> }
-        { [PENDING, ON_THE_WAY].includes(trip.status) && <button class='button fixed cancel' type='button' onClick={this.props.cancel}>{i18n.find_driver.cancel}</button> }
+        { ([PENDING].includes(trip.status) || (cancelTimer > 0 && [ON_THE_WAY].includes(trip.status))) && <button class='button fixed cancel' type='button' onClick={this.props.cancel}>{i18n.find_driver.cancel} {cancelTimer}</button> }
         { [DECLINED].includes(trip.status) && <button class='button fixed retry' type='button' onClick={this.props.retry}>{i18n.retry_trip.retry}</button> }
         { [DECLINED].includes(trip.status) && <button class='button fixed cancel' type='button' onClick={this.props.cancelDeclined}>{i18n.find_driver.cancel}</button> }
-        { [WAITING_CLIENT, DRIVING].includes(trip.status) && <button class='button fixed edit' type='button' value={trip.bonus} onClick={this.props.updateRoute}>{i18n.trip.edit}</button> }
-        { (this.props.picker !== null) && <button  disabled={this.props.isGeocoding} class='button pick_address fixed' type='button' onClick={this.props.pickAddress}>OK</button> }
+        { ([WAITING_CLIENT, DRIVING].includes(trip.status) || (!cancelTimer && trip.status === ON_THE_WAY)) && <button class='button fixed edit' type='button' value={trip.bonus} onClick={this.props.updateRoute}>{i18n.trip.edit}</button> }
+        { (this.props.picker !== null) && <button class='button pick_address fixed' type='button' onClick={this.props.pickAddress}>OK</button> }
       </div>
     )
   }

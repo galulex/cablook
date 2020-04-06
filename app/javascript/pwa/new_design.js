@@ -24,11 +24,12 @@ import { PENDING, ON_THE_WAY, WAITING_CLIENT, DRIVING, FINISHED, CANCELED, DECLI
 
 const cable = createConsumer()
 const ENTRANCES = Array.from({length: 15}, (v, k) => (k+1))
-const TRIP_FIELDS = ['departure', 'departure_address', 'destination', 'destination_address', 'path', 'status', 'id', 'stops', 'waypoints', 'cost', 'distance', 'duration', 'start_time', 'card_id', 'bonus', 'osrm']
+const TRIP_FIELDS = ['departure', 'departure_address', 'destination', 'destination_address', 'path', 'status', 'id', 'stops', 'waypoints', 'cost', 'distance', 'duration', 'start_time', 'card_id', 'bonus', 'osrm', 'accepted_at']
 
 const Shake = require('shake.js')
 let myShakeEvent = false
 let fetchTripTimeout
+let interval
 
 export default class NewDesign extends Component {
   constructor(props) {
@@ -47,7 +48,8 @@ export default class NewDesign extends Component {
       inputDisabled: false,
       activateFeedback: false,
       lastTripId: null,
-      paymentButtonDisabled: false
+      paymentButtonDisabled: false,
+      cancelTimer: null
     }
   }
 
@@ -58,7 +60,7 @@ export default class NewDesign extends Component {
   }
 
   componentDidMount() {
-    this.props.fetchUser()
+    this.props.fetchUser().then(() => { this.startCountdown() })
 
     this.loadTrips()
 
@@ -213,6 +215,7 @@ export default class NewDesign extends Component {
     }
     axios.patch(`trips/${this.state.trip.id}/cancel`).then((res) => {
       this.clearTrip()
+      this.clearCountdown()
     }).catch((error) => {
       if (error.response) alert(error.response.data.errors)
     })
@@ -484,6 +487,33 @@ export default class NewDesign extends Component {
     this.setState(this.state)
   }
 
+  clearCountdown = () => {
+    clearInterval(interval)
+    this.setState({cancelTimer: null})
+  }
+
+  checkAcceptionTime = (cancelTimer) => {
+    return cancelTimer < 60
+  }
+
+  startCountdown = () => {
+    if (this.state.trip.status !== ON_THE_WAY) return
+    this.countdown()
+    interval = setInterval(this.countdown, 1000)
+  }
+
+  countdown = () => {
+    const { trip } = this.state
+    if (!trip.accepted_at) return
+    let current = new Date().getTime()
+    let accepted_at = new Date(trip.accepted_at).getTime()
+    let cancelTimer = 60 - Math.floor((current - accepted_at)/1000)
+    if (!this.checkAcceptionTime(cancelTimer)) return
+    this.setState({cancelTimer}, () => {
+      if (cancelTimer < 1) this.clearCountdown()
+    })
+  }
+
   setTime = (e) => {
     if (e.target.value === '') return this.setField(e)
     let now = new Date
@@ -527,9 +557,9 @@ export default class NewDesign extends Component {
   TripAccepted = (data) => {
     this.previewMapRef.cleanup()
     this.vibrate()
-    this.setState({ trip: { ...this.state.trip, status: ON_THE_WAY, start_time: data.trip.start_time },
+    this.setState({ trip: { ...this.state.trip, status: ON_THE_WAY, start_time: data.trip.start_time, accepted_at: data.trip.accepted_at },
                     car: { location: data.trip.car_location ,color: data.trip.car_color, number: data.trip.car_number, deg: data.trip.car.deg },
-                    driver: { name: data.trip.driver_name, phone_number: data.trip.car_phone_number } })
+                    driver: { name: data.trip.driver_name, phone_number: data.trip.car_phone_number } }, () => this.startCountdown())
     this.clearFetchTripTimeout()
   }
 
@@ -545,6 +575,7 @@ export default class NewDesign extends Component {
     this.previewMapRef.cleanup()
     this.unsubscribe()
     this.clearFetchTripTimeout()
+    this.clearCountdown()
     if (data.by_driver) alert(i18n.trip.canceled)
   }
 
@@ -569,6 +600,7 @@ export default class NewDesign extends Component {
   waiting_client = () => {
     this.vibrate()
     this.setState({ trip: { ...this.state.trip, status: WAITING_CLIENT }})
+    this.clearCountdown()
   }
 
   start_trip = () => {
@@ -724,6 +756,7 @@ export default class NewDesign extends Component {
             showWidgetTrue={this.showWidgetTrue}
             cards={cards}
             paymentButtonDisabled={this.state.paymentButtonDisabled}
+            cancelTimer={this.state.cancelTimer}
             availableBonusTrips={this.props.availableBonusTrips}/>
           { showWidget && <Widget createCard={this.createCard} showWidget={() => this.setState({showWidget: false}) }/> }
         </section>
