@@ -5,7 +5,7 @@ module Events
         Dry::Validation.Schema do
           configure { config.messages = :i18n }
 
-          required(:user_id).filled(:int?)
+          required(:trip_id).filled(:int?)
         end
       end
 
@@ -22,11 +22,15 @@ module Events
 
       def send_push
         message = 'У вас є несплачена поїздка. Перевірте, чи є кошти на вашій карті, або сплатіть другою картою'
-        Jobs::Notification.perform_later(data[:user_id], message)
+        Jobs::Notification.perform_later(data[:trip_id], message)
+      end
+
+      def trip
+        @trip ||= Trip.find_by(id: data[:trip_id])
       end
 
       def user
-        @user ||= User.find_by(id: data[:user_id])
+        @user ||= trip.user
       end
     end
   end

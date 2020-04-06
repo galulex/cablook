@@ -64,7 +64,7 @@ module Events
 
       def notify
         message = I18n.t('notification.loading')
-        Jobs::Notification.perform_later(trip.user_id, message, trip)
+        Jobs::Notification.perform_later(trip, message)
       end
 
       def trip

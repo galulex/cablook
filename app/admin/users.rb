@@ -14,8 +14,8 @@ ActiveAdmin.register User do
     end
 
     def notify_all_about_unpaid_trip
-      users_ids = Trip.all.unpaid.pluck(:user_id).uniq
-      Jobs::NotifyUsers.perform_later(users_ids)
+      trips = Trip.all.unpaid.select('distinct on (trips.user_id) trips.id')
+      Jobs::NotifyUsers.perform_later(trips.pluck(:id))
       redis.set("button_state", true)
       redirect_to collection_path, notice: 'Notifications successfully sent!'
     end
