@@ -43,6 +43,7 @@ export default class Vendor extends Component {
       this.setState({ vendor: res.data, showLoader: false })
     }).catch((error) => {
       if (error.response) alert(error.response.data.errors)
+      if (error.response.status === 418) route('/delivery', true)
     });
   }
 

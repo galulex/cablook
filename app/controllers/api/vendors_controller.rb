@@ -10,7 +10,11 @@ module Api
     end
 
     def show
-      render json: vendor.as_json(methods: %i(status open_time close_time name_slug)).merge({ items: items }), status: 200
+      if items
+        render json: vendor.as_json(methods: %i(status open_time close_time name_slug)).merge({ items: items }), status: 200
+      else
+        render json: { errors: I18n.t('vendors.vendor_unavailable') }.to_json, status: 418
+      end
     end
 
     private
@@ -24,9 +28,13 @@ module Api
     end
 
     def items
-      url = URI(vendor.api_url)
-      res = Net::HTTP.get(url)
-      ActiveSupport::JSON.decode(res)
+      begin
+        url = URI(vendor.api_url)
+        res = Net::HTTP.get(url)
+        ActiveSupport::JSON.decode(res)
+      rescue
+        false
+      end
     end
   end
 end
