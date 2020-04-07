@@ -34,14 +34,14 @@
   }
 
   ol {
-    height: calc(100vh - 41px);
+    height: 90vh;
     overflow-y: auto;
     overflow-x: hidden;
     flex: 0 0 auto;
     width: 100%;
     scroll-snap-align: start;
     list-style: none;
-    padding: 0;
+    padding: 0 0 50px 0;
     margin: 0;
     scroll-snap-type: y mandatory;
     scroll-behavior: smooth;

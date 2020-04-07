@@ -3,6 +3,8 @@
   import axios from 'axios'
   import Actions from './actions.svelte'
 
+  import Pin from '../../../images/Pin.svelte'
+
   export let trip
   export let location
   export let updateTrip
@@ -11,11 +13,6 @@
   onMount(() => {
     proposal.scrollIntoView()
   })
-
-  let klass = () => {
-    if (trip.vip) return 'vip'
-    if (trip.pre_order) return 'preorder'
-  }
 
   let start = location
   let finish
@@ -33,36 +30,49 @@
     let result = json.routes[0]
     return { distance: Math.round(result.distance/1000), duration: Math.round(result.duration/60) }
   })
+
+  let bgColor = () => {
+    if (trip.vip) return 'var(--red_color)'
+    if (trip.pre_order) return 'var(--blue_color)'
+
+    return 'var(--yellow_color)'
+  }
+
+  let textColor = () => {
+    if (trip.vip || trip.pre_order) return 'var(--white_color)'
+    return 'var(--main_dark_color)'
+  }
+
+  let btnStyle = () => {
+    return `background: ${bgColor()}; color: ${textColor()};`
+  }
 </script>
 
 <style>
   ol > li {
     scroll-snap-align: start;
     padding: 20px 20px 60px 20px;
-    margin: 20px;
-    border: 1px solid gray;
+    margin: 20px 50px;
     position: relative;
-    background: wheat;
+    background: #eaefed;
+    box-shadow: inset -2px -1px 8px #dbe2e1;
+    border-radius: 10px;
   }
 
-  .preorder {
-    background: #06a092;
-  }
-
-  .vip {
-    background: #ff8484;
+  address {
+    font-style: normal;
   }
 </style>
 
-<li bind:this={proposal} class={klass()}>
+<li bind:this={proposal}>
   {#each trip.stops as stop, i}
-    <address><b>📍</b> {stop}</address>
+    <address><Pin style={{fill: bgColor(), width: '15px' }}/> {stop}</address>
   {/each}
   {#await osrm()}
-    <Actions trip={trip} duration={'⌛'} distance={'⌛'}, updateTrip={updateTrip}/>
+    <Actions trip={trip} duration={'⌛'} distance={'⌛'} bgColor={bgColor()} btnStyle={btnStyle()} updateTrip={updateTrip}/>
   {:then result}
-    <Actions trip={trip} duration={result.duration} distance={result.distance} updateTrip={updateTrip}/>
+    <Actions trip={trip} duration={result.duration} distance={result.distance} bgColor={bgColor()} btnStyle={btnStyle()} updateTrip={updateTrip}/>
   {:catch error}
-    <Actions trip={trip} duration={'⌛'} distance={'⌛'} updateTrip={updateTrip}/>
+    <Actions trip={trip} duration={'⌛'} distance={'⌛'} bgColor={bgColor()} btnStyle={btnStyle()} updateTrip={updateTrip}/>
   {/await}
 </li>

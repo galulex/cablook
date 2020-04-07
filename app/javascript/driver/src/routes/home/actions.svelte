@@ -2,6 +2,11 @@
   import { onMount, onDestroy } from 'svelte'
   import axios from 'axios'
 
+  import Leaf from '../../../images/Leaf_black.svelte'
+  import Timer from '../../../images/Timer.svelte'
+  import Clock from '../../../images/Clock.svelte'
+  import Distance from '../../../images/Distance.svelte'
+
   export let trip
   export let distance
   export let duration
@@ -53,6 +58,9 @@
       (time <= 50)
     )
   }
+
+  export let bgColor
+  export let btnStyle
 </script>
 
 <style>
@@ -60,10 +68,6 @@
     display: inline-block;
     width: 48%;
     text-align: left;
-  }
-
-  i {
-    text-shadow: 0 0 #312d50;
   }
 
   p {
@@ -76,27 +80,24 @@
   }
 
   button {
+    box-shadow: inset 0px -6px 10px var(--shadow_color);
     width: 100%;
     position: absolute;
     left: 0;
     bottom: 0;
     border: none;
     height: 40px;
-    color: white;
-  }
-
-  button i {
-    text-shadow: 0 0 white;
+    font-weight: 400;
   }
 </style>
 
 <p>
-  <span><b>🚕</b> {trip.trips_count}</span>
-  <time><b>⏰</b>{time}</time>
+  <span><Leaf style ={{width: '30px'}}/> {trip.trips_count}</span>
+  <span><Distance style={{ fill: bgColor, width: '15px', height: '15px'}}/> {distance}KM</span>
 </p>
 <p>
   <span>
-    <b>⏰</b>
+    <Clock style={{ fill: bgColor, width: '15px', height: '15px'}}/>
     {#if trip.pre_order }
       <time>{trip.start_time}</time>
     {:else}
@@ -113,7 +114,7 @@
       </select>
     {/if}
   </span>
-  <span><b>🚖</b> {distance}KM</span>
+  <time><Timer style={{width: '15px', height: '15px'}}/>{time}</time>
 </p>
 <blockquote><b>💬</b> {trip.comment}</blockquote>
-<button type='button' disabled={disabledButton || disabled} on:click={accept}><i>✔️</i> GO</button>
+<button type='button' disabled={disabledButton || disabled} on:click={accept} style="{btnStyle}">GO</button>
