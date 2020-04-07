@@ -9,7 +9,7 @@ module Jobs
 
     def send_push_to_android_devices(trip, message)
       fcm = FCM.new(ENV['FCM_SERVER_KEY'])
-      registration_ids = Device.where(user_id: trip.user_id).where.not(platform: Constants::Device::IOS).pluck(:token)
+      registration_ids = trip.user.devices.fcm.pluck(:token)
       options = {
         data: {
           title: 'CabLook',
@@ -65,13 +65,12 @@ module Jobs
         }
         options[:data][:trip][:action] = 'reply'
       else
-        return
       end
       fcm.send(registration_ids, options)
     end
 
     def send_push_to_ios_devices(trip, message)
-      registration_ids = Device.where(user_id: trip.user_id).where(platform: Constants::Device::IOS).pluck(:token)
+      registration_ids = trip.user.devices.one_signal.pluck(:token)
       return if registration_ids.empty?
       params = {
         app_id: ENV['ONE_SIGNAL_APP_ID'],
