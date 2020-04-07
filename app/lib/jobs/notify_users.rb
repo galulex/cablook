@@ -1,11 +1,16 @@
 module Jobs
   class NotifyUsers < ActiveJob::Base
-    def perform(users_ids)
-      users_ids.each_slice(90) do |ids_group|
-        ids_group.each do |user_id|
-          Events::Users::Notify.(user_id: user_id)
+    def perform
+      batch_size = 1
+      offset = 0
+      loop do
+        trips = Trip.select('distinct on (user_id) trips.*').unpaid.limit(batch_size).offset(offset)
+        trips.each do |trip|
+          Events::Users::Notify.(trip_id: trip.id)
         end
-        sleep(1.hours)
+        break if trips.size < batch_size
+        offset += batch_size
+        sleep(1.hour)
       end
       Redis.current.set("button_state", false)
     end

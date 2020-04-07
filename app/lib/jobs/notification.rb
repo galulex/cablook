@@ -1,15 +1,15 @@
 module Jobs
   class Notification < ActiveJob::Base
-    def perform(user_id, message, trip=nil)
-      send_push_to_android_devices(user_id, message, trip)
-      send_push_to_ios_devices(user_id, message, trip)
+    def perform(trip, message)
+      send_push_to_android_devices(trip, message)
+      send_push_to_ios_devices(trip, message)
     end
 
     private
 
-    def send_push_to_android_devices(user_id, message, trip)
+    def send_push_to_android_devices(trip, message)
       fcm = FCM.new(ENV['FCM_SERVER_KEY'])
-      registration_ids = Device.where(user_id: user_id).where.not(platform: Constants::Device::IOS).pluck(:token)
+      registration_ids = trip.user.devices.fcm.pluck(:token)
       options = {
         data: {
           title: 'CabLook',
@@ -23,7 +23,7 @@ module Jobs
           }
         }
       }
-      case trip&.status
+      case trip.status
       when Constants::Trip::STATUS_CODES[Constants::Trip::PENDING]
         options[:data][:trip][:loading] = true
       when Constants::Trip::STATUS_CODES[Constants::Trip::DECLINED]
@@ -42,6 +42,8 @@ module Jobs
         options[:data][:trip][:action] =  message == 'clear' ? 'remove_notifications' : 'retry'
       when Constants::Trip::STATUS_CODES[Constants::Trip::CANCELED]
         options[:data][:trip][:action] = 'remove_notifications'
+      when Constants::Trip::STATUS_CODES[Constants::Trip::DRIVING]
+        options[:data][:trip][:action] = 'driving'
       when Constants::Trip::STATUS_CODES[Constants::Trip::WAITING_CLIENT]
         options[:data][:actions] = {
             actions: [
@@ -63,19 +65,18 @@ module Jobs
         }
         options[:data][:trip][:action] = 'reply'
       else
-        return
       end
       fcm.send(registration_ids, options)
     end
 
-    def send_push_to_ios_devices(user_id, message, trip)
-      registration_ids = Device.where(user_id: user_id).where(platform: Constants::Device::IOS).pluck(:token)
+    def send_push_to_ios_devices(trip, message)
+      registration_ids = trip.user.devices.one_signal.pluck(:token)
       return if registration_ids.empty?
       params = {
         app_id: ENV['ONE_SIGNAL_APP_ID'],
         contents: { en: message },
         include_player_ids: registration_ids,
-        collapse_id: user_id.to_s
+        collapse_id: trip.user_id.to_s
       }
       OneSignal::Notification.create(params: params)
     end

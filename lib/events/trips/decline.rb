@@ -49,7 +49,7 @@ module Events
       def notify
         return if trip.user.notification_settings.include?(Constants::User::DECLINE_TRIP)
         message = I18n.t('notification.car_not_found')
-        Jobs::Notification.perform_later(trip.user_id, message, trip)
+        Jobs::Notification.perform_later(trip, message)
       end
 
       def telegram_message

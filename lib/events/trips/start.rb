@@ -28,7 +28,7 @@ module Events
       def notify
         return if trip.user.notification_settings.include?(Constants::User::WAITING_CLIENT)
         message = I18n.t('notification.waiting')
-        Jobs::Notification.perform_later(trip.user_id, message)
+        Jobs::Notification.perform_later(trip, message)
       end
 
       def delivery_trip?
