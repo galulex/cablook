@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_02_130306) do
+ActiveRecord::Schema.define(version: 2020_04_07_120112) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -191,6 +191,7 @@ ActiveRecord::Schema.define(version: 2020_04_02_130306) do
     t.integer "trips_count", default: 0
     t.boolean "vip", default: false
     t.string "notification_settings", default: [], array: true
+    t.integer "locale", default: 0
   end
 
   create_table "vendors", force: :cascade do |t|
