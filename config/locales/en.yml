@@ -34,6 +34,8 @@ en:
     trip_already_finished: Trip is already finished
     entrance: "%{val} Entrance"
     cant_retry: You can't retry trip without your card
+  vendors:
+    vendor_unavailable: Vendor temporary unavailable
   orders:
     no_items: You have selected an unknown item or the order amount is zero
   cards:
