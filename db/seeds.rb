@@ -6,11 +6,11 @@ end
 password = BCrypt::Password.create('12341234')
 
 user_data = [
-  { phone_number: '+380990000001', encrypted_password: password, auth_token: token },
-  { phone_number: '+380990000002', encrypted_password: password, auth_token: token },
-  { phone_number: '+380990000003', encrypted_password: password, auth_token: token },
-  { phone_number: '+380990000004', encrypted_password: password, auth_token: token },
-  { phone_number: '+380990000005', encrypted_password: password, auth_token: token },
+  { phone_number: '+380990000001', auth_token: token },
+  { phone_number: '+380990000002', auth_token: token },
+  { phone_number: '+380990000003', auth_token: token },
+  { phone_number: '+380990000004', auth_token: token },
+  { phone_number: '+380990000005', auth_token: token },
 ]
 user_data.each { |data, index| User.create(data.merge(referral_code: SecureRandom.base58(6).upcase)) }
 

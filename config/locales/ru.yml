@@ -6,7 +6,6 @@ ru:
       invalid_phone_number: Номер телефона введен неверно
   verifications:
     email:
-      send_confirmation_token: "Ссылка на подтверждение: %{token}. https://cablook.taxi"
       confirmation_subject: Подтверждение электронного адреса
       already_confirmed: Этот электронный адрес уже был подтверждён
     number:

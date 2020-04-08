@@ -11,7 +11,7 @@ describe Events::Users::Authorize do
     it { expect(result.locale).to eq(user.locale) }
 
     context 'when phone_number is invalid' do
-      let(:data) { { phone_number: Faker::Number.number(12), password: user.encrypted_password } }
+      let(:data) { { phone_number: Faker::Number.number(12) } }
 
       it { is_expected.to raise_error(Events::InvalidParamsError) }
     end

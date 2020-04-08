@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_07_120112) do
+ActiveRecord::Schema.define(version: 2020_04_08_101934) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -182,10 +182,7 @@ ActiveRecord::Schema.define(version: 2020_04_07_120112) do
   create_table "users", force: :cascade do |t|
     t.string "email"
     t.string "phone_number"
-    t.string "encrypted_password"
     t.string "auth_token"
-    t.string "verification_token"
-    t.string "confirmation_token"
     t.string "referral_code"
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }
     t.integer "trips_count", default: 0

@@ -6,7 +6,6 @@ en:
       invalid_phone_number: Phone number is invalid
   verifications:
     email:
-      send_confirmation_token: "Confirmation link: %{token}. https://cablook.taxi"
       confirmation_subject: Email Confirmation
       already_confirmed: This email is already confirmed
     number:
