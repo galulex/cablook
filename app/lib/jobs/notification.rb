@@ -1,6 +1,7 @@
 module Jobs
   class Notification < ActiveJob::Base
     def perform(trip, message)
+      I18n.locale = trip.user.locale
       send_push_to_android_devices(trip, message)
       send_push_to_ios_devices(trip, message)
     end
