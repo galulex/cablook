@@ -4,18 +4,6 @@ uk:
       invalid_username: Ім'я користувача введено невірно
       invalid_password: Пароль введено невірно
       invalid_phone_number: Номер телефона введено невірно
-  verifications:
-    email:
-      confirmation_subject: Підтверждення email
-      already_confirmed: Email підтвержденно
-    number:
-      send_retry_message: Шановний клієнт, у вас є неоплачена поїздка. Cплатіть борг у нашому додатку.
-    errors:
-      email:
-        does_not_exist: Пользователя с таким электронным адресом не существует
-        does_not_exist: Користувача з таким email не існує
-      number:
-        does_not_exist: Користувача з таким номером телефона не існує
   assignings:
     errors:
       messages:
@@ -44,6 +32,8 @@ uk:
     cant_retry: Неможливо повторити поїздку без карти. Додайте спочатку карту!
   vendors:
     vendor_unavailable: Постачальник тимчасово недоступний
+  users:
+    invalid_argument: Невірний аргумент
   wayforpay:
     '1100': Операція успішна
     '1101': Не вдалося провести оплату. Свяжіться з вашим банком або скористайтеся іншою карткою

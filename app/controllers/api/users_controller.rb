@@ -9,8 +9,11 @@ module Api
     end
 
     def update
-      update_user
-      render json: { user: user.to_json }, status: 200
+      if update_user
+        render json: { user: user.to_json }, status: 200
+      else
+        render json: { error: I18n.t('users.invalid_argument') }, status: 422
+      end
     end
 
     private
@@ -22,6 +25,8 @@ module Api
 
     def update_user
       user.update(user_params)
+      rescue
+        false
     end
 
     def prevent_page_caching

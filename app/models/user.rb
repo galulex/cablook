@@ -11,7 +11,7 @@ class User < ApplicationRecord
   has_many :business_cards, through: :businesses, source: :card
   has_many :favorite_addresses
 
-  enum locale: Constants::User::LOCALE_CODES.invert
+  enum locale: I18n.config.available_locales
 
   has_secure_token :auth_token
 

@@ -36,9 +36,19 @@ describe Api::UsersController, type: :controller do
 
     context 'when token is valid' do
       before { request.headers['Auth-Token'] = user.auth_token }
-      before { patch :update, params: params }
 
-      it { is_expected.to have_http_status(200) }
+      context 'and locale is valid' do
+        before { patch :update, params: params }
+
+        it { is_expected.to have_http_status(200) }
+      end
+
+      context 'and locale is invalid' do
+        let(:params) { { user: { locale: 'invalid' } } }
+        before { patch :update, params: params }
+
+        it { is_expected.to have_http_status(422) }
+      end
     end
   end
 end
