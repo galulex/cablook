@@ -55,7 +55,7 @@
 
   .slider {
     position: absolute;
-    bottom: 10px;
+    bottom: 70px;
     right: 0;
     transform: translateX(48%);
     z-index: 100;
@@ -66,13 +66,14 @@
     font-size: 5rem;
     border: none;
     background: none;
+    box-shadow: none;
   }
 </style>
 
 <section bind:this={component}>
   <div class='slider'>
-    <button type='button'>‹</button>
-    <button type='button'>›</button>
+    <button type='button' on:click={() => document.getElementById('current').scrollIntoView()}>‹</button>
+    <button type='button' on:click={() => document.getElementById('proposals').scrollIntoView()}>›</button>
   </div>
   <ol id='proposals'>
     {#each trips.filter(trip => { return trip.status === 0 }) as trip (trip.id)}
