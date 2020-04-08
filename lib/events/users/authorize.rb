@@ -10,14 +10,14 @@ module Events
       end
 
       def run
-        update_auth_token
+        update_user
         user || create_user
       end
 
       private
 
-      def update_auth_token
-        user.update(auth_token: data[:auth_token]) if user && data[:auth_token].present?
+      def update_user
+        user.update(auth_token: data[:auth_token], locale: data[:locale]) if user && data[:auth_token].present?
       end
 
       def user

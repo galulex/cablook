@@ -11,6 +11,8 @@ class User < ApplicationRecord
   has_many :business_cards, through: :businesses, source: :card
   has_many :favorite_addresses
 
+  enum locale: Constants::User::LOCALE_CODES.invert
+
   has_secure_token :auth_token
 
   before_create :generate_referral

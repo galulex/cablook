@@ -8,6 +8,11 @@ module Api
       render json: response, status: 200
     end
 
+    def update
+      update_user
+      render json: { user: user.to_json }, status: 200
+    end
+
     private
 
     def user
@@ -15,10 +20,18 @@ module Api
       @user ? @user : (raise Constants::NotFoundError)
     end
 
+    def update_user
+      user.update(user_params)
+    end
+
     def prevent_page_caching
       response.headers['Cache-Control'] = 'no-cache, no-store'
       response.headers['Pragma']        = 'no-cache'
       response.headers['Expires']       = '0'
+    end
+
+    def user_params
+      params.require(:user).permit(:locale)
     end
   end
 end

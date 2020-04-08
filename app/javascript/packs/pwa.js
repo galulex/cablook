@@ -273,10 +273,20 @@ export default class App extends Component {
     })
   }
 
+  updateUserLocale = (locale) => {
+    let params = { locale: locale }
+    axios.patch('user', params).then((res) => {
+      console.log(res.data.user)
+    }).catch((err) => {
+      console.log(err)
+    })
+  }
+
   setLanguage = (e) => {
     this.setState({language: e.target.value})
     localStorage.setItem('language', e.target.value)
     axios.defaults.headers.common['Pwa-Language'] = e.target.value
+    this.updateUserLocale(e.target.value)
     window.location.reload()
   }
 
@@ -380,7 +390,7 @@ export default class App extends Component {
     } else {
       return(
         <main id='app' class='login' ref={main => this.main = main}>
-          <Session login = {this.logIn} />
+          <Session login = {this.logIn} language={this.state.language} />
           <Prompt />
         </main>
       )
