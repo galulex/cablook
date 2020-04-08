@@ -51,22 +51,45 @@
 <style>
   ol > li {
     scroll-snap-align: start;
-    padding: 20px 20px 60px 20px;
+    padding: 25px 20px 60px 15px;
     margin: 20px 50px;
     position: relative;
-    background: #eaefed;
-    box-shadow: inset -2px -1px 8px #dbe2e1;
+    background: var(--input_bg_color);
+    box-shadow: inset -2px -1px 8px var(--trip_shadow_color);
     border-radius: 10px;
+    font-size: 16px;
+    color: var(--text_grey_color);
   }
 
   address {
     font-style: normal;
+    margin-bottom: 10px;
+    padding-left: 5px;
+  }
+
+  address label {
+    padding-left: 10px;
+    width: 85%;
+    display: inline-flex;
+  }
+
+  vip {
+    position: absolute;
+    right: 20px;
+    top: 25px;
+    font-weight: 400;
+    color: var(--red_color);
   }
 </style>
 
 <li bind:this={proposal}>
+  {#if trip.vip}<vip>VIP</vip>{/if}
   {#each trip.stops as stop, i}
-    <address><Pin style={{fill: bgColor(), width: '15px' }}/> {stop}</address>
+    {#if i == 0}
+      <address><Pin style={{fill: bgColor(), width: '15px', height: '15px' }}/><label>{stop}</label></address>
+    {:else}
+      <address><Pin style={{fill: 'black', width: '15px', height: '15px' }}/><label>{stop}</label></address>
+    {/if}
   {/each}
   {#await osrm()}
     <Actions trip={trip} duration={'⌛'} distance={'⌛'} bgColor={bgColor()} btnStyle={btnStyle()} updateTrip={updateTrip}/>

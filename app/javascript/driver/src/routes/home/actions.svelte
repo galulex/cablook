@@ -64,19 +64,31 @@
 </script>
 
 <style>
-  p span, p time {
+  span, time {
+    padding-left: 5px;
     display: inline-block;
-    width: 48%;
+    width: 49%;
     text-align: left;
   }
 
+  .car {
+    padding: 0;
+  }
+
   p {
-    margin: 5px 0;
+    margin: 10px 0;
     text-align: justify;
   }
 
-  p time, p span:last-child {
+  time:last-child , span:last-child {
+    width: 48%;
     text-align: right;
+  }
+
+  time:last-child label, span:last-child label {
+    display: inline-block;
+    text-align: left;
+    width: 40px;
   }
 
   button {
@@ -89,32 +101,36 @@
     height: 40px;
     font-weight: 400;
   }
+
+  label {
+    padding: 0 0 0 5px;
+  }
+
+  blockquote {
+    padding: 10px;
+    box-shadow: inset 3px 2px 4px var(--shadow_color);
+    border-radius: 10px;
+    color: var( --text_grey_color);
+    font-size: 15px;
+    background: var(--trip_shadow_color);
+    min-height: 50px;
+  }
 </style>
 
 <p>
-  <span><Leaf style ={{width: '30px'}}/> {trip.trips_count}</span>
-  <span><Distance style={{ fill: bgColor, width: '15px', height: '15px'}}/> {distance}KM</span>
+  <span class='car'><Leaf style ={{width: '25px'}}/><label>{trip.trips_count}</label></span>
+  <span><Distance style={{ fill: bgColor, width: '15px', height: '15px'}}/><label>{distance}км</label></span>
 </p>
 <p>
-  <span>
+  <time>
     <Clock style={{ fill: bgColor, width: '15px', height: '15px'}}/>
     {#if trip.pre_order }
-      <time>{trip.start_time}</time>
+      <label>{trip.start_time}</label>
     {:else}
-      <select>
-        <option value='' selected>{duration + 4}XB</option>
-        <option value='2'>2XB</option>
-        <option value='5'>5XB</option>
-        <option value='10'>10XB</option>
-        <option value='15'>15XB</option>
-        <option value='20'>20XB</option>
-        <option value='30'>30XB</option>
-        <option value='45'>45XB</option>
-        <option value='60'>60XB</option>
-      </select>
+      <label>{duration}хв</label>
     {/if}
-  </span>
-  <time><Timer style={{width: '15px', height: '15px'}}/>{time}</time>
+  </time>
+  <time><Timer style={{width: '15px', height: '15px'}}/><label>{time}</label></time>
 </p>
-<blockquote><b>💬</b> {trip.comment}</blockquote>
+<blockquote>{trip.comment}</blockquote>
 <button type='button' disabled={disabledButton || disabled} on:click={accept} style="{btnStyle}">GO</button>
