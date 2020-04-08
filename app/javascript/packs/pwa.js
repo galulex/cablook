@@ -200,6 +200,7 @@ export default class App extends Component {
 
   fetchUser = () => {
     return axios.get('user').then((res) => {
+      if ((res.data.locale !== this.state.language)) { this.updateUserLocale(this.state.language) }
       let availableBonusTrips = []
       if (res.data.bonus_trips) availableBonusTrips = this.getAvailableBonusTrips(res.data.bonus_trips)
       this.setState({cards: res.data.cards,
