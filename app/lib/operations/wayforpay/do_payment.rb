@@ -16,7 +16,7 @@ module Operations
         when types[1], types[2], types[3]
           update_payment_and_total
         when types[0]
-          return if payment.nil? || payment.status == Constants::Payments::BONUS
+          return if payment.status == Constants::Payments::BONUS
           update_payment_and_total
           update_bonus_trip_if_necessary if success_response?
         end

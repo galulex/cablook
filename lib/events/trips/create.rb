@@ -96,6 +96,7 @@ module Events
           status: Constants::Payments::BONUS,
           amount: 0,
           trip_id: @trip.id,
+          card_id: card_id,
           user_id: data[:user_id]
         )
         bonus_trips.first.update(status: :used, trip_id: @trip.id)
