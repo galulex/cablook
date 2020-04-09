@@ -7,7 +7,7 @@ describe Api::UsersController, type: :controller do
     context 'when token is invalid' do
       before { get :show, as: :json }
 
-      it { is_expected.to have_http_status(404) }
+      it { is_expected.to have_http_status(401) }
     end
 
     context 'when token is valid' do
@@ -24,14 +24,14 @@ describe Api::UsersController, type: :controller do
   end
 
   describe '#update' do
-    let(:params) { { user: { locale: 'en' } } }
+    let(:params) { { locale: 'en' } }
 
     subject { response }
 
     context 'when token is invalid' do
       before { patch :update, params: params }
 
-      it { is_expected.to have_http_status(404) }
+      it { is_expected.to have_http_status(401) }
     end
 
     context 'when token is valid' do
@@ -40,11 +40,11 @@ describe Api::UsersController, type: :controller do
       context 'and locale is valid' do
         before { patch :update, params: params }
 
-        it { is_expected.to have_http_status(200) }
+        it { is_expected.to have_http_status(204) }
       end
 
       context 'and locale is invalid' do
-        let(:params) { { user: { locale: 'invalid' } } }
+        let(:params) { super().merge(locale: 'invalid') }
         before { patch :update, params: params }
 
         it { is_expected.to have_http_status(422) }

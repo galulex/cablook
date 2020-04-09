@@ -11,12 +11,11 @@ class User < ApplicationRecord
   has_many :business_cards, through: :businesses, source: :card
   has_many :favorite_addresses
 
-  enum locale: I18n.config.available_locales
-
   has_secure_token :auth_token
 
   before_create :generate_referral
 
+  validates :locale, inclusion: { in: I18n.config.available_locales.map(&:to_s) }
   validates :phone_number, format: { with: Constants::Regex::PHONE_NUMBER }
 
   accepts_nested_attributes_for :telegram

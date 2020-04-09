@@ -1,5 +1,5 @@
 class AddLocaleToUsers < ActiveRecord::Migration[5.2]
   def change
-    add_column :users, :locale, :integer, default: 0
+    add_column :users, :locale, :string, default: 'uk'
   end
 end

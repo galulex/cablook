@@ -188,7 +188,7 @@ ActiveRecord::Schema.define(version: 2020_04_08_101934) do
     t.integer "trips_count", default: 0
     t.boolean "vip", default: false
     t.string "notification_settings", default: [], array: true
-    t.integer "locale", default: 0
+    t.string "locale", default: "uk"
   end
 
   create_table "vendors", force: :cascade do |t|

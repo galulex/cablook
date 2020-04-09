@@ -1,6 +1,7 @@
 module Api
   class UsersController < ApiApplicationController
-    before_action :user, :prevent_page_caching
+    before_action :authorize!
+    before_action :prevent_page_caching, only: :show
 
     def show
       response = user.as_json(only: %i(id email phone_number locale), include: %i(favorite_addresses bonus_trips parent_bonus), methods: %i(enabled_notifications current_trip))
@@ -9,34 +10,19 @@ module Api
     end
 
     def update
-      if update_user
-        render json: { user: user.to_json }, status: 200
-      else
-        render json: { error: I18n.t('users.invalid_argument') }, status: 422
-      end
+      Events::Users::Update.(user_id: user.id, locale: params[:locale])
     end
 
     private
 
     def user
-      @user ||= User.fetch_user(auth_token)[0]
-      @user ? @user : (raise Constants::NotFoundError)
-    end
-
-    def update_user
-      user.update(user_params)
-      rescue
-        false
+      current_user
     end
 
     def prevent_page_caching
       response.headers['Cache-Control'] = 'no-cache, no-store'
       response.headers['Pragma']        = 'no-cache'
       response.headers['Expires']       = '0'
-    end
-
-    def user_params
-      params.require(:user).permit(:locale)
     end
   end
 end
