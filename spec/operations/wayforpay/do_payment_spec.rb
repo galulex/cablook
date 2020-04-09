@@ -15,7 +15,7 @@ describe Operations::Wayforpay::DoPayment do
     let(:user) { create(:user) }
 
     context 'when payment have success status' do
-      let(:payment) { create(:payment, trip_id: trip.id, user_id: user.id, card_id: card.id, status: Constants::Payments::SUCCESS ) }
+      let(:payment) { create(:payment, trip_id: trip.id, user_id: user.id, card_id: card.id, status: Constants::Payments::SUCCESS) }
 
       it { is_expected.not_to change { payment.reload.order_reference } }
     end
@@ -24,6 +24,7 @@ describe Operations::Wayforpay::DoPayment do
       context 'and payment status is Bonus' do
         let(:payment) { create(:payment, trip_id: trip.id, user_id: user.id, card_id: card.id, status: Constants::Payments::BONUS) }
 
+        it { is_expected.not_to change { Payments::Trip.count } }
         it { is_expected.not_to change { payment.reload.status } }
         it { is_expected.not_to change { payment.reload.response } }
         it { is_expected.not_to change { trip.reload.total } }
