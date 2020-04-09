@@ -273,7 +273,7 @@
               title={actions[trip.status - 1].title}
               disabled={disabled}
               on:click={actions[trip.status - 1].action}
-              style="background: {bgColor()}">
+              style="background: #89d5d4;">
         <svelte:component this={actions[trip.status - 1].icon} style={{fill: 'var(--white_color)', width: '25px', height: '25px' }}/>
       </button>
     </div>
