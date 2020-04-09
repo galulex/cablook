@@ -105,16 +105,6 @@
   label {
     padding: 0 0 0 5px;
   }
-
-  blockquote {
-    padding: 10px;
-    box-shadow: inset 3px 2px 4px var(--shadow_color);
-    border-radius: 10px;
-    color: var( --text_grey_color);
-    font-size: 15px;
-    background: var(--trip_shadow_color);
-    min-height: 50px;
-  }
 </style>
 
 <p>
@@ -130,7 +120,7 @@
       <label>{duration}хв</label>
     {/if}
   </time>
-  <time><Timer style={{width: '15px', height: '15px'}}/><label>{time}</label></time>
+  <time><Timer style={{fill: 'var(--red_color)', width: '15px', height: '15px'}}/><label>{time}</label></time>
 </p>
 <blockquote>{trip.comment}</blockquote>
 <button type='button' disabled={disabledButton || disabled} on:click={accept} style="{btnStyle}">GO</button>

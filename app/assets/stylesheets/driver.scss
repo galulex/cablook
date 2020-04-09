@@ -38,6 +38,13 @@ b {
 blockquote {
   word-break: break-word;
   margin: 5px 0;
+  padding: 10px;
+  box-shadow: inset 3px 2px 4px var(--shadow_color);
+  border-radius: 10px;
+  color: var( --text_grey_color);
+  font-size: 15px;
+  background: var(--trip_shadow_color);
+  min-height: 50px;
 }
 
 [disabled] {

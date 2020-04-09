@@ -88,7 +88,7 @@
     {#if i == 0}
       <address><Pin style={{fill: bgColor(), width: '15px', height: '15px' }}/><label>{stop}</label></address>
     {:else}
-      <address><Pin style={{fill: 'black', width: '15px', height: '15px' }}/><label>{stop}</label></address>
+      <address><Pin style={{fill: 'var(--main_dark_color)', width: '15px', height: '15px' }}/><label>{stop}</label></address>
     {/if}
   {/each}
   {#await osrm()}

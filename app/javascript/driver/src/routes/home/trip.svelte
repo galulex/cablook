@@ -1,7 +1,23 @@
 <script>
   import { onMount, onDestroy } from 'svelte'
   import axios from 'axios'
-  import Unrelease from './unrelease.svelte'
+
+  import Leaf from '../../../images/Leaf_black.svelte'
+  import Timer from '../../../images/Timer.svelte'
+  import Clock from '../../../images/Clock.svelte'
+  import Distance from '../../../images/Distance.svelte'
+  import Pin from '../../../images/Pin.svelte'
+  import Location from '../../../images/Location_view.svelte'
+  import Phone from '../../../images/Phone.svelte'
+  import PhoneCrossed from '../../../images/Phone_crossed.svelte'
+  import Plane from '../../../images/Plane.svelte'
+  import Clapper from '../../../images/Clapper.svelte'
+  import Flag from '../../../images/Flag.svelte'
+  import CrossX from '../../../images/Cross_X.svelte'
+  import Back from '../../../images/Back.svelte'
+  import Dollar from '../../../images/Dollar.svelte'
+  import Exclamation from '../../../images/Exclamation.svelte'
+  import Check from '../../../images/Check.svelte'
 
   export let trip
   export let updateTrip
@@ -15,7 +31,8 @@
   let timer = parseInt(localStorage[`timer_${trip.id}`]) || 0
   let interval
   let paymentCheck = false
-  let paymentIcon = trip.payment_status == 2 ? '✅' : ''
+  let paymentIcon = trip.payment_status == 2 ? Check : Dollar
+  let paymentClass = trip.payment_status == 2 ? 'success' : ''
 
   onMount(() => {
     item.scrollIntoView()
@@ -25,6 +42,17 @@
   onDestroy(() => {
     if (subscription) subscription.unsubscribe()
   })
+
+  let unrelease = () => {
+    if (!confirm('Викинути замовлення в ефір?')) return
+    disabled = true
+    axios.patch(`trips/${trip.id}/unrelease`).then(res => {
+      updateTrip(res.data)
+    }).catch((error) => {
+      disabled = false
+      if (error.response) alert(error.response.data.errors)
+    })
+  }
 
   let count = () => {
     if (interval) {
@@ -56,11 +84,12 @@
   }
 
   let paymentVerify = () => {
-    paymentIcon = ''
+    paymentIcon = Dollar
     paymentCheck = true
     axios.patch(`trips/${trip.id}/payments_verify`).then(res => {
       if (res.data.payment_status == 2) {
-        paymentIcon = '✅'
+        paymentIcon = Check
+        paymentClass = 'success'
       } else {
         paymentVerifyError('Не вдалося здійснити оплату')
       }
@@ -71,7 +100,8 @@
 
   const paymentVerifyError = (message) => {
     paymentCheck = false
-    paymentIcon = '❌'
+    paymentIcon = Exclamation
+    paymentClass = 'failed'
     alert(message)
   }
 
@@ -82,7 +112,7 @@
         axios.patch(`trips/${trip.id}/waiting_client`).then(update)
       },
       title: 'Arrived',
-      icon: '🛬'
+      icon: Plane
     },
     {
       action: () => {
@@ -90,7 +120,7 @@
         axios.patch(`trips/${trip.id}/start`).then(update)
       },
       title: 'Start',
-      icon: '🎬'
+      icon: Clapper
     },
     {
       action: () => {
@@ -102,14 +132,9 @@
         })
       },
       title: 'Finish',
-      icon: '🏁'
+      icon: Flag
     }
   ]
-
-  let klass = () => {
-    if (trip.vip) return 'vip'
-    if (trip.pre_order) return 'preorder'
-  }
 
   let subscribe = () => {
     if (subscription) return subscription
@@ -129,6 +154,13 @@
       alert(`${data.phone_number}: ${data.message}`)
     }
   }
+
+  let bgColor = () => {
+    if (trip.vip) return 'var(--red_color)'
+    if (trip.pre_order) return 'var(--blue_color)'
+
+    return 'var(--yellow_color)'
+  }
 </script>
 
 <style>
@@ -137,12 +169,8 @@
     height: inherit;
     overflow-y: auto;
     position: relative;
-    padding: 40px 0 60px 0;
-    box-shadow: inset 0px 0px 20px 0px #312d50;
-  }
-
-  li:nth-child(even) {
-    box-shadow: inset 0px 0px 20px 0px #19a160;
+    padding: 60px 20px 60px 20px;
+    color: var(--text_grey_color);
   }
 
   li > div {
@@ -153,84 +181,121 @@
     text-align: justify;
   }
 
-  p time, p span {
+  time, span {
     width: 32%;
     display: inline-block;
   }
 
-  p time {
+  time {
+    text-align: center;
+  }
+
+  span:last-child {
     text-align: right;
   }
 
   .buttons {
     display: flex;
     justify-content: space-between;
+    margin: 0 0 25px 0;
   }
 
   button, .button {
-    padding: 10px;
-    color: white;
+    padding: 15px 15px;
+    height: 55px;
+    background: var(--bg_gradient_color_1);
     text-decoration: none;
-    width: 20%;
+    width: 31%;
     text-align: center;
     border: none;
+    border-radius: 5px;
+    box-shadow: 3px 3px 6px var(--shadow_color), inset -1px -1px 2px var(--shadow_color);
   }
 
-  .arrived {
-    background: aqua;
+  button:hover, .button:hover {
+    box-shadow: 2px 2px 2px var(--shadow_color), -1px 0px 2px var(--white_color);
   }
 
-  .start {
-    background: orange;
+  button:active, .button:active {
+    box-shadow: inset 1px 1px 2px var(--shadow_color), inset -1px -1px 2px var(--white_color);
+    -webkit-tap-highlight-color: transparent;
   }
 
-  .preorder {
-    background: #06a092;
+  .buttons label {
+    font-weight: 400;
+    color: var(--main_dark_color);
+    font-size: 25px;
   }
 
-  .vip {
-    background: #ff8484;
+  address {
+    font-style: normal;
+    margin-bottom: 10px;
+  }
+
+  address label {
+    padding-left: 10px;
+  }
+
+  label {
+    padding: 0 0 0 5px;
+  }
+
+  blockquote {
+    margin-bottom: 60px;
+  }
+
+  .success {
+    background: green;
+  }
+
+  .failed {
+    background: var(--red_color);
   }
 </style>
 
-<li bind:this={item} class={klass()}>
+<li bind:this={item}>
   <div>
     {#each trip.stops as stop, i}
-      <address><b>📍</b> {stop}</address>
+      {#if i == 0}
+        <address><Pin style={{fill: bgColor(), width: '15px', height: '15px' }}/><label>{stop}</label></address>
+      {:else}
+        <address><Pin style={{fill: 'var(--main_dark_color)', width: '15px', height: '15px' }}/><label>{stop}</label></address>
+      {/if}
     {/each}
     <p>
-      <span><b>🚕</b> {trip.trips_count}</span>
-      <span><b>🚖</b> {distance}KM</span>
-      <time datatime={trip.start_at}><b>⏰</b> {trip.start_time}</time>
+      <span><Leaf style ={{width: '30px'}}/><label>{trip.trips_count}</label></span>
+      <time datatime={trip.start_at}><Clock style={{ fill: bgColor(), width: '15px', height: '15px'}}/><label>{trip.start_time}</label></time>
+      <span><Distance style={{ fill: bgColor(), width: '15px', height: '15px'}}/><label>{distance}км</label></span>
     </p>
-    <blockquote><b>💬</b> {trip.comment}</blockquote>
+    <blockquote>{trip.comment}</blockquote>
     <div class='buttons'>
       <button type='button'
               title={actions[trip.status - 1].title}
               disabled={disabled}
-              class={actions[trip.status - 1].title.toLowerCase()}
-              on:click={actions[trip.status - 1].action}>
-        <i>{actions[trip.status - 1].icon}</i>
+              on:click={actions[trip.status - 1].action}
+              style="background: {bgColor()}">
+        <svelte:component this={actions[trip.status - 1].icon} style={{fill: 'var(--white_color)', width: '25px', height: '25px' }}/>
       </button>
+    </div>
+    <div class='buttons'>
       <a class='button' href={`tel:${trip.user_number}`}>
         {#if trip.no_call}
-          <i>📵</i>
+          <PhoneCrossed style={{fill: 'var(--main_dark_color)', width: '25px', height: '25px'}}/>
         {:else}
-          <i>📱</i>
+          <Phone style={{fill: 'var(--main_dark_color)', width: '25px', height: '25px'}}/>
         {/if}
       </a>
       <a class='button'
          target='_blank'
          href={`https://www.google.com/maps/dir/?api=1&waypoints=${trip.waypoints.join('|')}&destination=${trip.waypoints[trip.waypoints.length - 1]}&travelmode=driving&dir_action=navigate`} >
-         <i>🌐</i>
+        <Pin style={{fill: 'var(--main_dark_color)', width: '25px', height: '25px' }}/>
       </a>
-      <button type='button' disabled={disabled} on:click={cancel}><i>❌</i></button>
+      <button type='button' disabled={disabled} on:click={cancel}><CrossX style={{fill: 'var(--red_color)', width: '20px', height: '25px'}}/></button>
     </div>
-    <br/>
     <div class='buttons'>
-      <button type='button' disabled={disabled} on:click={count}><i>⏰</i> {timer}</button>
-      <button type='button' disabled={trip.payment_status == 2 || paymentCheck} on:click={paymentVerify}>💵{paymentIcon}</button>
-      <Unrelease trip={trip} updateTrip={updateTrip} />
+      <button type='button' disabled={disabled} on:click={count}><Timer style={{fill: 'var(--main_dark_color)', width: '25px', height: '25px'}}/><label>{timer}</label></button>
+      <button type='button' disabled={trip.payment_status == 2 || paymentCheck} on:click={paymentVerify} class={paymentClass}><svelte:component this={paymentIcon} style={{fill: 'var(--main_dark_color)', width: '25px', height: '25px' }}/></button>
+      <button type='button' on:click={unrelease} disabled={disabled}><Back style={{fill: 'var(--main_dark_color)', width: '25px', height: '25px'}}/></button>
     </div>
   </div>
 </li>
