@@ -50,7 +50,7 @@ ActiveAdmin.register User do
     semantic_errors
     inputs do
       %w[email phone_number referral_code vip].each { |title| input title }
-      f.input :locale, as: :select, collection: User.locales.keys
+      f.input :locale, as: :select, collection: I18n.config.available_locales
       f.input :business_ids, as: :select, label: 'Business', collection: Business.all.map { |b| [b.name, b.id] }
     end
     actions
