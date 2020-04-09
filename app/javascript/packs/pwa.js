@@ -275,7 +275,7 @@ export default class App extends Component {
   }
 
   updateUserLocale = (locale) => {
-    axios.patch('user', { locale: 'locale' })
+    axios.patch('user', { locale: locale })
   }
 
   setLanguage = (e) => {
