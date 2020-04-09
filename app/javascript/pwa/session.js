@@ -168,7 +168,7 @@ export default class Session extends Component {
   sendRequest = (verification_token) => {
     const { number } = this.state
 
-    let params = { phone_number: number, auth_token: verification_token }
+    let params = { phone_number: number, auth_token: verification_token, locale: this.props.language }
     let platform = localStorage.getItem('device')
     let token  = localStorage.getItem('fcm_token')
 

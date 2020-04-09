@@ -9,7 +9,7 @@ module Api
     private
 
     def authorize_params
-      params.permit(:phone_number, :auth_token)
+      params.permit(:phone_number, :auth_token, :locale)
     end
 
     def device_params

@@ -15,17 +15,10 @@ class User < ApplicationRecord
 
   before_create :generate_referral
 
+  validates :locale, inclusion: { in: I18n.config.available_locales.map(&:to_s) }
   validates :phone_number, format: { with: Constants::Regex::PHONE_NUMBER }
 
   accepts_nested_attributes_for :telegram
-
-  scope :for_verification, lambda { |phone, token|
-    left_joins(:cards)
-      .where(phone_number: phone, verification_token: token)
-      .select('users.*')
-      .select('MAX(cards.id) IS NOT NULL AS has_cards')
-      .group(:id)
-  }
 
   scope :fetch_user, ->(auth_token) {
     eager_load(:favorite_addresses, :bonus_trips, :parent_bonus).where(auth_token: auth_token)

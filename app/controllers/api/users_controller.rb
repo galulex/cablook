@@ -1,18 +1,22 @@
 module Api
   class UsersController < ApiApplicationController
-    before_action :user, :prevent_page_caching
+    before_action :authorize!
+    before_action :prevent_page_caching, only: :show
 
     def show
-      response = user.as_json(only: %i(id email phone_number), include: %i(favorite_addresses bonus_trips parent_bonus), methods: %i(enabled_notifications current_trip))
+      response = user.as_json(only: %i(id email phone_number locale), include: %i(favorite_addresses bonus_trips parent_bonus), methods: %i(enabled_notifications current_trip))
       response['cards'] = Card.user_cards(user.id).as_json
       render json: response, status: 200
+    end
+
+    def update
+      Events::Users::Update.(user_id: user.id, locale: params[:locale])
     end
 
     private
 
     def user
-      @user ||= User.fetch_user(auth_token)[0]
-      @user ? @user : (raise Constants::NotFoundError)
+      current_user
     end
 
     def prevent_page_caching

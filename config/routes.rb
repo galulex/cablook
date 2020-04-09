@@ -19,7 +19,7 @@ Rails.application.routes.draw do
     resource :notification_settings, only: %i[update]
     resources :vendors, only: %i[index show]
 
-    resource :user, only: :show
+    resource :user, only: %i[show update]
     resource :device, only: :create
 
     resource :statistics, only: :show

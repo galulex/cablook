@@ -200,6 +200,7 @@ export default class App extends Component {
 
   fetchUser = () => {
     return axios.get('user').then((res) => {
+      if ((res.data.locale !== this.state.language)) { this.updateUserLocale(this.state.language) }
       let availableBonusTrips = []
       if (res.data.bonus_trips) availableBonusTrips = this.getAvailableBonusTrips(res.data.bonus_trips)
       this.setState({cards: res.data.cards,
@@ -273,10 +274,15 @@ export default class App extends Component {
     })
   }
 
+  updateUserLocale = (locale) => {
+    axios.patch('user', { locale: locale })
+  }
+
   setLanguage = (e) => {
     this.setState({language: e.target.value})
     localStorage.setItem('language', e.target.value)
     axios.defaults.headers.common['Pwa-Language'] = e.target.value
+    this.updateUserLocale(e.target.value)
     window.location.reload()
   }
 
@@ -380,7 +386,7 @@ export default class App extends Component {
     } else {
       return(
         <main id='app' class='login' ref={main => this.main = main}>
-          <Session login = {this.logIn} />
+          <Session login = {this.logIn} language={this.state.language} />
           <Prompt />
         </main>
       )

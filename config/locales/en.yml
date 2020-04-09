@@ -4,19 +4,6 @@ en:
       invalid_username: Username is invalid
       invalid_password: Password is invalid
       invalid_phone_number: Phone number is invalid
-  verifications:
-    email:
-      send_confirmation_token: "Confirmation link: %{token}. https://cablook.taxi"
-      confirmation_subject: Email Confirmation
-      already_confirmed: This email is already confirmed
-    number:
-      send_retry_message: Dear client, you have unpaid trip. Pay the debt in our application.
-
-    errors:
-      email:
-        does_not_exist: A user with this email does not exist
-      number:
-        does_not_exist: A user with this phone number does not exist
   assignings:
     errors:
       messages:
@@ -36,6 +23,8 @@ en:
     cant_retry: You can't retry trip without your card
   vendors:
     vendor_unavailable: Vendor temporary unavailable
+  users:
+    invalid_argument: Invalid argument
   orders:
     no_items: You have selected an unknown item or the order amount is zero
   cards:
