@@ -2,6 +2,11 @@
   import { onMount, onDestroy } from 'svelte'
   import axios from 'axios'
 
+  import Leaf from '../../../images/Leaf_black.svelte'
+  import Timer from '../../../images/Timer.svelte'
+  import Clock from '../../../images/Clock.svelte'
+  import Distance from '../../../images/Distance.svelte'
+
   export let trip
   export let distance
   export let duration
@@ -53,67 +58,69 @@
       (time <= 50)
     )
   }
+
+  export let bgColor
+  export let btnStyle
 </script>
 
 <style>
-  p span, p time {
+  span, time {
+    padding-left: 5px;
     display: inline-block;
-    width: 48%;
+    width: 49%;
     text-align: left;
   }
 
-  i {
-    text-shadow: 0 0 #312d50;
+  .car {
+    padding: 0;
   }
 
   p {
-    margin: 5px 0;
+    margin: 10px 0;
     text-align: justify;
   }
 
-  p time, p span:last-child {
+  time:last-child , span:last-child {
+    width: 48%;
     text-align: right;
   }
 
+  time:last-child label, span:last-child label {
+    display: inline-block;
+    text-align: left;
+    width: 40px;
+  }
+
   button {
+    box-shadow: inset 0px -6px 10px var(--shadow_color);
     width: 100%;
     position: absolute;
     left: 0;
     bottom: 0;
     border: none;
     height: 40px;
-    color: white;
+    font-weight: 400;
   }
 
-  button i {
-    text-shadow: 0 0 white;
+  label {
+    padding: 0 0 0 5px;
   }
 </style>
 
 <p>
-  <span><b>🚕</b> {trip.trips_count}</span>
-  <time><b>⏰</b>{time}</time>
+  <span class='car'><Leaf style ={{width: '25px'}}/><label>{trip.trips_count}</label></span>
+  <span><Distance style={{ fill: bgColor, width: '15px', height: '15px'}}/><label>{distance}км</label></span>
 </p>
 <p>
-  <span>
-    <b>⏰</b>
+  <time>
+    <Clock style={{ fill: bgColor, width: '15px', height: '15px'}}/>
     {#if trip.pre_order }
-      <time>{trip.start_time}</time>
+      <label>{trip.start_time}</label>
     {:else}
-      <select>
-        <option value='' selected>{duration + 4}XB</option>
-        <option value='2'>2XB</option>
-        <option value='5'>5XB</option>
-        <option value='10'>10XB</option>
-        <option value='15'>15XB</option>
-        <option value='20'>20XB</option>
-        <option value='30'>30XB</option>
-        <option value='45'>45XB</option>
-        <option value='60'>60XB</option>
-      </select>
+      <label>{duration}хв</label>
     {/if}
-  </span>
-  <span><b>🚖</b> {distance}KM</span>
+  </time>
+  <time><Timer style={{fill: 'var(--red_color)', width: '15px', height: '15px'}}/><label>{time}</label></time>
 </p>
-<blockquote><b>💬</b> {trip.comment}</blockquote>
-<button type='button' disabled={disabledButton || disabled} on:click={accept}><i>✔️</i> GO</button>
+<blockquote>{trip.comment}</blockquote>
+<button type='button' disabled={disabledButton || disabled} on:click={accept} style="{btnStyle}">GO</button>

@@ -34,14 +34,14 @@
   }
 
   ol {
-    height: calc(100vh - 41px);
+    height: 90vh;
     overflow-y: auto;
     overflow-x: hidden;
     flex: 0 0 auto;
     width: 100%;
     scroll-snap-align: start;
     list-style: none;
-    padding: 0;
+    padding: 0 0 50px 0;
     margin: 0;
     scroll-snap-type: y mandatory;
     scroll-behavior: smooth;
@@ -55,7 +55,7 @@
 
   .slider {
     position: absolute;
-    bottom: 10px;
+    bottom: 70px;
     right: 0;
     transform: translateX(48%);
     z-index: 100;
@@ -66,13 +66,14 @@
     font-size: 5rem;
     border: none;
     background: none;
+    box-shadow: none;
   }
 </style>
 
 <section bind:this={component}>
   <div class='slider'>
-    <button type='button'>‹</button>
-    <button type='button'>›</button>
+    <button type='button' on:click={() => document.getElementById('current').scrollIntoView()}>‹</button>
+    <button type='button' on:click={() => document.getElementById('proposals').scrollIntoView()}>›</button>
   </div>
   <ol id='proposals'>
     {#each trips.filter(trip => { return trip.status === 0 }) as trip (trip.id)}
