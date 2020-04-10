@@ -10,7 +10,8 @@ import './css/contacts.css'
 const MAILTO = 'mailto:contact@cablook.taxi'
 const NUMBER = '+380932225665'
 const TEL = 'tel:' + NUMBER
-const TELEGRAM = 'https://telegram.me/@cablookk'
+const TELEGRAM_IOS = 'https://telegram.me/@cablookk'
+const TELEGRAM = 'tg://resolve?domain=cablookk'
 const VIBER = 'viber://chat/?number=%2B380932225665'
 
 export default class Contacts extends Component {
@@ -33,7 +34,7 @@ export default class Contacts extends Component {
               </a>
             </li>
             <li>
-              <a href={TELEGRAM}>
+              <a href={window.ios ? TELEGRAM_IOS : TELEGRAM}>
                 <Telegram/>
                 @cablookk
               </a>
