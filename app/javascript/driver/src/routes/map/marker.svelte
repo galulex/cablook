@@ -19,7 +19,6 @@
   let position = car.position.slice().reverse()
   let deg = (bearing(location, position) || 180) - map.getBearing()
   const popup = new mapbox.Popup({ offset: 25, className: car.status })
-  popup.setHTML(`<a href='tel:${car.phone_number}'>${car.number}: ${car.speed || 0}km/h </br> ${(car.driver || {}).name} </a>`)
 
   let marker
   let pin
@@ -34,12 +33,16 @@
     updateCar()
   })
 
+  let updatePopup = () => {
+    popup.setHTML(`<a href='tel:${car.phone_number}'>${car.number}: ${car.speed || 0}km/h </br> ${(car.driver || {}).name} </a>`)
+  }
+
   let updateCar = () => {
     location = car.location.slice().reverse()
     position = car.position.slice().reverse()
     deg = (bearing(location, position) || 180) - map.getBearing()
     pin.setLngLat(location)
-    if (pin.popup) pin.popup.setHTML(`<a href='tel:${car.phone_number}'>${car.number}: ${car.speed || 0}km/h </br> ${(car.driver || {}).name} </a>`)
+    updatePopup()
     pin._element.firstChild.style.transform = `rotate(${deg}deg)`;
   }
 

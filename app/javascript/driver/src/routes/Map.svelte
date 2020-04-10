@@ -52,7 +52,9 @@
   style='mapbox://styles/okunieva/cjzwn3wx40yhq1cpjl3yo8p1z'
   options={{center: location, minZoom: 8, maxZoom: 17, zoom: 12}}
   >
-  {#await getCars() then cars}
+  {#await getCars()}
+    <slot></slot>
+  {:then}
     {#each cars as car (car.id)}
       <Marker car={car} />
     {/each}
