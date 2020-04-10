@@ -16,6 +16,8 @@ class Trip < ApplicationRecord
   has_one :bonus_trip, dependent: :destroy
   has_one :telegram, through: :user
 
+  has_paper_trail
+
   enum status: Constants::Trip::STATUS_CODES.invert
 
   delegate :phone_number, to: :user, prefix: true
