@@ -92,7 +92,7 @@
   }
 
   button {
-    box-shadow: inset 0px -6px 10px var(--shadow_color);
+    box-shadow: 2px 2px 8px var(--shadow_color), inset 0px -1px 6px var(--shadow_color);
     width: 100%;
     position: absolute;
     left: 0;
@@ -100,6 +100,14 @@
     border: none;
     height: 40px;
     font-weight: 400;
+  }
+
+  button:hover {
+    box-shadow: 2px 1px 4px var(--shadow_color);
+  }
+
+  button:active {
+    box-shadow: inset 2px 2px 4px var(--shadow_color);
   }
 
   label {
