@@ -1,3 +1,8 @@
+.mapboxgl-map {
+  font-weight: 300 !important;
+  font-family: Gilroy, Helvetica, Arial, sans-serif !important;
+}
+
 .mapboxgl-ctrl-group {
   background: transparent !important;
   box-shadow: none !important;
@@ -44,4 +49,33 @@
 
 .mapboxgl-ctrl button.mapboxgl-ctrl-zoom-out .mapboxgl-ctrl-icon {
   background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg width='40' height='40' viewBox='0 0 29 29' xmlns='http://www.w3.org/2000/svg' fill='%23333'%3E%3Cpath d='M10 13c-.75 0-1.5.75-1.5 1.5S9.25 16 10 16h9c.75 0 1.5-.75 1.5-1.5S19.75 13 19 13h-9z'/%3E%3C/svg%3E") !important;
+}
+
+.mapboxgl-popup-content {
+  border-radius: 8px 8px 0 8px !important;
+  padding: 10px !important;
+  box-shadow: 5px 5px 10px var(--shadow_color) !important;
+}
+
+.mapboxgl-popup-content button {
+  box-shadow: none;
+  font-size: 40px;
+  font-weight: 400;
+  color: var(--red_color);
+  top: -5px !important;
+}
+
+.mapboxgl-popup-close-button:hover, .mapboxgl-popup-close-button:active, .mapboxgl-popup-close-button:focus {
+  box-shadow: none !important;
+  background: transparent !important;
+}
+
+.mapboxgl-popup-content a {
+  margin-right: 20px;
+  text-decoration: none;
+  color: var(--text_dark_color) !important;
+}
+
+.mapboxgl-popup-content a label:last-child {
+  text-decoration-line: underline;
 }
