@@ -79,3 +79,26 @@
 .mapboxgl-popup-content a label:last-child {
   text-decoration-line: underline;
 }
+
+.marker-path.mapboxgl-marker {
+  left: 65px !important;
+  top: -35px !important;
+  word-break: break-word;
+  width: 180px;
+  height: 80px;
+}
+
+.marker-path svg{
+  filter: drop-shadow(5px 5px 10px var(--shadow_color));
+}
+
+.marker-path span {
+  font-size: 13px;
+  position: absolute;
+  width: 125px;
+  height: 45px;
+  left: 48px;
+  word-break: break-word;
+  top: 15px;
+  color: var(--text_dark_color);
+}

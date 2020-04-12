@@ -3,6 +3,8 @@
   import { contextKey } from '@beyonk/svelte-mapbox'
   import { onMount, afterUpdate } from 'svelte'
 
+  import '../../../css/map.css'
+
   import polyline from '@mapbox/polyline'
 
   export let trip
@@ -51,10 +53,11 @@
   })
 
   let addPin = (w, i) => {
-    let pin = new mapbox.Marker({color: color(i)})
-    const popup = new mapbox.Popup({ className: 'stop', closeButton: false, closeOnClick: false })
-    popup.setText(trip.stops[i])
-    pin.setLngLat(w.split(',').reverse()).setPopup(popup).addTo(map).togglePopup()
+    let marker = document.createElement('div');
+    marker.className = 'marker-path';
+    marker.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width='180px' height='80px' viewBox="0 0 602.6 236.7"><path fill="#FFF" d="M603 23c0-13-11-23-23-23H77C35 0 0 35 0 77c0 62 74 160 77 160 1 0 11-13 23-31h480c12 0 23-10 23-23V23z"/><path fill="${color(i)}" d="M140 79a63 63 0 00-126 0c0 50 61 130 63 130s63-80 63-130zm-63 24a23 23 0 010-47 23 23 0 010 47z"/></svg> <span>${trip.stops[i]}</span>`;
+    let pin = new mapbox.Marker(marker)
+    pin.setLngLat(w.split(',').reverse()).addTo(map)
   }
 
   let color = (i) => {
