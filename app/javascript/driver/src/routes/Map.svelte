@@ -7,6 +7,8 @@
   import Path from './map/path.svelte'
   import axios from 'axios'
 
+  import '../../css/map.css'
+
   const { GeolocateControl, NavigationControl, ScalingControl } = controls
 
   export let cable
