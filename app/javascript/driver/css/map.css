@@ -83,7 +83,6 @@
 .marker-path.mapboxgl-marker {
   left: 65px !important;
   top: -35px !important;
-  word-break: break-word;
   width: 180px;
   height: 80px;
 }
