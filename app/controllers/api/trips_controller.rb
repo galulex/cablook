@@ -1,6 +1,6 @@
 module Api
   class TripsController < ApiApplicationController
-    before_action :authorize!
+    before_action :authorize!, :set_paper_trail_whodunnit
 
     def index
       render json: Presenters::Trips::Collection.new(trips).to_json(user_options: { with_feedbacks: true, without_vip: true }), status: 200

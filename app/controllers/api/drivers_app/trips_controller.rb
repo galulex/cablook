@@ -1,7 +1,7 @@
 module Api
   module DriversApp
     class TripsController < Api::DriversApp::ApplicationController
-      before_action :authorize!
+      before_action :authorize!, :set_paper_trail_whodunnit
 
       def index
         trips = Trip.pending.order(:start_at, :preorder_time)

@@ -24,6 +24,10 @@ module Api
       @current_driver ||= Driver.find_by(auth_token: auth_token)
     end
 
+    def info_for_paper_trail
+      { whodunnit_type: current_user.class.name }
+    end
+
     private
 
     def auth_token

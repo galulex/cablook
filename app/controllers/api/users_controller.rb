@@ -1,6 +1,6 @@
 module Api
   class UsersController < ApiApplicationController
-    before_action :authorize!
+    before_action :authorize!, :set_paper_trail_whodunnit
     before_action :prevent_page_caching, only: :show
 
     def show
