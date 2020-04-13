@@ -38,11 +38,7 @@ ActiveAdmin.register PaperTrail::Version, as: 'Activity' do
 end
 
 def actioner(activity)
-  if activity.whodunnit
-    link_to(activity.whodunnit_type, "/admin/#{activity.whodunnit_type.downcase}s/#{activity.whodunnit}")
-  else
-    'Admin'
-  end
+  activity.whodunnit ? link_to(activity.whodunnit_type, "/admin/#{activity.whodunnit_type.downcase}s/#{activity.whodunnit}") : 'Admin'
 end
 
 def show_value(value)
@@ -50,10 +46,6 @@ def show_value(value)
 end
 
 def check_value_type(value)
-  if value.instance_of? Array
-    value.join(', ')
-  else
-    value
-  end
+  value.instance_of? Array ? value.join(', ') : value
 end
 
