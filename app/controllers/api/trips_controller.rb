@@ -2,10 +2,6 @@ module Api
   class TripsController < ApiApplicationController
     before_action :authorize!, :set_paper_trail_whodunnit
 
-    def info_for_paper_trail
-      { whodunnit_type: current_user.class.name }
-    end
-
     def index
       render json: Presenters::Trips::Collection.new(trips).to_json(user_options: { with_feedbacks: true, without_vip: true }), status: 200
     end

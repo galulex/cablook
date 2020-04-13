@@ -1,4 +1,6 @@
 ActiveAdmin.register PaperTrail::Version, as: 'Activity' do
+  remove_filter :whodunnit
+
   index do
     selectable_column
     %w[id item_type item_id event].each { |title| column title }

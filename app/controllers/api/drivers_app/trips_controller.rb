@@ -3,14 +3,6 @@ module Api
     class TripsController < Api::DriversApp::ApplicationController
       before_action :authorize!, :set_paper_trail_whodunnit
 
-      def info_for_paper_trail
-        { whodunnit_type: current_driver.class.name }
-      end
-
-      def user_for_paper_trail
-        current_driver.id
-      end
-
       def index
         trips = Trip.pending.order(:start_at, :preorder_time)
         render json: Presenters::Trips::DetailedCollection.new(trips).to_json, status: 200
