@@ -1,8 +1,8 @@
 ActiveAdmin.register PaperTrail::Version, as: 'Activity' do
   index do
     selectable_column
-    %w[id item_type item_id].each { |title| column title }
-    column ('whodunnit') do |activity|
+    %w[id item_type item_id event].each { |title| column title }
+    column :whodunnit do |activity|
       actioner(activity)
     end
     actions
@@ -10,18 +10,23 @@ ActiveAdmin.register PaperTrail::Version, as: 'Activity' do
 
   show do
     attributes_table do
-      %w[id item_type].each { |title| row title }
+      %w[id item_type event].each { |title| row title }
       row :item do
-        link_to('Item', "/admin/#{activity.item_type.downcase}s/#{activity.item_id}")
+        link_to('Item', "/admin/#{activity.item_type.downcase}s/#{activity.item_id}") if activity.item_type && activity.item_id
       end
       row :whodunnit do
         actioner(activity)
       end
       panel 'Changes' do
-        table_for activity.changeset do
+        attributes_table_for activity.changeset do
+          row 'Field' do
+            th 'Was'
+            th 'Became'
+          end
           activity.changeset.each do |key, value|
-            column key do
-              "#{show_value(value[0])} => #{show_value(value[1])}"
+            row key do
+              td show_value(value[0])
+              td show_value(value[1])
             end
           end
         end

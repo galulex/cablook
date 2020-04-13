@@ -1,7 +1,11 @@
 module Api
   class UsersController < ApiApplicationController
-    before_action :authorize!
+    before_action :authorize!, :set_paper_trail_whodunnit
     before_action :prevent_page_caching, only: :show
+
+    def info_for_paper_trail
+      { whodunnit_type: current_user.class.name }
+    end
 
     def show
       response = user.as_json(only: %i(id email phone_number locale), include: %i(favorite_addresses bonus_trips parent_bonus), methods: %i(enabled_notifications current_trip))
