@@ -4,7 +4,7 @@ module Api
       before_action :authorize!, :set_paper_trail_whodunnit
 
       def info_for_paper_trail
-        {whodunnit_type: current_driver.class.name}
+        { whodunnit_type: current_driver.class.name }
       end
 
       def user_for_paper_trail
