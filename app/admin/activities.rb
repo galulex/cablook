@@ -1,8 +1,8 @@
 ActiveAdmin.register PaperTrail::Version, as: 'Activity' do
+  actions :all, except: [:new, :destroy, :edit]
   remove_filter :whodunnit
 
   index do
-    selectable_column
     %w[id item_type item_id event].each { |title| column title }
     column :whodunnit do |activity|
       actioner(activity)
@@ -46,6 +46,6 @@ def show_value(value)
 end
 
 def check_value_type(value)
-  value.instance_of? Array ? value.join(', ') : value
+  (value.instance_of? Array) ? value.join(', ') : value
 end
 
