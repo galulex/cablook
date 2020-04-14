@@ -7,6 +7,11 @@
   const map = getMap()
   const mapbox = getMapbox()
   export let car
+  export let sos
+
+  let popupBackground = () => {
+    if (sos && sos === car.id) return 'background-red'
+  }
 
   let bearing = (start, end) => {
     let y = Math.sin(end[0] - start[0]) * Math.cos(end[1]);
@@ -19,7 +24,7 @@
   let position = car.position.slice().reverse()
   let deg = (bearing(location, position) || 180) - map.getBearing()
   let linearOffset = Math.round(Math.sqrt(0.3 * Math.pow(40, 2)));
-  const popup = new mapbox.Popup({ offset: [linearOffset, -linearOffset], className: car.status, anchor: 'bottom-right' })
+  const popup = new mapbox.Popup({ offset: [linearOffset, -linearOffset], className: `${car.status} ${popupBackground()}`, anchor: 'bottom-right' })
 
   let marker
   let pin
@@ -31,8 +36,15 @@
   })
 
   afterUpdate(() => {
+    if (sos && sos === car.id) openSosPopup()
     updateCar()
   })
+
+  let openSosPopup = () => {
+    map.flyTo({center: pin.getLngLat(), speed: 1})
+    if (!popup.options.className.includes('background-red')) popup.options.className += ' background-red'
+    pin.togglePopup()
+  }
 
   let updatePopup = () => {
     popup.setHTML(`<a href='tel:${car.phone_number}'><label>${car.number}, ${car.speed || 0}km/h</label></br><label>${(car.driver || {}).name}</label> </a>`)

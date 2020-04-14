@@ -1,0 +1,13 @@
+.sos__button {
+  position: absolute;
+  left: 15px;
+  bottom: calc(10vh + 10px);
+  padding: 15px 50px;
+  background: red;
+  border: none;
+  color: white;
+  font-size: 1.2em;
+  font-weight: 400;
+  cursor: pointer;
+  box-shadow: 4px 3px 12px var(--shadow_color), inset 2px 2px 3px var(--nav_shadow_white_color), inset -2px -2px 3px var(--shadow_color);
+}
