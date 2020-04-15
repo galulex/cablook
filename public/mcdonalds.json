@@ -1,7 +1,7 @@
 {
   "🍔🍟🥤 МакМеню": [
     { "id": 1,  "name": "🍔🍟🥤 Біг Мак Меню",                                  "description": "", "price": 107.0 },
-    { "id": 2,  "name": "🍔🍟🥤 Біг Тейсті Меню",                               "description": "", "price": 136.0 },
+    { "id": 2,  "name": "🍔🍟🥤 Біг Тейсті Меню",                               "description": "", "price": 141.0 },
     { "id": 3,  "name": "🍔🍟🥤 Бургер з куркою та медовою гірчицею Меню",      "description": "", "price": 110.0 },
     { "id": 4,  "name": "🍔🍟🥤 Бургер зі свининою та солоними огірками Меню",  "description": "", "price": 113.0 },
     { "id": 25, "name": "🍔🍟🥤 Біг Техас Меню",                                "description": "", "price": 145.0 },
@@ -9,7 +9,7 @@
     { "id": 6,  "name": "🍔🍟🥤 Чікен Макнагетс® 6шт Меню",                     "description": "", "price":  96.0 },
     { "id": 7,  "name": "🍔🍟🥤 Чікен Макнагетс® 9шт Меню",                     "description": "", "price": 114.0 },
     { "id": 8,  "name": "🍔🍟🥤 МакЧікен Меню",                                 "description": "", "price": 100.0 },
-    { "id": 9,  "name": "🍔🍟🥤 Дабл Чізбургер Меню",                           "description": "", "price":  98.0 },
+    { "id": 9,  "name": "🍔🍟🥤 Дабл Чізбургер Меню",                           "description": "", "price":  103.0 },
     { "id": 10, "name": "🍔🍟🥤 Філе-о-Фіш® Меню",                              "description": "", "price": 101.0 }
   ],
   "🍔 Бургери": [
@@ -49,7 +49,7 @@
     { "id": 38, "name": "🥗 Салат Чікен",    "description": "", "weight": "224г", "price": 74.0 }
   ],
   "🥧 Десерти": [
-    { "id": 39, "name": "🥧 Чізкейк",            "description": "", "weight": "100г", "price": 50.0 },
+    { "id": 39, "name": "🥧 Чізкейк",            "description": "", "weight": "100г", "price": 53.0 },
     { "id": 42, "name": "🍪 Печиво Ванільне",    "description": "", "weight": "65г",  "price": 24.0 },
     { "id": 43, "name": "🍪 Печиво Шоколадне",   "description": "", "weight": "65г",  "price": 24.0 },
     { "id": 44, "name": "🥧 МакПиріг® вишневий", "description": "", "weight": "80г",  "price": 24.0 }
@@ -73,7 +73,7 @@
     { "id": 61, "name": "🥤 Фанта® МАЛА",         "description": "", "price": 25.0 },
     { "id": 62, "name": "🥤 Фанта® СЕРЕДНЯ",      "description": "", "price": 28.0 },
     { "id": 63, "name": "🥤 Холодний лате",       "description": "", "price": 32.0 },
-    { "id": 64, "name": "🥤 Апельсиновий сік",    "description": "", "price": 27.0 },
+    { "id": 64, "name": "🥤 Апельсиновий сік",    "description": "", "price": 34.0 },
     { "id": 65, "name": "🥤 Спрайт® ЕКОНОМ",      "description": "", "price": 20.0 },
     { "id": 66, "name": "🥤 Спрайт® МАЛА",        "description": "", "price": 25.0 },
     { "id": 67, "name": "🥤 Спрайт® СЕРЕДНЯ",     "description": "", "price": 28.0 }

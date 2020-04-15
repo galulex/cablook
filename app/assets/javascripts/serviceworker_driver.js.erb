@@ -8,13 +8,6 @@ function onInstall(event) {
       var urls = ['<%= asset_path "Gilroy-Bold.woff2" %>',
                   '<%= asset_path "Gilroy-Regular.woff2" %>',
                   '<%= Webpacker.manifest.lookup 'driver.js' %>',
-                  '../app/javascript/driver/public/sounds/accept.mp3',
-                  '../app/javascript/driver/public/sounds/cancel.mp3',
-                  '../app/javascript/driver/public/sounds/declined.mp3',
-                  '../app/javascript/driver/public/sounds/horse.mp3',
-                  '../app/javascript/driver/public/sounds/proposal.mp3',
-                  '../app/javascript/driver/public/sounds/sos.mp3',
-                  '../app/javascript/driver/public/sounds/update.mp3',
                   'favicon.ico',
                   '/offline.html'];
       var req_objects = [];
