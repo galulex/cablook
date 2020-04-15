@@ -10,7 +10,8 @@ module Constants
     DRIVER_LOCATION_UPDATED = 'DriverLocationUpdated'.freeze
     NOTIFY_DRIVER           = 'NotifyDriver'.freeze
     NOTIFICATION_RETRY      = 'NotificationRetry'.freeze
-    NOTIFICATION_CANCEL      = 'NotificationCancel'.freeze
+    NOTIFICATION_CANCEL     = 'NotificationCancel'.freeze
+    SEND_DRIVER_SPEED       = 'SendDriverSpeed'.freeze
 
     TRIP_UPDATED      = 'TripUpdated'.freeze
     TRIP_FINISHED     = 'TripFinished'.freeze
