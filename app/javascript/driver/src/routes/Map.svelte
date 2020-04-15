@@ -14,6 +14,7 @@
   export let cable
   export let location
   export let trips
+  export let sos
 
   let map
   let cars = []
@@ -58,7 +59,7 @@
     <slot></slot>
   {:then}
     {#each cars as car (car.id)}
-      <Marker car={car} />
+      <Marker car={car} sos={sos} />
     {/each}
   {/await}
   {#each trips as trip (trip.id)}

@@ -13,11 +13,13 @@
   import Map from './routes/Map.svelte'
   import Nav from './Nav.svelte'
   import Spinner from './Spinner.svelte'
+  import Sos from './Sos.svelte'
 
   let isLoggedIn = !!document.cookie.match(/token/)
   let carSpeed = 0
   let location = [32.073095,49.418461]
   let watcher
+  let sos
 
   let subscription = null
   const cable = createConsumer()
@@ -25,6 +27,7 @@
 
   onMount(() => {
     if (!isLoggedIn) return
+    subscribe()
     watcher = navigator.geolocation.watchPosition(sendLocation, null, { enableHighAccuracy: true })
   })
 
@@ -67,10 +70,16 @@
     axios.delete('sessions')
   }
 
+  let sendSos = () => {
+    if (!confirm('Відправити SOS повідомлення іншим водіям?')) return
+    if (!subscription) return
+    let params = { car_id: parseInt(localStorage.carId) }
+    subscription.perform('sos', { body: JSON.stringify(params) })
+  }
+
   let getTrips = (async () => {
     let res = await axios.get('trips/all')
     trips = res.data.trips
-    subscribe()
     return trips
   })
 
@@ -127,7 +136,10 @@
     },
 
     SOS: (data) => {
-      console.log(data)
+      let parsedData = JSON.parse(data.body)
+      window.play('sos')
+      sos = parsedData.car_id
+      navigate('/map', { replace: true })
     },
 
     TripDeclined: (data) => {
@@ -143,6 +155,13 @@
   main {
     height: calc(100vh - 39px);
     background: linear-gradient(to right, var(--bg_gradient_color_2), var(--bg_gradient_color_1), var(--bg_gradient_color_2));
+  }
+
+  :global(.mapboxgl-popup.background-red>.mapboxgl-popup-content) {
+    background-color: red;
+  }
+  :global(.mapboxgl-popup.background-red>.mapboxgl-popup-tip) {
+    border-top-color: red;
   }
 </style>
 
@@ -160,10 +179,11 @@
         {/await}
       </Route>
       <Route path="/map">
-        <Map cable={cable} location={location} trips={trips.filter(trip => { return trip.driver_id === parseInt(localStorage.id) && trip.status !== 0 })}/>
+        <Map cable={cable} location={location} sos={sos} trips={trips.filter(trip => { return trip.driver_id === parseInt(localStorage.id) && trip.status !== 0 })}/>
       </Route>
     </main>
     <Nav speed={carSpeed} logout={logout} getTrips={getTrips}/>
+    <Sos sendSos={sendSos}/>
   {:else}
     <Route path="/" component={Session} login={login} />
   {/if}
