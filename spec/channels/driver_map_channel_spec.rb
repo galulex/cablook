@@ -73,6 +73,11 @@ describe DriverMapChannel do
     end
 
     context 'and have enqued job' do
+      before do
+        Redis.current.set("car_#{car.id}", "#{latitude},#{longitude}")
+        channel.perform_action(data_overspeed)
+      end
+
       after { channel.perform_action(data_overspeed) }
 
       it { expect(Jobs::TelegramSendMessage).to receive(:perform_later) }
