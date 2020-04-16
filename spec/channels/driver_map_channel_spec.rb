@@ -32,6 +32,17 @@ describe DriverMapChannel do
         }.to_json
       }
     end
+    let(:data_overspeed) do
+      {
+        'action' => 'send_location',
+        'body' => {
+          'latitude': latitude,
+          'longitude': longitude,
+          'car_id': car.id,
+          'speed': 90
+        }.to_json
+      }
+    end
     let(:body) do
       {
         car_id: car.id,
@@ -59,6 +70,12 @@ describe DriverMapChannel do
       end
 
       it { expect(redis_car_location).to eq("#{latitude},#{longitude}") }
+    end
+
+    context 'and have enqued job' do
+      after { channel.perform_action(data_overspeed) }
+
+      it { expect(Jobs::TelegramSendMessage).to receive(:perform_later) }
     end
 
     context 'and broadcast car location to this channel' do
@@ -153,5 +170,7 @@ describe DriverMapChannel do
         data
       ).once
     end
+
+    it { expect(Jobs::TelegramSendMessage).to receive(:perform_later) }
   end
 end
