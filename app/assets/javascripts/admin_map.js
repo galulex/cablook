@@ -110,9 +110,9 @@ function sendLocation(car) {
 
   if (el) {
     el.setLngLat([car.location[1], car.location[0]]);
-    car_popup = $('.car_' + car.car_id);
-    car_popup.text(car.speed + ' km/h');
-    if (car_popup.is(':hidden')) car_popup.show();
+    car_speed = $('.car_' + car.car_id);
+    car_speed.text(car.speed + ' km/h');
+    if (car_speed.is(':hidden')) car_speed.show();
   }
 }
 

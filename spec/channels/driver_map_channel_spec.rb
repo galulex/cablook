@@ -9,13 +9,15 @@ describe DriverMapChannel do
     let(:longitude) { 14.88 }
     let(:latitude_first) { 42.78437439386835 }
     let(:longitude_first) { 15.2 }
+    let(:speed) { 20 }
     let(:data) do
       {
         'action' => 'send_location',
         'body' => {
           'latitude': latitude,
           'longitude': longitude,
-          'car_id': car.id
+          'car_id': car.id,
+          'speed': speed
         }.to_json
       }
     end
@@ -25,7 +27,8 @@ describe DriverMapChannel do
         'body' => {
           'latitude': latitude_first,
           'longitude': longitude_first,
-          'car_id': car.id
+          'car_id': car.id,
+          'speed': speed
         }.to_json
       }
     end
@@ -33,7 +36,7 @@ describe DriverMapChannel do
       {
         car_id: car.id,
         location: {
-          latitude: latitude, 
+          latitude: latitude,
           longitude: longitude
         },
         car: {
@@ -42,7 +45,7 @@ describe DriverMapChannel do
           'id' => car.id,
           'number' => car.number,
           'phone_number' => car.phone_number,
-          'status' => car.status,
+          'status' => car.status
         }
       }
     end
@@ -72,7 +75,7 @@ describe DriverMapChannel do
             action: Constants::BroadcastActions::SEND_LOCATION,
             car_id: car.id,
             location: [latitude, longitude],
-            speed: nil,
+            speed: speed,
             car: {
               'deg' => 173.2511321253247,
               'dis' => 866.391195752578,
@@ -91,9 +94,9 @@ describe DriverMapChannel do
         end
       end
 
-      context 'without current trip' do 
+      context 'without current trip' do
         let(:trip) { create(:trip, car_id: car.id, status: Constants::Trip::FINISHED)}
-        it do 
+        it do
           expect(ActionCable.server).not_to receive(:broadcast).with(
             "TripChannel_#{trip.id}",
             action: Constants::BroadcastActions::DRIVER_LOCATION_UPDATED,
@@ -128,6 +131,27 @@ describe DriverMapChannel do
 
     context 'when data is invalid' do
       let(:data) { {} }
+    end
+  end
+
+  context '#sos' do
+    let(:driver) { create(:driver, car_id: create(:car).id) }
+    let(:data) do
+      {
+        'action' => 'sos',
+        'body' => {
+          'car_id': driver.car_id
+        }.to_json
+      }
+    end
+
+    after { channel.perform_action(data) }
+
+    it do
+      expect(ActionCable.server).to receive(:broadcast).with(
+        Constants::Channels::DRIVER_MAP,
+        data
+      ).once
     end
   end
 end
