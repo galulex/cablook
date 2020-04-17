@@ -77,7 +77,7 @@ export default class AddressInput extends Component {
 
     this.setState({isFetching: true})
     let placeService = new google.maps.places.PlacesService(document.createElement('div'))
-    placeService.getDetails({placeId: place.place_id}, (result) => {
+    placeService.getDetails({placeId: place.place_id, fields: ['geometry']}, (result) => {
       this.setState({ address: place.structured_formatting.main_text, predictions: [], isValid: true })
       this.props.setAddress(place.structured_formatting.main_text, `${result.geometry.location.lat()},${result.geometry.location.lng()}`, this.props.index)
       this.setState({isFetching: false})
@@ -180,7 +180,7 @@ export default class AddressInput extends Component {
       <fieldset class='address'>
         {(fieldsCount > 2 || address !== '') && !hideRemove && !readonly && (<button disabled={index === 0 ? inputDisabled : false} class='remove-address' type='button' onClick={() => this.eraseAddress(index)}>×</button>)}
         {mapboxgl.supported() && <Pin onClick={this.openMap} disabled={readonly || ( index === 0 ? inputDisabled : false )} height='24px' class='map-pick'/>}
-        {this.state.isShowMap && <MapPicker 
+        {this.state.isShowMap && <MapPicker
                                     onCloseMap={this.closeMap}
                                     handleBack={this.handleBack}
                                     language={language}
