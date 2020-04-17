@@ -2,7 +2,7 @@
 describe Events::Bot::SendMessage do
   describe '#run' do
     subject { -> { described_class.call(data) } }
-    let(:default_data) { { chat_id: '1234', message: 'Hi' } }
+    let(:default_data) { { chat_id: '1234', message: 'Hi', location: [32.073095, 49.418461] } }
 
     context 'when absent chat_id' do
       let(:data) { default_data.except(:chat_id) }
@@ -14,6 +14,20 @@ describe Events::Bot::SendMessage do
       let(:data) { default_data.except(:message) }
 
       it { is_expected.to raise_error(Events::InvalidParamsError) }
+    end
+
+    context 'when location' do
+      context 'empty' do
+        let(:data) { default_data.except(:location) }
+
+        it { is_expected.to raise_error(Events::InvalidParamsError) }
+      end
+
+      context 'not float' do
+        let(:data) { default_data.merge(location: [22, 33]) }
+
+        it { is_expected.to raise_error(Events::InvalidParamsError) }
+      end
     end
   end
 end
