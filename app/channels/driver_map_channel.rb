@@ -7,9 +7,9 @@ class DriverMapChannel < ApplicationCable::Channel
     data['action'] = Constants::BroadcastActions::SOS
     body = JSON.parse(data.fetch('body'))
     car = Car.find(body.fetch('car_id'))
-    message = "SOS!\nВодій: #{car.driver&.name}"
+    message = "🆘🆘🆘 SOS! 🆘🆘🆘\n🚕 Номер машини: #{car.number}\n👤 Водій: #{car.driver&.name}\n📞 Номер телефону: [#{car.phone_number}](tel:#{car.phone_number})"
     ActionCable.server.broadcast(Constants::Channels::DRIVER_MAP, data)
-    Jobs::TelegramSendMessage.perform_later(ENV['SOS_CHAT_ID'], message)
+    Jobs::TelegramSendMessage.perform_later(ENV['SOS_CHAT_ID'], message, car.location)
   end
 
   def send_location(data)
@@ -40,8 +40,8 @@ class DriverMapChannel < ApplicationCable::Channel
       )
     end
     return unless body.dig('speed') > Constants::Car::MAX_SPEED
-    message = "Водій перевищив швидкість!\nВодій: #{car.driver&.name}\nШвидкість: #{body.fetch('speed')}"
-    Jobs::TelegramSendMessage.perform_later(ENV['SPEED_CHAT_ID'], message)
+    message = "🚨 🚨 🚨 Водій перевищив швидкість! 🚨 🚨 🚨\n🚕 Номер машини: #{car.number}\n👤 Водій: #{car.driver&.name}\n📞 Номер телефону: [#{car.phone_number}](tel:#{car.phone_number})\n⚠ Швидкість: #{body.fetch('speed')}"
+    Jobs::TelegramSendMessage.perform_later(ENV['SPEED_CHAT_ID'], message, car.location)
   end
 
   def accept_trip(data)

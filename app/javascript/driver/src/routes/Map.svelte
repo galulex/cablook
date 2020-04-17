@@ -50,6 +50,22 @@
   })
 </script>
 
+<style>
+  :global(.mapboxgl-ctrl-top-left) {
+    right: 0;
+    bottom: 10vh;
+    top: unset !important;
+    left: unset !important;
+  }
+  :global(.mapboxgl-ctrl-top-left>.mapboxgl-ctrl-group) {
+    margin: 15px 10px 0 0 !important;
+  }
+  :global(.mapboxgl-ctrl-top-right) {
+    top: unset !important;
+    bottom: calc(10vh + 75px);
+  }
+</style>
+
 <Map
   accessToken='pk.eyJ1IjoiZ2FsdWxleCIsImEiOiJjamx6ampoZjgyMnYxM3FvZ2ppNjV2M2x5In0.bPgk2WI9NT-DJwnE-OtiLA'
   style='mapbox://styles/okunieva/cjzwn3wx40yhq1cpjl3yo8p1z'

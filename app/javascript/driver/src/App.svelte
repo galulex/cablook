@@ -72,11 +72,7 @@
   let sendSos = () => {
     if (!confirm('Відправити SOS повідомлення іншим водіям?')) return
     if (!subscription) return
-    let params = { 
-      car_id: parseInt(localStorage.carId),
-      latitude: location[1],
-      longitude: location[0]
-    }
+    let params = { car_id: parseInt(localStorage.carId) }
     subscription.perform('sos', { body: JSON.stringify(params) })
   }
 
