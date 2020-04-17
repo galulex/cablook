@@ -45,7 +45,7 @@ function init() {
     el.setAttribute('data-info', JSON.stringify(data));
     el.addEventListener('click', function () {});
 
-    popupHtml = '\n      <h4>' + data.number + '</h4>\n      <p>' + data.status + '</p>\n      <p>' + data.phone_number + '</p>\n      ' + (data.driver ? '<p>' + data.driver.name + '</p>' : '') + '\n    ';
+    popupHtml = '\n      <h4>' + data.number + '</h4>\n      <p>' + data.status + '</p>\n      <p>' + data.phone_number + '</p>\n      ' + (data.driver ? '<p>' + data.driver.name + '</p>' : '') + '\n    <p class="car_' + data.id +'" style="display: none;"></p>';
 
     marker = new mapboxgl.Marker(el).setLngLat([data.location[1], data.location[0]]).setPopup(new mapboxgl.Popup({ offset: 25 }).setHTML(popupHtml)).addTo(map);
 
@@ -110,6 +110,9 @@ function sendLocation(car) {
 
   if (el) {
     el.setLngLat([car.location[1], car.location[0]]);
+    car_speed = $('.car_' + car.car_id);
+    car_speed.text(car.speed + ' km/h');
+    if (car_speed.is(':hidden')) car_speed.show();
   }
 }
 

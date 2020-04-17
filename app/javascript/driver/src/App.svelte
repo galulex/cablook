@@ -42,7 +42,6 @@
     carSpeed = Math.round(speed * 3.6)
     location = [longitude, latitude]
     if (!subscription) return
-
     let params = {
       car_id: parseInt(localStorage.carId),
       speed: carSpeed,
@@ -73,7 +72,11 @@
   let sendSos = () => {
     if (!confirm('Відправити SOS повідомлення іншим водіям?')) return
     if (!subscription) return
-    let params = { car_id: parseInt(localStorage.carId) }
+    let params = { 
+      car_id: parseInt(localStorage.carId),
+      latitude: location[1],
+      longitude: location[0]
+    }
     subscription.perform('sos', { body: JSON.stringify(params) })
   }
 

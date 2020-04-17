@@ -13,5 +13,6 @@ module Constants
     }.freeze
 
     COLORS = %i[black blue red silver white]
+    MAX_SPEED = 60
   end
 end
