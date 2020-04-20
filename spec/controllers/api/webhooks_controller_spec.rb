@@ -11,8 +11,7 @@ describe Api::WebhooksController, type: :controller do
           } 
         }.as_json, 
         id: 1, from: { id: 2, username: 'Text' }
-      },
-      data: { id: 33 }
+      }
      }
   }
 
@@ -26,7 +25,7 @@ describe Api::WebhooksController, type: :controller do
     end
 
     context 'when data is absent' do
-      let(:params) { { message: '' } } 
+      let(:params) { { message: { id: 1 } } } 
 
       before { post :update, params: params }
 
