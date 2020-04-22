@@ -17,7 +17,7 @@
 
 .button:hover, .button:focus {
   outline: none;
-  box-shadow: 5px 3px 5px var(--shadow_color), inset 1px 0px 2px var(--white);
+  box-shadow: 2px 2px 5px var(--shadow_color), inset 2px 2px 5px var(--white);
 }
 
 .button.green {
@@ -27,7 +27,11 @@
 
 .button:active {
   outline:  none;
-  box-shadow: inset 2px 1px 4px var(--shadow_color), inset -2px -1px 4px var(--white);
+  box-shadow: inset 2px 2px 5px var(--shadow_color), inset -2px -2px 5px var(--white);
+}
+
+.button:disabled {
+  color: var(--gray);
 }
 
 .button.fixed {
