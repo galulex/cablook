@@ -2,11 +2,9 @@ import { h, render, Component } from 'preact';
 import axios from 'axios';
 
 import i18n from './i18n.js';
-import Phone from './images/green_phone.svg';
-import Logo from './images/logo_light.svg';
-import Lock from './images/lock.svg';
-import City from './images/city.svg';
-import Nissan from './images/nissan.svg';
+import Phone from './images/green_phone.js';
+import Logo from './images/logo_light.js';
+import Lock from './images/lock.js';
 import './css/session.css';
 import { firebaseAuth } from './firebase.js';
 
@@ -53,9 +51,9 @@ export default class Session extends Component {
       <form onSubmit={this.signInWithPhoneNumber}>
         <div class='number_input'>
           <label for='number'><Phone class='phone'/>{NUMBER_CODE}</label>
-          <input id='number' title={9 + i18n.session.digits} pattern='[0-9]*'
+          <input class='number__input' id='number' title={9 + i18n.session.digits} pattern='[0-9]*'
                  maxlength='9' minlength='9'
-                 placeholder='_ _  _ _ _  _ _ _ _' type='tel'
+                 placeholder='__  ___  __ __' type='tel'
                  autocomplete='off' required autoFocus
                  onInput={this.updateNumber}
                  ref={(input) => this.numberInput = input}/>
@@ -71,11 +69,11 @@ export default class Session extends Component {
 
     return(
       <form onSubmit={this.createSession}>
-        <p>{i18n.session.code_sent + number}</p>
+        <p class='code-send'><i>{i18n.session.code_sent + number}</i></p>
         <label for='code'>{i18n.session.code}</label>
         <div>
           <Lock class='lock'/>
-          <input id='code' title={6 + i18n.session.digits} pattern='[0-9]+' placeholder='_ _ _ _ _ _'
+          <input id='code' title={6 + i18n.session.digits} pattern='[0-9]+' placeholder='___ ___'
                  maxlength='6' minlength='6' required type='text' inputmode='numeric'
                  value={code} autocomplete='one-time-code' autoFocus
                  onInput={this.updateCode} ref={input => this.codeInput = input}/>
@@ -185,11 +183,12 @@ export default class Session extends Component {
   render() {
     return (
       <section>
-        <Logo class='logo'/>
-        <div><b>CAB</b>LOOK</div>
+        <div class='logo__container'>
+          <Logo class='logo'/>
+          <div><b>CAB</b>LOOK</div>
+        </div>
         <div ref={ref => this.recaptchaWrapperRef = ref}> <div id='recaptcha_container'></div> </div>
         { this.state.isCodeSent ? this.renderCode() : this.renderNumber() }
-        <City class='city'/>
       </section>
     )
   }
