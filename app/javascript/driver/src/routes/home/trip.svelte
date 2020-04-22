@@ -213,11 +213,11 @@
   }
 
   button:hover, .button:hover {
-    box-shadow: 2px 2px 2px var(--shadow_color), -1px 0px 2px var(--white_color);
+    box-shadow: 2px 2px 2px var(--shadow_color), -1px 0px 2px var(--white);
   }
 
   button:active, .button:active {
-    box-shadow: inset 1px 1px 2px var(--shadow_color), inset -1px -1px 2px var(--white_color);
+    box-shadow: inset 1px 1px 2px var(--shadow_color), inset -1px -1px 2px var(--white);
     -webkit-tap-highlight-color: transparent;
   }
 
@@ -274,7 +274,7 @@
               disabled={disabled}
               on:click={actions[trip.status - 1].action}
               style="background: #89d5d4;">
-        <svelte:component this={actions[trip.status - 1].icon} style={{fill: 'var(--white_color)', width: '25px', height: '25px' }}/>
+        <svelte:component this={actions[trip.status - 1].icon} style={{fill: 'var(--white)', width: '25px', height: '25px' }}/>
       </button>
     </div>
     <div class='buttons'>

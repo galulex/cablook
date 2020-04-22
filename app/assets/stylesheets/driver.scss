@@ -53,7 +53,7 @@ blockquote {
 }
 
 input, select {
-  box-shadow: inset 3px 2px 4px var(--shadow_color), inset -2px -1px 4px var(--white_color);
+  box-shadow: inset 3px 2px 4px var(--shadow_color), inset -2px -1px 4px var(--white);
   box-sizing: border-box;
   transition: all 0.2s ease-in-out;
   appearance: none;
@@ -73,7 +73,7 @@ select {
 }
 
 input:focus, select:focus {
-  box-shadow: inset 1px 1px 2px var(--shadow_color), inset -1px -1px 2px var(--white_color);
+  box-shadow: inset 1px 1px 2px var(--shadow_color), inset -1px -1px 2px var(--white);
 }
 
 input:focus, select:focus, button:focus {
@@ -90,16 +90,16 @@ input:-webkit-autofill:focus {
 button {
   border: none;
   cursor: pointer;
-  box-shadow: 5px 3px 12px var(--shadow_color), inset 1px 0px 2px var(--white_color);
+  box-shadow: 5px 3px 12px var(--shadow_color), inset 1px 0px 2px var(--white);
   border-radius: 10px;
 }
 
 button:hover {
-  box-shadow: 2px 1px 4px var(--shadow_color), -1px -0px 2px var(--white_color);
+  box-shadow: 2px 1px 4px var(--shadow_color), -1px -0px 2px var(--white);
 }
 
 button:active {
-  box-shadow: inset 1px 1px 2px var(--shadow_color), inset -1px -1px 2px var(--white_color);
+  box-shadow: inset 1px 1px 2px var(--shadow_color), inset -1px -1px 2px var(--white);
   /* remove blue background on click */
   -webkit-tap-highlight-color: transparent;
 }
