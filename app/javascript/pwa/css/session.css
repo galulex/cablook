@@ -62,8 +62,16 @@ main.login input {
   transition: .3s box-shadow;
 }
 
+main.login section {
+  max-width: 755px;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  flex-direction: column; 
+}
+
 main.login input:focus {
-  box-shadow: inset 2px 1px 4px var(--shadow_color), inset -1px -1px 2px var(--white);
+  box-shadow: inset 1px 1px 2px var(--shadow_color), inset -1px -1px 2px var(--white);
 }
 
 main.login input.number__input {
