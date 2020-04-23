@@ -1,27 +1,37 @@
 .button {
-  background: #19a160;
-  background: var(--green);
+  background: transparent;
   border: none;
-  color: white;
-  font-size: 18px;
+  color: var(--green);
+  font-size: 2.6vh;
   font-weight: 500;
   transition: box-shadow .3s;
-  box-shadow: 0 3px 6px rgba(0,0,0,0.16);
-  box-shadow: var(--shadow);
-  padding: 10px 0;
-  margin-bottom: 20px;
+  box-shadow: 5px 3px 12px var(--shadow_color), inset 1px 0px 2px var(--white);
+  padding: 2.7vh 0;
   width: 100%;
-  border-radius: 0;
+  border-radius: 20px;
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
   cursor: pointer;
 }
 
-.button:focus {
+.button:hover, .button:focus {
+  outline: none;
+  box-shadow: 2px 2px 5px var(--shadow_color), inset 2px 2px 5px var(--white);
+}
+
+.button.green {
+  background: var(--green);
+  color: var(--white);
+}
+
+.button:active {
   outline:  none;
-  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
-  box-shadow: var(--focus-shadow);
+  box-shadow: inset 2px 2px 5px var(--shadow_color), inset -2px -2px 5px var(--white);
+}
+
+.button:disabled {
+  color: var(--gray);
 }
 
 .button.fixed {

@@ -39,7 +39,7 @@
   }
 
   let textColor = () => {
-    if (trip.vip || trip.pre_order) return 'var(--white_color)'
+    if (trip.vip || trip.pre_order) return 'var(--white)'
     return 'var(--main_dark_color)'
   }
 
