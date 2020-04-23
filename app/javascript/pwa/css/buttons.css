@@ -1,5 +1,5 @@
 .button {
-  background: linear-gradient(to right, var(--bg_gradient_color_2), var(--bg_gradient_color_1), var(--bg_gradient_color_2));
+  background: transparent;
   border: none;
   color: var(--green);
   font-size: 2.6vh;
