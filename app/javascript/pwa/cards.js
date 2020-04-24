@@ -4,7 +4,7 @@ import axios from 'axios';
 import i18n from './i18n.js';
 import Widget from './widget.js';
 import './css/cards.css'
-import CardsIcon from './images/credit-cards-payment.svg'
+import CardsIcon from './images/credit-cards-payment.js'
 import Visa from './images/visa.svg'
 import MasterCard from './images/mastercard.svg'
 import Close from './images/times-circle.svg'

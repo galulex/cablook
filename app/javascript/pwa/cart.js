@@ -12,7 +12,7 @@ import Loader from './loader.js'
 import Wheel from './images/wheel.svg'
 import Dollar from './images/dollar.svg'
 import Entrance from './images/entrance.svg'
-import Card from './images/credit-cards-payment.svg'
+import Card from './images/credit-cards-payment.js'
 import Comment from './images/contacts.svg'
 import UAH from './images/ukraine-hryvna.svg'
 

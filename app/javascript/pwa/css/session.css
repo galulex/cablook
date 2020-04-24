@@ -13,7 +13,7 @@ label[for='number'] {
   height: 40%;
   top: 50%;
   left: 25px;
-  color: var(--gray);
+  color: var(--font_color_1);
   transform: translateY(-50%);
   z-index: 1;
   display: flex;
@@ -48,9 +48,9 @@ main.login input {
   display: block;
   border: none;
   background: var(--input_bg_color);
-  color: var(--gray);
+  color: var(--font_color_1);
   font-size: 1.5rem;
-  padding: 25px 0 25px 45px;
+  padding: 25px 0 25px 45px;;
   margin: 3vh 0;
   outline: none;
   position: relative;
@@ -86,7 +86,7 @@ main.login button.resend {
   text-decoration: underline;
   width: auto;
   padding: 0;
-  color: var(--gray);
+  color: var(--font_color_1);
   margin-top: 2vh;
 }
 
@@ -111,7 +111,7 @@ main.login svg.phone {
 
 main.login svg.phone path,
 main.login svg.lock path {
-  fill: var(--gray);
+  fill: var(--font_color_1);
 }
 
 main.login svg.lock {
@@ -135,7 +135,7 @@ main.login form {
 main.login p {
   font-size: 1.5rem;
   margin-block-end: 0;
-  color: var(--gray);
+  color: var(--font_color_1);
 }
 
 main.login .code-send {
@@ -145,7 +145,7 @@ main.login .code-send {
 main.login a,
 main.login a:visited {
   outline: none;
-  color: var(--gray);
+  color: var(--font_color_1);
 }
 
 main.login a:hover,
@@ -217,15 +217,15 @@ ellipse[stroke-dasharray] {
 }
 
 ::-webkit-input-placeholder { /* Edge */
-  color: var(--gray);
+  color: var(--font_color_1);
 }
 
 :-ms-input-placeholder { /* Internet Explorer 10-11 */
-  color: var(--gray);
+  color: var(--font_color_1);
 }
 
 ::placeholder {
-  color: var(--gray);
+  color: var(--font_color_1);
 }
 
 

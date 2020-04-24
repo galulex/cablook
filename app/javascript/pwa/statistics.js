@@ -5,7 +5,7 @@ import Star from './images/star.svg'
 import Tips from './images/tips.svg'
 import Pin from './images/pin.svg'
 import Amount from './images/trip_price.svg'
-import Leaf from './images/leaf_icon.svg'
+import Leaf from './images/leaf_icon.js'
 import i18n from './i18n.js'
 import Clock from './images/trip_time.svg'
 
