@@ -28,7 +28,7 @@ label[for='code'] {
 main.number_input { position: relative; }
 
 main.login {
-  background: linear-gradient(to right, var(--bg_gradient_color_2), var(--bg_gradient_color_1), var(--bg_gradient_color_2));
+  background: linear-gradient(to bottom, var(--bg_gradient_color_2), var(--bg_gradient_color_1), var(--bg_gradient_color_2));
   display: flex;
   align-items: center;
   justify-content: center;
@@ -148,7 +148,7 @@ main.login a:visited {
   color: var(--gray);
 }
 
-main.login a:hover, 
+main.login a:hover,
 main.login a:focus,
 main.login .button.resend:hover,
 main.login .button.resend:focus {

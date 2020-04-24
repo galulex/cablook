@@ -78,8 +78,6 @@ export default class App extends Component {
     if (this.state.currentUser && this.state.currentUser.length !== 0) {
       this.fetchUser()
       this.checkOneSignalToken()
-      waitForToken = setInterval(this.waitForFCMToken, 3000)
-      document.documentElement.style.setProperty('--body-bg', '#19a160')
     }
     this.registerServiceworker()
     window.addEventListener('offline', this.offline)
@@ -176,7 +174,7 @@ export default class App extends Component {
   }
 
   online = () => {
-    document.documentElement.style.setProperty('--body-bg', '#19a160')
+    document.documentElement.style.setProperty('--body-bg', '#e6efee')
     document.body.className = ''
   }
 
