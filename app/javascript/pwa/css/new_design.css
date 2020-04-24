@@ -5,6 +5,7 @@ svg {
 section.new_design {
   padding: 10px 0 0;
   max-width: 100%;
+  margin-top: 50px;
 }
 
 fieldset.address {
