@@ -1,6 +1,6 @@
 import { h, Component } from "preact"
 
-export default class Logo extends Component {
+export default class Lock extends Component {
   render () {
     const style = {
       filter: "url(#inset-shadow)",

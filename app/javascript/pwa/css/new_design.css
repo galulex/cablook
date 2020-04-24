@@ -210,6 +210,10 @@ svg.pin-last path {
   flex-wrap: wrap;
 }
 
+.additions label svg {
+  height: 30px;
+}
+
 .options.noscroll .option:nth-of-type(2) {
   display: none;
 }
