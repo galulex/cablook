@@ -10,4 +10,5 @@ production:
   - payments
   - retry_payments
   - mailers
+  - telegram_messages
 
