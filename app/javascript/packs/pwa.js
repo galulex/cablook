@@ -305,6 +305,13 @@ export default class App extends Component {
 
   scrollEnd = (e) => {
     let target = e.target
+    clearTimeout(window.scrollTimeout)
+    window.scrollTimeout = setTimeout(() => {
+      if (target.scrollLeft == 0 || target.scrollLeft == target.offsetWidth || target.scrollLeft == 300) return
+      let x = (target.scrollLeft > 0 && target.scrollLeft < target.offsetWidth / 2) ? 0 : target.offsetWidth
+      target.scrollTo({left: x})
+    }, 300)
+    if (!(target.id === 'app')) return
     let drawerIsOpen
     if ((target.scrollLeft >= 0 && target.scrollLeft < target.offsetWidth / 2) && target.scrollLeft != 300) {
       drawerIsOpen = true
@@ -315,12 +322,6 @@ export default class App extends Component {
       this.main.classList.remove('open')
     }
     this.setState({drawerIsOpen})
-    clearTimeout(window.scrollTimeout)
-    window.scrollTimeout = setTimeout(() => {
-      if (target.scrollLeft == 0 || target.scrollLeft == target.offsetWidth || target.scrollLeft == 300) return
-      let x = (target.scrollLeft > 0 && target.scrollLeft < target.offsetWidth / 2) ? 0 : target.offsetWidth
-      target.scrollTo({left: x})
-    }, 300)
   }
 
   resetCurrentTrip = () => {
