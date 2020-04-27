@@ -87,7 +87,6 @@ aside .nav-header {
   transition: .3s box-shadow;
   -webkit-appearance: none;
   font-size: 1.3rem;
-  font-weight: 500;
   padding: 20px 25px;
   margin: 20px;
   border-bottom: none;
@@ -96,7 +95,6 @@ aside .nav-header {
   color: var(--font_color_2);
   display: flex;
   align-items: center;
-  justify-content: space-around;
 }
 
 aside div.nav-wrapper {
@@ -114,7 +112,7 @@ aside div.nav-wrapper {
 .nav-header svg {
   padding: 0;
   min-width: 30px;
-  margin-right: unset;
+  margin-right: 10px;
 }
 
 .nav-header svg path {
@@ -125,6 +123,8 @@ aside div.nav-wrapper {
   display: flex;
   flex-direction: column;
   text-align: left;
+  width: calc(100% - 40px);
+  overflow: hidden;
 }
 
 .burger {
