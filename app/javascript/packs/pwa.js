@@ -67,7 +67,8 @@ export default class App extends Component {
       favorite_addresses: [],
       notification_settings: [],
       currentTrip: null,
-      isGeocoding: false
+      isGeocoding: false,
+      drawerIsOpen: false
     }
     axios.defaults.headers.common['Pwa-Language'] = this.state.language
   }
@@ -304,6 +305,16 @@ export default class App extends Component {
 
   scrollEnd = (e) => {
     let target = e.target
+    let drawerIsOpen
+    if ((target.scrollLeft >= 0 && target.scrollLeft < target.offsetWidth / 2) && target.scrollLeft != 300) {
+      drawerIsOpen = true
+      this.main.classList.add('open')
+    }
+     else {
+      drawerIsOpen = false
+      this.main.classList.remove('open')
+    }
+    this.setState({drawerIsOpen})
     clearTimeout(window.scrollTimeout)
     window.scrollTimeout = setTimeout(() => {
       if (target.scrollLeft == 0 || target.scrollLeft == target.offsetWidth || target.scrollLeft == 300) return
@@ -317,11 +328,11 @@ export default class App extends Component {
   }
 
   render() {
-    const { currentTrip, isGeocoding } = this.state;
+    const { currentTrip, isGeocoding, drawerIsOpen } = this.state
 
     if (this.state.currentUser) {
       return(
-        <main id="app" onClick={this.closeDrawer} ref={main => this.main = main} onScroll={this.scrollEnd}>
+        <main id="app" class={drawerIsOpen ? 'open' : ''} onClick={this.closeDrawer} ref={main => this.main = main} onScroll={this.scrollEnd}>
           <button class='burger' onClick={() => this.triggerDrawer(true)}><Burger/></button>
           <Drawer triggerDrawer={this.triggerDrawer} logOut={this.logOut} />
           <Router history={window.ios ? createMemoryHistory() : null} onChange={() => this.triggerDrawer(false)}>
