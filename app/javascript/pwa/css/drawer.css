@@ -7,29 +7,15 @@ aside {
   -webkit-touch-callout: none;
   min-width: 200px;
   width: 300px;
-  box-shadow: 0px 0px 10px 0px black;
+  box-shadow: none;
   flex: 0 0 auto;
   position: relative;
   scroll-snap-align: start;
   direction: ltr;
 }
 
-aside:before {
-  content: '';
-  position: absolute;
-  right: -20px;
-  width: 20px;
-  left: 100%;
-  bottom: 0;
-  top: 54px;
-  background: rgba(0,0,0,0.5);
-  opacity: 0;
-  z-index: -2;
-}
-
-aside.active:before {
-  width: 100vw;
-  top: 0;
+main.open > aside {
+  box-shadow: 0px 0px 10px 0px var(--grey);
 }
 
 aside a:hover:not(.nav-header) {
