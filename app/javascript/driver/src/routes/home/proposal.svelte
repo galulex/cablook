@@ -50,7 +50,6 @@
 
 <style>
   ol > li {
-    scroll-snap-align: start;
     padding: 25px 20px 60px 15px;
     margin: 20px 50px;
     position: relative;
