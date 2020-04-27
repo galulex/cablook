@@ -32,7 +32,17 @@ aside a {
   transition: background .3s;
   color: #233038;
   color: var(--font_color_2);
-  box-shadow: 0 1px 0 var(--shadow_color)
+  box-shadow: 0 2px 0 var(--shadow_color)
+}
+
+aside a:first-child {
+
+}
+
+aside a svg.home-icon {
+  height: auto;
+  width: 35px;
+  margin-right: 15px
 }
 
 aside a:last-of-type {
@@ -144,6 +154,7 @@ aside div.nav-wrapper {
   aside a {
     padding: 10px 0;
     font-size: 1rem;
+    box-shadow: 0 1.5px 0 var(--shadow_color);
   }
 
   aside .nav-header {
