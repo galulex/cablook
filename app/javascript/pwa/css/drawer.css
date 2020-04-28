@@ -12,10 +12,19 @@ aside {
   position: relative;
   scroll-snap-align: start;
   direction: ltr;
+  box-shadow: 5px 3px 12px var(--shadow_color);
 }
 
-main.open > aside {
-  box-shadow: 0px 0px 10px 0px var(--grey);
+aside:before {
+  content: '';
+  position: absolute;	
+  right: -20px;	
+  width: 20px;	
+  left: 100%;	
+  bottom: 0;	
+  top: 54px;
+  opacity: 0;	
+  z-index: -2;	
 }
 
 aside a:hover:not(.nav-header) {
@@ -102,7 +111,7 @@ aside div.nav-wrapper {
   overflow: hidden;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
-  background: linear-gradient(to bottom, var(--bg_gradient_color_2), var(--bg_gradient_color_1));
+  background: linear-gradient(to bottom, var(--bg_gradient_color_2), var(--bg_gradient_color_1), var(--bg_gradient_color_2));
 }
 
 .nav-header svg {
