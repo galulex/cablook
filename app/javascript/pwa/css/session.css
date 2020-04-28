@@ -28,7 +28,6 @@ label[for='code'] {
 main.number_input { position: relative; }
 
 main.login {
-  background: linear-gradient(to bottom, var(--bg_gradient_color_2), var(--bg_gradient_color_1), var(--bg_gradient_color_2));
   display: flex;
   align-items: center;
   justify-content: center;
@@ -55,7 +54,7 @@ main.login input {
   outline: none;
   position: relative;
   box-sizing: border-box;
-  border-radius: 20px;
+  border-radius: 15px;
   box-shadow: inset 3px 2px 8px var(--shadow_color), inset -2px -1px 4px var(--white);
   transition: .3s box-shadow;
   -webkit-appearance: none;

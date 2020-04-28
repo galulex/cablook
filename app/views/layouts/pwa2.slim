@@ -95,6 +95,7 @@ html lang="#{I18n.locale}"
         -webkit-overflow-scrolling: touch;
         overscroll-behavior-x: contain;
         overflow-y: hidden;
+        background: linear-gradient(to bottom, var(--bg_gradient_color_2), var(--bg_gradient_color_1), var(--bg_gradient_color_2));
       }
 
       main::-webkit-scrollbar {
@@ -127,17 +128,16 @@ html lang="#{I18n.locale}"
         top: 0;
         left: 0;
         right: 0;
-        background: #19a160;
-        background: var(--green);
-        background: linear-gradient(to left, #19a160, #312d50);
-        background: linear-gradient(to left, var(--green), #312d50);
+        background: transparent;
         text-align: center;
-        color: white;
-        padding: 15px 0;
+        font-size: calc(1em + 1vh);
+        color: #233038;
         z-index: 100;
-        height: 50px;
+        height: 70px;
         font-weight: 500;
-        box-shadow: 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12), 0 3px 1px -2px rgba(0,0,0,.2);
+        display: flex;
+        align-items: center;
+        justify-content: center;
       }
 
       section {
@@ -146,6 +146,7 @@ html lang="#{I18n.locale}"
         height: 100vh;
         overflow-y: auto;
         -webkit-overflow-scrolling: touch;
+        margin-top: 70px;
       }
 
       ul {

@@ -85,10 +85,9 @@ fieldset.address {
   z-index: 20;
 }
 
-.burger.back{
+.burger.back {
   z-index: 310;
 }
-
 .new_design .remove-address {
   right: 5px;
   font-size: 2.2rem;

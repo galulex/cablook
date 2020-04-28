@@ -9,7 +9,7 @@ mapboxgl.accessToken = 'pk.eyJ1IjoiZ2FsdWxleCIsImEiOiJjamx6ampoZjgyMnYxM3FvZ2ppN
 
 import i18n from './i18n.js'
 import './css/trips.css'
-import Pin from './images/pin.svg'
+import Pin from './images/pin.js'
 
 const polyline = require('@mapbox/polyline')
 const is_mapbox_supported = mapboxgl.supported()
