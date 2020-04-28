@@ -31,6 +31,7 @@ html lang="#{I18n.locale}"
         --bg: rgba(255, 255, 255, 0.9);
         --zoom-level: 12;
         --car-transition: 0s;
+        --background-opacity: 1;
       }
 
       html {
@@ -115,12 +116,12 @@ html lang="#{I18n.locale}"
         transition: opacity .3s;
       }
 
-      main.open > div {
-        opacity: .5;
+      main > div {
+        opacity: var(--background-opacity);
       }
 
-      main.open > .burger {
-        opacity: .5;
+      main > .burger {
+        opacity: var(--background-opacity);
       }
 
       header {
