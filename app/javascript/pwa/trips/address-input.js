@@ -3,7 +3,7 @@ import mapboxgl from 'mapbox-gl'
 import axios from 'axios'
 
 import { streets } from '../streets.js'
-import Pin from '../images/pin.svg'
+import Pin from '../images/pin.js'
 import MapPicker from '../mapPicker'
 import i18n from '../i18n.js'
 import Cablook  from '../images/cablook.svg'

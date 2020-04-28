@@ -8,7 +8,7 @@
   box-shadow: 5px 3px 12px var(--shadow_color), inset 1px 0px 2px var(--white);
   padding: 25px 0;
   width: 100%;
-  border-radius: 20px;
+  border-radius: 15px;
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
@@ -59,6 +59,34 @@
 .button.warning {
   background: #efcc3a;
   background: var(--orange);
+}
+
+.button.burger {
+  background: rgba(255, 255, 255, .5);
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 300;
+  height: 70px;
+  width: 70px;
+  line-height: 1;
+  border: none;
+  padding: 20px;
+  font-size: 20px;
+  outline: none;
+  cursor: pointer;
+}
+
+.button.burger svg {
+  max-width: 100%;
+  max-height: 100%;
+  margin: 0;
+  fill: #233038;
+  pointer-events: none;
+}
+
+.button.burger.back {
+  z-index: 310;
 }
 
 .button.add_fav_address {

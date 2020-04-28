@@ -334,7 +334,7 @@ export default class App extends Component {
     if (this.state.currentUser) {
       return(
         <main id="app" class={drawerIsOpen ? 'open' : ''} onClick={this.closeDrawer} ref={main => this.main = main} onScroll={this.scrollEnd}>
-          <button class='burger' onClick={() => this.triggerDrawer(true)}><Burger/></button>
+          <button class='button burger' onClick={() => this.triggerDrawer(true)}><Burger/></button>
           <Drawer triggerDrawer={this.triggerDrawer} logOut={this.logOut} />
           <Router history={window.ios ? createMemoryHistory() : null} onChange={() => this.triggerDrawer(false)}>
             <NewDesign path='/'

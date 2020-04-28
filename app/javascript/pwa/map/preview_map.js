@@ -10,7 +10,7 @@ mapboxgl.accessToken = 'pk.eyJ1IjoiZ2FsdWxleCIsImEiOiJjamx6ampoZjgyMnYxM3FvZ2ppN
 
 import i18n from '../i18n.js'
 import '../css/map.css'
-import Pin from '../images/pin.svg'
+import Pin from '../images/pin.js'
 
 import CarPopup from '../new_design/car_popup.js'
 import FocusOnCarControl from '../../pwa/trips/custom-control.js'

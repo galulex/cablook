@@ -1,61 +1,72 @@
+section.trips ul {
+  padding: 0 20px;
+}
+
 address {
   border: none;
   font-style: normal;
-  margin-left: 10%;
+  margin-left: 20px;
   position: relative;
+  padding: 2% 0;
+  color: var(--font_color_2);
 }
-address:after {
-  position: absolute;
-  content: '';
-  border-radius: 50%;
-  width: 0;
-  height: 0;
-  border: 6px solid #efcc3a;
-  border: 6px solid var(--orange);
-  top: calc(50% - 6px);
-  left: calc(1% - 30px);
-  transition: border-color 0.3s;
-}
+
 address:before {
   content: '';
-  height: 50%;
-  width: 0;
-  top: calc(50% + 5px);
-  border: 1px solid white;
-  left: calc(1% - 25px);
   position: absolute;
+  top: calc(50% + 2px);
+  left: calc(1% - 21px);
+  height: 33%;
+  width: 0;
+  border-right: 2px solid #d6d6d6;
 }
-address:first-of-type:after {
-  border-color: #312d50;
-  border-color: var(--navy);
+
+address:first-of-type:before {
+  transform: translateY(50%);
 }
-address:last-of-type:after {
-  border-color: #19a160;
+
+address:last-of-type svg.address-pin path {
+  fill: var(--font_color_2);
 }
+
 address:last-of-type:before {
-  height: 50%;
+  height: 30%;
   width: 0;
   top: 0;
-  border: 1px solid white;
-  left: calc(1% - 25px);
+  border-right: 2px solid #d6d6d6;
+  left: calc(1% - 21px);
   position: absolute;
 }
-address:last-of-type {
-  color: #19a160;
+
+address:last-of-type svg {
+  width: 0;
 }
+
+.trips svg.address-pin {
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: calc(1% - 30px);
+  margin: 0;
+}
+
 .trip-card {
-  background: #d1d1d1;
-  background: var(--grey);
-  margin: 10px 0;
-  font-size: 17px;
+  background: rgba(255, 255, 255, .3);
+  margin: 4% 0;
+  padding: 4%;
   border-bottom: none;
   cursor: pointer;
-  border: 1px solid white;
+  box-shadow: 5px 3px 12px var(--shadow_color), inset 1px 0px 2px var(--white);
+  border-radius: 15px;
 }
+
 .trip-card .address-block {
-  padding: 10px;
-  border-bottom: 1px solid #a7a5af;
+  font-size: calc(1vh + .5em);
+  border-bottom: 2px solid #d6d6d6;
 }
+
 .retry-message-block {
   color: white;
   text-align: center;
@@ -67,10 +78,9 @@ address:last-of-type {
   font-size: 12px;
   padding: 0 10px;
 }
+
 .trip-card p {
-  font-style: italic;
-  margin: 0 auto;
-  padding: 7px 20px;
+  margin: 3% 0 0 0;
   font-size: 12px;
   display: flex;
   flex-wrap: wrap;
@@ -80,6 +90,7 @@ address:last-of-type {
 .trips input[type='radio'] {
   display: none;
 }
+
 .trips nav label {
   color: grey;
   background: #312d50;
@@ -89,9 +100,11 @@ address:last-of-type {
   display: inline-block;
   width: 50%;
 }
+
 .trips nav label:first-of-type {
   border-right: 1px solid grey;
 }
+
 .trips .active {
   color: white;
 }
@@ -99,34 +112,41 @@ address:last-of-type {
 .trip-details img {
   width: 100%;
   background: #e6e4e0;
-  background: var(--map-bg);
+  background: linear-gradient(to bottom, var(--bg_gradient_color_2), var(--bg_gradient_color_1), var(--bg_gradient_color_2));
   height: 59vh;
   max-height: 100vw;
   object-fit: cover;
 }
+
 .trip-details .buttons {
   margin-bottom: 20px;
 }
+
 .trip-details address {
   margin-left: 47px;
 }
+
 .trip-details address:before {
-  left: calc(1% - 30px);
+  left: calc(1% - 25px);
 }
+
 .trip-details address:after {
   left: calc(1% - 35px);
 }
+
 .trip-details.trip-details-content section svg {
   margin: 0 10px;
   width: 25px;
   height: 25px;
   vertical-align: middle;
 }
+
 .trip-details-content {
   border-bottom: 1px solid #8080806b;
   margin: -1px 10px;
   padding: 8px 2px;
 }
+
 .trip-details-content:last-of-type {
   border: none;
 }
@@ -143,8 +163,7 @@ nav {
   width: 100%;
   position: fixed;
   height: 100%;
-  background: linear-gradient(to bottom, #d1d1d1, white);
-  background: linear-gradient(to bottom, var(--grey), var(--white));
+  background: linear-gradient(to bottom, var(--bg_gradient_color_2), var(--bg_gradient_color_1), var(--bg_gradient_color_2));
   left: 0px;
   top: 0px;
   z-index: 10001;

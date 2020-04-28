@@ -7,7 +7,7 @@ import TripPrice from './images/trip_price.svg'
 import TripStatus from './images/trip_status.svg'
 import TripTime from './images/trip_time.svg'
 import Back from './images/arrow-left.svg'
-import Star from './images/star.svg'
+import Star from './images/star.js'
 import i18n from './i18n.js'
 
 export default class TripCard extends Component {

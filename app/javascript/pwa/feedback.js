@@ -6,6 +6,7 @@ import Back from './images/arrow-left.svg'
 import Driver from './images/feedback_driver.svg'
 import Currency from './images/ukraine-hryvna.svg'
 import './css/feedback.css'
+import './css/buttons.css'
 
 export default class Feedback extends Component {
   constructor(props){
@@ -95,7 +96,7 @@ export default class Feedback extends Component {
       <div class='find_driver'>
         <section class='feedback'>
           <header>{i18n.feedback.header}</header>
-          <button type='button' class='burger' onClick={() => window.ios ? this.props.handleBack() : window.history.back()}><Back/></button>
+          <button type='button' class='button burger' onClick={() => window.ios ? this.props.handleBack() : window.history.back()}><Back/></button>
           <form ref={form => this.feedbackForm = form}>
             <div class='star-container'>
               {[1,2,3,4,5].map(i => this.renderStar(i))}

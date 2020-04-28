@@ -19,6 +19,7 @@ import Arrows from './images/arrows.svg'
 import Back from './images/arrow-left.svg'
 import SearchLogo from './images/search_logo.svg'
 import './css/new_design.css'
+import './css/buttons.css'
 
 import { PENDING, ON_THE_WAY, WAITING_CLIENT, DRIVING, FINISHED, CANCELED, DECLINED, CANCELED_BY_DRIVER, CONFIRM_UPDATE_TRIP, MAP_MIN_ZOOM, MAP_MAX_ZOOM, CHERKASY_LONG_LAT } from './lib/constants.js'
 
