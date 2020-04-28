@@ -229,6 +229,7 @@ svg.map-pick {
   top: 50%;
   transform: translateY(-50%);
   width: 25px;
+  height: 25px;
   cursor: pointer;
 }
 
