@@ -120,7 +120,13 @@ aside div.nav-wrapper {
   flex-direction: column;
   text-align: left;
   width: calc(100% - 40px);
+}
+
+.nav-header div span {
+  display: inline-block;
   overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .burger {
