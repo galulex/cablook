@@ -23,12 +23,10 @@ export default class Session extends Component {
 
   componentDidMount() {
     this.focusOnInput()
-    document.documentElement.style.setProperty('--body-bg', '#132d50');
     window.addEventListener('click', this.handleClickRecaptcha)
   }
 
   componentWillUnmount() {
-    document.documentElement.style.setProperty('--body-bg', '#19a160');
   }
 
   componentDidUpdate() {

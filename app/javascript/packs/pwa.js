@@ -67,7 +67,8 @@ export default class App extends Component {
       favorite_addresses: [],
       notification_settings: [],
       currentTrip: null,
-      isGeocoding: false
+      isGeocoding: false,
+      drawerIsOpen: false
     }
     axios.defaults.headers.common['Pwa-Language'] = this.state.language
   }
@@ -79,7 +80,6 @@ export default class App extends Component {
     if (this.state.currentUser && this.state.currentUser.length !== 0) {
       this.fetchUser()
       this.checkOneSignalToken()
-      document.documentElement.style.setProperty('--body-bg', '#19a160')
     }
     this.registerServiceworker()
     window.addEventListener('offline', this.offline)
@@ -174,7 +174,7 @@ export default class App extends Component {
   }
 
   online = () => {
-    document.documentElement.style.setProperty('--body-bg', '#19a160')
+    document.documentElement.style.setProperty('--body-bg', '#e6efee')
     document.body.className = ''
   }
 
@@ -311,6 +311,17 @@ export default class App extends Component {
       let x = (target.scrollLeft > 0 && target.scrollLeft < target.offsetWidth / 2) ? 0 : target.offsetWidth
       target.scrollTo({left: x})
     }, 300)
+    if (!(target.id === 'app')) return
+    let drawerIsOpen
+    if ((target.scrollLeft >= 0 && target.scrollLeft < target.offsetWidth / 2) && target.scrollLeft != 300) {
+      drawerIsOpen = true
+      this.main.classList.add('open')
+    }
+     else {
+      drawerIsOpen = false
+      this.main.classList.remove('open')
+    }
+    this.setState({drawerIsOpen})
   }
 
   resetCurrentTrip = () => {
@@ -318,11 +329,11 @@ export default class App extends Component {
   }
 
   render() {
-    const { currentTrip, isGeocoding } = this.state;
+    const { currentTrip, isGeocoding, drawerIsOpen } = this.state
 
     if (this.state.currentUser) {
       return(
-        <main id="app" onClick={this.closeDrawer} ref={main => this.main = main} onScroll={this.scrollEnd}>
+        <main id="app" class={drawerIsOpen ? 'open' : ''} onClick={this.closeDrawer} ref={main => this.main = main} onScroll={this.scrollEnd}>
           <button class='burger' onClick={() => this.triggerDrawer(true)}><Burger/></button>
           <Drawer triggerDrawer={this.triggerDrawer} logOut={this.logOut} />
           <Router history={window.ios ? createMemoryHistory() : null} onChange={() => this.triggerDrawer(false)}>

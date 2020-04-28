@@ -5,6 +5,7 @@ svg {
 section.new_design {
   padding: 10px 0 0;
   max-width: 100%;
+  margin-top: 50px;
 }
 
 fieldset.address {
@@ -207,6 +208,10 @@ svg.pin-last path {
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
+}
+
+.additions label svg {
+  height: 30px;
 }
 
 .options.noscroll .option:nth-of-type(2) {

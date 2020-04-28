@@ -12,12 +12,13 @@ html lang="#{I18n.locale}"
         --purple: #a925ad;
         --orange: #efcc3a;
         --navy: #312d50;
-        --gray: #777777;
+        --font_color_1: #777777;
+        --font_color_2: #233038;
         --grey: #d1d1d1;
         --black: #1c1c1c;
         --shadow: 0 3px 6px rgba(0,0,0,0.16);
         --focus-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
-        --body-bg: #132d50;
+        --body-bg: #e6efee;
         --uk-flag-blue: #005bbb;
         --ru-flag-blue: #003da5;
         --en-flag-blue: #012169;
@@ -35,8 +36,8 @@ html lang="#{I18n.locale}"
       html {
         overflow: visible;
         overscroll-behavior-x: none;
-        background: #132d50;
-        background: var(--body-bg);
+        background: #e6efee;
+        background: var(--body_bg);
         height: 100%;
         transition: background .1s;
         -webkit-text-size-adjust: none;
@@ -104,10 +105,21 @@ html lang="#{I18n.locale}"
         width: 100%;
         flex: 0 0 auto;
         flex-grow: 10;
+        display: flex;
+        justify-content: center;
         position: relative;
         scroll-snap-align: start;
         overflow: hidden;
         max-height: 100vh;
+        transition: opacity .3s;
+      }
+
+      main.open > div {
+        opacity: .5;
+      }
+
+      main.open > .burger {
+        opacity: .5;
       }
 
       header {
@@ -130,14 +142,10 @@ html lang="#{I18n.locale}"
 
       section {
         max-width: 600px;
-        margin: 0 auto;
-        padding: 0 10px 50px 10px;
         width: 100%;
         height: 100vh;
-        height: calc(100vh - 50px);
         overflow-y: auto;
         -webkit-overflow-scrolling: touch;
-        margin-top: 50px;
       }
 
       ul {

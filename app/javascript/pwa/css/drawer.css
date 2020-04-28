@@ -2,38 +2,20 @@ aside {
   z-index: 1000;
   background: white;
   background: var(--white);
-  width: 300px;
   overscroll-behavior-y: contain;
   -webkit-tap-highlight-color: rgba(0,0,0,0);
   -webkit-touch-callout: none;
+  min-width: 200px;
   width: 300px;
-  box-shadow: 0px 0px 10px 0px black;
+  box-shadow: none;
   flex: 0 0 auto;
   position: relative;
   scroll-snap-align: start;
   direction: ltr;
 }
 
-aside:before {
-  content: '';
-  position: absolute;
-  right: -20px;
-  width: 20px;
-  left: 100%;
-  bottom: 0;
-  top: 54px;
-  background: rgba(0,0,0,0.5);
-  opacity: 0;
-  z-index: -2;
-}
-
-aside.active:before {
-  width: 100vw;
-  top: 0;
-}
-
-aside a {
-  transition: background .3s;
+main.open > aside {
+  box-shadow: 0px 0px 10px 0px var(--grey);
 }
 
 aside a:hover:not(.nav-header) {
@@ -41,16 +23,26 @@ aside a:hover:not(.nav-header) {
 }
 
 aside a {
-  border-bottom: 1px solid grey;
-  margin: 0 3% 0 5%;
+  margin: 0 20px;
   display: block;
-  padding: 4% 0;
-  color: #1c1c1c;
+  padding: 15px 0;
   text-decoration: none;
-  font-weight: 500;
-  font-size: 15px;
-  color: #312d50;
-  color: var(--navi);
+  font-weight: 100;
+  font-size: 1.1rem;
+  transition: background .3s;
+  color: #233038;
+  color: var(--font_color_2);
+  box-shadow: 0 2px 0 var(--shadow_color)
+}
+
+aside a:first-child {
+
+}
+
+aside a svg.home-icon {
+  height: auto;
+  width: 35px;
+  margin-right: 15px
 }
 
 aside a:last-of-type {
@@ -60,40 +52,45 @@ aside a:last-of-type {
 aside svg {
   width: 30px;
   height: 30px;
-  margin-right: 10%;
+  margin-right: 25px;
   vertical-align: middle;
 }
 
-aside a:last-of-type svg path {
+aside a.nav-link:last-of-type svg path {
   fill: #19a160;
   fill: var(--green);
 }
 
-aside a.active {
+aside a.nav-link.active {
   color: #19a160;
   color: var(--green);
 }
 
-aside a:nth-child(even) svg path {
+aside a.nav-link:nth-child(even) svg path {
+  fill: #777777;
+  fill: var(--font_color_1);
+}
+
+aside a.nav-link:nth-child(odd) svg path {
   fill: #19a160;
   fill: var(--green);
 }
 
-aside a:nth-child(odd) svg path {
-  fill: #312d50;
-  fill: var(--navy);
-}
-
 aside .nav-header {
-  background: #19a160;
-  background: var(--green);
-  background: linear-gradient(to left, #19a160, #312d50);
-  background: linear-gradient(to left, var(--green), #312d50);
-  font-size: 20px;
-  padding: 15px 5px 15px 65px;
-  color: white;
-  margin: 0;
+  background: #E9EEED;
+  background: var(--input_bg_color);
+  box-shadow: inset 3px 2px 8px var(--shadow_color), inset -2px -1px 4px var(--white);
+  transition: .3s box-shadow;
+  -webkit-appearance: none;
+  font-size: 1.3rem;
+  padding: 20px 25px;
+  margin: 20px;
+  border-bottom: none;
+  border-radius: 20px;
   position: relative;
+  color: var(--font_color_2);
+  display: flex;
+  align-items: center;
 }
 
 aside div.nav-wrapper {
@@ -105,26 +102,24 @@ aside div.nav-wrapper {
   overflow: hidden;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
+  background: linear-gradient(to bottom, var(--bg_gradient_color_2), var(--bg_gradient_color_1));
 }
 
 .nav-header svg {
-  position: absolute;
-  left: 15px;
-  top: 50%;
-  transform: translateY(-50%);
   padding: 0;
-  margin: 0;
+  min-width: 30px;
+  margin-right: 10px;
 }
 
 .nav-header svg path {
-  fill: white !important;
+  fill: var(--font_color_1) !important;
 }
 
 .nav-header div {
-  font-size: 16px;
-  font-weight: 100;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  width: calc(100% - 40px);
   overflow: hidden;
 }
 
@@ -153,4 +148,17 @@ aside div.nav-wrapper {
   margin: 0;
   fill: #312d50;
   pointer-events: none;
+}
+
+@media screen and (max-width: 768px) {
+  aside a {
+    padding: 10px 0;
+    font-size: 1rem;
+    box-shadow: 0 1.5px 0 var(--shadow_color);
+  }
+
+  aside .nav-header {
+    font-size: 1.1rem;
+    padding: 15px 20px;
+  }
 }
