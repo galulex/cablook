@@ -4,10 +4,10 @@ import axios from 'axios';
 import Star from './images/star.js'
 import Tips from './images/tips.svg'
 import Pin from './images/pin.js'
-import Amount from './images/trip_price.svg'
+import Amount from './images/trip_price.js'
 import Leaf from './images/leaf_icon.js'
 import i18n from './i18n.js'
-import Clock from './images/trip_time.svg'
+import Clock from './images/clock.js'
 
 import './css/statistics.css'
 

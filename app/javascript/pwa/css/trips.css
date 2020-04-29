@@ -15,7 +15,7 @@ address:before {
   content: '';
   position: absolute;
   top: calc(50% + 2px);
-  left: calc(1% - 21px);
+  left: -17px;
   height: 33%;
   width: 0;
   border-right: 2px solid #d6d6d6;
@@ -25,16 +25,12 @@ address:first-of-type:before {
   transform: translateY(50%);
 }
 
-address:last-of-type svg.address-pin path {
-  fill: var(--font_color_2);
-}
-
 address:last-of-type:before {
   height: 30%;
   width: 0;
   top: 0;
   border-right: 2px solid #d6d6d6;
-  left: calc(1% - 21px);
+  left: -17px;
   position: absolute;
 }
 
@@ -43,12 +39,12 @@ address:last-of-type svg {
 }
 
 .trips svg.address-pin {
-  width: 20px;
-  height: 20px;
+  width: 25px;
+  height: 25px;
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  left: calc(1% - 30px);
+  left: -28px;
   margin: 0;
 }
 
@@ -62,9 +58,29 @@ address:last-of-type svg {
   border-radius: 15px;
 }
 
+.trip-card:hover {
+  box-shadow: 2px 2px 5px var(--shadow_color), inset 2px 2px 5px var(--white);
+}
+
+.trip-card:active {
+  box-shadow: inset 2px 2px 5px var(--shadow_color), inset -2px -2px 5px var(--white);
+}
+
 .trip-card .address-block {
   font-size: calc(1vh + .5em);
   border-bottom: 2px solid #d6d6d6;
+}
+
+.trip-card > .address-block > address:last-of-type svg.address-pin path {
+  fill: var(--font_color_2);
+}
+
+.trip-card p {
+  margin: 3% 0 0 0;
+  font-size: 12px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
 }
 
 .retry-message-block {
@@ -77,14 +93,6 @@ address:last-of-type svg {
   width: 100%;
   font-size: 12px;
   padding: 0 10px;
-}
-
-.trip-card p {
-  margin: 3% 0 0 0;
-  font-size: 12px;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
 }
 
 .trips input[type='radio'] {
@@ -145,18 +153,18 @@ address:last-of-type svg {
   background: linear-gradient(to bottom, var(--bg_gradient_color_1), var(--bg_gradient_color_2));
 }
 
-
 .trip-details address {
-  margin-left: 47px;
-}
-
-.trip-details address:before {
-  left: calc(1% - 25px);
+  margin-left: 40px;
 }
 
 .trip-details address:after {
   left: calc(1% - 35px);
 }
+
+.trip-details address:before {
+  left: -27px;
+}
+
 
 .trip-details.trip-details-content section svg {
   margin: 0 10px;
@@ -166,9 +174,20 @@ address:last-of-type svg {
 }
 
 .trip-details-content {
-  border-bottom: 1px solid #8080806b;
-  margin: -1px 10px;
+  border-bottom: 2px solid #d6d6d6;
   padding: 8px 2px;
+}
+
+.trip-details-content svg path {
+  fill: rgba(119, 119, 119, .5);
+}
+
+.trip-details-content address {
+  margin-left: 47px;
+}
+
+.trip-details-content address svg.address-pin {
+  left: -38px;
 }
 
 .trip-details-content:last-of-type {
@@ -200,10 +219,6 @@ nav {
 
 .trip-details div.map {
   height: 500px;
-}
-
-.trip-details address {
-  margin-left: 47px;
 }
 
 /* Trip component */
