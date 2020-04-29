@@ -95,6 +95,10 @@
   margin-top: 20px;
 }
 
+.button.dark-color {
+  color: var(--font_color_2);
+}
+
 @media screen and (max-width: 768px) {
   .button {
     padding: 20px 0;

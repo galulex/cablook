@@ -1,11 +1,9 @@
 import { h, render, Component } from 'preact'
-import { Link } from 'preact-router/match'
 import axios from 'axios'
 import { route } from 'preact-router'
 
 import i18n from './i18n.js'
 import './css/vendor_preview.css'
-import TripTime from './images/trip_time.svg'
 import Pin from './images/pin_vendor.svg'
 
 export default class VendorPreview extends Component {
