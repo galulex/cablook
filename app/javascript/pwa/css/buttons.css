@@ -75,6 +75,8 @@
   font-size: 20px;
   outline: none;
   cursor: pointer;
+  color: #233038;
+  color: var(--font_color_2);
 }
 
 .button.burger svg {
