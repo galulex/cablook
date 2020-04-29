@@ -50,18 +50,20 @@ export default class TripCard extends Component {
         <header>{i18n.trip.header}</header>
         <section class="trip-details-section">
           <MapImg trip={() => this.props.trip} />
-          <div class="buttons">
-            <button type='button' class= 'button' onClick={this.repeatTrip}>{i18n.trips.repeat}</button>
-            <button type='button' class= 'button' onClick={this.reverseTrip}>{i18n.trips.reverse}</button>
+          <div class='trip-details__content'>
+            <div class="buttons">
+              <button type='button' class= 'button' onClick={this.repeatTrip}>{i18n.trips.repeat}</button>
+              <button type='button' class= 'button' onClick={this.reverseTrip}>{i18n.trips.reverse}</button>
+            </div>
+            <div class='trip-details-content'><TripPrice/>{`${trip.cost} ${i18n.trip.currency}`}</div>
+            <div class='trip-details-content'><TripStatus/>{`${i18n.trips.status} - ${i18n.trips.statuses[trip.status]}`}</div>
+            <div class='trip-details-content'>
+              <address>{trip.departure_address}</address>
+              <address>{trip.destination_address}</address>
+            </div>
+            <div class='trip-details-content'><TripTime/>{trip.formatted_date}</div>
+            {this.renderRate()}
           </div>
-          <div class='trip-details-content'><TripPrice/>{`${trip.cost} ${i18n.trip.currency}`}</div>
-          <div class='trip-details-content'><TripStatus/>{`${i18n.trips.status} - ${i18n.trips.statuses[trip.status]}`}</div>
-          <div class='trip-details-content'>
-            <address>{trip.departure_address}</address>
-            <address>{trip.destination_address}</address>
-          </div>
-          <div class='trip-details-content'><TripTime/>{trip.formatted_date}</div>
-          {this.renderRate()}
         </section>
         {this.state.isFeedbackVisible && <Feedback trip={this.props.trip} handleBack={this.handleFeedbackBack} isFeedbackVisible={this.state.isFeedbackVisible} getRate={this.getRate}/>}
       </div>

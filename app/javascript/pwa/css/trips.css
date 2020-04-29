@@ -110,17 +110,41 @@ address:last-of-type svg {
 }
 
 .trip-details img {
+  position: fixed;
+  top: 0;
   width: 100%;
   background: #e6e4e0;
   background: linear-gradient(to bottom, var(--bg_gradient_color_2), var(--bg_gradient_color_1), var(--bg_gradient_color_2));
-  height: 59vh;
+  height: 50vh;
   max-height: 100vw;
+  max-width: inherit;
   object-fit: cover;
+  pointer-events: none;
 }
 
 .trip-details .buttons {
   margin-bottom: 20px;
 }
+
+.trip-details-section {
+  margin-top: 0;
+  position: relative;
+}
+
+.trip-details-section::-webkit-scrollbar {
+  display: none;
+}
+
+.trip-details__content {
+  position: absolute;
+  top: calc(50vh - 5px);
+  min-height: 50vh;
+  padding: 12px;
+  z-index: 10;
+  width: 100%;
+  background: linear-gradient(to bottom, var(--bg_gradient_color_1), var(--bg_gradient_color_2));
+}
+
 
 .trip-details address {
   margin-left: 47px;
@@ -170,6 +194,8 @@ nav {
   overflow-y: auto;
   overscroll-behavior-y: none;
   -webkit-overflow-scrolling: touch;
+  display: flex;
+  justify-content: center;
 }
 
 .trip-details div.map {
