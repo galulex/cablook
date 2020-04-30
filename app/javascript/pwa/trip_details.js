@@ -114,7 +114,7 @@ export default class TripCard extends Component {
   renderRate = () => {
     if (this.props.trip.status !== 4) return;
     if (this.state.rate) {
-      return(<div class='trip-details-content'>{Array(this.state.rate).fill(<Star />)}</div>)
+      return(<div class='trip-details-content'>{Array(this.state.rate).fill(<Star class='star-icon' />)}</div>)
     } else {
       return(<div class='trip-details-content'><button class='button' onClick={this.showFeedback}>{i18n.trips.rate}</button></div>)
     }
