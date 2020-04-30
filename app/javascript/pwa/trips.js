@@ -54,12 +54,13 @@ export default class Trips extends Component {
       }).catch((error) => {
         this.setState({isLoading: false});
         if (error.response) alert(error.response.data.errors)
-      });
-    });
-  };
+      })
+    })
+  }
 
   handleBack = () => {
-    this.setState({showDet: false}) };
+    this.setState({showDet: false})
+  }
 
   changeShowDet = () => {
     this.setState({showDet: true})
@@ -81,7 +82,6 @@ export default class Trips extends Component {
           <ul>
             {this.state.trips.map((trip) => <TripCard handleBack={this.handleBack} showDet={this.state.showDet} changeShowDet={this.changeShowDet} trip={trip} setCurrentTrip={this.props.setCurrentTrip}/>)}
           </ul>
-
           {this.state.isLoading && <div class="loader">{i18n.trips.loading}</div>}
         </section>
       </div>

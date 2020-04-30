@@ -17,14 +17,14 @@ aside {
 
 aside:before {
   content: '';
-  position: absolute;	
-  right: -20px;	
-  width: 20px;	
-  left: 100%;	
-  bottom: 0;	
+  position: absolute;
+  right: -20px;
+  width: 20px;
+  left: 100%;
+  bottom: 0;
   top: 54px;
-  opacity: 0;	
-  z-index: -2;	
+  opacity: 0;
+  z-index: -2;
 }
 
 aside a:hover:not(.nav-header) {
@@ -50,7 +50,7 @@ aside a:first-child {
 
 aside a svg.home-icon {
   width: 35px;
-  margin-right: 18px
+  margin-right: 18px;
 }
 
 aside a:last-of-type {
