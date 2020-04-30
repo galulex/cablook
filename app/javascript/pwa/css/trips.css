@@ -48,6 +48,10 @@ address:last-of-type svg {
   margin: 0;
 }
 
+.trips svg.star-icon {
+  margin: 0 5px 0 0;
+}
+
 .trip-card {
   background: rgba(255, 255, 255, .3);
   margin: 4% 0;
