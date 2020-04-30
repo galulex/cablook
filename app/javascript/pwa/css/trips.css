@@ -170,8 +170,10 @@ address:last-of-type svg {
   z-index: 10;
   width: 100%;
   background: #e6efee;
-  background: linear-gradient(to bottom, #e6efee, #f6faf8, #e6efee);
-  background: linear-gradient(to bottom, var(--bg_gradient_color_2), var(--bg_gradient_color_1), var(--bg_gradient_color_2));
+  background: linear-gradient(to bottom, #f6faf8, #e6efee);
+  background: linear-gradient(to bottom, var(--bg_gradient_color_1), var(--bg_gradient_color_2));
+  box-shadow: 0px 0px 10px 3px var(--shadow_color);
+  border-radius: 15px 15px 0 0;
 }
 
 .trip-details address {
