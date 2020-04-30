@@ -6,9 +6,9 @@ import MapImg from './map_img.js'
 import TripPrice from './images/trip_price.js'
 import TripStatus from './images/trip_status.js'
 import Clock from './images/clock.js'
-import Star from './images/star.js'
 import Pin from './images/pin.js'
 import i18n from './i18n.js'
+import getRate from './new_design/rate.js'
 
 export default class TripCard extends Component {
   constructor(props) {
@@ -112,9 +112,9 @@ export default class TripCard extends Component {
   }
 
   renderRate = () => {
-    if (this.props.trip.status !== 4) return;
+    if (this.props.trip.status !== 4) return
     if (this.state.rate) {
-      return(<div class='trip-details-content'>{Array(this.state.rate).fill(<Star class='star-icon' />)}</div>)
+      return(<div class='trip-details-content'>{getRate(this.state.rate)}</div>)
     } else {
       return(<div class='trip-details-content'><button class='button' onClick={this.showFeedback}>{i18n.trips.rate}</button></div>)
     }

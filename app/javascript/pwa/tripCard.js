@@ -2,7 +2,7 @@ import { h, render, Component } from 'preact';
 import { route } from 'preact-router';
 
 import Details from './trip_details.js'
-import Star from './images/star.js'
+import getRate from './new_design/rate.js'
 import i18n from './i18n.js'
 import Pin from './images/pin.js'
 
@@ -27,7 +27,7 @@ export default class TripCard extends Component {
   }
 
   showRate = () => {
-    if (this.props.trip.feedbacks.length >= 1) return(Array(this.props.trip.feedbacks[0].rate).fill(<Star class='trip-card-star'/>))
+    if (this.props.trip.feedbacks.length >= 1) return(getRate(this.props.trip.feedbacks[0].rate))
   }
 
   render() {

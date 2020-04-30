@@ -48,8 +48,12 @@ address:last-of-type svg {
   margin: 0;
 }
 
-.trips svg.star-icon {
+.trip-details-section svg.star-icon {
   margin: 0 5px 0 0;
+}
+
+.trip-details-section svg.star-icon path {
+  fill: var(--green);
 }
 
 .trip-card {
@@ -85,6 +89,15 @@ address:last-of-type svg {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
+}
+
+.trip-card p span .star-icon {
+  margin: 0 2px;
+  width: 10px;
+  height: 10px;
+}
+.trip-card p span .star-icon path {
+  fill: var(--green);
 }
 
 .retry-message-block {
@@ -141,6 +154,7 @@ address:last-of-type svg {
 .trip-details-section {
   margin-top: 0;
   position: relative;
+  height: 100vh;
 }
 
 .trip-details-section::-webkit-scrollbar {
@@ -310,12 +324,6 @@ nav {
 .trips .button.edit {
   background: #efcc3a;
   background: var(--orange);
-}
-
-.trip-card .trip-card-star {
-  margin: 0 2px;
-  width: 10px;
-  height: 10px;
 }
 
 .trip-card .trip-card-star path{

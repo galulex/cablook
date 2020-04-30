@@ -310,6 +310,11 @@ input:checked + svg.cross path:nth-of-type(2) {
   fill: #a925ad;
 }
 
+.star-icon.blank path {
+  fill: transparent !important;
+  stroke: var(--green);
+}
+
 @media screen and (min-width: 630px) {
   .options {
     max-width: 900px;
