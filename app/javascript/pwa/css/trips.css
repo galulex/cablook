@@ -39,12 +39,12 @@ address:last-of-type svg {
 }
 
 .trips svg.address-pin {
-  width: 25px;
-  height: 25px;
   position: absolute;
   top: 50%;
-  transform: translateY(-50%);
   left: -28px;
+  transform: translateY(-50%);
+  width: 25px;
+  height: 25px;
   margin: 0;
 }
 
@@ -84,11 +84,11 @@ address:last-of-type svg {
 }
 
 .trip-card p {
-  margin: 3% 0 0 0;
-  font-size: 12px;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
+  margin: 3% 0 0 0;
+  font-size: 12px;
 }
 
 .trip-card p span .star-icon {
@@ -138,7 +138,8 @@ address:last-of-type svg {
   position: fixed;
   top: 0;
   width: 100%;
-  background: #e6e4e0;
+  background: #e6efee;
+  background: linear-gradient(to bottom, #e6efee, #f6faf8, #e6efee);
   background: linear-gradient(to bottom, var(--bg_gradient_color_2), var(--bg_gradient_color_1), var(--bg_gradient_color_2));
   height: 50vh;
   max-height: 100vw;
@@ -168,7 +169,9 @@ address:last-of-type svg {
   padding: 12px;
   z-index: 10;
   width: 100%;
-  background: linear-gradient(to bottom, var(--bg_gradient_color_1), var(--bg_gradient_color_2));
+  background: #e6efee;
+  background: linear-gradient(to bottom, #e6efee, #f6faf8, #e6efee);
+  background: linear-gradient(to bottom, var(--bg_gradient_color_2), var(--bg_gradient_color_1), var(--bg_gradient_color_2));
 }
 
 .trip-details address {
@@ -182,7 +185,6 @@ address:last-of-type svg {
 .trip-details address:before {
   left: -27px;
 }
-
 
 .trip-details.trip-details-content section svg {
   margin: 0 10px;
@@ -221,18 +223,20 @@ nav {
 }
 
 .trip-details {
-  width: 100%;
+  display: flex;
+  justify-content: center;
   position: fixed;
   height: 100%;
-  background: linear-gradient(to bottom, var(--bg_gradient_color_2), var(--bg_gradient_color_1), var(--bg_gradient_color_2));
+  width: 100%;
   left: 0px;
   top: 0px;
   z-index: 10001;
   overflow-y: auto;
   overscroll-behavior-y: none;
   -webkit-overflow-scrolling: touch;
-  display: flex;
-  justify-content: center;
+  background: #e6efee;
+  background: linear-gradient(to bottom, #e6efee, #f6faf8, #e6efee);
+  background: linear-gradient(to bottom, var(--bg_gradient_color_2), var(--bg_gradient_color_1), var(--bg_gradient_color_2));
 }
 
 .trip-details div.map {
