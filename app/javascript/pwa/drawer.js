@@ -28,7 +28,7 @@ export default class Drawer extends Component {
           <Link class='nav-header' href='/profile'>
             <Profile/>
             <div>
-              { localStorage.email }
+              <span>{ localStorage.email }</span>
               <b>{ localStorage.phone }</b>
             </div>
           </Link>

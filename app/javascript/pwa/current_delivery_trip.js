@@ -4,9 +4,9 @@ import i18n from './i18n.js';
 import './css/current_delivery_trip.css'
 import TaxiDriverLT from './images/taxi_driver_light_theme.svg'
 import TaxiDriverDT from './images/taxi_driver_dark_theme.svg'
-import Pin from './images/pin.svg'
+import Pin from './images/pin.js'
 import Pizza from './images/pizza.svg'
-import TripTime from './images/trip_time.svg'
+import TripTime from './images/clock.js'
 
 export default class CurrentDeliveryTrip extends Component {
   render() {

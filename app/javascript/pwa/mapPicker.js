@@ -5,7 +5,7 @@ import MapboxLanguage from '@mapbox/mapbox-gl-language';
 
 import i18n from './i18n.js'
 import Back from './images/arrow-left.svg'
-import Pin from './images/pin.svg'
+import Pin from './images/pin.js'
 import './css/picker.css'
 
 mapboxgl.accessToken = 'pk.eyJ1IjoiZ2FsdWxleCIsImEiOiJjamx6ampoZjgyMnYxM3FvZ2ppNjV2M2x5In0.bPgk2WI9NT-DJwnE-OtiLA';

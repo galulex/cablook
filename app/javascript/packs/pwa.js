@@ -67,8 +67,7 @@ export default class App extends Component {
       favorite_addresses: [],
       notification_settings: [],
       currentTrip: null,
-      isGeocoding: false,
-      drawerIsOpen: false
+      isGeocoding: false
     }
     axios.defaults.headers.common['Pwa-Language'] = this.state.language
   }
@@ -240,7 +239,7 @@ export default class App extends Component {
   }
 
   triggerDrawer = (open = true) => {
-    this.main && this.main.scrollTo({left: (open) ? 0 : 300, behavior: 'smooth'})
+    setTimeout(() => { this.main && this.main.scrollTo({left: (open) ? 0 : 300, behavior: 'smooth'}) }, 10)
   }
 
   updateCards = (cards) => {
@@ -312,16 +311,8 @@ export default class App extends Component {
       target.scrollTo({left: x})
     }, 300)
     if (!(target.id === 'app')) return
-    let drawerIsOpen
-    if ((target.scrollLeft >= 0 && target.scrollLeft < target.offsetWidth / 2) && target.scrollLeft != 300) {
-      drawerIsOpen = true
-      this.main.classList.add('open')
-    }
-     else {
-      drawerIsOpen = false
-      this.main.classList.remove('open')
-    }
-    this.setState({drawerIsOpen})
+    let scrollPercent = target.scrollLeft / 300 
+    document.documentElement.style.setProperty('--background-opacity', (scrollPercent === 1 ? scrollPercent : scrollPercent + 0.15))
   }
 
   resetCurrentTrip = () => {
@@ -329,12 +320,12 @@ export default class App extends Component {
   }
 
   render() {
-    const { currentTrip, isGeocoding, drawerIsOpen } = this.state
+    const { currentTrip, isGeocoding } = this.state
 
     if (this.state.currentUser) {
       return(
-        <main id="app" class={drawerIsOpen ? 'open' : ''} onClick={this.closeDrawer} ref={main => this.main = main} onScroll={this.scrollEnd}>
-          <button class='burger' onClick={() => this.triggerDrawer(true)}><Burger/></button>
+        <main id="app" onClick={this.closeDrawer} ref={main => this.main = main} onScroll={this.scrollEnd}>
+          <button class='button burger' onClick={this.triggerDrawer}><Burger/></button>
           <Drawer triggerDrawer={this.triggerDrawer} logOut={this.logOut} />
           <Router history={window.ios ? createMemoryHistory() : null} onChange={() => this.triggerDrawer(false)}>
             <NewDesign path='/'

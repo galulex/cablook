@@ -1,0 +1,16 @@
+import { h, Component } from "preact"
+
+export default class Pin extends Component {
+  render () {
+    const style = {
+      filter: "url(#inset-shadow)",
+      class: this.props.class
+    }
+
+    return (
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 33.5 51.5" class={style.class}>
+        <path fill="#19A160" filter={style.filter} d="M33.5 16.8C33.5 7.5 26 0 16.8 0S0 7.5 0 16.8c0 13.4 16.2 34.7 16.8 34.7.6 0 16.7-21.4 16.7-34.7zM16.8 23c-3.4 0-6.1-2.8-6.1-6.2s2.8-6.2 6.1-6.2c3.4 0 6.1 2.8 6.1 6.2S20.2 23 16.8 23z"/>
+      </svg>
+    )
+  }
+}

@@ -2,7 +2,7 @@ import { h, render, Component } from 'preact';
 
 import i18n from './i18n.js';
 import './css/current_trip.css'
-import Clock from './images/trip_time.svg'
+import Clock from './images/clock.js'
 
 export default class GenerateArrayTimes extends Component {
   constructor(props) {

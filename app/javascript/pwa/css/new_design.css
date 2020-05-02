@@ -3,9 +3,8 @@ svg {
 }
 
 section.new_design {
-  padding: 10px 0 0;
   max-width: 100%;
-  margin-top: 50px;
+  margin-top: 0;
 }
 
 fieldset.address {
@@ -30,6 +29,7 @@ fieldset.address {
 
 .wrapper {
   z-index: 30;
+  margin-top: 75px;
 }
 
 .new_design .wrapper .driverSearch {
@@ -85,10 +85,9 @@ fieldset.address {
   z-index: 20;
 }
 
-.burger.back{
+.burger.back {
   z-index: 310;
 }
-
 .new_design .remove-address {
   right: 5px;
   font-size: 2.2rem;
@@ -170,9 +169,6 @@ svg.pin-last path {
   scroll-behavior: smooth;
   white-space: nowrap;
   vertical-align: top;
-  background: rgba(0,0,0,0.1);
-  box-shadow: 0px 5px 10px 10px rgba(0,0,0,0.1);
-  transition: background .3s, box-shadow .3s;
 }
 
 .options.noscroll {
@@ -312,6 +308,11 @@ svg.cross path:nth-of-type(2) {
 
 input:checked + svg.cross path:nth-of-type(2) {
   fill: #a925ad;
+}
+
+.star-icon.blank path {
+  fill: transparent !important;
+  stroke: var(--green);
 }
 
 @media screen and (min-width: 630px) {

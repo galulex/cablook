@@ -3,12 +3,12 @@ import { route } from 'preact-router';
 
 import Feedback from './feedback.js'
 import MapImg from './map_img.js'
-import TripPrice from './images/trip_price.svg'
-import TripStatus from './images/trip_status.svg'
-import TripTime from './images/trip_time.svg'
-import Back from './images/arrow-left.svg'
-import Star from './images/star.svg'
+import TripPrice from './images/trip_price.js'
+import TripStatus from './images/trip_status.js'
+import Clock from './images/clock.js'
+import Pin from './images/pin.js'
 import i18n from './i18n.js'
+import getRate from './new_design/rate.js'
 
 export default class TripCard extends Component {
   constructor(props) {
@@ -50,18 +50,20 @@ export default class TripCard extends Component {
         <header>{i18n.trip.header}</header>
         <section class="trip-details-section">
           <MapImg trip={() => this.props.trip} />
-          <div class="buttons">
-            <button type='button' class= 'button' onClick={this.repeatTrip}>{i18n.trips.repeat}</button>
-            <button type='button' class= 'button' onClick={this.reverseTrip}>{i18n.trips.reverse}</button>
+          <div class='trip-details__content'>
+            <div class="buttons">
+              <button type='button' class= 'button dark-color' onClick={this.repeatTrip}>{i18n.trips.repeat}</button>
+              <button type='button' class= 'button dark-color' onClick={this.reverseTrip}>{i18n.trips.reverse}</button>
+            </div>
+            <div class='trip-details-content'><TripPrice/>{`${trip.cost} ${i18n.trip.currency}`}</div>
+            <div class='trip-details-content'><TripStatus/>{`${i18n.trips.status} - ${i18n.trips.statuses[trip.status]}`}</div>
+            <div class='trip-details-content'>
+              <address><Pin class='address-pin'/>{trip.departure_address}</address>
+              <address><Pin class='address-pin'/>{trip.destination_address}</address>
+            </div>
+            <div class='trip-details-content'><Clock/>{trip.formatted_date}</div>
+            {this.renderRate()}
           </div>
-          <div class='trip-details-content'><TripPrice/>{`${trip.cost} ${i18n.trip.currency}`}</div>
-          <div class='trip-details-content'><TripStatus/>{`${i18n.trips.status} - ${i18n.trips.statuses[trip.status]}`}</div>
-          <div class='trip-details-content'>
-            <address>{trip.departure_address}</address>
-            <address>{trip.destination_address}</address>
-          </div>
-          <div class='trip-details-content'><TripTime/>{trip.formatted_date}</div>
-          {this.renderRate()}
         </section>
         {this.state.isFeedbackVisible && <Feedback trip={this.props.trip} handleBack={this.handleFeedbackBack} isFeedbackVisible={this.state.isFeedbackVisible} getRate={this.getRate}/>}
       </div>
@@ -109,22 +111,12 @@ export default class TripCard extends Component {
     }
   }
 
-  renderRepeatReverse = () => {
-    if ([1,2,3].includes(this.props.trip.status)) return;
-    return(
-      <div class="buttons">
-        <button type='button' class= 'button' onClick={this.repeatTrip}>{i18n.trips.repeat}</button>
-        <button type='button' class= 'button' onClick={this.reverseTrip}>{i18n.trips.reverse}</button>
-      </div>
-    )
-  }
-
   renderRate = () => {
-    if (this.props.trip.status !== 4) return;
+    if (this.props.trip.status !== 4) return
     if (this.state.rate) {
-      return(<div class='trip-details-content'>{Array(this.state.rate).fill(<Star />)}</div>)
+      return(<div class='trip-details-content'>{getRate(this.state.rate)}</div>)
     } else {
-      return(<div class='trip-details-content'><button class='button cancel' onClick={this.showFeedback}>{i18n.trips.rate}</button></div>)
+      return(<div class='trip-details-content'><button class='button' onClick={this.showFeedback}>{i18n.trips.rate}</button></div>)
     }
   }
 }

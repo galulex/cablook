@@ -30,3 +30,8 @@
   color: var(--green);
   margin-left: auto;
 }
+
+.statistics-clock {
+  width: 24px;
+  fill: var(--font_color_2);
+}

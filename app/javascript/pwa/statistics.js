@@ -1,13 +1,13 @@
 import { h, render, Component } from 'preact';
 import axios from 'axios';
 
-import Star from './images/star.svg'
+import Star from './images/star.js'
 import Tips from './images/tips.svg'
-import Pin from './images/pin.svg'
-import Amount from './images/trip_price.svg'
+import Pin from './images/pin.js'
+import Amount from './images/trip_price.js'
 import Leaf from './images/leaf_icon.js'
 import i18n from './i18n.js'
-import Clock from './images/trip_time.svg'
+import Clock from './images/clock.js'
 
 import './css/statistics.css'
 
@@ -61,7 +61,7 @@ export default class Statistics extends Component {
         <header>{i18n.statistics.header}</header>
         <section class='statistics'>
           <label for='period' class='select'>
-            <Clock width='24' fill='#312d50'/>
+            <Clock class='statistics-clock' />
             <select id='period' onChange={this.selectPeriod}>
               {Periods.map(el => this.renderPeriod(el))}
             </select>
