@@ -52,7 +52,6 @@
     address = e.target.value
 
     autocomplete.getPlacePredictions({input: e.target.value + ' Cherkasy', componentRestrictions: {country: 'ua'}, location: new google.maps.LatLng(49.4311119, 31.9791903), radius: 100000, strictbounds: true, offset: 2}, data => {
-      console.log(data)
       if (!data) {
         predictions = ['No Result']
         address = e.target.value
@@ -73,17 +72,18 @@
 </script>
 
 <fieldset class='address'>
-        <input required class='address' type='text' disabled={index === 0}
-          on:keydown={keydown} on:input={autocomplete}
-          value={address} />
+  <button disabled={index === 0} class='remove-address' type='button' on:click={() => eraseAddress(index)}>×</button>
+  <input required class='address' type='text' disabled={index === 0}
+    on:keydown={keydown} on:input={autocomplete}
+    value={address} />
 
-        <ul class='predictions'>
-          {#each predictions as prediction}
-            <li on:click={() => setLocation(prediction)}>
-              <b>{(prediction.structured_formatting) ? prediction.structured_formatting.main_text : prediction}</b>
-              <br/>
-              <sub>{(prediction.structured_formatting) ? prediction.structured_formatting.secondary_text : 'Cherkasy'}</sub>
-            </li>
-          {/each}
-        </ul>
-      </fieldset>
+  <ul class='predictions'>
+    {#each predictions as prediction}
+      <li on:click={() => setLocation(prediction)}>
+        <b>{(prediction.structured_formatting) ? prediction.structured_formatting.main_text : prediction}</b>
+        <br/>
+        <sub>{(prediction.structured_formatting) ? prediction.structured_formatting.secondary_text : 'Cherkasy'}</sub>
+      </li>
+    {/each}
+  </ul>
+</fieldset>

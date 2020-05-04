@@ -7,7 +7,10 @@
   import AddressInput from './trips/address-input.svelte'
 
   const dispatch = createEventDispatcher();
-  const close = () => dispatch('close');
+  const close = () => {
+    trip.stops = trip.stops.filter(String)
+    dispatch('close');
+  }
 
   let modal;
   export let trip;
@@ -41,6 +44,13 @@
     trip.waypoints.splice(index, 1);
 
     updateTrip()
+  }
+
+  let addAddress = () => {
+    trip.stops.push('')
+    updateTrip()
+
+    setTimeout(() => { document.querySelector('fieldset:last-of-type input').focus() }, 100)
   }
 
   let updateTrip = () => {
@@ -92,14 +102,19 @@
 <div class="modal-background" on:click={close}></div>
 <div class="modal" role="dialog" aria-modal="true" bind:this={modal}>
   <form action='#' on:submit={update}>
-    {#each trip.stops as stop, i}
-      <AddressInput setAddress={setAddress}
-                    eraseAddress={eraseAddress}
-                    coords={trip.waypoints[i]}
-                    address={stop}
-                    index={i}
-                    fieldsCount={trip.stops.length}/>
-    {/each}
+    <div class='option'>
+      {#each trip.stops as stop, i}
+        <AddressInput setAddress={setAddress}
+                      eraseAddress={eraseAddress}
+                      coords={trip.waypoints[i]}
+                      address={stop}
+                      index={i}
+                      fieldsCount={trip.stops.length}/>
+      {/each}
+      <div>
+        <button type='button' on:click={addAddress} class='add-address' disabled={trip.stops.last == ''} title='Add Address'>+</button>
+      </div>
+    </div>
     <button type='submit'>
       <Save style={{fill: 'var(--white_color)', width: '25px', height: '25px'}}/>
     </button>
