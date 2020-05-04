@@ -4,6 +4,8 @@
 
   import Save from '../images/save_changes.svelte'
 
+  import AddressInput from './trips/address-input.svelte'
+
   const dispatch = createEventDispatcher();
   const close = () => dispatch('close');
 
@@ -17,6 +19,36 @@
     }).catch((error) => {
       if (error.response) alert(error.response.data.errors)
     })
+  }
+
+  let setAddress = (text, coords, index) => {
+    trip.waypoints[index] = coords;
+    trip.stops[index] = text;
+
+    updateTrip()
+  }
+
+  let eraseAddress = (index) => {
+    if (trip.stops[index] === '') return removeAddress(index)
+    trip.stops[index] = '';
+    trip.waypoints[index] = '';
+
+    updateTrip()
+  }
+
+  let removeAddress = (index) => {
+    trip.stops.splice(index, 1);
+    trip.waypoints.splice(index, 1);
+
+    updateTrip()
+  }
+
+  let updateTrip = () => {
+    trip.departure = trip.waypoints[0]
+    trip.destination = trip.waypoints[trip.waypoints.length - 1]
+    trip.departure_address = trip.stops[0]
+    trip.destination_address = trip.stops[trip.stops.length - 1]
+    return trip
   }
 </script>
 
@@ -61,7 +93,12 @@
 <div class="modal" role="dialog" aria-modal="true" bind:this={modal}>
   <form action='#' on:submit={update}>
     {#each trip.stops as stop, i}
-      <input name={`stops[${i}]`} bind:value={trip.stops[i]} required/>
+      <AddressInput setAddress={setAddress}
+                    eraseAddress={eraseAddress}
+                    coords={trip.waypoints[i]}
+                    address={stop}
+                    index={i}
+                    fieldsCount={trip.stops.length}/>
     {/each}
     <button type='submit'>
       <Save style={{fill: 'var(--white_color)', width: '25px', height: '25px'}}/>
