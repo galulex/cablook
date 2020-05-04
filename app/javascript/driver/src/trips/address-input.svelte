@@ -3,7 +3,6 @@
 
   export let setAddress;
   export let eraseAddress;
-  export let coords;
   export let address;
   export let index;
   export let fieldsCount;
@@ -42,18 +41,18 @@
     }
 
     if (!window.google) {
-      predictions = ['No Result']
+      predictions = ['Адрес не знайдено']
       address = e.target.value
       return
     }
 
     let autocomplete = new google.maps.places.AutocompleteService()
-    predictions = ['Loading']
+    predictions = ['Пошук...']
     address = e.target.value
 
     autocomplete.getPlacePredictions({input: e.target.value + ' Cherkasy', componentRestrictions: {country: 'ua'}, location: new google.maps.LatLng(49.4311119, 31.9791903), radius: 100000, strictbounds: true, offset: 2}, data => {
       if (!data) {
-        predictions = ['No Result']
+        predictions = ['Адрес не знайдено']
         address = e.target.value
         return
       }
@@ -71,13 +70,73 @@
 
 </script>
 
+<style>
+  input {
+    padding: 10px;
+    width: 100%;
+  }
+
+  button.remove-address {
+    position: absolute;
+    right: 10%;
+    font-size: 2rem;
+    font-weight: 400;
+    background: none;
+    border: none;
+    box-shadow: none;
+    color: var(--red_color);
+    cursor: pointer;
+  }
+
+  fieldset {
+    border: none;
+    margin: 0 0 15px 0;
+    padding: 0;
+  }
+  ul {
+    margin: 0 2.5em;
+    padding: 0;
+    background: white;
+    list-style: none;
+    width: 84%;
+    position: absolute;
+    z-index: 100;
+    left: 0;
+    transition: opacity .3s, visibility 0s .5s;
+    max-height: 60vh;
+    overflow-y: auto;
+    box-shadow: 0 3px 6px var(--shadow_color);
+    border-bottom: none;
+    border-radius: 10px;
+  }
+  li {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    color: black;
+    border-bottom: 1px solid var(--shadow_color);
+    line-height: 1;
+    padding: 10px 15px;
+    transition: background .2s;
+    cursor: pointer;
+    position: relative;
+    font-size: 16px;
+  }
+
+  li b {
+    font-size: 16px;
+  }
+</style>
+
 <fieldset class='address'>
-  <button disabled={index === 0} class='remove-address' type='button' on:click={() => eraseAddress(index)}>×</button>
+  {#if fieldsCount > 2 || address !== ''}
+    <button disabled={index === 0} class='remove-address' type='button' on:click={() => eraseAddress(index)}>×</button>
+  {/if}
   <input required class='address' type='text' disabled={index === 0}
     on:keydown={keydown} on:input={autocomplete}
     value={address} />
 
-  <ul class='predictions'>
+  <ul>
     {#each predictions as prediction}
       <li on:click={() => setLocation(prediction)}>
         <b>{(prediction.structured_formatting) ? prediction.structured_formatting.main_text : prediction}</b>

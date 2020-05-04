@@ -8,6 +8,7 @@
 
   const dispatch = createEventDispatcher();
   const close = () => {
+    updateTrip()
     trip.stops = trip.stops.filter(String)
     dispatch('close');
   }
@@ -80,9 +81,10 @@
     max-width: 32em;
     max-height: calc(100vh - 4em);
     transform: translate(-50%,-50%);
-    padding: 1em;
+    padding: 2.5em;
     border-radius: 10px;
-    background: white;
+    background: linear-gradient(to right, var(--bg_gradient_color_2), var(--bg_gradient_color_1), var(--bg_gradient_color_2));
+    box-shadow: 5px 5px 5px var(--shadow_color);
   }
 
   button {
@@ -92,29 +94,29 @@
     width: 33%;
   }
 
-  input {
-    padding: 10px;
-    width: 100%;
-    margin: 0 0 15px 0;
+  .add-address {
+    padding: 0 20px;
+    float: left;
+    background: transparent;
+    box-shadow: none;
+    width: 20px;
+    font-size: 40px;
+    font-weight: 400;
+    color: var(--main_green_color);
   }
 </style>
 
 <div class="modal-background" on:click={close}></div>
 <div class="modal" role="dialog" aria-modal="true" bind:this={modal}>
   <form action='#' on:submit={update}>
-    <div class='option'>
-      {#each trip.stops as stop, i}
-        <AddressInput setAddress={setAddress}
-                      eraseAddress={eraseAddress}
-                      coords={trip.waypoints[i]}
-                      address={stop}
-                      index={i}
-                      fieldsCount={trip.stops.length}/>
-      {/each}
-      <div>
-        <button type='button' on:click={addAddress} class='add-address' disabled={trip.stops.last == ''} title='Add Address'>+</button>
-      </div>
-    </div>
+    {#each trip.stops as stop, i}
+      <AddressInput setAddress={setAddress}
+                    eraseAddress={eraseAddress}
+                    address={stop}
+                    index={i}
+                    fieldsCount={trip.stops.length}/>
+    {/each}
+    <button type='button' on:click={addAddress} class='add-address' title='Add Address'>+</button>
     <button type='submit'>
       <Save style={{fill: 'var(--white_color)', width: '25px', height: '25px'}}/>
     </button>
