@@ -712,8 +712,13 @@ export default class NewDesign extends Component {
     this.setState({ trip: this.initialTripState, car: null, driver: null })
   }
 
+  showFeedback = () => {
+    const { activateFeedback, trip } = this.state
+    return (activateFeedback || trip.status == FINISHED)
+  }
+
   render() {
-    const { activateFeedback, lastTripId, showWidget, trip } = this.state
+    const { lastTripId, showWidget, trip } = this.state
     const cards = this.props.cards()
     let isValid = trip.stops.includes('')
     let cost = (trip.cost) ? `${trip.cost}` : ''
@@ -723,9 +728,10 @@ export default class NewDesign extends Component {
         <header></header>
         { [CONFIRM_UPDATE_TRIP].includes(trip.status) && <button type='button' class='burger back' onClick={this.handleBackEdit}><Back/></button> }
         <section class={`new_design ${this.state.klass} ${[PENDING].includes(trip.status) ? 'background' : ''}`}>
-          { (activateFeedback || trip.status == FINISHED) && <Feedback trip={trip} updateTrip={this.resetTrip} handleBack={this.resetTrip} lastTripId={lastTripId} /> }
+          { this.showFeedback() && <Feedback trip={trip} updateTrip={this.resetTrip} handleBack={this.resetTrip} lastTripId={lastTripId} /> }
           <style>{`fieldset.address:nth-child(${this.state.picker + 1}) { opacity: 1;}`}</style>
-          <PreviewMap trip={() => trip}
+          <PreviewMap 
+            trip={() => trip}
             car={this.state.car}
             driver={this.state.driver}
             isValid={this.isValid}
@@ -736,10 +742,12 @@ export default class NewDesign extends Component {
             ref={(el) => this.previewMapRef = el}
             isGeocoding={this.props.isGeocoding}
             setGeocoding={this.props.setGeocoding}/>
-          <div class='wrapper'>
-            { [CONFIRM_UPDATE_TRIP, CANCELED, CANCELED_BY_DRIVER, undefined, null].includes(trip.status) && this.renderFields(trip, isValid, cards) }
-            { [PENDING].includes(trip.status) && this.renderLoading() }
-          </div>
+          { !this.showFeedback() &&
+            <div class='wrapper'>
+              { [CONFIRM_UPDATE_TRIP, CANCELED, CANCELED_BY_DRIVER, undefined, null].includes(trip.status) && this.renderFields(trip, isValid, cards) }
+              { [PENDING].includes(trip.status) && this.renderLoading() }
+            </div>
+          } 
           <Buttons trip={trip}
             isValid={this.isValid}
             cost={cost}
@@ -758,6 +766,7 @@ export default class NewDesign extends Component {
             cards={cards}
             paymentButtonDisabled={this.state.paymentButtonDisabled}
             cancelTimer={this.state.cancelTimer}
+            showFeedback={this.showFeedback}
             availableBonusTrips={this.props.availableBonusTrips}/>
           { showWidget && <Widget createCard={this.createCard} showWidget={() => this.setState({showWidget: false}) }/> }
         </section>

@@ -1,8 +1,9 @@
 doctype 5
 html lang="#{I18n.locale}"
   head
-    = inline_svg 'filter_main.svg'
     = render 'layouts/head'
+    = inline_svg 'filter_main.svg'
+    = inline_svg 'filter_star.svg'
     link rel='preload' href=asset_path('Gilroy-ExtraBold.woff2') as='font' type='font/woff2' crossorigin='anonymous'
     link rel='preload' href=asset_path('Gilroy-Bold.woff2') as='font' type='font/woff2' crossorigin='anonymous'
     link rel='preload' href=asset_path('Gilroy-Light.woff2') as='font' type='font/woff2' crossorigin='anonymous'
@@ -132,7 +133,7 @@ html lang="#{I18n.locale}"
         right: 0;
         background: transparent;
         text-align: center;
-        font-size: calc(1em + 1vh);
+        font-size: calc(1em + 1vw);
         color: #233038;
         color: var(--font_color_2);
         z-index: 100;
@@ -225,7 +226,7 @@ html lang="#{I18n.locale}"
         max-width: 200px;
       }
 
-      svg#shadow_filter {
+      svg#shadow_filter, svg#star_filter {
         position: absolute;
       }
 

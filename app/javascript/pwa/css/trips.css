@@ -241,6 +241,10 @@ nav {
   background: linear-gradient(to bottom, var(--bg_gradient_color_2), var(--bg_gradient_color_1), var(--bg_gradient_color_2));
 }
 
+.trip-details header {
+  font-size: calc(1vh + .7em);
+}
+
 .trip-details div.map {
   height: 500px;
 }

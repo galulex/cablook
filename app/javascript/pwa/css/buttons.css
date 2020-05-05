@@ -25,6 +25,11 @@
   color: var(--white);
 }
 
+.button.white {
+  background: white;
+  color: var(--font_color_2);
+}
+
 .button:active {
   outline:  none;
   box-shadow: inset 2px 2px 5px var(--shadow_color), inset -2px -2px 5px var(--white);
