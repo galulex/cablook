@@ -4,7 +4,9 @@ module Api
     before_action :prevent_page_caching, only: :show
 
     def show
-      response = user.as_json(only: %i(id email phone_number locale cashback), include: %i(favorite_addresses bonus_trips parent_bonus), methods: %i(enabled_notifications current_trip))
+      response = user.as_json(only: %i[id email phone_number locale],
+                              include: %i[favorite_addresses bonus_trips parent_bonus],
+                              methods: %i[enabled_notifications current_trip current_delivery_trip])
       response['cards'] = Card.user_cards(user.id).as_json
       render json: response, status: 200
     end

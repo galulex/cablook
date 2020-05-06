@@ -12,8 +12,19 @@ export default class CurrentDeliveryTrip extends Component {
   render() {
     const { delivery_trip } = this.props
     const dark_mode = JSON.parse(localStorage.getItem('dark'))
-    const items = JSON.parse(localStorage.getItem('delivery_items')).items
     const time = localStorage.getItem('delivery_time')
+
+    const items = () => {
+      return delivery_trip.delivery_items.map((item) => {
+        const currentItem = JSON.parse(item);
+        return (
+          <span>
+            <b class='desc'>{currentItem.name} - {currentItem.quantity} шт.</b>
+            <br/>
+          </span>
+        );
+      });
+    };
 
     return(
       <div class="general__holder">
@@ -37,14 +48,7 @@ export default class CurrentDeliveryTrip extends Component {
             <div class='info-item'>
               <Pizza/>
               <b>{i18n.current_delivery_trip.order}</b>
-              { Object.keys(items).map((item) => {
-                return(
-                  <span>
-                    <b class='desc'>{items[item].item_name} - {items[item].quantity} шт.</b>
-                    <br/>
-                  </span>
-                )
-              })}
+              {items()}
             </div>
           </div>
         </section>

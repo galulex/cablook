@@ -34,8 +34,12 @@ export default class Vendor extends Component {
     this.props.showBurger(true)
   }
 
+  componentDidUpdate() {
+    this.checkCurrentDeliveryTrip()
+  }
+
   checkCurrentDeliveryTrip = () => {
-    const delivery_trip = JSON.parse(localStorage.getItem('delivery_trip'))
+    const { delivery_trip } = this.props;
 
     if (delivery_trip && delivery_trip.id) route('/delivery', true)
   }
