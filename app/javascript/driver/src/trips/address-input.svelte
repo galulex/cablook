@@ -60,14 +60,6 @@
       address = e.target.value
     })
   }
-
-  let keydown = (e) => {
-    let prediction = predictions[0]
-    if (![13, 9].includes(e.which) || !prediction) return
-    setLocation(prediction)
-    if (!prediction.place_id) e.preventDefault()
-  }
-
 </script>
 
 <style>
@@ -144,9 +136,7 @@
   {#if fieldsCount > 2 || address !== ''}
     <button disabled={index === 0} class='remove-address' type='button' on:click={() => eraseAddress(index)}>×</button>
   {/if}
-  <input required class='address' type='text' disabled={index === 0}
-    on:keydown={keydown} on:input={autocomplete}
-    value={address} />
+  <input required class='address' type='text' disabled={index === 0} on:input={autocomplete} value={address} />
 
   <ul>
     {#each predictions as prediction}

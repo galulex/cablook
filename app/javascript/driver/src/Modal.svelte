@@ -3,7 +3,6 @@
   import { createEventDispatcher } from 'svelte';
 
   import Save from '../images/save_changes.svelte'
-
   import AddressInput from './trips/address-input.svelte'
 
   const dispatch = createEventDispatcher();
