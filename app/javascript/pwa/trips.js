@@ -70,17 +70,32 @@ export default class Trips extends Component {
 
     return (
       <div>
-        <button
-          type='button'
-          class='button burger'
-          onClick={() => this.handleBack()}
-          style={this.state.showDet ? "z-index:1000000" : "display: none"}>
-          <Back/>
-        </button>
+        { !this.props.showFeedback() && 
+          <button
+            type='button'
+            class='button white-opacity burger'
+            onClick={() => this.handleBack()}
+            style={this.state.showDet ? "z-index:1000000" : "display: none"}>
+            <Back/>
+          </button>
+        }
         <header><span>{i18n.trips.header}</span></header>
         <section class='trips' ref={section => this.section = section}>
           <ul>
-            {this.state.trips.map((trip) => <TripCard handleBack={this.handleBack} showDet={this.state.showDet} changeShowDet={this.changeShowDet} trip={trip} setCurrentTrip={this.props.setCurrentTrip}/>)}
+            { 
+              this.state.trips.map((trip) => { 
+                return (
+                  <TripCard
+                    handleBack={this.handleBack}
+                    showDet={this.state.showDet}
+                    changeShowDet={this.changeShowDet}
+                    trip={trip} setCurrentTrip={this.props.setCurrentTrip}
+                    showFeedback={this.props.showFeedback}
+                    setActivateFeedback={this.props.setActivateFeedback}
+                  />
+                )
+              })
+            }
           </ul>
           {this.state.isLoading && <div class="loader">{i18n.trips.loading}</div>}
         </section>

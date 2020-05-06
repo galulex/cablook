@@ -42,7 +42,16 @@ export default class TripCard extends Component {
           <span>{[`${trip.cost} ${i18n.trip.currency}`, trip.formatted_date, i18n.trips.statuses[trip.status]].join(", ")}</span>
           <span>{ this.showRate() }</span>
         </p>
-        {this.state.showDetails && <Details handleBack={handleBack} showDetails={this.showDetails} trip={trip} setCurrentTrip={this.props.setCurrentTrip}/>}
+        { this.state.showDetails && 
+          <Details 
+            handleBack={handleBack}
+            showDetails={this.showDetails}
+            trip={trip}
+            setCurrentTrip={this.props.setCurrentTrip}
+            showFeedback={this.props.showFeedback}
+            setActivateFeedback={this.props.setActivateFeedback}
+          />
+        }
       </li>
     );
   }

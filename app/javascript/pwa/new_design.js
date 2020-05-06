@@ -76,14 +76,12 @@ export default class NewDesign extends Component {
 
   loadTrips = () => {
     axios.get(`trips?page=0&per=1`).then((res) => {
-      this.setState({ activateFeedback: res.data.trips[0].feedbacks[0] == undefined && [FINISHED].includes(res.data.trips[0].status), lastTripId: res.data.trips[0].id })
+      const { trips } = res.data
+      this.setState({ lastTripId: trips[0].id })
+      this.props.setActivateFeedback(trips[0].feedbacks[0] == undefined && [FINISHED].includes(trips[0].status))
     }).catch((error) => {
       if (error.response) alert(error.response.data.errors)
     })
-  }
-
-  setActivateFeedback = () => {
-    this.setState({activateFeedback: false})
   }
 
   getLocation = () => {
@@ -708,13 +706,8 @@ export default class NewDesign extends Component {
   }
 
   resetTrip = () => {
-    this.setActivateFeedback()
+    this.props.setActivateFeedback()
     this.setState({ trip: this.initialTripState, car: null, driver: null })
-  }
-
-  showFeedback = () => {
-    const { activateFeedback, trip } = this.state
-    return (activateFeedback || trip.status == FINISHED)
   }
 
   render() {
@@ -728,7 +721,7 @@ export default class NewDesign extends Component {
         <header></header>
         { [CONFIRM_UPDATE_TRIP].includes(trip.status) && <button type='button' class='burger back' onClick={this.handleBackEdit}><Back/></button> }
         <section class={`new_design ${this.state.klass} ${[PENDING].includes(trip.status) ? 'background' : ''}`}>
-          { this.showFeedback() && <Feedback trip={trip} updateTrip={this.resetTrip} handleBack={this.resetTrip} lastTripId={lastTripId} /> }
+          { this.props.showFeedback() && <Feedback trip={trip} updateTrip={this.resetTrip} handleBack={this.resetTrip} lastTripId={lastTripId} /> }
           <style>{`fieldset.address:nth-child(${this.state.picker + 1}) { opacity: 1;}`}</style>
           <PreviewMap 
             trip={() => trip}
@@ -742,7 +735,7 @@ export default class NewDesign extends Component {
             ref={(el) => this.previewMapRef = el}
             isGeocoding={this.props.isGeocoding}
             setGeocoding={this.props.setGeocoding}/>
-          { !this.showFeedback() &&
+          { !this.props.showFeedback() &&
             <div class='wrapper'>
               { [CONFIRM_UPDATE_TRIP, CANCELED, CANCELED_BY_DRIVER, undefined, null].includes(trip.status) && this.renderFields(trip, isValid, cards) }
               { [PENDING].includes(trip.status) && this.renderLoading() }
@@ -766,7 +759,7 @@ export default class NewDesign extends Component {
             cards={cards}
             paymentButtonDisabled={this.state.paymentButtonDisabled}
             cancelTimer={this.state.cancelTimer}
-            showFeedback={this.showFeedback}
+            showFeedback={this.props.showFeedback}
             availableBonusTrips={this.props.availableBonusTrips}/>
           { showWidget && <Widget createCard={this.createCard} showWidget={() => this.setState({showWidget: false}) }/> }
         </section>
