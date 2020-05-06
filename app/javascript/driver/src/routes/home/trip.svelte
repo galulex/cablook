@@ -1,7 +1,6 @@
 <script>
   import { onMount, onDestroy } from 'svelte'
   import axios from 'axios'
-  import Modal from '../../Modal.svelte';
 
   let showModal = false;
 
@@ -22,6 +21,7 @@
   import Exclamation from '../../../images/Exclamation.svelte'
   import Check from '../../../images/Check.svelte'
   import Pencil from '../../../images/Pencil.svelte'
+  import Modal from '../../Modal.svelte';
 
   export let trip
   export let updateTrip
@@ -305,6 +305,6 @@
   </div>
 
   {#if showModal}
-    <Modal on:close="{() => showModal = false}" trip={trip}></Modal>
+    <Modal on:close="{() => showModal = false}" trip={trip} subscribe={subscribe()}></Modal>
   {/if}
 </li>

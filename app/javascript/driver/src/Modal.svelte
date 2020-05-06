@@ -14,11 +14,31 @@
   }
 
   let modal;
+  let isValid = true;
   export let trip;
+  export let subscribe;
+
+
+  let validateTrip = () => {
+    isValid = (!trip.stops.includes('') && trip.stops.length > 1 && !trip.waypoints.includes(''))
+  }
+
+  let build = (e) => {
+    if (!isValid) return
+    trip.osrm = true
+    axios.post('trips/new', { trip: trip }, { headers: { 'Auth-Token': localStorage.token }}).then((res) => {
+      trip.path = res.data.path
+      trip.cost = res.data.cost
+      return trip
+    }).catch((error) => {
+      if (error.response) alert(error.response.data.errors)
+    })
+  }
 
   let update = (e) => {
     e.preventDefault()
     axios.patch(`trips/${trip.id}/update`, { trip: trip }).then((res) => {
+      subscribe
       close()
     }).catch((error) => {
       if (error.response) alert(error.response.data.errors)
@@ -30,6 +50,7 @@
     trip.stops[index] = text;
 
     updateTrip()
+    build()
   }
 
   let eraseAddress = (index) => {
@@ -38,6 +59,7 @@
     trip.waypoints[index] = '';
 
     updateTrip()
+    build()
   }
 
   let removeAddress = (index) => {
@@ -45,6 +67,7 @@
     trip.waypoints.splice(index, 1);
 
     updateTrip()
+    build()
   }
 
   let addAddress = () => {
@@ -59,6 +82,7 @@
     trip.destination = trip.waypoints[trip.waypoints.length - 1]
     trip.departure_address = trip.stops[0]
     trip.destination_address = trip.stops[trip.stops.length - 1]
+    validateTrip()
     return trip
   }
 </script>
@@ -77,9 +101,9 @@
     position: absolute;
     left: 50%;
     top: 50%;
-    width: calc(100vw - 2em);
-    max-width: 32em;
-    max-height: calc(100vh - 4em);
+    width: 90%;
+    max-width: 95%;
+    max-height: 80vh;
     transform: translate(-50%,-50%);
     padding: 2.5em;
     border-radius: 10px;
@@ -104,6 +128,12 @@
     font-weight: 400;
     color: var(--main_green_color);
   }
+
+  @media (max-width: 480px) {
+    .modal {
+      padding: 1em;
+    }
+  }
 </style>
 
 <div class="modal-background" on:click={close}></div>
@@ -116,7 +146,7 @@
                     index={i}
                     fieldsCount={trip.stops.length}/>
     {/each}
-    <button type='button' on:click={addAddress} class='add-address' title='Add Address'>+</button>
+    <button type='button' on:click={addAddress} disabled={!isValid} class='add-address' title='Add Address'>+</button>
     <button type='submit'>
       <Save style={{fill: 'var(--white_color)', width: '25px', height: '25px'}}/>
     </button>

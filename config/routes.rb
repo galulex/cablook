@@ -38,6 +38,7 @@ Rails.application.routes.draw do
       resources :feedbacks, only: :create
     end
 
+    post 'drivers_app/trips/new', to: 'v2/trips#new'
     namespace :drivers_app do
       resources :cars, only: :index
       patch 'assign_car', to: 'assign_car#update'

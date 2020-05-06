@@ -76,9 +76,9 @@
     width: 100%;
   }
 
-  button.remove-address {
+  .remove-address {
     position: absolute;
-    right: 10%;
+    right: 1.5em;
     font-size: 2rem;
     font-weight: 400;
     background: none;
@@ -93,22 +93,23 @@
     margin: 0 0 15px 0;
     padding: 0;
   }
+
   ul {
-    margin: 0 2.5em;
+    margin-left: 2.5em;
     padding: 0;
     background: white;
     list-style: none;
-    width: 84%;
+    width: 85%;
     position: absolute;
     z-index: 100;
     left: 0;
-    transition: opacity .3s, visibility 0s .5s;
     max-height: 60vh;
     overflow-y: auto;
     box-shadow: 0 3px 6px var(--shadow_color);
     border-bottom: none;
     border-radius: 10px;
   }
+
   li {
     white-space: nowrap;
     text-overflow: ellipsis;
@@ -125,6 +126,17 @@
 
   li b {
     font-size: 16px;
+  }
+
+  @media (max-width: 480px) {
+    .remove-address {
+      right: 1em;
+    }
+
+    ul {
+      margin-left: 1em;
+      width: 90%;
+    }
   }
 </style>
 

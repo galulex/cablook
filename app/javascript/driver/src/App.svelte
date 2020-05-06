@@ -56,6 +56,7 @@
     localStorage.id = driver.id
     localStorage.carId = car.id
     localStorage.carNumber = car.number
+    localStorage.token = driver.auth_token
     isLoggedIn = true
     subscribe()
     watcher = navigator.geolocation.watchPosition(sendLocation, null, { enableHighAccuracy: true })
