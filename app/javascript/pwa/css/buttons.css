@@ -25,8 +25,9 @@
   color: var(--white);
 }
 
-.button.white {
-  background: white;
+.button.white-opacity {
+  background: rgba(255, 255, 255, .5);
+  color: #233038;
   color: var(--font_color_2);
 }
 
@@ -67,7 +68,6 @@
 }
 
 .button.burger {
-  background: rgba(255, 255, 255, .5);
   position: fixed;
   left: 0;
   top: 0;
@@ -101,6 +101,7 @@
 }
 
 .button.dark-color {
+  color: #233038;
   color: var(--font_color_2);
 }
 

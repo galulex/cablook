@@ -88,14 +88,14 @@ export default class Feedback extends Component {
   renderTips = (i) => {
     return [
       <input id={`tip_${i}`} type='radio' value={i} name='tip' onChange={this.setTips} defaultChecked={this.state.feedback.tips == i}/>,
-      <label class='tip button white' for={`tip_${i}`}><span>{i}</span></label>
+      <label class='tip button white-opacity' for={`tip_${i}`}><span>{i}</span></label>
     ]
   }
 
   render() {
     return(
       <div class='feedback__holder'>
-        <button type='button' class='button burger' onClick={() => window.ios ? this.props.handleBack() : window.history.back()}><Back/></button>
+        <button type='button' class='button burger white-opacity' onClick={this.props.handleBack}><Back/></button>
         <section class='feedback'>
           <header>{i18n.feedback.header}</header>
           <div class='feedback__container'>
@@ -109,8 +109,8 @@ export default class Feedback extends Component {
               <div class='tips-container'>
                 {[0,5,10,20,50].map(i => this.renderTips(i))}
               </div>
+              <button class='button white-opacity' type='button' disabled={this.state.submitDisabled} onClick={this.create}>{i18n.feedback.ok}</button>
             </form>
-            <button class='button fixed white' type='button' disabled={this.state.submitDisabled} onClick={this.create}>{i18n.feedback.ok}</button>
           </div>
         </section>
       </div>

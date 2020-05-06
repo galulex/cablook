@@ -67,7 +67,8 @@ export default class App extends Component {
       favorite_addresses: [],
       notification_settings: [],
       currentTrip: null,
-      isGeocoding: false
+      isGeocoding: false,
+      activateFeedback: false
     }
     axios.defaults.headers.common['Pwa-Language'] = this.state.language
   }
@@ -323,13 +324,22 @@ export default class App extends Component {
     this.setState({currentTrip: null})
   }
 
+  showFeedback = () => {
+    const { activateFeedback, currentTrip } = this.state
+    return (activateFeedback || currentTrip && currentTrip.status == FINISHED)
+  }
+
+  setActivateFeedback = (activateFeedback = false) => {
+    this.setState({activateFeedback})
+  }
+
   render() {
     const { currentTrip, isGeocoding } = this.state
 
     if (this.state.currentUser) {
       return(
         <main id="app" onClick={this.closeDrawer} ref={main => this.main = main} onScroll={this.scrollEnd}>
-          <button class='button burger' onClick={this.triggerDrawer}><Burger/></button>
+          { !this.showFeedback() && <button class='button white-opacity burger' onClick={this.triggerDrawer}><Burger/></button> }
           <Drawer triggerDrawer={this.triggerDrawer} logOut={this.logOut} />
           <Router history={window.ios ? createMemoryHistory() : null} onChange={() => this.triggerDrawer(false)}>
             <NewDesign path='/'
@@ -348,10 +358,14 @@ export default class App extends Component {
               availableBonusTrips={this.state.availableBonusTrips}
               resetCurrentTrip={this.resetCurrentTrip}
               isGeocoding={isGeocoding}
+              showFeedback={this.showFeedback}
+              setActivateFeedback={this.setActivateFeedback}
               setGeocoding={this.setGeocoding}
             />
             <Trips path='/trips/:id?'
               setCurrentTrip={this.setCurrentTrip}
+              showFeedback={this.showFeedback}
+              setActivateFeedback={this.setActivateFeedback}
             />
             <Bonus path='/bonus_trips' bonus_trips={() => this.state.bonus_trips} parent_bonus={() => this.state.parent_bonus} />
             <Cards path='/cards' cards={() => this.state.cards} create={this.createCard} currentUserID={() => this.state.currentUserID} />
