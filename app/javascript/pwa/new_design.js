@@ -594,6 +594,7 @@ export default class NewDesign extends Component {
     this.setState({ trip: { ...this.state.trip, status: FINISHED }, car: null, driver: null, paymentButtonDisabled: false, inputDisabled: false })
     // this.props.fetchUser()
     this.props.resetCurrentTrip()
+    this.props.setActivateFeedback(true)
     this.unsubscribe()
     if (this.state.trip.bonus) this.fetchBonusTrips()
   }
