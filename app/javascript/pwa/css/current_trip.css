@@ -21,7 +21,8 @@ input.address:focus {
 input.address:focus + ul, input.address.focus + ul {
   visibility: visible;
   opacity: 1;
-  transition: opacity .3s, visibility 0s 0s;
+  transition: opacity .3s, visibility 0s 0s, max-height .3s;
+  max-height: 60vh;
 }
 
 fieldset {
@@ -39,23 +40,15 @@ fieldset.address:nth-of-type(8) + div {
 ul.predictions {
   margin: 0;
   padding: 0;
-  background: white;
-  background: var(--white);
   list-style: none;
-  width: 100%;
-  position: absolute;
-  top: 100%;
-  z-index: 100;
-  left: 0;
-  transition: opacity .3s, visibility 0s .5s;
+  width: 65vw;
+  position: relative;
+  max-height: 0;
+  transition: opacity .3s, visibility 0s .5s, max-height .3s;
   visibility: hidden;
   opacity: 0;
-  max-height: 60vh;
   overflow-y: auto;
-  box-shadow: 0 3px 6px rgba(0,0,0,0.16);
-  box-shadow: var(--shadow);
-  border: 1px solid #d1d1d1;
-  border-bottom: none;
+  border-radius: 15px;
 }
 
 li.prediction {
@@ -64,12 +57,40 @@ li.prediction {
   overflow: hidden;
   color: #312d50;
   color: var(--navy);
-  border-bottom: 1px solid #d1d1d1;
   line-height: 1;
-  padding: 10px 0 10px 50px;
+  padding: 2px 0 5px 50px;
   transition: background .2s;
   cursor: pointer;
   position: relative;
+  width: 66vw;
+}
+
+li.prediction:after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  height: 1px;
+  width: 90%;
+  -webkit-transform: translateX(-50%);
+  transform: translateX(-50%);
+  border-bottom: 1px solid #92b6d0;
+}
+
+li.prediction:first-child:before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 0;
+  height: 1px;
+  width: 90%;
+  -webkit-transform: translateX(-50%);
+  transform: translateX(-50%);
+  border-top: 1px solid #92b6d0;
+}
+
+li.prediction:last-child {
+  margin-bottom: 20px;
 }
 
 li.prediction svg {
@@ -77,8 +98,12 @@ li.prediction svg {
   top: 50%;
   transform: translateY(-50%);
   left: 10px;
-  width: 34px;
-  height: 20px;
+  width: 20px;
+  height: 12px;
+}
+
+li.prediction b {
+  font-size: 16px;
 }
 
 li.current_location svg {
@@ -113,19 +138,50 @@ svg.running {
   to { transform: translateY(-50%) rotate(360deg); }
 }
 
+.mapboxgl-ctrl.mapboxgl-ctrl-group {
+  box-shadow: none;
+  background: none;
+}
+
+.mapboxgl-ctrl-group button.mapboxgl-ctrl-zoom-out {
+  border-top: none;
+}
+
+.mapboxgl-ctrl.mapboxgl-ctrl-group button{
+  margin-bottom: 5px;
+  border-radius: 5px;
+  background: rgba(255, 255, 255, 0.5);
+  box-shadow: inset -2px -1px 4px var(--shadow_color);
+
+}
+
+.buttons  button.button {
+  padding: 12px 0;
+  width: calc(100% - 130px);
+  border-radius: 10px;
+  color: white;
+  box-shadow: inset -2px -1px 4px var(--shadow_color);
+}
+
+.buttons  button.button.fixed {
+  background: var(--green);
+}
+
 button.add-address {
-  background: transparent;
+  background: rgba(255, 255, 255, 0.5);
   border: none;
   padding: 0;
   outline: none;
   cursor: pointer;
   line-height: 0;
   position: absolute;
-  top: -5px;
-  left: 20px;
-  height: 40px;
+  top: -3px;
+  left: 50px;
+  height: 28px;
+  width: 28px;
   padding: 0;
   transition: opacity .3s;
+  border-radius: 10px;
 }
 
 button.add-address svg > path:first-child {
@@ -226,33 +282,29 @@ input[type='checkbox'] + label:before {
 svg.map-pick {
   position: absolute;
   right: 10px;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 25px;
-  height: 25px;
+  top: 15px;
+  width: 19px;
+  height: 12px;
   cursor: pointer;
 }
 
 select#entrance, input#time, .select select, select#select_time {
   color: #312d50;
   color: var(--navy);
-  font-size: 16px;
+  font-size: 12px;
   background: transparent;
   border: none;
   transition: box-shadow .3s;
-  box-shadow: 0 3px 6px rgba(0,0,0,0.16);
-  box-shadow: var(--shadow);
-  margin: 5px 0;
-  height: 40px;
+  margin: 2px 0;
+  height: 30px;
   border-radius: 0;
   border: none;
-  background: rgba(255, 255, 255, 0.9);
-  background: var(--bg);
-  padding: 13px 5px 10px 45px;
+  padding: 6px 5px 6px 35px;
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
-  width: 140px;
+  min-width: 120px;
+  max-width: 45%;
   font-weight: 100;
   text-align: right;
 }
@@ -304,12 +356,13 @@ label:not([data-placeholder])[for='time'] > .time-placeholder {
 
 select#entrance:focus, input#time:focus, input.comment:focus {
   outline: none;
-  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
-  box-shadow: var(--focus-shadow);
+  box-shadow: inset 1px 1px 2px #24293038, inset -1px -1px 2px white;
+  box-shadow: inset 1px 1px 2px var(--shadow_color), inset -1px -1px 2px var(--white);
 }
 
 label[for='entrance'], label[for='time'] {
   text-align: right;
+  font-size: 13px;
 }
 
 .option label svg, .additions label svg, label[for='comment'] svg, .select svg {
@@ -326,22 +379,21 @@ label[for='comment'] {
 
 input.comment {
   display: block;
-  background: transparent;
   color: #312d50;
   color: var(--navy);
-  width: 100%;
-  margin: 5px 0;
-  padding: 10px 10px 10px 45px;
-  background: rgba(255, 255, 255, 0.9);
-  background: var(--bg);
+  width: 90%;
+  margin: 0 auto;
+  padding: 0 10px 0 10px;
+  background: var(--input_bg_color);
   border: none;
-  font-size: 16px;
+  font-size: 13px;
+  padding: 5px;
   outline: none;
   font-weight: 100;
   transition: box-shadow .3s;
-  box-shadow: 0 3px 6px rgba(0,0,0,0.16);
-  box-shadow: var(--shadow);
-  border-radius: 0;
+  box-shadow: inset 3px 2px 8px #24293038, inset -2px -1px 4px white;
+  box-shadow: inset 3px 2px 8px var(--shadow_color), inset -2px -1px 4px var(--white);
+  border-radius: 10px;
 }
 
 div.nocall {

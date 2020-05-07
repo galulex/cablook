@@ -628,10 +628,10 @@ export default class NewDesign extends Component {
     return(
       <div id='fields' class='options' ref={fields => this.fields = fields} onScroll={this.props.scrollEnd}>
         <button class='trigger' onClick={ () => this.scroll(1) }>
-          <Arrows width='50'/>
+          {/*<Arrows width='50'/>*/}
         </button>
         <button class='trigger back' onClick={ () => this.scroll(1000) }>
-          <Arrows width='50'/>
+          {/*<Arrows width='50'/>*/}
         </button>
         <div class='option'>
           { trip.stops.map((e, i) => {
@@ -654,42 +654,46 @@ export default class NewDesign extends Component {
           })}
           <div>
             <button type='button' onClick={this.addAddress} class='add-address' disabled={isValid} title={ i18n.current_trip.add_address }>
-              <Add height='40'/>
+              {/*<Add height='40'/>*/}
             </button>
           </div>
         </div>
         <div class='option'>
-          <div class='additions'>
-            <label for='no_call' class='nocall'>
-              <input id='no_call' type='checkbox' checked={trip.no_call} onChange={this.setField}/>
-              <Phone width='24' class='cross'/>
-              {i18n.current_trip.no_call}
-            </label>
-            <label for='entrance'>
-              <Entrance height='27'/>
-              <select id='entrance' value={trip.entrance} onChange={this.setField}>
-                <option value=''>{i18n.current_trip.select_entrance}</option>
-                {ENTRANCES.map((el) => {
-                  return(<option value={el}>{el} {i18n.current_trip.entrance}</option>)
-                })}
-              </select>
-            </label>
-            <label for='time' data-placeholder={!trip.time}>
-              <Clock width='24' fill='#312d50'/>
-              <input id='time' type='time' step='60' title='HH:MM' pattern='([01]?[0-9]|2[0-3]):[0-5][0-9]' value={trip.time} placeholder='Now' onBlur={this.setTime}/>
-              <span class='time-placeholder'>{i18n.current_trip.now}</span>
-            </label>{' '}
-            <label class='select' for='card'>
-              <Card width='24'/>
-              <select id='card_id' onChange={this.setField}>
-                {cards.map(card => <option selected={ trip.card_id == card.id } value={card.id}>{card.pan}</option>)}
-              </select>
+          <div className='trip-params'>
+            <div className='additions'>
+              <label htmlFor='no_call' className='nocall'>
+                <input id='no_call' type='checkbox' checked={trip.no_call} onChange={this.setField}/>
+                <Phone width='24' class='cross'/>
+                {i18n.current_trip.no_call}
+              </label>
+              <label htmlFor='entrance'>
+                <Entrance height='15'/>
+                <select id='entrance' value={trip.entrance} onChange={this.setField}>
+                  <option value=''>{i18n.current_trip.select_entrance}</option>
+                  {ENTRANCES.map((el) => {
+                    return (<option value={el}>{el} {i18n.current_trip.entrance}</option>)
+                  })}
+                </select>
+              </label>
+              <label htmlFor='time' data-placeholder={!trip.time}>
+                <Clock width='24' fill='#312d50'/>
+                <input id='time' type='time' step='60' title='HH:MM' pattern='([01]?[0-9]|2[0-3]):[0-5][0-9]'
+                       value={trip.time} placeholder='Now' onBlur={this.setTime}/>
+                <span className='time-placeholder'>{i18n.current_trip.now}</span>
+              </label>{' '}
+              <label className='select' htmlFor='card'>
+                <Card width='24'/>
+                <select id='card_id' onChange={this.setField}>
+                  {cards.map(card => <option selected={trip.card_id == card.id} value={card.id}>{card.pan}</option>)}
+                </select>
+              </label>
+            </div>
+            <label htmlFor='comment'>
+              {/*<Comment width='24'/>*/}
+              <input id='comment' type='text' className='comment' value={trip.comment}
+                     placeholder={i18n.current_trip.comment} onChange={this.setField}/>
             </label>
           </div>
-          <label for='comment'>
-            <Comment width='24'/>
-            <input id='comment' type='text' class='comment' value={trip.comment} placeholder={i18n.current_trip.comment} onChange={this.setField}/>
-          </label>
         </div>
       </div>
     )

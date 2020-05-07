@@ -8,11 +8,25 @@ section.new_design {
 }
 
 fieldset.address {
-  background: rgba(255, 255, 255, 0.9);
-  background: var(--bg);
-  margin: 5px 0;
-  /* margin-bottom: 10px; */
-  box-shadow: var(--shadow);
+  background: rgba(0, 0, 0, 0.1);
+  color: var(--font_color_1);
+  border-radius: 10px;
+  box-shadow: inset 3px 2px 8px var(--shadow_color);
+  width: 65vw;
+  margin: 0 auto 5% auto;
+}
+
+@media screen and (min-width: 630px) {
+  fieldset.address, fieldset.address ul.predictions {
+    width: 45vw;
+  }
+}
+
+.option .trip-params {
+  margin-left: 44px;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 10px;
+  padding: 0 0 13px;
 }
 
 .search_logo {
@@ -29,7 +43,7 @@ fieldset.address {
 
 .wrapper {
   z-index: 30;
-  margin-top: 75px;
+  margin-top: 54px;
 }
 
 .new_design .wrapper .driverSearch {
@@ -204,10 +218,11 @@ svg.pin-last path {
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
+  padding: 3%;
 }
 
 .additions label svg {
-  height: 30px;
+  height: 20px;
 }
 
 .options.noscroll .option:nth-of-type(2) {
@@ -261,21 +276,23 @@ svg.pin-last path {
   position: absolute;
   z-index: 100;
   display: block;
-  bottom: 0;
-  background: transparent;
   border: none;
   right: 0;
   padding: 0;
   outline: none;
   cursor: pointer;
   -webkit-appearance: none;
-  height: 44px;
-  width: 50px;
+  height: 100px;
+  width: 40px;
   transition: width .3s;
+  top: 0;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 10px 0 0 10px;
+  box-shadow: inset -1px -1px 4px var(--shadow_color);
 }
 
 .trigger.back {
-  right: -50px;
+  right: -40px;
   transform: rotate(180deg);
 }
 
@@ -285,15 +302,13 @@ svg.pin-last path {
 }
 
 label.nocall {
-  margin: 5px 0;
-  background: rgba(255, 255, 255, 0.9);
-  background: var(--bg);
-  padding: 10px 5px 8px 45px;
-  height: 40px;
+  margin: 2px 0;
+  padding: 6px 5px 6px 45px;
+  height: 30px;
+  font-size: 12px;
   font-weight: 100;
-  min-width: 140px;
+  min-width: 120px;
   max-width: 45%;
-  box-shadow: var(--shadow);
   white-space: nowrap;
 }
 
