@@ -26,7 +26,7 @@ export default class Buttons extends Component {
               {(cost === '') ? `${i18n.confirm_trip.add_card}` : stops.includes('') ? `${i18n.confirm_trip.go}` : `${i18n.confirm_trip.go} ${cost}`}
               {(cost !== '' && !stops.includes('')) && <TripPrice/>}
           </button> }
-        { [CANCELED, CANCELED_BY_DRIVER, undefined, null].includes(status) && picker === null && !showFeedback() &&
+        { [CANCELED, CANCELED_BY_DRIVER, undefined, null].includes(status) && picker === null && !showFeedback() && (cards.length >= 1) &&
           <button
             class='button fixed'
             type='button'
