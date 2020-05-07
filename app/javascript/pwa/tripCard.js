@@ -1,5 +1,5 @@
-import { h, render, Component } from 'preact';
-import { route } from 'preact-router';
+import { h, render, Component } from 'preact'
+import { route } from 'preact-router'
 
 import Details from './trip_details.js'
 import getRate from './new_design/rate.js'
@@ -31,7 +31,7 @@ export default class TripCard extends Component {
   }
 
   render() {
-    const { trip, handleBack } = this.props;
+    const { trip, handleBack } = this.props
     return (
       <li class="trip-card" onClick={() => this.showDetails(true) }>
         <div class='address-block'>
@@ -42,7 +42,16 @@ export default class TripCard extends Component {
           <span>{[`${trip.cost} ${i18n.trip.currency}`, trip.formatted_date, i18n.trips.statuses[trip.status]].join(", ")}</span>
           <span>{ this.showRate() }</span>
         </p>
-        {this.state.showDetails && <Details handleBack={handleBack} showDetails={this.showDetails} trip={trip} setCurrentTrip={this.props.setCurrentTrip}/>}
+        { this.state.showDetails && 
+          <Details 
+            handleBack={handleBack}
+            showDetails={this.showDetails}
+            trip={trip}
+            setCurrentTrip={this.props.setCurrentTrip}
+            showFeedback={this.props.showFeedback}
+            setActivateFeedback={this.props.setActivateFeedback}
+          />
+        }
       </li>
     );
   }

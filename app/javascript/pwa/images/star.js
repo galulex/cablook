@@ -3,7 +3,7 @@ import { h, Component } from "preact"
 export default class Star extends Component {
   render () {
     const style = {
-      filter: "url(#inset-shadow)",
+      filter: `url(#${this.props.filter || 'inset-shadow'})`,
       class: this.props.class
     }
 
