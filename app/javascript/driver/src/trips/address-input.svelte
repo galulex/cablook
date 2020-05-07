@@ -8,11 +8,13 @@
   export let fieldsCount;
 
   let predictions = [];
+  let input;
 
   let setLocation = (place) => {
     if (!place.place_id) {
       address = `${place}, `
       predictions = []
+      input.focus()
       return
     }
 
@@ -59,6 +61,17 @@
       predictions = data
       address = e.target.value
     })
+  }
+
+  let focus = (e) => {
+    input = e.target
+    input.focus()
+  }
+
+  let eraseInput = (e) => {
+    input = e.target.parentElement.getElementsByClassName('address')[0]
+    if (address !== '') setTimeout(() => { input.focus() }, 300)
+    eraseAddress(index)
   }
 </script>
 
@@ -132,11 +145,11 @@
   }
 </style>
 
-<fieldset class='address'>
+<fieldset>
   {#if fieldsCount > 2 || address !== ''}
-    <button disabled={index === 0} class='remove-address' type='button' on:click={() => eraseAddress(index)}>×</button>
+    <button class='remove-address' type='button' on:click={eraseInput}>×</button>
   {/if}
-  <input required class='address' type='text' disabled={index === 0} on:input={autocomplete} value={address} />
+  <input required class='address' type='text' on:input={autocomplete} value={address} on:click={focus} on:focus={focus} />
 
   <ul>
     {#each predictions as prediction}
