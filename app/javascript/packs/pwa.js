@@ -307,6 +307,20 @@ export default class App extends Component {
     if (!e.target.classList.contains('nav-wrapper') && !e.target.classList.contains('burger')) this.triggerDrawer(false)
   }
 
+  scrollDrawerEnd = (e) => {
+    this.scrollEnd(e)
+    let backgroundOpacity
+    let scrollPercent = e.target.scrollLeft / 300
+    if (scrollPercent === 1) {
+      backgroundOpacity = 1 - scrollPercent
+      if (!this.overlay.classList.contains('hidden')) this.overlay.classList.add('hidden') 
+    } else {
+      backgroundOpacity = 1 - (scrollPercent + 0.15)
+      this.overlay.classList.remove('hidden')
+    }
+    this.overlay.setAttribute('style', `opacity: ${backgroundOpacity};`)
+  }
+
   scrollEnd = (e) => {
     let target = e.target
     clearTimeout(window.scrollTimeout)
@@ -315,9 +329,6 @@ export default class App extends Component {
       let x = (target.scrollLeft > 0 && target.scrollLeft < target.offsetWidth / 2) ? 0 : target.offsetWidth
       target.scrollTo({left: x})
     }, 300)
-    if (!(target.id === 'app')) return
-    let scrollPercent = target.scrollLeft / 300 
-    document.documentElement.style.setProperty('--background-opacity', (scrollPercent === 1 ? scrollPercent : scrollPercent + 0.15))
   }
 
   resetCurrentTrip = () => {
@@ -338,8 +349,9 @@ export default class App extends Component {
 
     if (this.state.currentUser) {
       return(
-        <main id="app" onClick={this.closeDrawer} ref={main => this.main = main} onScroll={this.scrollEnd}>
+        <main id="app" onClick={this.closeDrawer} ref={main => this.main = main} onScroll={this.scrollDrawerEnd}>
           { !this.showFeedback() && <button class='button white-opacity burger' onClick={this.triggerDrawer}><Burger/></button> }
+          <div class='main__overlay hidden' ref={overlay => this.overlay = overlay}></div>
           <Drawer triggerDrawer={this.triggerDrawer} logOut={this.logOut} />
           <Router history={window.ios ? createMemoryHistory() : null} onChange={() => this.triggerDrawer(false)}>
             <NewDesign path='/'
