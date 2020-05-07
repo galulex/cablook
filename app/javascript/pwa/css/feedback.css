@@ -87,6 +87,7 @@ section.feedback svg.driver {
 
 section.feedback textarea {
   width: 100%;
+  min-height: 72px;
   resize: none;
   color: white;
   color: var(--white);
@@ -189,9 +190,9 @@ section.new_design .feedback__holder, section.trips .feedback__holder {
   }
 }
 
-@media screen and (max-width: 425px) and (orientation: landscape) {
+@media screen and (max-height: 650px) and (max-width: 1000px) and (orientation: landscape) {
   section.feedback {
-    max-width: 400px;
+    max-width: 500px;
   }
 
   section.feedback svg.driver {
