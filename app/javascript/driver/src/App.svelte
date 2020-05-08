@@ -29,6 +29,7 @@
     if (!isLoggedIn) return
     subscribe()
     watcher = navigator.geolocation.watchPosition(sendLocation, null, { enableHighAccuracy: true })
+    loadScript()
   })
 
   onDestroy(() => {
@@ -55,6 +56,7 @@
     localStorage.id = driver.id
     localStorage.carId = car.id
     localStorage.carNumber = car.number
+    localStorage.token = driver.auth_token
     isLoggedIn = true
     subscribe()
     watcher = navigator.geolocation.watchPosition(sendLocation, null, { enableHighAccuracy: true })
@@ -87,6 +89,15 @@
     subscription = cable.subscriptions.create({ channel: 'DriverMapChannel' }, {
       received: data => { cableActions[data.action](data) }
     })
+  }
+
+  let loadScript = () => {
+    if (document.getElementById('google-script') === null) {
+      let script = document.createElement('script');
+      script.setAttribute('id', 'google-script');
+      script.setAttribute('src', `https://maps.googleapis.com/maps/api/js?key=AIzaSyDg2-aLroQJWY8LV8x1Gv5ZYDhIArWCDeU&libraries=places`);
+      document.body.appendChild(script);
+    }
   }
 
   let updateTrip = (attrs) => {
