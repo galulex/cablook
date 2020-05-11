@@ -1,7 +1,12 @@
-import { h, Component } from 'preact'
+import { h, render, Component } from 'preact'
+import axios from 'axios'
 
+import Close from './images/times-circle.svg'
 import i18n from './i18n.js'
-
+import AddressInput from '../pwa/trips/address-input.js'
+import './css/profile.css'
+import Bonus from '../pwa/bonus_trips.js'
+import Tabs from './tabs.js'
 import Settings from './tabs/settings.js'
 import Bonuses from './tabs/bonuses.js'
 import Statistics from './tabs/statistics.js'
@@ -53,50 +58,8 @@ export default class FavoriteAddresses extends Component {
     return (
       <div>
         <header>{i18n.profile_page.header}</header>
-        <section class='profile'>
-          <div class='tabs'>
-            <div class="tabs__holder">
-              <div class='tab__active' ref={el => this.activeTab = el}></div>
-              <div class='tabs__container' ref={el => this.tabsContainer = el}>
-                {
-                  Object.keys(i18n.profile_page.tabs).map((key, index) => {
-                    return(
-                      <button
-                        class={`tab__header ${index === 0 ? 'active' : ''}`}
-                        onClick={this.onClick}>
-                          {i18n.profile_page.tabs[key]}
-                      </button>
-                    )
-                  })
-                }
-              </div>
-            </div>
-            <div class="tabs__content" ref={el => this.tabsContent = el} >
-              <div class='tab-content'>
-                <Settings
-                  setLanguage={this.props.setLanguage}
-                  favorite_addresses={() => this.props.favorite_addresses()}
-                  updateFavoriteAddresses={this.props.updateFavoriteAddresses}
-                  notification_settings={this.props.notification_settings}
-                  updateNotificationSettings={this.props.updateNotificationSettings}
-                  geocode={this.props.geocode}
-                  language={this.props.language}
-                  isGeocoding={this.props.isGeocoding}
-                  setGeocoding={this.props.setGeocoding}
-                  setAddress={this.props.setAddress}
-                />
-              </div>
-              <div class='tab-content'>
-                <Bonuses
-                  bonus_trips={this.props.bonus_trips}
-                  parent_bonus={this.props.parent_bonus}
-                />
-              </div>
-              <div class='tab-content'>
-                <Statistics />
-              </div>
-            </div>
-          </div>
+        <section class='profile'>         
+          <Tabs />
         </section>
       </div>
     )
