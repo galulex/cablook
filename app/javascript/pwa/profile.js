@@ -1,11 +1,15 @@
-import { h, render, Component } from 'preact';
-import axios from 'axios';
+import { h, render, Component } from 'preact'
+import axios from 'axios'
 
-import Close from './images/times-circle.svg';
-import i18n from './i18n.js';
-import AddressInput from '../pwa/trips/address-input.js';
+import Close from './images/times-circle.svg'
+import i18n from './i18n.js'
+import AddressInput from '../pwa/trips/address-input.js'
 import './css/profile.css'
-import Bonus from '../pwa/bonus_trips.js';
+import Bonus from '../pwa/bonus_trips.js'
+import Tabs from './tabs.js'
+import Settings from './tabs/settings.js'
+import Bonuses from './tabs/bonuses.js'
+import Statistics from './tabs/statistics.js'
 
 const LOCALES = { en: '🇺🇸', uk: '🇺🇦', ru: '🇷🇺' }
 
@@ -85,32 +89,8 @@ export default class FavoriteAddresses extends Component {
     return (
       <div>
         <header>{i18n.profile_page.header}</header>
-        <section class='profile'>
-          <div class='nocall'>
-            <input id='dark' type='checkbox' value='dark' onChange={this.changeTheme} checked={window.dark}/>
-            <label for='dark'>{i18n.profile_page.theme}</label>
-          </div>
-          <div class='nocall lang'>
-            <label for='language'>{i18n.profile_page.language}</label>
-            <select onChange={this.props.setLanguage} id='language'>
-              {Object.keys(LOCALES).map(key => {
-                return(<option value={key} selected={key == this.props.language}>{LOCALES[key]}</option>)
-              })}
-            </select>
-          </div>
-          <h4 class='center'>{i18n.profile_page.notification_settings}</h4>
-          {['search_car', 'accept_trip', 'decline_trip', 'waiting_client'].map((value) => {
-            return(
-              <div class='nocall'>
-                <input id={value} type='checkbox' value={value} onChange={this.changeNotificationSettings} checked={notification_settings.includes(value)}/>
-                <label for={value}>{i18n.profile_page.notification_names[value]}</label>
-              </div>
-            )
-          })}
-          <h4 class='center'>{i18n.profile_page.favorite_addresses}</h4>
-          { this.favoriteAddressesList() }
-          { showing ? this.newForm() : <button class='button add_fav_address' type='button' onClick={() => this.setState({ showing: !showing })}>+ {i18n.profile_page.add_address}</button> }
-          <Bonus bonus_trips={this.props.bonus_trips} parent_bonus={this.props.parent_bonus}/>
+        <section class='profile'>         
+          <Tabs />
         </section>
       </div>
     )

@@ -1,3 +1,11 @@
+section.profile {
+  max-width: 610px;
+}
+
+section.profile::-webkit-scrollbar {
+  width: 0;
+}
+
 #newFavoriteAddressForm {
   margin-top: 20px;
 }
@@ -49,4 +57,108 @@ ul.favorite_addresses button.x-card {
 
 .profile select:focus {
   outline: none;
+}
+
+.profile .tabs {
+  height: calc(100% - 8.7vh);
+  height: calc(100% - var(--vh, 1vh) * 8.7);
+  padding-top: 5.1vh;
+  padding-top: calc(var(--vh, 1vh) * 5.1);
+}
+
+.profile .tabs__holder {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 8.7vh;
+  height: calc(var(--vh, 1vh) * 8.7);
+  border-radius: 20px;
+  box-shadow: inset 3px 2px 8px var(--shadow_color), inset -2px -1px 4px var(--white);
+}
+
+.profile .tabs__container {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  background: inherit;
+}
+
+.profile button.tab__header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 33.3%;
+  height: 100%;
+  font-size: 2.6vh;
+  font-size: calc(var(--vh, 1vh) * 2.6);
+  color: var(--font_color_2);
+  border: none;
+  border-radius: inherit;
+  transition: all .1s;
+  cursor: pointer;
+  text-transform: capitalize;
+  background: inherit;
+  outline: none;
+}
+
+.profile .tabs__content {
+  height: 100%;
+  overflow-x: scroll;
+  white-space: nowrap;
+  scroll-snap-type: x mandatory;
+  flex: 1 1 auto;
+  scroll-behavior: smooth;
+  display: -webkit-flex;
+  -webkit-flex-wrap: nowrap;
+  flex-wrap: nowrap;
+  z-index: 10;
+  padding-top: calc(var(--vh, 1vh) * 7);
+}
+
+.profile .tabs__content::-webkit-scrollbar {
+  height: 0;
+}
+
+.profile .tabs__holder .tab__active {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 1;
+  height: 100%;
+  width: 33.3%;
+  font-size: calc(var(--vh, 1vh) * 2.6);
+  color: white;
+  font-weight: 500;
+  background: var(--green);
+  box-shadow: inset -1px -1px 17px -4px rgba(0, 0, 0, 0.3);
+  border-radius: 20px;
+ }
+
+.profile .tab__content {
+  width: 100%;
+  flex: 0 0 auto;
+  overflow-y: auto;
+  scroll-snap-align: start;
+}
+
+#settings {
+  background: blue;
+}
+
+#bonuses {
+  background: red;
+}
+
+#statistics {
+  background: green;
 }
