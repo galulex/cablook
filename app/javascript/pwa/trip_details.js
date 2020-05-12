@@ -43,7 +43,7 @@ export default class TripCard extends Component {
     return (
       <div class="trip-details">
         <header>{i18n.trip.header}</header>
-        <section class="trip-details-section">
+        <section class="trip-details__section">
           <MapImg trip={() => this.props.trip} />
           <div class='trip-details__content'>
             <div class="buttons">
