@@ -1,7 +1,3 @@
-section.profile {
-  scroll-snap-type: y mandatory;
-}
-
 address {
   display: flex;
   align-items: center;
@@ -162,8 +158,7 @@ address:last-of-type svg {
   height: 100vh;
   height: calc(var(--vh, 1vh) * 100);
   overflow-y: overlay;
-  scroll-snap-type: y mandatory;
-  scroll-behaviour: smooth;
+  padding: 0;
 }
 
 .trip-details__section::-webkit-scrollbar {
@@ -175,7 +170,7 @@ address:last-of-type svg {
   bottom: 0;
   margin-top: calc(100% - 10px);
   height: 50vh;
-  height: calc(var(--vh * 1vh), 50);
+  height: calc(var(--vh, 1vh) * 50);
   padding: 12px;
   z-index: 10;
   width: 100%;
