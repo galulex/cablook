@@ -293,6 +293,12 @@ html lang="#{I18n.locale}"
         animation: none !important;
       }
 
+      @media screen and (max-width: 540px) {
+        section {
+          padding: 0 8%;
+        }
+      }
+
       @font-face {
         font-family: Gilroy;
         src: url("#{asset_path('Gilroy-Bold.woff2')}");

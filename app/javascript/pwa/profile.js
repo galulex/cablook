@@ -7,11 +7,6 @@ import AddressInput from '../pwa/trips/address-input.js'
 import './css/profile.css'
 import Bonus from '../pwa/bonus_trips.js'
 import Tabs from './tabs.js'
-import Settings from './tabs/settings.js'
-import Bonuses from './tabs/bonuses.js'
-import Statistics from './tabs/statistics.js'
-
-const LOCALES = { en: '🇺🇸', uk: '🇺🇦', ru: '🇷🇺' }
 
 export default class FavoriteAddresses extends Component {
   constructor(props) {
@@ -89,7 +84,7 @@ export default class FavoriteAddresses extends Component {
     return (
       <div>
         <header>{i18n.profile_page.header}</header>
-        <section class='profile'>         
+        <section class='profile'>
           <Tabs />
         </section>
       </div>
