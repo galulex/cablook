@@ -156,6 +156,10 @@ svg.running {
 
 }
 
+.buttons {
+  position: unset;
+}
+
 .buttons  button.button {
   padding: 12px 0;
   width: calc(100% - 130px);
