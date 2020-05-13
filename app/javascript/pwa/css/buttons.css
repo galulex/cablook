@@ -41,7 +41,8 @@
 }
 
 .button.fixed {
-  position: fixed;
+  position: absolute;
+  display: block;
   bottom: 20px;
   left: 0;
   right: 0;
