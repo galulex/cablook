@@ -14,36 +14,31 @@ export default class TripCard extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      showDetails: false,
       isFeedbackVisible: false
     }
   }
 
   componentDidMount() {
     this.setRate()
-    this.setState({showDetails: true})
     if (window.ios) return;
-    // history.pushState(null, 'Trip Details',`/trips/${this.props.trip.id}`);
+    history.pushState(null, 'Trip Details',`/trips/${this.props.trip.id}`);
     window.addEventListener('popstate', this.props.handleBack, {once: true});
-  };
+  }
 
   componentWillUnmount() {
     window.removeEventListener('popstate', this.props.handleBack)
   }
 
-  showFeedback = () => {
-    if (this.state.isFeedbackVisible) return;
-    this.setState({isFeedbackVisible: true})
-    window.removeEventListener('popstate', this.props.handleBack)
+  toggleFeedback = () => {
+    this.props.setActivateFeedback(true)
   };
 
   handleFeedbackBack = (event) => {
-    this.setState({isFeedbackVisible: false})
-    window.addEventListener('popstate', this.props.handleBack, {once: true});
+    this.props.setActivateFeedback()
   };
 
   render() {
-    const { trip } = this.props;
+    const { trip } = this.props
 
     return (
       <div class="trip-details">
@@ -65,7 +60,7 @@ export default class TripCard extends Component {
             {this.renderRate()}
           </div>
         </section>
-        {this.state.isFeedbackVisible && <Feedback trip={this.props.trip} handleBack={this.handleFeedbackBack} isFeedbackVisible={this.state.isFeedbackVisible} getRate={this.getRate}/>}
+        {this.props.showFeedback() && <Feedback trip={this.props.trip} handleBack={this.handleFeedbackBack} isFeedbackVisible={this.state.isFeedbackVisible} getRate={this.getRate}/>}
       </div>
     )
   }
@@ -116,7 +111,7 @@ export default class TripCard extends Component {
     if (this.state.rate) {
       return(<div class='trip-details-content'>{getRate(this.state.rate)}</div>)
     } else {
-      return(<div class='trip-details-content'><button class='button' onClick={this.showFeedback}>{i18n.trips.rate}</button></div>)
+      return(<div class='trip-details-content'><button class='button' onClick={this.toggleFeedback}>{i18n.trips.rate}</button></div>)
     }
   }
 }

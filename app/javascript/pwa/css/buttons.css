@@ -25,6 +25,12 @@
   color: var(--white);
 }
 
+.button.white-opacity {
+  background: rgba(255, 255, 255, .5);
+  color: #233038;
+  color: var(--font_color_2);
+}
+
 .button:active {
   outline:  none;
   box-shadow: inset 2px 2px 5px var(--shadow_color), inset -2px -2px 5px var(--white);
@@ -62,7 +68,6 @@
 }
 
 .button.burger {
-  background: rgba(255, 255, 255, .5);
   position: fixed;
   left: 0;
   top: 0;
@@ -96,6 +101,7 @@
 }
 
 .button.dark-color {
+  color: #233038;
   color: var(--font_color_2);
 }
 

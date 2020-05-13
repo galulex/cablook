@@ -138,10 +138,10 @@ address:last-of-type svg {
   position: fixed;
   top: 0;
   width: 100%;
-  background: #e6efee;
   background: linear-gradient(to bottom, #e6efee, #f6faf8, #e6efee);
   background: linear-gradient(to bottom, var(--bg_gradient_color_2), var(--bg_gradient_color_1), var(--bg_gradient_color_2));
   height: 50vh;
+  height: calc(var(--vh, 1vh), 50);
   max-height: 100vw;
   max-width: inherit;
   object-fit: cover;
@@ -156,6 +156,8 @@ address:last-of-type svg {
   margin-top: 0;
   position: relative;
   height: 100vh;
+  height: calc(var(--vh, 1vh), 100);
+  overflow-y: overlay;
 }
 
 .trip-details-section::-webkit-scrollbar {
@@ -163,16 +165,16 @@ address:last-of-type svg {
 }
 
 .trip-details__content {
-  position: absolute;
-  top: calc(50vh - 5px);
-  min-height: 50vh;
+  margin-top: calc(100% - 10px);
+  height: 50vh;
+  height: calc(var(--vh, 1vh), 50);
   padding: 12px;
   z-index: 10;
   width: 100%;
   background: #e6efee;
   background: linear-gradient(to bottom, #f6faf8, #e6efee);
   background: linear-gradient(to bottom, var(--bg_gradient_color_1), var(--bg_gradient_color_2));
-  box-shadow: 0px 0px 10px 3px var(--shadow_color);
+  box-shadow: 0px -6px 8px var(--shadow_color);
   border-radius: 15px 15px 0 0;
 }
 
@@ -239,6 +241,10 @@ nav {
   background: #e6efee;
   background: linear-gradient(to bottom, #e6efee, #f6faf8, #e6efee);
   background: linear-gradient(to bottom, var(--bg_gradient_color_2), var(--bg_gradient_color_1), var(--bg_gradient_color_2));
+}
+
+.trip-details header {
+  color: var(--font_color_2);
 }
 
 .trip-details div.map {

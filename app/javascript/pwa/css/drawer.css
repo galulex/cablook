@@ -110,6 +110,7 @@ aside div.nav-wrapper {
   overflow: hidden;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
+  background: linear-gradient(to bottom, #e6efee, #f6faf8, #e6efee);
   background: linear-gradient(to bottom, var(--bg_gradient_color_2), var(--bg_gradient_color_1), var(--bg_gradient_color_2));
 }
 
