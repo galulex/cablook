@@ -22,6 +22,12 @@ fieldset.address {
   }
 }
 
+@media screen and (min-width: 999px) {
+  fieldset.address, fieldset.address ul.predictions {
+    width: 33vw;
+  }
+}
+
 .option .trip-params {
   margin-left: 44px;
   background: rgba(255, 255, 255, 0.5);
