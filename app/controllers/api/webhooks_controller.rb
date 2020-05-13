@@ -8,7 +8,7 @@ module Api
     private
 
     def reply
-      Events::Bot::Reply.(reply_params) if params.dig('message', 'data') || params.dig('message', 'entities') && params.dig('message', 'entities')[0].dig('type') == 'bot_command'
+      Events::Bot::Reply.(reply_params) if params.dig('message', 'chat', 'type') == 'private' || params.dig('callback_query', 'message', 'chat', 'type') == 'private'
     end
 
     def reply_params
