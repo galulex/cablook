@@ -8,14 +8,14 @@ import PreviewMap from './map/preview_map.js'
 import Buttons from './new_design/buttons.js'
 import AddressInput from '../pwa/trips/address-input.js'
 import Feedback from '../pwa/feedback.js'
-import Add from './images/+.svg'
+import Add from './images/plus.js'
 import Widget from './widget.js'
 import Entrance from './images/entrance.svg'
 import Clock from './images/clock.js'
 import Card from './images/credit-cards-payment.js'
 import Phone from './images/phone_crossed.svg'
 import Comment from './images/contacts.svg'
-import Arrows from './images/arrows.svg'
+import Chevron from './images/chevron.js'
 import Back from './images/arrow-left.svg'
 import SearchLogo from './images/search_logo.svg'
 import './css/new_design.css'
@@ -627,10 +627,10 @@ export default class NewDesign extends Component {
     return(
       <div id='fields' class='options' ref={fields => this.fields = fields} onScroll={this.props.scrollEnd}>
         <button class='trigger' onClick={ () => this.scroll(1) }>
-          {/*<Arrows width='50'/>*/}
+          <Chevron class='chevron' height='50'/>
         </button>
         <button class='trigger back' onClick={ () => this.scroll(1000) }>
-          {/*<Arrows width='50'/>*/}
+          <Chevron class='chevron' height='50'/>
         </button>
         <div class='option'>
           { trip.stops.map((e, i) => {
@@ -653,7 +653,7 @@ export default class NewDesign extends Component {
           })}
           <div>
             <button type='button' onClick={this.addAddress} class='add-address' disabled={isValid} title={ i18n.current_trip.add_address }>
-              {/*<Add height='40'/>*/}
+              <Add height='15'/>
             </button>
           </div>
         </div>

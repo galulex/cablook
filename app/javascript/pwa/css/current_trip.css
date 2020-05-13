@@ -48,6 +48,7 @@ ul.predictions {
   visibility: hidden;
   opacity: 0;
   overflow-y: auto;
+  overflow-x: hidden;
   border-radius: 15px;
 }
 
@@ -184,17 +185,14 @@ button.add-address {
   border-radius: 10px;
 }
 
-button.add-address svg > path:first-child {
-  fill: rgba(255, 255, 255, 0.9);
-  fill: var(--bg);
+button.add-address svg {
+  height: 11px;
 }
 
 button.remove-address {
   position: absolute;
   right: -15px;
   font-size: 2rem;
-  top: 53%;
-  transform: translateY(-50%);
   background: none;
   border: none;
   color: #a925ad;
