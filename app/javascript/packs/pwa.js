@@ -73,7 +73,7 @@ export default class App extends Component {
   }
 
   componentDidMount() {
-    if (localStorage.fcm_token === 'null') waitForToken = setInterval(this.waitForFCMToken(localStorage.fcm_token), 3000)
+    if (!localStorage.fcm_token) waitForToken = setInterval(this.waitForFCMToken, 3000)
     this.loadScript()
     if (window.ios) this.focusOutForIos()
     if (this.state.currentUser && this.state.currentUser.length !== 0) {
@@ -88,8 +88,10 @@ export default class App extends Component {
     if (!navigator.onLine) this.offline()
   }
 
-  waitForFCMToken = (token) => {
-    if (token !== 'null') {
+  waitForFCMToken = () => {
+    let token = localStorage.getItem("fcm_token");
+
+    if (token) {
       this.sendTokenToServer(token)
       clearInterval(waitForToken)
     }
