@@ -28,30 +28,35 @@ export default class Tabs extends Component {
   }
 
   render() {
-    console.log(i18n.profile_page.tabs)
     return (
       <div class='tabs'>
         <div class="tabs__holder">
           <div class='tab__active' ref={el => this.activeTab = el}></div>
           <div class='tabs__container' ref={el => this.tabsContainer = el}>
-            {
-              // Object(i18n.profile_page.tabs).forEach(key => {
-              //   console.log(key)
-              // })
-            }
             <button class="tab__header active" onClick={this.onClick}>Settings</button>
             <button class="tab__header" onClick={this.onClick}>Bonuses</button>
             <button class="tab__header" onClick={this.onClick}>Statistics</button>
           </div>
         </div>
         <div class="tabs__content" ref={el => this.tabsContent = el} onScroll={this.onScroll}>
-          <div class='tab__content'>
-            <Settings setLanguage={this.props.setLanguage}/>
+          <div class='tab-content'>
+            <Settings
+              setLanguage={this.props.setLanguage}
+              favorite_addresses={() => this.props.favorite_addresses()}
+              updateFavoriteAddresses={this.props.updateFavoriteAddresses}
+              notification_settings={this.props.notification_settings}
+              updateNotificationSettings={this.props.updateNotificationSettings}
+              geocode={this.props.geocode}
+              language={this.props.language}
+              isGeocoding={this.props.isGeocoding}
+              setGeocoding={this.props.setGeocoding}
+              setAddress={this.props.setAddress}
+            />
           </div>
-          <div class='tab__content'>
+          <div class='tab-content'>
 
           </div>
-          <div class='tab__content'>
+          <div class='tab-content'>
 
           </div>
         </div>
