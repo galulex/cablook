@@ -23,6 +23,7 @@ input.address:focus + ul, input.address.focus + ul {
   opacity: 1;
   transition: opacity .3s, visibility 0s 0s, max-height .3s;
   max-height: 60vh;
+  scroll-snap-align: center;
 }
 
 fieldset {
