@@ -12,6 +12,19 @@ module Jobs
       fcm = FCM.new(ENV['FCM_SERVER_KEY'])
       registration_ids = trip.user.devices.fcm.pluck(:token)
       options = {
+        notification: {
+          body: message,
+          title: 'CabLook',
+          sound: 'default'
+        },
+        apns: {
+          payload: {
+            aps: {
+              sound: 'default'
+            }
+          }
+        },
+        priority: 'high',
         data: {
           title: 'CabLook',
           body: message,
@@ -47,12 +60,12 @@ module Jobs
         options[:data][:trip][:action] = 'driving'
       when Constants::Trip::STATUS_CODES[Constants::Trip::WAITING_CLIENT]
         options[:data][:actions] = {
-            actions: [
-              {
-                action: 'coming',
-                title: I18n.t('notification.actions.coming')
-              }
-            ]
+          actions: [
+            {
+              action: 'coming',
+              title: I18n.t('notification.actions.coming')
+            }
+          ]
         }
         options[:data][:trip][:action] = 'coming'
       when Constants::Trip::STATUS_CODES[Constants::Trip::ON_THE_WAY]
