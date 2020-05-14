@@ -223,6 +223,7 @@ svg.pin-last path {
   transition: opacity .3s;
   max-height: calc((var(--vh, 1vh) * 100) / 2);
   overflow-y: auto;
+  scroll-snap-type: y mandatory;
 }
 
 .additions {
