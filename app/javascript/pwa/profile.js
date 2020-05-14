@@ -1,168 +1,36 @@
 import { h, render, Component } from 'preact'
 import axios from 'axios'
 
-import Close from './images/times-circle.svg'
 import i18n from './i18n.js'
-import AddressInput from '../pwa/trips/address-input.js'
 import './css/profile.css'
 import Bonus from '../pwa/bonus_trips.js'
 import Tabs from './tabs.js'
 
 export default class FavoriteAddresses extends Component {
   constructor(props) {
-    super(props);
-    this.state = {
-      showing: false,
-      favorite_addresses: [],
-      notification_settings: [],
-      id: null,
-      name: null,
-      location: null,
-      user_id: null,
-      address: '',
-      disabled: false
-    }
+    super(props)
   }
-
-  componentDidMount() {
-    this.setState({favorite_addresses: this.props.favorite_addresses(),
-                   notification_settings: this.props.notification_settings})
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (this.props.notification_settings !== nextProps.notification_settings) {
-      this.setState({favorite_addresses: nextProps.favorite_addresses(),
-                     notification_settings: nextProps.notification_settings})
-    } else {
-      this.setState({favorite_addresses: nextProps.favorite_addresses()})
-    }
-  }
-
-  componentWillUnmount() {
-    const { notification_settings } = this.state;
-    this.updateNotificationSettings(notification_settings)
-  }
-
-  handleChange = (e) => {
-    this.setState({ [e.target.name] : e.target.value });
-  }
-
-  setAddress = (name, location) => {
-    this.setState({ address: name, location: location });
-  }
-
-  changeTheme = (e) => {
-    localStorage.setItem('dark', e.target.checked)
-    window.location.reload()
-  }
-
-  updateNotificationSettings = (data) => {
-    axios.patch('notification_settings', { notification_settings: data })
-      .then((res) => {
-        this.props.updateNotificationSettings(this.state.notification_settings)
-      })
-      .catch((error) => {
-        if (error.response) alert(error.response.data.errors)
-    })
-  }
-
-  changeNotificationSettings = (e) => {
-    let { notification_settings } = this.state;
-
-    if (e.currentTarget.checked) {
-      notification_settings.push(e.currentTarget.value)
-    } else {
-      notification_settings = notification_settings.filter((x) => { return x !== e.currentTarget.value})
-    }
-
-    this.setState({notification_settings: notification_settings})
-  }
-
+  
   render() {
-    const { showing, notification_settings } = this.state;
-
     return (
       <div>
         <header>{i18n.profile_page.header}</header>
         <section class='profile'>
-          <Tabs />
+          <Tabs
+            favorite_addresses={() => this.props.favorite_addresses()}
+            notification_settings={this.props.notification_settings}
+            updateFavoriteAddresses={this.props.updateFavoriteAddresses}
+            updateNotificationSettings={this.props.updateNotificationSettings}
+            geocode={this.props.geocode}
+            language={this.props.language}
+            isGeocoding={this.props.isGeocoding}
+            setGeocoding={this.props.setGeocoding}
+            setAddress={this.setAddress}
+            setLanguage={this.props.setLanguage}
+          />
         </section>
       </div>
     )
   }
 
-  favoriteAddressesList = () => {
-    if (this.state.favorite_addresses.length > 0) {
-      return(
-        <ul class='favorite_addresses'>
-          { this.state.favorite_addresses.map((address, i) => {
-            return(
-              <li>
-                <span>{address.name} ({address.address})</span>
-                <button class='x-card' type='button' onClick={() => this.delete(address.id, i)}><Close fill='#a925ad'/></button>
-              </li>
-            )
-          })}
-        </ul>
-      )
-    } else {
-      return(<div><h5 class='nocards center'>{i18n.profile_page.no_addresses}</h5></div>)
-    }
-  }
-
-  newForm = () => {
-    return(
-      <form id="newFavoriteAddressForm" onsubmit={(e) => e.preventDefault()}>
-        <input required class="address" type="text" name="name" placeholder={i18n.profile_page.type_name} value={this.state.name} onChange={this.handleChange} />
-        <AddressInput
-          hideRemove={true}
-          setAddress={this.setAddress}
-          favorite_addresses={() => []}
-          placeholder={i18n.profile_page.placeholder}
-          geocode={this.props.geocode}
-          language={this.props.language}
-          isGeocoding={this.props.isGeocoding}
-          setGeocoding={this.props.setGeocoding}
-        />
-        <button class="button add_fav_address" type="button" disabled={this.state.disabled} onClick={this.create}>OK</button>
-        <input type="submit" onClick={this.create} hidden/>
-      </form>
-    )
-  }
-
-  create = (e) => {
-    let self = this;
-    if (!e.target.form.checkValidity()) return e.target.form.reportValidity();
-    this.setState({ disabled: true });
-    axios.post('/favorite_addresses', {
-      name: self.state.name,
-      location: self.state.location,
-      address: self.state.address
-    })
-    .then( response => {
-      this.setState({
-        showing: false,
-        name: '',
-        address: '',
-        disabled: false
-      });
-      this.props.updateFavoriteAddresses([...this.state.favorite_addresses, response.data])
-    })
-    .catch( error => {
-      this.setState({ disabled: false })
-      if (error.response) alert(error.response.data.errors)
-    });
-  }
-
-  delete = (id, index) => {
-    if (!confirm(i18n.are_you_sure)) return;
-    let favorite_addresses = this.state.favorite_addresses
-
-    axios.delete(`favorite_addresses/${id}`).then((address) => {
-      favorite_addresses.splice(index, 1)
-      this.setState({favorite_addresses: favorite_addresses})
-    }).catch((error) => {
-      if (error.response) alert(error.response.data.errors)
-    })
-  }
 }

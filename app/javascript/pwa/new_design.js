@@ -636,7 +636,7 @@ export default class NewDesign extends Component {
             return (
               <AddressInput setAddress={this.setAddress}
                             eraseAddress={this.eraseAddress}
-                            favorite_addresses={this.props.favorite_addresses}
+                            favorite_addresses={() => this.props.favorite_addresses()}
                             language={this.props.language}
                             coords={trip.waypoints[i]}
                             readonly={ ![CONFIRM_UPDATE_TRIP, CANCELED, CANCELED_BY_DRIVER, undefined].includes(trip.status) && i == 0 }
