@@ -26,7 +26,7 @@ fieldset.address {
 
 @media screen and (min-width: 999px) {
   fieldset.address, fieldset.address ul.predictions {
-    width: 33vw;
+    width: 30vw;
   }
 }
 
