@@ -1,4 +1,4 @@
-section.profile {
+section.8ofile {
   max-width: 610px;
 }
 
@@ -13,6 +13,22 @@ section.profile::-webkit-scrollbar {
 ul.places li {
   padding-right: 10%;
   position: relative;
+}
+
+ul.places li span {
+  overflow-x: auto;
+}
+
+ul.places li button {
+  width: 5%;
+  min-width: 15px;
+  height: auto;
+  background: none;
+}
+
+ul.places li button svg {
+  height: 100%;
+  width: 100%;
 }
 
 ul.places li span.address {
@@ -111,6 +127,48 @@ input.custom-checkbox ~ .custom-checkbox__label-title {
   width: 100%;
   white-space: break-spaces;
   padding-left: 5px;
+}
+
+input.custom-checkbox + label:before {
+  content: '';
+  display: inline-block;
+  position: relative;
+  height: 15px;
+  width: 15px;
+  border: 2px solid #19a160;
+  border: 2px solid var(--green);
+  transition: background-color .3s, box-shadow .3s;
+  margin-right: 10px;
+  vertical-align: middle;
+  user-select: none;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.16);
+  box-shadow: var(--shadow);
+  background-color: transparent;
+}
+
+input.custom-checkbox:checked + label:before {
+  background-color: #19a160;
+  background-color: var(--green);
+}
+
+input.custom-checkbox:focus + label:before {
+  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+  box-shadow: var(--focus-shadow);
+}
+
+input.custom-checkbox:checked + label:after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 5px;
+  width: 11px;
+  height: 5px;
+  border-left: 2px solid white;
+  border-bottom: 2px solid white;
+  border-radius: 2px;
+  transform-origin: 30% 50%;
+  transform: translateY(-50%) rotate(-50deg);
+  z-index: 1;
 }
 
 .center {
@@ -430,6 +488,8 @@ input.custom-checkbox ~ .custom-checkbox__label-title {
   height: calc(100% - var(--vh, 1vh) * 8.7);
   padding-top: 5.1vh;
   padding-top: calc(var(--vh, 1vh) * 5.1);
+  font-size: 2.6vh;
+  font-size: calc(var(--vh, 1vh) * 2.6);
 }
 
 .profile .tabs__holder {
@@ -462,9 +522,9 @@ input.custom-checkbox ~ .custom-checkbox__label-title {
   justify-content: center;
   width: 33%;
   height: 100%;
+  font-weight: 100;
   font-size: 2.6vh;
   font-size: calc(var(--vh, 1vh) * 2.6);
-  font-weight: 100;
   color: var(--font_color_2);
   border: none;
   border-radius: inherit;
@@ -493,7 +553,6 @@ input.custom-checkbox ~ .custom-checkbox__label-title {
   -webkit-flex-wrap: nowrap;
   flex-wrap: nowrap;
   z-index: 10;
-  padding-top: calc(var(--vh, 1vh) * 7);
 }
 
 .profile .tabs__content::-webkit-scrollbar {
@@ -510,15 +569,15 @@ input.custom-checkbox ~ .custom-checkbox__label-title {
   z-index: 1;
   height: 100%;
   width: 33.3%;
-  font-size: calc(var(--vh, 1vh) * 2.6);
   color: white;
   font-weight: 500;
   background: var(--green);
   box-shadow: inset -1px -1px 17px -4px rgba(0, 0, 0, 0.3);
-  border-radius: 20px;
+  border-radius: inherit;
+  will-change: transform;
  }
 
-.profile .tab__content {
+.profile .tab-content {
   width: 100%;
   flex: 0 0 auto;
   overflow-y: auto;
@@ -526,37 +585,132 @@ input.custom-checkbox ~ .custom-checkbox__label-title {
   scroll-snap-type: y;
 }
 
-.profile .tab__holder {
+.profile .tab-content__holder {
+  width: 100%;
+  padding: 0 5%;
+  overflow-x: hidden;
+}
+
+.profile .tab-content .tab-content__container {
+  width: 100%;
+  color: #233038;
+  color: var(--font_color_2);
+  padding: 6% 7%;
+  border-radius: 15px;
+  box-shadow: 3px 3px 12px var(--shadow_color), inset -3px -3px 10px -1px rgba(0, 0, 0, 0.2);
+  background: rgba(255, 255, 255, .5);
+  margin-top: 7vh;
+  margin-top: calc(var(--vh, 1vh) * 7);
+}
+
+.tab-content__container fieldset.address {
+  margin: 0;
+}
+
+.tab-content__container input.address {
+  margin: 3% 0;
+  font-size: 2.6vh;
+  font-size: calc(var(--vh, 1vh) * 2.6);
+}
+
+.profile .tab-content .tab-content__container:last-of-type {
+  margin-bottom: 7vh;
+  margin-bottom: calc(var(--vh, 1vh) * 7);
+}
+
+.profile .tab-content .tab-content__container label {
+  font-weight: 100;
+  font-size: 2.6vh;
+  font-size: calc(var(--vh, 1vh) * 2.6);
+}
+
+.tab-content__items {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   width: 100%;
 }
 
-.profile .tab__content .tab__container {
-  widht: 100%;
-  padding: 35px 0;
-  color: #233038;
-  color: var(--font_color_2);
-  cursor: pointer;
-  border-radius: 15px;
-  background: rgba(255, 255, 255, .5);
-  box-shadow: 5px 3px 12px var(--shadow_color), inset 1px 0px 2px var(--white);
+.tab-content__items span {
+  color: rgba(119, 119, 119, .7);
 }
 
-.profile .tab__content .tab__container:hover {
-  box-shadow: 2px 2px 5px var(--shadow_color), inset 2px 2px 5px var(--white);
+.tab-content__label-container {
+  display: flex;
+  width: 50%;
 }
 
-.profile .tab__content .tab__container:active {
-  box-shadow: inset 2px 2px 5px var(--shadow_color), inset -2px -2px 5px var(--white);
+.tab-content__label-container:last-of-type {
+  justify-content: flex-end;
 }
 
-#settings {
-  background: blue;
+.tab-content__label-container label {
+  display: flex;
+  align-items: baseline;
 }
 
-#bonuses {
-  background: red;
+.tab-content__label-container label.theme-checkbox {
+
 }
 
-#statistics {
-  background: green;
+.tab-content__header {
+  padding-bottom: 3%;
+  text-align: center;
+  font-weight: 500;
+}
+
+.tab-content__container-items {
+  display: flex;
+  flex-direction: column;
+}
+
+.tab-content__container-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 3% 0;
+  border-top: 2px solid rgba(119, 119, 119, .2);
+}
+
+.tab-content__container-item:last-of-type {
+  border-bottom: 2px solid rgba(119, 119, 119, .2);
+}
+
+.tab-content__container-item input[type='checkbox']:checked ~ label.label-switcher:before {
+  top: 0;
+  left: calc(100% - 2.6vh);
+  left: calc(100% - (var(--vh, 1vh) * 2.6));
+  background: var(--green);
+}
+
+.tab-content__container-item label.label-switcher {
+  width: 5.2vh;
+  width: calc(var(--vh, 1vh) * 5.2);
+  height: 2.6vh;
+  height: calc(var(--vh, 1vh) * 2.6);
+  background: rgba(209, 209, 209, .5);
+  border-radius: 20px;
+  box-shadow: inset 3px 2px 8px var(--shadow_color), inset -2px -1px 4px var(--white);
+}
+
+.tab-content__container-item label.label-switcher:before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 2.6vh;
+  height: calc(var(--vh, 1vh) * 2.6);
+  width: 2.6vh;
+  width: calc(var(--vh, 1vh) * 2.6);
+  border-radius: 50%;
+  background: var(--white);
+  transition: all .4s;
+  box-shadow: inset -6px 0px 4px -4px rgba(0, 0, 0, 0.3);
+}
+
+.profile .tab-content::-webkit-scrollbar,
+ul.places > li > span::-webkit-scrollbar {
+  width: 0;
+  height: 0;
 }

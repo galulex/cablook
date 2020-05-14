@@ -84,7 +84,7 @@ export default class Settings extends Component {
           { this.state.favorite_addresses.map((address, i) => {
             return(
               <li class='tab-content__container-item'>
-                <span class='address'>{address.name} ({address.address})</span>
+                <span>{address.name} ({address.address})</span>
                 <button class='x-card' type='button' onClick={() => this.delete(address.id, i)}><Close /></button>
               </li>
             )
@@ -99,18 +99,8 @@ export default class Settings extends Component {
   newForm = () => {
     return(
       <form id="newFavoriteAddressForm" onsubmit={(e) => e.preventDefault()}>
-        <input
-          id='name'
-          required
-          class="address"
-          type="text"
-          name="name"
-          placeholder={i18n.profile_page.type_name}
-          value={this.state.name}
-          onChange={this.handleChange}
-        />
+        <input required class="address" type="text" name="name" placeholder={i18n.profile_page.type_name} value={this.state.name} onChange={this.handleChange} />
         <AddressInput
-          id='addressInput'
           hideRemove={true}
           setAddress={this.setAddress}
           favorite_addresses={() => []}
@@ -119,9 +109,8 @@ export default class Settings extends Component {
           language={this.props.language}
           isGeocoding={this.props.isGeocoding}
           setGeocoding={this.props.setGeocoding}
-          ref={input => this.addressInput = input}
         />
-        <button class="button green add_fav_address" type="button" disabled={this.state.disabled} onClick={this.create}>OK</button>
+        <button class="button add_fav_address" type="button" disabled={this.state.disabled} onClick={this.create}>OK</button>
         <input type="submit" onClick={this.create} hidden/>
       </form>
     )
@@ -130,7 +119,6 @@ export default class Settings extends Component {
   create = (e) => {
     let self = this
     if (!e.target.form.checkValidity()) return e.target.form.reportValidity()
-    this.contentContainer.style.marginBottom = 'calc(var(--vh, 1vh) * 7)'
     this.setState({ disabled: true })
     axios.post('/favorite_addresses', {
       name: self.state.name,
@@ -164,14 +152,6 @@ export default class Settings extends Component {
     })
   }
 
-  onAddClick = () => {
-    setTimeout(() => {
-      this.addressInput.input.focus()
-    }, 10)
-    this.setState({ showing: !this.state.showing, name: '⭐' })
-    this.contentContainer.style.marginBottom = 'calc(var(--vh, 1vh) * 30)'
-  }
-
   render() {
     const { showing, notification_settings } = this.state
 
@@ -181,10 +161,9 @@ export default class Settings extends Component {
           <div class='tab-content__items'>
             <div class='tab-content__label-container'>
               <input id='dark' class='custom-checkbox' type='checkbox' value='dark' onChange={this.changeTheme} checked={window.dark}/>
-              <label for='dark' class='custom-checkbox__label'></label>
-              <label for='dark' class='custom-checkbox__label-title'>{i18n.profile_page.theme}</label>
+              <label for='dark'>{i18n.profile_page.theme}</label>
             </div>
-            <span>|</span>
+            <span> | </span>
             <div class='tab-content__label-container'>
               <label for='language'>{i18n.profile_page.language}</label>
               <select onChange={this.props.setLanguage} id='language'>
@@ -196,12 +175,12 @@ export default class Settings extends Component {
           </div>
         </div>
         <div class='tab-content__container'>
-          <div class='tab-content__header'>{i18n.profile_page.notifications}</div>
-          <div class='tab-content__container-items notification__settings'>
+          <div class='tab-content__header'>Notifications</div>
+          <div class='tab-content__container-items'>
             {['accept_trip', 'decline_trip', 'waiting_client'].map((value) => {
               return(
                 <div class='tab-content__container-item'>
-                  <input id={value} type='checkbox' class='checkbox-switcher' value={value} onChange={this.changeNotificationSettings} checked={notification_settings.includes(value)}/>
+                  <input id={value} type='checkbox' value={value} onChange={this.changeNotificationSettings} checked={notification_settings.includes(value)}/>
                   <label for={value} class='label-header'>{i18n.profile_page.notification_names[value]}</label>
                   <label for={value} class='label-switcher'/>
                 </div>
@@ -209,10 +188,10 @@ export default class Settings extends Component {
             })}
           </div>
         </div>
-        <div class='tab-content__container' ref={el => this.contentContainer = el}>
-          <div class='tab-content__header'>{i18n.profile_page.places}</div>
+        <div class='tab-content__container'>
+          <div class='tab-content__header'>Places</div>
           { this.favoriteAddressesList() }
-          { showing ? this.newForm() : <button class='button green add_fav_address' type='button' onClick={this.onAddClick}>+ {i18n.profile_page.add_address}</button> }
+          { showing ? this.newForm() : <button class='button add_fav_address' type='button' onClick={() => this.setState({ showing: !showing })}>+ {i18n.profile_page.add_address}</button> }
         </div>
       </div>
     )
