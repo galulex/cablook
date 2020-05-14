@@ -2,19 +2,21 @@ input.address {
   display: block;
   width: 90%;
   border: none;
-  background: transparent;
+  background: rgba(233, 238, 237, .5);
   padding: 10px 25px 10px 10px;
   font-size: 18px;
   color: #312d50;
   color: var(--navy);
   font-weight: 100;
   margin: 0 3% 0 7%;
-  border-radius: 0;
-  box-shadow: none;
-  transition: color .3s;
+  border-radius: 15px;
+  box-shadow: inset 3px 2px 8px var(--shadow_color), inset -2px -1px 4px var(--white);
+  transition: all .3s;
 }
 
+
 input.address:focus {
+  box-shadow: inset 1px 1px 2px var(--shadow_color), inset -1px -1px 2px var(--white);
   outline: none;
 }
 
@@ -230,42 +232,6 @@ label {
   cursor: pointer
 }
 
-input[type='checkbox'] + label:after {
-  content: '';
-  background-color: transparent;
-  border: 2px solid #19a160;
-  border: 2px solid var(--green);
-  padding: 9px;
-  display: inline-block;
-  position: relative;
-  transition: background-color .3s, box-shadow .3s;
-  margin: 10px 0px 12px 10px;
-  vertical-align: middle;
-  user-select: none;
-  box-shadow: 0 3px 6px rgba(0,0,0,0.16);
-  box-shadow: var(--shadow);
-}
-
-input[type='checkbox']:checked + label:after {
-  background-color: #19a160;
-  background-color: var(--green);
-}
-
-input[type='checkbox']:focus + label:after {
-  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
-  box-shadow: var(--focus-shadow);
-}
-
-input[type='checkbox']:checked + label:before {
-  width: 11px;
-  height: 5px;
-  border-left: 2px solid white;
-  border-bottom: 2px solid white;
-  border-radius: 2px;
-  transform-origin: 30% 50%;
-  z-index: 1;
-}
-
 .profile .nocall label {
   display: flex;
   justify-content: flex-end;
@@ -278,17 +244,6 @@ input[type='checkbox']:checked + label:before {
 
 .profile .nocall input {
   left: 1px;
-}
-
-input[type='checkbox'] + label:before {
-  content: '';
-  width: 0px;
-  height: 0px;
-  position: absolute;
-  right: 3px;
-  top: 50%;
-  transform: translateY(-50%) rotate(-50deg);
-  border: none;
 }
 
 svg.map-pick {

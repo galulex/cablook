@@ -7,7 +7,7 @@ import './css/cards.css'
 import CardsIcon from './images/credit-cards-payment.js'
 import Visa from './images/visa.svg'
 import MasterCard from './images/mastercard.svg'
-import Close from './images/times-circle.svg'
+import Close from './images/close.js'
 
 export default class Cards extends Component {
   constructor(props) {
