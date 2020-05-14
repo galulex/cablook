@@ -166,7 +166,6 @@ svg.running {
   width: calc(100% - 130px);
   border-radius: 10px;
   color: white;
-  box-shadow: inset -2px -1px 4px var(--shadow_color);
 }
 
 .buttons  button.button.fixed {
