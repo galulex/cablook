@@ -10,7 +10,39 @@ section.new_design {
 }
 
 fieldset.address {
-  margin: 5px 0;
+  box-shadow: inset 3px 2px 8px #24293038, inset -2px -1px 4px white;
+  box-shadow: inset 3px 2px 8px var(--shadow_color), inset -2px -1px 4px var(--white);
+  transition: .3s box-shadow;
+  background: rgba(238, 246, 251, 0.8);
+  background: var(--input_bg_color_transparent);
+  color: var(--font_color_1);
+  border-radius: 10px;
+  width: 65vw;
+  margin: 0 auto 5% auto;
+}
+
+fieldset.address:focus-within {
+  box-shadow: inset 1px 1px 2px #24293038, inset -1px -1px 2px white;
+  box-shadow: inset 1px 1px 2px var(--shadow_color), inset -1px -1px 2px var(--white);
+}
+
+@media screen and (min-width: 630px) {
+  fieldset.address, fieldset.address ul.predictions {
+    width: 45vw;
+  }
+}
+
+@media screen and (min-width: 999px) {
+  fieldset.address, fieldset.address ul.predictions {
+    width: 30vw;
+  }
+}
+
+.option .trip-params {
+  margin-left: 44px;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 10px;
+  padding: 0 0 13px;
 }
 
 .search_logo {

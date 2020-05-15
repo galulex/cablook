@@ -52,7 +52,6 @@ ul.predictions {
   opacity: 0;
   overflow-y: auto;
   overflow-x: hidden;
-  border-radius: 15px;
 }
 
 li.prediction {
@@ -116,7 +115,7 @@ li.current_location svg {
 }
 
 li.prediction:hover {
-  background: rgba(0,0,0,0.2);
+  background: rgba(0,0,0,0.1);
 }
 
 svg.get-location, svg.add-address {
@@ -189,6 +188,13 @@ button.add-address {
   padding: 0;
   transition: opacity .3s;
   border-radius: 10px;
+  box-shadow: 5px 3px 12px var(--shadow_color), inset 1px 0px 2px var(--white);
+}
+
+button.add-address:focus, button.add-address:hover {
+  outline: none;
+  box-shadow: 2px 2px 5px var(--shadow_color), inset 2px 2px 5px var(--white);
+
 }
 
 button.add-address svg {
@@ -341,7 +347,8 @@ input.comment {
   width: 90%;
   margin: 0 auto;
   padding: 0 10px 0 10px;
-  background: var(--input_bg_color);
+  background: rgba(238, 246, 251, 0.8);
+  background: var(--input_bg_color_transparent);
   border: none;
   font-size: 13px;
   padding: 5px;
