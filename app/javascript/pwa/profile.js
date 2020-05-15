@@ -1,9 +1,7 @@
-import { h, render, Component } from 'preact'
-import axios from 'axios'
+import { h, Component } from 'preact'
 
 import i18n from './i18n.js'
 import './css/profile.css'
-import Bonus from '../pwa/bonus_trips.js'
 import Tabs from './tabs.js'
 
 export default class FavoriteAddresses extends Component {
@@ -63,6 +61,8 @@ export default class FavoriteAddresses extends Component {
             setGeocoding={this.props.setGeocoding}
             setAddress={this.setAddress}
             setLanguage={this.props.setLanguage}
+            bonus_trips={this.props.bonus_trips}
+            parent_bonus={this.props.parent_bonus}
           />
         </section>
       </div>

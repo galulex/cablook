@@ -2,6 +2,8 @@ import { h, Component } from 'preact'
 import i18n from '../pwa/i18n.js'
 
 import Settings from './tabs/settings.js'
+import Bonuses from './tabs/bonuses.js'
+import Statistics from './tabs/statistics.js'
 
 export default class Tabs extends Component {
   onScroll = (e) => {
@@ -54,10 +56,13 @@ export default class Tabs extends Component {
             />
           </div>
           <div class='tab-content'>
-
+            <Bonuses
+              bonus_trips={this.props.bonus_trips}
+              parent_bonus={this.props.parent_bonus}
+            />
           </div>
           <div class='tab-content'>
-
+            <Statistics />
           </div>
         </div>
       </div>

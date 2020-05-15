@@ -1,36 +1,32 @@
-ul.bonus-trips-list li div.bonus-badge {
+ul.bonus-trips-list li.bonus-iced span {
+  background: #efcc3a;
+  background: var(--orange);
+  color: #312d50;
+  color: var(--navy);
+}
+
+ul.bonus-trips-list li.bonus-fresh span {
+  background: #19a160 !important;
+  background: var(--green) !important;
+}
+
+ul.bonus-trips-list li span {
+  background: #a925ad;
+  background: var(--purple);
   border-radius: 50px;
   color: white;
   float: right;
-  height: 30px;
-  width: 30px;
+  height: 3.5vh;
+  height: calc(var(--vh, 1vh) * 4);
+  width: 3.5vh;
+  width: calc(var(--vh, 1vh) * 4);
   position: relative;
   text-align: center;
   font-weight: bold;
   line-height: 1.8;
-  font-size: 2vh;
-  font-size: calc(var(--vh, 1vh) * 2);
-  background: #312d50;
-  background: var(--navy);
+  font-size: 2.6vh;
+  font-size: calc(var(--vh, 1vh) * 2.6);
   box-shadow: inset 1px 1px 4px rgba(0, 0, 0, .4);
-}
-
-ul.bonus-trips-list li span.bonus-badge__text {
-  height: 100%;
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-48%, -52%);
-  font-size: 20px;
-}
-
-ul.bonus-trips-list li.bonus-iced div.bonus-badge {
-  background: #a47abf;
-}
-
-ul.bonus-trips-list li.bonus-fresh div.bonus-badge {
-  background: #19a160;
-  background: var(--green);
 }
 
 .referral-code {
