@@ -26,12 +26,10 @@ import i18n from '../pwa/i18n.js'
 import NewDesign from '../pwa/new_design.js';
 import Session from '../pwa/session.js';
 import Cards from '../pwa/cards.js';
-import Bonus from '../pwa/bonus_trips.js';
 import Contacts from '../pwa/contacts.js';
 import Trips from '../pwa/trips.js';
 import Drawer from '../pwa/drawer.js';
 import Prompt from '../pwa/prompt.js';
-import Statistics from '../pwa/statistics.js';
 import Profile from '../pwa/profile.js';
 import { messaging, firebaseAuth } from '../pwa/firebase.js'
 
@@ -379,10 +377,8 @@ export default class App extends Component {
               showFeedback={this.showFeedback}
               setActivateFeedback={this.setActivateFeedback}
             />
-            <Bonus path='/bonus_trips' bonus_trips={() => this.state.bonus_trips} parent_bonus={() => this.state.parent_bonus} />
             <Cards path='/cards' cards={() => this.state.cards} create={this.createCard} currentUserID={() => this.state.currentUserID} />
             <Contacts path='/contacts' />
-            <Statistics path='/statistics' />
             <Profile path='/profile'
               notification_settings={this.state.notification_settings}
               updateNotificationSettings={this.updateNotificationSettings}

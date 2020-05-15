@@ -138,7 +138,8 @@ const en = {
     how: 'How bonus works?',
     notice: 'Notice: You can apply someone`s code only once',
     success: 'Referral code is applied. Your friend will receive a free trip as soon as you make a trip',
-    your_code: 'Your referral code:',
+    your_code: 'Your referral code',
+    your_bonuses: 'Your bonuses',
     statuses: {
       iced: 'Frozen',
       fresh: 'Ready',
@@ -160,7 +161,8 @@ const en = {
     km: ' km',
     amount: 'Spent money',
     trips_count: 'Number of orders',
-    period: 'Select period',
+    period: 'Statistics period',
+    your_data: 'Your data',
     rate: 'Average rating',
     tips: 'Tips',
     uah: ' uah',
@@ -186,6 +188,11 @@ const en = {
       waiting_client: 'Waiting client',
       accept_trip: 'Accept trip',
       decline_trip: 'Decline trip'
+    },
+    tabs: {
+      settings: 'Settings',
+      bonuses: 'Bonuses',
+      statistics: 'Statistics'
     }
   },
   vendors_page: {

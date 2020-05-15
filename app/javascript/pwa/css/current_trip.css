@@ -55,6 +55,7 @@ ul.predictions {
 }
 
 li.prediction {
+  width: 100%;
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
@@ -244,10 +245,11 @@ label {
 
 svg.map-pick {
   position: absolute;
-  right: 10px;
-  top: 15px;
-  width: 19px;
-  height: 12px;
+  right: 3px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 25px;
+  height: 25px;
   cursor: pointer;
 }
 
