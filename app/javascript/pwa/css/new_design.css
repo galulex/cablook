@@ -309,7 +309,7 @@ svg.cross path:nth-of-type(2) {
 }
 
 input:checked + svg.cross path:nth-of-type(2) {
-  fill: #a925ad;
+  fill: #cc0d32;
 }
 
 .star-icon.blank path {
