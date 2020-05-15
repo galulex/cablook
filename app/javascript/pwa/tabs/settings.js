@@ -84,7 +84,7 @@ export default class Settings extends Component {
           { this.state.favorite_addresses.map((address, i) => {
             return(
               <li class='tab-content__container-item'>
-                <span>{address.name} ({address.address})</span>
+                <span class='address'>{address.name} ({address.address})</span>
                 <button class='x-card' type='button' onClick={() => this.delete(address.id, i)}><Close /></button>
               </li>
             )
@@ -161,9 +161,9 @@ export default class Settings extends Component {
           <div class='tab-content__items'>
             <div class='tab-content__label-container'>
               <input id='dark' class='custom-checkbox' type='checkbox' value='dark' onChange={this.changeTheme} checked={window.dark}/>
-              <label for='dark'>{i18n.profile_page.theme}</label>
+              <label for='dark' class='custom-checkbox__label'></label>
+              <label for='dark' class='custom-checkbox__label-title'>{i18n.profile_page.theme}</label>
             </div>
-            <span> | </span>
             <div class='tab-content__label-container'>
               <label for='language'>{i18n.profile_page.language}</label>
               <select onChange={this.props.setLanguage} id='language'>
@@ -180,7 +180,7 @@ export default class Settings extends Component {
             {['accept_trip', 'decline_trip', 'waiting_client'].map((value) => {
               return(
                 <div class='tab-content__container-item'>
-                  <input id={value} type='checkbox' value={value} onChange={this.changeNotificationSettings} checked={notification_settings.includes(value)}/>
+                  <input id={value} type='checkbox' class='checkbox-switcher' value={value} onChange={this.changeNotificationSettings} checked={notification_settings.includes(value)}/>
                   <label for={value} class='label-header'>{i18n.profile_page.notification_names[value]}</label>
                   <label for={value} class='label-switcher'/>
                 </div>
