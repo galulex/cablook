@@ -10,12 +10,20 @@ section.new_design {
 }
 
 fieldset.address {
-  background: rgba(0, 0, 0, 0.1);
+  box-shadow: inset 3px 2px 8px #24293038, inset -2px -1px 4px white;
+  box-shadow: inset 3px 2px 8px var(--shadow_color), inset -2px -1px 4px var(--white);
+  transition: .3s box-shadow;
+  background: rgba(238, 246, 251, 0.8);
+  background: var(--input_bg_color_transparent);
   color: var(--font_color_1);
   border-radius: 10px;
-  box-shadow: inset 3px 2px 8px var(--shadow_color);
   width: 65vw;
   margin: 0 auto 5% auto;
+}
+
+fieldset.address:focus-within {
+  box-shadow: inset 1px 1px 2px #24293038, inset -1px -1px 2px white;
+  box-shadow: inset 1px 1px 2px var(--shadow_color), inset -1px -1px 2px var(--white);
 }
 
 @media screen and (min-width: 630px) {
