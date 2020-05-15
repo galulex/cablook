@@ -61,6 +61,7 @@ ul.predictions {
 }
 
 li.prediction {
+  width: 100%;
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
@@ -180,7 +181,7 @@ label {
 
 svg.map-pick {
   position: absolute;
-  right: 10px;
+  right: 3px;
   top: 50%;
   transform: translateY(-50%);
   width: 25px;
