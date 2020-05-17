@@ -175,7 +175,7 @@ export default class Settings extends Component {
           </div>
         </div>
         <div class='tab-content__container'>
-          <div class='tab-content__header'>Notifications</div>
+          <div class='tab-content__header'>{i18n.profile_page.notifications}</div>
           <div class='tab-content__container-items notification__settings'>
             {['accept_trip', 'decline_trip', 'waiting_client'].map((value) => {
               return(
@@ -189,7 +189,7 @@ export default class Settings extends Component {
           </div>
         </div>
         <div class='tab-content__container'>
-          <div class='tab-content__header'>Places</div>
+          <div class='tab-content__header'>{i18n.profile_page.places}</div>
           { this.favoriteAddressesList() }
           { showing ? this.newForm() : <button class='button add_fav_address' type='button' onClick={() => this.setState({ showing: !showing })}>+ {i18n.profile_page.add_address}</button> }
         </div>
