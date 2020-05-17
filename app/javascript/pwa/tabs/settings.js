@@ -176,7 +176,7 @@ export default class Settings extends Component {
         </div>
         <div class='tab-content__container'>
           <div class='tab-content__header'>Notifications</div>
-          <div class='tab-content__container-items'>
+          <div class='tab-content__container-items notification__settings'>
             {['accept_trip', 'decline_trip', 'waiting_client'].map((value) => {
               return(
                 <div class='tab-content__container-item'>
