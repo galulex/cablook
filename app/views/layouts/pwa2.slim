@@ -157,7 +157,7 @@ html lang="#{I18n.locale}"
       section {
         max-width: 600px;
         width: 100%;
-        height: calc(100vh - 70px);
+        min-height: calc((var(--vh, 1vh) * 100) - 70px);
         overflow-y: auto;
         -webkit-overflow-scrolling: touch;
         margin-top: 70px;

@@ -2,7 +2,7 @@ import { h, render, Component } from 'preact';
 import axios from 'axios';
 
 import Star from '../images/star.js'
-import Tips from '../images/tips.svg'
+import Tips from '../images/tips.js'
 import Pin from '../images/pin.js'
 import Amount from '../images/trip_price.js'
 import Leaf from '../images/leaf_icon.js'
@@ -68,7 +68,7 @@ export default class Statistics extends Component {
         <div class='tab-content__container'>
           <div class='tab-content__header'>{i18n.statistics.your_data}</div>
           <div class='tab-content__container-items'>
-            <div class='tab-content__container-item'>
+            <div class='tab-content__container-item statistics__item'>
               <div class='statistics__container'>
                 <Pin class='statistics-icon'/>
                 {i18n.statistics.distance}
@@ -78,7 +78,7 @@ export default class Statistics extends Component {
                 {i18n.statistics.km}
               </span>
             </div>
-            <div class='tab-content__container-item'>
+            <div class='tab-content__container-item statistics__item'>
               <div class='statistics__container'>
                 <Amount class='statistics-icon'/>
                 {i18n.statistics.amount}
@@ -88,7 +88,7 @@ export default class Statistics extends Component {
                 {i18n.statistics.uah}
               </span>
             </div>
-            <div class='tab-content__container-item'>
+            <div class='tab-content__container-item statistics__item'>
               <div class='statistics__container'>
                 <Leaf class='statistics-icon'/>
                 {i18n.statistics.trips_count}
@@ -97,7 +97,7 @@ export default class Statistics extends Component {
                 {this.state.statistics.trips_count}
               </span>
             </div>
-            <div class='tab-content__container-item'>
+            <div class='tab-content__container-item statistics__item'>
               <div class='statistics__container'>
                 <Star class='statistics-icon'/>
                 {i18n.statistics.rate}
@@ -106,7 +106,7 @@ export default class Statistics extends Component {
                 {this.state.statistics.rate}
               </span>
             </div>
-            <div class='tab-content__container-item'>
+            <div class='tab-content__container-item statistics__item'>
               <div class='statistics__container'>
                 <Tips class='statistics-icon'/>
                 {i18n.statistics.tips}
