@@ -35,9 +35,17 @@ export default class Tabs extends Component {
         <div class="tabs__holder">
           <div class='tab__active' ref={el => this.activeTab = el}></div>
           <div class='tabs__container' ref={el => this.tabsContainer = el}>
-            <button class="tab__header active" onClick={this.onClick}>Settings</button>
-            <button class="tab__header" onClick={this.onClick}>Bonuses</button>
-            <button class="tab__header" onClick={this.onClick}>Statistics</button>
+            { 
+              Object.keys(i18n.profile_page.tabs).map((key, index) => {
+                return(
+                  <button
+                    class={`tab__header ${index === 0 ? 'active' : ''}`}
+                    onClick={this.onClick}>
+                      {i18n.profile_page.tabs[key]}
+                  </button>
+                )
+              })
+            }
           </div>
         </div>
         <div class="tabs__content" ref={el => this.tabsContent = el} onScroll={this.onScroll}>

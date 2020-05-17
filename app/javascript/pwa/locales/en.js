@@ -175,9 +175,9 @@ const en = {
   },
   profile_page: {
     header: 'Profile',
-    notification_settings: 'Notification settings:',
-    favorite_addresses: 'Your favorite addresses:',
-    no_addresses: 'You have no addresses',
+    notifications: 'Notifications',
+    places: 'Places',
+    no_addresses: 'You have no added places yet',
     add_address: 'Add Favorite Address',
     type_name: 'Type name ',
     placeholder: 'Type address or choose a place',

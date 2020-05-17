@@ -6,7 +6,6 @@ import '../css/bonus.css'
 
 export default class Bonuses extends Component {
   constructor(props) {
-    console.log(props)
     super(props)
     this.state = {
       bonus_trips: this.props.bonus_trips(),
