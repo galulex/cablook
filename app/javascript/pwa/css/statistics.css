@@ -41,3 +41,16 @@ svg.statistics-icon path {
   fill: #19a160;
   fill: var(--green);
 }
+
+.statistics__item {
+  overflow-y: auto;
+}
+
+.statistics__item span {
+  margin-left: 15px;
+  font-weight: 500;
+}
+
+.statistics__item::-webkit-scrollbar {
+  height: 0;
+}
