@@ -175,9 +175,9 @@ const ru = {
   },
   profile_page: {
     header: 'Профиль',
-    notification_settings: 'Настройки уведомлений:',
-    favorite_addresses: 'Ваши избранные адреса:',
-    no_addresses: 'У вас еще нет добавленных избранных адресов',
+    notifications: 'Уведомления',
+    places: 'Места',
+    no_addresses: 'У вас ещё нет добавленных мест',
     add_address: 'Добавить Адрес',
     type_name: 'Введите название ',
     placeholder: 'Введите адрес или выберите место',
@@ -188,6 +188,11 @@ const ru = {
       waiting_client: 'Водитель ожидает',
       accept_trip: 'Заказ принят',
       decline_trip: 'Заказ отменен'
+    },
+    tabs: {
+      settings: 'Настройки',
+      bonuses: 'Бонусы',
+      statistics: 'Статистика'
     }
   },
   vendors_page: {

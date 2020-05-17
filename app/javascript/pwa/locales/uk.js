@@ -175,9 +175,9 @@ const uk = {
   },
   profile_page: {
     header: 'Профіль',
-    notification_settings: 'Налаштування сповіщень:',
-    favorite_addresses: 'Ваші улюблені адреси:',
-    no_addresses: 'У вас ще немає доданих улюблених адрес',
+    notifications: 'Сповіщення',
+    places: 'Місця',
+    no_addresses: 'У вас ще немає доданих місць',
     add_address: 'Додати адресу',
     type_name: 'Введіть назву ',
     placeholder: 'Введіть адресу або виберіть місце',
@@ -188,6 +188,11 @@ const uk = {
       waiting_client: 'Водій очікує',
       accept_trip: 'Замовлення прийнято',
       decline_trip: 'Замовлення відмінено'
+    },
+    tabs: {
+      settings: 'Налаштування',
+      bonuses: 'Бонуси',
+      statistics: 'Статистика'
     }
   },
   vendors_page: {
