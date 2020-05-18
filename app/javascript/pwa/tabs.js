@@ -7,19 +7,17 @@ import Statistics from './tabs/statistics.js'
 
 export default class Tabs extends Component {
   onScroll = (e) => {
-    const target = e.target
     const tabs = document.querySelectorAll('.tab__header')
-    const scrollPercent = target.scrollLeft / target.offsetWidth * 100
-    const scrollCoefficient = scrollPercent % 33
-    let activeHeader = Number.isInteger(scrollCoefficient) ? tabs[scrollCoefficient] : null
-    if (activeHeader) this.setActiveClass(activeHeader)
-    this.activeTab.style.transform = `translateX(${scrollPercent}%)`
+    const scrollPercent = (this.tabsContent.scrollLeft / this.tabsContent.scrollWidth) * 100
+    const scrollCoefficient = Math.trunc(scrollPercent) % 33
+    if (scrollCoefficient === 0) this.setActiveClass(tabs[Math.trunc(scrollPercent) / 33])
+    this.activeTab.style.left= `${scrollPercent}%`
   }
 
   onClick = (e) => {
     const target = e.target
     const scrollCoefficient = target.offsetLeft / this.tabsContainer.offsetWidth
-    this.tabsContent.scrollTo({left: this.tabsContent.offsetWidth * 3 * scrollCoefficient})
+    this.tabsContent.scrollTo({left: this.tabsContent.scrollWidth * scrollCoefficient})
     this.setActiveClass(target)
   }
 
@@ -35,7 +33,7 @@ export default class Tabs extends Component {
         <div class="tabs__holder">
           <div class='tab__active' ref={el => this.activeTab = el}></div>
           <div class='tabs__container' ref={el => this.tabsContainer = el}>
-            { 
+            {
               Object.keys(i18n.profile_page.tabs).map((key, index) => {
                 return(
                   <button
