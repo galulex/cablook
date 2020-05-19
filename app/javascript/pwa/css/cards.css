@@ -1,14 +1,22 @@
+ul.cards {
+  margin: calc(var(--vh, 1vh) * 7) 0;
+}
+
 ul.cards li {
-  border-bottom: 1px solid #d1d1d1;
-  border-bottom: 1px solid var(--grey);
   position: relative;
 }
 
-ul.cards svg {
+ul.cards svg.card {
   vertical-align: middle;
   margin-right: 20px;
-  width: 64px;
-  height: 64px;
+  width: 80%;
+  height: auto;
+  border-radius: 20px;
+  box-shadow: 5px 3px 12px var(--shadow_color);
+}
+
+ul.cards svg text.text {
+  font-size: 2vh;
 }
 
 button.x-card {
@@ -17,20 +25,30 @@ button.x-card {
   appearance: none;
   position: absolute;
   right: 0;
-  top: 50%;
-  transform: translateY(-50%);
-  border-radius: 50%;
-  padding: 0;
-  width: 35px;
-  height: 35px;
+  top: 0;
+  border-radius: 10px;
+  padding: 10px;
+  min-width: 7vh;
+  min-height: 7vh;
   border: none;
   cursor: pointer;
   outline: none;
+  background: rgba(255, 255, 255, .8);
+  box-shadow: inset -2px -2px 9px 1px var(--shadow_color);
+  transition: all .1s;
+}
+
+button.x-card:hover {
+  box-shadow: inset -2px -2px 5px 1px var(--shadow_color);
+}
+
+button.x-card:active {
+  box-shadow: inset 2px 2px 5px 1px var(--shadow_color), inset -2px -2px 9px 1px var(--white);
 }
 
 button.x-card svg {
-  max-width: 100%;
-  max-height: 100%;
+  max-width: 60%;
+  min-width: 15px;
   margin: 0;
 }
 
