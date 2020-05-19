@@ -178,7 +178,7 @@ const ru = {
     notifications: 'Уведомления',
     places: 'Места',
     no_addresses: 'У вас ещё нет добавленных мест',
-    add_address: 'Добавить Адрес',
+    add_address: 'Добавить место',
     type_name: 'Введите название ',
     placeholder: 'Введите адрес или выберите место',
     theme: 'Темная тема',
