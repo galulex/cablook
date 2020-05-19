@@ -122,7 +122,7 @@ export default class Settings extends Component {
           setGeocoding={this.props.setGeocoding}
           ref={input => this.addressInput = input}
         />
-        <button class="button add_fav_address" type="button" disabled={this.state.disabled} onClick={this.create}>OK</button>
+        <button class="button green add_fav_address" type="button" disabled={this.state.disabled} onClick={this.create}>OK</button>
         <input type="submit" onClick={this.create} hidden/>
       </form>
     )
@@ -212,7 +212,7 @@ export default class Settings extends Component {
         <div class='tab-content__container'>
           <div class='tab-content__header'>{i18n.profile_page.places}</div>
           { this.favoriteAddressesList() }
-          { showing ? this.newForm() : <button class='button add_fav_address' type='button' onClick={this.onAddClick}>+ {i18n.profile_page.add_address}</button> }
+          { showing ? this.newForm() : <button class='button green add_fav_address' type='button' onClick={this.onAddClick}>+ {i18n.profile_page.add_address}</button> }
         </div>
       </div>
     )
