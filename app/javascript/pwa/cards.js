@@ -6,7 +6,7 @@ import Widget from './widget.js';
 import './css/cards.css'
 import CardsIcon from './images/credit-cards-payment.js'
 import Visa from './images/visa.svg'
-import MasterCard from './images/mastercard.svg'
+import MasterCard from './images/mastercard_light.js'
 import Close from './images/close.js'
 
 export default class Cards extends Component {
@@ -27,11 +27,11 @@ export default class Cards extends Component {
     this.setState({cards: this.props.cards()})
   }
 
-  renderCardType = (type) => {
+  renderCardType = (type, pan) => {
     if (type === 'Visa') {
       return(<Visa/>)
     } else {
-      return(<MasterCard/>)
+      return(<MasterCard pan={pan.split('****')} class='card'/>)
     }
   }
 
@@ -43,8 +43,7 @@ export default class Cards extends Component {
           { this.state.cards.map((card, i) => {
             if (card.user_id === this.props.currentUserID()) return(
               <li>
-                { this.renderCardType(card.type) }
-                <span>{card.pan}</span>
+                { this.renderCardType(card.type, card.pan) }
                 <button class='x-card' type='button' onClick={() => this.delete(card.id, i)}><Close fill='#a925ad'/></button>
               </li>
             )
