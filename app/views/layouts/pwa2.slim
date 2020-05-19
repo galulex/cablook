@@ -15,6 +15,7 @@ html lang="#{I18n.locale}"
         --navy: #312d50;
         --font_color_1: #777777;
         --font_color_2: #233038;
+        --font_color_3: #D4D4D4;
         --grey: #d1d1d1;
         --black: #1c1c1c;
         --shadow: 0 3px 6px rgba(0,0,0,0.16);
@@ -325,6 +326,11 @@ html lang="#{I18n.locale}"
         src: url("#{asset_path('Gilroy-Light.woff2')}");
         font-weight: 100;
         font-display: swap;
+      }
+
+      section::-webkit-scrollbar {
+        height: 0;
+        width: 0;
       }
 
       ::-webkit-scrollbar {
