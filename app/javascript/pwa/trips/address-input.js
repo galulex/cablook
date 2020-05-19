@@ -10,6 +10,8 @@ import Cablook  from '../images/cablook.svg'
 import Target from '../images/target.svg'
 import Location  from '../images/target.svg'
 
+let burgers, headers
+
 export default class AddressInput extends Component {
   constructor(props) {
     super(props)
@@ -109,14 +111,25 @@ export default class AddressInput extends Component {
     })
   }
 
+  checkElementsCount = () => {
+    burgers = document.getElementsByClassName('burger')
+    headers = document.querySelectorAll('header')
+    console.log(burgers.length > 1 && headers.length > 1)
+    return (burgers.length <= 1 && headers.length <= 1)
+  }
+
   openMap = (event) => {
     if (this.props.pickAddress) {
       event.target.classList.add('current')
       this.props.pickAddress(this.props.index)
       return
     }
+    this.setState({isShowMap: true}, () => {
+      if (this.checkElementsCount()) return
+      burgers[0].classList.add('hidden')
+      headers[0].classList.add('hidden')
+    })
 
-    this.setState({isShowMap: true})
     if (window.ios) return
     history.pushState(null, null,'/')
     window.addEventListener('popstate', this.handleBack, {once: true})
@@ -153,6 +166,9 @@ export default class AddressInput extends Component {
   handleBack = (event) => {
     this.setState({isShowMap: false})
     if (event) event.stopPropagation()
+    if (this.checkElementsCount()) return
+    burgers[0].classList.remove('hidden')
+    headers[0].classList.remove('hidden')
   }
 
   keydown = (e) => {

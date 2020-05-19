@@ -103,7 +103,7 @@ export default class MapPicker extends Component {
       position: "fixed",
       left: "0",
       right: "0",
-      top: "70px",
+      top: "0",
       bottom: "0",
       background: 'var(--map-bg)'
     };
