@@ -136,9 +136,8 @@ export default class MapPicker extends Component {
         <button
           type='button'
           class='button burger white-opacity'
-          onClick={() => window.ios ? this.props.handleBack() : window.history.back()}
-        >
-          <Back/>
+          onClick={() => window.ios ? this.props.handleBack() : window.history.back()}>
+            <Back/>
         </button>
         <div ref={el => this.mapContainer = el} style={style}  />
         { this.state.address_bar &&

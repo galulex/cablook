@@ -10,8 +10,6 @@ import Cablook  from '../images/cablook.svg'
 import Target from '../images/target.svg'
 import Location  from '../images/target.svg'
 
-let burgers, headers
-
 export default class AddressInput extends Component {
   constructor(props) {
     super(props)
