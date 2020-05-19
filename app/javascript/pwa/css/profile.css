@@ -41,6 +41,21 @@ ul.places li button svg {
   max-height: calc(var(--vh, 1vh) * 40);
 }
 
+.tab-content__container-item button.x-card {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  border-radius: 50%;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+  outline: none;
+}
+
 .tab-content__container-item button.x-card:hover,
 .tab-content__container-item button.x-card:focus {
   width: 4.5%;
