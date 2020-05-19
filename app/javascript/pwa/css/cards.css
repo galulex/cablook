@@ -1,25 +1,32 @@
 ul.cards {
-  margin: calc(var(--vh, 1vh) * 7) 0;
+  height: calc(100% - 70px);
+  overflow-y: auto;
 }
 
 ul.cards li {
   position: relative;
+  margin: 7vh 0;
 }
 
 ul.cards svg.card {
-  vertical-align: middle;
-  margin-right: 20px;
   width: 80%;
-  height: auto;
   border-radius: 20px;
-  box-shadow: 5px 3px 12px var(--shadow_color);
+  box-shadow: 10px 6px 12px var(--shadow_color);
 }
 
-ul.cards svg text.text {
-  font-size: 2vh;
+ul.cards svg.card:hover {
+  box-shadow: 5px 3px 6px var(--shadow_color);
 }
 
-button.x-card {
+ul.cards svg.card.light > text {
+  fill: var(--font_color_2);
+}
+
+ul.cards svg.card.dark > text {
+  fill: var(--font_color_3);
+}
+
+ul.cards button.x-card {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
@@ -34,19 +41,18 @@ button.x-card {
   cursor: pointer;
   outline: none;
   background: rgba(255, 255, 255, .8);
-  box-shadow: inset -2px -2px 9px 1px var(--shadow_color);
-  transition: all .1s;
-}
-
-button.x-card:hover {
   box-shadow: inset -2px -2px 5px 1px var(--shadow_color);
 }
 
-button.x-card:active {
+ul.cards button.x-card:hover {
+  box-shadow: inset -2px -2px 2px 1px var(--shadow_color);
+}
+
+ul.cards button.x-card:active {
   box-shadow: inset 2px 2px 5px 1px var(--shadow_color), inset -2px -2px 9px 1px var(--white);
 }
 
-button.x-card svg {
+ul.cards button.x-card svg {
   max-width: 60%;
   min-width: 15px;
   margin: 0;
@@ -72,4 +78,8 @@ svg.nocards {
 svg.nocards path {
   fill: white;
   fill: var(--white);
+}
+
+ul.cards::-webkit-scrollbar {
+  width: 0;
 }

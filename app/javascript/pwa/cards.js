@@ -5,8 +5,10 @@ import i18n from './i18n.js';
 import Widget from './widget.js';
 import './css/cards.css'
 import CardsIcon from './images/credit-cards-payment.js'
-import Visa from './images/visa.svg'
-import MasterCard from './images/mastercard_light.js'
+import MasterCardLight from './images/MC_light.js'
+import MasterCardDark from './images/MC_dark.js'
+import VisaDark from './images/VISA_dark.js'
+import VisaLight from './images/VISA_light.js'
 import Close from './images/close.js'
 
 export default class Cards extends Component {
@@ -29,9 +31,9 @@ export default class Cards extends Component {
 
   renderCardType = (type, pan) => {
     if (type === 'Visa') {
-      return(<Visa/>)
+      return(<VisaLight pan={pan.split('****')} class='card light'/>)
     } else {
-      return(<MasterCard pan={pan.split('****')} class='card'/>)
+      return(<MasterCardLight pan={pan.split('****')} class='card light'/>)
     }
   }
 
@@ -56,7 +58,7 @@ export default class Cards extends Component {
         <header>Cards</header>
         <section>
           { cardList }
-          <button class='button fixed' disabled={this.state.showWidget} type='button' onClick={() => this.showWidget(true)}>+ {i18n.cards.add}</button>
+          <button class='button green fixed' disabled={this.state.showWidget} type='button' onClick={() => this.showWidget(true)}>+ {i18n.cards.add}</button>
           { this.state.showWidget && <Widget createCard={this.create} showWidget={this.showWidget} /> }
         </section>
       </div>
