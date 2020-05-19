@@ -178,7 +178,7 @@ const uk = {
     notifications: 'Сповіщення',
     places: 'Місця',
     no_addresses: 'У вас ще немає доданих місць',
-    add_address: 'Додати адресу',
+    add_address: 'Додати місце',
     type_name: 'Введіть назву ',
     placeholder: 'Введіть адресу або виберіть місце',
     theme: 'Темна тема',
