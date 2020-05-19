@@ -178,7 +178,7 @@ const en = {
     notifications: 'Notifications',
     places: 'Places',
     no_addresses: 'You have no added places yet',
-    add_address: 'Add Favorite Address',
+    add_address: 'Add place',
     type_name: 'Type name ',
     placeholder: 'Type address or choose a place',
     theme: 'Dark Theme',

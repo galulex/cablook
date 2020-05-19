@@ -1,4 +1,4 @@
-import { h, render, Component } from 'preact'
+import { h, render, Component, createRef } from 'preact'
 import i18n from '../i18n.js'
 import axios from 'axios'
 
@@ -99,8 +99,19 @@ export default class Settings extends Component {
   newForm = () => {
     return(
       <form id="newFavoriteAddressForm" onsubmit={(e) => e.preventDefault()}>
-        <input required class="address" type="text" name="name" placeholder={i18n.profile_page.type_name} value={this.state.name} onChange={this.handleChange} />
+        <input
+          id='name'
+          required
+          class="address"
+          type="text"
+          name="name"
+          placeholder={i18n.profile_page.type_name}
+          value={this.state.name}
+          onChange={this.handleChange}
+          ref={input => this.name = input}
+        />
         <AddressInput
+          id='addressInput'
           hideRemove={true}
           setAddress={this.setAddress}
           favorite_addresses={() => []}
@@ -109,6 +120,7 @@ export default class Settings extends Component {
           language={this.props.language}
           isGeocoding={this.props.isGeocoding}
           setGeocoding={this.props.setGeocoding}
+          ref={input => this.addressInput = input}
         />
         <button class="button add_fav_address" type="button" disabled={this.state.disabled} onClick={this.create}>OK</button>
         <input type="submit" onClick={this.create} hidden/>
@@ -152,6 +164,15 @@ export default class Settings extends Component {
     })
   }
 
+  onAddClick = () => {
+    setTimeout(() => {
+      this.name.value = '⭐'
+      console.log(this.name, this.addressInput.input)
+      this.addressInput.input.focus()
+    }, 10)
+    this.setState({ showing: !this.state.showing })
+  }
+
   render() {
     const { showing, notification_settings } = this.state
 
@@ -164,13 +185,14 @@ export default class Settings extends Component {
               <label for='dark' class='custom-checkbox__label'></label>
               <label for='dark' class='custom-checkbox__label-title'>{i18n.profile_page.theme}</label>
             </div>
+            <span>|</span>
             <div class='tab-content__label-container'>
-              <label for='language'>{i18n.profile_page.language}</label>
               <select onChange={this.props.setLanguage} id='language'>
                 {Object.keys(LOCALES).map(key => {
                   return(<option value={key} selected={key == this.props.language}>{LOCALES[key]}</option>)
                 })}
               </select>
+              <label for='language'>{i18n.profile_page.language}</label>
             </div>
           </div>
         </div>
@@ -191,7 +213,7 @@ export default class Settings extends Component {
         <div class='tab-content__container'>
           <div class='tab-content__header'>{i18n.profile_page.places}</div>
           { this.favoriteAddressesList() }
-          { showing ? this.newForm() : <button class='button add_fav_address' type='button' onClick={() => this.setState({ showing: !showing })}>+ {i18n.profile_page.add_address}</button> }
+          { showing ? this.newForm() : <button class='button add_fav_address' type='button' onClick={this.onAddClick}>+ {i18n.profile_page.add_address}</button> }
         </div>
       </div>
     )
