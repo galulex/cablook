@@ -120,7 +120,7 @@ input.custom-checkbox ~ .custom-checkbox__label-title {
   appearance: none;
   margin-left: 5px;
   vertical-align: middle;
-  transition: all. 3s;
+  transition: all .3s;
   box-shadow: none;
 }
 

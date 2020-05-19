@@ -167,7 +167,6 @@ export default class Settings extends Component {
   onAddClick = () => {
     setTimeout(() => {
       this.name.value = '⭐'
-      console.log(this.name, this.addressInput.input)
       this.addressInput.input.focus()
     }, 10)
     this.setState({ showing: !this.state.showing })
