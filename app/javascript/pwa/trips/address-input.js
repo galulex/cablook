@@ -10,8 +10,6 @@ import Cablook  from '../images/cablook.svg'
 import Target from '../images/target.svg'
 import Location  from '../images/target.svg'
 
-let burgers, headers
-
 export default class AddressInput extends Component {
   constructor(props) {
     super(props)
@@ -112,11 +110,17 @@ export default class AddressInput extends Component {
     })
   }
 
-  checkElementsCount = () => {
-    burgers = document.getElementsByClassName('burger')
-    headers = document.querySelectorAll('header')
-    console.log(burgers.length > 1 && headers.length > 1)
-    return (burgers.length <= 1 && headers.length <= 1)
+  toggleElements = () => {
+    const burgers = document.getElementsByClassName('burger')
+    const headers = document.querySelectorAll('header')
+    if (burgers.length <= 1 && headers.length <= 1) return
+    if (burgers[0].classList.contains('hidden') && headers[0].classList.contains('hidden')) {
+      burgers[0].classList.remove('hidden')
+      headers[0].classList.remove('hidden')      
+    } else {
+      burgers[0].classList.add('hidden')
+      headers[0].classList.add('hidden')
+    }
   }
 
   openMap = (event) => {
@@ -125,12 +129,7 @@ export default class AddressInput extends Component {
       this.props.pickAddress(this.props.index)
       return
     }
-    this.setState({isShowMap: true}, () => {
-      if (this.checkElementsCount()) return
-      burgers[0].classList.add('hidden')
-      headers[0].classList.add('hidden')
-    })
-
+    this.setState({isShowMap: true}, () => { this.toggleElements() })
     if (window.ios) return
     history.pushState(null, null,'/')
     window.addEventListener('popstate', this.handleBack, {once: true})
@@ -167,9 +166,7 @@ export default class AddressInput extends Component {
   handleBack = (event) => {
     this.setState({isShowMap: false})
     if (event) event.stopPropagation()
-    if (this.checkElementsCount()) return
-    burgers[0].classList.remove('hidden')
-    headers[0].classList.remove('hidden')
+    this.toggleElements()
   }
 
   keydown = (e) => {
@@ -204,6 +201,7 @@ export default class AddressInput extends Component {
                                     geocode={geocode}
                                     isGeocoding={this.props.isGeocoding}
                                     setGeocoding={this.props.setGeocoding}
+                                    toggleElements={this.toggleElements}
                                   /> }
 
         <input required class='address' placeholder={placeholder} type='text' disabled={index === 0 ? inputDisabled : false}

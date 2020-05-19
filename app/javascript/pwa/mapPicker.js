@@ -98,6 +98,11 @@ export default class MapPicker extends Component {
     this.setState({ address_bar: false, address: '' })
   }
 
+  onPickAddress = () => {
+    this.props.onCloseMap(`${this.state.lat},${this.state.lng}`, this.state.address)
+    this.props.toggleElements()
+  }
+
   render() {
     const style = {
       position: "fixed",
@@ -126,9 +131,8 @@ export default class MapPicker extends Component {
         <button
           type='button'
           class='button burger white-opacity'
-          onClick={() => window.ios ? this.props.handleBack() : window.history.back()}
-        >
-          <Back/>
+          onClick={() => window.ios ? this.props.handleBack() : window.history.back()}>
+            <Back/>
         </button>
         <div ref={el => this.mapContainer = el} style={style}  />
         { this.state.address_bar &&
@@ -136,11 +140,11 @@ export default class MapPicker extends Component {
         }
         <Pin class='picker-pin'/>
         <button type='button'
-                disabled={this.props.isGeocoding}
-                class='button fixed'
-                onClick={() => { this.props.onCloseMap(`${this.state.lat},${this.state.lng}`, this.state.address) }}>
-                OK
-                </button>
+          disabled={this.props.isGeocoding}
+          class='button green fixed'
+          onClick={this.onPickAddress}>
+            OK
+        </button>
       </div>
     );
   }

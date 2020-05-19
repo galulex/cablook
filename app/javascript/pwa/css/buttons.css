@@ -1,18 +1,19 @@
 .button {
-  background: transparent;
-  border: none;
-  color: var(--green);
-  font-size: 1.5rem;
-  font-weight: 500;
-  transition: box-shadow .3s;
-  box-shadow: 5px 3px 12px var(--shadow_color), inset 1px 0px 2px var(--white);
-  padding: 25px 0;
   width: 100%;
-  border-radius: 15px;
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
+  padding: 5% 0;
+  color: var(--green);
+  font-size: 2.6vh;
+  font-size: calc(var(--vh, 1vh) * 2.6);
+  font-weight: 500;
+  transition: all .1s;
   cursor: pointer;
+  border: none;
+  border-radius: 15px;
+  background: transparent;
+  box-shadow: 5px 3px 12px var(--shadow_color), inset 1px 0px 2px var(--white);
 }
 
 .button:hover, .button:focus {
@@ -23,6 +24,15 @@
 .button.green {
   background: var(--green);
   color: var(--white);
+  box-shadow: inset -5px -5px 5px 1px var(--shadow_color);
+}
+
+.button.green:hover {
+  box-shadow: inset -2px -2px 5px 1px var(--shadow_color);
+}
+
+.button.green:active {
+  box-shadow: inset 5px 5px 5px 1px var(--shadow_color);
 }
 
 .button.white-opacity {
@@ -126,18 +136,4 @@
 .button.dark-color {
   color: #233038;
   color: var(--font_color_2);
-}
-
-@media screen and (max-width: 768px) {
-  .button {
-    padding: 20px 0;
-    font-size: 1.3rem;
-  }
-}
-
-@media screen and (max-width: 480px) {
-  .button {
-    padding: 15px 0;
-    font-size: 1rem;
-  }
 }
