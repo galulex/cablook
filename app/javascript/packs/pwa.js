@@ -73,12 +73,12 @@ export default class App extends Component {
   }
 
   componentDidMount() {
-    if (!localStorage.fcm_token) waitForToken = setInterval(this.waitForFCMToken, 3000)
     this.loadScript()
     if (window.ios) this.focusOutForIos()
     if (this.state.currentUser && this.state.currentUser.length !== 0) {
       this.fetchUser()
       this.checkOneSignalToken()
+      waitForToken = setInterval(this.waitForFCMToken, 3000)
       document.documentElement.style.setProperty('--body-bg', '#19a160')
     }
     this.registerServiceworker()
@@ -227,6 +227,9 @@ export default class App extends Component {
     if (!!data.email) localStorage.setItem('email', data.email)
     localStorage.setItem('phone', data.phone_number)
     axios.defaults.headers.common['Auth-Token'] = data.auth_token;
+    let fcmToken = localStorage.getItem("fcm_token");
+    if (fcmToken) this.sendTokenToServer(fcmToken)
+    this.checkOneSignalToken()
     this.fetchUser()
   }
 
