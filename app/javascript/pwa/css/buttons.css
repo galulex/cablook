@@ -3,7 +3,8 @@
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
-  padding: 5% 0;
+  padding: 2.6vh 0;
+  padding: calc(var(--vh, 1vh) * 2.6) 0;
   color: var(--green);
   font-size: 2.6vh;
   font-size: calc(var(--vh, 1vh) * 2.6);
@@ -22,17 +23,19 @@
 }
 
 .button.green {
-  background: var(--green);
+  color: white;
   color: var(--white);
-  box-shadow: inset -5px -5px 5px 1px var(--shadow_color);
+  background: #19a160;
+  background: var(--green);
+  box-shadow: 5px 3px 12px var(--shadow_color), inset -5px -5px 5px 1px var(--shadow_color);
 }
 
 .button.green:hover {
-  box-shadow: inset -2px -2px 5px 1px var(--shadow_color);
+  box-shadow: 2px 2px 5px var(--shadow_color), inset -2px -2px 5px 1px var(--shadow_color);
 }
 
 .button.green:active {
-  box-shadow: inset 5px 5px 5px 1px var(--shadow_color);
+  box-shadow: 2px 2px 5px var(--shadow_color), inset 5px 5px 5px 1px var(--shadow_color);
 }
 
 .button.white-opacity {
@@ -112,9 +115,4 @@
 
 .button.add_fav_address {
   margin-top: 20px;
-}
-
-.button.dark-color {
-  color: #233038;
-  color: var(--font_color_2);
 }

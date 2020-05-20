@@ -347,3 +347,8 @@ button.button.add-card {
   padding: 10px 30px 10px 5px;
   font-size: 14px;
 }
+
+ul.predictions::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}

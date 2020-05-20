@@ -28,7 +28,7 @@ export default class Buttons extends Component {
           </button> }
         { [CANCELED, CANCELED_BY_DRIVER, undefined, null].includes(status) && picker === null && !showFeedback() && (cards.length >= 1) &&
           <button
-            class='button fixed'
+            class='button green fixed'
             type='button'
             value={bonus}
             disabled={!isValid || paymentButtonDisabled}
