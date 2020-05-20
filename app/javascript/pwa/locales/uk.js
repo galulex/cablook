@@ -15,7 +15,8 @@ const uk = {
     no_cars_notice: 'Немає вільних машинок',
     on: 'на',
     will_arrive: 'приїде в',
-    waiting_notice: 'Водій вже чекає вас'
+    waiting_notice: 'Водій вже чекає вас',
+    header: 'Поїздка'
   },
   trips: {
     header: 'Поїздки',

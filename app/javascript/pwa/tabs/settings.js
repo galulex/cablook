@@ -108,7 +108,6 @@ export default class Settings extends Component {
           placeholder={i18n.profile_page.type_name}
           value={this.state.name}
           onChange={this.handleChange}
-          ref={input => this.name = input}
         />
         <AddressInput
           id='addressInput'
@@ -166,10 +165,9 @@ export default class Settings extends Component {
 
   onAddClick = () => {
     setTimeout(() => {
-      this.name.value = '⭐'
       this.addressInput.input.focus()
     }, 10)
-    this.setState({ showing: !this.state.showing })
+    this.setState({ showing: !this.state.showing, name: '⭐' })
   }
 
   render() {
@@ -186,12 +184,12 @@ export default class Settings extends Component {
             </div>
             <span>|</span>
             <div class='tab-content__label-container'>
+              <label for='language'>{i18n.profile_page.language}</label>
               <select onChange={this.props.setLanguage} id='language'>
                 {Object.keys(LOCALES).map(key => {
                   return(<option value={key} selected={key == this.props.language}>{LOCALES[key]}</option>)
                 })}
               </select>
-              <label for='language'>{i18n.profile_page.language}</label>
             </div>
           </div>
         </div>

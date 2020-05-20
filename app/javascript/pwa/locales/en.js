@@ -15,7 +15,8 @@ const en = {
     no_cars_notice: 'No cars available',
     on: 'on',
     will_arrive: 'will arrive at',
-    waiting_notice: 'Driver is already waiting for you'
+    waiting_notice: 'Driver is already waiting for you',
+    header: 'Your trip'
   },
   trips: {
     header: 'Trips',

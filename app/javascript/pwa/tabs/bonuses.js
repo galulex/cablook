@@ -42,7 +42,9 @@ export default class Bonuses extends Component {
               return(
                 <li class={`bonus-${bonus.status} tab-content__container-item`}>
                   <div>{i18n.bonuses.statuses[bonus.status]}</div>
-                  <span>{bonus.count}</span>
+                  <div class='bonus-badge'>
+                    <span class='bonus-badge__text'>{bonus.count}</span>
+                  </div>
                 </li>
               )
             })}
