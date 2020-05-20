@@ -12,19 +12,14 @@ module Jobs
       fcm = FCM.new(ENV['FCM_SERVER_KEY'])
       registration_ids = trip.user.devices.fcm.pluck(:token)
       options = {
+        mutable_content: true,
+        content_available: true,
+        badge: 9,
         notification: {
-          body: message,
           title: 'CabLook',
+          body: message,
           sound: 'default'
         },
-        apns: {
-          payload: {
-            aps: {
-              sound: 'default'
-            }
-          }
-        },
-        priority: 'high',
         data: {
           title: 'CabLook',
           body: message,
@@ -35,7 +30,8 @@ module Jobs
             id: trip.id.to_s,
             user_token: trip.user.auth_token
           }
-        }
+        },
+        priority: 'high'
       }
       case trip.status
       when Constants::Trip::STATUS_CODES[Constants::Trip::PENDING]
@@ -53,7 +49,8 @@ module Jobs
             }
           ]
         }
-        options[:data][:trip][:action] =  message == 'clear' ? 'remove_notifications' : 'retry'
+        options[:data][:trip][:action] = message == 'clear' ? 'remove_notifications' : 'retry'
+        options[:notification][:click_action] = 'cablook.retry'
       when Constants::Trip::STATUS_CODES[Constants::Trip::CANCELED]
         options[:data][:trip][:action] = 'remove_notifications'
       when Constants::Trip::STATUS_CODES[Constants::Trip::DRIVING]
@@ -78,6 +75,7 @@ module Jobs
           ]
         }
         options[:data][:trip][:action] = 'reply'
+        options[:notification][:click_action] = 'cablook.reply'
       else
       end
       fcm.send(registration_ids, options)
