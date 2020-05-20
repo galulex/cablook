@@ -102,6 +102,11 @@ export default class MapPicker extends Component {
     this.props.onCloseMap(`${this.state.lat},${this.state.lng}`, this.state.address)
     this.props.toggleElements()
   }
+  
+  onBackClick = () => {
+    this.props.toggleElements()
+    window.ios ? this.props.handleBack() : window.history.back()
+  }
 
   render() {
     const style = {
@@ -131,7 +136,7 @@ export default class MapPicker extends Component {
         <button
           type='button'
           class='button burger white-opacity'
-          onClick={() => window.ios ? this.props.handleBack() : window.history.back()}>
+          onClick={this.onBackClick}>
             <Back/>
         </button>
         <div ref={el => this.mapContainer = el} style={style}  />

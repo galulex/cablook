@@ -15,7 +15,8 @@ const ru = {
     no_cars_notice: 'Нет свободных машинок',
     on: 'на',
     will_arrive: 'приедет в',
-    waiting_notice: 'Водитель уже ожидает вас'
+    waiting_notice: 'Водитель уже ожидает вас',
+    header: 'Поездка'
   },
   trips: {
     header: 'Поездки',
