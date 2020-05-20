@@ -155,7 +155,11 @@ svg.running {
   box-shadow: inset -2px -1px 4px var(--shadow_color);
 
 }
-
+.mapboxgl-ctrl-group button:focus {
+  -webkit-border-radius: 5px!important;
+  -moz-border-radius: 5px!important;
+  border-radius: 5px!important;
+}
 .buttons {
   position: unset;
 }
