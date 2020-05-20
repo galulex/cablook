@@ -50,11 +50,22 @@
   margin: 0 auto;
   width: calc(100% - 60px);
   max-width: 540px;
+  background: var(--green);
+  background: #19a160;
+  color: white;
+
 }
 
 .button.cancel {
-  background: #a925ad;
-  background: var(--purple);
+  background: rgba(238, 246, 251, 0.5);
+  color: #cc0f34;
+  color: var(--crimsone-red);
+}
+
+.button.edit {
+  background: rgba(238, 246, 251, 0.5);
+  color: #efcc3a;
+  color: var(--orange);
 }
 
 .button.retry {
