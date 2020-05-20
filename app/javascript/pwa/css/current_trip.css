@@ -167,11 +167,6 @@ svg.running {
   padding: 12px 0;
   width: calc(100% - 130px);
   border-radius: 10px;
-  color: white;
-}
-
-.buttons  button.button.fixed {
-  background: var(--green);
 }
 
 button.add-address {

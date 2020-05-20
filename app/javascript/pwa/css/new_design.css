@@ -94,10 +94,6 @@ fieldset.address:focus-within {
   transition: height .3s;
 }
 
-.button.edit {
-  background: #efcc3a;
-  background: var(--orange);
-}
 
 .button.bonus {
   background: #efcc3a;
