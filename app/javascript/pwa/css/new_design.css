@@ -12,12 +12,12 @@ section.new_design {
 fieldset.address {
   box-shadow: inset 3px 2px 8px #24293038, inset -2px -1px 4px white;
   box-shadow: inset 3px 2px 8px var(--shadow_color), inset -2px -1px 4px var(--white);
-  transition: .3s box-shadow;
+  transition: .3s box-shadow, max-width .3s;
   background: rgba(238, 246, 251, 0.8);
   background: var(--input_bg_color_transparent);
   color: var(--font_color_1);
   border-radius: 10px;
-  width: 65vw;
+  max-width: 65vw;
   margin: 0 auto 5% auto;
 }
 
@@ -217,6 +217,10 @@ svg.pin-last path {
 
 .options.noscroll .option {
   scroll-snap-align: none;
+}
+
+.options.noscroll .address, .options.noscroll .predictions {
+  max-width: 75vw;
 }
 
 .option {
