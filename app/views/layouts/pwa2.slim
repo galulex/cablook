@@ -67,6 +67,7 @@ html lang="#{I18n.locale}"
         font-family: Gilroy, Helvetica, Arial, sans-serif;
         font-weight: 100;
         font-size: 2.6vh;
+        font-size: calc(var(--vh, 1vh) * 2.6);
         background: linear-gradient(to bottom, #d1d1d1, white);
         background: linear-gradient(to bottom, var(--grey), var(--white));
         background-attachment: fixed;
@@ -145,7 +146,7 @@ html lang="#{I18n.locale}"
         right: 0;
         background: transparent;
         text-align: center;
-        font-size: calc(1em + 1vw);
+        font-size: 6vw;
         color: #233038;
         color: var(--font_color_2);
         z-index: 100;
