@@ -6,22 +6,37 @@ import Bonuses from './tabs/bonuses.js'
 import Statistics from './tabs/statistics.js'
 
 export default class Tabs extends Component {
+  componentDidMount() {
+    this.tabsContent.addEventListener('scroll', this.onScroll, {passive: true});
+  }
+
+  componentDidUnmount() {
+    this.tabsContent.removeEventListener('scroll', this.onScroll, {passive: true});
+  }
+
   onScroll = (e) => {
+    let activeTab
     const tabs = document.querySelectorAll('.tab__header')
     const scrollPercent = (this.tabsContent.scrollLeft / this.tabsContent.scrollWidth) * 100
-    const scrollCoefficient = Math.trunc(scrollPercent) % 33
-    if (scrollCoefficient === 0) this.setActiveClass(tabs[Math.trunc(scrollPercent) / 33])
     this.activeTab.style.left= `${scrollPercent}%`
+    if (scrollPercent >= 50) {
+      activeTab = tabs[2]
+    } else if (scrollPercent >= 17) {
+      activeTab = tabs[1]
+    } else {
+      activeTab = tabs[0]
+    }
+    this.setActiveClass(activeTab)
   }
 
   onClick = (e) => {
     const target = e.target
     const scrollCoefficient = target.offsetLeft / this.tabsContainer.offsetWidth
-    this.tabsContent.scrollTo({left: this.tabsContent.scrollWidth * scrollCoefficient})
-    this.setActiveClass(target)
+    this.tabsContent.scrollTo({left: this.tabsContent.scrollWidth * scrollCoefficient, behavior: 'smooth'})
   }
 
   setActiveClass = (target) => {
+    if (target.classList.contains('active')) return
     const tabs = document.querySelectorAll('.tab__header')
     for(const tab of tabs) { if(tab.classList.contains('active')) tab.classList.remove('active') }
     target.classList.add('active')
@@ -46,7 +61,7 @@ export default class Tabs extends Component {
             }
           </div>
         </div>
-        <div class="tabs__content" ref={el => this.tabsContent = el} onScroll={this.onScroll}>
+        <div class="tabs__content" ref={el => this.tabsContent = el} >
           <div class='tab-content'>
             <Settings
               setLanguage={this.props.setLanguage}
