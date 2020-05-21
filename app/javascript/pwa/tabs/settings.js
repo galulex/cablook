@@ -130,6 +130,7 @@ export default class Settings extends Component {
   create = (e) => {
     let self = this
     if (!e.target.form.checkValidity()) return e.target.form.reportValidity()
+    this.contentContainer.style.marginBottom = 'calc(var(--vh, 1vh) * 7)'
     this.setState({ disabled: true })
     axios.post('/favorite_addresses', {
       name: self.state.name,
@@ -168,6 +169,7 @@ export default class Settings extends Component {
       this.addressInput.input.focus()
     }, 10)
     this.setState({ showing: !this.state.showing, name: '⭐' })
+    this.contentContainer.style.marginBottom = 'calc(var(--vh, 1vh) * 30)'
   }
 
   render() {
@@ -207,7 +209,7 @@ export default class Settings extends Component {
             })}
           </div>
         </div>
-        <div class='tab-content__container'>
+        <div class='tab-content__container' ref={el => this.contentContainer = el}>
           <div class='tab-content__header'>{i18n.profile_page.places}</div>
           { this.favoriteAddressesList() }
           { showing ? this.newForm() : <button class='button green add_fav_address' type='button' onClick={this.onAddClick}>+ {i18n.profile_page.add_address}</button> }
