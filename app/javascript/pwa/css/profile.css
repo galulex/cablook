@@ -42,13 +42,12 @@ ul.places li button svg {
 }
 
 input.custom-checkbox ~ .custom-checkbox__label {
-  height: 2.5vh;
-  height: calc(var(--vh, 1vh) * 2.5);
-  width: 2.5vh;
-  width: calc(var(--vh, 1vh) * 2.5);
-  min-height: 18px;
-  min-width: 18px;
-  align-self: end;
+  width: 3vw;
+  height: 3vw;
+  min-height: 15px;
+  min-width: 15px;
+  max-height: 20px;
+  max-width: 20px;
   border: 2px solid #19a160;
   border: 2px solid var(--green);
   transition: all .5s;
@@ -65,18 +64,17 @@ input.custom-checkbox:checked ~ .custom-checkbox__label {
   box-shadow: inset 0 0 2px 3px var(--shadow_color);
 }
 
-input.custom-checkbox:focus ~ .custom-checkbox__label,
-.custom-checkbox__label:hover {
-  box-shadow: inset 0px 0px 7px 4px var(--shadow_color);
+input.custom-checkbox:focus ~ .custom-checkbox__label {
+  box-shadow: inset 0px 0px 3px 1px var(--shadow_color);
 }
 
 input.custom-checkbox:checked + label:after {
   content: '';
   position: absolute;
-  top: 45%;
-  left: 50%;
-  height: 10px;
-  width: 5px;
+  top: 40%;
+  left: 47%;
+  height: 55%;
+  width: 20%;
   border: white solid;
   border-width: 0 2px 2px 0;
   transform: translateY(-50%) translateX(-50%) rotate(45deg);
@@ -84,6 +82,8 @@ input.custom-checkbox:checked + label:after {
 }
 
 input.custom-checkbox ~ .custom-checkbox__label-title {
+  width: 100%;
+  white-space: break-spaces;
   padding-left: 5px;
 }
 
@@ -218,6 +218,7 @@ input.custom-checkbox ~ .custom-checkbox__label-title {
   border-radius: inherit;
   will-change: left;
   transition: all .1s;
+  scroll-behavior: smooth;
  }
 
 .profile .tab-content {
@@ -292,7 +293,7 @@ input.custom-checkbox ~ .custom-checkbox__label-title {
 
 .tab-content__label-container {
   display: flex;
-  align-items: baseline;
+  align-items: center;
   width: 50%;
   overflow-y: auto;
   outline: none;
@@ -300,11 +301,6 @@ input.custom-checkbox ~ .custom-checkbox__label-title {
 
 .tab-content__label-container:last-of-type {
   justify-content: flex-end;
-}
-
-.tab-content__label-container label {
-  display: flex;
-  align-items: baseline;
 }
 
 .tab-content__header {
@@ -407,27 +403,10 @@ button.friend-code {
   margin-bottom: calc(var(--vh, 1vh) * 7);
 }
 
-@media screen and (max-width: 768px) {
-  .tab-content__label-container {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .tab-content__label-container:first-of-type {
-    flex-direction: column-reverse;
-  }
-
-  input.custom-checkbox ~ .custom-checkbox__label-title {
-    padding: 0;
-  }
-
-  input.custom-checkbox ~ .custom-checkbox__label {
-    align-self: center;
-    margin-top: 1px;
-  }
-
-  .profile select {
-    margin: 0;
+@media screen and (max-width: 540px) {
+  .profile .tab-content .tab-content__label-container label,
+  .profile .tab-content .tab-content__label-container select {
+    font-size: 4.5vw;
   }
 }
 

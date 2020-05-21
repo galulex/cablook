@@ -322,7 +322,7 @@ export default class App extends Component {
     let scrollPercent = e.target.scrollLeft / 300
     if (scrollPercent === 1) {
       backgroundOpacity = 1 - scrollPercent
-      if (!this.overlay.classList.contains('hidden')) this.overlay.classList.add('hidden') 
+      if (!this.overlay.classList.contains('hidden')) this.overlay.classList.add('hidden')
     } else {
       backgroundOpacity = 1 - (scrollPercent + 0.15)
       this.overlay.classList.remove('hidden')
@@ -357,7 +357,7 @@ render() {
 
     if (this.state.currentUser) {
       return(
-        <main id="app" onClick={this.closeDrawer} ref={main => this.main = main} onScroll={this.scrollDrawerEnd}>
+        <main id="app" onClick={this.closeDrawer} ref={main => this.main = main}>
           { !this.showFeedback() && <button class='button white-opacity burger' onClick={this.triggerDrawer}><Burger/></button> }
           <div class='main__overlay hidden' ref={overlay => this.overlay = overlay}></div>
           <Drawer triggerDrawer={this.triggerDrawer} logOut={this.logOut} />
