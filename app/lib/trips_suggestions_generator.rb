@@ -25,8 +25,8 @@ class TripsSuggestionsGenerator
       '(user_id = ?) AND (status = ?) AND (started_at BETWEEN ? AND ?)',
       user.id,
       Constants::Trip::FINISHED,
-      date.beginning_of_day,
-      date.end_of_day,
+      datetime.beginning_of_day,
+      datetime.end_of_day,
     )
   end
 
