@@ -13,15 +13,16 @@ class TripsSuggestionsGenerator
         trip.started_at.hour == index
       end
 
-      hour_trips.each do |previous_trip|
-        generated_suggestions.push new_suggestion_object(previous_trip)
-      end
+      new_suggestions = hour_trips.map{ |object| new_suggestion_object object }
+      generated_suggestions = generated_suggestions.concat new_suggestions
     end
 
     generated_suggestions
   end
   
   private
+
+  attr_reader :user, :date
 
   def user_trips_for(datetime)
     @user_trips_for ||= ::Trip.where(
@@ -42,10 +43,4 @@ class TripsSuggestionsGenerator
       destination_address: previous_trip.destination_address,
     }
   end
-
-  def minutes_of_hour_from_trip(object)
-    (object.start_at || object.started_at).strftime('%M').to_i
-  end
-
-  attr_reader :user, :date
 end
