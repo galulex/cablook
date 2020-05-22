@@ -32,14 +32,13 @@ html lang="#{I18n.locale}"
         --bg: rgba(255, 255, 255, 0.9);
         --zoom-level: 12;
         --car-transition: 0s;
-        --background-opacity: 1;
       }
 
       html {
         overflow: visible;
         overscroll-behavior-x: none;
         background: #e6efee;
-        background: var(--body_bg);
+        background: var(--body-bg);
         height: 100%;
         transition: background .1s;
         -webkit-text-size-adjust: none;
@@ -67,7 +66,8 @@ html lang="#{I18n.locale}"
         right: 0;
         font-family: Gilroy, Helvetica, Arial, sans-serif;
         font-weight: 100;
-        font-size: 18px;
+        font-size: 2.6vh;
+        font-size: calc(var(--vh, 1vh) * 2.6);
         background: linear-gradient(to bottom, #d1d1d1, white);
         background: linear-gradient(to bottom, var(--grey), var(--white));
         background-attachment: fixed;
@@ -119,8 +119,21 @@ html lang="#{I18n.locale}"
         transition: opacity .1s;
       }
 
-      main > div {
-        opacity: var(--background-opacity);
+      main .main__overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 1000;
+        width: 100vw;
+        height: 100vh;
+        opacity: 1;
+        background: linear-gradient(to bottom, #e6efee, #f6faf8, #e6efee);
+        background: linear-gradient(to bottom, var(--bg_gradient_color_2), var(--bg_gradient_color_1), var(--bg_gradient_color_2));
+        will-change: opacity;
+      }
+
+      main .main__overlay.hidden {
+        z-index: -1;
       }
 
       header {
@@ -133,7 +146,7 @@ html lang="#{I18n.locale}"
         right: 0;
         background: transparent;
         text-align: center;
-        font-size: calc(1em + 1vw);
+        font-size: 6vw;
         color: #233038;
         color: var(--font_color_2);
         z-index: 100;
@@ -141,10 +154,15 @@ html lang="#{I18n.locale}"
         font-weight: 500;
       }
 
+      header.hidden {
+        z-index: -1;
+      }
+
       section {
         max-width: 600px;
         width: 100%;
-        height: calc(100vh - 70px);
+        min-height: calc((var(--vh, 1vh) * 100) - 70px);
+        padding: 0 3%;
         overflow-y: auto;
         -webkit-overflow-scrolling: touch;
         margin-top: 70px;
@@ -279,6 +297,12 @@ html lang="#{I18n.locale}"
 
       body.offline .search_logo path {
         animation: none !important;
+      }
+
+      @media screen and (max-width: 540px) {
+        section {
+          padding: 0 8%;
+        }
       }
 
       @font-face {

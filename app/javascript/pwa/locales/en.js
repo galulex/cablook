@@ -15,7 +15,8 @@ const en = {
     no_cars_notice: 'No cars available',
     on: 'on',
     will_arrive: 'will arrive at',
-    waiting_notice: 'Driver is already waiting for you'
+    waiting_notice: 'Driver is already waiting for you',
+    header: 'Your trip'
   },
   trips: {
     header: 'Trips',
@@ -138,7 +139,8 @@ const en = {
     how: 'How bonus works?',
     notice: 'Notice: You can apply someone`s code only once',
     success: 'Referral code is applied. Your friend will receive a free trip as soon as you make a trip',
-    your_code: 'Your referral code:',
+    your_code: 'Your referral code',
+    your_bonuses: 'Your bonuses',
     statuses: {
       iced: 'Frozen',
       fresh: 'Ready',
@@ -160,7 +162,8 @@ const en = {
     km: ' km',
     amount: 'Spent money',
     trips_count: 'Number of orders',
-    period: 'Select period',
+    period: 'Statistics period',
+    your_data: 'Your data',
     rate: 'Average rating',
     tips: 'Tips',
     uah: ' uah',
@@ -173,10 +176,10 @@ const en = {
   },
   profile_page: {
     header: 'Profile',
-    notification_settings: 'Notification settings:',
-    favorite_addresses: 'Your favorite addresses:',
-    no_addresses: 'You have no addresses',
-    add_address: 'Add Favorite Address',
+    notifications: 'Notifications',
+    places: 'Places',
+    no_addresses: 'You have no added places yet',
+    add_address: 'Add place',
     type_name: 'Type name ',
     placeholder: 'Type address or choose a place',
     theme: 'Dark Theme',
@@ -185,6 +188,11 @@ const en = {
       waiting_client: 'Waiting client',
       accept_trip: 'Accept trip',
       decline_trip: 'Decline trip'
+    },
+    tabs: {
+      settings: 'Settings',
+      bonuses: 'Bonuses',
+      statistics: 'Statistics'
     }
   },
   vendors_page: {

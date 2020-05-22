@@ -150,6 +150,7 @@ section.feedback::-webkit-scrollbar {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  padding-bottom: 20px;
 }
 
 .feedback__holder section.feedback .feedback__container form button {
@@ -169,7 +170,7 @@ section.new_design .feedback__holder, section.trips .feedback__holder {
   top: 0;
   margin-top: 0;
   background: linear-gradient(to bottom, rgba(25, 161, 96, .5), rgba(25, 23, 48, .5));
-  padding: 70px 0 20px 0;
+  padding-top: 70px;
 }
 
 @media screen and (max-width: 540px) {

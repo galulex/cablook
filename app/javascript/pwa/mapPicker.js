@@ -98,12 +98,22 @@ export default class MapPicker extends Component {
     this.setState({ address_bar: false, address: '' })
   }
 
+  onPickAddress = () => {
+    this.props.onCloseMap(`${this.state.lat},${this.state.lng}`, this.state.address)
+    this.props.toggleElements()
+  }
+  
+  onBackClick = () => {
+    this.props.toggleElements()
+    window.ios ? this.props.handleBack() : window.history.back()
+  }
+
   render() {
     const style = {
       position: "fixed",
       left: "0",
       right: "0",
-      top: "50px",
+      top: "0",
       bottom: "0",
       background: 'var(--map-bg)'
     };
@@ -122,21 +132,24 @@ export default class MapPicker extends Component {
 
     return (
       <div class='trip-details'>
-        <header>
-          {i18n.map_picker.header}
-          <button type='button' class='burger' onClick={() => window.ios ? this.props.handleBack() : window.history.back()}><Back/></button>
-        </header>
+        <header>{i18n.map_picker.header}</header>
+        <button
+          type='button'
+          class='button burger white-opacity'
+          onClick={this.onBackClick}>
+            <Back/>
+        </button>
         <div ref={el => this.mapContainer = el} style={style}  />
         { this.state.address_bar &&
           <div class='address-bar'>{ this.state.address }</div>
         }
         <Pin class='picker-pin'/>
-        <button type='button' 
-                disabled={this.props.isGeocoding} 
-                class='button fixed' 
-                onClick={() => { this.props.onCloseMap(`${this.state.lat},${this.state.lng}`, this.state.address) }}>
-                OK
-                </button>
+        <button type='button'
+          disabled={this.props.isGeocoding}
+          class='button green fixed'
+          onClick={this.onPickAddress}>
+            OK
+        </button>
       </div>
     );
   }

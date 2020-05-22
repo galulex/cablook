@@ -44,10 +44,6 @@ aside a {
   box-shadow: 0 2px 0 var(--shadow_color)
 }
 
-aside a:first-child {
-
-}
-
 aside a svg.home-icon {
   width: 35px;
   margin-right: 18px;

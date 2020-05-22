@@ -43,12 +43,12 @@ export default class TripCard extends Component {
     return (
       <div class="trip-details">
         <header>{i18n.trip.header}</header>
-        <section class="trip-details-section">
+        <section class="trip-details__section">
           <MapImg trip={() => this.props.trip} />
           <div class='trip-details__content'>
             <div class="buttons">
-              <button type='button' class= 'button dark-color' onClick={this.repeatTrip}>{i18n.trips.repeat}</button>
-              <button type='button' class= 'button dark-color' onClick={this.reverseTrip}>{i18n.trips.reverse}</button>
+              <button type='button' class= 'button white-opacity' onClick={this.repeatTrip}>{i18n.trips.repeat}</button>
+              <button type='button' class= 'button white-opacity' onClick={this.reverseTrip}>{i18n.trips.reverse}</button>
             </div>
             <div class='trip-details-content'><TripPrice/>{`${trip.cost} ${i18n.trip.currency}`}</div>
             <div class='trip-details-content'><TripStatus/>{`${i18n.trips.status} - ${i18n.trips.statuses[trip.status]}`}</div>

@@ -20,18 +20,22 @@
   position: absolute;
   bottom: 50%;
   left: 50%;
+  z-index: 2;
   transform: translateX(-50%);
   width: 300px;
   height: auto;
-  padding: 5px;
-  background-color: white;
-  background-color: var(--white);
-  border-radius: 5px;
-  border: 1px solid #19a160;
-  border: 1px solid var(--green);
-  color: #19a160;
-  color: var(--green);
+  padding: 10px;
+  color: white;
+  color: var(--white);
   text-align: center;
   font-weight: 400;
-  z-index: 2;
+  overflow-y: auto;
+  border-radius: 15px;
+  background: #19a160;
+  background: var(--green);
+  box-shadow: inset -5px -5px 5px 1px var(--shadow_color);
+}
+
+.address-bar::-webkit-scrollbar {
+  height: 0;
 }

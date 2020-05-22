@@ -8,11 +8,7 @@ section.new_design {
 }
 
 fieldset.address {
-  background: rgba(255, 255, 255, 0.9);
-  background: var(--bg);
   margin: 5px 0;
-  /* margin-bottom: 10px; */
-  box-shadow: var(--shadow);
 }
 
 .search_logo {
