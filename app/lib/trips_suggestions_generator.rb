@@ -19,10 +19,6 @@ class TripsSuggestionsGenerator
 
     generated_suggestions
   end
-  
-  private
-
-  attr_reader :user, :date
 
   def user_trips_for(datetime)
     @user_trips_for ||= ::Trip.where(
@@ -43,4 +39,8 @@ class TripsSuggestionsGenerator
       destination_address: previous_trip.destination_address,
     }
   end
+  
+  private
+
+  attr_reader :user, :date
 end
