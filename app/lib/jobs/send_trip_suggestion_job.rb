@@ -1,5 +1,5 @@
 module Jobs
-  class TripSuggestion < ActiveJob::Base
+  class SendTripSuggestionJob < ActiveJob::Base
     def perform(trip_suggestion)
       I18n.locale = trip.user.locale
       send_push_to_android_devices(trip_suggestion)
