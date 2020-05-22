@@ -59,6 +59,8 @@ en:
       cancel: Cancel
       retry: Retry
       coming: Coming
+      accept_suggestion: Accept
+    trip_suggestion: 'Are you going to %{address}?'
   bot:
     request_contact:
       text: 'I need to know who you are. Could you share your phone number please?'
