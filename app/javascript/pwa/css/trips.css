@@ -181,6 +181,7 @@ address:last-of-type svg {
 }
 
 .trip-details__content .buttons .button {
+  outline: none;
   border-radius: 10px;
   font-size: 90%;
 }
