@@ -53,7 +53,7 @@ export default class Bonuses extends Component {
           <p>{i18n.bonuses.details}</p>
           <p>{i18n.bonuses.notice}</p>
         </div>
-        { (this.state.parent_bonus.length == 0) && <button type='button' disabled={this.state.disabled} onClick={this.apply} class='button friend-code'>{i18n.bonuses.apply_code}</button> }
+        { (this.state.parent_bonus.length == 0) && <button type='button' disabled={this.state.disabled} onClick={this.apply} class='button green friend-code'>{i18n.bonuses.apply_code}</button> }
       </div>
     );
   };

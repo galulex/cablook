@@ -177,6 +177,12 @@ address:last-of-type svg {
   border-radius: 15px 15px 0 0;
 }
 
+.trip-details__content .buttons .button {
+  outline: none;
+  border-radius: 10px;
+  font-size: 90%;
+}
+
 .trip-details address {
   margin-left: 40px;
 }
@@ -240,10 +246,6 @@ nav {
   background: #e6efee;
   background: linear-gradient(to bottom, #e6efee, #f6faf8, #e6efee);
   background: linear-gradient(to bottom, var(--bg_gradient_color_2), var(--bg_gradient_color_1), var(--bg_gradient_color_2));
-}
-
-.trip-details header {
-  color: var(--font_color_2);
 }
 
 .trip-details div.map {
@@ -413,4 +415,8 @@ nav {
 
 .mapboxgl-ctrl-top-right.dark .mapboxgl-ctrl-group > button + button {
   border-color: #000;
+}
+
+section.trips::-webkit-scrollbar {
+  width: 0;
 }
