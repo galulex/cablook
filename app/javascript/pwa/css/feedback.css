@@ -91,9 +91,9 @@ section.feedback textarea {
   resize: none;
   color: white;
   color: var(--white);
-  font-size: 1rem;
+  font-size: 2.6vh;
+  font-size: calc(var(--vh, 1vh) * 2.6);
   font-weight: 100;
-  font-size: calc(.6rem + 1vw);
   outline: none;
   border: none;
   border-radius: 15px;
@@ -135,11 +135,6 @@ section.feedback .feedback__container {
   height: 100%;
 }
 
-section.feedback header {
-  color: white;
-  color: var(--white);
-}
-
 section.feedback::-webkit-scrollbar {
   width: 0px;
 }
@@ -176,12 +171,6 @@ section.new_design .feedback__holder, section.trips .feedback__holder {
 @media screen and (max-width: 540px) {
   section.feedback {
     padding: 0 8%;
-  }
-}
-
-@media screen and (min-width: 1000px) {
-  section.feedback textarea {
-    font-size: 1.5em;
   }
 }
 
