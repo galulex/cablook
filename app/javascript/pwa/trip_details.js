@@ -111,7 +111,7 @@ export default class TripCard extends Component {
     if (this.state.rate) {
       return(<div class='trip-details-content'>{getRate(this.state.rate)}</div>)
     } else {
-      return(<div class='trip-details-content'><button class='button' onClick={this.toggleFeedback}>{i18n.trips.rate}</button></div>)
+      return(<div class='trip-details-content'><button class='button green' onClick={this.toggleFeedback}>{i18n.trips.rate}</button></div>)
     }
   }
 }
