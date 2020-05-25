@@ -179,15 +179,6 @@ address:last-of-type svg {
 .trip-details__content .buttons .button {
   border-radius: 10px;
   font-size: 90%;
-  box-shadow: 5px 3px 12px var(--shadow_color), inset -2px -2px 5px 1px var(--shadow_color);
-}
-
-.trip-details__content .buttons .button:hover {
-  box-shadow: 2px 2px 5px var(--shadow_color), inset -2px -2px 5px 1px var(--shadow_color);
-}
-
-.trip-details__content .buttons .button:active {
-  box-shadow: 2px 2px 5px var(--shadow_color), inset 5px 5px 5px 1px var(--shadow_color);
 }
 
 .trip-details address {
@@ -254,11 +245,6 @@ nav {
   background: #e6efee;
   background: linear-gradient(to bottom, #e6efee, #f6faf8, #e6efee);
   background: linear-gradient(to bottom, var(--bg_gradient_color_2), var(--bg_gradient_color_1), var(--bg_gradient_color_2));
-}
-
-.trip-details header {
-  color: var(--font_color_2);
-  font-size: 4vw;
 }
 
 .trip-details div.map {
