@@ -14,16 +14,15 @@
   border: none;
   border-radius: 15px;
   background: transparent;
+  outline: none;
   box-shadow: 5px 3px 12px var(--shadow_color), inset -3px -3px 5px 1px var(--shadow_color);
 }
 
 .button:hover {
-  outline: none;
   box-shadow: 2px 2px 5px var(--shadow_color), inset -2px -2px 5px 1px var(--shadow_color);
 }
 
 .button:active {
-  outline:  none;
   box-shadow: inset 2px 2px 5px 1px var(--shadow_color), inset -2px -2px 5px 1px var(--white);
 }
 
