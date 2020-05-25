@@ -28,7 +28,7 @@
   onMount(() => {
     if (!isLoggedIn) return
     subscribe()
-    watcher = navigator.geolocation.watchPosition(sendLocation, null, { enableHighAccuracy: true })
+    setWatcher()
     loadScript()
   })
 
@@ -59,7 +59,8 @@
     localStorage.token = driver.auth_token
     isLoggedIn = true
     subscribe()
-    watcher = navigator.geolocation.watchPosition(sendLocation, null, { enableHighAccuracy: true })
+    setWatcher()
+    loadScript()
   }
 
   let logout = () => {
@@ -89,6 +90,10 @@
     subscription = cable.subscriptions.create({ channel: 'DriverMapChannel' }, {
       received: data => { cableActions[data.action](data) }
     })
+  }
+
+  let setWatcher = () => {
+   watcher = navigator.geolocation.watchPosition(sendLocation, null, { enableHighAccuracy: true }) 
   }
 
   let loadScript = () => {
