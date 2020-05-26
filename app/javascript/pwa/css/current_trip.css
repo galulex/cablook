@@ -62,7 +62,7 @@ li.prediction {
   color: #312d50;
   color: var(--navy);
   line-height: 1;
-  padding: 2px 0 5px 50px;
+  padding: 2px 0 5px 35px;
   transition: background .2s;
   cursor: pointer;
   position: relative;
@@ -111,8 +111,8 @@ li.prediction b {
 }
 
 li.current_location svg {
-  width: 34px;
-  height: 34px;
+  width: 20px;
+  height: 20px;
 }
 
 li.prediction:hover {
