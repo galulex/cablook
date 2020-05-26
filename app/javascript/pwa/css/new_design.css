@@ -118,6 +118,7 @@ fieldset.address:focus-within {
 .new_design .remove-address {
   right: 5px;
   font-size: 2.2rem;
+  top: 2px;
 }
 
 .header {
