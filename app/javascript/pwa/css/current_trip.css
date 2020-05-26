@@ -321,10 +321,8 @@ label:not([data-placeholder])[for='time'] > .time-placeholder {
   display: none;
 }
 
-select#entrance:focus, input#time:focus, input.comment:focus {
+select#entrance:focus, input#time:focus, input.comment:focus, select#card_id:focus {
   outline: none;
-  box-shadow: inset 1px 1px 2px #24293038, inset -1px -1px 2px white;
-  box-shadow: inset 1px 1px 2px var(--shadow_color), inset -1px -1px 2px var(--white);
 }
 
 label[for='entrance'], label[for='time'] {
