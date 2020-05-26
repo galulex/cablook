@@ -2,10 +2,8 @@ ul.bonus-trips-list li div.bonus-badge {
   border-radius: 50px;
   color: white;
   float: right;
-  height: 3vh;
-  height: calc(var(--vh, 1vh) * 3);
-  width: 3vh;
-  width: calc(var(--vh, 1vh) * 3);
+  height: 30px;
+  width: 30px;
   position: relative;
   text-align: center;
   font-weight: bold;
@@ -20,10 +18,10 @@ ul.bonus-trips-list li div.bonus-badge {
 ul.bonus-trips-list li span.bonus-badge__text {
   height: 100%;
   position: absolute;
-  left: 48%;
-  top: 48%;
-  transform: translate(-50%, -50%);
-  font-size: 100%;
+  left: 50%;
+  top: 50%;
+  transform: translate(-48%, -52%);
+  font-size: 20px;
 }
 
 ul.bonus-trips-list li.bonus-iced div.bonus-badge {
