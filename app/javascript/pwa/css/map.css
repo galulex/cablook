@@ -156,7 +156,7 @@ svg.picker {
 
 .mapboxgl-ctrl-bottom-right {
   bottom: 30% !important;
-  z-index: 20 !important;
+  z-index: 40 !important;
 }
 
 .mapboxgl-control-container .mapboxgl-ctrl-icon {
