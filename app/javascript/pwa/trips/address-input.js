@@ -72,6 +72,7 @@ export default class AddressInput extends Component {
     if (!place.place_id) {
       this.setState({ address: `${place}, `, predictions: [], isValid: false })
       this.input.focus()
+      setTimeout(() => { this.input.scrollLeft = 500 }, 100)
       return
     }
 
