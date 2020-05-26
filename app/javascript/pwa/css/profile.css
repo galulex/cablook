@@ -1,5 +1,5 @@
-section.profile::-webkit-scrollbar {
-  width: 0;
+section.profile {
+  padding: 0;
 }
 
 #newFavoriteAddressForm {
@@ -62,12 +62,8 @@ ul.places li button svg {
 }
 
 input.custom-checkbox ~ .custom-checkbox__label {
-  width: 3vw;
-  height: 3vw;
-  min-height: 15px;
-  min-width: 15px;
-  max-height: 20px;
-  max-width: 20px;
+  width: calc(var(--vh, 1vh) * 2.6);
+  height: calc(var(--vh, 1vh) * 2.6);
   border: 2px solid #19a160;
   border: 2px solid var(--green);
   transition: all .5s;
@@ -86,6 +82,12 @@ input.custom-checkbox:checked ~ .custom-checkbox__label {
 
 input.custom-checkbox:focus ~ .custom-checkbox__label {
   box-shadow: inset 0px 0px 3px 1px var(--shadow_color);
+}
+
+input.custom-checkbox:active ~ .custom-checkbox__label {
+  color: #19a160;
+  background: var(--green);
+  box-shadow: inset 2px 2px 5px 1px var(--shadow_color);
 }
 
 input.custom-checkbox:checked + label:after {
@@ -143,8 +145,10 @@ input.custom-checkbox ~ .custom-checkbox__label-title {
 }
 
 .profile .tabs {
-  height: calc(100% - 8.7vh);
-  height: calc(100% - var(--vh, 1vh) * 8.7);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
   padding-top: 5.1vh;
   padding-top: calc(var(--vh, 1vh) * 5.1);
   font-size: 2.6vh;
@@ -155,12 +159,14 @@ input.custom-checkbox ~ .custom-checkbox__label-title {
   position: relative;
   display: flex;
   align-items: center;
-  width: 100%;
+  width: 90%;
   height: 8.7vh;
   height: calc(var(--vh, 1vh) * 8.7);
   border-radius: 15px;
   box-shadow: inset 3px 2px 8px #24293038, inset -2px -1px 4px white;
   box-shadow: inset 3px 2px 8px var(--shadow_color), inset -2px -1px 4px var(--white);
+  overflow-x: scroll;
+  -webkit-overflow-scrolling: touch;
 }
 
 .profile .tabs__container {
@@ -183,7 +189,7 @@ input.custom-checkbox ~ .custom-checkbox__label-title {
   width: 33%;
   height: 100%;
   font-weight: 100;
-  font-size: 75%;
+  font-size: 3vw;
   color: #233038;
   color: var(--font_color_2);
   border: none;
@@ -199,7 +205,7 @@ input.custom-checkbox ~ .custom-checkbox__label-title {
 .profile button.tab__header.active {
   color: white;
   color: var(--white);
-  font-weight: 500;
+  font-weight: 700;
 }
 
 .profile .tabs__content {
@@ -214,6 +220,7 @@ input.custom-checkbox ~ .custom-checkbox__label-title {
   -webkit-flex-wrap: nowrap;
   flex-wrap: nowrap;
   z-index: 10;
+  -webkit-overflow-scrolling: touch;
 }
 
 .profile .tabs__content::-webkit-scrollbar {
@@ -236,24 +243,27 @@ input.custom-checkbox ~ .custom-checkbox__label-title {
   background: var(--green);
   box-shadow: inset -1px -1px 17px -4px rgba(0, 0, 0, 0.3);
   border-radius: inherit;
-  will-change: left;
   transition: all .1s;
   scroll-behavior: smooth;
+  transform: translateX(0%);
+  -webkit-overflow-scrolling: touch;
  }
 
 .profile .tab-content {
+  height: 100%;
   width: 100%;
   flex: 0 0 auto;
-  overflow-y: auto;
-  scroll-snap-align: start;
-  scroll-snap-type: y;
 }
 
 .profile .tab-content__holder {
+  height: 100%;
   width: 100%;
   padding: 0 5%;
-  overflow-x: hidden;
-  overflow-y: hidden;
+  overflow-y: auto;
+  scroll-snap-align: start;
+  scroll-snap-type: y mandatory;
+  overflow-y: scroll;
+  -webkit-overflow-scrolling: touch;
 }
 
 .profile .tab-content .tab-content__container {
@@ -318,6 +328,19 @@ input.custom-checkbox ~ .custom-checkbox__label-title {
   width: 50%;
   overflow-y: auto;
   outline: none;
+}
+
+.tab-content__label-container:first-of-type .custom-checkbox__label-title {
+  left: calc(var(--vh, 1vh) * 2.6 + 5px);
+  top: .25vh;
+  padding: 0;
+}
+
+.tab-content__label-container:first-of-type .custom-checkbox__label {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  align-self: baseline;
 }
 
 .tab-content__label-container:last-of-type {
@@ -425,17 +448,21 @@ button.friend-code {
   margin-bottom: calc(var(--vh, 1vh) * 7);
 }
 
-@media screen and (max-width: 540px) {
+@media screen and (max-width: 510px) {
   .profile .tab-content .tab-content__label-container label,
   .profile .tab-content .tab-content__label-container select {
     font-size: 4.5vw;
   }
 }
 
-.profile .tab-content::-webkit-scrollbar,
+.profile .tab-content__holder::-webkit-scrollbar,
 ul.places > li > span::-webkit-scrollbar,
 .tab-content__container-item label.label-header::-webkit-scrollbar,
 .tab-content__label-container::-webkit-scrollbar {
   width: 0;
   height: 0;
+}
+
+section.profile::-webkit-scrollbar {
+  width: 0;
 }

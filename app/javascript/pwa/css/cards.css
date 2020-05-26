@@ -64,8 +64,6 @@ body.wfp-widget-open {
 
 h1.nocards {
   text-align: center;
-  color: white;
-  color: var(--white);
   font-weight: 300;
 }
 
