@@ -50,8 +50,8 @@
   margin: 0 auto;
   width: calc(100% - 60px);
   max-width: 540px;
-  background: var(--green);
   background: #19a160;
+  background: var(--green);
   color: white;
 
 }

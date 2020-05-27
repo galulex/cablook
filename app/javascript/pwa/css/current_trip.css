@@ -185,11 +185,13 @@ button.add-address {
   padding: 0;
   transition: opacity .3s;
   border-radius: 10px;
+  box-shadow: 5px 3px 12px #24293038, inset 1px 0px 2px white;
   box-shadow: 5px 3px 12px var(--shadow_color), inset 1px 0px 2px var(--white);
 }
 
 button.add-address:focus, button.add-address:hover {
   outline: none;
+  box-shadow: 2px 2px 5px #24293038, inset 2px 2px 5px white;
   box-shadow: 2px 2px 5px var(--shadow_color), inset 2px 2px 5px var(--white);
 
 }
