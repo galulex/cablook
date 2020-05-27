@@ -466,3 +466,16 @@ ul.places > li > span::-webkit-scrollbar,
 section.profile::-webkit-scrollbar {
   width: 0;
 }
+
+section.profile svg.map-pick {
+  right: 3px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 25px;
+  height: 25px;
+}
+
+
+section.profile fieldset.address {
+  max-width: 100%;
+}
