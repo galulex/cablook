@@ -9,6 +9,7 @@ import i18n from '../i18n.js'
 import Cablook  from '../images/cablook.svg'
 import Target from '../images/target.svg'
 import Location  from '../images/target.svg'
+import Cross  from '../images/cross.js'
 
 export default class AddressInput extends Component {
   constructor(props) {
@@ -116,7 +117,7 @@ export default class AddressInput extends Component {
     if (burgers.length <= 1 && headers.length <= 1) return
     if (burgers[0].classList.contains('hidden') && headers[0].classList.contains('hidden')) {
       burgers[0].classList.remove('hidden')
-      headers[0].classList.remove('hidden')      
+      headers[0].classList.remove('hidden')
     } else {
       burgers[0].classList.add('hidden')
       headers[0].classList.add('hidden')
@@ -191,7 +192,7 @@ export default class AddressInput extends Component {
     const { fieldsCount, address, index, readonly, language, hideRemove, inputDisabled, geocode } = this.props
     return (
       <fieldset class='address'>
-        {(fieldsCount > 2 || address !== '') && !hideRemove && !readonly && (<button disabled={index === 0 ? inputDisabled : false} class='remove-address' type='button' onClick={() => this.eraseAddress(index)}>×</button>)}
+        {(fieldsCount > 2 || address !== '') && !hideRemove && !readonly && (<Cross disabled={index === 0 ? inputDisabled : false} class='remove-address' type='button' onClick={() => this.eraseAddress(index)}/>)}
         {mapboxgl.supported() && <Pin onClick={this.openMap} disabled={readonly || ( index === 0 ? inputDisabled : false )} class='map-pick'/>}
         {this.state.isShowMap && <MapPicker
                                     onCloseMap={this.closeMap}

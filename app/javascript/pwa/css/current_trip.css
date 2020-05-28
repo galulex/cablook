@@ -3,8 +3,8 @@ input.address {
   width: 90%;
   border: none;
   background: rgba(255, 255, 255, 0);;
-  padding: 10px 25px 10px 10px;
-  font-size: 18px;
+  padding: 14px 25px 12px 6px;
+  font-size: 13px;
   color: #312d50;
   color: var(--navy);
   font-weight: 100;
@@ -152,14 +152,20 @@ svg.running {
 .mapboxgl-ctrl.mapboxgl-ctrl-group button{
   margin-bottom: 5px;
   border-radius: 5px;
-  background: rgba(255, 255, 255, 0.5);
-  box-shadow: inset -2px -1px 4px var(--shadow_color);
+  background: rgba(255, 255, 255, 0.5)!important;
+  box-shadow: 1px 1px 2px 1px var(--shadow_color), inset -5px -5px 6px -3px var(--shadow_color);
 
 }
-.mapboxgl-ctrl-group button:focus {
+
+.mapboxgl-ctrl-group button:hover, .mapboxgl-ctrl-group button:focus {
+  box-shadow: 1px 1px 1px 1px var(--shadow_color), inset -4px -4px 6px -3px var(--shadow_color);
   -webkit-border-radius: 5px!important;
   -moz-border-radius: 5px!important;
   border-radius: 5px!important;
+}
+
+.mapboxgl-ctrl-group button:active {
+  box-shadow: inset 2px 2px 5px var(--shadow_color), inset -2px -2px 5px 1px var(--white);
 }
 .buttons {
   position: unset;
@@ -178,44 +184,30 @@ button.add-address {
   outline: none;
   cursor: pointer;
   line-height: 0;
-  position: absolute;
-  top: -3px;
-  left: 50px;
   height: 28px;
   width: 28px;
   padding: 0;
   transition: opacity .3s;
-  border-radius: 10px;
-  box-shadow: 5px 3px 12px #24293038, inset 1px 0px 2px white;
-  box-shadow: 5px 3px 12px var(--shadow_color), inset 1px 0px 2px var(--white);
+  border-radius: 8px;
+  box-shadow: 1px 1px 2px 1px #24293038, inset -5px -5px 6px -3px #24293038;
+  box-shadow: 1px 1px 2px 1px var(--shadow_color), inset -5px -5px 6px -3px var(--shadow_color);
 }
 
-button.add-address:focus, button.add-address:hover {
+button.add-address:hover, button.add-address:focus {
+  box-shadow: 1px 1px 1px 1px #24293038, inset -4px -4px 6px -3px #24293038;
+  box-shadow: 1px 1px 1px 1px var(--shadow_color), inset -4px -4px 6px -3px var(--shadow_color);
+
+}
+
+button.add-address:active {
   outline: none;
-  box-shadow: 2px 2px 5px #24293038, inset 2px 2px 5px white;
-  box-shadow: 2px 2px 5px var(--shadow_color), inset 2px 2px 5px var(--white);
+  box-shadow: inset 2px 2px 5px #24293038, inset -2px -2px 5px 1px white;
+  box-shadow: inset 2px 2px 5px var(--shadow_color), inset -2px -2px 5px 1px var(--white);
 
 }
 
 button.add-address svg {
   height: 11px;
-}
-
-button.remove-address {
-  position: absolute;
-  right: -15px;
-  font-size: 2rem;
-  background: none;
-  border: none;
-  color: #cc0f34;
-  color: var(--crimsone-red);
-  padding: 0 5px;
-  margin: 0;
-  outline: none;
-  cursor: pointer;
-  transition: opacity .3s;
-  text-shadow: -1px -1px rgba(0, 0, 0, 0.4);
-
 }
 
 input[type='checkbox'] {
@@ -258,11 +250,10 @@ svg.map-pick {
 select#entrance, input#time, .select select, select#select_time {
   color: #312d50;
   color: var(--navy);
-  font-size: 12px;
+  font-size: 13px;
   background: transparent;
   border: none;
   transition: box-shadow .3s;
-  margin: 2px 0;
   height: 30px;
   border-radius: 0;
   border: none;
@@ -270,7 +261,7 @@ select#entrance, input#time, .select select, select#select_time {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
-  min-width: 120px;
+  min-width: 110px;
   max-width: 45%;
   font-weight: 100;
   text-align: right;
@@ -338,6 +329,10 @@ label[for='entrance'], label[for='time'] {
   pointer-events: none;
 }
 
+label.select[for='card'] svg {
+  left: 3px;
+}
+
 label[for='comment'] {
   display: block;
 }
@@ -353,7 +348,7 @@ input.comment {
   background: var(--input_bg_color_transparent);
   border: none;
   font-size: 13px;
-  padding: 5px;
+  padding: 2px;
   outline: none;
   font-weight: 100;
   transition: box-shadow .3s;
