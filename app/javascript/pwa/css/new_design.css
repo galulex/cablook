@@ -132,12 +132,18 @@ fieldset.address:focus-within {
   z-index: 310;
 }
 .new_design .remove-address {
-  right: 15px;
-  top: 18px;
-  height: 10px;
+  right: 8px;
+  top: 12px;
   position: absolute;
   cursor: pointer;
+  background: none;
+  border: none;
 }
+
+.new_design .remove-address svg {
+  height: 10px;
+}
+
 
 .header {
   position: relative;
