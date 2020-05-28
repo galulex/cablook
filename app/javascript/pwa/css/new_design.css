@@ -138,6 +138,7 @@ fieldset.address:focus-within {
   cursor: pointer;
   background: none;
   border: none;
+  outline: none;
 }
 
 .new_design .remove-address svg {
