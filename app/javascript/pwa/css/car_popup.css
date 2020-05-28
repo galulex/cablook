@@ -1,14 +1,14 @@
 .car-popup.mapboxgl-popup .mapboxgl-popup-content {
-  padding: 15px;
-  font-size: 1.2rem;
+  padding: 10px;
+  font-size: 13px;
   font-weight: 100;
   background: #19A160;
   background: var(--green);
   color: white;
   color: var(--white);
-  border-radius: 10px;
+  border-radius: 15px;
   width: 250px;
-  box-shadow: inset -2px -2px 5px 0px rgba(0, 24, 0, 0.2), inset 2px 2px 5px 0px rgba(187, 187, 187, 0.6);
+  box-shadow: inset -2px -2px 5px 0px var(--shadow_color), inset 1px 1px 5px -1px var(--white);
 }
 
 .mapboxgl-popup.car-popup {
@@ -18,8 +18,8 @@
 .car-popup.mapboxgl-popup svg {
   fill: white;
   fill: var(--white);
-  width: 30px;
-  height: 30px;
+  width: 25px;
+  height: 25px;
   margin: 0 8px 0 10px !important;
 }
 
@@ -43,8 +43,8 @@
 }
 
 .car svg {
-  height: 32px  !important;
-  width: 32px  !important;
+  height: 29px  !important;
+  width: 29px  !important;
 }
 
 .car {
@@ -57,7 +57,7 @@
 }
 
 .popup_leaf {
-  bottom: -70px;
+  bottom: -80px;
   /* left: 46px; */
   left: 50%;
   margin-left: 20%;
@@ -67,8 +67,8 @@
 }
 
 .popup_leaf svg {
-  height: 155px !important;
-  width: 155px !important;
+  height: 150px !important;
+  width: 150px !important;
 }
 
 .mapboxgl-popup-close-button {
@@ -77,5 +77,17 @@
   font-size: 3rem;
   z-index: 10;
   padding: 0 6px 0 6px;
-  text-shadow: -1px -1px rgba(0, 0, 0, 0.4);
+  opacity: 0;
+}
+
+.mapboxgl-popup.car-popup .close-button {
+  position: absolute;
+  right: -5px;
+  top: 3px;
+}
+.mapboxgl-popup.car-popup .close-button svg {
+  height: 16px
+}
+.mapboxgl-popup.car-popup .close-button svg path {
+  fill: white;
 }
