@@ -192,7 +192,7 @@ export default class AddressInput extends Component {
     const { fieldsCount, address, index, readonly, language, hideRemove, inputDisabled, geocode } = this.props
     return (
       <fieldset class='address'>
-        {(fieldsCount > 2 || address !== '') && !hideRemove && !readonly && (<Cross disabled={index === 0 ? inputDisabled : false} class='remove-address' type='button' onClick={() => this.eraseAddress(index)}/>)}
+        {(fieldsCount > 2 || address !== '') && !hideRemove && !readonly && (<button disabled={index === 0 ? inputDisabled : false} class='remove-address' type='button' onClick={() => this.eraseAddress(index)}> <Cross/> </button>)}
         {mapboxgl.supported() && <Pin onClick={this.openMap} disabled={readonly || ( index === 0 ? inputDisabled : false )} class='map-pick'/>}
         {this.state.isShowMap && <MapPicker
                                     onCloseMap={this.closeMap}
