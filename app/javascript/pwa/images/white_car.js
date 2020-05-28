@@ -3,7 +3,7 @@ import { h, Component } from "preact"
 export default class Car extends Component {
   render () {
     const style = {
-      filter: "url(#inset-shadow)",
+      filter: "url(#inset-shadow-large)",
       class: this.props.class
     }
 

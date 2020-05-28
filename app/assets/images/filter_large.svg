@@ -1,0 +1,16 @@
+<svg height='0' width="0" id='shadow_filter_large'>
+  <filter id="inset-shadow-large" x="-50%" y="-50%" width="200%" height="200%">
+    <feComponentTransfer in="SourceAlpha">
+      <feFuncA type="table" tableValues="1 0" />
+    </feComponentTransfer>
+    <feGaussianBlur stdDeviation="7"/>
+    <feOffset dx="5" dy="5" result="offsetblur"/>
+    <feFlood flood-color="rgb(0, 0, 0)" result="color"/>
+    <feComposite in2="offsetblur" operator="in"/>
+    <feComposite in2="SourceAlpha" operator="in" />
+    <feMerge>
+      <feMergeNode in="SourceGraphic" />
+      <feMergeNode />
+    </feMerge>
+  </filter>
+</svg>
