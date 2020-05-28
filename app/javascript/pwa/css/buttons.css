@@ -39,7 +39,7 @@
 }
 
 .button.green:active {
-  box-shadow: 2px 2px 5px var(--shadow_color), inset 5px 5px 5px 1px var(--shadow_color);
+  box-shadow: inset 5px 5px 5px 1px var(--shadow_color), inset -2px -2px 5px 1px #4fb785;
 }
 
 .button.white-opacity {
@@ -110,12 +110,19 @@
   color: #233038;
   color: var(--font_color_2);
   border-radius: 10px;
-  box-shadow: inset -5px -5px 6px -4px var(--shadow_color), 5px 5px 6px -4px var(--shadow_color);
+  box-shadow: 3px 3px 6px #24293038, inset -5px -5px 6px -3px #24293038, inset 1px 1px 3px -3px #ffffff;
+  box-shadow: 3px 3px 6px var(--shadow_color), inset -5px -5px 6px -3px var(--shadow_color), inset 1px 1px 3px -3px var(--white);
 }
 
-.button.burger:hover, .button.burger:focus {
+.button.burger:hover {
+  box-shadow: 2px 2px 6px #24293038, inset -3px -3px 6px -3px #24293038, inset 1px 1px 3px -3px #ffffff;
+  box-shadow: 2px 2px 6px var(--shadow_color), inset -3px -3px 6px -3px var(--shadow_color), inset 1px 1px 3px -3px var(--white);
+}
+
+.button.burger:active {
   outline: none;
-  box-shadow: 2px 2px 5px var(--shadow_color), inset 2px 2px 5px var(--white);
+  box-shadow: inset 2px 2px 5px 1px #24293038, inset -2px -2px 5px 1px #ffffff;
+  box-shadow: inset 2px 2px 5px 1px var(--shadow_color), inset -2px -2px 5px 1px var(--white);
 }
 
 .button.burger.hidden {

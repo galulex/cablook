@@ -13,7 +13,7 @@ import Widget from './widget.js'
 import Entrance from './images/entrance.svg'
 import Clock from './images/clock.js'
 import Card from './images/credit-cards-payment.js'
-import Phone from './images/phone_crossed.svg'
+import Phone from './images/phone_crossed.js'
 import Comment from './images/contacts.svg'
 import Chevron from './images/chevron.js'
 import Back from './images/arrow-left.svg'
@@ -650,7 +650,7 @@ export default class NewDesign extends Component {
                             setGeocoding={this.props.setGeocoding}/>
             )
           })}
-          <div>
+          <div class="button-line-wrapper">
             <button type='button' onClick={this.addAddress} class='add-address' disabled={isValid} title={ i18n.current_trip.add_address }>
               <Add height='15'/>
             </button>
@@ -728,7 +728,7 @@ export default class NewDesign extends Component {
         <section class={`new_design ${this.state.klass} ${[PENDING].includes(trip.status) ? 'background' : ''}`}>
           { this.props.showFeedback() && <Feedback trip={trip} updateTrip={this.resetTrip} handleBack={this.resetTrip} lastTripId={lastTripId} /> }
           <style>{`fieldset.address:nth-child(${this.state.picker + 1}) { opacity: 1;}`}</style>
-          <PreviewMap 
+          <PreviewMap
             trip={() => trip}
             car={this.state.car}
             driver={this.state.driver}
@@ -745,7 +745,7 @@ export default class NewDesign extends Component {
               { [CONFIRM_UPDATE_TRIP, CANCELED, CANCELED_BY_DRIVER, undefined, null].includes(trip.status) && this.renderFields(trip, isValid, cards) }
               { [PENDING].includes(trip.status) && this.renderLoading() }
             </div>
-          } 
+          }
           <Buttons trip={trip}
             isValid={this.isValid}
             cost={cost}
