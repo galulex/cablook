@@ -46,17 +46,19 @@ export default class TripCard extends Component {
         <section class="trip-details__section">
           <MapImg trip={() => this.props.trip} />
           <div class='trip-details__content'>
-            <div class="buttons">
-              <button type='button' class= 'button white-opacity' onClick={this.repeatTrip}>{i18n.trips.repeat}</button>
-              <button type='button' class= 'button white-opacity' onClick={this.reverseTrip}>{i18n.trips.reverse}</button>
+            <div class='trip-details__holder'>
+              <div class="buttons">
+                <button type='button' class= 'button white-opacity' onClick={this.repeatTrip}>{i18n.trips.repeat}</button>
+                <button type='button' class= 'button white-opacity' onClick={this.reverseTrip}>{i18n.trips.reverse}</button>
+              </div>
+              <div class='trip-details-content'><TripPrice/>{`${trip.cost} ${i18n.trip.currency}`}</div>
+              <div class='trip-details-content'><TripStatus/>{`${i18n.trips.status} - ${i18n.trips.statuses[trip.status]}`}</div>
+              <div class='trip-details-content'>
+                <address><Pin class='address-pin'/>{trip.departure_address}</address>
+                <address><Pin class='address-pin'/>{trip.destination_address}</address>
+              </div>
+              <div class='trip-details-content'><Clock/>{trip.formatted_date}</div>
             </div>
-            <div class='trip-details-content'><TripPrice/>{`${trip.cost} ${i18n.trip.currency}`}</div>
-            <div class='trip-details-content'><TripStatus/>{`${i18n.trips.status} - ${i18n.trips.statuses[trip.status]}`}</div>
-            <div class='trip-details-content'>
-              <address><Pin class='address-pin'/>{trip.departure_address}</address>
-              <address><Pin class='address-pin'/>{trip.destination_address}</address>
-            </div>
-            <div class='trip-details-content'><Clock/>{trip.formatted_date}</div>
             {this.renderRate()}
           </div>
         </section>

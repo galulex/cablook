@@ -41,14 +41,17 @@ ul.cards button.x-card {
   cursor: pointer;
   outline: none;
   background: rgba(255, 255, 255, .8);
+  /* box-shadow: -2px -2px 3px 1px rgba(36, 41, 48, 0.22); */
   box-shadow: inset -2px -2px 5px 1px var(--shadow_color);
 }
 
 ul.cards button.x-card:hover {
-  box-shadow: inset -2px -2px 2px 1px var(--shadow_color);
+  /* box-shadow: -2px -2px 3px 1px rgba(36, 41, 48, 0.22); */
+  box-shadow: inset -2px -2px 5px 1px var(--shadow_color);
 }
 
 ul.cards button.x-card:active {
+  /* box-shadow: inset -2px -2px 2px 1px rgba(36, 41, 48, 0.22), inset -2px -2px 3px 1px white; */
   box-shadow: inset 2px 2px 5px 1px var(--shadow_color), inset -2px -2px 9px 1px var(--white);
 }
 

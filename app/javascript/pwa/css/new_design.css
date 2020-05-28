@@ -1,9 +1,11 @@
 * {
   user-select: none;
+  -webkit-user-select: none;
 }
 
 input, select {
   user-select: text;
+  -webkit-user-select: text;
 }
 
 svg {

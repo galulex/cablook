@@ -48,8 +48,13 @@
   color: var(--font_color_2);
 }
 
+.button.green:disabled {
+  box-shadow: 2px 2px 5px var(--shadow_color), inset 5px 5px 5px 1px var(--shadow_color);
+}
+
 .button:disabled {
-  color: var(--input_color_1);
+  box-shadow: 2px 2px 5px var(--shadow_color), inset 5px 5px 5px 1px var(--shadow_color);
+  color: #233038;
 }
 
 .button.fixed {

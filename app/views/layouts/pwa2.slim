@@ -22,12 +22,6 @@ html lang="#{I18n.locale}"
         --shadow: 0 3px 6px rgba(0,0,0,0.16);
         --focus-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
         --body-bg: #e6efee;
-        --uk-flag-blue: #005bbb;
-        --ru-flag-blue: #003da5;
-        --en-flag-blue: #012169;
-        --ru-flag-red: #da291c;
-        --en-flag-red: #c8102e;
-        --crimsone-red: #cc0f34;
         --placeholder: rgba(49, 45, 80, 0.5);
         --map-bg: #e6e4e0;
         --pin-color: var(--green);
@@ -105,6 +99,11 @@ html lang="#{I18n.locale}"
         background: linear-gradient(to bottom, var(--bg_gradient_color_2), var(--bg_gradient_color_1), var(--bg_gradient_color_2));
       }
 
+      main.disable-events,
+      main.disable-events * {
+        pointer-events: none;
+      }
+
       main::-webkit-scrollbar {
         display: none;
       }
@@ -120,23 +119,6 @@ html lang="#{I18n.locale}"
         overflow: hidden;
         max-height: 100vh;
         transition: opacity .1s;
-      }
-
-      main .main__overlay {
-        position: fixed;
-        top: 0;
-        left: 0;
-        z-index: 1000;
-        width: 100vw;
-        height: 100vh;
-        opacity: 1;
-        background: linear-gradient(to bottom, #e6efee, #f6faf8, #e6efee);
-        background: linear-gradient(to bottom, var(--bg_gradient_color_2), var(--bg_gradient_color_1), var(--bg_gradient_color_2));
-        will-change: opacity;
-      }
-
-      main .main__overlay.hidden {
-        z-index: -1;
       }
 
       header {
@@ -163,13 +145,15 @@ html lang="#{I18n.locale}"
       }
 
       section {
-        max-width: 600px;
         width: 100%;
+        max-width: 600px;
+        min-height: calc(100vh - 70px);
         min-height: calc((var(--vh, 1vh) * 100) - 70px);
         padding: 0 3%;
-        overflow-y: auto;
-        -webkit-overflow-scrolling: touch;
         margin-top: 70px;
+        overflow-y: auto;
+        scroll-behavior: smooth;
+        -webkit-overflow-scrolling: touch;
       }
 
       ul {
@@ -248,8 +232,8 @@ html lang="#{I18n.locale}"
         max-width: 200px;
       }
 
-      svg#shadow_filter, svg#shadow_filter_large, svg#star_filter {
-        position: absolute;
+      svg#shadow_filter, svg#star_filter {
+        position: fixed;
       }
 
       /* Search animation */
