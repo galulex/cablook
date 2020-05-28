@@ -12,7 +12,7 @@ aside {
   position: relative;
   scroll-snap-align: start;
   direction: ltr;
-  box-shadow: 5px 3px 12px var(--shadow_color);
+  box-shadow: 5px 3px 6px var(--shadow_color);
 }
 
 aside:before {

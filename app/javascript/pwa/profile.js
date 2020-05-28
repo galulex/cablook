@@ -32,7 +32,7 @@ export default class FavoriteAddresses extends Component {
   onScroll = (e) => {
     const tabs = document.querySelectorAll('.tab__header')
     const scrollPercent = (this.tabsContent.scrollLeft / this.tabsContent.scrollWidth) * 100
-    this.activeTab.style.left= `${scrollPercent}%`
+    this.activeTab.style.left = `${scrollPercent}%`
     this.setActiveClass(this.getActiveTab(scrollPercent, tabs))
   }
 

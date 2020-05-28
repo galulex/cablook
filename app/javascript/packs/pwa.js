@@ -66,6 +66,7 @@ export default class App extends Component {
       notification_settings: [],
       currentTrip: null,
       isGeocoding: false,
+      isScrollNegative: false,
       activateFeedback: false
     }
     axios.defaults.headers.common['Pwa-Language'] = this.state.language
@@ -104,6 +105,14 @@ export default class App extends Component {
       this.sendTokenToServer(token)
       clearInterval(waitForToken)
     }
+  }
+
+  setTouching = (event) => {
+    window.isTouching = (event.type === 'touchstart' ? true : false)
+  }
+
+  setNegativeScroll = (scrollValue) => {
+    this.setState({isScrollNegative: scrollValue < 0})
   }
 
   onVisibilityChange = () => {
@@ -322,6 +331,12 @@ export default class App extends Component {
       let x = (target.scrollLeft > 0 && target.scrollLeft < target.offsetWidth / 2) ? 0 : target.offsetWidth
       target.scrollTo({left: x})
     }, 300)
+    // clearInterval(window.isScrolling)
+    // if (!this.main.classList.contains('disable-events')) this.main.classList.add('disable-events')
+    // window.isScrolling = setInterval(() => {
+    //     if (!window.isTouching) { this.main.classList.remove('disable-events'); clearInterval(window.isScrolling) }
+    // }, 50)
+    if(target.id === 'app') this.setNegativeScroll(this.main.scrollLeft)
   }
 
   resetCurrentTrip = () => {
@@ -342,7 +357,7 @@ render() {
     if (this.state.currentUser) {
       return(
         <main id="app" onClick={this.closeDrawer} ref={main => this.main = main}>
-          { !this.showFeedback() && <button class='button white-opacity burger' onClick={this.triggerDrawer}><Burger/></button> }
+          { !this.showFeedback() && <button class='button white-opacity burger' style={this.state.isScrollNegative ? 'display: none;' : ''} onClick={this.triggerDrawer}><Burger/></button> }
           <Drawer triggerDrawer={this.triggerDrawer} logOut={this.logOut} />
           <Router history={window.ios ? createMemoryHistory() : null} onChange={() => this.triggerDrawer(false)}>
             <NewDesign path='/'

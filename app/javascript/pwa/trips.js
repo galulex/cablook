@@ -25,11 +25,11 @@ export default class Trips extends Component {
   componentDidMount() {
     if (this.props.trips && this.props.trips.length > 0) return;
     this.loadTrips()
-    window.addEventListener('scroll', this.handleScroll, {passive: true});
+    window.addEventListener('scroll', this.handleScroll, { passive: true });
   }
 
   componentWillUnmount() {
-    window.removeEventListener('scroll', this.handleScroll, {passive: true});
+    window.removeEventListener('scroll', this.handleScroll, { passive: true });
   }
 
   applyUpdateResult = (result) => (prevState) => ({

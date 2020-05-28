@@ -130,6 +130,7 @@ main.login form {
   z-index: 100;
   max-width: 490px;
   width: 100%;
+  padding: 0 3%;
 }
 
 main.login p {
