@@ -27,7 +27,7 @@ fieldset.address {
   color: var(--font_color_1);
   border-radius: 10px;
   max-width: 65vw;
-  margin: 0 auto 5% auto;
+  margin: 0 auto calc(var(--vh, 1vh) * 3) auto;
 }
 
 fieldset.address:focus-within {
@@ -60,6 +60,7 @@ fieldset.address:focus-within {
   padding: 0 0 10px;
   box-shadow: 3px 3px 6px #24293038, inset -5px -5px 6px -3px #24293038, inset 1px 1px 3px -3px #ffffff;
   box-shadow: 3px 3px 6px var(--shadow_color), inset -5px -5px 6px -3px var(--shadow_color), inset 1px 1px 3px -3px var(--white);
+  height: calc(var(--vh, 1vh) * 17);
 }
 
 .search_logo {
@@ -133,7 +134,7 @@ fieldset.address:focus-within {
 }
 .new_design .remove-address {
   right: 8px;
-  top: 12px;
+  top: calc(var(--vh, 1vh) * 2);
   position: absolute;
   cursor: pointer;
   background: none;
@@ -142,7 +143,7 @@ fieldset.address:focus-within {
 }
 
 .new_design .remove-address svg {
-  height: 10px;
+  height: calc(var(--vh, 1vh) * 2);
 }
 
 
@@ -272,6 +273,10 @@ svg.pin-last path {
   padding: 2%;
 }
 
+.additions label {
+  width: 45%;
+}
+
 .additions label svg {
   height: 20px;
 }
@@ -333,7 +338,7 @@ svg.pin-last path {
   outline: none;
   cursor: pointer;
   -webkit-appearance: none;
-  height: 100px;
+  height: calc(var(--vh, 1vh) * 17);
   width: 50px;
   transition: width .3s;
   top: 0;
@@ -378,8 +383,8 @@ svg.pin-last path {
 
 label.nocall {
   padding: 6px 5px 6px 45px;
-  height: 30px;
-  font-size: 13px;
+  height: calc(var(--vh, 1vh) * 4);
+  font-size: calc(var(--vh, 1vh) * 2.6);
   font-weight: 100;
   min-width: 110px;
   max-width: 45%;

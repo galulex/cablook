@@ -4,13 +4,15 @@ input.address {
   border: none;
   background: rgba(255, 255, 255, 0);;
   padding: 14px 25px 12px 6px;
-  font-size: 13px;
+  font-size: calc(var(--vh, 1vh) * 2.6);
   color: #312d50;
   color: var(--navy);
   font-weight: 100;
   margin: 0 3% 0 7%;
   border-radius: 15px;
   transition: all .3s;
+  height: calc(var(--vh, 1vh) * 7);
+
 }
 
 
@@ -239,30 +241,29 @@ label {
 svg.map-pick {
   position: absolute;
   right: 10px;
-  top: 15px;
+  top: calc(var(--vh, 1vh) * 2.6);
   width: 19px;
-  height: 12px;
+  height: calc(var(--vh, 1vh) * 2);
   cursor: pointer;
 }
 
 select#entrance, input#time, .select select, select#select_time {
   color: #312d50;
   color: var(--navy);
-  font-size: 13px;
+  font-size: calc(var(--vh, 1vh) * 2.6);
   background: transparent;
   border: none;
   transition: box-shadow .3s;
-  height: 30px;
+  min-height: calc(var(--vh, 1vh) * 4);
   border-radius: 0;
   border: none;
-  padding: 6px 5px 6px 35px;
+  padding: 6px 5px 6px 30px;
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
-  min-width: 110px;
-  max-width: 45%;
   font-weight: 100;
   text-align: right;
+  width: 100%;
 }
 
 label[for='entrance']:after, label[for='time']:after {
@@ -316,7 +317,7 @@ select#entrance:focus, input#time:focus, input.comment:focus, select#card_id:foc
 
 label[for='entrance'], label[for='time'] {
   text-align: right;
-  font-size: 13px;
+  font-size: calc(var(--vh, 1vh) * 2.6);
 }
 
 .option label svg, .additions label svg, label[for='comment'] svg, .select svg {
@@ -345,8 +346,7 @@ input.comment {
   background: rgba(238, 246, 251, 0.8);
   background: var(--input_bg_color_transparent);
   border: none;
-  font-size: 13px;
-  padding: 2px;
+  font-size: calc(var(--vh, 1vh) * 2.6);
   outline: none;
   font-weight: 100;
   transition: box-shadow .3s;

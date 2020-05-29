@@ -1,6 +1,6 @@
 .car-popup.mapboxgl-popup .mapboxgl-popup-content {
   padding: 10px;
-  font-size: 13px;
+  font-size: calc(var(--vh, 1vh) * 2.6);
   font-weight: 100;
   background: #19A160;
   background: var(--green);
