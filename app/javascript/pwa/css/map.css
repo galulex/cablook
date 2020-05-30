@@ -126,7 +126,7 @@ svg.picker {
   background-position: center;
   background-size: 23px auto;
   pointer-events: auto;
-  background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHg9IjBweCIgeT0iMHB4IiB2aWV3Qm94PSItMjMwIDM2Ny45IDEzNSAxMDciPjxnIGZpbGw9IiMxMTExMTEiPjxwYXRoIGQ9Ik0tOTYuMyw0MjAuN2MtMS01LjYtOS45LTEyLjctMTIuNi0xOC45YzcuMywxLDExLjItMS41LDExLjQtMi4yYzAuNC0xLjItMS40LTQuOS0xLjQtNC45IGMtMC4yLTAuNi0wLjctMS4xLTEuNC0xLjJsLTQuNy0wLjRjLTEuNC0wLjItMi42LDAuOC0yLjYsMi4ydjMuOWMwLDAuMi0wLjIsMC40LTAuNCwwLjRoLTAuNWMtMC41LDAtMC45LTAuMy0xLjItMC43bC0xMi41LTIyLjIgYy0zLTUuNC04LjctOC44LTE1LTguOGgtMjUuM2gtMjUuNGMtNi4yLDAtMTEuOSwzLjQtMTUsOC44bC0xMi4zLDIyLjJjLTAuMiwwLjQtMC43LDAuNy0xLjIsMC43aC0wLjVjLTAuMiwwLTAuNC0wLjItMC40LTAuNHYtMy45IGMwLTEuNC0xLjMtMi41LTIuNi0yLjJsLTQuNywwLjRjLTAuNywwLjEtMS4yLDAuNS0xLjQsMS4yYzAsMC0xLjgsMy43LTEuNCw0LjljMC4yLDAuNyw0LjEsMy4yLDExLjQsMi4yIGMtMi44LDYuMi0xMS43LDEzLjMtMTIuNywxOC45Yy0yLjMsMTMuNC0xLDM4LjktMC4zLDQ5LjVjMC4yLDIuNywyLjQsNC44LDUuMSw0LjhoNi4xYzIuOCwwLDUuMS0yLjMsNS4xLTUuMXYtM2g1MC4zaDUwLjN2Mi45IGMwLDIuOCwyLjMsNS4xLDUuMSw1LjFoNi4xYzIuNywwLDQuOS0yLjEsNS4xLTQuOEMtOTUuMyw0NTkuNi05NCw0MzQuMS05Ni4zLDQyMC43eiBNLTE5Ni45LDM3NC43YzEuMi0yLjMsMzQuMS0yLjQsMzQuNS0yLjQgYzAuNCwwLDMzLjMsMC4yLDM0LjUsMi40YzQuOCw3LjUsMTAuMiwxOS4zLDkuMSwyMy4yYy0yLDMtMjUuNSw1LTQyLjUsNC43Yy0xMS4zLTAuMS00Mi42LTEuNy00NC43LTQuNyBDLTIwNy4xLDM5NC0yMDEuNywzODIuMi0xOTYuOSwzNzQuN3ogTS0xNTQuOSw0MjZjMCwwLjYtMC40LDEtMSwxaC0wLjhjLTAuNSwyLTIuNiwzLjUtNS4xLDMuNWMtMi41LDAtNC41LTEuNS01LjEtMy41aC0wLjggYy0wLjYsMC0xLTAuNC0xLTFzMC40LTEsMS0xaDAuOGMwLjUtMiwyLjYtMy41LDUuMS0zLjVjMi41LDAsNC41LDEuNSw1LjEsMy41aDAuOEMtMTU1LjMsNDI1LTE1NC45LDQyNS40LTE1NC45LDQyNnogTS0yMTUuNyw0MjEuNWMtMC40LTAuNi0yLjktNy40LTItMTNjMC41LTEuNSwyLjYtMy44LDQuNi02LjFjNi43LTEuMywxNC4yLDEzLjUsMTUuMywyNS4xQy0yMDAsNDI4LTIwOC41LDQyNi4xLTIxNS43LDQyMS41eiBNLTIwMy42LDQ1Ny43YzIuMS01LjIsOC40LTEzLDguNC0xM2MxLjEtMS43LDMtMi44LDUuMS0yLjhoMjcuNmgyNy42YzIuMSwwLDQsMSw1LjEsMi44YzAsMCw2LjQsNy44LDguNSwxMyBDLTEzMS44LDQ2My42LTE5My4xLDQ2My42LTIwMy42LDQ1Ny43eiBNLTEwOS43LDQyMS41Yy03LjIsNC42LTE1LjcsNi41LTE3LjksNmMxLjEtMTEuNiw4LjYtMjYuNCwxNS4zLTI1LjEgYzIsMi4zLDQuMSw0LjYsNC42LDYuMUMtMTA2LjgsNDE0LjEtMTA5LjMsNDIwLjktMTA5LjcsNDIxLjV6Ii8+PHBhdGggZD0iTS0xNjEuOCw0MjIuN2MtMS44LDAtMy4zLDEtMy44LDIuM2g3LjZDLTE1OC41LDQyMy43LTE2MCw0MjIuNy0xNjEuOCw0MjIuN3oiLz48cGF0aCBkPSJNLTE2MS44LDQyOS4zYzEuOCwwLDMuMy0xLDMuOC0yLjNoLTcuNkMtMTY1LjEsNDI4LjMtMTYzLjYsNDI5LjMtMTYxLjgsNDI5LjN6Ii8+PC9nPjwvc3ZnPg==);
+  background-image: url("data:image/svg+xml,%3C%3Fxml version='1.0' encoding='utf-8'%3F%3E%3Csvg version='1.1' id='Слой_1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' x='0px' y='0px' viewBox='0 0 200 200' enable-background='new 0 0 200 200' xml:space='preserve'%3E%3Cpath id='XMLID_397_' fill='%23312D50' d='M197.8,98.7c-1.5-8.3-14.6-18.8-18.6-28c10.8,1.5,16.6-2.2,16.9-3.3 c0.6-1.8-2.1-7.2-2.1-7.2c-0.3-0.9-1-1.6-2.1-1.8l-6.2-0.6c-2.1-0.3-3,1.2-3,3.3v5.8c0,0.3-1.9-1.1-2.2-1.1h-0.7 c-0.7,0-1.3,0.4-1.8-0.2l-18.5-32.2c-4.4-8-12.9-12.4-22.2-12.4H99.9H62.3c-9.2,0-17.6,4.8-22.2,12.8L21.9,65.7 c-0.3,0.6-1,0.1-1.8,0.1h-0.7c-0.3,0-0.2,1.4-0.2,1.1v-5.8c0-2.1-2.1-3.7-4.1-3.3l-7.1,0.6c-1,0.1-1.8,0.7-2.1,1.8 c0,0-2.7,5.5-2.1,7.2c0.3,1,6.1,4.7,16.9,3.3c-4.1,9.2-17.3,19.7-18.8,28c-3.4,19.8-1.5,57.5-0.4,73.2c0.3,4,3.5,7.1,7.5,7.1h9 c4.1,0,6.7-3.3,6.7-7.5v-4.9H100h74.4v4.8c0,4.1,3.4,6.2,7.6,6.2h9c4,0,7.2-2.5,7.5-6.4C199.3,155.6,201.2,118.6,197.8,98.7z M49,30.7c1.8-3.4,50.5-3.6,51-3.6s49.3,0.3,51,3.6c7.1,11.1,15.1,28.6,13.5,34.3c-3,4.4-37.7,7.4-62.9,7c-16.7-0.1-63-2.5-66.1-7 C33.9,59.2,41.9,41.8,49,30.7z M21.2,99.9c-0.6-0.9-4.3-10.9-3-19.2c0.7-2.2,3.8-5.6,6.8-9c9.9-1.9,21,20,22.6,37.1 C44.4,109.5,31.8,106.7,21.2,99.9z M39.1,153.5c3.1-7.7,12.4-19.6,12.4-19.6c1.6-2.5,4.4-4.5,7.5-4.5h40.8h40.8 c3.1,0,5.9,1.9,7.5,4.5c0,0,9.5,11.7,12.6,19.4C145.3,162,54.6,162.2,39.1,153.5z M178,99.9c-10.7,6.8-23.2,9.6-26.5,8.9 c1.6-17.2,12.7-39.1,22.6-37.1c3,3.4,6.1,6.8,6.8,9C182.3,89,178.6,99,178,99.9z'/%3E%3C/svg%3E")!important;
 }
 
 .mapboxgl-ctrl-top-right.dark .mapboxgl-ctrl {
@@ -152,6 +152,22 @@ svg.picker {
 
 .mapboxgl-ctrl-top-right.dark .mapboxgl-ctrl-group > button + button {
   border-color: #000;
+}
+
+.mapboxgl-ctrl button.mapboxgl-ctrl-zoom-in .mapboxgl-ctrl-icon {
+  background-image: url("data:image/svg+xml,%3C%3Fxml version='1.0' encoding='utf-8'%3F%3E%3Csvg version='1.1' id='Слой_1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' x='0px' y='0px' viewBox='0 0 200 200' enable-background='new 0 0 200 200' xml:space='preserve'%3E%3Cpolygon fill='%23312D50' points='123,123.1 199.8,123.1 199.8,77 123,77 123,0.2 76.9,0.2 76.9,77 0,77 0,123.1 76.9,123.1 76.9,200 123,200 '/%3E%3C/svg%3E")!important;
+}
+
+.mapboxgl-ctrl button.mapboxgl-ctrl-zoom-out .mapboxgl-ctrl-icon {
+  background-image: url("data:image/svg+xml,%3Csvg width='200' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Cg%3E%3Ctitle%3Ebackground%3C/title%3E%3Crect fill='none' id='canvas_background' height='402' width='582' y='-1' x='-1'/%3E%3C/g%3E%3Cg%3E%3Ctitle%3ELayer 1%3C/title%3E%3Cpath id='svg_5' d='m-0.492506,76.567286l202.000001,0l0,47.000001l-202.000001,0l0,-47.000001z' fill-opacity='null' stroke-opacity='null' stroke-width='null' stroke='null' fill='%23312D50'/%3E%3C/g%3E%3C/svg%3E")!important;
+}
+
+.mapboxgl-ctrl button.mapboxgl-ctrl-geolocate .mapboxgl-ctrl-icon {
+  background-image: url("data:image/svg+xml,%3C%3Fxml version='1.0' encoding='utf-8'%3F%3E%3Csvg version='1.1' id='Слой_1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' x='0px' y='0px' viewBox='0 0 200 200' enable-background='new 0 0 200 200' xml:space='preserve'%3E%3Cpath fill='%23312D50' d='M100,30c38.6,0,70,31.4,70,70s-31.4,70-70,70s-70-31.4-70-70S61.4,30,100,30 M82.1,0v15.6 c-33.2,7.1-59.4,33.3-66.5,66.5H0V118h15.5c7.1,33.2,33.4,59.4,66.6,66.5V200H118l0-15.6c33.2-7,59.4-33.2,66.5-66.5l15.6,0V82 h-15.6c-7.1-33.2-33.2-59.4-66.5-66.5V0H82.1z M100,67.8c-17.8,0-32.3,14.4-32.3,32.3s14.4,32.3,32.3,32.3s32.3-14.4,32.3-32.3 S117.8,67.8,100,67.8z'/%3E%3C/svg%3E")!important;
+}
+
+.mapboxgl-ctrl button .mapboxgl-ctrl-icon {
+  background-size: 50%;
 }
 
 .mapboxgl-ctrl-bottom-right {
