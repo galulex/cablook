@@ -116,8 +116,8 @@ fieldset.address:focus-within {
 
 
 .button.bonus {
-  background: #efcc3a;
-  background: var(--orange);
+  color: #efcc3a;
+  color: var(--orange);
   position: absolute;
   left: 0;
   right: 0;
@@ -125,6 +125,15 @@ fieldset.address:focus-within {
   bottom: 80px;
   width: calc(100% - 60px);
   max-width: 540px;
+}
+
+.button.bonus svg {
+  fill: #efcc3a;
+  fill: var(--orange);
+}
+
+.button.bonus:disabled svg {
+  fill: var(--input_color_1);
 }
 
 .button.pick_address {
