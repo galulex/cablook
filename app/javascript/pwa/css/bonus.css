@@ -20,7 +20,7 @@ ul.bonus-trips-list li span.bonus-badge__text {
   position: absolute;
   left: 50%;
   top: 50%;
-  transform: translate(-48%, -52%);
+  transform: translate(-55%, -52%);
   font-size: 20px;
 }
 
@@ -85,16 +85,7 @@ summary {
   cursor: pointer;
 }
 
-.profile .tab-content .tab-content__container.how-works {
-  background: rgba(233, 238, 237, .5);
-  box-shadow: inset 3px 2px 8px var(--shadow_color), inset -2px -1px 4px var(--white);
-}
-
-.profile .tab-content .tab-content__container.how-works:hover {
-  box-shadow: inset 3px 2px 8px var(--shadow_color), inset -2px -1px 4px var(--white);
-}
-
-.profile .tab-content .tab-content__container.how-works p {
+.profile .tab-content .tab-content__container.inset-shadow.how-works p {
   width: 100%;
   white-space: pre-wrap;
   text-align: justify;

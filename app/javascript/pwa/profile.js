@@ -10,11 +10,19 @@ import './css/profile.css'
 
 export default class FavoriteAddresses extends Component {
   componentDidMount() {
-    this.tabsContent.addEventListener('scroll', this.onScroll, {passive: true});
+    if (window.ios) this.activeTab.style.transition = 'all .3s'
+    this.tabsContent.addEventListener('scroll', this.onScroll, { passive: true })
   }
 
-  componentDidUnmount() {
-    this.tabsContent.removeEventListener('scroll', this.onScroll, {passive: true});
+  componentWillUnmount() {
+    this.tabsContent.removeEventListener('scroll', this.onScroll, { passive: true })
+    this.resetTabs()
+  }
+
+  resetTabs = () => {
+    const tabs = document.querySelectorAll('.tab__header')
+    this.setActiveClass(tabs[0])
+    this.activeTab.style.left = '0'
   }
 
   getActiveTab = (scrollPercent, tabs) => {
@@ -32,7 +40,8 @@ export default class FavoriteAddresses extends Component {
   onScroll = (e) => {
     const tabs = document.querySelectorAll('.tab__header')
     const scrollPercent = (this.tabsContent.scrollLeft / this.tabsContent.scrollWidth) * 100
-    this.activeTab.style.left = `${scrollPercent}%`
+    const fixedPercent = scrollPercent.toFixed()
+    window.ios ? this.activeTab.className = `tab__active left_${fixedPercent >= 10 ? fixedPercent : `0${fixedPercent}`}` : this.activeTab.style.left = `${scrollPercent}%`
     this.setActiveClass(this.getActiveTab(scrollPercent, tabs))
   }
 
