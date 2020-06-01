@@ -244,7 +244,7 @@ nav {
   display: flex;
   justify-content: center;
   position: fixed;
-  height: 100%;
+  height: calc(var(--vh, 1vh) * 100);
   width: 100%;
   left: 0px;
   top: 0px;

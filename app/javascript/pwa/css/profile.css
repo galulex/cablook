@@ -219,7 +219,7 @@ input.custom-checkbox ~ .custom-checkbox__label-title {
   height: 0;
 }
 
-.profile .tabs__holder .tab__active {
+.tab__active {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -242,6 +242,62 @@ input.custom-checkbox ~ .custom-checkbox__label-title {
   will-change: left;
  }
 
+[class*=left_0], [class*=left_01], [class*=left_02], [class*=left_03], [class*=left_04] {
+  left: 0%;
+}
+
+[class*=left_05], [class*=left_06], [class*=left_07], [class*=left_08], [class*=left_09] {
+  left: 5%;
+}
+
+[class*=left_10], [class*=left_11], [class*=left_12], [class*=left_13], [class*=left_14] {
+  left: 10%;
+}
+
+[class*=left_15], [class*=left_16], [class*=left_17], [class*=left_18], [class*=left_19] {
+  left: 15%;
+}
+
+[class*=left_20], [class*=left_21], [class*=left_22], [class*=left_23], [class*=left_24] {
+  left: 20%;
+}
+
+[class*=left_25], [class*=left_26], [class*=left_27], [class*=left_28], [class*=left_29] {
+  left: 25%;
+}
+
+[class*=left_30], [class*=left_31], [class*=left_32] {
+  left: 30%;
+}
+
+[class*=left_33], [class*=left_34], [class*=left_35], [class*=left_34], [class*=left_35], [class*=left_36], [class*=left_37], [class*=left_38], [class*=left_39] {
+  left: 33%;
+}
+
+[class*=left_40], [class*=left_41], [class*=left_42], [class*=left_43], [class*=left_44] {
+  left: 40%;
+}
+
+[class*=left_45], [class*=left_46], [class*=left_47], [class*=left_48], [class*=left_49] {
+  left: 45%;
+}
+
+[class*=left_50], [class*=left_51], [class*=left_52], [class*=left_53], [class*=left_54] {
+  left: 50%;
+}
+
+[class*=left_55], [class*=left_56], [class*=left_57], [class*=left_58], [class*=left_59] {
+  left: 55%;
+}
+
+[class*=left_60], [class*=left_61], [class*=left_62], [class*=left_63], [class*=left_64] {
+  left: 60%;
+}
+
+[class*=left_65], [class*=left_66], [class*=left_67] {
+  left: 66%;
+}
+
 .profile .tab-content {
   height: 100%;
   width: 100%;
@@ -260,7 +316,7 @@ input.custom-checkbox ~ .custom-checkbox__label-title {
   -webkit-overflow-scrolling: touch;
 }
 
-.profile .tab-content .tab-content__container {
+.tab-content__container {
   width: 100%;
   color: #233038;
   color: var(--font_color_2);
@@ -273,8 +329,13 @@ input.custom-checkbox ~ .custom-checkbox__label-title {
   transition: all .5s;
 }
 
-.profile .tab-content .tab-content__container:hover {
-  /* box-shadow: 2px 2px 5px var(--shadow_color), inset 2px 2px 5px var(--white); */
+.tab-content__container.inset-shadow {
+  background: rgba(233, 238, 237, .5);
+  box-shadow: inset 3px 2px 8px var(--shadow_color), inset -2px -1px 4px var(--white);
+}
+
+.tab-content__container:hover {
+  box-shadow: 2px 2px 5px var(--shadow_color), inset 2px 2px 5px var(--white);
 }
 
 .tab-content__container h5 {
@@ -455,6 +516,12 @@ button.friend-code {
   .profile .tabs__holder {
     font-size: 75%;
   }
+}
+
+@media (hover: hover) {
+  /* .profile .tab-content .tab-content__container {
+    box-shadow: 2px 2px 5px var(--shadow_color), inset 2px 2px 5px var(--white);
+  } */
 }
 
 .profile::-webkit-scrollbar,

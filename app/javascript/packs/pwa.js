@@ -1,6 +1,6 @@
 //Apply dark theme
 window.dark = localStorage.getItem('dark') === 'true'
-window.ios = ['iPhone', 'iPad', 'iPod'].includes(navigator.platform)
+window.ios = ['iPhone', 'iPad', 'iPod', 'MacIntel'].includes(navigator.platform)
 if (window.dark) {
   document.documentElement.style.setProperty('--white', 'black');
   document.documentElement.style.setProperty('--navy', 'white');
@@ -92,7 +92,7 @@ export default class App extends Component {
     if (!navigator.onLine) this.offline()
   }
 
-  componentDidUnmount() {
+  componentWillUnmount() {
     this.main.removeEventListener('scroll', this.scrollEnd, { passive: true })
     document.removeEventListener('touchstart', this.setTouching, { passive: true })
     document.removeEventListener('touchend', this.setTouching, { passive: true })
@@ -329,13 +329,8 @@ export default class App extends Component {
     window.scrollTimeout = setTimeout(() => {
       if (target.scrollLeft == 0 || target.scrollLeft == target.offsetWidth || target.scrollLeft == 300) return
       let x = (target.scrollLeft > 0 && target.scrollLeft < target.offsetWidth / 2) ? 0 : target.offsetWidth
-      target.scrollTo({left: x})
+      if (!window.isTouching) target.scrollTo({left: x})
     }, 300)
-    // clearInterval(window.isScrolling)
-    // if (!this.main.classList.contains('disable-events')) this.main.classList.add('disable-events')
-    // window.isScrolling = setInterval(() => {
-    //     if (!window.isTouching) { this.main.classList.remove('disable-events'); clearInterval(window.isScrolling) }
-    // }, 50)
     if(target.id === 'app') this.setNegativeScroll(this.main.scrollLeft)
   }
 
@@ -357,7 +352,7 @@ render() {
     if (this.state.currentUser) {
       return(
         <main id="app" onClick={this.closeDrawer} ref={main => this.main = main}>
-          { !this.showFeedback() && <button class='button white-opacity burger' style={this.state.isScrollNegative ? 'display: none;' : ''} onClick={this.triggerDrawer}><Burger/></button> }
+          { !this.showFeedback() && !this.state.isScrollNegative && <button class='button white-opacity burger' onClick={this.triggerDrawer}><Burger/></button> }
           <Drawer triggerDrawer={this.triggerDrawer} logOut={this.logOut} />
           <Router history={window.ios ? createMemoryHistory() : null} onChange={() => this.triggerDrawer(false)}>
             <NewDesign path='/'

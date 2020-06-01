@@ -20,7 +20,7 @@ export default class Contacts extends Component {
       <div>
         <header>{i18n.contacts.header}</header>
         <section>
-          <ul class='contacts'>
+          <ul class='contacts tab-content__container'>
             <li>
               <a href={MAILTO}>
                 <Email/>
@@ -46,7 +46,9 @@ export default class Contacts extends Component {
               </a>
             </li>
           </ul>
-          <h3 class='notice'>{i18n.contacts.message}</h3>
+          <div class='tab-content__container inset-shadow'>
+            <h3 class='notice'>{i18n.contacts.message}</h3>
+          </div>
         </section>
       </div>
     )

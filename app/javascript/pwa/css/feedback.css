@@ -80,7 +80,7 @@ section.feedback {
   margin-top: 0;
   margin-bottom: 0;
   max-width: 540px;
-  overflow-y: overlay;
+  overflow-y: scroll;
 }
 
 section.feedback .stars-container {
@@ -167,8 +167,7 @@ section.new_design .feedback__holder, section.trips .feedback__holder {
   justify-content: center;
   position: fixed;
   z-index: 400;
-  max-width: 100%;
-  height: 100%;
+  height: calc(var(--vh, 1vh) * 100);
   left: 0;
   right: 0;
   top: 0;
@@ -194,10 +193,4 @@ section.new_design .feedback__holder, section.trips .feedback__holder {
     max-width: 500px;
   }
 
-  section.feedback svg.driver {
-    position: relative;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 50%;
-  }
 }
