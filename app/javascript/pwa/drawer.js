@@ -31,7 +31,7 @@ export default class Drawer extends Component {
               <b>{ localStorage.phone }</b>
             </div>
           </Link>
-          <Link activeClassName='active' href='/'><Home class="home-icon"/>{i18n.drawer.home}</Link>
+          <Link activeClassName='active' href='/' class='nav-link'><Home class="home-icon"/>{i18n.drawer.home}</Link>
           <Link activeClassName='active' href='/trips' class='nav-link'><Trip/>{i18n.drawer.trips}</Link>
           <Link activeClassName='active' href='/cards' class='nav-link'><Card/>{i18n.drawer.cards}</Link>
           <Link activeClassName='active' href='/contacts' class='nav-link'><Contact/>{i18n.drawer.contacts}</Link>

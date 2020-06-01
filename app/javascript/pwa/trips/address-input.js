@@ -109,26 +109,13 @@ export default class AddressInput extends Component {
     })
   }
 
-  toggleElements = () => {
-    const burgers = document.getElementsByClassName('burger')
-    const headers = document.querySelectorAll('header')
-    if (burgers.length <= 1 && headers.length <= 1) return
-    if (burgers[0].classList.contains('hidden') && headers[0].classList.contains('hidden')) {
-      burgers[0].classList.remove('hidden')
-      headers[0].classList.remove('hidden')      
-    } else {
-      burgers[0].classList.add('hidden')
-      headers[0].classList.add('hidden')
-    }
-  }
-
   openMap = (event) => {
     if (this.props.pickAddress) {
       event.target.classList.add('current')
       this.props.pickAddress(this.props.index)
       return
     }
-    this.setState({isShowMap: true}, () => { this.toggleElements() })
+    this.setState({isShowMap: true}, () => { this.props.toggleElements() })
     if (window.ios) return
     history.pushState(null, null,'/')
     window.addEventListener('popstate', this.handleBack, {once: true})
@@ -199,7 +186,7 @@ export default class AddressInput extends Component {
                                     geocode={geocode}
                                     isGeocoding={this.props.isGeocoding}
                                     setGeocoding={this.props.setGeocoding}
-                                    toggleElements={this.toggleElements}
+                                    toggleElements={this.props.toggleElements}
                                   /> }
 
         <input required class='address' placeholder={placeholder} type='text' disabled={index === 0 ? inputDisabled : false}

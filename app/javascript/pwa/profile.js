@@ -20,9 +20,8 @@ export default class FavoriteAddresses extends Component {
   }
 
   resetTabs = () => {
-    const tabs = document.querySelectorAll('.tab__header')
-    this.setActiveClass(tabs[0])
     this.activeTab.style.left = '0'
+    this.setActiveClass(this.tabsContainer.children[0])
   }
 
   getActiveTab = (scrollPercent, tabs) => {
@@ -38,11 +37,10 @@ export default class FavoriteAddresses extends Component {
   }
 
   onScroll = (e) => {
-    const tabs = document.querySelectorAll('.tab__header')
     const scrollPercent = (this.tabsContent.scrollLeft / this.tabsContent.scrollWidth) * 100
     const fixedPercent = scrollPercent.toFixed()
     window.ios ? this.activeTab.className = `tab__active left_${fixedPercent >= 10 ? fixedPercent : `0${fixedPercent}`}` : this.activeTab.style.left = `${scrollPercent}%`
-    this.setActiveClass(this.getActiveTab(scrollPercent, tabs))
+    this.setActiveClass(this.getActiveTab(scrollPercent, this.tabsContainer.children))
   }
 
   onClick = (e) => {
@@ -53,8 +51,7 @@ export default class FavoriteAddresses extends Component {
 
   setActiveClass = (target) => {
     if (target.classList.contains('active')) return
-    const tabs = document.querySelectorAll('.tab__header')
-    for(const tab of tabs) { if(tab.classList.contains('active')) tab.classList.remove('active') }
+    for(const tab of this.tabsContainer.children) { if(tab.classList.contains('active')) tab.classList.remove('active') }
     target.classList.add('active')
   }
 
@@ -93,6 +90,7 @@ export default class FavoriteAddresses extends Component {
                   isGeocoding={this.props.isGeocoding}
                   setGeocoding={this.props.setGeocoding}
                   setAddress={this.props.setAddress}
+                  toggleElements={this.props.toggleElements}
                 />
               </div>
               <div class='tab-content'>
