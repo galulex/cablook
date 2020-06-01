@@ -254,7 +254,7 @@ svg.pin-last path {
 
 
 @media screen and (max-width: 630px) {
-  .options.noscroll .address, .options.noscroll .predictions {
+  .options.noscroll .address, .options.noscroll .predictions, .pick .options fieldset.address {
     max-width: 75vw;
   }
 }
