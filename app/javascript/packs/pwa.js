@@ -348,6 +348,20 @@ export default class App extends Component {
   setActivateFeedback = (activateFeedback = false) => {
     this.setState({activateFeedback})
   }
+
+  toggleElements = () => {
+    const burgers = document.getElementsByClassName('burger')
+    const headers = document.querySelectorAll('header')
+    if (burgers.length <= 1 && headers.length <= 1) return
+    if (burgers[0].classList.contains('hidden') && headers[0].classList.contains('hidden')) {
+      burgers[0].classList.remove('hidden')
+      headers[0].classList.remove('hidden')      
+    } else {
+      burgers[0].classList.add('hidden')
+      headers[0].classList.add('hidden')
+    }
+  }
+
 render() {
     const { currentTrip, isGeocoding } = this.state
 
@@ -376,6 +390,7 @@ render() {
               showFeedback={this.showFeedback}
               setActivateFeedback={this.setActivateFeedback}
               setGeocoding={this.setGeocoding}
+              toggleElements={this.toggleElements}
             />
             <Trips path='/trips/:id?'
               setCurrentTrip={this.setCurrentTrip}
@@ -396,12 +411,15 @@ render() {
               geocode={this.geocode}
               isGeocoding={isGeocoding}
               setGeocoding={this.setGeocoding}
+              toggleElements={this.toggleElements}
             />
             <Vendors path='/delivery'
               setCurrentTrip={this.setCurrentTrip}
+              toggleElements={this.toggleElements}
             />
             <Vendor path='/delivery/:id'
               setCurrentTrip={this.setCurrentTrip}
+              toggleElements={this.toggleElements}
             />
             <NotFound type='404' default />
             <Cart path='/delivery/cart'
@@ -411,6 +429,7 @@ render() {
               geocode={this.geocode}
               isGeocoding={isGeocoding}
               setGeocoding={this.setGeocoding}
+              toggleElements={this.toggleElements}
             />
           </Router>
           <Prompt />

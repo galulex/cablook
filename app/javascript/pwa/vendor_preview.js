@@ -14,6 +14,14 @@ export default class VendorPreview extends Component {
     }
   }
 
+  componentDidMount() {
+    this.props.toggleElements()
+  }
+
+  componentWillUnmount() {
+    this.props.toggleElements()
+  }
+
   buildTrip = () => {
     const { trip } = this.state
 

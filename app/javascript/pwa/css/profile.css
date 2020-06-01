@@ -334,10 +334,6 @@ input.custom-checkbox ~ .custom-checkbox__label-title {
   box-shadow: inset 3px 2px 8px var(--shadow_color), inset -2px -1px 4px var(--white);
 }
 
-.tab-content__container:hover {
-  box-shadow: 2px 2px 5px var(--shadow_color), inset 2px 2px 5px var(--white);
-}
-
 .tab-content__container h5 {
   white-space: pre-wrap;
 }
