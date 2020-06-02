@@ -7,7 +7,7 @@ ul.bonus-trips-list li div.bonus-badge {
   position: relative;
   text-align: center;
   font-weight: bold;
-  line-height: 1.8;
+  line-height: 1.7;
   font-size: 2vh;
   font-size: calc(var(--vh, 1vh) * 2);
   background: #312d50;
@@ -16,12 +16,11 @@ ul.bonus-trips-list li div.bonus-badge {
 }
 
 ul.bonus-trips-list li span.bonus-badge__text {
-  height: 100%;
   position: absolute;
   left: 50%;
   top: 50%;
-  transform: translate(-55%, -52%);
-  font-size: 20px;
+  transform: translate(-50%, -48%);
+  font-size: 100%;
 }
 
 ul.bonus-trips-list li.bonus-iced div.bonus-badge {
