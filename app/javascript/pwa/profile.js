@@ -8,9 +8,10 @@ import Statistics from './tabs/statistics.js'
 
 import './css/profile.css'
 
+let scrollEndTimeout
+
 export default class FavoriteAddresses extends Component {
   componentDidMount() {
-    if (window.ios) this.activeTab.style.transition = 'all .3s'
     this.tabsContent.addEventListener('scroll', this.onScroll, { passive: true })
   }
 
@@ -37,10 +38,23 @@ export default class FavoriteAddresses extends Component {
   }
 
   onScroll = (e) => {
-    const scrollPercent = (this.tabsContent.scrollLeft / this.tabsContent.scrollWidth) * 100
-    const fixedPercent = scrollPercent.toFixed()
-    window.ios ? this.activeTab.className = `tab__active left_${fixedPercent >= 10 ? fixedPercent : `0${fixedPercent}`}` : this.activeTab.style.left = `${scrollPercent}%`
+    let scrollPercent = (this.tabsContent.scrollLeft / this.tabsContent.scrollWidth) * 100
+    switch(true) {
+      case (scrollPercent <= 0):
+        scrollPercent = 0
+        break
+      case (scrollPercent >= 66):
+        scrollPercent = 66
+        break
+      default:
+        break
+    }
+    this.activeTab.animate({left: `${scrollPercent}%`}, '300', 'smooth')
+    clearTimeout(scrollEndTimeout)
     this.setActiveClass(this.getActiveTab(scrollPercent, this.tabsContainer.children))
+    scrollEndTimeout = setTimeout(() => {
+      if(!window.isTouching) this.activeTab.style.left = `${scrollPercent}%`
+    }, 10)
   }
 
   onClick = (e) => {
