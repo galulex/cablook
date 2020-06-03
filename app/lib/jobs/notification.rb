@@ -12,6 +12,14 @@ module Jobs
       fcm = FCM.new(ENV['FCM_SERVER_KEY'])
       registration_ids = trip.user.devices.fcm.pluck(:token)
       options = {
+        mutable_content: true,
+        content_available: true,
+        badge: 9,
+        notification: {
+          title: 'CabLook',
+          body: message,
+          sound: 'default'
+        },
         data: {
           title: 'CabLook',
           body: message,
@@ -22,7 +30,8 @@ module Jobs
             id: trip.id.to_s,
             user_token: trip.user.auth_token
           }
-        }
+        },
+        priority: 'high'
       }
       case trip.status
       when Constants::Trip::STATUS_CODES[Constants::Trip::PENDING]
@@ -40,19 +49,20 @@ module Jobs
             }
           ]
         }
-        options[:data][:trip][:action] =  message == 'clear' ? 'remove_notifications' : 'retry'
+        options[:data][:trip][:action] = message == 'clear' ? 'remove_notifications' : 'retry'
+        options[:notification][:click_action] = 'cablook.retry'
       when Constants::Trip::STATUS_CODES[Constants::Trip::CANCELED]
         options[:data][:trip][:action] = 'remove_notifications'
       when Constants::Trip::STATUS_CODES[Constants::Trip::DRIVING]
         options[:data][:trip][:action] = 'driving'
       when Constants::Trip::STATUS_CODES[Constants::Trip::WAITING_CLIENT]
         options[:data][:actions] = {
-            actions: [
-              {
-                action: 'coming',
-                title: I18n.t('notification.actions.coming')
-              }
-            ]
+          actions: [
+            {
+              action: 'coming',
+              title: I18n.t('notification.actions.coming')
+            }
+          ]
         }
         options[:data][:trip][:action] = 'coming'
       when Constants::Trip::STATUS_CODES[Constants::Trip::ON_THE_WAY]
@@ -65,6 +75,7 @@ module Jobs
           ]
         }
         options[:data][:trip][:action] = 'reply'
+        options[:notification][:click_action] = 'cablook.reply'
       else
       end
       fcm.send(registration_ids, options)
