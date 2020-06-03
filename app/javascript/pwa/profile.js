@@ -49,11 +49,11 @@ export default class FavoriteAddresses extends Component {
       default:
         break
     }
-    this.activeTab.animate({left: `${scrollPercent}%`}, '300', 'smooth')
+    if(window.ios) this.activeTab.animate({left: `${scrollPercent}%`}, { duration: 300 })
     clearTimeout(scrollEndTimeout)
     this.setActiveClass(this.getActiveTab(scrollPercent, this.tabsContainer.children))
     scrollEndTimeout = setTimeout(() => {
-      if(!window.isTouching) this.activeTab.style.left = `${scrollPercent}%`
+      this.activeTab.style.left = `${scrollPercent}%`
     }, 10)
   }
 

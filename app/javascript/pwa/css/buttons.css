@@ -53,7 +53,7 @@
 }
 
 .button:disabled {
-  box-shadow: 2px 2px 5px var(--shadow_color), inset 5px 5px 5px 1px var(--shadow_color);
+  box-shadow: inset 2px 2px 5px 1px var(--shadow_color), inset -2px -2px 5px 1px var(--white);
   color: #233038;
 }
 
