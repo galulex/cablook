@@ -163,7 +163,7 @@ input.custom-checkbox ~ .custom-checkbox__label-title {
 
 .profile .tabs__container {
   position: absolute;
-  left: 0;
+  left: 0%;
   top: 0;
   z-index: 2;
   display: flex;
@@ -224,7 +224,7 @@ input.custom-checkbox ~ .custom-checkbox__label-title {
   align-items: center;
   justify-content: center;
   position: absolute;
-  left: 0;
+  left: 0%;
   top: 0;
   font-size: inherit;
   z-index: 1;
