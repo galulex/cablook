@@ -100,7 +100,9 @@ address:last-of-type svg {
   width: 10px;
   height: 10px;
 }
+
 .trip-card p span .star-icon path {
+  fill: #19a160;
   fill: var(--green);
 }
 
