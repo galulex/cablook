@@ -34,6 +34,14 @@ details {
   position: relative;
 }
 
+.vendor-page details:first-of-type summary.vendor-category {
+  border-radius: 15px 15px 0 0;
+}
+
+.vendor-page details:last-of-type summary.vendor-category {
+  border-radius: 0 0 15px 15px;
+}
+
 summary.vendor-category::-webkit-details-marker {
   display: none;
 }

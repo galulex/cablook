@@ -42,6 +42,22 @@
   box-shadow: inset 5px 5px 5px 1px var(--shadow_color), inset -2px -2px 5px 1px #4fb785;
 }
 
+.button.navy {
+  color: white;
+  color: var(--white);
+  background: #19a160;
+  background: var(--navy);
+  box-shadow: 5px 3px 12px var(--shadow_color), inset -2px -2px 5px 1px var(--shadow_color);  
+}
+
+.button.navy:hover {
+  box-shadow: 2px 2px 5px var(--shadow_color), inset -2px -2px 5px 1px var(--shadow_color);
+}
+
+.button.navy:active {
+  box-shadow: 2px 2px 5px var(--shadow_color), inset 5px 5px 5px 1px var(--shadow_color);
+}
+
 .button.white-opacity {
   background: rgba(255, 255, 255, .5);
   background: var(--button-background);

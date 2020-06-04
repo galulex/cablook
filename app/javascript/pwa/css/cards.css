@@ -6,7 +6,8 @@ ul.cards {
 
 ul.cards li {
   position: relative;
-  margin: 7vh 0;
+  width: 90%;
+  margin: 7vh auto;
 }
 
 ul.cards svg.card {

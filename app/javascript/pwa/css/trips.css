@@ -62,10 +62,10 @@ address:last-of-type svg {
 .trip-card {
   background: rgba(255, 255, 255, .3);
   margin: 4% 0;
-  padding: 4%;
+  padding: 4% 6%;
   border-bottom: none;
   cursor: pointer;
-  box-shadow: 5px 3px 12px var(--shadow_color), inset 1px 0px 2px var(--white);
+  box-shadow: 5px 3px 12px var(--shadow_color), inset -3px -3px 5px 1px var(--shadow_color);
   border-radius: 15px;
 }
 
