@@ -1,9 +1,11 @@
 * {
   user-select: none;
+  -webkit-user-select: none;
 }
 
-input, select {
+input, select, textarea {
   user-select: text;
+  -webkit-user-select: text;
 }
 
 svg {
@@ -72,7 +74,8 @@ fieldset.address:focus-within {
 }
 
 .background .mapboxgl-canvas {
-  opacity: 0.85;
+  opacity: 0.85;        {(fieldsCount > 2 || address !== '') && !hideRemove && !readonly && (<button disabled={index === 0 ? inputDisabled : false} class='remove-address' type='button' onClick={() => this.eraseAddress(index)}>×</button>)}
+
 }
 
 .wrapper {

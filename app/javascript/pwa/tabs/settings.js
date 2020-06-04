@@ -119,6 +119,7 @@ export default class Settings extends Component {
           language={this.props.language}
           isGeocoding={this.props.isGeocoding}
           setGeocoding={this.props.setGeocoding}
+          toggleElements={this.props.toggleElements}
           ref={input => this.addressInput = input}
         />
         <button class="button green add_fav_address" type="button" disabled={this.state.disabled} onClick={this.create}>OK</button>
@@ -178,7 +179,7 @@ export default class Settings extends Component {
     return (
       <div class='tab-content__holder'>
         <div class='tab-content__container'>
-          <div class='tab-content__items'>
+          <div class='tab-content__items language'>
             <div class='tab-content__label-container'>
               <input id='dark' class='custom-checkbox' type='checkbox' value='dark' onChange={this.changeTheme} checked={window.dark}/>
               <label for='dark' class='custom-checkbox__label'></label>

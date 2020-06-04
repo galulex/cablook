@@ -21,6 +21,8 @@ ul.contacts li a svg {
   height: 30px;
   margin-right: 10px;
   width: 30px;
+  border-radius: 10px;
+  box-shadow: 2px 2px 8px var(--shadow_color);
 }
 
 h1.notice {

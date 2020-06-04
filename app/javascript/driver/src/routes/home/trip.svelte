@@ -2,6 +2,8 @@
   import { onMount, onDestroy } from 'svelte'
   import axios from 'axios'
 
+  let showModal = false;
+
   import Leaf from '../../../images/Leaf_black.svelte'
   import Timer from '../../../images/Timer.svelte'
   import Clock from '../../../images/Clock.svelte'
@@ -18,6 +20,8 @@
   import Dollar from '../../../images/Dollar.svelte'
   import Exclamation from '../../../images/Exclamation.svelte'
   import Check from '../../../images/Check.svelte'
+  import Pencil from '../../../images/Pencil.svelte'
+  import Modal from '../../Modal.svelte';
 
   export let trip
   export let updateTrip
@@ -276,6 +280,7 @@
               style="background: #89d5d4;">
         <svelte:component this={actions[trip.status - 1].icon} style={{fill: 'var(--white)', width: '25px', height: '25px' }}/>
       </button>
+      <button on:click="{() => showModal = true}"><Pencil style={{fill: 'var(--main_dark_color)', width: '25px', height: '25px'}}/></button>
     </div>
     <div class='buttons'>
       <a class='button' href={`tel:${trip.user_number}`}>
@@ -298,4 +303,8 @@
       <button type='button' on:click={unrelease} disabled={disabled}><Back style={{fill: 'var(--main_dark_color)', width: '25px', height: '25px'}}/></button>
     </div>
   </div>
+
+  {#if showModal}
+    <Modal on:close="{() => showModal = false}" trip={trip} subscribe={subscribe()}></Modal>
+  {/if}
 </li>

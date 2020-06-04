@@ -6,6 +6,10 @@ svg.star {
   margin: 0 !important;
 }
 
+section.feedback header {
+  color: white;
+}
+
 section.feedback label.star {
   width: 15%;
 }
@@ -30,12 +34,14 @@ input[name='rate']:checked ~ label .star-icon path {
   fill: none;
   filter: none;
 }
+
 input[name='tip'] {
   opacity: 0;
   position: absolute;
 }
 
 input[name='tip']:checked + label.tip {
+  padding: 0;
   box-shadow: inset 3px 3px 4px var(--shadow_color);
   border: 2px solid var(--green);
   color: var(--green);
@@ -58,9 +64,12 @@ label.tip {
   align-items: center;
   width: 15%;
   min-width: 45px;
-  max-height: 50px;
+  height: 45px;
+  padding: 2px;
   text-align: center;
+  border: none;
   border-radius: 10px;
+  transition: all .3s;
 }
 
 section.feedback {
@@ -71,7 +80,7 @@ section.feedback {
   margin-top: 0;
   margin-bottom: 0;
   max-width: 540px;
-  overflow-y: overlay;
+  overflow-y: scroll;
 }
 
 section.feedback .stars-container {
@@ -158,8 +167,7 @@ section.new_design .feedback__holder, section.trips .feedback__holder {
   justify-content: center;
   position: fixed;
   z-index: 400;
-  max-width: 100%;
-  height: 100%;
+  height: calc(var(--vh, 1vh) * 100);
   left: 0;
   right: 0;
   top: 0;
@@ -185,10 +193,4 @@ section.new_design .feedback__holder, section.trips .feedback__holder {
     max-width: 500px;
   }
 
-  section.feedback svg.driver {
-    position: relative;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 50%;
-  }
 }

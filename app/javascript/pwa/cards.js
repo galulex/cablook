@@ -39,20 +39,20 @@ export default class Cards extends Component {
 
   render() {
     let cardList = (<div><h1 class='nocards'>{i18n.cards.no_cards}</h1><CardsIcon class='nocards'/></div>)
-    if (this.state.cards.length > 0) {
-      cardList = (
-        <ul class='cards'>
-          { this.state.cards.map((card, i) => {
-            if (card.user_id === this.props.currentUserID()) return(
-              <li>
-                { this.renderCardType(card.type, card.pan) }
-                <button class='x-card' type='button' onClick={() => this.delete(card.id, i)}><Close fill='#a925ad'/></button>
-              </li>
-            )
-          })}
-        </ul>
-      )
-    }
+      if (this.state.cards.length > 0) {
+        cardList = (
+          <ul class='cards'>
+            { this.state.cards.map((card, i) => {
+              if (card.user_id === this.props.currentUserID()) return(
+                <li>
+                  { this.renderCardType(card.type, card.pan) }
+                  <button class='x-card' type='button' onClick={() => this.delete(card.id, i)}><Close fill='#a925ad'/></button>
+                </li>
+              )
+            })}
+          </ul>
+        )
+      }
     return (
       <div>
         <header>Cards</header>

@@ -19,11 +19,6 @@ ul.places li span.address {
   cursor: default;
 }
 
-ul.places li span.address:hover,
-ul.places li span.address:focus {
-  border-bottom: .5px solid rgba(119, 119, 119, .2);
-}
-
 ul.places li button {
   width: 5%;
   min-width: 15px;
@@ -81,7 +76,7 @@ input.custom-checkbox:checked ~ .custom-checkbox__label {
 }
 
 input.custom-checkbox:focus ~ .custom-checkbox__label {
-  box-shadow: inset 0px 0px 3px 1px var(--shadow_color);
+  box-shadow: inset 0 0 3px 1px var(--shadow_color);
 }
 
 input.custom-checkbox:active ~ .custom-checkbox__label {
@@ -127,7 +122,8 @@ input.custom-checkbox ~ .custom-checkbox__label-title {
   background: transparent;
   border-radius: 0;
   padding: 0;
-  font-size: 2.6vh;
+  font-size: 2.6        {(fieldsCount > 2 || address !== '') && !hideRemove && !readonly && (<button disabled={index === 0 ? inputDisabled : false} class='remove-address' type='button' onClick={() => this.eraseAddress(index)}>×</button>)}
+vh;
   font-size: calc(var(--vh, 1vh) * 2.6);
   -webkit-appearance: none;
   -moz-appearance: none;
@@ -162,16 +158,14 @@ input.custom-checkbox ~ .custom-checkbox__label-title {
   width: 90%;
   height: 8.7vh;
   height: calc(var(--vh, 1vh) * 8.7);
+  font-size: 70%;
   border-radius: 15px;
-  box-shadow: inset 3px 2px 8px #24293038, inset -2px -1px 4px white;
   box-shadow: inset 3px 2px 8px var(--shadow_color), inset -2px -1px 4px var(--white);
-  overflow-x: scroll;
-  -webkit-overflow-scrolling: touch;
 }
 
 .profile .tabs__container {
   position: absolute;
-  left: 0;
+  left: 0%;
   top: 0;
   z-index: 2;
   display: flex;
@@ -189,7 +183,7 @@ input.custom-checkbox ~ .custom-checkbox__label-title {
   width: 33%;
   height: 100%;
   font-weight: 100;
-  font-size: 3vw;
+  font-size: inherit;
   color: #233038;
   color: var(--font_color_2);
   border: none;
@@ -227,13 +221,14 @@ input.custom-checkbox ~ .custom-checkbox__label-title {
   height: 0;
 }
 
-.profile .tabs__holder .tab__active {
+.tab__active {
   display: flex;
   align-items: center;
   justify-content: center;
   position: absolute;
-  left: 0;
+  left: 0%;
   top: 0;
+  font-size: inherit;
   z-index: 1;
   height: 100%;
   width: 33%;
@@ -246,13 +241,14 @@ input.custom-checkbox ~ .custom-checkbox__label-title {
   transition: all .1s;
   scroll-behavior: smooth;
   transform: translateX(0%);
-  -webkit-overflow-scrolling: touch;
+  will-change: left;
  }
 
 .profile .tab-content {
   height: 100%;
   width: 100%;
   flex: 0 0 auto;
+  direction: ltr;
 }
 
 .profile .tab-content__holder {
@@ -266,7 +262,7 @@ input.custom-checkbox ~ .custom-checkbox__label-title {
   -webkit-overflow-scrolling: touch;
 }
 
-.profile .tab-content .tab-content__container {
+.tab-content__container {
   width: 100%;
   color: #233038;
   color: var(--font_color_2);
@@ -274,15 +270,14 @@ input.custom-checkbox ~ .custom-checkbox__label-title {
   margin-top: 7vh;
   margin-top: calc(var(--vh, 1vh) * 7);
   border-radius: 15px;
-  box-shadow: 3px 3px 12px #24293038, inset -3px -3px 10px -1px rgba(0, 0, 0, 0.2);
-  box-shadow: 3px 3px 12px var(--shadow_color), inset -3px -3px 10px -1px rgba(0, 0, 0, 0.2);
+  box-shadow: 2px 2px 12px var(--shadow_color), inset -3px -3px 10px -1px rgba(0, 0, 0, 0.2);
   background: rgba(255, 255, 255, .5);
   transition: all .5s;
 }
 
-.profile .tab-content .tab-content__container:hover {
-  box-shadow: 2px 2px 5px #24293038, inset 2px 2px 5px white;
-  box-shadow: 2px 2px 5px var(--shadow_color), inset 2px 2px 5px var(--white);
+.tab-content__container.inset-shadow {
+  background: rgba(233, 238, 237, .5);
+  box-shadow: inset 3px 2px 8px var(--shadow_color), inset -2px -1px 4px var(--white);
 }
 
 .tab-content__container h5 {
@@ -327,7 +322,12 @@ input.custom-checkbox ~ .custom-checkbox__label-title {
   align-items: center;
   width: 50%;
   overflow-y: auto;
+  overflow: hidden;
   outline: none;
+}
+
+.tab-content__items.language {
+  line-height: 2.2;
 }
 
 .tab-content__label-container:first-of-type .custom-checkbox__label-title {
@@ -380,7 +380,6 @@ input.custom-checkbox ~ .custom-checkbox__label-title {
 }
 
 .tab-content__container-item input.checkbox-switcher:focus ~ label.label-switcher {
-  box-shadow: 2px 2px 2px #24293038;
   box-shadow: inset 3px 2px 8px var(--shadow_color), 2px 2px 2px var(--shadow_color);
 }
 
@@ -396,7 +395,6 @@ input.custom-checkbox ~ .custom-checkbox__label-title {
 }
 
 .tab-content__container-item label.label-switcher:hover {
-  box-shadow: inset 3px 2px 8px #24293038, 2px 2px 2px #24293038;
   box-shadow: inset 3px 2px 8px var(--shadow_color), 2px 2px 2px var(--shadow_color);
 }
 
@@ -449,33 +447,25 @@ button.friend-code {
 }
 
 @media screen and (max-width: 510px) {
-  .profile .tab-content .tab-content__label-container label,
-  .profile .tab-content .tab-content__label-container select {
-    font-size: 4.5vw;
+  .profile .tab-content .tab-content__container label,
+  .profile .tab-content .tab-content__label-container select,
+  .profile .tabs {
+    font-size: 4vw;
   }
 }
 
+@media screen and (min-width: 510px) {
+  .profile .tabs__holder {
+    font-size: 75%;
+  }
+}
+
+.profile::-webkit-scrollbar,
 .profile .tab-content__holder::-webkit-scrollbar,
 ul.places > li > span::-webkit-scrollbar,
 .tab-content__container-item label.label-header::-webkit-scrollbar,
-.tab-content__label-container::-webkit-scrollbar {
-  width: 0;
-  height: 0;
-}
-
-section.profile::-webkit-scrollbar {
-  width: 0;
-}
-
-section.profile svg.map-pick {
-  right: 3px;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 25px;
-  height: 25px;
-}
-
-
-section.profile fieldset.address {
-  max-width: 100%;
+.tab-content__label-container::-webkit-scrollbar,
+.profile span.address::-webkit-scrollbar,
+.profile .tab-content__holder::-webkit-scrollbar {
+  display: none;
 }

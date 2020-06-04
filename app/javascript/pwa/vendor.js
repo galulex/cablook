@@ -67,7 +67,7 @@ export default class Vendor extends Component {
         {showLoader && <Loader/>}
         <button
           type='button'
-          class='burger'
+          class='button burger white-opacity'
           onClick={(event) => this.handleBack()}>
           <Back/>
         </button>
@@ -88,7 +88,9 @@ export default class Vendor extends Component {
             active={'active'}
             cart_with_items={cart && cart.items}
             updateLoaderState={this.updateLoaderState}
-            setCurrentTrip={this.props.setCurrentTrip} />
+            setCurrentTrip={this.props.setCurrentTrip}
+            toggleElements={this.props.toggleElements}
+          />
           {Object.keys(vendor.items).map((category, index) => {
             if (category !== 'Гарячі Вина' && vendor.items[category].length > 0) return(
               <Category

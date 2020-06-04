@@ -1,6 +1,6 @@
 //Apply dark theme
 window.dark = localStorage.getItem('dark') === 'true'
-window.ios = ['iPhone', 'iPad', 'iPod'].includes(navigator.platform)
+window.ios = ['iPhone', 'iPad', 'iPod', 'MacIntel'].includes(navigator.platform)
 if (window.dark) {
   document.documentElement.style.setProperty('--white', 'black');
   document.documentElement.style.setProperty('--navy', 'white');
@@ -66,13 +66,13 @@ export default class App extends Component {
       notification_settings: [],
       currentTrip: null,
       isGeocoding: false,
+      isScrollNegative: false,
       activateFeedback: false
     }
     axios.defaults.headers.common['Pwa-Language'] = this.state.language
   }
 
   componentDidMount() {
-    if (localStorage.fcm_token === 'null') waitForToken = setInterval(this.waitForFCMToken(localStorage.fcm_token), 3000)
     this.loadScript()
     if (window.ios) this.focusOutForIos()
     if (this.state.currentUser && this.state.currentUser.length !== 0) {
@@ -91,7 +91,7 @@ export default class App extends Component {
     if (!navigator.onLine) this.offline()
   }
 
-  componentDidUnmount() {
+  componentWillUnmount() {
     this.main.removeEventListener('scroll', this.scrollEnd, { passive: true })
     document.removeEventListener('touchstart', this.setTouching, { passive: true })
     document.removeEventListener('touchend', this.setTouching, { passive: true })
@@ -104,6 +104,14 @@ export default class App extends Component {
       this.sendTokenToServer(token)
       clearInterval(waitForToken)
     }
+  }
+
+  setTouching = (event) => {
+    window.isTouching = (event.type === 'touchstart' ? true : false)
+  }
+
+  setNegativeScroll = (scrollValue) => {
+    this.setState({isScrollNegative: scrollValue < 0})
   }
 
   onVisibilityChange = () => {
@@ -236,6 +244,9 @@ export default class App extends Component {
     if (!!data.email) localStorage.setItem('email', data.email)
     localStorage.setItem('phone', data.phone_number)
     axios.defaults.headers.common['Auth-Token'] = data.auth_token;
+    let fcmToken = localStorage.getItem("fcm_token");
+    if (fcmToken) this.sendTokenToServer(fcmToken)
+    this.checkOneSignalToken()
     this.fetchUser()
   }
 
@@ -320,8 +331,9 @@ export default class App extends Component {
     window.scrollTimeout = setTimeout(() => {
       if (target.scrollLeft == 0 || target.scrollLeft == target.offsetWidth || target.scrollLeft == 300) return
       let x = (target.scrollLeft > 0 && target.scrollLeft < target.offsetWidth / 2) ? 0 : target.offsetWidth
-      target.scrollTo({left: x})
+      if (!window.isTouching) target.scrollTo({left: x})
     }, 300)
+    if(target.id === 'app') this.setNegativeScroll(this.main.scrollLeft)
   }
 
   resetCurrentTrip = () => {
@@ -336,13 +348,27 @@ export default class App extends Component {
   setActivateFeedback = (activateFeedback = false) => {
     this.setState({activateFeedback})
   }
+
+  toggleElements = () => {
+    const burgers = document.getElementsByClassName('burger')
+    const headers = document.querySelectorAll('header')
+    if (burgers.length <= 1 && headers.length <= 1) return
+    if (burgers[0].classList.contains('hidden') && headers[0].classList.contains('hidden')) {
+      burgers[0].classList.remove('hidden')
+      headers[0].classList.remove('hidden')
+    } else {
+      burgers[0].classList.add('hidden')
+      headers[0].classList.add('hidden')
+    }
+  }
+
 render() {
     const { currentTrip, isGeocoding } = this.state
 
     if (this.state.currentUser) {
       return(
         <main id="app" onClick={this.closeDrawer} ref={main => this.main = main}>
-          { !this.showFeedback() && <button class='button white-opacity burger' onClick={this.triggerDrawer}><Burger/></button> }
+          { !this.showFeedback() && !this.state.isScrollNegative && <button class='button white-opacity burger' onClick={this.triggerDrawer}><Burger/></button> }
           <Drawer triggerDrawer={this.triggerDrawer} logOut={this.logOut} />
           <Router history={window.ios ? createMemoryHistory() : null} onChange={() => this.triggerDrawer(false)}>
             <NewDesign path='/'
@@ -364,6 +390,7 @@ render() {
               showFeedback={this.showFeedback}
               setActivateFeedback={this.setActivateFeedback}
               setGeocoding={this.setGeocoding}
+              toggleElements={this.toggleElements}
             />
             <Trips path='/trips/:id?'
               setCurrentTrip={this.setCurrentTrip}
@@ -384,12 +411,15 @@ render() {
               geocode={this.geocode}
               isGeocoding={isGeocoding}
               setGeocoding={this.setGeocoding}
+              toggleElements={this.toggleElements}
             />
             <Vendors path='/delivery'
               setCurrentTrip={this.setCurrentTrip}
+              toggleElements={this.toggleElements}
             />
             <Vendor path='/delivery/:id'
               setCurrentTrip={this.setCurrentTrip}
+              toggleElements={this.toggleElements}
             />
             <NotFound type='404' default />
             <Cart path='/delivery/cart'
@@ -399,6 +429,7 @@ render() {
               geocode={this.geocode}
               isGeocoding={isGeocoding}
               setGeocoding={this.setGeocoding}
+              toggleElements={this.toggleElements}
             />
           </Router>
           <Prompt />

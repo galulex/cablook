@@ -12,7 +12,7 @@ aside {
   position: relative;
   scroll-snap-align: start;
   direction: ltr;
-  box-shadow: 5px 3px 12px var(--shadow_color);
+  box-shadow: 5px 3px 6px var(--shadow_color);
 }
 
 aside:before {
@@ -44,9 +44,18 @@ aside a {
   box-shadow: 0 2px 0 var(--shadow_color)
 }
 
-aside a svg.home-icon {
+aside a.nav-link svg.home-icon {
   width: 35px;
   margin-right: 18px;
+}
+
+aside a.nav-link svg.home-icon path {
+  fill: unset !important;
+}
+
+aside a.nav-link svg.home-icon path.car-side {
+  fill: #19a160 !important;
+  fill: var(--green) !important;
 }
 
 aside a:last-of-type {

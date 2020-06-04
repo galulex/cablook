@@ -69,7 +69,16 @@ export default class Vendors extends Component {
           <header>{i18n.vendors_page.header}</header>
           <section class='vendors'>
             <ul>
-              { vendors.map(vendor => (<VendorPreview key={vendor.id} vendor={vendor} updateLoaderState={this.updateLoaderState} setCurrentTrip={this.props.setCurrentTrip}/>)) }
+              { vendors.map(vendor => (
+                  <VendorPreview
+                    key={vendor.id}
+                    vendor={vendor}
+                    updateLoaderState={this.updateLoaderState}
+                    setCurrentTrip={this.props.setCurrentTrip}
+                    toggleElements={this.props.toggleElements}
+                  />)
+                ) 
+              }
             </ul>
           </section>
         </div>
