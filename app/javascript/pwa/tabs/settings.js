@@ -119,7 +119,8 @@ export default class Settings extends Component {
           language={this.props.language}
           isGeocoding={this.props.isGeocoding}
           setGeocoding={this.props.setGeocoding}
-          toggleElements={this.props.toggleElements}
+          showBurger={this.props.showBurger}
+          toggleHeader={this.props.toggleHeader}
           ref={input => this.addressInput = input}
         />
         <button class="button green add_fav_address" type="button" disabled={this.state.disabled} onClick={this.create}>OK</button>

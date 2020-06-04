@@ -115,7 +115,7 @@ export default class AddressInput extends Component {
       this.props.pickAddress(this.props.index)
       return
     }
-    this.setState({isShowMap: true}, () => { this.props.toggleElements() })
+    this.setState({isShowMap: true}, () => { if (this.props.showBurger) this.props.showBurger(false); this.props.toggleHeader() })
     if (window.ios) return
     history.pushState(null, null,'/')
     window.addEventListener('popstate', this.handleBack, {once: true})
@@ -151,6 +151,8 @@ export default class AddressInput extends Component {
 
   handleBack = (event) => {
     this.setState({isShowMap: false})
+    if (this.props.showBurger) this.props.showBurger()
+    this.props.toggleHeader()
     if (event) { event.stopPropagation() }
   }
 
@@ -186,7 +188,7 @@ export default class AddressInput extends Component {
                                     geocode={geocode}
                                     isGeocoding={this.props.isGeocoding}
                                     setGeocoding={this.props.setGeocoding}
-                                    toggleElements={this.props.toggleElements}
+                                    showBurger={this.props.showBurger || false}
                                   /> }
 
         <input required class='address' placeholder={placeholder} type='text' disabled={index === 0 ? inputDisabled : false}

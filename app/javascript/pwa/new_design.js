@@ -68,6 +68,7 @@ export default class NewDesign extends Component {
     this.addShakeListener()
 
     setTimeout(this.sendRequestForUnpaidPayments, 3000)
+    if(this.props.showFeedback()) { this.props.showBurger(false); this.toggleHeader() }
   }
 
   componentDidUpdate() {

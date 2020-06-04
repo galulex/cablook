@@ -31,6 +31,53 @@ ul.places li button svg {
   width: 100%;
 }
 
+.tab-content__container {
+  width: 100%;
+  color: #233038;
+  color: var(--font_color_2);
+  padding: 6% 7%;
+  margin-top: 7vh;
+  margin-top: calc(var(--vh, 1vh) * 7);
+  border-radius: 15px;
+  box-shadow: 2px 2px 12px var(--shadow_color), inset -3px -3px 10px -1px rgba(0, 0, 0, 0.2);
+  background: rgba(255, 255, 255, .3);
+  background: var(--container-background);
+  transition: all .5s;
+}
+
+.tab-content__container.inset-shadow {
+  background: rgba(233, 238, 237, .3);
+  background: var(--container-background);
+  box-shadow: inset 3px 2px 8px var(--shadow_color), inset -2px -1px 4px var(--white);
+}
+
+.tab-content__container h5 {
+  white-space: pre-wrap;
+}
+
+.tab-content__container fieldset.address {
+  margin: 0;
+}
+
+.tab-content__container input.address {
+  margin: 3% 0;
+  padding: 5% 32px 5% 5%;
+  font-size: 2.6vh;
+  font-size: calc(var(--vh, 1vh) * 2.6);
+}
+
+.profile .tab-content .tab-content__container:last-of-type {
+  margin-bottom: 7vh;
+  margin-bottom: calc(var(--vh, 1vh) * 7);
+}
+
+.profile .tab-content .tab-content__container label {
+  font-weight: 100;
+  font-size: 2.6vh;
+  font-size: calc(var(--vh, 1vh) * 2.6);
+}
+
+
 .tab-content__container ul.predictions {
   max-height: 40vh;
   max-height: calc(var(--vh, 1vh) * 40);
@@ -258,50 +305,6 @@ input.custom-checkbox ~ .custom-checkbox__label-title {
   scroll-snap-type: y mandatory;
   overflow-y: scroll;
   -webkit-overflow-scrolling: touch;
-}
-
-.tab-content__container {
-  width: 100%;
-  color: #233038;
-  color: var(--font_color_2);
-  padding: 6% 7%;
-  margin-top: 7vh;
-  margin-top: calc(var(--vh, 1vh) * 7);
-  border-radius: 15px;
-  box-shadow: 2px 2px 12px var(--shadow_color), inset -3px -3px 10px -1px rgba(0, 0, 0, 0.2);
-  background: rgba(255, 255, 255, .5);
-  transition: all .5s;
-}
-
-.tab-content__container.inset-shadow {
-  background: rgba(233, 238, 237, .5);
-  box-shadow: inset 3px 2px 8px var(--shadow_color), inset -2px -1px 4px var(--white);
-}
-
-.tab-content__container h5 {
-  white-space: pre-wrap;
-}
-
-.tab-content__container fieldset.address {
-  margin: 0;
-}
-
-.tab-content__container input.address {
-  margin: 3% 0;
-  padding: 5% 32px 5% 5%;
-  font-size: 2.6vh;
-  font-size: calc(var(--vh, 1vh) * 2.6);
-}
-
-.profile .tab-content .tab-content__container:last-of-type {
-  margin-bottom: 7vh;
-  margin-bottom: calc(var(--vh, 1vh) * 7);
-}
-
-.profile .tab-content .tab-content__container label {
-  font-weight: 100;
-  font-size: 2.6vh;
-  font-size: calc(var(--vh, 1vh) * 2.6);
 }
 
 .tab-content__items {
