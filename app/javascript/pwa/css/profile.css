@@ -122,8 +122,7 @@ input.custom-checkbox ~ .custom-checkbox__label-title {
   background: transparent;
   border-radius: 0;
   padding: 0;
-  font-size: 2.6        {(fieldsCount > 2 || address !== '') && !hideRemove && !readonly && (<button disabled={index === 0 ? inputDisabled : false} class='remove-address' type='button' onClick={() => this.eraseAddress(index)}>×</button>)}
-vh;
+  font-size: 2.6vh;
   font-size: calc(var(--vh, 1vh) * 2.6);
   -webkit-appearance: none;
   -moz-appearance: none;

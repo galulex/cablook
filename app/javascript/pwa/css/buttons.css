@@ -27,8 +27,7 @@
 }
 
 .button.green {
-  color: white;        {(fieldsCount > 2 || address !== '') && !hideRemove && !readonly && (<button disabled={index === 0 ? inputDisabled : false} class='remove-address' type='button' onClick={() => this.eraseAddress(index)}>×</button>)}
-
+  color: white;
   color: var(--white);
   background: #19a160;
   background: var(--green);
@@ -45,8 +44,7 @@
 
 .button.white-opacity {
   background: rgba(255, 255, 255, .5);
-  color: #233038;        {(fieldsCount > 2 || address !== '') && !hideRemove && !readonly && (<button disabled={index === 0 ? inputDisabled : false} class='remove-address' type='button' onClick={() => this.eraseAddress(index)}>×</button>)}
-
+  color: #233038;
   color: var(--font_color_2);
 }
 
@@ -110,7 +108,6 @@
   width: 50px;
   line-height: 1;
   border: none;
-  padding: 13px;
   font-size: 20px;
   outline: none;
   cursor: pointer;
@@ -136,14 +133,10 @@
   z-index: -1;
 }
 
-.button.burger.hidden {
-  z-index: -1;
-}
-
 .button.burger svg {
   position: absolute;
-  top: 20px;
-  left: 20px;
+  top: 10px;
+  left: 10px;
   width: 30px;
   height: 30px;
   margin: 0;
