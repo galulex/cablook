@@ -44,6 +44,7 @@
 
 .button.white-opacity {
   background: rgba(255, 255, 255, .5);
+  background: var(--button-background);
   color: #233038;
   color: var(--font_color_2);
 }

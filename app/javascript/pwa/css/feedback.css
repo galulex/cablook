@@ -167,6 +167,7 @@ section.new_design .feedback__holder, section.trips .feedback__holder {
   justify-content: center;
   position: fixed;
   z-index: 400;
+  height: 100vh;
   height: calc(var(--vh, 1vh) * 100);
   left: 0;
   right: 0;

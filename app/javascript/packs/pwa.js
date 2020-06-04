@@ -2,8 +2,13 @@
 window.dark = localStorage.getItem('dark') === 'true'
 window.ios = ['iPhone', 'iPad', 'iPod', 'MacIntel'].includes(navigator.platform)
 if (window.dark) {
+  document.documentElement.style.setProperty('--bg_gradient_color_1', '#0f0f0f')
+  document.documentElement.style.setProperty('--bg_gradient_color_2', '#191730')
+  document.documentElement.style.setProperty('--font_color_2', 'white')
+  document.documentElement.style.setProperty('--button-background', '#19a160')
+  document.documentElement.style.setProperty('--shadow_color', 'rgba(#d1d1d1, .3')
   document.documentElement.style.setProperty('--white', 'black');
-  document.documentElement.style.setProperty('--navy', 'white');
+  // document.documentElement.style.setProperty('--navy', 'white');
   document.documentElement.style.setProperty('--grey', 'black');
   document.documentElement.style.setProperty('--map-bg', 'black');
   document.documentElement.style.setProperty('--path-color', ' #ffffff');

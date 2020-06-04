@@ -130,7 +130,7 @@ const uk = {
     confirm_resend_code: 'Відправити код підтвердження повторно?'
   },
   map_picker: {
-    header: 'Оберіть місце розташування'
+    header: 'Оберіть місцe'
   },
   bonuses: {
     apply_code: 'Застосувати код друга',
