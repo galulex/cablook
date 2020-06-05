@@ -105,7 +105,8 @@ export default class FavoriteAddresses extends Component {
                   isGeocoding={this.props.isGeocoding}
                   setGeocoding={this.props.setGeocoding}
                   setAddress={this.props.setAddress}
-                  toggleElements={this.props.toggleElements}
+                  showBurger={this.props.showBurger}
+                  toggleHeader={this.props.toggleHeader}
                 />
               </div>
               <div class='tab-content'>

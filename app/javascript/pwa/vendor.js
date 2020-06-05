@@ -25,6 +25,7 @@ export default class Vendor extends Component {
   }
 
   componentDidMount() {
+    this.props.showBurger(false)
     this.checkCurrentDeliveryTrip()
     this.getVendorInfoAndItems()
   }
@@ -56,6 +57,7 @@ export default class Vendor extends Component {
   }
 
   handleBack = () => {
+    this.props.showBurger()
     route('/delivery', true)
   }
 
@@ -89,7 +91,8 @@ export default class Vendor extends Component {
             cart_with_items={cart && cart.items}
             updateLoaderState={this.updateLoaderState}
             setCurrentTrip={this.props.setCurrentTrip}
-            toggleElements={this.props.toggleElements}
+            toggleHeader={this.props.toggleHeader}
+            showBurger={this.props.showBurger}
           />
           {Object.keys(vendor.items).map((category, index) => {
             if (category !== 'Гарячі Вина' && vendor.items[category].length > 0) return(

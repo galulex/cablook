@@ -30,6 +30,7 @@ html lang="#{I18n.locale}"
         --bg: rgba(255, 255, 255, 0.9);
         --zoom-level: 12;
         --car-transition: 0s;
+        --container-background: rgba(255, 255, 255, .3);
       }
 
       html {
@@ -118,7 +119,8 @@ html lang="#{I18n.locale}"
         position: relative;
         scroll-snap-align: start;
         overflow: hidden;
-        max-height: 100vh;
+        min-height: 100vh;
+        min-height: -webkit-fill-available;
         transition: opacity .1s;
       }
 
@@ -290,7 +292,7 @@ html lang="#{I18n.locale}"
 
       @media screen and (max-width: 540px) {
         section {
-          padding: 0 8%;
+          padding: 0 10%;
         }
       }
 

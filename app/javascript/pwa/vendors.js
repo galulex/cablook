@@ -75,7 +75,8 @@ export default class Vendors extends Component {
                     vendor={vendor}
                     updateLoaderState={this.updateLoaderState}
                     setCurrentTrip={this.props.setCurrentTrip}
-                    toggleElements={this.props.toggleElements}
+                    toggleHeader={this.props.toggleHeader}
+                    showBurger={this.props.showBurger}
                   />)
                 ) 
               }
