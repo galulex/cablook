@@ -14,14 +14,6 @@ export default class VendorPreview extends Component {
     }
   }
 
-  componentDidMount() {
-    this.props.toggleElements()
-  }
-
-  componentWillUnmount() {
-    this.props.toggleElements()
-  }
-
   buildTrip = () => {
     const { trip } = this.state
 
@@ -96,6 +88,7 @@ export default class VendorPreview extends Component {
   goToMenu = () => {
     const { vendor } = this.props
 
+    this.props.showBurger(false)
     route(`/delivery/${vendor.id}`, true)
   }
 
@@ -104,13 +97,15 @@ export default class VendorPreview extends Component {
     const latlong = (vendor.location ? vendor.location.split(',') : '')
 
     return (
-      <li class={ 'vendor ' + this.props.active } id={vendor.name_slug}>
+      <li class={ 'tab-content__container vendor ' + this.props.active } id={vendor.name_slug}>
         <div class='row'>
           <div class='col-7'>
-            <div class='container'>
-              <b class='name'>{vendor.name}</b>
-              <br/>
-              <span class='address'>{vendor.address}</span>
+            <div class='container item-header'>
+              <div class='item-header__content'>
+                <b class='name'>{vendor.name}</b>
+                <br/>
+                <span class='address'>{vendor.address}</span>
+              </div>
               <a href={'https://www.google.com/maps/@' + latlong[0] + ',' + latlong[1] + ',20z'} target='_blank'>
                 <Pin class={this.props.active}/>
               </a>
@@ -119,13 +114,13 @@ export default class VendorPreview extends Component {
               <div class='row'>
                 {!this.props.hide_content &&
                     <div class='col-5'>
-                      <button onClick={this.goToMenu} class='button link-button'>
+                      <button onClick={this.goToMenu} class='button green'>
                         {i18n.vendor_preview.menu}
                       </button>
                     </div>
                 }
                 <div class='col-5'>
-                  <button onClick={this.buildTrip} class='button go-to'>
+                  <button onClick={this.buildTrip} class='button navy '>
                     {i18n.vendor_preview.go_to}
                   </button>
                 </div>
