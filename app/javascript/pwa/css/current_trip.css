@@ -356,6 +356,14 @@ input.comment {
   box-shadow: inset 3px 2px 8px #24293038, inset -2px -1px 4px white;
   box-shadow: inset 3px 2px 8px var(--shadow_color), inset -2px -1px 4px var(--white);
   border-radius: 10px;
+  height: calc(var(--vh, 1vh) * 4.5);
+}
+
+@media (max-width: 360px) {
+
+  input.comment {
+    height: unset;
+  }
 }
 
 div.nocall {

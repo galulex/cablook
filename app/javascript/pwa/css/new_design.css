@@ -57,7 +57,7 @@ fieldset.address:focus-within {
 }
 
 .option .trip-params {
-  margin-left: 44px;
+  margin-left: calc(15vw - 10px);
   background: rgba(255, 255, 255, 0.5);
   border-radius: 10px;
   padding: 0 0 10px;
@@ -80,7 +80,7 @@ fieldset.address:focus-within {
 
 .wrapper {
   z-index: 30;
-  margin-top: 54px;
+  margin-top: calc(15vw + 10px);
 }
 
 .new_design .wrapper .driverSearch {
@@ -351,7 +351,7 @@ svg.pin-last path {
   cursor: pointer;
   -webkit-appearance: none;
   height: calc(var(--vh, 1vh) * 17);
-  width: 50px;
+  width: 15vw;
   transition: width .3s;
   top: 0;
   background: rgba(255, 255, 255, 0.5);
@@ -372,7 +372,7 @@ svg.pin-last path {
 }
 
 .trigger.back {
-  right: -50px;
+  right: -15vw;
   transform: scaleX(-1);
   box-shadow: -3px 3px 6px #24293038, inset 5px -5px 4px -3px #24293038;
   box-shadow: -3px 3px 6px var(--shadow_color), inset 5px -5px 4px -3px var(--shadow_color);
@@ -393,8 +393,26 @@ svg.pin-last path {
   height: 30px;
 }
 
+@media (min-width: 450px) {
+  .trigger.back {
+    right: -70px;
+  }
+
+  .trigger {
+    width: 70px;
+  }
+
+  .wrapper {
+    margin-top: 80px;
+  }
+
+  .option .trip-params {
+    margin-left: 70px;
+  }
+}
+
 label.nocall {
-  padding: 6px 5px 6px 45px;
+  padding: 6px 5px 6px 35px;
   height: calc(var(--vh, 1vh) * 4);
   font-size: calc(var(--vh, 1vh) * 2.6);
   font-weight: 100;

@@ -121,8 +121,9 @@
   left: 0;
   top: 0;
   z-index: 300;
-  height: 50px;
-  width: 50px;
+  height: 15vw;
+  width: 15vw;
+  padding: 0;
   line-height: 1;
   border: none;
   font-size: 20px;
@@ -133,6 +134,13 @@
   border-radius: 10px;
   box-shadow: 3px 3px 6px #24293038, inset -5px -5px 6px -3px #24293038, inset 1px 1px 3px -3px #ffffff;
   box-shadow: 3px 3px 6px var(--shadow_color), inset -5px -5px 6px -3px var(--shadow_color), inset 1px 1px 3px -3px var(--white);
+}
+
+@media (min-width: 450px) {
+  .button.burger {
+    height: 70px;
+    width: 70px;
+  }
 }
 
 .button.burger:hover {
