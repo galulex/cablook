@@ -46,6 +46,7 @@ export default class Cart extends Component {
   }
 
   componentDidMount() {
+    this.props.showBurger(false)
     this.checkCurrentDeliveryTrip()
     this.getCards()
   }
@@ -290,7 +291,7 @@ export default class Cart extends Component {
 
     return (
       <div>
-        <button type='button' class='burger' onClick={(event) => window.ios ? this.handleBack() : window.history.back()}><Back fill='#132d50'/></button>
+        <button type='button' class='button burger white-opacity' onClick={(event) => window.ios ? this.handleBack() : window.history.back()}><Back fill='#132d50'/></button>
         <header>{i18n.cart.header}</header>
         <section class='cart'>
           {showLoader && <Loader/>}
@@ -317,7 +318,8 @@ export default class Cart extends Component {
                 geocode={this.props.geocode}
                 favorite_addresses={() => this.props.favorite_addresses()}
                 isGeocoding={this.props.isGeocoding}
-                setGeocoding={this.props.setGeocoding}/>
+                setGeocoding={this.props.setGeocoding}
+                toggleHeader={this.props.toggleHeader} />
               <div class='additions'>
                 {(cards.length > 1) && <label class='select' for='card'>
                   <Card width='24'/>
@@ -365,7 +367,7 @@ export default class Cart extends Component {
                   </div>}
                   <br/>
                   {(cards.length !== 0) &&
-                      <input type='submit' class={`button ${vendor_name_slug}`} onClick={this.createOrder} value={i18n.cart.create_order}/>}
+                      <input type='submit' class={`button green ${vendor_name_slug}`} onClick={this.createOrder} value={i18n.cart.create_order}/>}
                     </form>,
             !vendor_closed &&
             showWidget && <Widget createCard={this.createCard} showWidget={() => this.setState({showWidget: false}) }/>,

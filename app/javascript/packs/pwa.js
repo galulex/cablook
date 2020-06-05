@@ -72,13 +72,13 @@ export default class App extends Component {
       currentTrip: null,
       isGeocoding: false,
       isScrollNegative: false,
-      activateFeedback: false
+      activateFeedback: false,
+      isBurgerShowing: true
     }
     axios.defaults.headers.common['Pwa-Language'] = this.state.language
   }
 
   componentDidMount() {
-    if (localStorage.fcm_token === 'null') waitForToken = setInterval(this.waitForFCMToken(localStorage.fcm_token), 3000)
     this.loadScript()
     if (window.ios) this.focusOutForIos()
     if (this.state.currentUser && this.state.currentUser.length !== 0) {
@@ -250,6 +250,9 @@ export default class App extends Component {
     if (!!data.email) localStorage.setItem('email', data.email)
     localStorage.setItem('phone', data.phone_number)
     axios.defaults.headers.common['Auth-Token'] = data.auth_token;
+    let fcmToken = localStorage.getItem("fcm_token");
+    if (fcmToken) this.sendTokenToServer(fcmToken)
+    this.checkOneSignalToken()
     this.fetchUser()
   }
 
@@ -352,26 +355,30 @@ export default class App extends Component {
     this.setState({activateFeedback})
   }
 
-  toggleElements = () => {
-    const burgers = document.getElementsByClassName('burger')
+  toggleHeader = () => {
     const headers = document.querySelectorAll('header')
-    if (burgers.length <= 1 && headers.length <= 1) return
-    if (burgers[0].classList.contains('hidden') && headers[0].classList.contains('hidden')) {
-      burgers[0].classList.remove('hidden')
-      headers[0].classList.remove('hidden')      
-    } else {
-      burgers[0].classList.add('hidden')
-      headers[0].classList.add('hidden')
-    }
+    if (headers.length <= 1) return
+    headers[0].classList.contains('hidden') ? headers[0].classList.remove('hidden') : headers[0].classList.add('hidden')
   }
 
-render() {
+  showBurger = (isBurgerShowing = true) => {
+    this.setState({isBurgerShowing})
+  }
+
+  render() {
     const { currentTrip, isGeocoding } = this.state
 
     if (this.state.currentUser) {
       return(
         <main id="app" onClick={this.closeDrawer} ref={main => this.main = main}>
-          { !this.showFeedback() && !this.state.isScrollNegative && <button class='button white-opacity burger' onClick={this.triggerDrawer}><Burger/></button> }
+          { !this.showFeedback() && !this.state.isScrollNegative && this.state.isBurgerShowing &&
+            <button
+              class='button white-opacity burger'
+              ref={el => this.mainBurger = el}
+              onClick={this.triggerDrawer}>
+                <Burger/>
+            </button>
+          }
           <Drawer triggerDrawer={this.triggerDrawer} logOut={this.logOut} />
           <Router history={window.ios ? createMemoryHistory() : null} onChange={() => this.triggerDrawer(false)}>
             <NewDesign path='/'
@@ -393,7 +400,9 @@ render() {
               showFeedback={this.showFeedback}
               setActivateFeedback={this.setActivateFeedback}
               setGeocoding={this.setGeocoding}
-              toggleElements={this.toggleElements}
+              showBurger={this.showBurger}
+              toggleHeader={this.toggleHeader}
+              mainBurger={this.mainBurger}
             />
             <Trips path='/trips/:id?'
               setCurrentTrip={this.setCurrentTrip}
@@ -414,15 +423,16 @@ render() {
               geocode={this.geocode}
               isGeocoding={isGeocoding}
               setGeocoding={this.setGeocoding}
-              toggleElements={this.toggleElements}
+              showBurger={this.showBurger}
+              toggleHeader={this.toggleHeader}
             />
             <Vendors path='/delivery'
               setCurrentTrip={this.setCurrentTrip}
-              toggleElements={this.toggleElements}
+              showBurger={this.showBurger}
             />
             <Vendor path='/delivery/:id'
               setCurrentTrip={this.setCurrentTrip}
-              toggleElements={this.toggleElements}
+              showBurger={this.showBurger}
             />
             <NotFound type='404' default />
             <Cart path='/delivery/cart'
@@ -432,7 +442,8 @@ render() {
               geocode={this.geocode}
               isGeocoding={isGeocoding}
               setGeocoding={this.setGeocoding}
-              toggleElements={this.toggleElements}
+              toggleHeader={this.toggleHeader}
+              showBurger={this.showBurger}
             />
           </Router>
           <Prompt />

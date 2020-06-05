@@ -9,6 +9,7 @@ import i18n from '../i18n.js'
 import Cablook  from '../images/cablook.svg'
 import Target from '../images/target.svg'
 import Location  from '../images/target.svg'
+import Cross  from '../images/cross.js'
 
 export default class AddressInput extends Component {
   constructor(props) {
@@ -72,6 +73,7 @@ export default class AddressInput extends Component {
     if (!place.place_id) {
       this.setState({ address: `${place}, `, predictions: [], isValid: false })
       this.input.focus()
+      setTimeout(() => { this.input.scrollLeft = 500 }, 100)
       return
     }
 
@@ -115,7 +117,7 @@ export default class AddressInput extends Component {
       this.props.pickAddress(this.props.index)
       return
     }
-    this.setState({isShowMap: true}, () => { this.props.toggleElements() })
+    this.setState({isShowMap: true}, () => { if (this.props.showBurger) this.props.showBurger(false); this.props.toggleHeader() })
     if (window.ios) return
     history.pushState(null, null,'/')
     window.addEventListener('popstate', this.handleBack, {once: true})
@@ -151,6 +153,8 @@ export default class AddressInput extends Component {
 
   handleBack = (event) => {
     this.setState({isShowMap: false})
+    if (this.props.showBurger) this.props.showBurger()
+    this.props.toggleHeader()
     if (event) { event.stopPropagation() }
   }
 
@@ -177,7 +181,7 @@ export default class AddressInput extends Component {
     const { fieldsCount, address, index, readonly, language, hideRemove, inputDisabled, geocode } = this.props
     return (
       <fieldset class='address'>
-        {(fieldsCount > 2 || address !== '') && !hideRemove && !readonly && (<button disabled={index === 0 ? inputDisabled : false} class='remove-address' type='button' onClick={() => this.eraseAddress(index)}>×</button>)}
+        {(fieldsCount > 2 || address !== '') && !hideRemove && !readonly && (<button disabled={index === 0 ? inputDisabled : false} class='remove-address' type='button' onClick={() => this.eraseAddress(index)}> <Cross/> </button>)}
         {mapboxgl.supported() && <Pin onClick={this.openMap} disabled={readonly || ( index === 0 ? inputDisabled : false )} class='map-pick'/>}
         {this.state.isShowMap && <MapPicker
                                     onCloseMap={this.closeMap}
@@ -186,7 +190,7 @@ export default class AddressInput extends Component {
                                     geocode={geocode}
                                     isGeocoding={this.props.isGeocoding}
                                     setGeocoding={this.props.setGeocoding}
-                                    toggleElements={this.props.toggleElements}
+                                    showBurger={this.props.showBurger || false}
                                   /> }
 
         <input required class='address' placeholder={placeholder} type='text' disabled={index === 0 ? inputDisabled : false}

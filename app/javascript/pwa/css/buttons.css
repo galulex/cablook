@@ -39,12 +39,28 @@
 }
 
 .button.green:active {
+  box-shadow: inset 5px 5px 5px 1px var(--shadow_color), inset -2px -2px 5px 1px #4fb785;
+}
+
+.button.navy {
+  color: white;
+  color: var(--white);
+  background: #19a160;
+  background: var(--navy);
+  box-shadow: 5px 3px 12px var(--shadow_color), inset -2px -2px 5px 1px var(--shadow_color);
+}
+
+.button.navy:hover {
+  box-shadow: 2px 2px 5px var(--shadow_color), inset -2px -2px 5px 1px var(--shadow_color);
+}
+
+.button.navy:active {
   box-shadow: 2px 2px 5px var(--shadow_color), inset 5px 5px 5px 1px var(--shadow_color);
 }
 
 .button.white-opacity {
-  background: rgba(255, 255, 255, .5);
-  background: var(--button-background);
+  background: rgba(255, 255, 255, .3);
+  background: var(--container-background);
   color: #233038;
   color: var(--font_color_2);
 }
@@ -59,7 +75,8 @@
 }
 
 .button.fixed {
-  position: fixed;
+  position: absolute;
+  display: block;
   bottom: 20px;
   left: 0;
   right: 0;
@@ -67,11 +84,22 @@
   margin: 0 auto;
   width: calc(100% - 60px);
   max-width: 540px;
+  background: #19a160;
+  background: var(--green);
+  color: white;
+
 }
 
 .button.cancel {
-  background: #a925ad;
-  background: var(--purple);
+  background: rgba(238, 246, 251, 0.5);
+  color: #cc0f34;
+  color: var(--crimsone-red);
+}
+
+.button.edit {
+  background: rgba(238, 246, 251, 0.5);
+  color: #efcc3a;
+  color: var(--orange);
 }
 
 .button.retry {
@@ -93,16 +121,37 @@
   left: 0;
   top: 0;
   z-index: 300;
-  height: 70px;
-  width: 70px;
+  height: 15vw;
+  width: 15vw;
+  padding: 0;
   line-height: 1;
   border: none;
-  padding: 20px;
   font-size: 20px;
   outline: none;
   cursor: pointer;
   color: #233038;
   color: var(--font_color_2);
+  border-radius: 10px;
+  box-shadow: 3px 3px 6px #24293038, inset -5px -5px 6px -3px #24293038, inset 1px 1px 3px -3px #ffffff;
+  box-shadow: 3px 3px 6px var(--shadow_color), inset -5px -5px 6px -3px var(--shadow_color), inset 1px 1px 3px -3px var(--white);
+}
+
+@media (min-width: 450px) {
+  .button.burger {
+    height: 70px;
+    width: 70px;
+  }
+}
+
+.button.burger:hover {
+  box-shadow: 2px 2px 6px #24293038, inset -3px -3px 6px -3px #24293038, inset 1px 1px 3px -3px #ffffff;
+  box-shadow: 2px 2px 6px var(--shadow_color), inset -3px -3px 6px -3px var(--shadow_color), inset 1px 1px 3px -3px var(--white);
+}
+
+.button.burger:active {
+  outline: none;
+  box-shadow: inset 2px 2px 5px 1px #24293038, inset -2px -2px 5px 1px #ffffff;
+  box-shadow: inset 2px 2px 5px 1px var(--shadow_color), inset -2px -2px 5px 1px var(--white);
 }
 
 .button.burger.hidden {
@@ -110,11 +159,8 @@
 }
 
 .button.burger svg {
-  position: absolute;
-  top: 20px;
-  left: 20px;
-  width: 30px;
-  height: 30px;
+  width: 50%;
+  height: 50%;
   margin: 0;
   fill: #233038;
   pointer-events: none;

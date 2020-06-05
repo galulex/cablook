@@ -100,11 +100,11 @@ export default class MapPicker extends Component {
 
   onPickAddress = () => {
     this.props.onCloseMap(`${this.state.lat},${this.state.lng}`, this.state.address)
-    this.props.toggleElements()
+    if(this.props.showBurger) this.props.showBurger()
   }
-  
+
   onBackClick = () => {
-    this.props.toggleElements()
+    if(this.props.showBurger) this.props.showBurger(false)
     window.ios ? this.props.handleBack() : window.history.back()
   }
 

@@ -3,6 +3,7 @@ html lang="#{I18n.locale}"
   head
     = render 'layouts/head'
     = inline_svg 'filter_main.svg'
+    = inline_svg 'filter_large.svg'
     = inline_svg 'filter_star.svg'
     link rel='preload' href=asset_path('Gilroy-ExtraBold.woff2') as='font' type='font/woff2' crossorigin='anonymous'
     link rel='preload' href=asset_path('Gilroy-Bold.woff2') as='font' type='font/woff2' crossorigin='anonymous'
@@ -21,6 +22,7 @@ html lang="#{I18n.locale}"
         --shadow: 0 3px 6px rgba(0,0,0,0.16);
         --focus-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
         --body-bg: #e6efee;
+        --crimsone-red: #cc0f34;
         --placeholder: rgba(49, 45, 80, 0.5);
         --map-bg: #e6e4e0;
         --pin-color: var(--green);
@@ -28,7 +30,7 @@ html lang="#{I18n.locale}"
         --bg: rgba(255, 255, 255, 0.9);
         --zoom-level: 12;
         --car-transition: 0s;
-        --button-background: rgba(255, 255, 255, .5);
+        --container-background: rgba(255, 255, 255, .3);
       }
 
       html {
@@ -117,7 +119,8 @@ html lang="#{I18n.locale}"
         position: relative;
         scroll-snap-align: start;
         overflow: hidden;
-        max-height: 100vh;
+        min-height: 100vh;
+        min-height: -webkit-fill-available;
         transition: opacity .1s;
       }
 
@@ -232,7 +235,7 @@ html lang="#{I18n.locale}"
         max-width: 200px;
       }
 
-      svg#shadow_filter, svg#star_filter {
+      svg#shadow_filter, svg#star_filter, svg#shadow_filter_large {
         position: fixed;
       }
 
@@ -287,9 +290,9 @@ html lang="#{I18n.locale}"
         animation: none !important;
       }
 
-      @media screen and (max-width: 550px) {
+      @media screen and (max-width: 540px) {
         section {
-          padding: 0 8%;
+          padding: 0 10%;
         }
       }
 

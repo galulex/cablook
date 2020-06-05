@@ -231,7 +231,7 @@ export default class PreviewMap extends Component {
   }
 
   movestart = () => {
-    this.props.setGeocoding(true)
+    // this.props.setGeocoding(true)
     clearTimeout(timeout)
     timeout = null
   }
@@ -246,7 +246,7 @@ export default class PreviewMap extends Component {
     this.props.geocode(`${lng},${lat}`, (address) => {
       if (this.move) return
       this.props.setAddress(address, `${lat},${lng}`, this.state.index)
-      this.props.setGeocoding(false)
+      // this.props.setGeocoding(false)
     })
   }
 

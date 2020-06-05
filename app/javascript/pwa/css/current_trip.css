@@ -2,28 +2,29 @@ input.address {
   display: block;
   width: 90%;
   border: none;
-  background: rgba(233, 238, 237, .5);
-  padding: 10px 25px 10px 10px;
-  font-size: 18px;
+  background: rgba(255, 255, 255, 0);;
+  padding: 14px 25px 12px 6px;
+  font-size: calc(var(--vh, 1vh) * 2.6);
   color: #312d50;
   color: var(--navy);
   font-weight: 100;
   margin: 0 3% 0 7%;
   border-radius: 15px;
-  box-shadow: inset 3px 2px 8px var(--shadow_color), inset -2px -1px 4px var(--white);
   transition: all .3s;
+  height: calc(var(--vh, 1vh) * 7);
+
 }
 
-
 input.address:focus {
-  box-shadow: inset 1px 1px 2px var(--shadow_color), inset -1px -1px 2px var(--white);
   outline: none;
 }
 
 input.address:focus + ul, input.address.focus + ul {
   visibility: visible;
   opacity: 1;
-  transition: opacity .3s, visibility 0s 0s;
+  transition: opacity .3s, visibility 0s 0s, max-height .3s;
+  max-height: 60vh;
+  scroll-snap-align: center;
 }
 
 fieldset {
@@ -41,38 +42,57 @@ fieldset.address:nth-of-type(8) + div {
 ul.predictions {
   margin: 0;
   padding: 0;
-  background: white;
-  background: var(--white);
   list-style: none;
-  width: 100%;
-  position: absolute;
-  top: 100%;
-  z-index: 100;
-  left: 0;
-  transition: opacity .3s, visibility 0s .5s;
+  max-width: 65vw;
+  position: relative;
+  max-height: 0;
+  transition: opacity .3s, visibility 0s .5s, max-height .3s, max-width .3s;
   visibility: hidden;
   opacity: 0;
-  max-height: 60vh;
   overflow-y: auto;
-  box-shadow: 0 3px 6px rgba(0,0,0,0.16);
-  box-shadow: var(--shadow);
-  border: 1px solid #d1d1d1;
-  border-bottom: none;
+  overflow-x: hidden;
 }
 
 li.prediction {
-  width: 100%;
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
   color: #312d50;
   color: var(--navy);
-  border-bottom: 1px solid #d1d1d1;
   line-height: 1;
-  padding: 10px 0 10px 50px;
+  padding: 2px 0 5px 35px;
   transition: background .2s;
   cursor: pointer;
   position: relative;
+  width: 100%;
+}
+
+li.prediction:after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  height: 1px;
+  width: 90%;
+  -webkit-transform: translateX(-50%);
+  transform: translateX(-50%);
+  border-bottom: 1px solid #92b6d0;
+}
+
+li.prediction:first-child:before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 0;
+  height: 1px;
+  width: 90%;
+  -webkit-transform: translateX(-50%);
+  transform: translateX(-50%);
+  border-top: 1px solid #92b6d0;
+}
+
+li.prediction:last-child {
+  margin-bottom: 20px;
 }
 
 li.prediction svg {
@@ -80,17 +100,21 @@ li.prediction svg {
   top: 50%;
   transform: translateY(-50%);
   left: 10px;
-  width: 34px;
-  height: 20px;
+  width: 20px;
+  height: 12px;
+}
+
+li.prediction b {
+  font-size: 16px;
 }
 
 li.current_location svg {
-  width: 34px;
-  height: 34px;
+  width: 20px;
+  height: 20px;
 }
 
 li.prediction:hover {
-  background: rgba(0,0,0,0.2);
+  background: rgba(0,0,0,0.1);
 }
 
 svg.get-location, svg.add-address {
@@ -116,40 +140,75 @@ svg.running {
   to { transform: translateY(-50%) rotate(360deg); }
 }
 
+.mapboxgl-ctrl.mapboxgl-ctrl-group {
+  box-shadow: none;
+  background: none;
+}
+
+.mapboxgl-ctrl-group button.mapboxgl-ctrl-zoom-out {
+  border-top: none;
+}
+
+.mapboxgl-ctrl.mapboxgl-ctrl-group button{
+  margin-bottom: 5px;
+  border-radius: 5px;
+  background-color: rgba(255, 255, 255, 0.5)!important;
+  background-size: 50%;
+  box-shadow: 1px 1px 2px 1px var(--shadow_color), inset -5px -5px 6px -3px var(--shadow_color);
+
+}
+
+.mapboxgl-ctrl-group button:hover, .mapboxgl-ctrl-group button:focus {
+  box-shadow: 1px 1px 1px 1px var(--shadow_color), inset -4px -4px 6px -3px var(--shadow_color);
+  -webkit-border-radius: 5px!important;
+  -moz-border-radius: 5px!important;
+  border-radius: 5px!important;
+}
+
+.mapboxgl-ctrl-group button:active {
+  box-shadow: inset 2px 2px 5px var(--shadow_color), inset -2px -2px 5px 1px var(--white);
+}
+.buttons {
+  position: unset;
+}
+
+.buttons  button.button {
+  padding: 12px 0;
+  width: calc(100% - 130px);
+  border-radius: 10px;
+}
+
 button.add-address {
-  background: transparent;
+  background: rgba(255, 255, 255, 0.5);
   border: none;
   padding: 0;
   outline: none;
   cursor: pointer;
   line-height: 0;
-  position: absolute;
-  top: -5px;
-  left: 20px;
-  height: 40px;
+  height: 28px;
+  width: 28px;
   padding: 0;
   transition: opacity .3s;
+  border-radius: 8px;
+  box-shadow: 1px 1px 2px 1px #24293038, inset -5px -5px 6px -3px #24293038;
+  box-shadow: 1px 1px 2px 1px var(--shadow_color), inset -5px -5px 6px -3px var(--shadow_color);
 }
 
-button.add-address svg > path:first-child {
-  fill: rgba(255, 255, 255, 0.9);
-  fill: var(--bg);
+button.add-address:hover, button.add-address:focus {
+  box-shadow: 1px 1px 1px 1px #24293038, inset -4px -4px 6px -3px #24293038;
+  box-shadow: 1px 1px 1px 1px var(--shadow_color), inset -4px -4px 6px -3px var(--shadow_color);
+
 }
 
-button.remove-address {
-  position: absolute;
-  right: -15px;
-  font-size: 2rem;
-  top: 53%;
-  transform: translateY(-50%);
-  background: none;
-  border: none;
-  color: #a925ad;
-  padding: 0 5px;
-  margin: 0;
+button.add-address:active {
   outline: none;
-  cursor: pointer;
-  transition: opacity .3s;
+  box-shadow: inset 2px 2px 5px #24293038, inset -2px -2px 5px 1px white;
+  box-shadow: inset 2px 2px 5px var(--shadow_color), inset -2px -2px 5px 1px var(--white);
+
+}
+
+button.add-address svg {
+  height: 11px;
 }
 
 input[type='checkbox'] {
@@ -181,36 +240,30 @@ label {
 
 svg.map-pick {
   position: absolute;
-  right: 3px;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 25px;
-  height: 25px;
+  right: 10px;
+  top: calc(var(--vh, 1vh) * 2.6);
+  width: 19px;
+  height: calc(var(--vh, 1vh) * 2);
   cursor: pointer;
 }
 
 select#entrance, input#time, .select select, select#select_time {
   color: #312d50;
   color: var(--navy);
-  font-size: 16px;
+  font-size: calc(var(--vh, 1vh) * 2.6);
   background: transparent;
   border: none;
   transition: box-shadow .3s;
-  box-shadow: 0 3px 6px rgba(0,0,0,0.16);
-  box-shadow: var(--shadow);
-  margin: 5px 0;
-  height: 40px;
+  min-height: calc(var(--vh, 1vh) * 4);
   border-radius: 0;
   border: none;
-  background: rgba(255, 255, 255, 0.9);
-  background: var(--bg);
-  padding: 13px 5px 10px 45px;
+  padding: 6px 5px 6px 30px;
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
-  width: 140px;
   font-weight: 100;
   text-align: right;
+  width: 100%;
 }
 
 label[for='entrance']:after, label[for='time']:after {
@@ -258,14 +311,13 @@ label:not([data-placeholder])[for='time'] > .time-placeholder {
   display: none;
 }
 
-select#entrance:focus, input#time:focus, input.comment:focus {
+select#entrance:focus, input#time:focus, input.comment:focus, select#card_id:focus {
   outline: none;
-  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
-  box-shadow: var(--focus-shadow);
 }
 
 label[for='entrance'], label[for='time'] {
   text-align: right;
+  font-size: calc(var(--vh, 1vh) * 2.6);
 }
 
 .option label svg, .additions label svg, label[for='comment'] svg, .select svg {
@@ -276,28 +328,39 @@ label[for='entrance'], label[for='time'] {
   pointer-events: none;
 }
 
+label.select[for='card'] svg {
+  left: 3px;
+}
+
 label[for='comment'] {
   display: block;
 }
 
 input.comment {
   display: block;
-  background: transparent;
   color: #312d50;
   color: var(--navy);
-  width: 100%;
-  margin: 5px 0;
-  padding: 10px 10px 10px 45px;
-  background: rgba(255, 255, 255, 0.9);
-  background: var(--bg);
+  width: 90%;
+  margin: 0 auto;
+  padding: 0 10px 0 10px;
+  background: rgba(238, 246, 251, 0.8);
+  background: var(--input_bg_color_transparent);
   border: none;
-  font-size: 16px;
+  font-size: calc(var(--vh, 1vh) * 2.6);
   outline: none;
   font-weight: 100;
   transition: box-shadow .3s;
-  box-shadow: 0 3px 6px rgba(0,0,0,0.16);
-  box-shadow: var(--shadow);
-  border-radius: 0;
+  box-shadow: inset 3px 2px 8px #24293038, inset -2px -1px 4px white;
+  box-shadow: inset 3px 2px 8px var(--shadow_color), inset -2px -1px 4px var(--white);
+  border-radius: 10px;
+  height: calc(var(--vh, 1vh) * 4.5);
+}
+
+@media (max-width: 360px) {
+
+  input.comment {
+    height: unset;
+  }
 }
 
 div.nocall {
