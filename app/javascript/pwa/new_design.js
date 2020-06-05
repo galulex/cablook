@@ -463,11 +463,13 @@ export default class NewDesign extends Component {
   }
 
   confirmUpdate = (e) => {
+    this.props.mainBurger.classList.remove('hidden')
     let params = { ...this.state.trip, osrm: true }
     this.sendRequest(params)
   }
 
   updateRoute = (e) => {
+    this.props.mainBurger.classList.add('hidden')
     this.setState({ trip: { ...this.state.trip, status: CONFIRM_UPDATE_TRIP }, inputDisabled: true })
     if (window.ios) return
     history.pushState(null, null,'/')
@@ -475,11 +477,13 @@ export default class NewDesign extends Component {
   }
 
   cancelConfirmUpdate = (e) => {
+    this.props.mainBurger.classList.remove('hidden')
     window.removeEventListener('popstate', this.cancelConfirmUpdate, true)
     this.props.fetchUser()
   }
 
   handleBackEdit = (e) => {
+    this.props.mainBurger.classList.remove('hidden')
     if (this.state.picker !== null) this.setState({picker: null, klass: ''})
     window.ios ? this.props.fetchUser() : window.history.back()
   }
@@ -727,7 +731,7 @@ export default class NewDesign extends Component {
     return (
       <div>
         <header></header>
-        { [CONFIRM_UPDATE_TRIP].includes(trip.status) && <button type='button' class='burger back' onClick={this.handleBackEdit}><Back/></button> }
+        { [CONFIRM_UPDATE_TRIP].includes(trip.status) && <button type='button' class='burger button white-opacity back' onClick={this.handleBackEdit}><Back/></button> }
         <section class={`new_design ${this.state.klass} ${[PENDING].includes(trip.status) ? 'background' : ''}`}>
           { this.props.showFeedback() && <Feedback trip={trip} updateTrip={this.resetTrip} handleBack={this.resetTrip} lastTripId={lastTripId} /> }
           <style>{`fieldset.address:nth-child(${this.state.picker + 1}) { opacity: 1;}`}</style>

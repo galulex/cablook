@@ -397,6 +397,7 @@ export default class App extends Component {
               setGeocoding={this.setGeocoding}
               showBurger={this.showBurger}
               toggleHeader={this.toggleHeader}
+              mainBurger={this.mainBurger}
             />
             <Trips path='/trips/:id?'
               setCurrentTrip={this.setCurrentTrip}
