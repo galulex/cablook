@@ -2,6 +2,32 @@ section.profile {
   padding: 0;
 }
 
+section.profile fieldset.address {
+  max-width: 75vw;
+  width: 100%;
+  padding: 0;
+  box-shadow: none;
+  background: var(--input_bg_color);
+}
+
+section.profile input.address {
+  max-width: 75vw;
+  width: 100%;
+  padding: 14px 25px 12px 14px;
+  margin: 0;
+  background: var(--input_bg_color);
+  box-shadow: inset 3px 2px 8px var(--shadow_color), inset -2px -1px 4px var(--white);
+}
+
+section.profile fieldset.address:last-of-type {
+  box-shadow: inset 3px 2px 8px var(--shadow_color), inset -2px -1px 4px var(--white);
+}
+
+section.profile input.address:last-of-type {
+  background: transparent;
+  box-shadow: none;
+}
+
 #newFavoriteAddressForm {
   margin-top: 20px;
 }
@@ -59,7 +85,7 @@ ul.places li button svg {
   margin: 0;
 }
 
-.tab-content__container input.address {
+.tab-content__container fieldset.address {
   margin: 3% 0;
   padding: 5% 32px 5% 5%;
   font-size: 2.6vh;
@@ -79,8 +105,9 @@ ul.places li button svg {
 
 
 .tab-content__container ul.predictions {
-  max-height: 40vh;
-  max-height: calc(var(--vh, 1vh) * 40);
+  max-width: 75vw;
+  transition: max-height, .3s;
+  max-height: 0;
 }
 
 .tab-content__container-item button.x-card {
@@ -157,11 +184,6 @@ input.custom-checkbox ~ .custom-checkbox__label-title {
 
 .profile fieldset.address:before, .profile fieldset.address:after {
   content: none;
-}
-
-.profile input.address {
-  margin: auto;
-  width: 100%;
 }
 
 .profile select#language {

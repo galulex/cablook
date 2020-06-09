@@ -40,10 +40,10 @@ fieldset.address:nth-of-type(8) + div {
 }
 
 ul.predictions {
-  margin: 0;
   padding: 0;
   list-style: none;
-  max-width: 65vw;
+  width: 100%;
+  max-width: 100%;
   position: relative;
   max-height: 0;
   transition: opacity .3s, visibility 0s .5s, max-height .3s, max-width .3s;
@@ -54,7 +54,6 @@ ul.predictions {
 }
 
 li.prediction {
-  white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
   color: #312d50;

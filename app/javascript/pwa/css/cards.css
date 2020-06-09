@@ -32,12 +32,12 @@ ul.cards button.x-card {
   -moz-appearance: none;
   appearance: none;
   position: absolute;
-  right: 0;
+  right: 8px;
   top: 0;
-  border-radius: 10px;
-  padding: 10px;
-  min-width: 7vh;
-  min-height: 7vh;
+  border-radius: 15px;
+  padding: 3%;
+  min-width: 6vh;
+  min-height: 6vh;
   border: none;
   cursor: pointer;
   outline: none;
