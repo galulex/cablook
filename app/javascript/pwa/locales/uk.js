@@ -184,7 +184,8 @@ const uk = {
     notification_names: {
       waiting_client: 'Водій очікує',
       accept_trip: 'Замовлення прийнято',
-      decline_trip: 'Замовлення відмінено'
+      decline_trip: 'Замовлення відмінено',
+      search_car: 'Пошук машини'
     }
   },
   vendors_page: {

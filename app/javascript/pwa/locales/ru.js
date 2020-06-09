@@ -184,7 +184,8 @@ const ru = {
     notification_names: {
       waiting_client: 'Водитель ожидает',
       accept_trip: 'Заказ принят',
-      decline_trip: 'Заказ отменен'
+      decline_trip: 'Заказ отменен',
+      search_car: 'Поиск машины'
     }
   },
   vendors_page: {

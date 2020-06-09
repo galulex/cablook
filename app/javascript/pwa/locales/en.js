@@ -184,7 +184,8 @@ const en = {
     notification_names: {
       waiting_client: 'Waiting client',
       accept_trip: 'Accept trip',
-      decline_trip: 'Decline trip'
+      decline_trip: 'Decline trip',
+      search_car: 'Search car'
     }
   },
   vendors_page: {
