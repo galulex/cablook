@@ -296,11 +296,14 @@ export default class Cart extends Component {
         <section class='cart'>
           {showLoader && <Loader/>}
           { items ? ([
-            Object.keys(items).map((item, index) => {
-              return(
-                <CartItem key={index} id={item} item={items[item]} vendor={vendor} calculateTotalPrice={this.calculateTotalPrice}/>
-              )
-            }),
+            <div class='tab-content__container'>
+              { Object.keys(items).map((item, index) => {
+                return(
+                  <CartItem key={index} id={item} item={items[item]} vendor={vendor} calculateTotalPrice={this.calculateTotalPrice}/>
+                )
+              })
+            }
+            </div>,
             <div class='order-price'>
               <b>{i18n.cart.order_price}</b>
               <b class='price'>{total_price}</b>

@@ -198,7 +198,7 @@ export default class AddressInput extends Component {
           value={this.state.address} ref={input => this.input = input} readonly={readonly}
         />
 
-        <ul class='predictions'>
+        <ul class='predictions' ref={el => this.predictions = el}>
           { this.state.predictions.map(this.renderPrediction) }
         </ul>
       </fieldset>

@@ -3,6 +3,15 @@
   border-bottom: none;
   min-height: 150px;
   list-style: none;
+  cursor: pointer;
+}
+
+.vendor:hover {
+  box-shadow: 2px 2px 5px var(--shadow_color), inset 2px 2px 5px var(--white);
+}
+
+.vendor:active {
+  box-shadow: inset 2px 2px 5px var(--shadow_color), inset -2px -2px 5px var(--white);
 }
 
 .vendor.active {
@@ -53,7 +62,7 @@
 .vendor .time-container {
   border-top: 1px solid #d1d1d1;
   border-top: 1px solid var(--grey);
-  font-size: 12px;
+  font-size: 1.5vh;
   padding: 5px 0 5px 0;
 }
 
