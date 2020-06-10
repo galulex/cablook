@@ -26,8 +26,8 @@ fieldset.address {
   box-shadow: inset 3px 2px 8px var(--shadow_color), inset -2px -1px 4px var(--white);
   transition: .3s box-shadow, max-width .3s;
   background: rgba(238, 246, 251, 0.8);
-  background: var(--input_bg_color_transparent);
-  color: var(--font_color_1);
+  background: var(--address-input-bg);
+  color: var(--address-input-text);
   border-radius: 10px;
   max-width: 65vw;
   margin: 0 auto calc(var(--vh, 1vh) * 3) auto;
@@ -59,6 +59,7 @@ fieldset.address:focus-within {
 .option .trip-params {
   margin-left: calc(15vw - 10px);
   background: rgba(255, 255, 255, 0.5);
+  background: var(--button-background);
   border-radius: 10px;
   padding: 0 0 10px;
   box-shadow: 3px 3px 6px #24293038, inset -5px -5px 6px -3px #24293038, inset 1px 1px 3px -3px #ffffff;
@@ -106,7 +107,7 @@ fieldset.address:focus-within {
 }
 
 .new_design .button svg {
-  fill: white;
+  fill: var(--white);
 }
 
 .new_design .map-pick {
@@ -126,6 +127,8 @@ fieldset.address:focus-within {
   bottom: 80px;
   width: calc(100% - 60px);
   max-width: 540px;
+  background: rgba(255, 255, 255, .5);
+  background: var(--orange-button-bg);
 }
 
 .button.bonus svg {
@@ -293,6 +296,9 @@ svg.pin-last path {
   height: 20px;
 }
 
+.additions svg path {
+  fill: var(--trip-params-svg)
+}
 .options.noscroll .option:nth-of-type(2) {
   display: none;
 }
@@ -355,6 +361,7 @@ svg.pin-last path {
   transition: width .3s;
   top: 0;
   background: rgba(255, 255, 255, 0.5);
+  background: var(--button-background);
   border-radius: 10px 0 0 10px;
   box-shadow: 0px 5px 6px -4px #24293038, inset 0 -6px 4px -4px #24293038;
   box-shadow: 0px 5px 6px -4px var(--shadow_color), inset 0 -6px 4px -4px var(--shadow_color)
@@ -367,7 +374,7 @@ svg.pin-last path {
 
 .trigger:active {
   box-shadow: inset 2px 2px 5px 0px #24293038, inset -2px -2px 5px 1px #ffffff;
-  box-shadow: inset 2px 2px 5px 0px var(--shadow_color), inset -2px -2px 5px 1px var(--white);
+  box-shadow: inset 2px 2px 5px 0px var(--shadow_color), inset -2px -2px 5px 1px var(--shadow_color_light);
 
 }
 
@@ -385,12 +392,16 @@ svg.pin-last path {
 
 .trigger.back:active {
   box-shadow: inset -2px 2px 5px 0px #24293038, inset 2px -2px 5px 1px #ffffff;
-  box-shadow: inset -2px 2px 5px 0px var(--shadow_color), inset 2px -2px 5px 1px var(--white);
+  box-shadow: inset -2px 2px 5px 0px var(--shadow_color), inset 2px -2px 5px 1px var(--shadow_color_light);
 
 }
 
 .trigger svg {
   height: 30px;
+}
+
+.trigger svg path, .add-address svg path {
+  fill: var(--green-svg-color)
 }
 
 @media (min-width: 450px) {

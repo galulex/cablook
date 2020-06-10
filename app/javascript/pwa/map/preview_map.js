@@ -18,7 +18,7 @@ import FocusOnCarControl from '../../pwa/trips/custom-control.js'
 const polyline = require('@mapbox/polyline')
 
 const LANGUAGES = {en: 'en', uk: 'ru', ru: 'ru'}
-const MAPSTYLE = (localStorage.getItem('dark') === 'true') ? 'mapbox://styles/galulex/cju84cmu11atr1flfoxocwbq7' : 'mapbox://styles/okunieva/cjzwn3wx40yhq1cpjl3yo8p1z'
+const MAPSTYLE = (localStorage.getItem('dark') === 'true') ? 'mapbox://styles/okunieva/ckb1wuli60k3u1ipjrdnqtan5' : 'mapbox://styles/okunieva/cjzwn3wx40yhq1cpjl3yo8p1z'
 const PATHCOLORS = (localStorage.getItem('dark') === 'true') ? ['#ffffff', '#19a160'] : ['#312d50', '#19a160']
 let timeout
 

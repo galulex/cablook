@@ -34,7 +34,7 @@ export default class PreviewMap extends Component {
       this.setWaypoints()
       const { zoom } = this.state;
       let geoJSON = polyline.decode(this.state.trip.path)
-      let style = window.dark ? 'mapbox://styles/galulex/cju84cmu11atr1flfoxocwbq7' : 'mapbox://styles/mapbox/streets-v10';
+      let style = window.dark ? 'mapbox://styles/okunieva/ckb1wuli60k3u1ipjrdnqtan5' : 'mapbox://styles/mapbox/streets-v10';
       let path_color = window.dark ? ['#ffffff', '#19a160'] : ['#312d50', '#19a160']
 
       this.map = new mapboxgl.Map({

@@ -9,7 +9,7 @@ import Pin from './images/pin.js'
 import './css/picker.css'
 
 mapboxgl.accessToken = 'pk.eyJ1IjoiZ2FsdWxleCIsImEiOiJjamx6ampoZjgyMnYxM3FvZ2ppNjV2M2x5In0.bPgk2WI9NT-DJwnE-OtiLA';
-const MAPSTYLE = (localStorage.getItem('dark') === 'true') ? 'mapbox://styles/galulex/cju84cmu11atr1flfoxocwbq7' : 'mapbox://styles/okunieva/cjzwn3wx40yhq1cpjl3yo8p1z';
+const MAPSTYLE = (localStorage.getItem('dark') === 'true') ? 'mapbox://styles/okunieva/ckb1wuli60k3u1ipjrdnqtan5' : 'mapbox://styles/okunieva/cjzwn3wx40yhq1cpjl3yo8p1z';
 const LANGUAGES = {en: 'en', uk: 'ru', ru: 'ru'}
 
 var timeout

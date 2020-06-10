@@ -6,9 +6,9 @@ if (window.dark) {
   document.documentElement.style.setProperty('--bg_gradient_color_2', '#191730')
   document.documentElement.style.setProperty('--font_color_2', 'white')
   document.documentElement.style.setProperty('--button-background', '#19a160')
-  document.documentElement.style.setProperty('--shadow_color', 'rgba(#d1d1d1, .3')
+  document.documentElement.style.setProperty('--shadow_color', 'rgba(20, 18, 33, 0.5)');
+  document.documentElement.style.setProperty('--shadow_color_light', 'rgba(255, 255, 255, 0.3)');
   document.documentElement.style.setProperty('--white', 'black');
-  // document.documentElement.style.setProperty('--navy', 'white');
   document.documentElement.style.setProperty('--grey', 'black');
   document.documentElement.style.setProperty('--map-bg', 'black');
   document.documentElement.style.setProperty('--path-color', ' #ffffff');
@@ -17,6 +17,17 @@ if (window.dark) {
   document.documentElement.style.setProperty('--focus-shadow', '0 3px 6px rgba(255,255,255,0.2), 0 3px 6px rgba(255,255,255,255.23)');
   document.documentElement.style.setProperty('--bg', 'rgba(0,0,0,0.9)');
   document.documentElement.style.setProperty('--controls', '#19A160');
+  document.documentElement.style.setProperty('--orange', '#191730');
+  document.documentElement.style.setProperty('--orange-button-bg', '#efcc3a');
+  document.documentElement.style.setProperty('--address-input-bg', 'rgba(0, 0, 0, 0.65)');
+  document.documentElement.style.setProperty('--comment-input-bg', 'rgba(0, 0, 0, 0.1)');
+  document.documentElement.style.setProperty('--address-input-text', 'white');
+  document.documentElement.style.setProperty('--trip-params-svg', 'black');
+  document.documentElement.style.setProperty('--green-svg-color', 'black');
+  document.documentElement.style.setProperty('--red-button-bg', 'rgba(204, 15, 52, 0.8)');
+  document.documentElement.style.setProperty('--red-button-text', 'white');
+
+  document.documentElement.style.setProperty('--address-input-weight', 'bold');
 }
 
 import '../pwa/android_polyfills.js';
