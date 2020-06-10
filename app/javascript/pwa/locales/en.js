@@ -182,10 +182,10 @@ const en = {
     theme: 'Dark Theme',
     language: 'Language',
     notification_names: {
+      search_car: 'Search car',
       waiting_client: 'Waiting client',
       accept_trip: 'Accept trip',
-      decline_trip: 'Decline trip',
-      search_car: 'Search car'
+      decline_trip: 'Decline trip'
     }
   },
   vendors_page: {

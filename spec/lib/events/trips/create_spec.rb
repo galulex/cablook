@@ -14,6 +14,7 @@ describe Events::Trips::Create do
     context 'and active job is created' do
       it { is_expected.to have_enqueued_job(Jobs::SearchCarForTrip).with(data[:id]) }
       it { is_expected.to have_enqueued_job(Jobs::DeclineTrip).with(data[:id]) }
+      it { is_expected.to have_enqueued_job(Jobs::Notification).with(data[:id]) }
     end
 
     context 'and user trips_count updated' do
@@ -24,6 +25,12 @@ describe Events::Trips::Create do
       let(:data) { trip_params.except(:user_id) }
 
       it { is_expected.to raise_error(Events::InvalidParamsError) }
+    end
+
+    context 'when user turn off search car notification' do
+      let(:user) { create(:user, notification_settings: [Constants::User::SEARCH_CAR]) }
+
+      it { is_expected.not_to raise_error(Events::InvalidParamsError) }
     end
 
     context 'when user pre-order trip' do
