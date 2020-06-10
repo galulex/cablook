@@ -6,13 +6,17 @@ input.address {
   padding: 14px 25px 12px 6px;
   font-size: calc(var(--vh, 1vh) * 2.6);
   color: #312d50;
-  color: var(--navy);
+  color: var(--address-input-text);
   font-weight: 100;
   margin: 0 3% 0 7%;
   border-radius: 15px;
   transition: all .3s;
   height: calc(var(--vh, 1vh) * 7);
 
+}
+
+input.address, input.address::placeholder {
+  font-weight: var(--address-input-weight);
 }
 
 input.address:focus {
@@ -58,7 +62,7 @@ li.prediction {
   text-overflow: ellipsis;
   overflow: hidden;
   color: #312d50;
-  color: var(--navy);
+  color: var(--address-input-text);
   line-height: 1;
   padding: 2px 0 5px 35px;
   transition: background .2s;
@@ -153,6 +157,7 @@ svg.running {
   margin-bottom: 5px;
   border-radius: 5px;
   background-color: rgba(255, 255, 255, 0.5)!important;
+  background-color: var(--button-background)!important;
   background-size: 50%;
   box-shadow: 1px 1px 2px 1px var(--shadow_color), inset -5px -5px 6px -3px var(--shadow_color);
 
@@ -166,7 +171,7 @@ svg.running {
 }
 
 .mapboxgl-ctrl-group button:active {
-  box-shadow: inset 2px 2px 5px var(--shadow_color), inset -2px -2px 5px 1px var(--white);
+  box-shadow: inset 2px 2px 5px var(--shadow_color), inset -2px -2px 5px 1px var(--shadow_color_light);
 }
 .buttons {
   position: unset;
@@ -180,6 +185,7 @@ svg.running {
 
 button.add-address {
   background: rgba(255, 255, 255, 0.5);
+  background: var(--button-background);
   border: none;
   padding: 0;
   outline: none;
@@ -203,7 +209,7 @@ button.add-address:hover, button.add-address:focus {
 button.add-address:active {
   outline: none;
   box-shadow: inset 2px 2px 5px #24293038, inset -2px -2px 5px 1px white;
-  box-shadow: inset 2px 2px 5px var(--shadow_color), inset -2px -2px 5px 1px var(--white);
+  box-shadow: inset 2px 2px 5px var(--shadow_color), inset -2px -2px 5px 1px var(--shadow_color_light);
 
 }
 
@@ -344,16 +350,21 @@ input.comment {
   margin: 0 auto;
   padding: 0 10px 0 10px;
   background: rgba(238, 246, 251, 0.8);
-  background: var(--input_bg_color_transparent);
+  background: var(--comment-input-bg);
   border: none;
   font-size: calc(var(--vh, 1vh) * 2.6);
   outline: none;
   font-weight: 100;
   transition: box-shadow .3s;
   box-shadow: inset 3px 2px 8px #24293038, inset -2px -1px 4px white;
-  box-shadow: inset 3px 2px 8px var(--shadow_color), inset -2px -1px 4px var(--white);
+  box-shadow: inset 3px 2px 8px var(--shadow_color), inset -2px -1px 4px var(--shadow_color_light);
   border-radius: 10px;
   height: calc(var(--vh, 1vh) * 4.5);
+}
+
+input.comment::placeholder {
+  color: #312d50;
+  color: var(--navy);
 }
 
 @media (max-width: 360px) {

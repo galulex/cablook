@@ -23,7 +23,7 @@
 }
 
 .button:active {
-  box-shadow: inset 2px 2px 5px 1px var(--shadow_color), inset -2px -2px 5px 1px var(--white);
+  box-shadow: inset 2px 2px 5px 1px var(--shadow_color), inset -2px -2px 5px 1px var(--shadow_color_light);
 }
 
 .button.green {
@@ -31,7 +31,6 @@
   color: var(--white);
   background: #19a160;
   background: var(--green);
-  box-shadow: 5px 3px 12px var(--shadow_color), inset -5px -5px 5px 1px var(--shadow_color);
 }
 
 .button.green:hover {
@@ -59,8 +58,8 @@
 }
 
 .button.white-opacity {
-  background: rgba(255, 255, 255, .3);
-  background: var(--container-background);
+  background: rgba(255, 255, 255, .5);
+  background: var(--button-background);
   color: #233038;
   color: var(--font_color_2);
 }
@@ -70,7 +69,7 @@
 }
 
 .button:disabled {
-  box-shadow: inset 2px 2px 5px 1px var(--shadow_color), inset -2px -2px 5px 1px var(--white);
+  box-shadow: inset 2px 2px 5px 1px var(--shadow_color), inset -2px -2px 5px 1px var(--shadow_color_light);
   color: #233038;
 }
 
@@ -87,17 +86,20 @@
   background: #19a160;
   background: var(--green);
   color: white;
+  color: var(--white);
 
 }
 
 .button.cancel {
   background: rgba(238, 246, 251, 0.5);
+  background: var(--red-button-bg);
   color: #cc0f34;
-  color: var(--crimsone-red);
+  color: var(--red-button-text);
 }
 
 .button.edit {
-  background: rgba(238, 246, 251, 0.5);
+  background: rgba(255, 255, 255, .5);
+  background: var(--orange-button-bg);
   color: #efcc3a;
   color: var(--orange);
 }
@@ -133,7 +135,7 @@
   color: var(--font_color_2);
   border-radius: 10px;
   box-shadow: 3px 3px 6px #24293038, inset -5px -5px 6px -3px #24293038, inset 1px 1px 3px -3px #ffffff;
-  box-shadow: 3px 3px 6px var(--shadow_color), inset -5px -5px 6px -3px var(--shadow_color), inset 1px 1px 3px -3px var(--white);
+  box-shadow: 3px 3px 6px var(--shadow_color), inset -5px -5px 6px -3px var(--shadow_color), inset 1px 1px 3px -3px var(--shadow_color_light);
 }
 
 @media (min-width: 450px) {
@@ -145,13 +147,13 @@
 
 .button.burger:hover {
   box-shadow: 2px 2px 6px #24293038, inset -3px -3px 6px -3px #24293038, inset 1px 1px 3px -3px #ffffff;
-  box-shadow: 2px 2px 6px var(--shadow_color), inset -3px -3px 6px -3px var(--shadow_color), inset 1px 1px 3px -3px var(--white);
+  box-shadow: 2px 2px 6px var(--shadow_color), inset -3px -3px 6px -3px var(--shadow_color), inset 1px 1px 3px -3px var(--shadow_color_light);
 }
 
 .button.burger:active {
   outline: none;
   box-shadow: inset 2px 2px 5px 1px #24293038, inset -2px -2px 5px 1px #ffffff;
-  box-shadow: inset 2px 2px 5px 1px var(--shadow_color), inset -2px -2px 5px 1px var(--white);
+  box-shadow: inset 2px 2px 5px 1px var(--shadow_color), inset -2px -2px 5px 1px var(--shadow_color_light);
 }
 
 .button.burger.hidden {
