@@ -173,7 +173,6 @@ const messaging = firebase.messaging.isSupported() ? firebase.messaging() : null
 
 if (messaging) {
   messaging.setBackgroundMessageHandler((payload) => {
-    console.log(payload)
     let trip = JSON.parse(payload.data.trip)
     if (trip.action && trip.action === 'remove_notifications') { self.registration.getNotifications().then((ns)=>ns.forEach((n)=>n.close())); return }
     let { title, body, icon, tag, renotify, actions } = payload.data
