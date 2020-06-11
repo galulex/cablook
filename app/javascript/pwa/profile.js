@@ -99,7 +99,7 @@ export default class FavoriteAddresses extends Component {
             </select>
           </div>
           <h4 class='center'>{i18n.profile_page.notification_settings}</h4>
-          {['accept_trip', 'decline_trip', 'waiting_client'].map((value) => {
+          {['search_car', 'accept_trip', 'decline_trip', 'waiting_client'].map((value) => {
             return(
               <div class='nocall'>
                 <input id={value} type='checkbox' value={value} onChange={this.changeNotificationSettings} checked={notification_settings.includes(value)}/>

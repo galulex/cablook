@@ -182,6 +182,7 @@ const uk = {
     theme: 'Темна тема',
     language: 'Мова',
     notification_names: {
+      search_car: 'Пошук машини',
       waiting_client: 'Водій очікує',
       accept_trip: 'Замовлення прийнято',
       decline_trip: 'Замовлення відмінено'

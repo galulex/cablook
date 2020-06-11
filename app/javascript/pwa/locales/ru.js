@@ -182,6 +182,7 @@ const ru = {
     theme: 'Темная тема',
     language: 'Язык',
     notification_names: {
+      search_car: 'Поиск машины',
       waiting_client: 'Водитель ожидает',
       accept_trip: 'Заказ принят',
       decline_trip: 'Заказ отменен'
