@@ -1,6 +1,6 @@
 ActiveAdmin.register User do
   remove_filter :trips, :business, :bussinesses, :cards, :bonus_trips, :favorite_addresses,
-                :parent_bonus, :orders, :referral_code, :notification_settings
+                :parent_bonus, :orders, :referral_code, :notification_settings, :versions
 
   controller do
     def scoped_collection
