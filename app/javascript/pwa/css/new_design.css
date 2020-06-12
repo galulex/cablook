@@ -297,7 +297,8 @@ svg.pin-last path {
 }
 
 .additions svg path {
-  fill: var(--trip-params-svg)
+  fill: #312d50;
+  fill: var(--navy-dark)
 }
 .options.noscroll .option:nth-of-type(2) {
   display: none;
@@ -430,6 +431,8 @@ label.nocall {
   min-width: 110px;
   max-width: 45%;
   white-space: nowrap;
+  color: #312d50;
+  color: var(--navy-dark);
 }
 
 label.nocall:before {
