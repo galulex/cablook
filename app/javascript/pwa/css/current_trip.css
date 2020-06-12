@@ -255,7 +255,7 @@ svg.map-pick {
 
 select#entrance, input#time, .select select, select#select_time {
   color: #312d50;
-  color: var(--navy);
+  color: var(--navy-dark);
   font-size: calc(var(--vh, 1vh) * 2.6);
   background: transparent;
   border: none;
@@ -284,7 +284,7 @@ label[for='entrance']:after, label[for='time']:after {
 }
 
 .time-placeholder {
-  color: var(--navy);
+  color: var(--navy-dark);
   left: 45px;
   position: absolute;
   top: 50%;
@@ -345,7 +345,7 @@ label[for='comment'] {
 input.comment {
   display: block;
   color: #312d50;
-  color: var(--navy);
+  color: var(--navy-dark);
   width: 90%;
   margin: 0 auto;
   padding: 0 10px 0 10px;
@@ -368,7 +368,7 @@ input.comment:focus {
 
 input.comment::placeholder {
   color: #312d50;
-  color: var(--navy);
+  color: var(--navy-dark);
 }
 
 @media (max-width: 360px) {
