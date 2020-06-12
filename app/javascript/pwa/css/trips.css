@@ -220,8 +220,8 @@ address:last-of-type svg {
   color: var(--font_color_2);
 }
 
-.trip-details-content svg path {
-  fill: rgba(119, 119, 119, .5);
+.trip-details-content svg.details-icon path {
+  fill: rgb(147, 150, 150);
 }
 
 .trip-details-content address {

@@ -64,7 +64,7 @@ export default class Cards extends Component {
     return (
       <div>
         <header>Cards</header>
-        <section>
+        <section class='cards'>
           { cardList }
           <button class='button green fixed' disabled={this.state.showWidget} type='button' onClick={() => this.showWidget(true)}>+ {i18n.cards.add}</button>
           { this.state.showWidget && <Widget createCard={this.create} showWidget={this.showWidget} /> }

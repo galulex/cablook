@@ -7,6 +7,17 @@ section.cart .tab-content__container {
   margin-top: calc(var(--vh, 1vh) * 3);
 }
 
+section.cart > form > .additions {
+  justify-content: space-between;
+  width: 80%;
+  margin: 0 auto;
+}
+
+section.cart > form > label[for='comment'] {
+  width: 80%;
+  margin: 0 auto;
+}
+
 section.cart > form > .button {
   margin-bottom: 3vh;
   margin-bottom: calc(var(--vh, 1vh) * 3);
@@ -41,8 +52,8 @@ section.cart  > form fieldset.address ul.predictions {
 }
 
 .cart fieldset.address {
-  width: 100%;
-  max-width: 100%;
+  width: 80%;
+  max-width: 80%;
   background: var(--input_bg_color);
 }
 
