@@ -80,7 +80,7 @@ section.feedback {
   margin-top: 0;
   margin-bottom: 0;
   max-width: 540px;
-  overflow-y: scroll;
+  overflow-y: overlay;
 }
 
 section.feedback .stars-container {
@@ -140,6 +140,8 @@ section.feedback .feedback__holder section {
 }
 
 section.feedback .feedback__container {
+  display: flex;
+  align-items: center;
   width: 100%;
   height: 100%;
 }
@@ -155,6 +157,7 @@ section.feedback::-webkit-scrollbar {
   flex-direction: column;
   justify-content: space-between;
   padding-bottom: 20px;
+  overflow: auto;
 }
 
 .feedback__holder section.feedback .feedback__container form button {
@@ -165,10 +168,9 @@ section.new_design .feedback__holder, section.trips .feedback__holder {
   display: flex;
   align-items: center;
   justify-content: center;
-  position: fixed;
+  position: absolute;
   z-index: 400;
-  min-height: -webkit-fill-available;
-  min-height: calc(var(--vh, 1vh) * 100);
+  height: 100%;
   left: 0;
   right: 0;
   top: 0;

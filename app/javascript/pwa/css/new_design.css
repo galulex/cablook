@@ -144,8 +144,8 @@ fieldset.address:focus-within {
   z-index: 310;
 }
 .new_design .remove-address {
-  right: 8px;
-  top: calc(var(--vh, 1vh) * 2);
+  right: 0;
+  top: 22px;
   position: absolute;
   cursor: pointer;
   background: none;
@@ -457,4 +457,10 @@ input:checked + svg.cross path:nth-of-type(2) {
     display: inline-block;
   }
 
+}
+
+.option::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
 }
