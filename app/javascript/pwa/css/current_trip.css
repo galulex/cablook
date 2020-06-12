@@ -362,6 +362,10 @@ input.comment {
   height: calc(var(--vh, 1vh) * 4.5);
 }
 
+input.comment:focus {
+  box-shadow: inset 3px 2px 2px var(--shadow_color), inset -2px -1px 2px var(--shadow_color_light);
+}
+
 input.comment::placeholder {
   color: #312d50;
   color: var(--navy);
