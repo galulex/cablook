@@ -384,7 +384,7 @@ export default class App extends Component {
         <main id="app" onClick={this.closeDrawer} ref={main => this.main = main}>
           { !this.state.isScrollNegative && this.state.isBurgerShowing &&
             <button
-              class='button white-opacity burger'
+              class={`button white-opacity burger ${this.state.activateFeedback ? 'hidden' : ''}`}
               ref={el => this.mainBurger = el}
               onClick={this.triggerDrawer}>
                 <Burger/>
