@@ -30,10 +30,18 @@ export default class Cards extends Component {
   }
 
   renderCardType = (type, pan) => {
-    if (type === 'Visa') {
-      return(<VisaLight pan={pan.split('****')} class='card light'/>)
+    if (localStorage.getItem('dark')) {
+      if (type === 'Visa') {
+        return(<VisaDark pan={pan.split('****')} class='card dark'/>)
+      } else {
+        return(<MasterCardDark pan={pan.split('****')} class='card dark'/>)
+      }
     } else {
-      return(<MasterCardLight pan={pan.split('****')} class='card light'/>)
+      if (type === 'Visa') {
+        return (<VisaLight pan={pan.split('****')} class='card light'/>)
+      } else {
+        return (<MasterCardLight pan={pan.split('****')} class='card light'/>)
+      }
     }
   }
 
