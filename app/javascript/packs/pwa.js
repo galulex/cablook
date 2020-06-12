@@ -7,7 +7,7 @@ if (window.dark) {
   document.documentElement.style.setProperty('--font_color_2', 'white')
   document.documentElement.style.setProperty('--button-background', '#19a160')
   document.documentElement.style.setProperty('--shadow_color', 'rgba(20, 18, 33, 0.5)');
-  document.documentElement.style.setProperty('--shadow_color_light', 'rgba(255, 255, 255, 0.3)');
+  document.documentElement.style.setProperty('--shadow_color_light', 'rgba(100, 100, 100, 0.3)');
   document.documentElement.style.setProperty('--white', 'black');
   document.documentElement.style.setProperty('--grey', 'black');
   document.documentElement.style.setProperty('--map-bg', 'black');
@@ -22,11 +22,15 @@ if (window.dark) {
   document.documentElement.style.setProperty('--address-input-bg', 'rgba(0, 0, 0, 0.65)');
   document.documentElement.style.setProperty('--comment-input-bg', 'rgba(0, 0, 0, 0.1)');
   document.documentElement.style.setProperty('--address-input-text', 'white');
-  document.documentElement.style.setProperty('--trip-params-svg', 'black');
+  document.documentElement.style.setProperty('--navy-dark', 'black');
   document.documentElement.style.setProperty('--green-svg-color', 'black');
   document.documentElement.style.setProperty('--red-button-bg', 'rgba(204, 15, 52, 0.8)');
   document.documentElement.style.setProperty('--red-button-text', 'white');
+  document.documentElement.style.setProperty('--input_bg_color', 'rgba(18, 18, 18, 0.3)');
+  document.documentElement.style.setProperty('--container-background', 'rgba(18, 18, 18, 0.3)');
+  document.documentElement.style.setProperty('--navy', '#4d496f');
 
+  document.documentElement.style.setProperty('--main_background', 'linear-gradient(to right, var(--bg_gradient_color_1), var(--bg_gradient_color_2), var(--bg_gradient_color_1))');
   document.documentElement.style.setProperty('--address-input-weight', 'bold');
 }
 

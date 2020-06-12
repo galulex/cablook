@@ -36,11 +36,12 @@ html lang="#{I18n.locale}"
         --comment-input-bg: rgba(238, 246, 251, 0.8);
         --address-input-bg: rgba(238, 246, 251, 0.8);
         --address-input-text: black;
-        --trip-params-svg: #312d50;
+        --navy-dark: var(--navy);
         --green-svg-color: #19a160;
         --red-button-text: #cc0f34;
         --red-button-bg: rgba(255, 255, 255, .5);
         --address-input-weight: 100;
+        --main_background: linear-gradient(to right, var(--bg_gradient_color_2), var(--bg_gradient_color_1), var(--bg_gradient_color_2));
       }
 
       html {
@@ -107,8 +108,8 @@ html lang="#{I18n.locale}"
         overscroll-behavior-x: contain;
         overflow-y: hidden;
         background: #e6efee;
-        background: linear-gradient(to bottom, #e6efee, #f6faf8, #e6efee);
-        background: linear-gradient(to bottom, var(--bg_gradient_color_2), var(--bg_gradient_color_1), var(--bg_gradient_color_2));
+        background: linear-gradient(to right, #e6efee, #f6faf8, #e6efee);
+        background: var(--main_background);
       }
 
       main.disable-events,

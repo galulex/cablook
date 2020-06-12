@@ -61,6 +61,7 @@ address:last-of-type svg {
 
 .trip-card {
   background: rgba(255, 255, 255, .3);
+  background: var(--container-background);
   margin: 4% 0;
   padding: 4% 6%;
   border-bottom: none;
@@ -70,11 +71,11 @@ address:last-of-type svg {
 }
 
 .trip-card:hover {
-  box-shadow: 2px 2px 5px var(--shadow_color), inset 2px 2px 5px var(--white);
+  box-shadow: 2px 2px 5px var(--shadow_color), inset 2px 2px 5px var(--shadow_color_light);
 }
 
 .trip-card:active {
-  box-shadow: inset 2px 2px 5px var(--shadow_color), inset -2px -2px 5px var(--white);
+  box-shadow: inset 2px 2px 5px var(--shadow_color), inset -2px -2px 5px var(--shadow_color_light);
 }
 
 .trip-card .address-block {
@@ -216,6 +217,7 @@ address:last-of-type svg {
 .trip-details-content {
   border-bottom: 2px solid #d6d6d6;
   padding: 8px 2px;
+  color: var(--font_color_2);
 }
 
 .trip-details-content svg path {
@@ -296,7 +298,7 @@ nav {
   margin-left: 40px;
 }
 
-.trip-details-content a, a:visited {
+.trip-details-content a {
   color: #312d50;
   color: var(--navy);
   text-decoration: none;
