@@ -1,5 +1,6 @@
 <script>
   import { onMount, onDestroy, setContext } from 'svelte'
+  import { fade } from 'svelte/transition'
   import { Router, Route, navigate } from 'svelte-routing'
   import Sounds from './Sounds.svelte'
   import { createConsumer } from '@rails/actioncable'
@@ -14,6 +15,7 @@
   import Nav from './Nav.svelte'
   import Spinner from './Spinner.svelte'
   import Sos from './Sos.svelte'
+  import Warning from './Warning.svelte'
 
   let isLoggedIn = !!document.cookie.match(/token/)
   let carSpeed = 0
@@ -187,6 +189,9 @@
 <Router>
   {#if isLoggedIn}
     <Sounds/>
+    {#if (carSpeed > 60) }
+      <div transition:fade><Warning speed={carSpeed}/></div>
+    {/if}
     <main>
       <Route path="/">
         {#await getTrips()}
