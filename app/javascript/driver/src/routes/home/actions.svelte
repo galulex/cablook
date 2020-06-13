@@ -16,7 +16,7 @@
   let createTime = new Date(trip.created_at).getTime()
   let current
   let time
-  let disabled = false
+  let name = 'disabled'
   let disabledButton = false
 
   onMount(() => {
@@ -32,14 +32,19 @@
     //TODO handle timer on trip retry. Require back-end updates
     let current = new Date().getTime()
     time = 70 - Math.floor((current - createTime)/1000)
-    disabled = isDisabled(time)
+    if (!isDisabled()) name = ''
     if (time < 0) {
+      name = ''
       clearInterval(interval)
       time = 'WTF'
     }
   }
 
   let accept = () => {
+    if (isDisabled()) {
+      alert('Ах ти хрущ. Навіщо клацаєш?')
+      return
+    }
     disabledButton = true
     axios.patch(`trips/${trip.id}/accept`).then(res => {
       updateTrip(res.data)
@@ -50,7 +55,7 @@
     })
   }
 
-  let isDisabled = (time) => {
+  let isDisabled = () => {
     return !(
       (distance <= 2) ||
       (distance > 2 && distance <= 4 && time <= 60) ||
@@ -113,6 +118,10 @@
   label {
     padding: 0 0 0 5px;
   }
+
+  button[name='disabled'] {
+    opacity: 0.5;
+  }
 </style>
 
 <p>
@@ -131,4 +140,4 @@
   <time><Timer style={{fill: 'var(--red_color)', width: '15px', height: '15px'}}/><label>{time}</label></time>
 </p>
 <blockquote>{trip.comment}</blockquote>
-<button type='button' disabled={disabledButton || disabled} on:click={accept} style="{btnStyle}">GO</button>
+<button type='button' name={name}  disabled={disabledButton} on:click={accept} style="{btnStyle}">GO {time}</button>
