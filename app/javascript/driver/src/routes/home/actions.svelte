@@ -16,7 +16,7 @@
 
   let createTime = new Date(trip.created_at).getTime()
   let current
-  let time
+  let time = 0
   let name = 'disabled'
   let disabledButton = false
 
@@ -37,7 +37,7 @@
     if (time < 0) {
       name = ''
       clearInterval(interval)
-      time = 'WTF'
+      time = 0
     }
   }
 
