@@ -92,8 +92,12 @@
     })
   }
 
+  let geoError = (error) => {
+    alert(error.message)
+  }
+
   let setWatcher = () => {
-   watcher = navigator.geolocation.watchPosition(sendLocation, null, { enableHighAccuracy: true }) 
+   watcher = navigator.geolocation.watchPosition(sendLocation, geoError, { enableHighAccuracy: true })
   }
 
   let loadScript = () => {
