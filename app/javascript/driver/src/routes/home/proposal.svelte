@@ -8,6 +8,7 @@
   export let trip
   export let location
   export let updateTrip
+  export let isBusy
   let proposal
 
   onMount(() => {
@@ -91,10 +92,10 @@
     {/if}
   {/each}
   {#await osrm()}
-    <Actions trip={trip} duration={'⌛'} distance={'⌛'} bgColor={bgColor()} btnStyle={btnStyle()} updateTrip={updateTrip}/>
+    <Actions trip={trip} duration={'⌛'} distance={'⌛'} bgColor={bgColor()} btnStyle={btnStyle()} updateTrip={updateTrip} isBusy={isBusy}/>
   {:then result}
-    <Actions trip={trip} duration={result.duration} distance={result.distance} bgColor={bgColor()} btnStyle={btnStyle()} updateTrip={updateTrip}/>
+    <Actions trip={trip} duration={result.duration} distance={result.distance} bgColor={bgColor()} btnStyle={btnStyle()} updateTrip={updateTrip} isBusy={isBusy}/>
   {:catch error}
-    <Actions trip={trip} duration={'⌛'} distance={'⌛'} bgColor={bgColor()} btnStyle={btnStyle()} updateTrip={updateTrip}/>
+    <Actions trip={trip} duration={'⌛'} distance={'⌛'} bgColor={bgColor()} btnStyle={btnStyle()} updateTrip={updateTrip} isBusy={isBusy}/>
   {/await}
 </li>

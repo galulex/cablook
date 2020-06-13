@@ -11,6 +11,7 @@
   export let distance
   export let duration
   export let updateTrip
+  export let isBusy
   let interval
 
   let createTime = new Date(trip.created_at).getTime()
@@ -57,9 +58,9 @@
 
   let isDisabled = () => {
     return !(
-      (distance <= 2) ||
-      (distance > 2 && distance <= 4 && time <= 60) ||
-      (distance > 4 && time <= 55) ||
+      (distance <= 2 && !isBusy) ||
+      (distance > 2 && distance <= 4 && time <= 60 && !isBusy) ||
+      (distance > 4 && time <= 55 && !isBusy) ||
       (time <= 50)
     )
   }

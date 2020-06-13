@@ -14,10 +14,9 @@
     component.scrollIntoView()
   })
 
-  //TODO Pass it to disable go button for 20 seconds if driver has a trip that is not pre_order
   let isBusy = () => {
-    trips.some(trip => {
-      return (trip.driver_id === parseInt(localStorage.id) && !trip.pre_order && [1,2,3].include(trip.status))
+    return trips.some(trip => {
+      return (trip.driver_id === parseInt(localStorage.id) && !trip.pre_order && [1,2,3].includes(trip.status))
     })
   }
 </script>
@@ -77,7 +76,7 @@
   </div>
   <ol id='proposals'>
     {#each trips.filter(trip => { return trip.status === 0 }) as trip (trip.id)}
-      <Proposal trip={trip} updateTrip={updateTrip} location={location} />
+      <Proposal trip={trip} updateTrip={updateTrip} location={location} isBusy={isBusy()} />
     {/each}
   </ol>
   <ol id='current'>
