@@ -2,7 +2,7 @@ ul.contacts li a {
   background: transparent;
   border: none;
   color: #312d50;
-  color: var(--navy);
+  color: var(--font_color_2);
   cursor: pointer;
   display: block;
   font-size: 18px;
