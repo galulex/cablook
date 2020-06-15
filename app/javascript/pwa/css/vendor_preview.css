@@ -1,7 +1,9 @@
 .vendor {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   position: relative;
   border-bottom: none;
-  min-height: 150px;
   list-style: none;
   cursor: pointer;
 }
@@ -127,4 +129,10 @@ li.create-order {
   justify-content: space-between;
   font-size: 2.6vh;
   font-size: calc(var(--vh, 1vh) * 2.6);
+}
+
+@media screen and (min-width: 768px) {
+  .vendor {
+    min-height: 150px;
+  }
 }

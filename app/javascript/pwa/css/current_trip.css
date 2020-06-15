@@ -244,12 +244,17 @@ label {
 
 svg.map-pick {
   position: absolute;
-  right: 3px;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 25px;
-  height: 25px;
+  right: 10px;
+  top: 2.3vh;
+  top: calc(var(--vh, 1vh) * 2.3);
+  height: 2.2vh;
+  height: calc(var(--vh, 1vh) * 2.2);
   cursor: pointer;
+}
+
+svg.map-pick path {
+  fill: #19a160;
+  fill: var(--green);
 }
 
 select#entrance, input#time, .select select, select#select_time {
