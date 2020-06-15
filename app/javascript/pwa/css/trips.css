@@ -84,6 +84,7 @@ address:last-of-type svg {
 }
 
 .trip-card > .address-block > address:last-of-type svg.address-pin path {
+  fill: #233038;
   fill: var(--font_color_2);
 }
 
@@ -249,7 +250,6 @@ nav {
   left: 0px;
   top: 0px;
   z-index: 10001;
-  overflow-y: auto;
   overscroll-behavior-y: none;
   -webkit-overflow-scrolling: touch;
   cursor: default;

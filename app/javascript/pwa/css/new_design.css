@@ -110,7 +110,7 @@ fieldset.address:focus-within {
 
 .new_design .map-pick {
   right: auto;
-  left: 7px;
+  left: 12px;
   transition: height .3s;
 }
 
@@ -145,7 +145,7 @@ fieldset.address:focus-within {
 }
 .new_design .remove-address {
   right: 0;
-  top: 22px;
+  top: 2.2vh;
   position: absolute;
   cursor: pointer;
   background: none;
@@ -154,7 +154,8 @@ fieldset.address:focus-within {
 }
 
 .new_design .remove-address svg {
-  height: calc(var(--vh, 1vh) * 2);
+  height: 2.2vh;
+  height: calc(var(--vh, 1vh) * 2.2);
 }
 
 
@@ -328,7 +329,9 @@ svg.pin-last path {
 }
 
 .pick fieldset.address svg {
-  height: 10px;
+  top: 2.8vh;
+  height: calc(var(--vh, 1vh) * 1.4);
+  height: 1.4vh;
 }
 
 .pick .trigger {
