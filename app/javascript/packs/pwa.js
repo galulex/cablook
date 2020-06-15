@@ -4,7 +4,11 @@ window.ios = ['iPhone', 'iPad', 'iPod', 'MacIntel'].includes(navigator.platform)
 if (window.dark) {
   document.documentElement.style.setProperty('--bg_gradient_color_1', '#0f0f0f')
   document.documentElement.style.setProperty('--bg_gradient_color_2', '#191730')
+  document.documentElement.style.setProperty('--font_color_1', 'white')
   document.documentElement.style.setProperty('--font_color_2', 'white')
+  document.documentElement.style.setProperty('--font_color_2_dark', 'black')
+  document.documentElement.style.setProperty('--green_2', 'white')
+  document.documentElement.style.setProperty('--black_2', 'white')
   document.documentElement.style.setProperty('--button-background', '#19a160')
   document.documentElement.style.setProperty('--shadow_color', 'rgba(20, 18, 33, 0.5)');
   document.documentElement.style.setProperty('--shadow_color_light', 'rgba(100, 100, 100, 0.3)');
@@ -29,6 +33,9 @@ if (window.dark) {
   document.documentElement.style.setProperty('--input_bg_color', 'rgba(18, 18, 18, 0.3)');
   document.documentElement.style.setProperty('--container-background', 'rgba(18, 18, 18, 0.3)');
   document.documentElement.style.setProperty('--navy', '#4d496f');
+  document.documentElement.style.setProperty('--trip-svg', '#4d496f');
+  document.documentElement.style.setProperty('--transparent', '#19A160');
+
 
   document.documentElement.style.setProperty('--main_background', 'linear-gradient(to right, var(--bg_gradient_color_1), var(--bg_gradient_color_2), var(--bg_gradient_color_1))');
   document.documentElement.style.setProperty('--address-input-weight', 'bold');

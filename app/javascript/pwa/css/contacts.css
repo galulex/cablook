@@ -25,6 +25,11 @@ ul.contacts li a svg {
   box-shadow: 2px 2px 8px var(--shadow_color);
 }
 
+ul.contacts li:first-child a svg path {
+  fill: #1c1c1c;
+  fill: var(--black_2);
+}
+
 h1.notice {
   margin: 0;
   padding-top: 10px;
