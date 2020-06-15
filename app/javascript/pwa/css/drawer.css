@@ -49,8 +49,13 @@ aside a.nav-link svg.home-icon {
   margin-right: 18px;
 }
 
-aside a.nav-link svg.home-icon path {
+aside a.nav-link svg.home-icon path:not:nth-child(6) {
   fill: unset !important;
+}
+
+aside a.nav-link svg.home-icon path:nth-child(6) {
+  fill: #1c1c1c;
+  fill: var(--black_2);
 }
 
 aside a.nav-link svg.home-icon path.car-side {

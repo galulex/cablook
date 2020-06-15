@@ -61,7 +61,7 @@
   background: rgba(255, 255, 255, .5);
   background: var(--button-background);
   color: #233038;
-  color: var(--font_color_2);
+  color: var(--font_color_2_dark);
 }
 
 .button.green:disabled {
@@ -165,6 +165,7 @@
   height: 50%;
   margin: 0;
   fill: #233038;
+  fill: var(--font_color_2_dark);
   pointer-events: none;
 }
 
