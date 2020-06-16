@@ -51,13 +51,13 @@ export default class TripCard extends Component {
                 <button type='button' class= 'button white-opacity' onClick={this.repeatTrip}>{i18n.trips.repeat}</button>
                 <button type='button' class= 'button white-opacity' onClick={this.reverseTrip}>{i18n.trips.reverse}</button>
               </div>
-              <div class='trip-details-content'><TripPrice/>{`${trip.cost} ${i18n.trip.currency}`}</div>
-              <div class='trip-details-content'><TripStatus/>{`${i18n.trips.status} - ${i18n.trips.statuses[trip.status]}`}</div>
+              <div class='trip-details-content'><TripPrice class='details-icon'/>{`${trip.cost} ${i18n.trip.currency}`}</div>
+              <div class='trip-details-content'><TripStatus class='details-icon'/>{`${i18n.trips.status} - ${i18n.trips.statuses[trip.status]}`}</div>
               <div class='trip-details-content'>
-                <address><Pin class='address-pin'/>{trip.departure_address}</address>
-                <address><Pin class='address-pin'/>{trip.destination_address}</address>
+                <address><Pin class='address-pin details-icon'/>{trip.departure_address}</address>
+                <address><Pin class='address-pin details-icon'/>{trip.destination_address}</address>
               </div>
-              <div class='trip-details-content'><Clock/>{trip.formatted_date}</div>
+              <div class='trip-details-content'><Clock class='details-icon'/>{trip.formatted_date}</div>
             </div>
             {this.renderRate()}
           </div>
