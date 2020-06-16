@@ -113,7 +113,7 @@ fieldset.address:focus-within {
 .new_design .map-pick {
   right: auto;
   left: 12px;
-  transition: height .3s;
+  transition: height, top .3s;
 }
 
 
@@ -150,6 +150,7 @@ fieldset.address:focus-within {
 .new_design .remove-address {
   right: 0;
   top: 2.2vh;
+  top: calc(var(--vh, 1vh) * 2.2);
   position: absolute;
   cursor: pointer;
   background: none;

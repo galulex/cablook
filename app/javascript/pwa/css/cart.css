@@ -72,8 +72,9 @@ section.cart  > form fieldset.address ul.predictions {
 
 .cart .order-price {
   text-align: right;
-  padding: 10px;
-  font-size: 16px;
+  padding: 5% 5% 0 5%;
+  font-size: 2vh;
+  font-size: calc(var(--vh, 1vh) * 2);
 }
 
 .cart .order-price b {
