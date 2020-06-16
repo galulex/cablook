@@ -118,7 +118,7 @@ fieldset.address:focus-within {
 
 .button.bonus {
   color: #efcc3a;
-  color: var(--orange);
+  color: var(--orange_2);
   position: absolute;
   left: 0;
   right: 0;
@@ -132,7 +132,7 @@ fieldset.address:focus-within {
 
 .button.bonus svg {
   fill: #efcc3a;
-  fill: var(--orange);
+  fill: var(--orange_2);
 }
 
 .button.bonus:disabled svg {
@@ -183,14 +183,14 @@ fieldset.address:focus-within {
   font-size: 1rem;
   font-weight: 100;
   background: #efcc3a;
-  background: var(--orange);
+  background: var(--orange_2);
   color: white;
   border-radius: 10px;
 }
 
 [class*="point"].mapboxgl-popup .mapboxgl-popup-tip {
   border-right-color: #efcc3a;
-  border-right-color: var(--orange);
+  border-right-color: var(--orange_2);
 }
 
 .mapboxgl-popup.point-first .mapboxgl-popup-tip {
@@ -216,7 +216,7 @@ fieldset.address:focus-within {
 
 svg[class*="pin-"] path {
   fill: #efcc3a;
-  fill: var(--orange);
+  fill: var(--orange_2);
 }
 
 svg.pin-first path {
