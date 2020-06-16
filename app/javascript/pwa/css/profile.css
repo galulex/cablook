@@ -3,18 +3,20 @@ section.profile {
 }
 
 section.profile fieldset.address {
-  max-width: 75vw;
-  width: 100%;
+  width: 80%;
   padding: 0;
   box-shadow: none;
   background: var(--input_bg_color);
 }
 
-section.profile input.address {
-  max-width: 75vw;
+section.profile fieldset.address input.address {
   width: 100%;
+}
+
+section.profile input.address {
+  width: 80%;
   padding: 14px 25px 12px 14px;
-  margin: 0;
+  margin: 0 auto;
   background: var(--input_bg_color);
   box-shadow: inset 3px 2px 8px var(--shadow_color), inset -2px -1px 4px var(--white);
 }
@@ -27,6 +29,8 @@ section.profile input.address:last-of-type {
   background: transparent;
   box-shadow: none;
 }
+
+section.profile
 
 #newFavoriteAddressForm {
   margin-top: 20px;
@@ -86,7 +90,7 @@ ul.places li button svg {
 }
 
 .tab-content__container fieldset.address {
-  margin: 3% 0;
+  margin: 10px auto 0 auto;
   padding: 5% 32px 5% 5%;
   font-size: 2.6vh;
   font-size: calc(var(--vh, 1vh) * 2.6);
@@ -106,8 +110,9 @@ ul.places li button svg {
 
 .tab-content__container ul.predictions {
   max-width: 75vw;
-  transition: max-height, .3s;
   max-height: 0;
+  margin: 0 auto;
+  transition: max-height, .3s;
 }
 
 .tab-content__container-item button.x-card {
@@ -403,10 +408,6 @@ input.custom-checkbox ~ .custom-checkbox__label-title {
   background: var(--green);
 }
 
-.tab-content__container-item input.checkbox-switcher:focus ~ label.label-switcher {
-  box-shadow: inset 3px 2px 8px var(--shadow_color), 2px 2px 2px var(--shadow_color);
-}
-
 .tab-content__container-item label.label-switcher {
   width: 5.2vh;
   width: calc(var(--vh, 1vh) * 5.2);
@@ -415,11 +416,12 @@ input.custom-checkbox ~ .custom-checkbox__label-title {
   background: rgba(209, 209, 209, .5);
   border-radius: 20px;
   box-shadow: inset 3px 2px 8px var(--shadow_color), inset -2px -1px 2px var(--white);
-  transition: all .3s;
+  transition: box-shadow .3s;
 }
 
-.tab-content__container-item label.label-switcher:hover {
-  box-shadow: inset 3px 2px 8px var(--shadow_color), 2px 2px 2px var(--shadow_color);
+.tab-content__container-item label.label-switcher:hover,
+.tab-content__container-item input.checkbox-switcher:focus ~ label.label-switcher {
+  box-shadow: inset 2px 1px 4px var(--shadow_color), inset 0 0 1px var(--white);
 }
 
 .tab-content__container-item label.label-switcher:before {

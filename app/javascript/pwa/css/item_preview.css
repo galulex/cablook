@@ -14,7 +14,6 @@
 .item-preview:nth-child(even) {
   background: #d1d1d1;
   background: var(--grey);
-  box-shadow: 5px 3px 12px var(--shadow_color);
 }
 
 .item-preview .col-4 {
@@ -32,11 +31,13 @@
 }
 
 .item-preview b.name {
-  font-size: 15px;
+  font-size: 2vh;
+  font-size: calc(var(--vh, 1vh) * 2);
 }
 
 .item-preview span.description, .item-preview span.price {
-  font-size: 15px;
+  font-size: 2vh;
+  font-size: calc(var(--vh, 1vh) * 2);
   white-space: pre-line;
   word-break: break-word;
 }
