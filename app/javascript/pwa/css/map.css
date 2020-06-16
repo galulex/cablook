@@ -52,7 +52,7 @@ svg.picker {
 
 .main_map svg.waypoint path {
   fill: #efcc3a;
-  fill: var(--orange)
+  fill: var(--orange_2)
 }
 
 .main_map .leaf img {

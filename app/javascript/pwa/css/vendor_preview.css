@@ -114,7 +114,7 @@ li.create-order {
   text-align: center;
   border: 2px solid #18a160;
   background-color: #efcc3a;
-  background-color: var(--orange);
+  background-color: var(--orange_2);
 }
 
 .vendor .buttons-container .button {

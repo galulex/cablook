@@ -21,7 +21,7 @@ if (window.dark) {
   document.documentElement.style.setProperty('--focus-shadow', '0 3px 6px rgba(255,255,255,0.2), 0 3px 6px rgba(255,255,255,255.23)');
   document.documentElement.style.setProperty('--bg', 'rgba(0,0,0,0.9)');
   document.documentElement.style.setProperty('--controls', '#19A160');
-  document.documentElement.style.setProperty('--orange', '#191730');
+  document.documentElement.style.setProperty('--orange_2', '#191730');
   document.documentElement.style.setProperty('--orange-button-bg', '#efcc3a');
   document.documentElement.style.setProperty('--address-input-bg', 'rgba(0, 0, 0, 0.65)');
   document.documentElement.style.setProperty('--comment-input-bg', 'rgba(0, 0, 0, 0.1)');

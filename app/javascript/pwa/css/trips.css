@@ -292,7 +292,7 @@ nav {
 
 .trips svg.waypoint path {
   fill: #efcc3a;
-  fill: var(--orange)
+  fill: var(--orange_2)
 }
 
 .trip-details-content address.details-address {
@@ -356,7 +356,7 @@ nav {
 
 .trips .button.edit {
   background: #efcc3a;
-  background: var(--orange);
+  background: var(--orange_2);
 }
 
 .trip-card .trip-card-star path{

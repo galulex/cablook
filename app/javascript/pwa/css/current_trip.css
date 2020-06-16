@@ -407,7 +407,7 @@ button.button.pay {
   flex: 30%;
   display: inline-block;
   margin: 0;
-  background: var(--orange);
+  background: var(--orange_2);
   margin: 5px;
   padding: 10px;
 }
