@@ -1,3 +1,7 @@
+section.cards {
+  padding: 0;
+}
+
 ul.cards {
   height: calc(100% - 70px);
   padding: 0 3%;
@@ -36,9 +40,9 @@ ul.cards button.x-card {
   right: 0;
   top: 0;
   border-radius: 10px;
-  padding: 10px;
-  min-width: 7vh;
-  min-height: 7vh;
+  padding: 3%;
+  min-width: 6vh;
+  min-height: 6vh;
   border: none;
   cursor: pointer;
   outline: none;

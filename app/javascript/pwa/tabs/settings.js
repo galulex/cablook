@@ -171,7 +171,6 @@ export default class Settings extends Component {
       this.addressInput.input.focus()
     }, 10)
     this.setState({ showing: !this.state.showing, name: '⭐' })
-    this.contentContainer.style.marginBottom = 'calc(var(--vh, 1vh) * 30)'
   }
 
   render() {

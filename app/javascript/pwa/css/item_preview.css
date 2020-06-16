@@ -5,8 +5,10 @@
 }
 
 .item-preview {
+  margin: 10px 0;
   padding: 10px;
   border-radius: 15px;
+  box-shadow: 5px 3px 12px var(--shadow_color), inset -3px -3px 5px 1px var(--shadow_color);
 }
 
 .item-preview:nth-child(even) {
@@ -20,6 +22,8 @@
 
 .item-preview .col-6 {
   width: 60%;
+  font-size: 1.8vh;
+  font-size: calc(var(--vh, 1vh) * 1.8);
 }
 
 .item-preview .col-2 {
@@ -27,11 +31,13 @@
 }
 
 .item-preview b.name {
-  font-size: 15px;
+  font-size: 2vh;
+  font-size: calc(var(--vh, 1vh) * 2);
 }
 
 .item-preview span.description, .item-preview span.price {
-  font-size: 15px;
+  font-size: 2vh;
+  font-size: calc(var(--vh, 1vh) * 2);
   white-space: pre-line;
   word-break: break-word;
 }
@@ -44,13 +50,14 @@
   transition: none;
   margin-bottom: 0;
   font-size: 50%;
-  padding: 10px;
+  padding: 20% 0;
 }
 
 .button.plus-button {
   width: 50%;
   margin-bottom: 0;
-  padding-right: 5px;
+  padding: 0 5px 0 0;
+  border-radius: 15px 0 0 15px;
 }
 
 .button.minus-button {
@@ -58,7 +65,16 @@
   background: #efcc3a;
   background: var(--orange);
   margin-bottom: 0;
-  padding-left: 5px;
+  padding: 0 0 0 5px;
+  border-radius: 0 15px 15px 0;
+}
+
+.button.minus-button:active {
+  box-shadow: inset 2px 2px 5px 1px var(--shadow_color), inset -2px -2px 5px 1px var(--shadow_color);
+}
+
+.item-preview .button {
+  height: 50px;
 }
 
 .item-preview .circle {
@@ -66,19 +82,25 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 20px;
-  height: 20px;
+  min-width: 20px;
+  min-height: 20px;
+  width: 2.2vh;
+  height: 2.2vh;
+  max-width: 25px;
+  max-height: 25px;
   border-radius: 50%;
   background-color: white;
   cursor: pointer;
+  box-shadow: inset 1px 1px 2px var(--shadow_color);
+  border: .5px solid var(--shadow_color);
 }
 
 .item-preview .number {
   position: absolute;
-  top: 50%;
+  top: 55%;
   left: 50%;
   transform: translate(-50%, -50%);
-  font-size: 14px;
+  font-size: 55%;
   line-height: 0;
   color: black;
 }
@@ -96,4 +118,12 @@
   margin: 0;
   outline: none;
   cursor: pointer;
+}
+
+@media screen and (min-width: 768px) {
+  .item-preview .button {
+    height: 60px;
+    font-size: 75%;
+    padding: 0;
+  }
 }

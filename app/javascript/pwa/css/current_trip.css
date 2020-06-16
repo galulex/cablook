@@ -44,10 +44,10 @@ fieldset.address:nth-of-type(8) + div {
 }
 
 ul.predictions {
-  margin: 0;
   padding: 0;
   list-style: none;
-  max-width: 65vw;
+  width: 100%;
+  max-width: 100%;
   position: relative;
   max-height: 0;
   transition: opacity .3s, visibility 0s .5s, max-height .3s, max-width .3s;
@@ -58,7 +58,6 @@ ul.predictions {
 }
 
 li.prediction {
-  white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
   color: #312d50;
@@ -247,10 +246,16 @@ label {
 svg.map-pick {
   position: absolute;
   right: 10px;
-  top: calc(var(--vh, 1vh) * 2.6);
-  width: 19px;
-  height: calc(var(--vh, 1vh) * 2);
+  top: 2.3vh;
+  top: calc(var(--vh, 1vh) * 2.3);
+  height: 2.2vh;
+  height: calc(var(--vh, 1vh) * 2.2);
   cursor: pointer;
+}
+
+svg.map-pick path {
+  fill: #19a160;
+  fill: var(--green);
 }
 
 select#entrance, input#time, .select select, select#select_time {

@@ -111,8 +111,8 @@ fieldset.address:focus-within {
 
 .new_design .map-pick {
   right: auto;
-  left: 7px;
-  transition: height .3s;
+  left: 12px;
+  transition: height, top .3s;
 }
 
 
@@ -147,8 +147,9 @@ fieldset.address:focus-within {
   z-index: 310;
 }
 .new_design .remove-address {
-  right: 8px;
-  top: calc(var(--vh, 1vh) * 2);
+  right: 0;
+  top: 2.2vh;
+  top: calc(var(--vh, 1vh) * 2.2);
   position: absolute;
   cursor: pointer;
   background: none;
@@ -157,7 +158,8 @@ fieldset.address:focus-within {
 }
 
 .new_design .remove-address svg {
-  height: calc(var(--vh, 1vh) * 2);
+  height: 2.2vh;
+  height: calc(var(--vh, 1vh) * 2.2);
 }
 
 
@@ -335,7 +337,9 @@ svg.pin-last path {
 }
 
 .pick fieldset.address svg {
-  height: 10px;
+  top: 2.8vh;
+  height: calc(var(--vh, 1vh) * 1.4);
+  height: 1.4vh;
 }
 
 .pick .trigger {
@@ -471,4 +475,10 @@ input:checked + svg.cross path:nth-of-type(2) {
     display: inline-block;
   }
 
+}
+
+.option::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
 }

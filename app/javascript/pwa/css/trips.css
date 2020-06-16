@@ -227,6 +227,10 @@ address:last-of-type svg {
   fill: var(--trip-svg);
 }
 
+.trip-details-content svg.details-icon path {
+  fill: rgb(147, 150, 150);
+}
+
 .trip-details-content address {
   margin-left: 47px;
 }
@@ -256,7 +260,6 @@ nav {
   left: 0px;
   top: 0px;
   z-index: 10001;
-  overflow-y: auto;
   overscroll-behavior-y: none;
   -webkit-overflow-scrolling: touch;
   cursor: default;

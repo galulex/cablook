@@ -1,14 +1,26 @@
 .vendor {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   position: relative;
   border-bottom: none;
-  min-height: 150px;
   list-style: none;
+  cursor: pointer;
+}
+
+.vendor:hover {
+  box-shadow: 2px 2px 5px var(--shadow_color), inset 2px 2px 5px var(--white);
+}
+
+.vendor:active {
+  box-shadow: inset 2px 2px 5px var(--shadow_color), inset -2px -2px 5px var(--white);
 }
 
 .vendor.active {
   background: #19a160;
   background: var(--green);
   margin: 20px 0 0;
+  pointer-events: none;
 }
 
 .vendor .name {
@@ -53,7 +65,7 @@
 .vendor .time-container {
   border-top: 1px solid #d1d1d1;
   border-top: 1px solid var(--grey);
-  font-size: 12px;
+  font-size: 1.5vh;
   padding: 5px 0 5px 0;
 }
 
@@ -117,4 +129,10 @@ li.create-order {
   justify-content: space-between;
   font-size: 2.6vh;
   font-size: calc(var(--vh, 1vh) * 2.6);
+}
+
+@media screen and (min-width: 768px) {
+  .vendor {
+    min-height: 150px;
+  }
 }
