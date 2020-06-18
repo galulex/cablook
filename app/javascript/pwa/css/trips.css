@@ -29,7 +29,7 @@ address:first-of-type:before {
 }
 
 address:last-of-type:before {
-  height: 30%;
+  height: 25%;
   width: 0;
   top: 0;
   border-right: 2px solid #d6d6d6;
@@ -44,9 +44,9 @@ address:last-of-type svg {
 .trips svg.address-pin {
   position: absolute;
   top: 50%;
-  left: -28px;
+  left: -29px;
   transform: translateY(-50%);
-  width: 25px;
+  width: 26px;
   height: 25px;
   margin: 0;
 }
