@@ -107,3 +107,19 @@ section.cart  > form fieldset.address ul.predictions {
 .cart .align-middle {
   vertical-align: middle;
 }
+
+.cart select#entrance, .cart input#time, .cart .select select, .cart select#select_time {
+  color: #1c1c1c;
+  color: var(--black_2);
+  outline: none;
+}
+
+.cart .comment, .cart .comment::placeholder {
+  color: #1c1c1c;
+  color: var(--black_2);
+}
+
+.cart .additions svg path{
+  fill: #1c1c1c;
+  fill: var(--black_2);
+}

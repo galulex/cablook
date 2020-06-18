@@ -11,14 +11,19 @@ html lang="#{I18n.locale}"
     css:
       :root {
         --green: #19a160;
+        --green_2: var(--green);
+        --green_3: var(--green);
         --purple: #a925ad;
         --orange: #efcc3a;
+        --orange_2: var(--orange);
         --navy: #312d50;
         --font_color_1: #777777;
         --font_color_2: #233038;
+        --font_color_2_dark: #233038;
         --font_color_3: #D4D4D4;
         --grey: #d1d1d1;
         --black: #1c1c1c;
+        --black_2: var(--black);
         --shadow: 0 3px 6px rgba(0,0,0,0.16);
         --focus-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
         --body-bg: #e6efee;
@@ -31,6 +36,19 @@ html lang="#{I18n.locale}"
         --zoom-level: 12;
         --car-transition: 0s;
         --container-background: rgba(255, 255, 255, .3);
+        --button-background: rgba(255, 255, 255, .5);
+        --orange-button-bg: rgba(255, 255, 255, .5);
+        --comment-input-bg: rgba(238, 246, 251, 0.8);
+        --address-input-bg: rgba(238, 246, 251, 0.8);
+        --address-input-text: black;
+        --navy-dark: var(--navy);
+        --green-svg-color: #19a160;
+        --red-button-text: #cc0f34;
+        --red-button-bg: rgba(255, 255, 255, .5);
+        --trip-svg: rgba(119, 119, 119, .5);
+        --transparent: rgba(255, 255, 255, 0);
+        --address-input-weight: 100;
+        --main_background: linear-gradient(to right, var(--bg_gradient_color_2), var(--bg_gradient_color_1), var(--bg_gradient_color_2));
       }
 
       html {
@@ -97,8 +115,8 @@ html lang="#{I18n.locale}"
         overscroll-behavior-x: contain;
         overflow-y: hidden;
         background: #e6efee;
-        background: linear-gradient(to bottom, #e6efee, #f6faf8, #e6efee);
-        background: linear-gradient(to bottom, var(--bg_gradient_color_2), var(--bg_gradient_color_1), var(--bg_gradient_color_2));
+        background: linear-gradient(to right, #e6efee, #f6faf8, #e6efee);
+        background: var(--main_background);
       }
 
       main.disable-events,

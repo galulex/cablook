@@ -1,7 +1,7 @@
 import { h, render, Component } from 'preact';
 
 import i18n from './i18n.js'
-import Telegram from './images/telegram.svg'
+import Telegram from './images/telegram.js'
 import Viber from './images/viber.svg'
 import Phone from './images/phone.svg'
 import Email from './images/email.svg'

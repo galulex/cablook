@@ -34,6 +34,9 @@
   width: 20px;
   vertical-align: middle;
   margin-right: 5px;
+}
+
+.delivery-trip .info-container path {
   fill: #19a160;
   fill: var(--green);
 }

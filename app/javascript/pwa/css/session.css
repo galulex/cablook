@@ -97,6 +97,13 @@ main.login .buttons__container {
   margin-top: 25px;
 }
 
+main.login button.button[type='submit'] {
+  background: rgba(255, 255, 255, 0);
+  background: var(--transparent);
+  color: #233038;
+  color: var(--font_color_2_dark);
+}
+
 main.login svg.logo {
   max-height: 150px;
 }

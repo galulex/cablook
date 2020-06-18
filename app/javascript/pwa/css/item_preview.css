@@ -11,10 +11,6 @@
   box-shadow: 5px 3px 12px var(--shadow_color), inset -3px -3px 5px 1px var(--shadow_color);
 }
 
-.item-preview:nth-child(even) {
-  background: #d1d1d1;
-  background: var(--grey);
-}
 
 .item-preview .col-4 {
   width: 40%;
@@ -58,6 +54,10 @@
   margin-bottom: 0;
   padding: 0 5px 0 0;
   border-radius: 15px 0 0 15px;
+  background: rgba(255, 255, 255, .5);
+  background: var(--button-background);
+  color: white;
+  color: var(--white)
 }
 
 .button.minus-button {
@@ -67,6 +67,8 @@
   margin-bottom: 0;
   padding: 0 0 0 5px;
   border-radius: 0 15px 15px 0;
+  color: white;
+  color: var(--white)
 }
 
 .button.minus-button:active {
@@ -118,6 +120,11 @@
   margin: 0;
   outline: none;
   cursor: pointer;
+}
+
+.item-preview svg path {
+  fill: #1c1c1c;
+  fill: var(--black_2);
 }
 
 @media screen and (min-width: 768px) {

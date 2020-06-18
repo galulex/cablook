@@ -47,6 +47,11 @@
   width: 29px  !important;
 }
 
+.car svg path {
+  fill: white;
+  fill: var(--white);
+}
+
 .car {
   align-items: center;
   display: flex;
@@ -90,4 +95,5 @@
 }
 .mapboxgl-popup.car-popup .close-button svg path {
   fill: white;
+  fill: var(--white);
 }

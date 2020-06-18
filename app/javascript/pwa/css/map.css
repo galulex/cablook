@@ -52,7 +52,7 @@ svg.picker {
 
 .main_map svg.waypoint path {
   fill: #efcc3a;
-  fill: var(--orange)
+  fill: var(--orange_2)
 }
 
 .main_map .leaf img {
@@ -172,11 +172,6 @@ svg.picker {
 .mapboxgl-ctrl-bottom-right {
   bottom: 30% !important;
   z-index: 40 !important;
-}
-
-.mapboxgl-control-container .mapboxgl-ctrl-icon {
-  background-color: white;
-  background-color: var(--controls);
 }
 
 .mapboxgl-control-container .mapboxgl-ctrl-zoom-out {
