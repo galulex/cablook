@@ -364,6 +364,7 @@ input.comment {
   box-shadow: inset 3px 2px 8px var(--shadow_color), inset -2px -1px 4px var(--shadow_color_light);
   border-radius: 10px;
   height: calc(var(--vh, 1vh) * 4.5);
+  -webkit-appearance: none;
 }
 
 input.comment:focus {
