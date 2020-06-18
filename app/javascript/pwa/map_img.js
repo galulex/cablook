@@ -16,7 +16,7 @@ export default class MapImg extends Component {
 
   renderDetails = () => {
     const trip = this.state.trip;
-    let style = window.dark ? 'galulex/cju84cmu11atr1flfoxocwbq7' : 'okunieva/cjzwn3wx40yhq1cpjl3yo8p1z'
+    let style = window.dark ? 'okunieva/ckb1wuli60k3u1ipjrdnqtan5' : 'okunieva/cjzwn3wx40yhq1cpjl3yo8p1z'
     let path_color = window.dark ? ' #ffffff' : ' #19a160'
 
     const departure = []
