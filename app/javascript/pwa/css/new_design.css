@@ -408,7 +408,7 @@ svg.pin-last path {
 }
 
 .trigger svg path, .add-address svg path {
-  fill: var(--green-svg-color)
+  fill: var(--green_3)
 }
 
 @media (min-width: 450px) {

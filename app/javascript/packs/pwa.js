@@ -8,6 +8,7 @@ if (window.dark) {
   document.documentElement.style.setProperty('--font_color_2', 'white')
   document.documentElement.style.setProperty('--font_color_2_dark', 'black')
   document.documentElement.style.setProperty('--green_2', 'white')
+  document.documentElement.style.setProperty('--green_3', 'black')
   document.documentElement.style.setProperty('--black_2', 'white')
   document.documentElement.style.setProperty('--button-background', '#19a160')
   document.documentElement.style.setProperty('--shadow_color', 'rgba(20, 18, 33, 0.5)');
@@ -27,7 +28,6 @@ if (window.dark) {
   document.documentElement.style.setProperty('--comment-input-bg', 'rgba(0, 0, 0, 0.1)');
   document.documentElement.style.setProperty('--address-input-text', 'white');
   document.documentElement.style.setProperty('--navy-dark', 'black');
-  document.documentElement.style.setProperty('--green-svg-color', 'black');
   document.documentElement.style.setProperty('--red-button-bg', 'rgba(204, 15, 52, 0.8)');
   document.documentElement.style.setProperty('--red-button-text', 'white');
   document.documentElement.style.setProperty('--input_bg_color', 'rgba(18, 18, 18, 0.3)');
