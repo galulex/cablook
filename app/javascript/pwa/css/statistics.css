@@ -9,6 +9,7 @@
   font-size: 2.6vh;
   font-size: calc(var(--vh, 1vh) * 2.6);
   text-align-last: center;
+  text-indent: 30%;
   box-shadow: none;
 }
 
@@ -21,6 +22,11 @@
   color: var(--green);
   font-size: 2.6vh;
   font-size: calc(var(--vh, 1vh) * 2.6);
+}
+
+.tab-content__container label[for='period'] {
+  color: #19a160;
+  color: var(--green);
 }
 
 .statistics .trip-details-content span {

@@ -157,7 +157,6 @@ section.feedback::-webkit-scrollbar {
   flex-direction: column;
   justify-content: space-between;
   padding-bottom: 20px;
-  overflow: auto;
 }
 
 .feedback__holder section.feedback .feedback__container form button {
@@ -170,13 +169,13 @@ section.new_design .feedback__holder, section.trips .feedback__holder {
   justify-content: center;
   position: absolute;
   z-index: 400;
-  height: 100%;
+  height: calc(var(--vh, 1vh) * 100);
   left: 0;
   right: 0;
   top: 0;
   margin-top: 0;
   background: linear-gradient(to bottom, rgba(25, 161, 96, .9), rgba(25, 23, 48, .9));
-  padding-top: 70px;
+  padding-top: 15vw;
 }
 
 @media screen and (max-width: 540px) {
@@ -195,5 +194,12 @@ section.new_design .feedback__holder, section.trips .feedback__holder {
   section.feedback {
     max-width: 500px;
   }
-
 }
+
+@media screen and (min-width: 450px) {
+  section.new_design .feedback__holder, section.trips .feedback__holder {
+    padding-top: 70px;
+  }
+}
+
+

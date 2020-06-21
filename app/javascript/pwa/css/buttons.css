@@ -123,6 +123,7 @@
   left: 0;
   top: 0;
   z-index: 300;
+  visibility: visible;
   height: 15vw;
   width: 15vw;
   padding: 0;
@@ -136,6 +137,7 @@
   border-radius: 10px;
   box-shadow: 3px 3px 6px #24293038, inset -5px -5px 6px -3px #24293038, inset 1px 1px 3px -3px #ffffff;
   box-shadow: 3px 3px 6px var(--shadow_color), inset -5px -5px 6px -3px var(--shadow_color), inset 1px 1px 3px -3px var(--shadow_color_light);
+  transition: z-index, visibility .1s;
 }
 
 @media (min-width: 450px) {
@@ -157,6 +159,7 @@
 }
 
 .button.burger.hidden {
+  visibility: hidden;
   z-index: -1;
 }
 

@@ -8,7 +8,7 @@ if (window.dark) {
   document.documentElement.style.setProperty('--font_color_2', 'white')
   document.documentElement.style.setProperty('--font_color_2_dark', 'black')
   document.documentElement.style.setProperty('--green_2', 'white')
-  document.documentElement.style.setProperty('--green_3', 'black')
+  document.documentElement.style.setProperty('--green_3', '#233038')
   document.documentElement.style.setProperty('--black_2', 'white')
   document.documentElement.style.setProperty('--button-background', '#19a160')
   document.documentElement.style.setProperty('--shadow_color', 'rgba(20, 18, 33, 0.5)');

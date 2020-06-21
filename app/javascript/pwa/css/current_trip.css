@@ -353,8 +353,8 @@ input.comment {
   color: var(--navy-dark);
   width: 90%;
   margin: 0 auto;
-  padding: 0 10px 0 10px;
-  background: rgba(238, 246, 251, 0.8);
+  padding: 0 15px;
+  background: rgba(238, 246, 251, 0.5);
   background: var(--comment-input-bg);
   border: none;
   font-size: calc(var(--vh, 1vh) * 2.6);
@@ -363,7 +363,7 @@ input.comment {
   transition: box-shadow .3s;
   box-shadow: inset 3px 2px 8px #24293038, inset -2px -1px 4px white;
   box-shadow: inset 3px 2px 8px var(--shadow_color), inset -2px -1px 4px var(--shadow_color_light);
-  border-radius: 10px;
+  border-radius: 50px;
   height: calc(var(--vh, 1vh) * 4.5);
   -webkit-appearance: none;
 }
