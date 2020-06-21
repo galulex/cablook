@@ -46,7 +46,7 @@ ul.cards button.x-card {
   border: none;
   cursor: pointer;
   outline: none;
-  background: rgba(255, 255, 255, .3);
+  background: rgba(255, 255, 255, .5);
   background: var(--button-background);
   box-shadow: 5px 3px 12px var(--shadow_color), inset -2px -2px 5px 1px var(--shadow_color);
 }

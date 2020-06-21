@@ -21,7 +21,8 @@ label[for='number'] {
 }
 
 label[for='code'] {
-  color: var(--green);
+  color: #19a120;
+  color: var(--green_2);
   font-weight: 500;
 }
 
@@ -100,15 +101,22 @@ main.login .buttons__container {
 main.login button.button[type='submit'] {
   background: rgba(255, 255, 255, 0);
   background: var(--transparent);
-  color: #233038;
-  color: var(--font_color_2_dark);
+  color: #19a120;
+  color: var(--green_3);
 }
 
 main.login svg.logo {
   max-height: 150px;
 }
 
+main.login svg.logo path {
+  fill: #19a120;
+  fill: var(--green_2);
+}
+
 main.login svg.logo + div {
+  color: #19a120;
+  color: var(--green_2);
   font-size: 2.5rem;
 }
 

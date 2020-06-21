@@ -30,7 +30,7 @@ export default class Cards extends Component {
   }
 
   renderCardType = (type, pan) => {
-    if (localStorage.getItem('dark')) {
+    if (window.dark) {
       if (type === 'Visa') {
         return(<VisaDark pan={pan.split('****')} class='card dark'/>)
       } else {
