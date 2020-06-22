@@ -4,9 +4,9 @@ import i18n from './i18n.js';
 import './css/current_delivery_trip.css'
 import TaxiDriverLT from './images/taxi_driver_light_theme.svg'
 import TaxiDriverDT from './images/taxi_driver_dark_theme.svg'
-import Pin from './images/pin.js'
+import Pin from './images/pin.svg'
 import Pizza from './images/pizza.svg'
-import TripTime from './images/clock.js'
+import TripTime from './images/clock.svg'
 
 export default class CurrentDeliveryTrip extends Component {
   render() {
@@ -30,7 +30,7 @@ export default class CurrentDeliveryTrip extends Component {
               <b class='desc'>{time}</b>
             </div>
             <div class='info-item'>
-              <Pin/>
+              <Pin class='pin'/>
               <b>{i18n.current_delivery_trip.address}</b>
               <b class='desc'>{delivery_trip.destination_address}</b>
             </div>

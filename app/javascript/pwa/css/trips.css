@@ -84,11 +84,6 @@ address:last-of-type svg {
   border-bottom: 2px solid #d6d6d6;
 }
 
-.trip-card > .address-block > address:last-of-type svg.address-pin path {
-  fill: #312d50;
-  fill: var(--navy);
-}
-
 .trip-card p {
   display: flex;
   flex-wrap: wrap;
@@ -186,8 +181,8 @@ address:last-of-type svg {
   background: #e6efee;
   background: linear-gradient(to bottom, #e6efee, #f6faf8);
   background: linear-gradient(to bottom, var(--bg_gradient_color_1), var(--bg_gradient_color_2));
-  /* box-shadow: 0px -6px 4px rgba(36, 41, 48, 0.22); */
-  box-shadow: 0px -6px 8px var(--shadow_color);
+  box-shadow: 0px -6px 4px rgba(36, 41, 48, 0.22);
+  box-shadow: 0px -2px 15px 1px var(--shadow_color);
   border-radius: 15px 15px 0 0;
 }
 
@@ -224,6 +219,11 @@ address:last-of-type svg {
 
 .trip-details-content svg.details-icon path {
   fill: rgb(147, 150, 150);
+  filter: url(#inset-shadow-large);
+}
+
+.trip-details-content svg.details-icon.pin path {
+  filter: url(#inset-shadow);
 }
 
 .trip-details-content address {
@@ -232,6 +232,10 @@ address:last-of-type svg {
 
 .trip-details-content address svg.address-pin {
   left: -38px;
+}
+
+.trips address svg.address-pin.destination path {
+  fill: var(--navy);
 }
 
 .trip-details-content:last-of-type {

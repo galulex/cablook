@@ -5,7 +5,7 @@ import MapboxLanguage from '@mapbox/mapbox-gl-language';
 
 import i18n from './i18n.js'
 import Back from './images/arrow-left.svg'
-import Pin from './images/pin.js'
+import Pin from './images/pin.svg'
 import './css/picker.css'
 
 mapboxgl.accessToken = 'pk.eyJ1IjoiZ2FsdWxleCIsImEiOiJjamx6ampoZjgyMnYxM3FvZ2ppNjV2M2x5In0.bPgk2WI9NT-DJwnE-OtiLA';
@@ -143,7 +143,7 @@ export default class MapPicker extends Component {
         { this.state.address_bar &&
           <div class='address-bar'>{ this.state.address }</div>
         }
-        <Pin class='picker-pin'/>
+        <Pin class='pin picker-pin'/>
         <button type='button'
           disabled={this.props.isGeocoding}
           class='button green fixed'
