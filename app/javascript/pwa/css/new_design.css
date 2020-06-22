@@ -56,11 +56,14 @@ fieldset.address:focus-within {
 }
 
 .option .trip-params {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   margin-left: calc(15vw - 10px);
   background: rgba(255, 255, 255, 0.5);
   background: var(--button-background);
   border-radius: 10px;
-  padding: 0 0 10px;
+  padding: 1% 0;
   box-shadow: 3px 3px 6px #24293038, inset -5px -5px 6px -3px #24293038, inset 1px 1px 3px -3px #ffffff;
   box-shadow: 3px 3px 6px var(--shadow_color), inset -5px -5px 6px -3px var(--shadow_color), inset 1px 1px 3px -3px var(--white);
   height: calc(var(--vh, 1vh) * 17);
@@ -286,7 +289,6 @@ svg.pin-last path {
   display: flex;
   justify-content: space-around;
   flex-wrap: wrap;
-  padding: 2%;
 }
 
 .additions label {
@@ -405,7 +407,7 @@ svg.pin-last path {
 }
 
 .trigger svg path, .add-address svg path {
-  fill: var(--green-svg-color)
+  fill: var(--green_3)
 }
 
 @media (min-width: 450px) {

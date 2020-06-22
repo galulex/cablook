@@ -56,8 +56,8 @@
   border-radius: 15px 0 0 15px;
   background: rgba(255, 255, 255, .5);
   background: var(--button-background);
-  color: white;
-  color: var(--white)
+  color: #19a160;
+  color: var(--green_3)
 }
 
 .button.minus-button {
@@ -67,8 +67,8 @@
   margin-bottom: 0;
   padding: 0 0 0 5px;
   border-radius: 0 15px 15px 0;
-  color: white;
-  color: var(--white)
+  color: #19a160;
+  color: var(--green_3)
 }
 
 .button.minus-button:active {
