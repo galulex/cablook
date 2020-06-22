@@ -1,5 +1,5 @@
 import { h } from 'preact'
-import Star from '../images/star.js'
+import Star from '../images/star.svg'
 
 export default function getRate(rate) {
   let stars = Array(5)

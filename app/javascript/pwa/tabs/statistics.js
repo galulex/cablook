@@ -1,9 +1,9 @@
 import { h, render, Component } from 'preact';
 import axios from 'axios';
 
-import Star from '../images/star.js'
+import Star from '../images/star.svg'
 import Tips from '../images/tips.js'
-import Pin from '../images/pin.js'
+import Pin from '../images/pin.svg'
 import Amount from '../images/trip_price.js'
 import Leaf from '../images/leaf_icon.js'
 import i18n from '../i18n.js'
@@ -70,7 +70,7 @@ export default class Statistics extends Component {
           <div class='tab-content__container-items'>
             <div class='tab-content__container-item statistics__item'>
               <div class='statistics__container'>
-                <Pin class='statistics-icon'/>
+                <Pin class='pin statistics-icon'/>
                 {i18n.statistics.distance}
               </div>
               <span>

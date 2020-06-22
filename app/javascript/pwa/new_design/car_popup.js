@@ -2,7 +2,7 @@ import { h, render, Component } from 'preact'
 
 import i18n from '../i18n.js'
 import Phone from '../images/white_phone.js'
-import TripTime from '../images/clock.js'
+import TripTime from '../images/clock.svg'
 import TripPrice from '../images/ukraine-hryvna.js'
 import Car from '../images/white_car.js'
 import Leaves from '../images/popup_leaves.svg'

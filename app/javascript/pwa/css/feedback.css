@@ -22,6 +22,7 @@ section.feedback label.star .star-icon {
 section.feedback label.star .star-icon path {
   fill: white;
   transition: all .3s;
+  filter: url(#inset-shadow-out);
 }
 
 section.feedback input[name='rate'] {

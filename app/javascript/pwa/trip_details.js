@@ -5,8 +5,8 @@ import Feedback from './feedback.js'
 import MapImg from './map_img.js'
 import TripPrice from './images/trip_price.js'
 import TripStatus from './images/trip_status.js'
-import Clock from './images/clock.js'
-import Pin from './images/pin.js'
+import Clock from './images/clock.svg'
+import Pin from './images/pin.svg'
 import i18n from './i18n.js'
 import getRate from './new_design/rate.js'
 
@@ -54,8 +54,8 @@ export default class TripCard extends Component {
               <div class='trip-details-content'><TripPrice class='details-icon'/>{`${trip.cost} ${i18n.trip.currency}`}</div>
               <div class='trip-details-content'><TripStatus class='details-icon'/>{`${i18n.trips.status} - ${i18n.trips.statuses[trip.status]}`}</div>
               <div class='trip-details-content'>
-                <address><Pin class='address-pin details-icon'/>{trip.departure_address}</address>
-                <address><Pin class='address-pin details-icon'/>{trip.destination_address}</address>
+                <address><Pin class='pin address-pin details-icon'/>{trip.departure_address}</address>
+                <address><Pin class='pin address-pin details-icon'/>{trip.destination_address}</address>
               </div>
               <div class='trip-details-content'><Clock class='details-icon'/>{trip.formatted_date}</div>
             </div>

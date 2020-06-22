@@ -9,7 +9,7 @@ mapboxgl.accessToken = 'pk.eyJ1IjoiZ2FsdWxleCIsImEiOiJjamx6ampoZjgyMnYxM3FvZ2ppN
 
 import i18n from './i18n.js'
 import './css/trips.css'
-import Pin from './images/pin.js'
+import Pin from './images/pin.svg'
 
 const polyline = require('@mapbox/polyline')
 const is_mapbox_supported = mapboxgl.supported()
@@ -155,9 +155,9 @@ export default class PreviewMap extends Component {
     if (is_mapbox_supported) {
       return(
         <div class='pins'>
-          <div ref={el => this.departure = el}><Pin class='departure'/></div>
-          <div ref={el => this.destination = el}><Pin class='destination'/></div>
-          {this.state.trip.waypoints.map(() => (<div><Pin class='waypoint'/></div>))}
+          <div ref={el => this.departure = el}><Pin class='pin departure'/></div>
+          <div ref={el => this.destination = el}><Pin class='pin destination'/></div>
+          {this.state.trip.waypoints.map(() => (<div><Pin class='pin waypoint'/></div>))}
         </div>
       )
     }

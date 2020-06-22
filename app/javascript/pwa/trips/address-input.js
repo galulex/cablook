@@ -3,7 +3,7 @@ import mapboxgl from 'mapbox-gl'
 import axios from 'axios'
 
 import { streets } from '../streets.js'
-import Pin from '../images/pin.js'
+import Pin from '../images/pin.svg'
 import MapPicker from '../mapPicker'
 import i18n from '../i18n.js'
 import Cablook  from '../images/cablook.svg'
@@ -182,7 +182,7 @@ export default class AddressInput extends Component {
     return (
       <fieldset class='address'>
         {(fieldsCount > 2 || address !== '') && !hideRemove && !readonly && (<button disabled={index === 0 ? inputDisabled : false} class='remove-address' type='button' onClick={() => this.eraseAddress(index)}> <Cross/> </button>)}
-        {mapboxgl.supported() && <Pin onClick={this.openMap} disabled={readonly || ( index === 0 ? inputDisabled : false )} class='map-pick'/>}
+        {mapboxgl.supported() && <Pin onClick={this.openMap} disabled={readonly || ( index === 0 ? inputDisabled : false )} class='pin map-pick'/>}
         {this.state.isShowMap && <MapPicker
                                     onCloseMap={this.closeMap}
                                     handleBack={this.handleBack}

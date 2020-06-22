@@ -5,7 +5,7 @@ import i18n from './i18n.js';
 import Back from './images/arrow-left.svg'
 import Driver from './images/feedback_driver.svg'
 import Currency from './images/ukraine-hryvna.svg'
-import Star from './images/star.js'
+import Star from './images/star.svg'
 import './css/feedback.css'
 import './css/buttons.css'
 

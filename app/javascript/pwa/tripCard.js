@@ -4,7 +4,7 @@ import { route } from 'preact-router'
 import Details from './trip_details.js'
 import getRate from './new_design/rate.js'
 import i18n from './i18n.js'
-import Pin from './images/pin.js'
+import Pin from './images/pin.svg'
 
 export default class TripCard extends Component {
   constructor(props) {
@@ -35,8 +35,8 @@ export default class TripCard extends Component {
     return (
       <li class="trip-card" onClick={() => this.showDetails(true) }>
         <div class='address-block'>
-          <address><Pin class='address-pin'/>{trip.departure_address}</address>
-          <address><Pin class='address-pin'/>{trip.destination_address}</address>
+          <address><Pin class='pin address-pin'/>{trip.departure_address}</address>
+          <address><Pin class='pin address-pin destination'/>{trip.destination_address}</address>
         </div>
         <p>
           <span>{[`${trip.cost} ${i18n.trip.currency}`, trip.formatted_date, i18n.trips.statuses[trip.status]].join(", ")}</span>
