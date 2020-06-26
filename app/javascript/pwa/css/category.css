@@ -49,13 +49,11 @@ summary.vendor-category::-webkit-details-marker {
 summary.vendor-category {
   outline: none;
   border: none;
-  border-bottom: 1px solid darkgray;
-  background-color: var(--grey);
+  background-color: transparent;
   padding: 15px 10px;
   text-align: left;
   font-weight: 600;
   cursor: pointer;
-  box-shadow: 2px 2px 12px var(--shadow_color), inset -3px -3px 10px -1px rgba(0, 0, 0, 0.1);
 }
 
 summary.vendor-category:after {
