@@ -55,10 +55,6 @@ input[name='tip']:checked + label.tip {
   width: 100%;
 }
 
-.feedback__holder .button.burger {
-  z-index: 400;
-}
-
 label.tip {
   display: flex;
   justify-content: center;
@@ -84,10 +80,14 @@ section.feedback {
   overflow-y: overlay;
 }
 
+section.trips.noscroll {
+  overflow-y: unset;
+}
+
 section.feedback .stars-container {
   display: flex;
   justify-content: space-around;
-  margin-bottom: 15px;
+  min-height: 5vh;
 }
 
 section.feedback svg.driver {
@@ -111,7 +111,7 @@ section.feedback textarea {
   box-shadow: inset 2px 2px 5px var(--shadow_color);
   transition: box-shadow .3s;
   padding: 20px;
-  margin: 25px 0 10px 0;
+  margin-top: 25px;
 }
 
 section.feedback textarea::placeholder {
@@ -123,6 +123,7 @@ section.feedback h4 {
   text-align: center;
   text-transform: uppercase;
   color: white;
+  margin: 0;
 }
 
 section.feedback .comment {
@@ -182,12 +183,6 @@ section.new_design .feedback__holder, section.trips .feedback__holder {
 @media screen and (max-width: 540px) {
   section.feedback {
     padding: 0 8%;
-  }
-}
-
-@media screen and (max-height: 600px) {
-  .feedback__holder section.feedback .feedback__container form {
-    display: block;
   }
 }
 

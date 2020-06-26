@@ -95,9 +95,9 @@ export default class Feedback extends Component {
   render() {
     return(
       <div class='feedback__holder'>
+        <header>{i18n.feedback.header}</header>
         <button type='button' class='button burger white-opacity' onClick={this.props.handleBack}><Back/></button>
         <section class='feedback'>
-          <header>{i18n.feedback.header}</header>
           <div class='feedback__container'>
             <form ref={form => this.feedbackForm = form}>
               <textarea spellcheck='false' rows='1' placeholder={i18n.current_trip.comment} onInput={this.setDescription}/>

@@ -202,6 +202,7 @@ export default class Cart extends Component {
       localStorage.removeItem('cart')
       this.vibrate()
       this.comment.disabled = false
+      this.props.showBurger()
       route('/delivery', true)
     }).catch((error) => {
       if (!error.response) return
@@ -273,6 +274,7 @@ export default class Cart extends Component {
   }
 
   handleBack = () => {
+    this.props.showBurger()
     route('/delivery', true)
   }
 

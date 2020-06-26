@@ -18,6 +18,7 @@ section.new_design {
   position: relative;
   height: calc(var(--vh, 1vh) * 100);
   padding: 0;
+  overflow: hidden;
 }
 
 fieldset.address {
@@ -296,7 +297,7 @@ svg.pin-last path {
 }
 
 .additions label svg {
-  height: 20px;
+  height: 2.6vh;
 }
 
 .additions svg path {
