@@ -67,15 +67,18 @@ address:last-of-type svg {
   border-bottom: none;
   cursor: pointer;
   box-shadow: 5px 3px 12px var(--shadow_color), inset -3px -3px 5px 1px var(--shadow_color);
+  box-shadow: var(--main-shadow);
   border-radius: 15px;
 }
 
 .trip-card:hover {
   box-shadow: 2px 2px 5px var(--shadow_color), inset 2px 2px 5px var(--shadow_color_light);
+  box-shadow: var(--hover-shadow);
 }
 
 .trip-card:active {
   box-shadow: inset 2px 2px 5px var(--shadow_color), inset -2px -2px 5px var(--shadow_color_light);
+  box-shadow: var(--active-shadow);
 }
 
 .trip-card .address-block {
@@ -137,9 +140,20 @@ address:last-of-type svg {
   color: white;
 }
 
+.trip-details header.map-header {
+  z-index: 100;
+  position: fixed;
+}
+
+.trip-details header.details {
+  z-index: 100;
+  position: fixed;
+}
+
 .trip-details img {
   position: absolute;
   top: 0;
+  left: 50%;
   width: 100%;
   background: linear-gradient(to bottom, #e6efee, #f6faf8, #e6efee);
   background: linear-gradient(to bottom, var(--bg_gradient_color_2), var(--bg_gradient_color_1), var(--bg_gradient_color_2));
@@ -148,6 +162,7 @@ address:last-of-type svg {
   max-width: inherit;
   object-fit: cover;
   pointer-events: none;
+  transform: translateX(-50%);
 }
 
 .trip-details .buttons {
@@ -161,8 +176,9 @@ address:last-of-type svg {
   height: calc(var(--vh, 1vh) * 100);
   padding: 0;
   overflow-y: overlay;
-  scroll-snap-type: y mandatory;
+  scroll-snap-type: y proximity;
   scroll-behavior: smooth;
+  -webkit-transform: translate3d(0,0,0);
 }
 
 .trip-details__section::-webkit-scrollbar {
@@ -253,18 +269,23 @@ nav {
 .trip-details {
   display: flex;
   justify-content: center;
-  position: absolute;
-  height: calc(var(--vh, 1vh) * 100);
+  position: fixed;
+  height: -webkit-fill-available;
   width: 100%;
   left: 0px;
   top: 0px;
   z-index: 10001;
   overscroll-behavior-y: none;
-  -webkit-overflow-scrolling: touch;
   cursor: default;
   background: #e6efee;
   background: linear-gradient(to bottom, #e6efee, #f6faf8, #e6efee);
   background: linear-gradient(to bottom, var(--bg_gradient_color_2), var(--bg_gradient_color_1), var(--bg_gradient_color_2));
+  overflow: hidden;
+}
+
+.feedback__holder header {
+  color: white;
+  z-index: 300;
 }
 
 .trip-details div.map {

@@ -12,8 +12,8 @@ mapboxgl.accessToken = 'pk.eyJ1IjoiZ2FsdWxleCIsImEiOiJjamx6ampoZjgyMnYxM3FvZ2ppN
 const MAPSTYLE = (localStorage.getItem('dark') === 'true') ? 'mapbox://styles/okunieva/ckb1wuli60k3u1ipjrdnqtan5' : 'mapbox://styles/okunieva/cjzwn3wx40yhq1cpjl3yo8p1z';
 const LANGUAGES = {en: 'en', uk: 'ru', ru: 'ru'}
 
-var timeout
-var delay_time = 500
+let timeout, section
+const delay_time = 500
 
 export default class MapPicker extends Component {
   constructor(props) {
@@ -29,6 +29,8 @@ export default class MapPicker extends Component {
   }
 
   componentDidMount() {
+    section = document.querySelector('section')
+    if(!section.classList.contains('map-open')) section.classList.add('map-open')
     const { lng, lat, zoom } = this.state;
 
     this.map = new mapboxgl.Map({
@@ -81,6 +83,7 @@ export default class MapPicker extends Component {
 
   componentWillUnmount() {
     this.map.remove()
+    section.classList.remove('map-open')
   }
 
   showAddressBar = () => {
@@ -132,7 +135,7 @@ export default class MapPicker extends Component {
 
     return (
       <div class='trip-details'>
-        <header>{i18n.map_picker.header}</header>
+        <header class='map-header'>{i18n.map_picker.header}</header>
         <button
           type='button'
           class='button burger white-opacity'

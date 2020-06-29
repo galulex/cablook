@@ -8,7 +8,7 @@ import Statistics from './tabs/statistics.js'
 
 import './css/profile.css'
 
-let scrollEndTimeout
+let scrollEndTimeout, scrollPercent, start
 
 export default class FavoriteAddresses extends Component {
   componentDidMount() {
@@ -38,7 +38,7 @@ export default class FavoriteAddresses extends Component {
   }
 
   onScroll = (e) => {
-    let scrollPercent = (this.tabsContent.scrollLeft / this.tabsContent.scrollWidth) * 100
+    scrollPercent = (this.tabsContent.scrollLeft / this.tabsContent.scrollWidth) * 100
     switch(true) {
       case (scrollPercent <= 0):
         scrollPercent = 0
@@ -49,13 +49,24 @@ export default class FavoriteAddresses extends Component {
       default:
         break
     }
-    if(window.ios) this.activeTab.animate({left: `${scrollPercent}%`}, { duration: 300 })
     this.activeTab.style.left = `${scrollPercent}%`
     clearTimeout(scrollEndTimeout)
     this.setActiveClass(this.getActiveTab(scrollPercent, this.tabsContainer.children))
+    if(window.ios) { window.requestAnimationFrame(this.animate); return }
     scrollEndTimeout = setTimeout(() => {
       this.activeTab.style.left = `${scrollPercent}%`
     }, 10)
+  }
+
+  animate = (timestamp) => {
+    if (start === undefined) {
+      start = timestamp
+    }
+    const elapsed = timestamp - start
+    this.activeTab.style.left = `${Math.min(0.1 * elapsed, scrollPercent)}%`
+    if (elapsed < 300) {
+      window.requestAnimationFrame(this.animate)
+    }
   }
 
   onClick = (e) => {
@@ -72,8 +83,8 @@ export default class FavoriteAddresses extends Component {
 
   render() {
     return (
-      <div>
-        <header>{i18n.profile_page.header}</header>
+      <div class='profile__container'>
+        <header class='main'>{i18n.profile_page.header}</header>
         <section class='profile'>
           <div class='tabs'>
             <div class="tabs__holder">

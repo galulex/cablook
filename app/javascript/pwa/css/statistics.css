@@ -9,7 +9,6 @@
   font-size: 2.6vh;
   font-size: calc(var(--vh, 1vh) * 2.6);
   text-align-last: center;
-  text-indent: 30%;
   box-shadow: none;
 }
 

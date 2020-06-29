@@ -44,15 +44,15 @@ ul.cards button.x-card {
   outline: none;
   background: rgba(255, 255, 255, .5);
   background: var(--button-background);
-  box-shadow: 5px 3px 12px var(--shadow_color), inset -2px -2px 5px 1px var(--shadow_color);
+  box-shadow: var(--main-shadow);  
 }
 
 ul.cards button.x-card:hover {
-  box-shadow: 5px 3px 6px var(--shadow_color), inset -2px -2px 3px 1px var(--shadow_color);
+  box-shadow: var(--hover-shadow);
 }
 
 ul.cards button.x-card:active {
-  box-shadow: inset 2px 2px 5px 1px var(--shadow_color), inset -2px -2px 9px 1px var(--shadow_color_light);
+  box-shadow: var(--active-shadow);
 }
 
 ul.cards button.x-card svg {
