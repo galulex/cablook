@@ -25,11 +25,11 @@ export default class Trips extends Component {
   componentDidMount() {
     if (this.props.trips && this.props.trips.length > 0) return;
     this.loadTrips()
-    window.addEventListener('scroll', this.handleScroll, { passive: true });
+    this.section.addEventListener('scroll', this.handleScroll, { passive: true });
   }
 
   componentWillUnmount() {
-    window.removeEventListener('scroll', this.handleScroll, { passive: true });
+    this.section.removeEventListener('scroll', this.handleScroll, { passive: true });
   }
 
   applyUpdateResult = (result) => (prevState) => ({
@@ -70,7 +70,7 @@ export default class Trips extends Component {
 
     return (
       <div>
-        { !this.props.showFeedback() && 
+        { !this.props.showFeedback() &&
           <button
             type='button'
             class='button white-opacity burger'
@@ -82,16 +82,18 @@ export default class Trips extends Component {
         <header><span>{i18n.trips.header}</span></header>
         <section class='trips' ref={section => this.section = section}>
           <ul>
-            { 
-              this.state.trips.map((trip) => { 
+            {
+              this.state.trips.map((trip) => {
                 return (
                   <TripCard
                     handleBack={this.handleBack}
                     showDet={this.state.showDet}
                     changeShowDet={this.changeShowDet}
-                    trip={trip} setCurrentTrip={this.props.setCurrentTrip}
+                    trip={trip}
+                    setCurrentTrip={this.props.setCurrentTrip}
                     showFeedback={this.props.showFeedback}
                     setActivateFeedback={this.props.setActivateFeedback}
+                    section={this.section}
                   />
                 )
               })

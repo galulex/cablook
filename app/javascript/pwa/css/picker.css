@@ -22,7 +22,8 @@
   left: 50%;
   z-index: 2;
   transform: translateX(-50%);
-  width: 300px;
+  width: 400px;
+  max-width: 80%;
   height: auto;
   padding: 10px;
   color: white;

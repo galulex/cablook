@@ -1,5 +1,38 @@
+.profile__container > header.main {
+  position: fixed;
+  background: var(--main_background);
+  -webkit-appearance: none;
+}
+
+.profile__holder {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: calc(var(--vh, 1vh) * 100);
+  width: 100vw;
+}
+
 section.profile {
   padding: 0;
+}
+
+section.profile.map-open {
+  margin-top: 0;
+  width: 100vw;
+}
+
+section.profile.map-open .tabs {
+  padding-top: 0;
+}
+
+section.profile.map-open .tabs .tabs__content {
+  position: absolute;
+  overflow-x: unset;
+}
+
+section.profile.map-open .tabs .tabs__content .tab-content {
+  height: 100vh;
+  height: calc(var(--vh, 1vh) * 100);
 }
 
 section.profile fieldset.address {
@@ -69,7 +102,7 @@ ul.places li button svg {
   margin-top: 4vh;
   margin-top: calc(var(--vh, 1vh) * 4);
   border-radius: 15px;
-  box-shadow: 2px 2px 12px var(--shadow_color), inset -3px -3px 10px -1px rgba(0, 0, 0, 0.2);
+  box-shadow: var(--main-shadow);
   background: rgba(255, 255, 255, .3);
   background: var(--container-background);
   transition: all .5s;
@@ -86,14 +119,11 @@ ul.places li button svg {
 }
 
 .tab-content__container fieldset.address {
-  margin: 0;
-}
-
-.tab-content__container fieldset.address {
   margin: 10px auto 0 auto;
   padding: 5% 32px 5% 5%;
   font-size: 2.6vh;
   font-size: calc(var(--vh, 1vh) * 2.6);
+  border-radius: 15px;
 }
 
 .profile .tab-content .tab-content__container:last-of-type {
@@ -308,7 +338,7 @@ input.custom-checkbox ~ .custom-checkbox__label-title {
   font-weight: 500;
   background: #19a160;
   background: var(--green);
-  box-shadow: inset -1px -1px 17px -4px rgba(0, 0, 0, 0.3);
+  box-shadow: var(--main-shadow);
   border-radius: inherit;
   transition: all .1s;
   scroll-behavior: smooth;
@@ -321,14 +351,13 @@ input.custom-checkbox ~ .custom-checkbox__label-title {
   width: 100%;
   flex: 0 0 auto;
   direction: ltr;
+  scroll-snap-align: start;
 }
 
 .profile .tab-content__holder {
   height: 100%;
   width: 100%;
   padding: 0 5%;
-  overflow-y: auto;
-  scroll-snap-align: start;
   scroll-snap-type: y mandatory;
   overflow-y: scroll;
   -webkit-overflow-scrolling: touch;

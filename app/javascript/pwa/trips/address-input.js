@@ -117,7 +117,7 @@ export default class AddressInput extends Component {
       this.props.pickAddress(this.props.index)
       return
     }
-    this.setState({isShowMap: true}, () => { if (this.props.showBurger) this.props.showBurger(false); this.props.toggleHeader() })
+    this.setState({isShowMap: true}, () => { if (this.props.showBurger) this.props.showBurger(false) })
     if (window.ios) return
     history.pushState(null, null,'/')
     window.addEventListener('popstate', this.handleBack, {once: true})
