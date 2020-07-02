@@ -1,5 +1,5 @@
 main div.prompt {
-  background: rgba(209, 209, 209, 0.8);
+  background: rgba(209, 209, 209, 0.5);
   border-radius: 5px;
   position: fixed;
   bottom: 25px;
@@ -26,7 +26,7 @@ div.prompt:before {
   z-index: -1;
   width: 0;
   height: 0;
-  border: 12px solid rgba(209, 209, 209, 0.8);
+  border: 12px solid rgba(209, 209, 209, 0.5);
   border-top-color: transparent;
   border-left-color: transparent;
 }

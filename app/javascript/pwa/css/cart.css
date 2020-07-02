@@ -2,6 +2,11 @@ section.cart {
   padding: 3vh 3% 0 3%;
 }
 
+section.cart.map-open {
+  margin-top: 0;
+  height: 100%;
+}
+
 section.cart .tab-content__container {
   margin-top: 3vh;
   margin-top: calc(var(--vh, 1vh) * 3);
@@ -10,7 +15,7 @@ section.cart .tab-content__container {
 section.cart > form > .additions {
   justify-content: space-between;
   width: 80%;
-  margin: 0 auto;
+  margin: 3vh auto 0 auto;
 }
 
 section.cart > form > label[for='comment'] {
