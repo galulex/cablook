@@ -292,7 +292,7 @@ export default class Cart extends Component {
     const { total_price, trip_cost, cards, card_id, showWidget, showLoader, vendor_closed } = this.state
 
     return (
-      <div>
+      <div class='general__holder'>
         <button type='button' class='button burger white-opacity' onClick={(event) => window.ios ? this.handleBack() : window.history.back()}><Back fill='#132d50'/></button>
         <header>{i18n.cart.header}</header>
         <section class='cart'>
@@ -324,7 +324,7 @@ export default class Cart extends Component {
                 favorite_addresses={() => this.props.favorite_addresses()}
                 isGeocoding={this.props.isGeocoding}
                 setGeocoding={this.props.setGeocoding}
-                toggleHeader={this.props.toggleHeader} />
+              />
               <div class='additions'>
                 {(cards.length > 1) && <label class='select' for='card'>
                   <Card width='24'/>

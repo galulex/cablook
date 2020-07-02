@@ -65,7 +65,7 @@ export default class Vendor extends Component {
     const { vendor, cart, showLoader } = this.state
 
     return (
-      <div class='order_page'>
+      <div class='general__holder'>
         {showLoader && <Loader/>}
         <button
           type='button'
@@ -91,7 +91,6 @@ export default class Vendor extends Component {
             cart_with_items={cart && cart.items}
             updateLoaderState={this.updateLoaderState}
             setCurrentTrip={this.props.setCurrentTrip}
-            toggleHeader={this.props.toggleHeader}
             showBurger={this.props.showBurger}
           />
           {Object.keys(vendor.items).map((category, index) => {

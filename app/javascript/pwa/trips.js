@@ -69,7 +69,7 @@ export default class Trips extends Component {
   render() {
 
     return (
-      <div>
+      <div class='general__holder'>
         { !this.props.showFeedback() &&
           <button
             type='button'

@@ -62,7 +62,7 @@ export default class Cards extends Component {
         )
       }
     return (
-      <div>
+      <div class='general__holder'>
         <header>Cards</header>
         <section class='cards'>
           { cardList }

@@ -106,7 +106,7 @@ export default class FavoriteAddresses extends Component {
 
   render() {
     return (
-      <div class='profile__container'>
+      <div class='profile__container general__holder'>
         <header class='main'>{i18n.profile_page.header}</header>
         <section class='profile'>
           <div class='tabs'>
@@ -140,7 +140,6 @@ export default class FavoriteAddresses extends Component {
                   setGeocoding={this.props.setGeocoding}
                   setAddress={this.props.setAddress}
                   showBurger={this.props.showBurger}
-                  toggleHeader={this.props.toggleHeader}
                 />
               </div>
               <div class='tab-content'>
