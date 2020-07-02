@@ -80,7 +80,7 @@ export default class Feedback extends Component {
 
   renderStar = (i) => {
     return [
-      <label class='star' for={`star_${i}`}><Star class='star-icon' filter='inset-shadow-out'/></label>,
+      <label class='star' for={`star_${i}`}><Star class='star-icon'/></label>,
       <input id={`star_${i}`} type='radio' value={i} name='rate' onChange={this.setRate} defaultChecked={this.state.feedback.rate == i}/>
     ]
   }

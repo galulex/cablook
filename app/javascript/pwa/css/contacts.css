@@ -30,7 +30,7 @@ ul.contacts li:first-child a svg path {
   fill: var(--black_2);
 }
 
-h1.notice {
-  margin: 0;
-  padding-top: 10px;
+.notice {
+  font-size: 3.2vh;
+  font-size: calc(var(--vh, 1vh) * 3.2);
 }

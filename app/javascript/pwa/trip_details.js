@@ -60,8 +60,8 @@ export default class TripCard extends Component {
                 <address><Pin class='pin address-pin details-icon'/>{trip.destination_address}</address>
               </div>
               <div class='trip-details-content'><Clock class='details-icon'/>{trip.formatted_date}</div>
+              {this.renderRate()}
             </div>
-            {this.renderRate()}
           </div>
         </section>
         {this.props.showFeedback() && <Feedback trip={this.props.trip} handleBack={this.handleFeedbackBack} isFeedbackVisible={this.state.isFeedbackVisible} getRate={this.getRate}/>}

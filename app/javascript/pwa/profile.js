@@ -11,13 +11,30 @@ import './css/profile.css'
 let scrollEndTimeout, scrollPercent, start
 
 export default class FavoriteAddresses extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      iosVersion: null
+    }
+  }
+
   componentDidMount() {
     this.tabsContent.addEventListener('scroll', this.onScroll, { passive: true })
+    this.setState({iosVersion: this.getIOSVersion()})
   }
 
   componentWillUnmount() {
     this.tabsContent.removeEventListener('scroll', this.onScroll, { passive: true })
     this.resetTabs()
+  }
+
+  getIOSVersion = () => {
+    if (/iP(hone|od|ad)/.test(navigator.platform)) {
+      var v = (navigator.appVersion).match(/OS (\d+)_(\d+)_?(\d+)?/);
+      return parseInt(v[1], 10)
+    } else {
+      return null
+    }
   }
 
   resetTabs = () => {
@@ -52,7 +69,13 @@ export default class FavoriteAddresses extends Component {
     this.activeTab.style.left = `${scrollPercent}%`
     clearTimeout(scrollEndTimeout)
     this.setActiveClass(this.getActiveTab(scrollPercent, this.tabsContainer.children))
-    if(window.ios) { window.requestAnimationFrame(this.animate); return }
+    if (window.ios) {
+      if (this.state.iosVersion && this.state.iosVersion > 12) {
+        this.activeTab.animate({left: `${scrollPercent}%`}, { duration: 300 })
+      } else {
+        window.requestAnimationFrame(this.animate); return
+      }
+    }
     scrollEndTimeout = setTimeout(() => {
       this.activeTab.style.left = `${scrollPercent}%`
     }, 10)

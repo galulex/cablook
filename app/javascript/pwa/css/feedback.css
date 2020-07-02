@@ -12,17 +12,19 @@ section.feedback header {
 
 section.feedback label.star {
   width: 15%;
+  height: 100%;
 }
 
 section.feedback label.star .star-icon {
   all: unset;
   width: 100%;
+  height: 80%;
 }
 
 section.feedback label.star .star-icon path {
   fill: white;
   transition: all .3s;
-  filter: url(#inset-shadow-out);
+  filter: url(#inset-shadow);
 }
 
 section.feedback input[name='rate'] {
@@ -87,7 +89,7 @@ section.trips.noscroll {
 section.feedback .stars-container {
   display: flex;
   justify-content: space-around;
-  min-height: 5vh;
+  height: calc(var(--vh, 1vh) * 8);
 }
 
 section.feedback svg.driver {
