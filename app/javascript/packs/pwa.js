@@ -110,9 +110,9 @@ export default class App extends Component {
       document.documentElement.style.setProperty('--body-bg', '#e6efee')
     }
     this.registerServiceworker()
-    window.addEventListener('offline', this.offline)
-    window.addEventListener('online', this.online)
-    document.addEventListener('visibilitychange', this.onVisibilityChange, false)
+    window.addEventListener('offline', this.offline, { passive: true })
+    window.addEventListener('online', this.online, { passive: true })
+    document.addEventListener('visibilitychange', this.onVisibilityChange, false, { passive: true })
     this.main.addEventListener('scroll', this.scrollEnd, { passive: true })
     document.addEventListener('touchstart', this.setTouching, { passive: true })
     document.addEventListener('touchend', this.setTouching, { passive: true })
@@ -120,6 +120,9 @@ export default class App extends Component {
   }
 
   componentWillUnmount() {
+    window.removeEventListener('offline', this.offline, { passive: true })
+    window.removeEventListener('online', this.online, { passive: true })
+    document.removeEventListener('visibilitychange', this.onVisibilityChange, false, { passive: true })
     this.main.removeEventListener('scroll', this.scrollEnd, { passive: true })
     document.removeEventListener('touchstart', this.setTouching, { passive: true })
     document.removeEventListener('touchend', this.setTouching, { passive: true })

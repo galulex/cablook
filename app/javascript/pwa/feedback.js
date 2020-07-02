@@ -24,12 +24,12 @@ export default class Feedback extends Component {
   componentDidMount() {
     if (window.ios) return;
     history.pushState(null, null,'/')
-    window.addEventListener('popstate', this.props.handleBack, {once: true})
+    window.addEventListener('popstate', this.props.handleBack, {once: true, passive: true})
   }
 
   componentWillUnmount() {
     this.feedbackForm.reset()
-    window.removeEventListener('popstate', this.props.handleBack, true);
+    window.removeEventListener('popstate', this.props.handleBack, {once: true, passive: true});
   }
 
   submitDisabled = (val) => {

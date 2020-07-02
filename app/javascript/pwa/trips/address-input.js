@@ -120,13 +120,14 @@ export default class AddressInput extends Component {
     this.setState({isShowMap: true}, () => { if (this.props.showBurger) this.props.showBurger(false) })
     if (window.ios) return
     history.pushState(null, null,'/')
-    window.addEventListener('popstate', this.handleBack, {once: true})
+    window.addEventListener('popstate', this.handleBack, { once: true, passive: true })
   }
 
   closeMap = (point, address) => {
     this.props.setAddress(address, point, this.props.index)
     this.setState({ address: address, predictions: [], isValid: true, isShowMap: false })
     this.input.setCustomValidity('')
+    window.removeEventListener('popstate', this.handleBack, { passive: true })
   }
 
   focus = (e) => {

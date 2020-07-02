@@ -348,8 +348,8 @@ svg.pin-last path {
 
 .pick fieldset.address svg {
   top: 2.8vh;
-  height: calc(var(--vh, 1vh) * 1.4);
   height: 1.4vh;
+  height: calc(var(--vh, 1vh) * 1.4);
 }
 
 .pick .trigger {
