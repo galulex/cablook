@@ -17,7 +17,7 @@ const VIBER = 'viber://chat/?number=%2B380932225665'
 export default class Contacts extends Component {
   render(){
     return (
-      <div>
+      <div class='general__holder'>
         <header>{i18n.contacts.header}</header>
         <section>
           <ul class='contacts tab-content__container'>
