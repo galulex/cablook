@@ -1,5 +1,4 @@
 .profile__container > header.main {
-  position: fixed;
   background: var(--main_background);
   -webkit-appearance: none;
 }

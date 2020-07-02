@@ -50,7 +50,8 @@ export default class NewDesign extends Component {
       activateFeedback: false,
       lastTripId: null,
       paymentButtonDisabled: false,
-      cancelTimer: null
+      cancelTimer: null,
+      klass: ''
     }
   }
 
@@ -68,7 +69,7 @@ export default class NewDesign extends Component {
     this.addShakeListener()
 
     setTimeout(this.sendRequestForUnpaidPayments, 3000)
-    if(this.props.showFeedback()) { this.props.showBurger(false); this.toggleHeader() }
+    if(this.props.showFeedback()) { this.props.showBurger(false) }
   }
 
   componentDidUpdate() {
@@ -473,12 +474,12 @@ export default class NewDesign extends Component {
     this.setState({ trip: { ...this.state.trip, status: CONFIRM_UPDATE_TRIP }, inputDisabled: true })
     if (window.ios) return
     history.pushState(null, null,'/')
-    window.addEventListener('popstate', this.cancelConfirmUpdate, { once: true })
+    window.addEventListener('popstate', this.cancelConfirmUpdate, { once: true, passive: true })
   }
 
   cancelConfirmUpdate = (e) => {
     this.props.mainBurger.classList.remove('hidden')
-    window.removeEventListener('popstate', this.cancelConfirmUpdate, true)
+    window.removeEventListener('popstate', this.cancelConfirmUpdate, { passive: true })
     this.props.fetchUser()
   }
 
@@ -658,7 +659,7 @@ export default class NewDesign extends Component {
             )
           })}
           <div class="button-line-wrapper">
-            <button type='button' onClick={this.addAddress} class='add-address' disabled={isValid} title={ i18n.current_trip.add_address }>
+            <button type='button' onClick={this.addAddress} class='button add-address' disabled={isValid} title={ i18n.current_trip.add_address }>
               <Add height='15'/>
             </button>
           </div>

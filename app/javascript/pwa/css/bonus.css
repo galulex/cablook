@@ -38,7 +38,7 @@ ul.bonus-trips-list li.bonus-fresh div.bonus-badge {
 
 .referral-code__holder {
   padding: 1vh 2.6vh 1vh 0;
-  padding: calc(var(--vh, 1) * 1) calc(var(--vh, 1) * 2.6) calc(var(--vh, 1) * 1) 0;
+  padding: calc(var(--vh, 1vh) * 1) calc(var(--vh, 1vh) * 2.6) calc(var(--vh, 1vh) * 1) 0;
 }
 
 .referral-code button {
@@ -66,7 +66,7 @@ ul.bonus-trips-list li.bonus-fresh div.bonus-badge {
   border: none;
   width: 100%;
   padding: .5vh 0;
-  padding: calc(var(--vh) * .5) 0;
+  padding: calc(var(--vh, 1vh) * .5) 0;
   color: #19a160;
   color: var(--green);
   font-size: 2.6vh;

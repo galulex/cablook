@@ -23,10 +23,11 @@ export default class Session extends Component {
 
   componentDidMount() {
     this.focusOnInput()
-    window.addEventListener('click', this.handleClickRecaptcha)
+    window.addEventListener('click', this.handleClickRecaptcha, { passive: true })
   }
 
   componentWillUnmount() {
+    window.removeEventListener('click', this.handleClickRecaptcha, { passive: true })
   }
 
   componentDidUpdate() {

@@ -23,12 +23,12 @@ export default class TripCard extends Component {
     this.props.section.classList.add('noscroll')
     if (window.ios) return  
     history.pushState(null, 'Trip Details',`/trips/${this.props.trip.id}`);
-    window.addEventListener('popstate', this.props.handleBack, {once: true});
+    window.addEventListener('popstate', this.props.handleBack, { once: true, passive: true });
   }
 
   componentWillUnmount() {
     this.props.section.classList.remove('noscroll')
-    window.removeEventListener('popstate', this.props.handleBack)
+    window.removeEventListener('popstate', this.props.handleBack, { passive: true })
   }
 
   toggleFeedback = () => {
