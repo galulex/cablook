@@ -53,7 +53,6 @@ ul.predictions {
   transition: opacity .3s, visibility 0s .5s, max-height .3s, max-width .3s;
   visibility: hidden;
   opacity: 0;
-  overflow-y: auto;
   overflow-x: hidden;
 }
 
@@ -190,26 +189,13 @@ button.add-address {
   outline: none;
   cursor: pointer;
   line-height: 0;
-  height: 28px;
-  width: 28px;
+  height: 10vw;
+  width: 10vw;
+  max-height: 45px;
+  max-width: 45px;
   padding: 0;
   transition: opacity .3s;
   border-radius: 8px;
-  box-shadow: 1px 1px 2px 1px #24293038, inset -5px -5px 6px -3px #24293038;
-  box-shadow: 1px 1px 2px 1px var(--shadow_color), inset -5px -5px 6px -3px var(--shadow_color);
-}
-
-button.add-address:hover, button.add-address:focus {
-  box-shadow: 1px 1px 1px 1px #24293038, inset -4px -4px 6px -3px #24293038;
-  box-shadow: 1px 1px 1px 1px var(--shadow_color), inset -4px -4px 6px -3px var(--shadow_color);
-
-}
-
-button.add-address:active {
-  outline: none;
-  box-shadow: inset 2px 2px 5px #24293038, inset -2px -2px 5px 1px white;
-  box-shadow: inset 2px 2px 5px var(--shadow_color), inset -2px -2px 5px 1px var(--shadow_color_light);
-
 }
 
 button.add-address svg {

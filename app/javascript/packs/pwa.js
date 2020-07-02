@@ -1,13 +1,6 @@
 //Apply dark theme
 window.dark = localStorage.getItem('dark') === 'true'
 window.ios = ['iPhone', 'iPad', 'iPod', 'MacIntel'].includes(navigator.platform)
-if (window.ios) {
-  document.documentElement.style.setProperty('--hover-shadow', '5px 3px 10px var(--shadow_color), inset -3px -3px 5px 1px var(--shadow_color)')
-  document.documentElement.style.setProperty('--active-shadow', '5px 3px 10px var(--shadow_color), inset -3px -3px 5px 1px var(--shadow_color)')
-  document.documentElement.style.setProperty('--green-active-shadow', '5px 3px 10px var(--shadow_color), inset -3px -3px 5px 1px var(--shadow_color)')
-  document.documentElement.style.setProperty('--green-hover-shadow', '5px 3px 10px var(--shadow_color), inset -3px -3px 5px 1px var(--shadow_color)')
-  document.documentElement.style.setProperty('--minus-button-active-shadow', '5px 3px 10px var(--shadow_color), inset -3px -3px 5px 1px var(--shadow_color)')
-}
 if (window.dark) {
   document.documentElement.style.setProperty('--bg_gradient_color_1', '#0f0f0f')
   document.documentElement.style.setProperty('--bg_gradient_color_2', '#191730')

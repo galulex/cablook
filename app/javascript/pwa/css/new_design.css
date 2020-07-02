@@ -6,6 +6,7 @@
 input, select, textarea {
   user-select: text;
   -webkit-user-select: text;
+  -webkit-appearance: none;
 }
 
 svg {
@@ -31,6 +32,7 @@ fieldset.address {
   border-radius: 10px;
   max-width: 65vw;
   margin: 0 auto calc(var(--vh, 1vh) * 3) auto;
+  scroll-snap-align: start;
 }
 
 fieldset.address:focus-within {
@@ -260,7 +262,9 @@ svg.pin-last path {
 }
 
 .options.noscroll .option {
-  scroll-snap-align: none;
+  scroll-snap-align: unset;
+  height: 75vh;
+  max-height: 75vh;
 }
 
 
@@ -281,9 +285,12 @@ svg.pin-last path {
   padding-bottom: 50px;
   min-height: 200px;
   transition: opacity .3s;
-  max-height: calc((var(--vh, 1vh) * 100) / 2);
+  height: auto;
+  max-height: 80vh;
   overflow-y: overlay;
   scroll-snap-type: y mandatory;
+  scroll-snap-points-y: repeat(10vh);
+  scroll-behavior: smooth;
 }
 
 .additions {
