@@ -4,10 +4,12 @@ import axios from 'axios';
 import i18n from './i18n.js';
 import Widget from './widget.js';
 import './css/cards.css'
-import CardsIcon from './images/credit-cards-payment.svg'
-import Visa from './images/visa.svg'
-import MasterCard from './images/mastercard.svg'
-import Close from './images/times-circle.svg'
+import CardsIcon from './images/credit-cards-payment.js'
+import MasterCardLight from './images/MC_light.js'
+import MasterCardDark from './images/MC_dark.js'
+import VisaDark from './images/VISA_dark.js'
+import VisaLight from './images/VISA_light.js'
+import Close from './images/close.js'
 
 export default class Cards extends Component {
   constructor(props) {
@@ -27,37 +29,44 @@ export default class Cards extends Component {
     this.setState({cards: this.props.cards()})
   }
 
-  renderCardType = (type) => {
-    if (type === 'Visa') {
-      return(<Visa/>)
+  renderCardType = (type, pan) => {
+    if (window.dark) {
+      if (type === 'Visa') {
+        return(<VisaDark pan={pan.split('****')} class='card dark'/>)
+      } else {
+        return(<MasterCardDark pan={pan.split('****')} class='card dark'/>)
+      }
     } else {
-      return(<MasterCard/>)
+      if (type === 'Visa') {
+        return (<VisaLight pan={pan.split('****')} class='card light'/>)
+      } else {
+        return (<MasterCardLight pan={pan.split('****')} class='card light'/>)
+      }
     }
   }
 
   render() {
     let cardList = (<div><h1 class='nocards'>{i18n.cards.no_cards}</h1><CardsIcon class='nocards'/></div>)
-    if (this.state.cards.length > 0) {
-      cardList = (
-        <ul class='cards'>
-          { this.state.cards.map((card, i) => {
-            if (card.user_id === this.props.currentUserID()) return(
-              <li>
-                { this.renderCardType(card.type) }
-                <span>{card.pan}</span>
-                <button class='x-card' type='button' onClick={() => this.delete(card.id, i)}><Close fill='#a925ad'/></button>
-              </li>
-            )
-          })}
-        </ul>
-      )
-    }
+      if (this.state.cards.length > 0) {
+        cardList = (
+          <ul class='cards'>
+            { this.state.cards.map((card, i) => {
+              if (card.user_id === this.props.currentUserID()) return(
+                <li>
+                  { this.renderCardType(card.type, card.pan) }
+                  <button class='x-card' type='button' onClick={() => this.delete(card.id, i)}><Close fill='#a925ad'/></button>
+                </li>
+              )
+            })}
+          </ul>
+        )
+      }
     return (
-      <div>
+      <div class='general__holder'>
         <header>Cards</header>
-        <section>
+        <section class='cards'>
           { cardList }
-          <button class='button fixed' disabled={this.state.showWidget} type='button' onClick={() => this.showWidget(true)}>+ {i18n.cards.add}</button>
+          <button class='button green fixed' disabled={this.state.showWidget} type='button' onClick={() => this.showWidget(true)}>+ {i18n.cards.add}</button>
           { this.state.showWidget && <Widget createCard={this.create} showWidget={this.showWidget} /> }
         </section>
       </div>

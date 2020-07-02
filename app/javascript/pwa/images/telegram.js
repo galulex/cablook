@@ -1,0 +1,20 @@
+import { h, Component } from "preact"
+
+export default class Telegram extends Component {
+  render () {
+    const style = {
+      filter: "url(#inset-shadow)",
+      class: this.props.class
+    }
+
+    return (
+      <svg xmlns="http://www.w3.org/2000/svg" class={style.class} viewBox="-297 420.9 512 512">
+        <g fill="#4A7ECC">
+          <path filter={style.filter} d="M71.6 571.8L-114 686.1c-7.1 4.4-10.5 13-8.2 21l20.1 70.5c1.4 5 8.7 4.5 9.4-.7l5.2-38.7c1-7.3 4.5-14 9.8-19L75.5 577c2.8-2.7-.6-7.2-3.9-5.2z"/>
+          <path filter={style.filter} d="M-297 420.9v511.9h512V420.9h-512zM164.8 511L94.9 847.3c-1.6 7.9-11 11.5-17.5 6.8L-18 784.8c-5.8-4.2-13.7-4-19.2.5l-52.9 43.1c-6.1 5-15.4 2.2-17.7-5.3l-37-118.1-94.9-35.4c-9.6-3.6-9.7-17.2-.1-20.9l389.6-150.3c8.2-3.3 16.8 3.9 15 12.6z"/>
+        </g>
+      </svg>
+    )
+  }
+}
+

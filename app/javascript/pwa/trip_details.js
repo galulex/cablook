@@ -3,67 +3,68 @@ import { route } from 'preact-router';
 
 import Feedback from './feedback.js'
 import MapImg from './map_img.js'
-import TripPrice from './images/trip_price.svg'
-import TripStatus from './images/trip_status.svg'
-import TripTime from './images/trip_time.svg'
-import Back from './images/arrow-left.svg'
-import Star from './images/star.svg'
+import TripPrice from './images/trip_price.js'
+import TripStatus from './images/trip_status.js'
+import Clock from './images/clock.svg'
+import Pin from './images/pin.svg'
 import i18n from './i18n.js'
+import getRate from './new_design/rate.js'
 
 export default class TripCard extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      showDetails: false,
       isFeedbackVisible: false
     }
   }
 
   componentDidMount() {
     this.setRate()
-    this.setState({showDetails: true})
-    if (window.ios) return;
-    // history.pushState(null, 'Trip Details',`/trips/${this.props.trip.id}`);
-    window.addEventListener('popstate', this.props.handleBack, {once: true});
-  };
-
-  componentWillUnmount() {
-    window.removeEventListener('popstate', this.props.handleBack)
+    this.props.section.classList.add('noscroll')
+    if (window.ios) return  
+    history.pushState(null, 'Trip Details',`/trips/${this.props.trip.id}`);
+    window.addEventListener('popstate', this.props.handleBack, { once: true, passive: true });
   }
 
-  showFeedback = () => {
-    if (this.state.isFeedbackVisible) return;
-    this.setState({isFeedbackVisible: true})
-    window.removeEventListener('popstate', this.props.handleBack)
+  componentWillUnmount() {
+    this.props.section.classList.remove('noscroll')
+    window.removeEventListener('popstate', this.props.handleBack, { passive: true })
+  }
+
+  toggleFeedback = () => {
+    this.props.setActivateFeedback(true)
   };
 
   handleFeedbackBack = (event) => {
-    this.setState({isFeedbackVisible: false})
-    window.addEventListener('popstate', this.props.handleBack, {once: true});
+    this.props.setActivateFeedback()
   };
 
   render() {
-    const { trip } = this.props;
+    const { trip } = this.props
 
     return (
       <div class="trip-details">
-        <header>{i18n.trip.header}</header>
-        <section class="trip-details-section">
+        <header class='details'>{i18n.trip.header}</header>
+        <section class="trip-details__section">
           <MapImg trip={() => this.props.trip} />
-          <div class="buttons">
-            <button type='button' class= 'button' onClick={this.repeatTrip}>{i18n.trips.repeat}</button>
-            <button type='button' class= 'button' onClick={this.reverseTrip}>{i18n.trips.reverse}</button>
+          <div class='trip-details__content'>
+            <div class='trip-details__holder'>
+              <div class="buttons">
+                <button type='button' class= 'button white-opacity' onClick={this.repeatTrip}>{i18n.trips.repeat}</button>
+                <button type='button' class= 'button white-opacity' onClick={this.reverseTrip}>{i18n.trips.reverse}</button>
+              </div>
+              <div class='trip-details-content'><TripPrice class='details-icon'/>{`${trip.cost} ${i18n.trip.currency}`}</div>
+              <div class='trip-details-content'><TripStatus class='details-icon'/>{`${i18n.trips.status} - ${i18n.trips.statuses[trip.status]}`}</div>
+              <div class='trip-details-content'>
+                <address><Pin class='pin address-pin details-icon'/>{trip.departure_address}</address>
+                <address><Pin class='pin address-pin details-icon'/>{trip.destination_address}</address>
+              </div>
+              <div class='trip-details-content'><Clock class='details-icon'/>{trip.formatted_date}</div>
+              {this.renderRate()}
+            </div>
           </div>
-          <div class='trip-details-content'><TripPrice/>{`${trip.cost} ${i18n.trip.currency}`}</div>
-          <div class='trip-details-content'><TripStatus/>{`${i18n.trips.status} - ${i18n.trips.statuses[trip.status]}`}</div>
-          <div class='trip-details-content'>
-            <address>{trip.departure_address}</address>
-            <address>{trip.destination_address}</address>
-          </div>
-          <div class='trip-details-content'><TripTime/>{trip.formatted_date}</div>
-          {this.renderRate()}
         </section>
-        {this.state.isFeedbackVisible && <Feedback trip={this.props.trip} handleBack={this.handleFeedbackBack} isFeedbackVisible={this.state.isFeedbackVisible} getRate={this.getRate}/>}
+        {this.props.showFeedback() && <Feedback trip={this.props.trip} handleBack={this.handleFeedbackBack} isFeedbackVisible={this.state.isFeedbackVisible} getRate={this.getRate}/>}
       </div>
     )
   }
@@ -109,22 +110,12 @@ export default class TripCard extends Component {
     }
   }
 
-  renderRepeatReverse = () => {
-    if ([1,2,3].includes(this.props.trip.status)) return;
-    return(
-      <div class="buttons">
-        <button type='button' class= 'button' onClick={this.repeatTrip}>{i18n.trips.repeat}</button>
-        <button type='button' class= 'button' onClick={this.reverseTrip}>{i18n.trips.reverse}</button>
-      </div>
-    )
-  }
-
   renderRate = () => {
-    if (this.props.trip.status !== 4) return;
+    if (this.props.trip.status !== 4) return
     if (this.state.rate) {
-      return(<div class='trip-details-content'>{Array(this.state.rate).fill(<Star />)}</div>)
+      return(<div class='trip-details-content'>{getRate(this.state.rate)}</div>)
     } else {
-      return(<div class='trip-details-content'><button class='button cancel' onClick={this.showFeedback}>{i18n.trips.rate}</button></div>)
+      return(<div class='trip-details-content'><button class='button green' onClick={this.toggleFeedback}>{i18n.trips.rate}</button></div>)
     }
   }
 }

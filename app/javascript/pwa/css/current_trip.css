@@ -2,17 +2,19 @@ input.address {
   display: block;
   width: 90%;
   border: none;
-  background: transparent;
-  padding: 10px 25px 10px 10px;
-  font-size: 18px;
+  background: rgba(255, 255, 255, 0);;
+  padding: 14px 25px 12px 6px;
+  font-size: calc(var(--vh, 1vh) * 2.6);
   color: #312d50;
-  color: var(--navy);
+  color: var(--address-input-text);
   font-weight: 100;
   margin: 0 3% 0 7%;
-  border-radius: 0;
-  box-shadow: none;
-  transition: color .3s;
+  border-radius: 15px;
+  transition: all .3s;
+  height: 7vh;
+  height: calc(var(--vh, 1vh) * 7);
 }
+
 
 input.address:focus {
   outline: none;
@@ -21,7 +23,9 @@ input.address:focus {
 input.address:focus + ul, input.address.focus + ul {
   visibility: visible;
   opacity: 1;
-  transition: opacity .3s, visibility 0s 0s;
+  transition: opacity .3s, visibility 0s 0s, max-height .3s;
+  max-height: 60vh;
+  scroll-snap-align: center;
 }
 
 fieldset {
@@ -37,39 +41,59 @@ fieldset.address:nth-of-type(8) + div {
 }
 
 ul.predictions {
-  margin: 0;
   padding: 0;
-  background: white;
-  background: var(--white);
   list-style: none;
   width: 100%;
-  position: absolute;
-  top: 100%;
-  z-index: 100;
-  left: 0;
-  transition: opacity .3s, visibility 0s .5s;
+  max-width: 100%;
+  position: relative;
+  max-height: 0;
+  transition: opacity .3s, visibility 0s .5s, max-height .3s, max-width .3s;
   visibility: hidden;
   opacity: 0;
-  max-height: 60vh;
-  overflow-y: auto;
-  box-shadow: 0 3px 6px rgba(0,0,0,0.16);
-  box-shadow: var(--shadow);
-  border: 1px solid #d1d1d1;
-  border-bottom: none;
+  overflow-x: hidden;
 }
 
 li.prediction {
+  width: 100%;
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
   color: #312d50;
-  color: var(--navy);
-  border-bottom: 1px solid #d1d1d1;
+  color: var(--address-input-text);
   line-height: 1;
-  padding: 10px 0 10px 50px;
+  padding: 2px 0 5px 35px;
   transition: background .2s;
   cursor: pointer;
   position: relative;
+  width: 100%;
+}
+
+li.prediction:after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  height: 1px;
+  width: 90%;
+  -webkit-transform: translateX(-50%);
+  transform: translateX(-50%);
+  border-bottom: 1px solid #92b6d0;
+}
+
+li.prediction:first-child:before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 0;
+  height: 1px;
+  width: 90%;
+  -webkit-transform: translateX(-50%);
+  transform: translateX(-50%);
+  border-top: 1px solid #92b6d0;
+}
+
+li.prediction:last-child {
+  margin-bottom: 20px;
 }
 
 li.prediction svg {
@@ -77,17 +101,21 @@ li.prediction svg {
   top: 50%;
   transform: translateY(-50%);
   left: 10px;
-  width: 34px;
-  height: 20px;
+  width: 20px;
+  height: 12px;
+}
+
+li.prediction b {
+  font-size: 16px;
 }
 
 li.current_location svg {
-  width: 34px;
-  height: 34px;
+  width: 20px;
+  height: 20px;
 }
 
 li.prediction:hover {
-  background: rgba(0,0,0,0.2);
+  background: rgba(0,0,0,0.1);
 }
 
 svg.get-location, svg.add-address {
@@ -113,40 +141,64 @@ svg.running {
   to { transform: translateY(-50%) rotate(360deg); }
 }
 
+.mapboxgl-ctrl.mapboxgl-ctrl-group {
+  box-shadow: none;
+  background: none;
+}
+
+.mapboxgl-ctrl-group button.mapboxgl-ctrl-zoom-out {
+  border-top: none;
+}
+
+.mapboxgl-ctrl.mapboxgl-ctrl-group button{
+  margin-bottom: 5px;
+  border-radius: 5px;
+  background-color: rgba(255, 255, 255, 0.5)!important;
+  background-color: var(--button-background)!important;
+  background-size: 50%;
+  box-shadow: 1px 1px 2px 1px var(--shadow_color), inset -5px -5px 6px -3px var(--shadow_color);
+
+}
+
+.mapboxgl-ctrl-group button:hover, .mapboxgl-ctrl-group button:focus {
+  box-shadow: 1px 1px 1px 1px var(--shadow_color), inset -4px -4px 6px -3px var(--shadow_color);
+  -webkit-border-radius: 5px!important;
+  -moz-border-radius: 5px!important;
+  border-radius: 5px!important;
+}
+
+.mapboxgl-ctrl-group button:active {
+  box-shadow: inset 2px 2px 5px var(--shadow_color), inset -2px -2px 5px 1px var(--shadow_color_light);
+}
+.buttons {
+  position: unset;
+}
+
+.buttons  button.button {
+  padding: 12px 0;
+  width: calc(100% - 130px);
+  border-radius: 10px;
+}
+
 button.add-address {
-  background: transparent;
+  background: rgba(255, 255, 255, 0.5);
+  background: var(--button-background);
   border: none;
   padding: 0;
   outline: none;
   cursor: pointer;
   line-height: 0;
-  position: absolute;
-  top: -5px;
-  left: 20px;
-  height: 40px;
+  height: 10vw;
+  width: 10vw;
+  max-height: 45px;
+  max-width: 45px;
   padding: 0;
   transition: opacity .3s;
+  border-radius: 8px;
 }
 
-button.add-address svg > path:first-child {
-  fill: rgba(255, 255, 255, 0.9);
-  fill: var(--bg);
-}
-
-button.remove-address {
-  position: absolute;
-  right: -15px;
-  font-size: 2rem;
-  top: 53%;
-  transform: translateY(-50%);
-  background: none;
-  border: none;
-  color: #a925ad;
-  padding: 0 5px;
-  margin: 0;
-  outline: none;
-  cursor: pointer;
-  transition: opacity .3s;
+button.add-address svg {
+  height: 11px;
 }
 
 input[type='checkbox'] {
@@ -160,42 +212,6 @@ label {
   font-weight: 500;
   position: relative;
   cursor: pointer
-}
-
-input[type='checkbox'] + label:after {
-  content: '';
-  background-color: transparent;
-  border: 2px solid #19a160;
-  border: 2px solid var(--green);
-  padding: 9px;
-  display: inline-block;
-  position: relative;
-  transition: background-color .3s, box-shadow .3s;
-  margin: 10px 0px 12px 10px;
-  vertical-align: middle;
-  user-select: none;
-  box-shadow: 0 3px 6px rgba(0,0,0,0.16);
-  box-shadow: var(--shadow);
-}
-
-input[type='checkbox']:checked + label:after {
-  background-color: #19a160;
-  background-color: var(--green);
-}
-
-input[type='checkbox']:focus + label:after {
-  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
-  box-shadow: var(--focus-shadow);
-}
-
-input[type='checkbox']:checked + label:before {
-  width: 11px;
-  height: 5px;
-  border-left: 2px solid white;
-  border-bottom: 2px solid white;
-  border-radius: 2px;
-  transform-origin: 30% 50%;
-  z-index: 1;
 }
 
 .profile .nocall label {
@@ -212,48 +228,38 @@ input[type='checkbox']:checked + label:before {
   left: 1px;
 }
 
-input[type='checkbox'] + label:before {
-  content: '';
-  width: 0px;
-  height: 0px;
-  position: absolute;
-  right: 3px;
-  top: 50%;
-  transform: translateY(-50%) rotate(-50deg);
-  border: none;
-}
-
 svg.map-pick {
   position: absolute;
   right: 10px;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 25px;
+  top: 2.3vh;
+  top: calc(var(--vh, 1vh) * 2.3);
+  height: 2.5vh;
+  height: calc(var(--vh, 1vh) * 2.5);
   cursor: pointer;
+}
+
+svg.map-pick path {
+  fill: #19a160;
+  fill: var(--green);
 }
 
 select#entrance, input#time, .select select, select#select_time {
   color: #312d50;
-  color: var(--navy);
-  font-size: 16px;
+  color: var(--navy-dark);
+  font-size: calc(var(--vh, 1vh) * 2.6);
   background: transparent;
   border: none;
   transition: box-shadow .3s;
-  box-shadow: 0 3px 6px rgba(0,0,0,0.16);
-  box-shadow: var(--shadow);
-  margin: 5px 0;
-  height: 40px;
+  min-height: calc(var(--vh, 1vh) * 4);
   border-radius: 0;
   border: none;
-  background: rgba(255, 255, 255, 0.9);
-  background: var(--bg);
-  padding: 13px 5px 10px 45px;
+  padding: 6px 5px 6px 30px;
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
-  width: 140px;
   font-weight: 100;
   text-align: right;
+  width: 100%;
 }
 
 label[for='entrance']:after, label[for='time']:after {
@@ -268,7 +274,7 @@ label[for='entrance']:after, label[for='time']:after {
 }
 
 .time-placeholder {
-  color: var(--navy);
+  color: var(--navy-dark);
   left: 45px;
   position: absolute;
   top: 50%;
@@ -301,14 +307,13 @@ label:not([data-placeholder])[for='time'] > .time-placeholder {
   display: none;
 }
 
-select#entrance:focus, input#time:focus, input.comment:focus {
+select#entrance:focus, input#time:focus, input.comment:focus, select#card_id:focus {
   outline: none;
-  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
-  box-shadow: var(--focus-shadow);
 }
 
 label[for='entrance'], label[for='time'] {
   text-align: right;
+  font-size: calc(var(--vh, 1vh) * 2.6);
 }
 
 .option label svg, .additions label svg, label[for='comment'] svg, .select svg {
@@ -319,28 +324,49 @@ label[for='entrance'], label[for='time'] {
   pointer-events: none;
 }
 
+label.select[for='card'] svg {
+  left: 3px;
+}
+
 label[for='comment'] {
   display: block;
 }
 
 input.comment {
   display: block;
-  background: transparent;
   color: #312d50;
-  color: var(--navy);
-  width: 100%;
-  margin: 5px 0;
-  padding: 10px 10px 10px 45px;
-  background: rgba(255, 255, 255, 0.9);
-  background: var(--bg);
+  color: var(--navy-dark);
+  width: 90%;
+  margin: 0 auto;
+  padding: 0 15px;
+  background: rgba(238, 246, 251, 0.5);
+  background: var(--comment-input-bg);
   border: none;
-  font-size: 16px;
+  font-size: calc(var(--vh, 1vh) * 2.6);
   outline: none;
   font-weight: 100;
   transition: box-shadow .3s;
-  box-shadow: 0 3px 6px rgba(0,0,0,0.16);
-  box-shadow: var(--shadow);
-  border-radius: 0;
+  box-shadow: inset 3px 2px 8px #24293038, inset -2px -1px 4px white;
+  box-shadow: inset 3px 2px 8px var(--shadow_color), inset -2px -1px 4px var(--shadow_color_light);
+  border-radius: 50px;
+  height: calc(var(--vh, 1vh) * 4.5);
+  -webkit-appearance: none;
+}
+
+input.comment:focus {
+  box-shadow: inset 3px 2px 2px var(--shadow_color), inset -2px -1px 2px var(--shadow_color_light);
+}
+
+input.comment::placeholder {
+  color: #312d50;
+  color: var(--navy-dark);
+}
+
+@media (max-width: 360px) {
+
+  input.comment {
+    height: unset;
+  }
 }
 
 div.nocall {
@@ -368,7 +394,7 @@ button.button.pay {
   flex: 30%;
   display: inline-block;
   margin: 0;
-  background: var(--orange);
+  background: var(--orange_2);
   margin: 5px;
   padding: 10px;
 }
@@ -389,4 +415,9 @@ button.button.add-card {
 .right-section .select-section select {
   padding: 10px 30px 10px 5px;
   font-size: 14px;
+}
+
+ul.predictions::-webkit-scrollbar {
+  width: 0;
+  height: 0;
 }

@@ -59,7 +59,7 @@
     text-align: center;
     transform: translate(-50%, -50%);
     letter-spacing: 2px;
-    background-color: var(--white_color);
+    background-color: var(--white);
     color: transparent;
     opacity: 0.1;
     background-clip: text;

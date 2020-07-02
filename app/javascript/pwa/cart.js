@@ -12,7 +12,7 @@ import Loader from './loader.js'
 import Wheel from './images/wheel.svg'
 import Dollar from './images/dollar.svg'
 import Entrance from './images/entrance.svg'
-import Card from './images/credit-cards-payment.svg'
+import Card from './images/credit-cards-payment.js'
 import Comment from './images/contacts.svg'
 import UAH from './images/ukraine-hryvna.svg'
 
@@ -46,6 +46,7 @@ export default class Cart extends Component {
   }
 
   componentDidMount() {
+    this.props.showBurger(false)
     this.checkCurrentDeliveryTrip()
     this.getCards()
   }
@@ -201,6 +202,7 @@ export default class Cart extends Component {
       localStorage.removeItem('cart')
       this.vibrate()
       this.comment.disabled = false
+      this.props.showBurger()
       route('/delivery', true)
     }).catch((error) => {
       if (!error.response) return
@@ -272,6 +274,7 @@ export default class Cart extends Component {
   }
 
   handleBack = () => {
+    this.props.showBurger()
     route('/delivery', true)
   }
 
@@ -289,17 +292,20 @@ export default class Cart extends Component {
     const { total_price, trip_cost, cards, card_id, showWidget, showLoader, vendor_closed } = this.state
 
     return (
-      <div>
-        <button type='button' class='burger' onClick={(event) => window.ios ? this.handleBack() : window.history.back()}><Back fill='#132d50'/></button>
+      <div class='general__holder'>
+        <button type='button' class='button burger white-opacity' onClick={(event) => window.ios ? this.handleBack() : window.history.back()}><Back fill='#132d50'/></button>
         <header>{i18n.cart.header}</header>
         <section class='cart'>
           {showLoader && <Loader/>}
           { items ? ([
-            Object.keys(items).map((item, index) => {
-              return(
-                <CartItem key={index} id={item} item={items[item]} vendor={vendor} calculateTotalPrice={this.calculateTotalPrice}/>
-              )
-            }),
+            <div class='tab-content__container'>
+              { Object.keys(items).map((item, index) => {
+                return(
+                  <CartItem key={index} id={item} item={items[item]} vendor={vendor} calculateTotalPrice={this.calculateTotalPrice}/>
+                )
+              })
+            }
+            </div>,
             <div class='order-price'>
               <b>{i18n.cart.order_price}</b>
               <b class='price'>{total_price}</b>
@@ -317,7 +323,8 @@ export default class Cart extends Component {
                 geocode={this.props.geocode}
                 favorite_addresses={() => this.props.favorite_addresses()}
                 isGeocoding={this.props.isGeocoding}
-                setGeocoding={this.props.setGeocoding}/>
+                setGeocoding={this.props.setGeocoding}
+              />
               <div class='additions'>
                 {(cards.length > 1) && <label class='select' for='card'>
                   <Card width='24'/>
@@ -365,7 +372,7 @@ export default class Cart extends Component {
                   </div>}
                   <br/>
                   {(cards.length !== 0) &&
-                      <input type='submit' class={`button ${vendor_name_slug}`} onClick={this.createOrder} value={i18n.cart.create_order}/>}
+                      <input type='submit' class={`button green ${vendor_name_slug}`} onClick={this.createOrder} value={i18n.cart.create_order}/>}
                     </form>,
             !vendor_closed &&
             showWidget && <Widget createCard={this.createCard} showWidget={() => this.setState({showWidget: false}) }/>,

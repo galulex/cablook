@@ -20,7 +20,7 @@ nav a, nav button {
   height: auto;
   font-size: 1.5rem;
   font-weight: 400;
-  color: var(--white_color);
+  color: var(--white);
   background: none;
   border: none;
   text-decoration: none;
@@ -47,7 +47,7 @@ nav svg {
 }
 
 nav svg path {
-  fill: var(--white_color);
+  fill: var(--white);
 }
 
 @media only screen and (max-width: 720px) {

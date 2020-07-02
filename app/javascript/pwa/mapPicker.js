@@ -9,11 +9,11 @@ import Pin from './images/pin.svg'
 import './css/picker.css'
 
 mapboxgl.accessToken = 'pk.eyJ1IjoiZ2FsdWxleCIsImEiOiJjamx6ampoZjgyMnYxM3FvZ2ppNjV2M2x5In0.bPgk2WI9NT-DJwnE-OtiLA';
-const MAPSTYLE = (localStorage.getItem('dark') === 'true') ? 'mapbox://styles/galulex/cju84cmu11atr1flfoxocwbq7' : 'mapbox://styles/okunieva/cjzwn3wx40yhq1cpjl3yo8p1z';
+const MAPSTYLE = (localStorage.getItem('dark') === 'true') ? 'mapbox://styles/okunieva/ckb1wuli60k3u1ipjrdnqtan5' : 'mapbox://styles/okunieva/cjzwn3wx40yhq1cpjl3yo8p1z';
 const LANGUAGES = {en: 'en', uk: 'ru', ru: 'ru'}
 
-var timeout
-var delay_time = 500
+let timeout, section
+const delay_time = 500
 
 export default class MapPicker extends Component {
   constructor(props) {
@@ -29,6 +29,8 @@ export default class MapPicker extends Component {
   }
 
   componentDidMount() {
+    section = document.querySelector('section')
+    if(!section.classList.contains('map-open')) section.classList.add('map-open')
     const { lng, lat, zoom } = this.state;
 
     this.map = new mapboxgl.Map({
@@ -81,6 +83,7 @@ export default class MapPicker extends Component {
 
   componentWillUnmount() {
     this.map.remove()
+    section.classList.remove('map-open')
   }
 
   showAddressBar = () => {
@@ -98,12 +101,22 @@ export default class MapPicker extends Component {
     this.setState({ address_bar: false, address: '' })
   }
 
+  onPickAddress = () => {
+    this.props.onCloseMap(`${this.state.lat},${this.state.lng}`, this.state.address)
+    if(this.props.showBurger) this.props.showBurger()
+  }
+
+  onBackClick = () => {
+    if(this.props.showBurger) this.props.showBurger(false)
+    window.ios ? this.props.handleBack() : window.history.back()
+  }
+
   render() {
     const style = {
       position: "fixed",
       left: "0",
       right: "0",
-      top: "50px",
+      top: "0",
       bottom: "0",
       background: 'var(--map-bg)'
     };
@@ -122,21 +135,24 @@ export default class MapPicker extends Component {
 
     return (
       <div class='trip-details'>
-        <header>
-          {i18n.map_picker.header}
-          <button type='button' class='burger' onClick={() => window.ios ? this.props.handleBack() : window.history.back()}><Back/></button>
-        </header>
+        <header class='map-header'>{i18n.map_picker.header}</header>
+        <button
+          type='button'
+          class='button burger white-opacity'
+          onClick={this.onBackClick}>
+            <Back/>
+        </button>
         <div ref={el => this.mapContainer = el} style={style}  />
         { this.state.address_bar &&
           <div class='address-bar'>{ this.state.address }</div>
         }
-        <Pin class='picker-pin'/>
-        <button type='button' 
-                disabled={this.props.isGeocoding} 
-                class='button fixed' 
-                onClick={() => { this.props.onCloseMap(`${this.state.lat},${this.state.lng}`, this.state.address) }}>
-                OK
-                </button>
+        <Pin class='pin picker-pin'/>
+        <button type='button'
+          disabled={this.props.isGeocoding}
+          class='button green fixed'
+          onClick={this.onPickAddress}>
+            OK
+        </button>
       </div>
     );
   }

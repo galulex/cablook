@@ -74,7 +74,9 @@ RSpec.feature 'Trip', type: :feature, js: true do
       has_text? 'Edit'
     end
     find_button('Edit').trigger(:click)
-    find('button.add-address').trigger(:click)
+    wait 3 do
+      find('button.add-address').trigger(:click)
+    end
     all('input')[3].trigger(:focus)
     all('input')[3].set('')
     first('li.prediction', visible: false).trigger(:click)

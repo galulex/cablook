@@ -25,6 +25,7 @@ export default class Vendor extends Component {
   }
 
   componentDidMount() {
+    this.props.showBurger(false)
     this.checkCurrentDeliveryTrip()
     this.getVendorInfoAndItems()
   }
@@ -56,6 +57,7 @@ export default class Vendor extends Component {
   }
 
   handleBack = () => {
+    this.props.showBurger()
     route('/delivery', true)
   }
 
@@ -63,11 +65,11 @@ export default class Vendor extends Component {
     const { vendor, cart, showLoader } = this.state
 
     return (
-      <div class='order_page'>
+      <div class='general__holder'>
         {showLoader && <Loader/>}
         <button
           type='button'
-          class='burger'
+          class='button burger white-opacity'
           onClick={(event) => this.handleBack()}>
           <Back/>
         </button>
@@ -88,7 +90,9 @@ export default class Vendor extends Component {
             active={'active'}
             cart_with_items={cart && cart.items}
             updateLoaderState={this.updateLoaderState}
-            setCurrentTrip={this.props.setCurrentTrip} />
+            setCurrentTrip={this.props.setCurrentTrip}
+            showBurger={this.props.showBurger}
+          />
           {Object.keys(vendor.items).map((category, index) => {
             if (category !== 'Гарячі Вина' && vendor.items[category].length > 0) return(
               <Category

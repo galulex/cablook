@@ -18,7 +18,7 @@ import FocusOnCarControl from '../../pwa/trips/custom-control.js'
 const polyline = require('@mapbox/polyline')
 
 const LANGUAGES = {en: 'en', uk: 'ru', ru: 'ru'}
-const MAPSTYLE = (localStorage.getItem('dark') === 'true') ? 'mapbox://styles/galulex/cju84cmu11atr1flfoxocwbq7' : 'mapbox://styles/okunieva/cjzwn3wx40yhq1cpjl3yo8p1z'
+const MAPSTYLE = (localStorage.getItem('dark') === 'true') ? 'mapbox://styles/okunieva/ckb1wuli60k3u1ipjrdnqtan5' : 'mapbox://styles/okunieva/cjzwn3wx40yhq1cpjl3yo8p1z'
 const PATHCOLORS = (localStorage.getItem('dark') === 'true') ? ['#ffffff', '#19a160'] : ['#312d50', '#19a160']
 let timeout
 
@@ -301,7 +301,7 @@ export default class PreviewMap extends Component {
       if (w === '') return
       let klass = (i === trip.waypoints.length - 1) ? 'last' : ''
       if (i === 0) klass = 'first'
-      let marker = new mapboxgl.Marker(render(<div><Pin class={`pin-${klass}`} width='25px'/></div>))
+      let marker = new mapboxgl.Marker(render(<div><Pin class={`pin pin-${klass}`} width='25px'/></div>))
 
       var popup = new mapboxgl.Popup({closeOnClick: false, closeButton: false, className: `point-${klass}`, anchor: 'left', offset: 10, opened: true}).setHTML(trip.stops[i])
       if (trip && [PENDING].includes(trip.status)) {
@@ -358,7 +358,7 @@ export default class PreviewMap extends Component {
 
     return (
       <div class='main_map'>
-        <Pin class='picker' width='30px' ref={pin => this.pin = pin}/>
+        <Pin class='pin picker' width='30px' ref={pin => this.pin = pin}/>
         <div class='map' ref={el => this.mapContainer = el}/>
       </div>
     )

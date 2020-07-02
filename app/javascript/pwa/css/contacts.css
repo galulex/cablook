@@ -2,7 +2,7 @@ ul.contacts li a {
   background: transparent;
   border: none;
   color: #312d50;
-  color: var(--navy);
+  color: var(--font_color_2);
   cursor: pointer;
   display: block;
   font-size: 18px;
@@ -18,12 +18,19 @@ ul.contacts li a {
 ul.contacts li a svg {
   vertical-align: middle;
   display: inline-block;
-  height: 30px;
+  height: 35px;
   margin-right: 10px;
-  width: 30px;
+  width: 35px;
+  border-radius: 10px;
+  box-shadow: 2px 2px 8px var(--shadow_color);
 }
 
-h1.notice {
-  margin: 0;
-  padding-top: 10px;
+ul.contacts li:first-child a svg path {
+  fill: #1c1c1c;
+  fill: var(--black_2);
+}
+
+.notice {
+  font-size: 3.2vh;
+  font-size: calc(var(--vh, 1vh) * 3.2);
 }

@@ -1,11 +1,12 @@
 import { h, render, Component } from 'preact'
 
 import i18n from '../i18n.js'
-import Phone from '../images/white_phone.svg'
-import TripTime from '../images/trip_time.svg'
-import TripPrice from '../images/ukraine-hryvna.svg'
-import Car from '../images/white_car.svg'
+import Phone from '../images/white_phone.js'
+import TripTime from '../images/clock.svg'
+import TripPrice from '../images/ukraine-hryvna.js'
+import Car from '../images/white_car.js'
 import Leaves from '../images/popup_leaves.svg'
+import Cross from '../images/cross.js'
 import '../css/car_popup.css'
 
 export default class CarPopup extends Component {
@@ -16,10 +17,11 @@ export default class CarPopup extends Component {
     return (
       <div>
         <div>
+          <div class="close-button"><Cross/></div>
           <div class="mapboxgl-popup-content-line car"><Car/><span>{car.number}</span></div>
           <div class="mapboxgl-popup-content-line"><a href={`tel:${driver.phone_number}`}><Phone/>{driver_name}</a></div>
           <div class="mapboxgl-popup-content-line"><TripTime/>{trip.start_time}</div>
-          <div><TripPrice/>{`${trip.cost}`}</div>
+          <div class="mapboxgl-popup-content-line"><TripPrice/>{`${trip.cost}`}</div>
         </div>
         <div class="popup_leaf"><Leaves/></div>
       </div>

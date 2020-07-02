@@ -1,7 +1,7 @@
 import { h, render, Component } from 'preact';
 
 import i18n from './i18n.js'
-import Telegram from './images/telegram.svg'
+import Telegram from './images/telegram.js'
 import Viber from './images/viber.svg'
 import Phone from './images/phone.svg'
 import Email from './images/email.svg'
@@ -17,10 +17,10 @@ const VIBER = 'viber://chat/?number=%2B380932225665'
 export default class Contacts extends Component {
   render(){
     return (
-      <div>
+      <div class='general__holder'>
         <header>{i18n.contacts.header}</header>
         <section>
-          <ul class='contacts'>
+          <ul class='contacts tab-content__container'>
             <li>
               <a href={MAILTO}>
                 <Email/>
@@ -46,7 +46,9 @@ export default class Contacts extends Component {
               </a>
             </li>
           </ul>
-          <h3 class='notice'>{i18n.contacts.message}</h3>
+          <div class='tab-content__container inset-shadow'>
+            <h3 class='notice'>{i18n.contacts.message}</h3>
+          </div>
         </section>
       </div>
     )

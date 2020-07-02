@@ -65,11 +65,20 @@ export default class Vendors extends Component {
     if (!delivery_trip || !delivery_trip.id || [FINISHED,CANCELED,CANCELED_BY_DRIVER,DECLINED,null].includes(delivery_trip.status)) {
       localStorage.removeItem('delivery_trip')
       return (
-        <div>
+        <div class='general__holder'>
           <header>{i18n.vendors_page.header}</header>
           <section class='vendors'>
             <ul>
-              { vendors.map(vendor => (<VendorPreview key={vendor.id} vendor={vendor} updateLoaderState={this.updateLoaderState} setCurrentTrip={this.props.setCurrentTrip}/>)) }
+              { vendors.map(vendor => (
+                  <VendorPreview
+                    key={vendor.id}
+                    vendor={vendor}
+                    updateLoaderState={this.updateLoaderState}
+                    setCurrentTrip={this.props.setCurrentTrip}
+                    showBurger={this.props.showBurger}
+                  />)
+                ) 
+              }
             </ul>
           </section>
         </div>

@@ -1,27 +1,31 @@
-.statistics .select select {
-  width: auto;
-}
-
-.statistics .trip-details-content {
-  display: flex;
-  justify-content: flex-start;
-  flex-direction: row;
-  align-items: center;
-  font-size: 1rem;
-  padding: 20px 0;
+.tab-content__container .select select {
+  all: unset;
+  position: relative;
+  width: 100%;
+  padding: 3% 0;
+  color: #19a160;
+  color: var(--green);
   font-weight: 500;
+  font-size: 2.6vh;
+  font-size: calc(var(--vh, 1vh) * 2.6);
+  text-align-last: center;
+  box-shadow: none;
 }
 
-.statistics .trip-details-content svg {
-  margin-right: 10px;
-  width: 25px;
-  height: 25px;
-  vertical-align: middle;
+.tab-content__container label.select:before {
+  content: '▼';
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--green);
+  font-size: 2.6vh;
+  font-size: calc(var(--vh, 1vh) * 2.6);
 }
 
-.statistics .trip-details-content svg path {
-  fill: #19a160;
-  fill: var(--green);
+.tab-content__container label[for='period'] {
+  color: #19a160;
+  color: var(--green);
 }
 
 .statistics .trip-details-content span {
@@ -29,4 +33,30 @@
   color: #19a160;
   color: var(--green);
   margin-left: auto;
+}
+
+svg.statistics-icon {
+  height: 3.5vh;
+  height: calc(var(--vh, 1vh) * 3.5);
+  width: 3.5vh;
+  width: calc(var(--vh, 1vh) * 3.5);
+  margin-right: 3%;
+}
+
+svg.statistics-icon path {
+  fill: #19a160;
+  fill: var(--green);
+}
+
+.statistics__item {
+  overflow-y: auto;
+}
+
+.statistics__item span {
+  margin-left: 15px;
+  font-weight: 500;
+}
+
+.statistics__item::-webkit-scrollbar {
+  height: 0;
 }

@@ -1,18 +1,76 @@
+* {
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+input, select, textarea {
+  user-select: text;
+  -webkit-user-select: text;
+  -webkit-appearance: none;
+}
+
 svg {
   vertical-align: middle;
 }
 
 section.new_design {
-  padding: 10px 0 0;
   max-width: 100%;
+  height: calc(var(--vh, 1vh) * 100);
+  margin-top: 0;
+  position: relative;
+  height: calc(var(--vh, 1vh) * 100);
+  padding: 0;
+  overflow: hidden;
 }
 
 fieldset.address {
-  background: rgba(255, 255, 255, 0.9);
-  background: var(--bg);
-  margin: 5px 0;
-  /* margin-bottom: 10px; */
-  box-shadow: var(--shadow);
+  box-shadow: inset 3px 2px 8px #24293038, inset -2px -1px 4px white;
+  box-shadow: inset 3px 2px 8px var(--shadow_color), inset -2px -1px 4px var(--white);
+  transition: .3s box-shadow, max-width .3s;
+  background: rgba(238, 246, 251, 0.8);
+  background: var(--address-input-bg);
+  color: var(--address-input-text);
+  border-radius: 10px;
+  max-width: 65vw;
+  margin: 0 auto calc(var(--vh, 1vh) * 3) auto;
+  scroll-snap-align: start;
+}
+
+fieldset.address:focus-within {
+  box-shadow: inset 1px 1px 2px #24293038, inset -1px -1px 2px white;
+  box-shadow: inset 1px 1px 2px var(--shadow_color), inset -1px -1px 2px var(--white);
+}
+
+.button-line-wrapper {
+  max-width: 65vw;
+  margin: 0 auto;
+}
+
+@media screen and (min-width: 630px) {
+  fieldset.address, fieldset.address ul.predictions, .button-line-wrapper {
+    width: 45vw;
+  }
+}
+
+@media screen and (min-width: 999px) {
+  fieldset.address, fieldset.address ul.predictions, .button-line-wrapper {
+    width: 30vw;
+    max-width: 370px;
+  }
+}
+
+.option .trip-params {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-left: calc(15vw - 10px);
+  background: rgba(255, 255, 255, 0.5);
+  background: var(--button-background);
+  border-radius: 10px;
+  padding: 1% 0;
+  box-shadow: 3px 3px 6px #24293038, inset -5px -5px 6px -3px #24293038, inset 1px 1px 3px -3px #ffffff;
+  box-shadow: 3px 3px 6px var(--shadow_color), inset -5px -5px 6px -3px var(--shadow_color), inset 1px 1px 3px -3px var(--white);
+  height: calc(var(--vh, 1vh) * 17);
 }
 
 .search_logo {
@@ -29,6 +87,7 @@ fieldset.address {
 
 .wrapper {
   z-index: 30;
+  margin-top: calc(15vw + 10px);
 }
 
 .new_design .wrapper .driverSearch {
@@ -54,44 +113,62 @@ fieldset.address {
 }
 
 .new_design .button svg {
-  fill: white;
+  fill: var(--white);
 }
 
 .new_design .map-pick {
   right: auto;
-  left: 7px;
-  transition: height .3s;
+  left: 12px;
+  transition: height, top .3s;
 }
 
-.button.edit {
-  background: #efcc3a;
-  background: var(--orange);
-}
 
 .button.bonus {
-  background: #efcc3a;
-  background: var(--orange);
-  position: fixed;
+  color: #efcc3a;
+  color: var(--orange_2);
+  position: absolute;
   left: 0;
   right: 0;
   margin: 0 auto;
   bottom: 80px;
   width: calc(100% - 60px);
   max-width: 540px;
+  background: rgba(255, 255, 255, .5);
+  background: var(--orange-button-bg);
+}
+
+.button.bonus svg {
+  fill: #efcc3a;
+  fill: var(--orange_2);
+}
+
+.button.bonus:disabled svg {
+  fill: var(--input_color_1);
 }
 
 .button.pick_address {
   z-index: 20;
 }
 
-.burger.back{
+.burger.back {
   z-index: 310;
 }
-
 .new_design .remove-address {
-  right: 5px;
-  font-size: 2.2rem;
+  right: 0;
+  top: 2.2vh;
+  top: calc(var(--vh, 1vh) * 2.2);
+  position: absolute;
+  cursor: pointer;
+  background: none;
+  border: none;
+  outline: none;
 }
+
+.new_design .remove-address svg {
+  height: 2.2vh;
+  height: calc(var(--vh, 1vh) * 2.2);
+}
+
 
 .header {
   position: relative;
@@ -113,14 +190,14 @@ fieldset.address {
   font-size: 1rem;
   font-weight: 100;
   background: #efcc3a;
-  background: var(--orange);
+  background: var(--orange_2);
   color: white;
   border-radius: 10px;
 }
 
 [class*="point"].mapboxgl-popup .mapboxgl-popup-tip {
   border-right-color: #efcc3a;
-  border-right-color: var(--orange);
+  border-right-color: var(--orange_2);
 }
 
 .mapboxgl-popup.point-first .mapboxgl-popup-tip {
@@ -146,7 +223,7 @@ fieldset.address {
 
 svg[class*="pin-"] path {
   fill: #efcc3a;
-  fill: var(--orange);
+  fill: var(--orange_2);
 }
 
 svg.pin-first path {
@@ -169,9 +246,7 @@ svg.pin-last path {
   scroll-behavior: smooth;
   white-space: nowrap;
   vertical-align: top;
-  background: rgba(0,0,0,0.1);
-  box-shadow: 0px 5px 10px 10px rgba(0,0,0,0.1);
-  transition: background .3s, box-shadow .3s;
+
 }
 
 .options.noscroll {
@@ -188,8 +263,18 @@ svg.pin-last path {
 }
 
 .options.noscroll .option {
-  scroll-snap-align: none;
+  scroll-snap-align: unset;
+  height: 75vh;
+  max-height: 75vh;
 }
+
+
+@media screen and (max-width: 630px) {
+  .options.noscroll .address, .options.noscroll .predictions, .pick .options fieldset.address {
+    max-width: 75vw;
+  }
+}
+
 
 .option {
   display: inline-block;
@@ -201,14 +286,32 @@ svg.pin-last path {
   padding-bottom: 50px;
   min-height: 200px;
   transition: opacity .3s;
+  height: auto;
+  max-height: 80vh;
+  overflow-y: overlay;
+  scroll-snap-type: y mandatory;
+  scroll-snap-points-y: repeat(10vh);
+  scroll-behavior: smooth;
 }
 
 .additions {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   flex-wrap: wrap;
 }
 
+.additions label {
+  width: 45%;
+}
+
+.additions label svg {
+  height: 2.6vh;
+}
+
+.additions svg path {
+  fill: #312d50;
+  fill: var(--navy-dark)
+}
 .options.noscroll .option:nth-of-type(2) {
   display: none;
 }
@@ -245,7 +348,9 @@ svg.pin-last path {
 }
 
 .pick fieldset.address svg {
-  height: 10px;
+  top: 2.8vh;
+  height: 1.4vh;
+  height: calc(var(--vh, 1vh) * 1.4);
 }
 
 .pick .trigger {
@@ -260,40 +365,88 @@ svg.pin-last path {
   position: absolute;
   z-index: 100;
   display: block;
-  bottom: 0;
-  background: transparent;
   border: none;
   right: 0;
   padding: 0;
   outline: none;
   cursor: pointer;
   -webkit-appearance: none;
-  height: 44px;
-  width: 50px;
+  height: calc(var(--vh, 1vh) * 17);
+  width: 15vw;
   transition: width .3s;
+  top: 0;
+  background: rgba(255, 255, 255, 0.5);
+  background: var(--button-background);
+  border-radius: 10px 0 0 10px;
+  box-shadow: 0px 5px 6px -4px #24293038, inset 0 -6px 4px -4px #24293038;
+  box-shadow: 0px 5px 6px -4px var(--shadow_color), inset 0 -6px 4px -4px var(--shadow_color)
+}
+
+.trigger:hover, .trigger:focus {
+  box-shadow: inset 0 -4px 4px -4px #24293038, 0px 4px 6px -4px #24293038;
+  box-shadow: inset 0 -4px 4px -4px var(--shadow_color), 0px 4px 6px -4px var(--shadow_color);
+}
+
+.trigger:active {
+  box-shadow: inset 2px 2px 5px 0px #24293038, inset -2px -2px 5px 1px #ffffff;
+  box-shadow: inset 2px 2px 5px 0px var(--shadow_color), inset -2px -2px 5px 1px var(--shadow_color_light);
+
 }
 
 .trigger.back {
-  right: -50px;
-  transform: rotate(180deg);
+  right: -15vw;
+  transform: scaleX(-1);
+  box-shadow: -3px 3px 6px #24293038, inset 5px -5px 4px -3px #24293038;
+  box-shadow: -3px 3px 6px var(--shadow_color), inset 5px -5px 4px -3px var(--shadow_color);
 }
 
-.trigger svg > path:first-child {
-  fill: rgba(255, 255, 255, 0.9);
-  fill: var(--bg);
+.trigger.back:hover, .trigger.back:focus {
+  box-shadow: -2px 2px 6px #24293038, inset 3px -3px 6px -3px #24293038;
+  box-shadow: -2px 2px 6px var(--shadow_color), inset 3px -3px 6px -3px var(--shadow_color);
+}
+
+.trigger.back:active {
+  box-shadow: inset -2px 2px 5px 0px #24293038, inset 2px -2px 5px 1px #ffffff;
+  box-shadow: inset -2px 2px 5px 0px var(--shadow_color), inset 2px -2px 5px 1px var(--shadow_color_light);
+
+}
+
+.trigger svg {
+  height: 30px;
+}
+
+.trigger svg path, .add-address svg path {
+  fill: var(--green_3)
+}
+
+@media (min-width: 450px) {
+  .trigger.back {
+    right: -70px;
+  }
+
+  .trigger {
+    width: 70px;
+  }
+
+  .wrapper {
+    margin-top: 80px;
+  }
+
+  .option .trip-params {
+    margin-left: 70px;
+  }
 }
 
 label.nocall {
-  margin: 5px 0;
-  background: rgba(255, 255, 255, 0.9);
-  background: var(--bg);
-  padding: 10px 5px 8px 45px;
-  height: 40px;
+  padding: 6px 5px 6px 35px;
+  height: calc(var(--vh, 1vh) * 4);
+  font-size: calc(var(--vh, 1vh) * 2.6);
   font-weight: 100;
-  min-width: 140px;
+  min-width: 110px;
   max-width: 45%;
-  box-shadow: var(--shadow);
   white-space: nowrap;
+  color: #312d50;
+  color: var(--navy-dark);
 }
 
 label.nocall:before {
@@ -306,7 +459,12 @@ svg.cross path:nth-of-type(2) {
 }
 
 input:checked + svg.cross path:nth-of-type(2) {
-  fill: #a925ad;
+  fill: #cc0d32;
+}
+
+.star-icon.blank path {
+  fill: transparent !important;
+  stroke: var(--green);
 }
 
 @media screen and (min-width: 630px) {
@@ -328,4 +486,10 @@ input:checked + svg.cross path:nth-of-type(2) {
     display: inline-block;
   }
 
+}
+
+.option::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
 }

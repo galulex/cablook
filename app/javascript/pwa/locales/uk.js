@@ -15,7 +15,8 @@ const uk = {
     no_cars_notice: 'Немає вільних машинок',
     on: 'на',
     will_arrive: 'приїде в',
-    waiting_notice: 'Водій вже чекає вас'
+    waiting_notice: 'Водій вже чекає вас',
+    header: 'Поїздка'
   },
   trips: {
     header: 'Поїздки',
@@ -129,7 +130,7 @@ const uk = {
     confirm_resend_code: 'Відправити код підтвердження повторно?'
   },
   map_picker: {
-    header: 'Оберіть місце розташування'
+    header: 'Оберіть місцe'
   },
   bonuses: {
     apply_code: 'Застосувати код друга',
@@ -138,7 +139,8 @@ const uk = {
     how: 'Як працює халява?',
     notice: 'Важливо: активувати кнопку \"застосувати код друга\" можливо тільки раз.',
     success: 'Реферальний код оброблений. Ваш друг отримає безкоштовну поїздку, як тільки ви зробите поїздку',
-    your_code: 'Ваш реферальний код:',
+    your_code: 'Ваш реферальний код',
+    your_bonuses: 'Ваші бонуси',
     statuses: {
       iced: 'Недоступний',
       fresh: 'Готовий',
@@ -160,7 +162,8 @@ const uk = {
     km: ' км',
     amount: 'Витрачені кошти',
     trips_count: 'Кількість замовлень',
-    period: 'Обрати період',
+    period: 'Період статистики',
+    your_data: 'Ваші дані',
     rate: 'Середня оцінка',
     tips: 'Чаюха',
     uah: ' грн',
@@ -173,10 +176,10 @@ const uk = {
   },
   profile_page: {
     header: 'Профіль',
-    notification_settings: 'Налаштування сповіщень:',
-    favorite_addresses: 'Ваші улюблені адреси:',
-    no_addresses: 'У вас ще немає доданих улюблених адрес',
-    add_address: 'Додати адресу',
+    notifications: 'Сповіщення',
+    places: 'Місця',
+    no_addresses: 'У вас ще немає доданих місць',
+    add_address: 'Додати місце',
     type_name: 'Введіть назву ',
     placeholder: 'Введіть адресу або виберіть місце',
     theme: 'Темна тема',
@@ -186,6 +189,11 @@ const uk = {
       waiting_client: 'Водій очікує',
       accept_trip: 'Замовлення прийнято',
       decline_trip: 'Замовлення відмінено'
+    },
+    tabs: {
+      settings: 'Налаштування',
+      bonuses: 'Бонуси',
+      statistics: 'Статистика'
     }
   },
   vendors_page: {

@@ -1,193 +1,160 @@
-import { h, render, Component } from 'preact';
-import axios from 'axios';
+import { h, Component } from 'preact'
 
-import Close from './images/times-circle.svg';
-import i18n from './i18n.js';
-import AddressInput from '../pwa/trips/address-input.js';
+import i18n from './i18n.js'
+
+import Settings from './tabs/settings.js'
+import Bonuses from './tabs/bonuses.js'
+import Statistics from './tabs/statistics.js'
+
 import './css/profile.css'
-import Bonus from '../pwa/bonus_trips.js';
 
-const LOCALES = { en: '🇺🇸', uk: '🇺🇦', ru: '🇷🇺' }
+let scrollEndTimeout, scrollPercent, start
 
 export default class FavoriteAddresses extends Component {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
-      showing: false,
-      favorite_addresses: [],
-      notification_settings: [],
-      id: null,
-      name: null,
-      location: null,
-      user_id: null,
-      address: '',
-      disabled: false
+      iosVersion: null
     }
   }
 
   componentDidMount() {
-    this.setState({favorite_addresses: this.props.favorite_addresses(),
-                   notification_settings: this.props.notification_settings})
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (this.props.notification_settings !== nextProps.notification_settings) {
-      this.setState({favorite_addresses: nextProps.favorite_addresses(),
-                     notification_settings: nextProps.notification_settings})
-    } else {
-      this.setState({favorite_addresses: nextProps.favorite_addresses()})
-    }
+    this.tabsContent.addEventListener('scroll', this.onScroll, { passive: true })
+    this.setState({iosVersion: this.getIOSVersion()})
   }
 
   componentWillUnmount() {
-    const { notification_settings } = this.state;
-    this.updateNotificationSettings(notification_settings)
+    this.tabsContent.removeEventListener('scroll', this.onScroll, { passive: true })
+    this.resetTabs()
   }
 
-  handleChange = (e) => {
-    this.setState({ [e.target.name] : e.target.value });
-  }
-
-  setAddress = (name, location) => {
-    this.setState({ address: name, location: location });
-  }
-
-  changeTheme = (e) => {
-    localStorage.setItem('dark', e.target.checked)
-    window.location.reload()
-  }
-
-  updateNotificationSettings = (data) => {
-    axios.patch('notification_settings', { notification_settings: data })
-      .then((res) => {
-        this.props.updateNotificationSettings(this.state.notification_settings)
-      })
-      .catch((error) => {
-        if (error.response) alert(error.response.data.errors)
-    })
-  }
-
-  changeNotificationSettings = (e) => {
-    let { notification_settings } = this.state;
-
-    if (e.currentTarget.checked) {
-      notification_settings.push(e.currentTarget.value)
+  getIOSVersion = () => {
+    if (/iP(hone|od|ad)/.test(navigator.platform)) {
+      var v = (navigator.appVersion).match(/OS (\d+)_(\d+)_?(\d+)?/);
+      return parseInt(v[1], 10)
     } else {
-      notification_settings = notification_settings.filter((x) => { return x !== e.currentTarget.value})
+      return null
     }
+  }
 
-    this.setState({notification_settings: notification_settings})
+  resetTabs = () => {
+    this.activeTab.style.left = '0'
+    this.setActiveClass(this.tabsContainer.children[0])
+  }
+
+  getActiveTab = (scrollPercent, tabs) => {
+    let activeTab
+    if (scrollPercent >= 50) {
+      activeTab = tabs[2]
+    } else if (scrollPercent >= 17) {
+      activeTab = tabs[1]
+    } else {
+      activeTab = tabs[0]
+    }
+    return activeTab
+  }
+
+  onScroll = (e) => {
+    scrollPercent = (this.tabsContent.scrollLeft / this.tabsContent.scrollWidth) * 100
+    switch(true) {
+      case (scrollPercent <= 0):
+        scrollPercent = 0
+        break
+      case (scrollPercent >= 66):
+        scrollPercent = 66
+        break
+      default:
+        break
+    }
+    this.activeTab.style.left = `${scrollPercent}%`
+    clearTimeout(scrollEndTimeout)
+    this.setActiveClass(this.getActiveTab(scrollPercent, this.tabsContainer.children))
+    if (window.ios) {
+      if (this.state.iosVersion && this.state.iosVersion > 12) {
+        this.activeTab.animate({left: `${scrollPercent}%`}, { duration: 300 })
+      } else {
+        window.requestAnimationFrame(this.animate); return
+      }
+    }
+    scrollEndTimeout = setTimeout(() => {
+      this.activeTab.style.left = `${scrollPercent}%`
+    }, 10)
+  }
+
+  animate = (timestamp) => {
+    if (start === undefined) {
+      start = timestamp
+    }
+    const elapsed = timestamp - start
+    this.activeTab.style.left = `${Math.min(0.1 * elapsed, scrollPercent)}%`
+    if (elapsed < 300) {
+      window.requestAnimationFrame(this.animate)
+    }
+  }
+
+  onClick = (e) => {
+    const target = e.target
+    const scrollCoefficient = target.offsetLeft / this.tabsContainer.offsetWidth
+    this.tabsContent.scrollTo({left: this.tabsContent.scrollWidth * scrollCoefficient, behavior: 'smooth'})
+  }
+
+  setActiveClass = (target) => {
+    if (target.classList.contains('active')) return
+    for(const tab of this.tabsContainer.children) { if(tab.classList.contains('active')) tab.classList.remove('active') }
+    target.classList.add('active')
   }
 
   render() {
-    const { showing, notification_settings } = this.state;
-
     return (
-      <div>
-        <header>{i18n.profile_page.header}</header>
+      <div class='profile__container general__holder'>
+        <header class='main'>{i18n.profile_page.header}</header>
         <section class='profile'>
-          <div class='nocall'>
-            <input id='dark' type='checkbox' value='dark' onChange={this.changeTheme} checked={window.dark}/>
-            <label for='dark'>{i18n.profile_page.theme}</label>
-          </div>
-          <div class='nocall lang'>
-            <label for='language'>{i18n.profile_page.language}</label>
-            <select onChange={this.props.setLanguage} id='language'>
-              {Object.keys(LOCALES).map(key => {
-                return(<option value={key} selected={key == this.props.language}>{LOCALES[key]}</option>)
-              })}
-            </select>
-          </div>
-          <h4 class='center'>{i18n.profile_page.notification_settings}</h4>
-          {['search_car', 'accept_trip', 'decline_trip', 'waiting_client'].map((value) => {
-            return(
-              <div class='nocall'>
-                <input id={value} type='checkbox' value={value} onChange={this.changeNotificationSettings} checked={notification_settings.includes(value)}/>
-                <label for={value}>{i18n.profile_page.notification_names[value]}</label>
+          <div class='tabs'>
+            <div class="tabs__holder">
+              <div class='tab__active' ref={el => this.activeTab = el}></div>
+              <div class='tabs__container' ref={el => this.tabsContainer = el}>
+                {
+                  Object.keys(i18n.profile_page.tabs).map((key, index) => {
+                    return(
+                      <button
+                        class={`tab__header ${index === 0 ? 'active' : ''}`}
+                        onClick={this.onClick}>
+                          {i18n.profile_page.tabs[key]}
+                      </button>
+                    )
+                  })
+                }
               </div>
-            )
-          })}
-          <h4 class='center'>{i18n.profile_page.favorite_addresses}</h4>
-          { this.favoriteAddressesList() }
-          { showing ? this.newForm() : <button class='button add_fav_address' type='button' onClick={() => this.setState({ showing: !showing })}>+ {i18n.profile_page.add_address}</button> }
-          <Bonus bonus_trips={this.props.bonus_trips} parent_bonus={this.props.parent_bonus}/>
+            </div>
+            <div class="tabs__content" ref={el => this.tabsContent = el} >
+              <div class='tab-content'>
+                <Settings
+                  setLanguage={this.props.setLanguage}
+                  favorite_addresses={() => this.props.favorite_addresses()}
+                  updateFavoriteAddresses={this.props.updateFavoriteAddresses}
+                  notification_settings={this.props.notification_settings}
+                  updateNotificationSettings={this.props.updateNotificationSettings}
+                  geocode={this.props.geocode}
+                  language={this.props.language}
+                  isGeocoding={this.props.isGeocoding}
+                  setGeocoding={this.props.setGeocoding}
+                  setAddress={this.props.setAddress}
+                  showBurger={this.props.showBurger}
+                />
+              </div>
+              <div class='tab-content'>
+                <Bonuses
+                  bonus_trips={this.props.bonus_trips}
+                  parent_bonus={this.props.parent_bonus}
+                />
+              </div>
+              <div class='tab-content'>
+                <Statistics />
+              </div>
+            </div>
+          </div>
         </section>
       </div>
     )
-  }
-
-  favoriteAddressesList = () => {
-    if (this.state.favorite_addresses.length > 0) {
-      return(
-        <ul class='favorite_addresses'>
-          { this.state.favorite_addresses.map((address, i) => {
-            return(
-              <li>
-                <span>{address.name} ({address.address})</span>
-                <button class='x-card' type='button' onClick={() => this.delete(address.id, i)}><Close fill='#a925ad'/></button>
-              </li>
-            )
-          })}
-        </ul>
-      )
-    } else {
-      return(<div><h5 class='nocards center'>{i18n.profile_page.no_addresses}</h5></div>)
-    }
-  }
-
-  newForm = () => {
-    return(
-      <form id="newFavoriteAddressForm" onsubmit={(e) => e.preventDefault()}>
-        <input required class="address" type="text" name="name" placeholder={i18n.profile_page.type_name} value={this.state.name} onChange={this.handleChange} />
-        <AddressInput
-          hideRemove={true}
-          setAddress={this.setAddress}
-          favorite_addresses={() => []}
-          placeholder={i18n.profile_page.placeholder}
-          geocode={this.props.geocode}
-          language={this.props.language}
-          isGeocoding={this.props.isGeocoding}
-          setGeocoding={this.props.setGeocoding}
-        />
-        <button class="button add_fav_address" type="button" disabled={this.state.disabled} onClick={this.create}>OK</button>
-        <input type="submit" onClick={this.create} hidden/>
-      </form>
-    )
-  }
-
-  create = (e) => {
-    let self = this;
-    if (!e.target.form.checkValidity()) return e.target.form.reportValidity();
-    this.setState({ disabled: true });
-    axios.post('/favorite_addresses', {
-      name: self.state.name,
-      location: self.state.location,
-      address: self.state.address
-    })
-    .then( response => {
-      this.setState({
-        showing: false,
-        name: '',
-        address: '',
-        disabled: false
-      });
-      this.props.updateFavoriteAddresses([...this.state.favorite_addresses, response.data])
-    })
-    .catch( error => {
-      this.setState({ disabled: false })
-      if (error.response) alert(error.response.data.errors)
-    });
-  }
-
-  delete = (id, index) => {
-    if (!confirm(i18n.are_you_sure)) return;
-    let favorite_addresses = this.state.favorite_addresses
-
-    axios.delete(`favorite_addresses/${id}`).then((address) => {
-      favorite_addresses.splice(index, 1)
-      this.setState({favorite_addresses: favorite_addresses})
-    }).catch((error) => {
-      if (error.response) alert(error.response.data.errors)
-    })
   }
 }

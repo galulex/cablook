@@ -8,17 +8,18 @@ import PreviewMap from './map/preview_map.js'
 import Buttons from './new_design/buttons.js'
 import AddressInput from '../pwa/trips/address-input.js'
 import Feedback from '../pwa/feedback.js'
-import Add from './images/+.svg'
+import Add from './images/plus.js'
 import Widget from './widget.js'
 import Entrance from './images/entrance.svg'
-import Clock from './images/trip_time.svg'
-import Card from './images/credit-cards-payment.svg'
-import Phone from './images/phone_crossed.svg'
+import Clock from './images/clock.svg'
+import Card from './images/credit-cards-payment.js'
+import Phone from './images/phone_crossed.js'
 import Comment from './images/contacts.svg'
-import Arrows from './images/arrows.svg'
+import Chevron from './images/chevron.js'
 import Back from './images/arrow-left.svg'
 import SearchLogo from './images/search_logo.svg'
 import './css/new_design.css'
+import './css/buttons.css'
 
 import { PENDING, ON_THE_WAY, WAITING_CLIENT, DRIVING, FINISHED, CANCELED, DECLINED, CANCELED_BY_DRIVER, CONFIRM_UPDATE_TRIP, MAP_MIN_ZOOM, MAP_MAX_ZOOM, CHERKASY_LONG_LAT } from './lib/constants.js'
 
@@ -49,7 +50,8 @@ export default class NewDesign extends Component {
       activateFeedback: false,
       lastTripId: null,
       paymentButtonDisabled: false,
-      cancelTimer: null
+      cancelTimer: null,
+      klass: ''
     }
   }
 
@@ -67,6 +69,7 @@ export default class NewDesign extends Component {
     this.addShakeListener()
 
     setTimeout(this.sendRequestForUnpaidPayments, 3000)
+    if(this.props.showFeedback()) { this.props.showBurger(false) }
   }
 
   componentDidUpdate() {
@@ -75,14 +78,12 @@ export default class NewDesign extends Component {
 
   loadTrips = () => {
     axios.get(`trips?page=0&per=1`).then((res) => {
-      this.setState({ activateFeedback: res.data.trips[0].feedbacks[0] == undefined && [FINISHED].includes(res.data.trips[0].status), lastTripId: res.data.trips[0].id })
+      const { trips } = res.data
+      this.setState({ lastTripId: trips[0].id })
+      this.props.setActivateFeedback(trips[0].feedbacks[0] == undefined && [FINISHED].includes(trips[0].status))
     }).catch((error) => {
       if (error.response) alert(error.response.data.errors)
     })
-  }
-
-  setActivateFeedback = () => {
-    this.setState({activateFeedback: false})
   }
 
   getLocation = () => {
@@ -463,23 +464,27 @@ export default class NewDesign extends Component {
   }
 
   confirmUpdate = (e) => {
+    this.props.mainBurger.classList.remove('hidden')
     let params = { ...this.state.trip, osrm: true }
     this.sendRequest(params)
   }
 
   updateRoute = (e) => {
+    this.props.mainBurger.classList.add('hidden')
     this.setState({ trip: { ...this.state.trip, status: CONFIRM_UPDATE_TRIP }, inputDisabled: true })
     if (window.ios) return
     history.pushState(null, null,'/')
-    window.addEventListener('popstate', this.cancelConfirmUpdate, { once: true })
+    window.addEventListener('popstate', this.cancelConfirmUpdate, { once: true, passive: true })
   }
 
   cancelConfirmUpdate = (e) => {
-    window.removeEventListener('popstate', this.cancelConfirmUpdate, true)
+    this.props.mainBurger.classList.remove('hidden')
+    window.removeEventListener('popstate', this.cancelConfirmUpdate, { passive: true })
     this.props.fetchUser()
   }
 
   handleBackEdit = (e) => {
+    this.props.mainBurger.classList.remove('hidden')
     if (this.state.picker !== null) this.setState({picker: null, klass: ''})
     window.ios ? this.props.fetchUser() : window.history.back()
   }
@@ -595,6 +600,7 @@ export default class NewDesign extends Component {
     this.setState({ trip: { ...this.state.trip, status: FINISHED }, car: null, driver: null, paymentButtonDisabled: false, inputDisabled: false })
     // this.props.fetchUser()
     this.props.resetCurrentTrip()
+    this.props.setActivateFeedback(true)
     this.unsubscribe()
     if (this.state.trip.bonus) this.fetchBonusTrips()
   }
@@ -628,17 +634,17 @@ export default class NewDesign extends Component {
     return(
       <div id='fields' class='options' ref={fields => this.fields = fields} onScroll={this.props.scrollEnd}>
         <button class='trigger' onClick={ () => this.scroll(1) }>
-          <Arrows width='50'/>
+          <Chevron class='chevron' height='50'/>
         </button>
         <button class='trigger back' onClick={ () => this.scroll(1000) }>
-          <Arrows width='50'/>
+          <Chevron class='chevron' height='50'/>
         </button>
         <div class='option'>
           { trip.stops.map((e, i) => {
             return (
               <AddressInput setAddress={this.setAddress}
                             eraseAddress={this.eraseAddress}
-                            favorite_addresses={this.props.favorite_addresses}
+                            favorite_addresses={() => this.props.favorite_addresses()}
                             language={this.props.language}
                             coords={trip.waypoints[i]}
                             readonly={ ![CONFIRM_UPDATE_TRIP, CANCELED, CANCELED_BY_DRIVER, undefined].includes(trip.status) && i == 0 }
@@ -652,44 +658,48 @@ export default class NewDesign extends Component {
                             setGeocoding={this.props.setGeocoding}/>
             )
           })}
-          <div>
-            <button type='button' onClick={this.addAddress} class='add-address' disabled={isValid} title={ i18n.current_trip.add_address }>
-              <Add height='40'/>
+          <div class="button-line-wrapper">
+            <button type='button' onClick={this.addAddress} class='button add-address' disabled={isValid} title={ i18n.current_trip.add_address }>
+              <Add height='15'/>
             </button>
           </div>
         </div>
         <div class='option'>
-          <div class='additions'>
-            <label for='no_call' class='nocall'>
-              <input id='no_call' type='checkbox' checked={trip.no_call} onChange={this.setField}/>
-              <Phone width='24' class='cross'/>
-              {i18n.current_trip.no_call}
-            </label>
-            <label for='entrance'>
-              <Entrance height='27'/>
-              <select id='entrance' value={trip.entrance} onChange={this.setField}>
-                <option value=''>{i18n.current_trip.select_entrance}</option>
-                {ENTRANCES.map((el) => {
-                  return(<option value={el}>{el} {i18n.current_trip.entrance}</option>)
-                })}
-              </select>
-            </label>
-            <label for='time' data-placeholder={!trip.time}>
-              <Clock width='24' fill='#312d50'/>
-              <input id='time' type='time' step='60' title='HH:MM' pattern='([01]?[0-9]|2[0-3]):[0-5][0-9]' value={trip.time} placeholder='Now' onBlur={this.setTime}/>
-              <span class='time-placeholder'>{i18n.current_trip.now}</span>
-            </label>{' '}
-            <label class='select' for='card'>
-              <Card width='24'/>
-              <select id='card_id' onChange={this.setField}>
-                {cards.map(card => <option selected={ trip.card_id == card.id } value={card.id}>{card.pan}</option>)}
-              </select>
+          <div className='trip-params'>
+            <div className='additions'>
+              <label htmlFor='no_call' className='nocall'>
+                <input id='no_call' type='checkbox' checked={trip.no_call} onChange={this.setField}/>
+                <Phone width='24' class='cross'/>
+                {i18n.current_trip.no_call}
+              </label>
+              <label htmlFor='entrance'>
+                <Entrance height='15'/>
+                <select id='entrance' value={trip.entrance} onChange={this.setField}>
+                  <option value=''>{i18n.current_trip.select_entrance}</option>
+                  {ENTRANCES.map((el) => {
+                    return (<option value={el}>{el} {i18n.current_trip.entrance}</option>)
+                  })}
+                </select>
+              </label>
+              <label htmlFor='time' data-placeholder={!trip.time}>
+                <Clock width='24' fill='#312d50'/>
+                <input id='time' type='time' step='60' title='HH:MM' pattern='([01]?[0-9]|2[0-3]):[0-5][0-9]'
+                       value={trip.time} placeholder='Now' onBlur={this.setTime}/>
+                <span className='time-placeholder'>{i18n.current_trip.now}</span>
+              </label>{' '}
+              <label className='select' htmlFor='card'>
+                <Card width='24'/>
+                <select id='card_id' onChange={this.setField}>
+                  {cards.map(card => <option selected={trip.card_id == card.id} value={card.id}>{card.pan}</option>)}
+                </select>
+              </label>
+            </div>
+            <label htmlFor='comment'>
+              {/*<Comment width='24'/>*/}
+              <input id='comment' type='text' className='comment' value={trip.comment}
+                     placeholder={i18n.current_trip.comment} onChange={this.setField}/>
             </label>
           </div>
-          <label for='comment'>
-            <Comment width='24'/>
-            <input id='comment' type='text' class='comment' value={trip.comment} placeholder={i18n.current_trip.comment} onChange={this.setField}/>
-          </label>
         </div>
       </div>
     )
@@ -709,24 +719,25 @@ export default class NewDesign extends Component {
   }
 
   resetTrip = () => {
-    this.setActivateFeedback()
+    this.props.setActivateFeedback()
     this.setState({ trip: this.initialTripState, car: null, driver: null })
   }
 
   render() {
-    const { activateFeedback, lastTripId, showWidget, trip } = this.state
+    const { lastTripId, showWidget, trip } = this.state
     const cards = this.props.cards()
     let isValid = trip.stops.includes('')
     let cost = (trip.cost) ? `${trip.cost}` : ''
 
     return (
-      <div>
+      <div class='general__holder'>
         <header></header>
-        { [CONFIRM_UPDATE_TRIP].includes(trip.status) && <button type='button' class='burger back' onClick={this.handleBackEdit}><Back/></button> }
+        { [CONFIRM_UPDATE_TRIP].includes(trip.status) && <button type='button' class='burger button white-opacity back' onClick={this.handleBackEdit}><Back/></button> }
         <section class={`new_design ${this.state.klass} ${[PENDING].includes(trip.status) ? 'background' : ''}`}>
-          { (activateFeedback || trip.status == FINISHED) && <Feedback trip={trip} updateTrip={this.resetTrip} handleBack={this.resetTrip} lastTripId={lastTripId} /> }
+          { this.props.showFeedback() && <Feedback trip={trip} updateTrip={this.resetTrip} handleBack={this.resetTrip} lastTripId={lastTripId} /> }
           <style>{`fieldset.address:nth-child(${this.state.picker + 1}) { opacity: 1;}`}</style>
-          <PreviewMap trip={() => trip}
+          <PreviewMap
+            trip={() => trip}
             car={this.state.car}
             driver={this.state.driver}
             isValid={this.isValid}
@@ -737,10 +748,12 @@ export default class NewDesign extends Component {
             ref={(el) => this.previewMapRef = el}
             isGeocoding={this.props.isGeocoding}
             setGeocoding={this.props.setGeocoding}/>
-          <div class='wrapper'>
-            { [CONFIRM_UPDATE_TRIP, CANCELED, CANCELED_BY_DRIVER, undefined, null].includes(trip.status) && this.renderFields(trip, isValid, cards) }
-            { [PENDING].includes(trip.status) && this.renderLoading() }
-          </div>
+          { !this.props.showFeedback() &&
+            <div class='wrapper'>
+              { [CONFIRM_UPDATE_TRIP, CANCELED, CANCELED_BY_DRIVER, undefined, null].includes(trip.status) && this.renderFields(trip, isValid, cards) }
+              { [PENDING].includes(trip.status) && this.renderLoading() }
+            </div>
+          }
           <Buttons trip={trip}
             isValid={this.isValid}
             cost={cost}
@@ -759,6 +772,7 @@ export default class NewDesign extends Component {
             cards={cards}
             paymentButtonDisabled={this.state.paymentButtonDisabled}
             cancelTimer={this.state.cancelTimer}
+            showFeedback={this.props.showFeedback}
             availableBonusTrips={this.props.availableBonusTrips}/>
           { showWidget && <Widget createCard={this.createCard} showWidget={() => this.setState({showWidget: false}) }/> }
         </section>

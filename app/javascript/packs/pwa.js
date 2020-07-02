@@ -1,17 +1,44 @@
 //Apply dark theme
 window.dark = localStorage.getItem('dark') === 'true'
-window.ios = ['iPhone', 'iPad', 'iPod'].includes(navigator.platform)
+window.ios = ['iPhone', 'iPad', 'iPod', 'MacIntel'].includes(navigator.platform)
 if (window.dark) {
-  document.documentElement.style.setProperty('--white', 'black');
-  document.documentElement.style.setProperty('--navy', 'white');
-  document.documentElement.style.setProperty('--grey', 'black');
-  document.documentElement.style.setProperty('--map-bg', 'black');
-  document.documentElement.style.setProperty('--path-color', ' #ffffff');
-  document.documentElement.style.setProperty('--placeholder', 'rgba(255, 255, 255, 0.5)');
-  document.documentElement.style.setProperty('--shadow', '0 3px 6px rgba(255,255,255,0.2)');
-  document.documentElement.style.setProperty('--focus-shadow', '0 3px 6px rgba(255,255,255,0.2), 0 3px 6px rgba(255,255,255,255.23)');
-  document.documentElement.style.setProperty('--bg', 'rgba(0,0,0,0.9)');
-  document.documentElement.style.setProperty('--controls', '#19A160');
+  document.documentElement.style.setProperty('--bg_gradient_color_1', '#0f0f0f')
+  document.documentElement.style.setProperty('--bg_gradient_color_2', '#191730')
+  document.documentElement.style.setProperty('--font_color_1', 'white')
+  document.documentElement.style.setProperty('--font_color_2', 'white')
+  document.documentElement.style.setProperty('--font_color_2_dark', 'black')
+  document.documentElement.style.setProperty('--green_2', 'white')
+  document.documentElement.style.setProperty('--green_3', '#233038')
+  document.documentElement.style.setProperty('--black_2', 'white')
+  document.documentElement.style.setProperty('--button-background', '#19a160')
+  document.documentElement.style.setProperty('--shadow_color', 'rgba(20, 18, 33, 0.5)')
+  document.documentElement.style.setProperty('--shadow_color_light', 'rgba(100, 100, 100, 0.3)')
+  document.documentElement.style.setProperty('--white', 'black')
+  document.documentElement.style.setProperty('--grey', 'black')
+  document.documentElement.style.setProperty('--map-bg', 'black')
+  document.documentElement.style.setProperty('--path-color', ' #ffffff')
+  document.documentElement.style.setProperty('--placeholder', 'rgba(255, 255, 255, 0.5)')
+  document.documentElement.style.setProperty('--shadow', '0 3px 6px rgba(255,255,255,0.2)')
+  document.documentElement.style.setProperty('--focus-shadow', '0 3px 6px rgba(255,255,255,0.2), 0 3px 6px rgba(255,255,255,255.23)')
+  document.documentElement.style.setProperty('--bg', 'rgba(0,0,0,0.9)')
+  document.documentElement.style.setProperty('--controls', '#19A160')
+  document.documentElement.style.setProperty('--orange_2', '#191730')
+  document.documentElement.style.setProperty('--orange-button-bg', '#efcc3a')
+  document.documentElement.style.setProperty('--address-input-bg', 'rgba(0, 0, 0, 0.65)')
+  document.documentElement.style.setProperty('--comment-input-bg', 'rgba(0, 0, 0, 0.1)')
+  document.documentElement.style.setProperty('--address-input-text', 'white')
+  document.documentElement.style.setProperty('--navy-dark', 'black')
+  document.documentElement.style.setProperty('--red-button-bg', 'rgba(204, 15, 52, 0.8)')
+  document.documentElement.style.setProperty('--red-button-text', 'white')
+  document.documentElement.style.setProperty('--input_bg_color', 'rgba(18, 18, 18, 0.3)')
+  document.documentElement.style.setProperty('--container-background', 'rgba(18, 18, 18, 0.3)')
+  document.documentElement.style.setProperty('--navy', '#4d496f')
+  document.documentElement.style.setProperty('--trip-svg', '#4d496f')
+  document.documentElement.style.setProperty('--transparent', '#19A160')
+
+
+  document.documentElement.style.setProperty('--main_background', 'linear-gradient(to right, var(--bg_gradient_color_1), var(--bg_gradient_color_2), var(--bg_gradient_color_1))')
+  document.documentElement.style.setProperty('--address-input-weight', 'bold')
 }
 
 import '../pwa/android_polyfills.js';
@@ -26,12 +53,10 @@ import i18n from '../pwa/i18n.js'
 import NewDesign from '../pwa/new_design.js';
 import Session from '../pwa/session.js';
 import Cards from '../pwa/cards.js';
-import Bonus from '../pwa/bonus_trips.js';
 import Contacts from '../pwa/contacts.js';
 import Trips from '../pwa/trips.js';
 import Drawer from '../pwa/drawer.js';
 import Prompt from '../pwa/prompt.js';
-import Statistics from '../pwa/statistics.js';
 import Profile from '../pwa/profile.js';
 import { messaging, firebaseAuth } from '../pwa/firebase.js'
 
@@ -67,7 +92,10 @@ export default class App extends Component {
       favorite_addresses: [],
       notification_settings: [],
       currentTrip: null,
-      isGeocoding: false
+      isGeocoding: false,
+      isScrollNegative: false,
+      activateFeedback: false,
+      isBurgerShowing: true
     }
     axios.defaults.headers.common['Pwa-Language'] = this.state.language
   }
@@ -79,22 +107,42 @@ export default class App extends Component {
       this.fetchUser()
       this.checkOneSignalToken()
       waitForToken = setInterval(this.waitForFCMToken, 3000)
-      document.documentElement.style.setProperty('--body-bg', '#19a160')
+      document.documentElement.style.setProperty('--body-bg', '#e6efee')
     }
     this.registerServiceworker()
-    window.addEventListener('offline', this.offline)
-    window.addEventListener('online', this.online)
-    document.addEventListener('visibilitychange', this.onVisibilityChange, false);
+    window.addEventListener('offline', this.offline, { passive: true })
+    window.addEventListener('online', this.online, { passive: true })
+    document.addEventListener('visibilitychange', this.onVisibilityChange, false, { passive: true })
+    this.main.addEventListener('scroll', this.scrollEnd, { passive: true })
+    document.addEventListener('touchstart', this.setTouching, { passive: true })
+    document.addEventListener('touchend', this.setTouching, { passive: true })
     if (!navigator.onLine) this.offline()
   }
 
+  componentWillUnmount() {
+    window.removeEventListener('offline', this.offline, { passive: true })
+    window.removeEventListener('online', this.online, { passive: true })
+    document.removeEventListener('visibilitychange', this.onVisibilityChange, false, { passive: true })
+    this.main.removeEventListener('scroll', this.scrollEnd, { passive: true })
+    document.removeEventListener('touchstart', this.setTouching, { passive: true })
+    document.removeEventListener('touchend', this.setTouching, { passive: true })
+  }
+
   waitForFCMToken = () => {
-    let token = localStorage.getItem("fcm_token");
+    let token = localStorage.getItem("fcm_token")
 
     if (token) {
       this.sendTokenToServer(token)
       clearInterval(waitForToken)
     }
+  }
+
+  setTouching = (event) => {
+    window.isTouching = (event.type === 'touchstart' ? true : false)
+  }
+
+  setNegativeScroll = (scrollValue) => {
+    this.setState({isScrollNegative: scrollValue < 0})
   }
 
   onVisibilityChange = () => {
@@ -176,7 +224,7 @@ export default class App extends Component {
   }
 
   online = () => {
-    document.documentElement.style.setProperty('--body-bg', '#19a160')
+    document.documentElement.style.setProperty('--body-bg', '#e6efee')
     document.body.className = ''
   }
 
@@ -245,7 +293,7 @@ export default class App extends Component {
   }
 
   triggerDrawer = (open = true) => {
-    this.main && this.main.scrollTo({left: (open) ? 0 : 300, behavior: 'smooth'})
+    setTimeout(() => { this.main && this.main.scrollTo({left: (open) ? 0 : 300, behavior: 'smooth'}) }, 10)
   }
 
   updateCards = (cards) => {
@@ -314,7 +362,7 @@ export default class App extends Component {
     window.scrollTimeout = setTimeout(() => {
       if (target.scrollLeft == 0 || target.scrollLeft == target.offsetWidth || target.scrollLeft == 300) return
       let x = (target.scrollLeft > 0 && target.scrollLeft < target.offsetWidth / 2) ? 0 : target.offsetWidth
-      target.scrollTo({left: x})
+      if (!window.isTouching) target.scrollTo({left: x})
     }, 300)
   }
 
@@ -322,13 +370,33 @@ export default class App extends Component {
     this.setState({currentTrip: null})
   }
 
+  showFeedback = () => {
+    const { activateFeedback, currentTrip } = this.state
+    return (activateFeedback || currentTrip && currentTrip.status == FINISHED)
+  }
+
+  setActivateFeedback = (activateFeedback = false) => {
+    this.setState({activateFeedback})
+  }
+
+  showBurger = (isBurgerShowing = true) => {
+    this.setState({isBurgerShowing})
+  }
+
   render() {
-    const { currentTrip, isGeocoding } = this.state;
+    const { currentTrip, isGeocoding } = this.state
 
     if (this.state.currentUser) {
       return(
-        <main id="app" onClick={this.closeDrawer} ref={main => this.main = main} onScroll={this.scrollEnd}>
-          <button class='burger' onClick={() => this.triggerDrawer(true)}><Burger/></button>
+        <main id="app" onClick={this.closeDrawer} ref={main => this.main = main}>
+          { this.state.isBurgerShowing &&
+            <button
+              class={`button white-opacity burger ${this.state.activateFeedback ? 'hidden' : ''}`}
+              ref={el => this.mainBurger = el}
+              onClick={this.triggerDrawer}>
+                <Burger/>
+            </button>
+          }
           <Drawer triggerDrawer={this.triggerDrawer} logOut={this.logOut} />
           <Router history={window.ios ? createMemoryHistory() : null} onChange={() => this.triggerDrawer(false)}>
             <NewDesign path='/'
@@ -347,15 +415,19 @@ export default class App extends Component {
               availableBonusTrips={this.state.availableBonusTrips}
               resetCurrentTrip={this.resetCurrentTrip}
               isGeocoding={isGeocoding}
+              showFeedback={this.showFeedback}
+              setActivateFeedback={this.setActivateFeedback}
               setGeocoding={this.setGeocoding}
+              showBurger={this.showBurger}
+              mainBurger={this.mainBurger}
             />
             <Trips path='/trips/:id?'
               setCurrentTrip={this.setCurrentTrip}
+              showFeedback={this.showFeedback}
+              setActivateFeedback={this.setActivateFeedback}
             />
-            <Bonus path='/bonus_trips' bonus_trips={() => this.state.bonus_trips} parent_bonus={() => this.state.parent_bonus} />
             <Cards path='/cards' cards={() => this.state.cards} create={this.createCard} currentUserID={() => this.state.currentUserID} />
             <Contacts path='/contacts' />
-            <Statistics path='/statistics' />
             <Profile path='/profile'
               notification_settings={this.state.notification_settings}
               updateNotificationSettings={this.updateNotificationSettings}
@@ -368,12 +440,15 @@ export default class App extends Component {
               geocode={this.geocode}
               isGeocoding={isGeocoding}
               setGeocoding={this.setGeocoding}
+              showBurger={this.showBurger}
             />
             <Vendors path='/delivery'
               setCurrentTrip={this.setCurrentTrip}
+              showBurger={this.showBurger}
             />
             <Vendor path='/delivery/:id'
               setCurrentTrip={this.setCurrentTrip}
+              showBurger={this.showBurger}
             />
             <NotFound type='404' default />
             <Cart path='/delivery/cart'
@@ -383,6 +458,7 @@ export default class App extends Component {
               geocode={this.geocode}
               isGeocoding={isGeocoding}
               setGeocoding={this.setGeocoding}
+              showBurger={this.showBurger}
             />
           </Router>
           <Prompt />

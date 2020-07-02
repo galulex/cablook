@@ -1,61 +1,113 @@
+section.profile {
+  scroll-snap-type: y mandatory;
+}
+
 address {
+  display: flex;
+  align-items: center;
+  min-height: 30px;
   border: none;
   font-style: normal;
-  margin-left: 10%;
+  margin-left: 20px;
   position: relative;
+  padding: 2% 0;
+  color: var(--font_color_2);
 }
-address:after {
-  position: absolute;
-  content: '';
-  border-radius: 50%;
-  width: 0;
-  height: 0;
-  border: 6px solid #efcc3a;
-  border: 6px solid var(--orange);
-  top: calc(50% - 6px);
-  left: calc(1% - 30px);
-  transition: border-color 0.3s;
-}
+
 address:before {
   content: '';
-  height: 50%;
-  width: 0;
-  top: calc(50% + 5px);
-  border: 1px solid white;
-  left: calc(1% - 25px);
   position: absolute;
+  top: calc(50% + 2px);
+  left: -17px;
+  height: 33%;
+  width: 0;
+  border-right: 2px solid #d6d6d6;
 }
-address:first-of-type:after {
-  border-color: #312d50;
-  border-color: var(--navy);
+
+address:first-of-type:before {
+  transform: translateY(50%);
 }
-address:last-of-type:after {
-  border-color: #19a160;
-}
+
 address:last-of-type:before {
-  height: 50%;
+  height: 25%;
   width: 0;
   top: 0;
-  border: 1px solid white;
-  left: calc(1% - 25px);
+  border-right: 2px solid #d6d6d6;
+  left: -17px;
   position: absolute;
 }
-address:last-of-type {
-  color: #19a160;
+
+address:last-of-type svg {
+  width: 0;
 }
+
+.trips svg.address-pin {
+  position: absolute;
+  top: 50%;
+  left: -29px;
+  transform: translateY(-50%);
+  width: 26px;
+  height: 25px;
+  margin: 0;
+}
+
+.trip-details__section svg.star-icon {
+  margin: 0 5px 0 0;
+}
+
+.trip-details__section svg.star-icon path {
+  fill: var(--green);
+}
+
 .trip-card {
-  background: #d1d1d1;
-  background: var(--grey);
-  margin: 10px 0;
-  font-size: 17px;
+  background: rgba(255, 255, 255, .3);
+  background: var(--container-background);
+  margin: 4% 0;
+  padding: 4% 6%;
   border-bottom: none;
   cursor: pointer;
-  border: 1px solid white;
+  box-shadow: var(--main-shadow);
+  border-radius: 15px;
 }
+
+.trip-card:hover {
+  box-shadow: var(--hover-shadow);
+}
+
+.trip-card:active {
+  box-shadow: var(--active-shadow);
+}
+
 .trip-card .address-block {
-  padding: 10px;
-  border-bottom: 1px solid #a7a5af;
+  padding: 1% 0;
+  font-size: 2vh;
+  border-bottom: 2px solid #d6d6d6;
 }
+
+.trip-card > .address-block > address:last-of-type svg.address-pin path {
+  fill: #233038;
+  fill: var(--font_color_2);
+}
+
+.trip-card p {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin: 3% 0 0 0;
+  font-size: 12px;
+}
+
+.trip-card p span .star-icon {
+  margin: 0 2px;
+  width: 10px;
+  height: 10px;
+}
+
+.trip-card p span .star-icon path {
+  fill: #19a160;
+  fill: var(--green);
+}
+
 .retry-message-block {
   color: white;
   text-align: center;
@@ -67,19 +119,11 @@ address:last-of-type {
   font-size: 12px;
   padding: 0 10px;
 }
-.trip-card p {
-  font-style: italic;
-  margin: 0 auto;
-  padding: 7px 20px;
-  font-size: 12px;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-}
 
 .trips input[type='radio'] {
   display: none;
 }
+
 .trips nav label {
   color: grey;
   background: #312d50;
@@ -89,50 +133,132 @@ address:last-of-type {
   display: inline-block;
   width: 50%;
 }
+
 .trips nav label:first-of-type {
   border-right: 1px solid grey;
 }
+
 .trips .active {
   color: white;
 }
 
-.trip-details img {
-  width: 100%;
-  background: #e6e4e0;
-  background: var(--map-bg);
-  height: 59vh;
-  max-height: 100vw;
-  object-fit: cover;
+.trip-details header.map-header {
+  z-index: 100;
+  position: fixed;
 }
+
+.trip-details header.details {
+  z-index: 100;
+  position: fixed;
+}
+
+.trip-details img {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 100%;
+  background: linear-gradient(to bottom, #e6efee, #f6faf8, #e6efee);
+  background: linear-gradient(to bottom, var(--bg_gradient_color_2), var(--bg_gradient_color_1), var(--bg_gradient_color_2));
+  height: 50vh;
+  height: calc(var(--vh, 1vh) * 50);
+  max-width: inherit;
+  object-fit: cover;
+  pointer-events: none;
+  transform: translateX(-50%);
+}
+
 .trip-details .buttons {
   margin-bottom: 20px;
 }
+
+.trip-details__section {
+  margin-top: 0;
+  position: relative;
+  height: 100vh;
+  height: calc(var(--vh, 1vh) * 100);
+  padding: 0;
+  overflow-y: overlay;
+  scroll-snap-type: y proximity;
+  scroll-behavior: smooth;
+  -webkit-transform: translate3d(0,0,0);
+}
+
+.trip-details__section::-webkit-scrollbar {
+  display: none;
+}
+
+.trip-details__content {
+  bottom: 0;
+  margin-top: calc(var(--vh, 1vh) * 50 - 10px);
+  /* height: 50vh; */
+  min-height: calc(var(--vh, 1vh) * 50 + 10px);
+  padding: 12px;
+  z-index: 10;
+  width: 100%;
+  background: #e6efee;
+  background: linear-gradient(to bottom, #e6efee, #f6faf8);
+  background: linear-gradient(to bottom, var(--bg_gradient_color_1), var(--bg_gradient_color_2));
+  box-shadow: 0px -6px 4px rgba(36, 41, 48, 0.22);
+  box-shadow: 0px -2px 15px 1px var(--shadow_color);
+  border-radius: 15px 15px 0 0;
+}
+
+.trip-details__content .button {
+  border-radius: 10px;
+  font-size: 90%;
+  height: 7.8vh;
+  padding: 0;
+}
+
 .trip-details address {
-  margin-left: 47px;
+  margin-left: 40px;
 }
-.trip-details address:before {
-  left: calc(1% - 30px);
-}
+
 .trip-details address:after {
   left: calc(1% - 35px);
 }
+
+.trip-details address:before {
+  left: -27px;
+}
+
 .trip-details.trip-details-content section svg {
   margin: 0 10px;
   width: 25px;
   height: 25px;
   vertical-align: middle;
 }
+
 .trip-details-content {
-  border-bottom: 1px solid #8080806b;
-  margin: -1px 10px;
+  border-bottom: 2px solid #d6d6d6;
   padding: 8px 2px;
+  color: #233038;
+  color: var(--font_color_2);
 }
+
+.trip-details-content svg.details-icon path {
+  fill: rgb(147, 150, 150) !important;
+  filter: url(#inset-shadow-large);
+}
+
+.trip-details-content address {
+  margin-left: 47px;
+}
+
+.trip-details-content address svg.address-pin {
+  left: -38px;
+}
+
+.trips address svg.address-pin.destination path {
+  fill: var(--navy) !important;
+}
+
 .trip-details-content:last-of-type {
   border: none;
 }
 
 nav {
-  position: fixed;
+  position: absolute;
   top: 54px;
   width: 100%;
   left: 0;
@@ -140,25 +266,29 @@ nav {
 }
 
 .trip-details {
-  width: 100%;
+  display: flex;
+  justify-content: center;
   position: fixed;
-  height: 100%;
-  background: linear-gradient(to bottom, #d1d1d1, white);
-  background: linear-gradient(to bottom, var(--grey), var(--white));
+  height: calc(var(--vh, 1vh) * 100);
+  width: 100%;
   left: 0px;
   top: 0px;
   z-index: 10001;
-  overflow-y: auto;
   overscroll-behavior-y: none;
-  -webkit-overflow-scrolling: touch;
+  cursor: default;
+  background: #e6efee;
+  background: linear-gradient(to bottom, #e6efee, #f6faf8, #e6efee);
+  background: linear-gradient(to bottom, var(--bg_gradient_color_2), var(--bg_gradient_color_1), var(--bg_gradient_color_2));
+  /* overflow: hidden; */
+}
+
+.feedback__holder header {
+  color: white;
+  z-index: 300;
 }
 
 .trip-details div.map {
   height: 500px;
-}
-
-.trip-details address {
-  margin-left: 47px;
 }
 
 /* Trip component */
@@ -186,14 +316,14 @@ nav {
 
 .trips svg.waypoint path {
   fill: #efcc3a;
-  fill: var(--orange)
+  fill: var(--orange_2)
 }
 
 .trip-details-content address.details-address {
   margin-left: 40px;
 }
 
-.trip-details-content a, a:visited {
+.trip-details-content a {
   color: #312d50;
   color: var(--navy);
   text-decoration: none;
@@ -214,7 +344,12 @@ nav {
 }
 
 .trip-details .buttons {
-  margin-bottom: 5px;
+  display: flex;
+  justify-content: space-between;
+  margin: 1.5vh 0;
+  margin: calc(var(--vh, 1vh) * 1.5) 0;
+  padding: 0 1vh;
+  padding: 0 calc(var(--vh, 1vh) * 1);
 }
 
 .trip-details .buttons .button {
@@ -245,13 +380,7 @@ nav {
 
 .trips .button.edit {
   background: #efcc3a;
-  background: var(--orange);
-}
-
-.trip-card .trip-card-star {
-  margin: 0 2px;
-  width: 10px;
-  height: 10px;
+  background: var(--orange_2);
 }
 
 .trip-card .trip-card-star path{
@@ -307,27 +436,11 @@ nav {
   background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHg9IjBweCIgeT0iMHB4IiB2aWV3Qm94PSItMjMwIDM2Ny45IDEzNSAxMDciPjxnIGZpbGw9IiMxMTExMTEiPjxwYXRoIGQ9Ik0tOTYuMyw0MjAuN2MtMS01LjYtOS45LTEyLjctMTIuNi0xOC45YzcuMywxLDExLjItMS41LDExLjQtMi4yYzAuNC0xLjItMS40LTQuOS0xLjQtNC45IGMtMC4yLTAuNi0wLjctMS4xLTEuNC0xLjJsLTQuNy0wLjRjLTEuNC0wLjItMi42LDAuOC0yLjYsMi4ydjMuOWMwLDAuMi0wLjIsMC40LTAuNCwwLjRoLTAuNWMtMC41LDAtMC45LTAuMy0xLjItMC43bC0xMi41LTIyLjIgYy0zLTUuNC04LjctOC44LTE1LTguOGgtMjUuM2gtMjUuNGMtNi4yLDAtMTEuOSwzLjQtMTUsOC44bC0xMi4zLDIyLjJjLTAuMiwwLjQtMC43LDAuNy0xLjIsMC43aC0wLjVjLTAuMiwwLTAuNC0wLjItMC40LTAuNHYtMy45IGMwLTEuNC0xLjMtMi41LTIuNi0yLjJsLTQuNywwLjRjLTAuNywwLjEtMS4yLDAuNS0xLjQsMS4yYzAsMC0xLjgsMy43LTEuNCw0LjljMC4yLDAuNyw0LjEsMy4yLDExLjQsMi4yIGMtMi44LDYuMi0xMS43LDEzLjMtMTIuNywxOC45Yy0yLjMsMTMuNC0xLDM4LjktMC4zLDQ5LjVjMC4yLDIuNywyLjQsNC44LDUuMSw0LjhoNi4xYzIuOCwwLDUuMS0yLjMsNS4xLTUuMXYtM2g1MC4zaDUwLjN2Mi45IGMwLDIuOCwyLjMsNS4xLDUuMSw1LjFoNi4xYzIuNywwLDQuOS0yLjEsNS4xLTQuOEMtOTUuMyw0NTkuNi05NCw0MzQuMS05Ni4zLDQyMC43eiBNLTE5Ni45LDM3NC43YzEuMi0yLjMsMzQuMS0yLjQsMzQuNS0yLjQgYzAuNCwwLDMzLjMsMC4yLDM0LjUsMi40YzQuOCw3LjUsMTAuMiwxOS4zLDkuMSwyMy4yYy0yLDMtMjUuNSw1LTQyLjUsNC43Yy0xMS4zLTAuMS00Mi42LTEuNy00NC43LTQuNyBDLTIwNy4xLDM5NC0yMDEuNywzODIuMi0xOTYuOSwzNzQuN3ogTS0xNTQuOSw0MjZjMCwwLjYtMC40LDEtMSwxaC0wLjhjLTAuNSwyLTIuNiwzLjUtNS4xLDMuNWMtMi41LDAtNC41LTEuNS01LjEtMy41aC0wLjggYy0wLjYsMC0xLTAuNC0xLTFzMC40LTEsMS0xaDAuOGMwLjUtMiwyLjYtMy41LDUuMS0zLjVjMi41LDAsNC41LDEuNSw1LjEsMy41aDAuOEMtMTU1LjMsNDI1LTE1NC45LDQyNS40LTE1NC45LDQyNnogTS0yMTUuNyw0MjEuNWMtMC40LTAuNi0yLjktNy40LTItMTNjMC41LTEuNSwyLjYtMy44LDQuNi02LjFjNi43LTEuMywxNC4yLDEzLjUsMTUuMywyNS4xQy0yMDAsNDI4LTIwOC41LDQyNi4xLTIxNS43LDQyMS41eiBNLTIwMy42LDQ1Ny43YzIuMS01LjIsOC40LTEzLDguNC0xM2MxLjEtMS43LDMtMi44LDUuMS0yLjhoMjcuNmgyNy42YzIuMSwwLDQsMSw1LjEsMi44YzAsMCw2LjQsNy44LDguNSwxMyBDLTEzMS44LDQ2My42LTE5My4xLDQ2My42LTIwMy42LDQ1Ny43eiBNLTEwOS43LDQyMS41Yy03LjIsNC42LTE1LjcsNi41LTE3LjksNmMxLjEtMTEuNiw4LjYtMjYuNCwxNS4zLTI1LjEgYzIsMi4zLDQuMSw0LjYsNC42LDYuMUMtMTA2LjgsNDE0LjEtMTA5LjMsNDIwLjktMTA5LjcsNDIxLjV6Ii8+PHBhdGggZD0iTS0xNjEuOCw0MjIuN2MtMS44LDAtMy4zLDEtMy44LDIuM2g3LjZDLTE1OC41LDQyMy43LTE2MCw0MjIuNy0xNjEuOCw0MjIuN3oiLz48cGF0aCBkPSJNLTE2MS44LDQyOS4zYzEuOCwwLDMuMy0xLDMuOC0yLjNoLTcuNkMtMTY1LjEsNDI4LjMtMTYzLjYsNDI5LjMtMTYxLjgsNDI5LjN6Ii8+PC9nPjwvc3ZnPg==);
 }
 
-.mapboxgl-ctrl-top-right.dark .mapboxgl-ctrl {
-  background: #1c1c1c;
-  background-color: var(--black);
-}
-
-.mapboxgl-ctrl-top-right.dark .focus-icon {
-   background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHg9IjBweCIgeT0iMHB4IiB2aWV3Qm94PSItMjMwIDM2Ny45IDEzNSAxMDciPjxnIGZpbGw9IiNGRkZGRkYiPjxwYXRoIGQ9Ik0tOTYuMyw0MjAuNmMtMS01LjYtOS45LTEyLjctMTIuNi0xOC45YzcuMywxLDExLjItMS41LDExLjQtMi4yYzAuNC0xLjItMS40LTQuOS0xLjQtNC45IGMtMC4yLTAuNi0wLjctMS4xLTEuNC0xLjJsLTQuNy0wLjRjLTEuNC0wLjItMi42LDAuOC0yLjYsMi4ydjMuOWMwLDAuMi0wLjIsMC40LTAuNCwwLjRoLTAuNWMtMC41LDAtMC45LTAuMy0xLjItMC43bC0xMi41LTIyLjIgYy0zLTUuNC04LjctOC44LTE1LTguOGgtMjUuM2gtMjUuNGMtNi4yLDAtMTEuOSwzLjQtMTUsOC44bC0xMi4zLDIyLjJjLTAuMiwwLjQtMC43LDAuNy0xLjIsMC43aC0wLjVjLTAuMiwwLTAuNC0wLjItMC40LTAuNHYtMy45IGMwLTEuNC0xLjMtMi41LTIuNi0yLjJsLTQuNywwLjRjLTAuNywwLjEtMS4yLDAuNS0xLjQsMS4yYzAsMC0xLjgsMy43LTEuNCw0LjljMC4yLDAuNyw0LjEsMy4yLDExLjQsMi4yIGMtMi44LDYuMi0xMS43LDEzLjMtMTIuNywxOC45Yy0yLjMsMTMuNC0xLDM4LjktMC4zLDQ5LjVjMC4yLDIuNywyLjQsNC44LDUuMSw0LjhoNi4xYzIuOCwwLDUuMS0yLjMsNS4xLTUuMXYtM2g1MC4zaDUwLjN2Mi45IGMwLDIuOCwyLjMsNS4xLDUuMSw1LjFoNi4xYzIuNywwLDQuOS0yLjEsNS4xLTQuOEMtOTUuMyw0NTkuNS05NCw0MzQtOTYuMyw0MjAuNnogTS0xOTYuOSwzNzQuNmMxLjItMi4zLDM0LjEtMi40LDM0LjUtMi40IHMzMy4zLDAuMiwzNC41LDIuNGM0LjgsNy41LDEwLjIsMTkuMyw5LjEsMjMuMmMtMiwzLTI1LjUsNS00Mi41LDQuN2MtMTEuMy0wLjEtNDIuNi0xLjctNDQuNy00LjcgQy0yMDcuMSwzOTMuOS0yMDEuNywzODIuMS0xOTYuOSwzNzQuNnogTS0xNTQuOSw0MjUuOWMwLDAuNi0wLjQsMS0xLDFoLTAuOGMtMC41LDItMi42LDMuNS01LjEsMy41cy00LjUtMS41LTUuMS0zLjVoLTAuOCBjLTAuNiwwLTEtMC40LTEtMXMwLjQtMSwxLTFoMC44YzAuNS0yLDIuNi0zLjUsNS4xLTMuNXM0LjUsMS41LDUuMSwzLjVoMC44Qy0xNTUuMyw0MjQuOS0xNTQuOSw0MjUuMy0xNTQuOSw0MjUuOXogTS0yMTUuNyw0MjEuNCBjLTAuNC0wLjYtMi45LTcuNC0yLTEzYzAuNS0xLjUsMi42LTMuOCw0LjYtNi4xYzYuNy0xLjMsMTQuMiwxMy41LDE1LjMsMjUuMUMtMjAwLDQyNy45LTIwOC41LDQyNi0yMTUuNyw0MjEuNHogTS0yMDMuNiw0NTcuNiBjMi4xLTUuMiw4LjQtMTMsOC40LTEzYzEuMS0xLjcsMy0yLjgsNS4xLTIuOGgyNy42aDI3LjZjMi4xLDAsNCwxLDUuMSwyLjhjMCwwLDYuNCw3LjgsOC41LDEzIEMtMTMxLjgsNDYzLjUtMTkzLjEsNDYzLjUtMjAzLjYsNDU3LjZ6IE0tMTA5LjcsNDIxLjRjLTcuMiw0LjYtMTUuNyw2LjUtMTcuOSw2YzEuMS0xMS42LDguNi0yNi40LDE1LjMtMjUuMSBjMiwyLjMsNC4xLDQuNiw0LjYsNi4xQy0xMDYuOCw0MTQtMTA5LjMsNDIwLjgtMTA5LjcsNDIxLjR6Ii8+PHBhdGggZD0iTS0xNjEuOCw0MjIuNmMtMS44LDAtMy4zLDEtMy44LDIuM2g3LjZDLTE1OC41LDQyMy42LTE2MCw0MjIuNi0xNjEuOCw0MjIuNnoiLz48cGF0aCBkPSJNLTE2MS44LDQyOS4yYzEuOCwwLDMuMy0xLDMuOC0yLjNoLTcuNkMtMTY1LjEsNDI4LjItMTYzLjYsNDI5LjItMTYxLjgsNDI5LjJ6Ii8+PC9nPjwvc3ZnPg==);
-}
-
-.mapboxgl-ctrl-top-right.dark .mapboxgl-ctrl-geolocate {
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg' fill='%23fff'%3E%3Cpath d='M10 4C9 4 9 5 9 5L9 5.1A5 5 0 0 0 5.1 9L5 9C5 9 4 9 4 10 4 11 5 11 5 11L5.1 11A5 5 0 0 0 9 14.9L9 15C9 15 9 16 10 16 11 16 11 15 11 15L11 14.9A5 5 0 0 0 14.9 11L15 11C15 11 16 11 16 10 16 9 15 9 15 9L14.9 9A5 5 0 0 0 11 5.1L11 5C11 5 11 4 10 4zM10 6.5A3.5 3.5 0 0 1 13.5 10 3.5 3.5 0 0 1 10 13.5 3.5 3.5 0 0 1 6.5 10 3.5 3.5 0 0 1 10 6.5zM10 8.3A1.8 1.8 0 0 0 8.3 10 1.8 1.8 0 0 0 10 11.8 1.8 1.8 0 0 0 11.8 10 1.8 1.8 0 0 0 10 8.3z'/%3E%3C/svg%3E");
-}
-
-.mapboxgl-ctrl-top-right.dark .mapboxgl-ctrl-zoom-in {
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath style='fill:%23FFFFFF;' d='M 10 6 C 9.446 6 9 6.4459904 9 7 L 9 9 L 7 9 C 6.446 9 6 9.446 6 10 C 6 10.554 6.446 11 7 11 L 9 11 L 9 13 C 9 13.55401 9.446 14 10 14 C 10.554 14 11 13.55401 11 13 L 11 11 L 13 11 C 13.554 11 14 10.554 14 10 C 14 9.446 13.554 9 13 9 L 11 9 L 11 7 C 11 6.4459904 10.554 6 10 6 z'/%3E%3C/svg%3E");
-}
-
-.mapboxgl-ctrl-top-right.dark .mapboxgl-ctrl-zoom-out {
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath style='fill:%23FFFFFF;' d='m 7,9 c -0.554,0 -1,0.446 -1,1 0,0.554 0.446,1 1,1 l 6,0 c 0.554,0 1,-0.446 1,-1 0,-0.554 -0.446,-1 -1,-1 z'/%3E%3C/svg%3E");
-}
-
 .mapboxgl-ctrl-top-right.dark .mapboxgl-ctrl-group > button + button {
   border-color: #000;
+}
+
+section.trips::-webkit-scrollbar,
+section.trip-details__section::-webkit-scrollbar {
+  display: none;
 }

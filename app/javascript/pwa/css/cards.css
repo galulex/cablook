@@ -1,36 +1,63 @@
+section.cards {
+  padding: 0;
+}
+
+ul.cards {
+  height: calc(100% - 70px);
+  padding: 0 3%;
+  overflow-y: auto;
+}
+
 ul.cards li {
-  border-bottom: 1px solid #d1d1d1;
-  border-bottom: 1px solid var(--grey);
   position: relative;
+  width: 90%;
+  margin: 7vh auto;
 }
 
-ul.cards svg {
-  vertical-align: middle;
-  margin-right: 20px;
-  width: 64px;
-  height: 64px;
+ul.cards svg.card {
+  width: 80%;
+  border-radius: 20px;
+  box-shadow: 5px 3px 6px var(--shadow_color);
 }
 
-button.x-card {
+ul.cards svg.card.light > text {
+  fill: var(--font_color_2);
+}
+
+ul.cards svg.card.dark > text {
+  fill: var(--font_color_3);
+}
+
+ul.cards button.x-card {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
   position: absolute;
   right: 0;
-  top: 50%;
-  transform: translateY(-50%);
-  border-radius: 50%;
-  padding: 0;
-  width: 35px;
-  height: 35px;
+  top: 0;
+  border-radius: 10px;
+  padding: 3%;
+  min-width: 6vh;
+  min-height: 6vh;
   border: none;
   cursor: pointer;
   outline: none;
+  background: rgba(255, 255, 255, .5);
+  background: var(--button-background);
+  box-shadow: var(--main-shadow);  
 }
 
-button.x-card svg {
-  max-width: 100%;
-  max-height: 100%;
+ul.cards button.x-card:hover {
+  box-shadow: var(--hover-shadow);
+}
+
+ul.cards button.x-card:active {
+  box-shadow: var(--active-shadow);
+}
+
+ul.cards button.x-card svg {
+  max-width: 60%;
+  min-width: 15px;
   margin: 0;
 }
 
@@ -40,8 +67,6 @@ body.wfp-widget-open {
 
 h1.nocards {
   text-align: center;
-  color: white;
-  color: var(--white);
   font-weight: 300;
 }
 
@@ -54,4 +79,8 @@ svg.nocards {
 svg.nocards path {
   fill: white;
   fill: var(--white);
+}
+
+ul.cards::-webkit-scrollbar {
+  width: 0;
 }

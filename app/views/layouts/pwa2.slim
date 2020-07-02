@@ -2,26 +2,30 @@ doctype 5
 html lang="#{I18n.locale}"
   head
     = render 'layouts/head'
+    = inline_svg 'filter_main.svg'
+    = inline_svg 'filter_large.svg'
     link rel='preload' href=asset_path('Gilroy-ExtraBold.woff2') as='font' type='font/woff2' crossorigin='anonymous'
     link rel='preload' href=asset_path('Gilroy-Bold.woff2') as='font' type='font/woff2' crossorigin='anonymous'
     link rel='preload' href=asset_path('Gilroy-Light.woff2') as='font' type='font/woff2' crossorigin='anonymous'
     css:
       :root {
-        --white: white;
         --green: #19a160;
+        --green_2: var(--green);
+        --green_3: var(--green);
         --purple: #a925ad;
         --orange: #efcc3a;
+        --orange_2: var(--orange);
         --navy: #312d50;
+        --font_color_1: #777777;
+        --font_color_2: #233038;
+        --font_color_2_dark: #233038;
+        --font_color_3: #D4D4D4;
         --grey: #d1d1d1;
         --black: #1c1c1c;
+        --black_2: var(--black);
         --shadow: 0 3px 6px rgba(0,0,0,0.16);
         --focus-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
-        --body-bg: #132d50;
-        --uk-flag-blue: #005bbb;
-        --ru-flag-blue: #003da5;
-        --en-flag-blue: #012169;
-        --ru-flag-red: #da291c;
-        --en-flag-red: #c8102e;
+        --body-bg: #e6efee;
         --placeholder: rgba(49, 45, 80, 0.5);
         --map-bg: #e6e4e0;
         --pin-color: var(--green);
@@ -29,12 +33,31 @@ html lang="#{I18n.locale}"
         --bg: rgba(255, 255, 255, 0.9);
         --zoom-level: 12;
         --car-transition: 0s;
+        --container-background: rgba(255, 255, 255, .3);
+        --button-background: rgba(255, 255, 255, .5);
+        --orange-button-bg: rgba(255, 255, 255, .5);
+        --comment-input-bg: rgba(238, 246, 251, 0.5);
+        --address-input-bg: rgba(238, 246, 251, 0.8);
+        --address-input-text: black;
+        --navy-dark: var(--navy);
+        --red-button-text: #cc0f34;
+        --red-button-bg: rgba(255, 255, 255, .5);
+        --trip-svg: rgba(119, 119, 119, .5);
+        --transparent: rgba(255, 255, 255, 0);
+        --address-input-weight: 100;
+        --main_background: linear-gradient(to right, var(--bg_gradient_color_2), var(--bg_gradient_color_1), var(--bg_gradient_color_2));
+        --main-shadow: 2px 2px 5px var(--shadow_color), inset -2px -2px 5px var(--shadow_color);
+        --hover-shadow: 1px 1px 3px var(--shadow_color), inset -1px -1px 3px var(--shadow_color);
+        --active-shadow: inset 2px 2px 5px var(--shadow_color), inset -2px -2px 5px var(--shadow_color_light);
+        --green-hover-shadow: 2px 2px 5px var(--shadow_color), inset -2px -2px 5px 1px var(--shadow_color);
+        --green-active-sahdow: inset 5px 5px 5px 1px var(--shadow_color), inset -2px -2px 5px 1px #4fb785;
+        --minus-button-active-shadow: inset 2px 2px 5px 1px var(--shadow_color), inset -2px -2px 5px 1px var(--shadow_color);
       }
 
       html {
         overflow: visible;
         overscroll-behavior-x: none;
-        background: #132d50;
+        background: #e6efee;
         background: var(--body-bg);
         height: 100%;
         transition: background .1s;
@@ -63,7 +86,8 @@ html lang="#{I18n.locale}"
         right: 0;
         font-family: Gilroy, Helvetica, Arial, sans-serif;
         font-weight: 100;
-        font-size: 18px;
+        font-size: 2.6vh;
+        font-size: calc(var(--vh, 1vh) * 2.6);
         background: linear-gradient(to bottom, #d1d1d1, white);
         background: linear-gradient(to bottom, var(--grey), var(--white));
         background-attachment: fixed;
@@ -93,50 +117,65 @@ html lang="#{I18n.locale}"
         -webkit-overflow-scrolling: touch;
         overscroll-behavior-x: contain;
         overflow-y: hidden;
+        background: #e6efee;
+        background: linear-gradient(to right, #e6efee, #f6faf8, #e6efee);
+        background: var(--main_background);
+      }
+
+      main.disable-events,
+      main.disable-events * {
+        pointer-events: none;
       }
 
       main::-webkit-scrollbar {
         display: none;
       }
 
-      main > div {
+      main > div.general__holder {
         width: 100%;
         flex: 0 0 auto;
         flex-grow: 10;
+        display: flex;
+        justify-content: center;
         position: relative;
         scroll-snap-align: start;
         overflow: hidden;
-        max-height: 100vh;
+        min-height: -webkit-fill-available;
+        transition: opacity .1s;
       }
 
       header {
+        display: flex;
+        align-items: center;
+        justify-content: center;
         position: absolute;
         top: 0;
         left: 0;
         right: 0;
-        background: #19a160;
-        background: var(--green);
-        background: linear-gradient(to left, #19a160, #312d50);
-        background: linear-gradient(to left, var(--green), #312d50);
+        background: transparent;
         text-align: center;
-        color: white;
-        padding: 15px 0;
-        z-index: 100;
-        height: 50px;
+        font-size: 2.6vh;
+        font-size: calc(var(--vh, 1vh) * 2.6);
+        color: #233038;
+        color: var(--font_color_2);
+        height: 15vw;
         font-weight: 500;
-        box-shadow: 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12), 0 3px 1px -2px rgba(0,0,0,.2);
+      }
+
+      header.hidden {
+        z-index: -1 !important;
       }
 
       section {
         width: 100%;
         max-width: 600px;
-        margin: 0 auto;
-        padding: 0 10px 50px 10px;
-        height: 100vh;
-        height: calc(100vh - 50px);
+        height: calc(100vh - 15vw);
+        height: calc((var(--vh, 1vh) * 100) - 15vw);
+        padding: 0 3%;
+        margin-top: 15vw;
         overflow-y: auto;
+        scroll-behavior: smooth;
         -webkit-overflow-scrolling: touch;
-        margin-top: 50px;
       }
 
       ul {
@@ -215,6 +254,16 @@ html lang="#{I18n.locale}"
         max-width: 200px;
       }
 
+      svg#shadow_filter, svg#shadow_filter_large {
+        position: absolute;
+        width: 0;
+        height: 0;
+      }
+
+      .pin path {
+        filter: url(#inset-shadow) !important;
+      }
+
       /* Search animation */
       .search_logo path:nth-child(1) { animation: green_logo 4s 0s infinite; }
       .search_logo path:nth-child(2) { animation: purple_logo 4s .5s infinite; }
@@ -266,6 +315,24 @@ html lang="#{I18n.locale}"
         animation: none !important;
       }
 
+      @media (min-width: 450px) {
+        header {
+          height: 70px;
+        }
+
+        section {
+          height: calc(100vh - 70px);
+          height: calc((var(--vh, 1vh) * 100) - 70px);
+          margin-top: 70px;
+        }
+      }
+
+      @media screen and (max-width: 540px) {
+        section {
+          padding: 0 10%;
+        }
+      }
+
       @font-face {
         font-family: Gilroy;
         src: url("#{asset_path('Gilroy-Bold.woff2')}");
@@ -285,6 +352,11 @@ html lang="#{I18n.locale}"
         src: url("#{asset_path('Gilroy-Light.woff2')}");
         font-weight: 100;
         font-display: swap;
+      }
+
+      section::-webkit-scrollbar {
+        height: 0;
+        width: 0;
       }
 
       ::-webkit-scrollbar {
@@ -312,6 +384,7 @@ html lang="#{I18n.locale}"
       ::-webkit-scrollbar-thumb:horizontal { min-width: 10px; }
 
   body ontouchstart=''
+    = render 'layouts/general_css_variables'
     h1.offline Offline
     div.loader
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="-41 309.8 512 367.1" class="search_logo">

@@ -1,3 +1,49 @@
+section.cart {
+  padding: 3vh 3% 0 3%;
+}
+
+section.cart.map-open {
+  margin-top: 0;
+  height: 100%;
+}
+
+section.cart .tab-content__container {
+  margin-top: 3vh;
+  margin-top: calc(var(--vh, 1vh) * 3);
+}
+
+section.cart > form > .additions {
+  justify-content: space-between;
+  width: 80%;
+  margin: 3vh auto 0 auto;
+}
+
+section.cart > form > label[for='comment'] {
+  width: 80%;
+  margin: 0 auto;
+}
+
+section.cart > form > .button {
+  margin-bottom: 3vh;
+  margin-bottom: calc(var(--vh, 1vh) * 3);
+}
+
+section.cart > form label input.comment {
+  width: 100%;
+  height: auto;
+  padding: 14px 15px 14px 36px;
+  background: var(--input_bg_color);
+}
+
+section.cart > form label[for='comment'] svg {
+  left: 8px;
+}
+
+section.cart  > form fieldset.address ul.predictions {
+  width: 100%;
+  max-width: 100%;
+}
+
 .cart .address:before {
   display: none;
 }
@@ -10,8 +56,16 @@
   display: none;
 }
 
+.cart fieldset.address {
+  width: 80%;
+  max-width: 80%;
+  background: var(--input_bg_color);
+}
+
 .cart input.address {
   margin: 0;
+  padding: 14px 0 12px 14px;
+  background: transparent;
 }
 
 .cart .load-background {
@@ -23,8 +77,9 @@
 
 .cart .order-price {
   text-align: right;
-  padding: 10px;
-  font-size: 16px;
+  padding: 5% 5% 0 5%;
+  font-size: 2vh;
+  font-size: calc(var(--vh, 1vh) * 2);
 }
 
 .cart .order-price b {
@@ -56,4 +111,20 @@
 
 .cart .align-middle {
   vertical-align: middle;
+}
+
+.cart select#entrance, .cart input#time, .cart .select select, .cart select#select_time {
+  color: #1c1c1c;
+  color: var(--black_2);
+  outline: none;
+}
+
+.cart .comment, .cart .comment::placeholder {
+  color: #1c1c1c;
+  color: var(--black_2);
+}
+
+.cart .additions svg path{
+  fill: #1c1c1c;
+  fill: var(--black_2);
 }

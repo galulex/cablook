@@ -1,19 +1,26 @@
 .vendor {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   position: relative;
-  background: #d1d1d1;
-  background: var(--grey);
-  margin: 20px 10px;
-  padding: 10px 20px;
-  font-size: 17px;
   border-bottom: none;
-  min-height: 150px;
   list-style: none;
+  cursor: pointer;
+}
+
+.vendor:hover {
+  box-shadow: var(--hover-shadow);
+}
+
+.vendor:active {
+  box-shadow: var(--active-shadow);
 }
 
 .vendor.active {
   background: #19a160;
   background: var(--green);
   margin: 20px 0 0;
+  pointer-events: none;
 }
 
 .vendor .name {
@@ -21,18 +28,24 @@
 }
 
 .vendor span.address {
-  font-size: 14px;
+  font-size: 2vh;
+  font-size: calc(var(--vh, 1vh) * 2);
 }
 
 .vendor .vendor-logo {
   width: 100%;
   max-width: 100px;
+  height: 100%;
+  max-height: 100px;
+  object-fit: contain;
 }
 
 .vendor svg {
   margin: 0 10px;
-  width: 25px;
-  height: 25px;
+  width: 3.5vh;
+  height: 3.5vh;
+  min-width: 35px;
+  min-height: 35px;
   vertical-align: middle;
   border: 1px #19a160 solid;
   border: 1px var(--green) solid;
@@ -51,33 +64,30 @@
   margin-bottom: 10px;
 }
 
-.vendor .buttons-container {
-  height: 30px;
-}
-
 .vendor .time-container {
   border-top: 1px solid #d1d1d1;
   border-top: 1px solid var(--grey);
-  font-size: 12px;
+  font-size: 1.5vh;
   padding: 5px 0 5px 0;
 }
 
-
 .vendor .row {
   display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .vendor .col-7 {
-  flex: 70%;
+  width: 65%;
 }
 
 .vendor .col-3 {
-  flex: 30%;
+  width: 25%;
   text-align: center;
 }
 
 .vendor .col-5 {
-  flex: 50%;
+  width: 48%;
 }
 
 .vendor .link-button {
@@ -106,5 +116,25 @@ li.create-order {
   text-align: center;
   border: 2px solid #18a160;
   background-color: #efcc3a;
-  background-color: var(--orange);
+  background-color: var(--orange_2);
+}
+
+.vendor .buttons-container .button {
+  font-size: 2vh;
+  font-size: calc(var(--vh, 1vh) * 2);
+  padding: 1vh 10px;
+}
+
+.vendor .item-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 2.6vh;
+  font-size: calc(var(--vh, 1vh) * 2.6);
+}
+
+@media screen and (min-width: 768px) {
+  .vendor {
+    min-height: 150px;
+  }
 }

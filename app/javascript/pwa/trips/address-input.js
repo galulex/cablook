@@ -9,6 +9,7 @@ import i18n from '../i18n.js'
 import Cablook  from '../images/cablook.svg'
 import Target from '../images/target.svg'
 import Location  from '../images/target.svg'
+import Cross  from '../images/cross.js'
 
 export default class AddressInput extends Component {
   constructor(props) {
@@ -72,6 +73,7 @@ export default class AddressInput extends Component {
     if (!place.place_id) {
       this.setState({ address: `${place}, `, predictions: [], isValid: false })
       this.input.focus()
+      setTimeout(() => { this.input.scrollLeft = 500 }, 100)
       return
     }
 
@@ -115,17 +117,17 @@ export default class AddressInput extends Component {
       this.props.pickAddress(this.props.index)
       return
     }
-
-    this.setState({isShowMap: true})
+    this.setState({isShowMap: true}, () => { if (this.props.showBurger) this.props.showBurger(false) })
     if (window.ios) return
     history.pushState(null, null,'/')
-    window.addEventListener('popstate', this.handleBack, {once: true})
+    window.addEventListener('popstate', this.handleBack, { once: true, passive: true })
   }
 
   closeMap = (point, address) => {
     this.props.setAddress(address, point, this.props.index)
     this.setState({ address: address, predictions: [], isValid: true, isShowMap: false })
     this.input.setCustomValidity('')
+    window.removeEventListener('popstate', this.handleBack, { passive: true })
   }
 
   focus = (e) => {
@@ -152,7 +154,8 @@ export default class AddressInput extends Component {
 
   handleBack = (event) => {
     this.setState({isShowMap: false})
-    if (event) event.stopPropagation()
+    if (this.props.showBurger) this.props.showBurger()
+    if (event) { event.stopPropagation() }
   }
 
   keydown = (e) => {
@@ -178,8 +181,8 @@ export default class AddressInput extends Component {
     const { fieldsCount, address, index, readonly, language, hideRemove, inputDisabled, geocode } = this.props
     return (
       <fieldset class='address'>
-        {(fieldsCount > 2 || address !== '') && !hideRemove && !readonly && (<button disabled={index === 0 ? inputDisabled : false} class='remove-address' type='button' onClick={() => this.eraseAddress(index)}>×</button>)}
-        {mapboxgl.supported() && <Pin onClick={this.openMap} disabled={readonly || ( index === 0 ? inputDisabled : false )} height='24px' class='map-pick'/>}
+        {(fieldsCount > 2 || address !== '') && !hideRemove && !readonly && (<button disabled={index === 0 ? inputDisabled : false} class='remove-address' type='button' onClick={() => this.eraseAddress(index)}> <Cross/> </button>)}
+        {mapboxgl.supported() && <Pin onClick={this.openMap} disabled={readonly || ( index === 0 ? inputDisabled : false )} class='pin map-pick'/>}
         {this.state.isShowMap && <MapPicker
                                     onCloseMap={this.closeMap}
                                     handleBack={this.handleBack}
@@ -187,6 +190,7 @@ export default class AddressInput extends Component {
                                     geocode={geocode}
                                     isGeocoding={this.props.isGeocoding}
                                     setGeocoding={this.props.setGeocoding}
+                                    showBurger={this.props.showBurger}
                                   /> }
 
         <input required class='address' placeholder={placeholder} type='text' disabled={index === 0 ? inputDisabled : false}
@@ -194,7 +198,7 @@ export default class AddressInput extends Component {
           value={this.state.address} ref={input => this.input = input} readonly={readonly}
         />
 
-        <ul class='predictions'>
+        <ul class='predictions' ref={el => this.predictions = el}>
           { this.state.predictions.map(this.renderPrediction) }
         </ul>
       </fieldset>
