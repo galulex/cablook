@@ -66,18 +66,15 @@ address:last-of-type svg {
   padding: 4% 6%;
   border-bottom: none;
   cursor: pointer;
-  box-shadow: 5px 3px 12px var(--shadow_color), inset -3px -3px 5px 1px var(--shadow_color);
   box-shadow: var(--main-shadow);
   border-radius: 15px;
 }
 
 .trip-card:hover {
-  box-shadow: 2px 2px 5px var(--shadow_color), inset 2px 2px 5px var(--shadow_color_light);
   box-shadow: var(--hover-shadow);
 }
 
 .trip-card:active {
-  box-shadow: inset 2px 2px 5px var(--shadow_color), inset -2px -2px 5px var(--shadow_color_light);
   box-shadow: var(--active-shadow);
 }
 
@@ -186,11 +183,10 @@ address:last-of-type svg {
 }
 
 .trip-details__content {
-  position: absolute;
   bottom: 0;
-  margin-top: calc(100% - 10px);
-  height: 50vh;
-  height: calc(var(--vh, 1vh) * 50 + 10px);
+  margin-top: calc(var(--vh, 1vh) * 50 - 10px);
+  /* height: 50vh; */
+  min-height: calc(var(--vh, 1vh) * 50 + 10px);
   padding: 12px;
   z-index: 10;
   width: 100%;
@@ -202,9 +198,11 @@ address:last-of-type svg {
   border-radius: 15px 15px 0 0;
 }
 
-.trip-details__content .buttons .button {
+.trip-details__content .button {
   border-radius: 10px;
   font-size: 90%;
+  height: 7.8vh;
+  padding: 0;
 }
 
 .trip-details address {
@@ -234,12 +232,8 @@ address:last-of-type svg {
 }
 
 .trip-details-content svg.details-icon path {
-  fill: rgb(147, 150, 150);
+  fill: rgb(147, 150, 150) !important;
   filter: url(#inset-shadow-large);
-}
-
-.trip-details-content svg.details-icon.pin path {
-  filter: url(#inset-shadow);
 }
 
 .trip-details-content address {
@@ -251,7 +245,7 @@ address:last-of-type svg {
 }
 
 .trips address svg.address-pin.destination path {
-  fill: var(--navy);
+  fill: var(--navy) !important;
 }
 
 .trip-details-content:last-of-type {
@@ -270,7 +264,7 @@ nav {
   display: flex;
   justify-content: center;
   position: fixed;
-  height: -webkit-fill-available;
+  height: calc(var(--vh, 1vh) * 100);
   width: 100%;
   left: 0px;
   top: 0px;
@@ -280,7 +274,7 @@ nav {
   background: #e6efee;
   background: linear-gradient(to bottom, #e6efee, #f6faf8, #e6efee);
   background: linear-gradient(to bottom, var(--bg_gradient_color_2), var(--bg_gradient_color_1), var(--bg_gradient_color_2));
-  overflow: hidden;
+  /* overflow: hidden; */
 }
 
 .feedback__holder header {

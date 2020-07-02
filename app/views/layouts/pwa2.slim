@@ -4,7 +4,6 @@ html lang="#{I18n.locale}"
     = render 'layouts/head'
     = inline_svg 'filter_main.svg'
     = inline_svg 'filter_large.svg'
-    = inline_svg 'filter_star.svg'
     link rel='preload' href=asset_path('Gilroy-ExtraBold.woff2') as='font' type='font/woff2' crossorigin='anonymous'
     link rel='preload' href=asset_path('Gilroy-Bold.woff2') as='font' type='font/woff2' crossorigin='anonymous'
     link rel='preload' href=asset_path('Gilroy-Light.woff2') as='font' type='font/woff2' crossorigin='anonymous'
@@ -48,6 +47,12 @@ html lang="#{I18n.locale}"
         --transparent: rgba(255, 255, 255, 0);
         --address-input-weight: 100;
         --main_background: linear-gradient(to right, var(--bg_gradient_color_2), var(--bg_gradient_color_1), var(--bg_gradient_color_2));
+        --main-shadow: 2px 2px 5px var(--shadow_color), inset -2px -2px 5px var(--shadow_color);
+        --hover-shadow: 1px 1px 3px var(--shadow_color), inset -1px -1px 3px var(--shadow_color);
+        --active-shadow: inset 2px 2px 5px var(--shadow_color), inset -2px -2px 5px var(--shadow_color_light);
+        --green-hover-shadow: 2px 2px 5px var(--shadow_color), inset -2px -2px 5px 1px var(--shadow_color);
+        --green-active-sahdow: inset 5px 5px 5px 1px var(--shadow_color), inset -2px -2px 5px 1px #4fb785;
+        --minus-button-active-shadow: inset 2px 2px 5px 1px var(--shadow_color), inset -2px -2px 5px 1px var(--shadow_color);
       }
 
       html {
@@ -127,7 +132,7 @@ html lang="#{I18n.locale}"
         display: none;
       }
 
-      main > div {
+      main > div.general__holder {
         width: 100%;
         flex: 0 0 auto;
         flex-grow: 10;
@@ -136,7 +141,6 @@ html lang="#{I18n.locale}"
         position: relative;
         scroll-snap-align: start;
         overflow: hidden;
-        min-height: 100vh;
         min-height: -webkit-fill-available;
         transition: opacity .1s;
       }
@@ -155,20 +159,19 @@ html lang="#{I18n.locale}"
         font-size: calc(var(--vh, 1vh) * 2.6);
         color: #233038;
         color: var(--font_color_2);
-        z-index: 100;
         height: 15vw;
         font-weight: 500;
       }
 
       header.hidden {
-        z-index: -1;
+        z-index: -1 !important;
       }
 
       section {
         width: 100%;
         max-width: 600px;
-        min-height: calc(100vh - 15vw);
-        min-height: calc((var(--vh, 1vh) * 100) - 15vw);
+        height: calc(100vh - 15vw);
+        height: calc((var(--vh, 1vh) * 100) - 15vw);
         padding: 0 3%;
         margin-top: 15vw;
         overflow-y: auto;
@@ -252,8 +255,14 @@ html lang="#{I18n.locale}"
         max-width: 200px;
       }
 
-      svg#shadow_filter, svg#star_filter, svg#shadow_filter_large {
-        position: fixed;
+      svg#shadow_filter, svg#shadow_filter_large {
+        position: absolute;
+        width: 0;
+        height: 0;
+      }
+
+      .pin path {
+        filter: url(#inset-shadow) !important;
       }
 
       /* Search animation */

@@ -379,12 +379,6 @@ export default class App extends Component {
     this.setState({activateFeedback})
   }
 
-  toggleHeader = () => {
-    const headers = document.querySelectorAll('header')
-    if (headers.length <= 1) return
-    headers[0].classList.contains('hidden') ? headers[0].classList.remove('hidden') : headers[0].classList.add('hidden')
-  }
-
   showBurger = (isBurgerShowing = true) => {
     this.setState({isBurgerShowing})
   }
@@ -425,7 +419,6 @@ export default class App extends Component {
               setActivateFeedback={this.setActivateFeedback}
               setGeocoding={this.setGeocoding}
               showBurger={this.showBurger}
-              toggleHeader={this.toggleHeader}
               mainBurger={this.mainBurger}
             />
             <Trips path='/trips/:id?'
@@ -448,7 +441,6 @@ export default class App extends Component {
               isGeocoding={isGeocoding}
               setGeocoding={this.setGeocoding}
               showBurger={this.showBurger}
-              toggleHeader={this.toggleHeader}
             />
             <Vendors path='/delivery'
               setCurrentTrip={this.setCurrentTrip}
@@ -466,7 +458,6 @@ export default class App extends Component {
               geocode={this.geocode}
               isGeocoding={isGeocoding}
               setGeocoding={this.setGeocoding}
-              toggleHeader={this.toggleHeader}
               showBurger={this.showBurger}
             />
           </Router>

@@ -155,7 +155,6 @@ export default class AddressInput extends Component {
   handleBack = (event) => {
     this.setState({isShowMap: false})
     if (this.props.showBurger) this.props.showBurger()
-    this.props.toggleHeader()
     if (event) { event.stopPropagation() }
   }
 
@@ -191,7 +190,7 @@ export default class AddressInput extends Component {
                                     geocode={geocode}
                                     isGeocoding={this.props.isGeocoding}
                                     setGeocoding={this.props.setGeocoding}
-                                    showBurger={this.props.showBurger || false}
+                                    showBurger={this.props.showBurger}
                                   /> }
 
         <input required class='address' placeholder={placeholder} type='text' disabled={index === 0 ? inputDisabled : false}

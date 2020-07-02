@@ -730,7 +730,7 @@ export default class NewDesign extends Component {
     let cost = (trip.cost) ? `${trip.cost}` : ''
 
     return (
-      <div>
+      <div class='general__holder'>
         <header></header>
         { [CONFIRM_UPDATE_TRIP].includes(trip.status) && <button type='button' class='burger button white-opacity back' onClick={this.handleBackEdit}><Back/></button> }
         <section class={`new_design ${this.state.klass} ${[PENDING].includes(trip.status) ? 'background' : ''}`}>
