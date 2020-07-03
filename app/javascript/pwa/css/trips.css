@@ -236,6 +236,10 @@ address:last-of-type svg {
   color: var(--font_color_2);
 }
 
+.trip-details-content:last-child {
+  margin-left: 10px;
+}
+
 .trip-details-content svg.details-icon path {
   fill: rgb(147, 150, 150) !important;
   filter: url(#inset-shadow-large);

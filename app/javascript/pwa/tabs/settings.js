@@ -198,7 +198,7 @@ export default class Settings extends Component {
         <div class='tab-content__container'>
           <div class='tab-content__header'>{i18n.profile_page.notifications}</div>
           <div class='tab-content__container-items notification__settings'>
-            {['accept_trip', 'decline_trip', 'waiting_client'].map((value) => {
+            {['search_car', 'accept_trip', 'decline_trip', 'waiting_client'].map((value) => {
               return(
                 <div class='tab-content__container-item'>
                   <input id={value} type='checkbox' class='checkbox-switcher' value={value} onChange={this.changeNotificationSettings} checked={notification_settings.includes(value)}/>
