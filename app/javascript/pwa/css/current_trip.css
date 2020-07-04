@@ -253,7 +253,7 @@ select#entrance, input#time, .select select, select#select_time {
   min-height: calc(var(--vh, 1vh) * 4);
   border-radius: 0;
   border: none;
-  padding: 6px 5px 6px 30px;
+  padding-left: 30px;
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
@@ -262,8 +262,11 @@ select#entrance, input#time, .select select, select#select_time {
   width: 100%;
 }
 
+input#time::placeholder {
+  color: transparent;
+}
+
 label[for='entrance']:after, label[for='time']:after {
-  /* content: '▼'; */
   color: #19a160;
   color: var(--green);
   right: 10px;
@@ -275,7 +278,7 @@ label[for='entrance']:after, label[for='time']:after {
 
 .time-placeholder {
   color: var(--navy-dark);
-  left: 45px;
+  left: 35px;
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
@@ -319,7 +322,7 @@ label[for='entrance'], label[for='time'] {
 .option label svg, .additions label svg, label[for='comment'] svg, .select svg {
   position: absolute;
   top: 50%;
-  left: 10px;
+  left: 0;
   transform: translateY(-50%);
   pointer-events: none;
 }
@@ -336,9 +339,9 @@ input.comment {
   display: block;
   color: #312d50;
   color: var(--navy-dark);
-  width: 90%;
-  margin: 0 auto;
-  padding: 0 15px;
+  width: 100%;
+  padding: 5px 15px;
+  margin-top: 5px;
   background: rgba(238, 246, 251, 0.5);
   background: var(--comment-input-bg);
   border: none;

@@ -81,7 +81,7 @@ address:last-of-type svg {
 .trip-card .address-block {
   padding: 1% 0;
   font-size: 2vh;
-  border-bottom: 2px solid #d6d6d6;
+  border-bottom: 2px solid var(--line-color);
 }
 
 .trip-card > .address-block > address:last-of-type svg.address-pin path {
