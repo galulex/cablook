@@ -31,10 +31,11 @@ if (window.dark) {
   document.documentElement.style.setProperty('--red-button-bg', 'rgba(204, 15, 52, 0.8)')
   document.documentElement.style.setProperty('--red-button-text', 'white')
   document.documentElement.style.setProperty('--input_bg_color', 'rgba(18, 18, 18, 0.3)')
-  document.documentElement.style.setProperty('--container-background', 'rgba(18, 18, 18, 0.3)')
+  document.documentElement.style.setProperty('--container-background', 'rgba(170, 170, 170, 0.1)')
   document.documentElement.style.setProperty('--navy', '#4d496f')
   document.documentElement.style.setProperty('--trip-svg', '#4d496f')
   document.documentElement.style.setProperty('--transparent', '#19A160')
+  document.documentElement.style.setProperty('--line-color', '#4d496f')
 
 
   document.documentElement.style.setProperty('--main_background', 'linear-gradient(to right, var(--bg_gradient_color_1), var(--bg_gradient_color_2), var(--bg_gradient_color_1))')

@@ -152,8 +152,8 @@
 
 .button.burger svg {
   position: absolute;
-  width: 25px;
-  height: 25px;
+  width: 45%;
+  height: 45%;
   margin: 0;
   fill: #233038;
   fill: var(--font_color_2_dark);

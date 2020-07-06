@@ -24,6 +24,9 @@ section.new_design {
 }
 
 fieldset.address {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   box-shadow: inset 3px 2px 8px #24293038, inset -2px -1px 4px white;
   box-shadow: inset 3px 2px 8px var(--shadow_color), inset -2px -1px 4px var(--white);
   transition: .3s box-shadow, max-width .3s;
@@ -32,8 +35,9 @@ fieldset.address {
   color: var(--address-input-text);
   border-radius: 10px;
   max-width: 65vw;
-  margin: 0 auto calc(var(--vh, 1vh) * 3) auto;
+  margin: 0 auto 20px auto;
   scroll-snap-align: start;
+  min-height: 45px;
 }
 
 fieldset.address:focus-within {
@@ -67,10 +71,11 @@ fieldset.address:focus-within {
   background: rgba(255, 255, 255, 0.5);
   background: var(--button-background);
   border-radius: 10px;
-  padding: 1% 0;
+  padding: 5%;
   box-shadow: 3px 3px 6px #24293038, inset -5px -5px 6px -3px #24293038, inset 1px 1px 3px -3px #ffffff;
   box-shadow: 3px 3px 6px var(--shadow_color), inset -5px -5px 6px -3px var(--shadow_color), inset 1px 1px 3px -3px var(--white);
   height: calc(var(--vh, 1vh) * 17);
+  min-height: 110px;
 }
 
 .search_logo {
@@ -88,6 +93,11 @@ fieldset.address:focus-within {
 .wrapper {
   z-index: 30;
   margin-top: calc(15vw + 10px);
+}
+
+.wrapper .option fieldset.address input.address {
+  margin: 0;
+  padding: 14px 0 14px 3.5vh;
 }
 
 .new_design .wrapper .driverSearch {
@@ -275,7 +285,6 @@ svg.pin-last path {
   }
 }
 
-
 .option {
   display: inline-block;
   width: 100%;
@@ -296,16 +305,18 @@ svg.pin-last path {
 
 .additions {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   flex-wrap: wrap;
 }
 
 .additions label {
-  width: 45%;
+  width: 48%;
 }
 
 .additions label svg {
-  height: 2.6vh;
+  max-height: 3vh;
+  min-height: 2.6vh;
+  width: 25px;
 }
 
 .additions svg path {
@@ -372,6 +383,7 @@ svg.pin-last path {
   cursor: pointer;
   -webkit-appearance: none;
   height: calc(var(--vh, 1vh) * 17);
+  min-height: 110px;
   width: 15vw;
   transition: width .3s;
   top: 0;
@@ -438,7 +450,9 @@ svg.pin-last path {
 }
 
 label.nocall {
-  padding: 6px 5px 6px 35px;
+  display: flex;
+  align-items: center;
+  padding: 5px 0 5px 35px;
   height: calc(var(--vh, 1vh) * 4);
   font-size: calc(var(--vh, 1vh) * 2.6);
   font-weight: 100;
@@ -486,6 +500,9 @@ input:checked + svg.cross path:nth-of-type(2) {
     display: inline-block;
   }
 
+  .option .trip-params {
+    margin-left: 0;
+  }
 }
 
 .option::-webkit-scrollbar {
