@@ -74,7 +74,7 @@ fieldset.address:focus-within {
   padding: 5%;
   box-shadow: 3px 3px 6px #24293038, inset -5px -5px 6px -3px #24293038, inset 1px 1px 3px -3px #ffffff;
   box-shadow: 3px 3px 6px var(--shadow_color), inset -5px -5px 6px -3px var(--shadow_color), inset 1px 1px 3px -3px var(--white);
-  height: calc(var(--vh, 1vh) * 17);
+  height: calc(var(--vh, 1vh) * 20);
   min-height: 110px;
 }
 
@@ -96,8 +96,8 @@ fieldset.address:focus-within {
 }
 
 .wrapper .option fieldset.address input.address {
-  margin: 0;
-  padding: 14px 0 14px 3.5vh;
+  margin: 0 auto;
+  padding: 15px;
 }
 
 .new_design .wrapper .driverSearch {
@@ -128,7 +128,7 @@ fieldset.address:focus-within {
 
 .new_design .map-pick {
   right: auto;
-  left: 12px;
+  left: 8px;
   transition: height, top .3s;
 }
 
@@ -164,9 +164,11 @@ fieldset.address:focus-within {
   z-index: 310;
 }
 .new_design .remove-address {
+  height: 33%;
   right: 0;
-  top: 2.2vh;
-  top: calc(var(--vh, 1vh) * 2.2);
+  top: 4.25vh;
+  top: calc(var(--vh, 1vh) * 4.25);
+  transform: translateY(-50%);
   position: absolute;
   cursor: pointer;
   background: none;
@@ -175,8 +177,7 @@ fieldset.address:focus-within {
 }
 
 .new_design .remove-address svg {
-  height: 2.2vh;
-  height: calc(var(--vh, 1vh) * 2.2);
+  height: 100%;
 }
 
 
@@ -309,6 +310,10 @@ svg.pin-last path {
   flex-wrap: wrap;
 }
 
+.new_design .additions {
+  min-height: 60px;
+}
+
 .additions label {
   width: 48%;
 }
@@ -382,7 +387,7 @@ svg.pin-last path {
   outline: none;
   cursor: pointer;
   -webkit-appearance: none;
-  height: calc(var(--vh, 1vh) * 17);
+  height: calc(var(--vh, 1vh) * 20);
   min-height: 110px;
   width: 15vw;
   transition: width .3s;

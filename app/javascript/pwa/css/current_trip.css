@@ -11,8 +11,8 @@ input.address {
   margin: 0 3% 0 7%;
   border-radius: 15px;
   transition: all .3s;
-  height: 7vh;
-  height: calc(var(--vh, 1vh) * 7);
+  height: 8.5vh;
+  height: calc(var(--vh, 1vh) * 8.5);
 }
 
 
@@ -231,10 +231,12 @@ label {
 svg.map-pick {
   position: absolute;
   right: 10px;
-  top: 2.3vh;
-  top: calc(var(--vh, 1vh) * 2.3);
-  height: 2.5vh;
-  height: calc(var(--vh, 1vh) * 2.5);
+  top: 4.25vh;
+  top: calc(var(--vh, 1vh) * 4.25);
+  transform: translateY(-50%);
+  height: 2.6vh;
+  height: calc(var(--vh, 1vh) * 2.6);
+  width: 15px;
   cursor: pointer;
 }
 
