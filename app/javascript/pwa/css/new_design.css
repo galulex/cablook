@@ -33,11 +33,10 @@ fieldset.address {
   background: rgba(238, 246, 251, 0.8);
   background: var(--address-input-bg);
   color: var(--address-input-text);
-  border-radius: 10px;
+  border-radius: 15px;
   max-width: 65vw;
   margin: 0 auto 20px auto;
   scroll-snap-align: start;
-  min-height: 45px;
 }
 
 fieldset.address:focus-within {
@@ -67,15 +66,16 @@ fieldset.address:focus-within {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  height: 18vh;
+  height: calc(var(--vh, 1vh) * 18);
+  min-height: 110px;
   margin-left: calc(15vw - 10px);
   background: rgba(255, 255, 255, 0.5);
   background: var(--button-background);
   border-radius: 10px;
-  padding: 5%;
+  padding: 3%;
   box-shadow: 3px 3px 6px #24293038, inset -5px -5px 6px -3px #24293038, inset 1px 1px 3px -3px #ffffff;
   box-shadow: 3px 3px 6px var(--shadow_color), inset -5px -5px 6px -3px var(--shadow_color), inset 1px 1px 3px -3px var(--white);
-  height: calc(var(--vh, 1vh) * 17);
-  min-height: 110px;
 }
 
 .search_logo {
@@ -97,7 +97,7 @@ fieldset.address:focus-within {
 
 .wrapper .option fieldset.address input.address {
   margin: 0;
-  padding: 14px 0 14px 3.5vh;
+  padding: 15px 30px 15px 30px;
 }
 
 .new_design .wrapper .driverSearch {
@@ -128,7 +128,7 @@ fieldset.address:focus-within {
 
 .new_design .map-pick {
   right: auto;
-  left: 12px;
+  left: 10px;
   transition: height, top .3s;
 }
 
@@ -164,10 +164,16 @@ fieldset.address:focus-within {
   z-index: 310;
 }
 .new_design .remove-address {
-  right: 0;
-  top: 2.2vh;
-  top: calc(var(--vh, 1vh) * 2.2);
+  height: 2.6vh;
+  height: calc(var(--vh, 1vh) * 2.6);
   position: absolute;
+  top: calc(var(--vh, 1vh) * 2.6);
+  right: 10px;
+  top: 3.5vh;
+  top: calc(var(--vh, 1vh) * 3.5);
+  transform: translateY(-50%);
+  margin: 0;
+  padding: 0;
   cursor: pointer;
   background: none;
   border: none;
@@ -175,10 +181,9 @@ fieldset.address:focus-within {
 }
 
 .new_design .remove-address svg {
-  height: 2.2vh;
-  height: calc(var(--vh, 1vh) * 2.2);
+  height: 100%;
+  width: 15px;
 }
-
 
 .header {
   position: relative;
@@ -283,6 +288,14 @@ svg.pin-last path {
   .options.noscroll .address, .options.noscroll .predictions, .pick .options fieldset.address {
     max-width: 75vw;
   }
+
+  .new_design .options.noscroll ul.predictions {
+    max-width: 75vw;
+  }
+
+  .new_design .options ul.predictions {
+    max-width: 65vw;
+  }
 }
 
 .option {
@@ -309,14 +322,17 @@ svg.pin-last path {
   flex-wrap: wrap;
 }
 
+.new_design .additions {
+  min-height: 60px;
+}
+
 .additions label {
   width: 48%;
 }
 
 .additions label svg {
-  max-height: 3vh;
-  min-height: 2.6vh;
   width: 25px;
+  height: 25px;
 }
 
 .additions svg path {
@@ -382,7 +398,7 @@ svg.pin-last path {
   outline: none;
   cursor: pointer;
   -webkit-appearance: none;
-  height: calc(var(--vh, 1vh) * 17);
+  height: calc(var(--vh, 1vh) * 18);
   min-height: 110px;
   width: 15vw;
   transition: width .3s;
@@ -452,7 +468,7 @@ svg.pin-last path {
 label.nocall {
   display: flex;
   align-items: center;
-  padding: 5px 0 5px 35px;
+  padding: 5px 0 5px 30px;
   height: calc(var(--vh, 1vh) * 4);
   font-size: calc(var(--vh, 1vh) * 2.6);
   font-weight: 100;
@@ -509,4 +525,35 @@ input:checked + svg.cross path:nth-of-type(2) {
   display: none;
   width: 0;
   height: 0;
+}
+
+@media screen and (max-width: 400px) {
+  .additions label svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .option .trip-params {
+    height: 125px;
+  }
+  
+  .trigger {
+    height: 125px;
+  }
+
+  .option fieldset.address input.address {
+    height: 52.5px;
+  }
+
+  .option fieldset.address svg.map-pick {
+    top: 26px;
+    height: 20px;
+    width: 15px;
+  }
+
+  .option .remove-address {
+    top: 26px;
+    height: 20px;
+    width: 15px;
+  }
 }

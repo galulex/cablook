@@ -89,6 +89,7 @@ main.login button.resend {
   padding: 0;
   color: var(--font_color_1);
   margin-top: 2vh;
+  border-radius: 0;
 }
 
 main.login .buttons__container {
