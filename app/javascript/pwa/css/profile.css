@@ -527,10 +527,12 @@ ul.places > li > span::-webkit-scrollbar,
 
 section.profile svg.map-pick {
   right: 3px;
-  top: 50%;
+  top: 3.5vh;
+  top: calc(var(--vh, 1vh) * 3.5);
   transform: translateY(-50%);
-  width: 25px;
-  height: 25px;
+  width: 15px;
+  height: 3vh;
+  height: calc(var(--vh, 1vh) * 3);
 }
 
 
