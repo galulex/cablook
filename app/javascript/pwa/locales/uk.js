@@ -79,7 +79,7 @@ const uk = {
   },
   drawer: {
     bonuses: 'Халява',
-    cards: 'Платежі',
+    cards: 'Картки',
     contacts: 'Контакти',
     home: 'Викликати таксі',
     logout: 'Вийти',
