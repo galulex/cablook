@@ -229,7 +229,7 @@ export default class App extends Component {
     document.body.className = ''
   }
 
-  setGeocoding = (isGeocoding) => {
+  setGeocoding = (isGeocoding = true) => {
     this.setState({ isGeocoding })
   }
 
@@ -385,7 +385,8 @@ export default class App extends Component {
   }
 
   render() {
-    const { currentTrip, isGeocoding } = this.state
+    const { currentTrip, isGeocoding, availableBonusTrips,
+            cards, language, bonus_trips, favorite_addresses } = this.state
 
     if (this.state.currentUser) {
       return(
@@ -403,17 +404,17 @@ export default class App extends Component {
             <NewDesign path='/'
               trip={currentTrip}
               cards={() => this.state.cards}
-              bonus_trips={() => this.state.bonus_trips}
+              bonus_trips={() => bonus_trips}
               createCard={this.createCard}
-              language={this.state.language}
-              favorite_addresses={() => this.state.favorite_addresses}
+              language={language}
+              favorite_addresses={() => favorite_addresses}
               fetchUser={this.fetchUser}
               geocode={this.geocode}
               scrollEnd={this.scrollEnd}
               isYmapsLoading={this.state.isYmapsLoading}
               setBonusTrips={this.setBonusTrips}
               getAvailableBonusTrips={this.getAvailableBonusTrips}
-              availableBonusTrips={this.state.availableBonusTrips}
+              availableBonusTrips={availableBonusTrips}
               resetCurrentTrip={this.resetCurrentTrip}
               isGeocoding={isGeocoding}
               showFeedback={this.showFeedback}
@@ -427,7 +428,7 @@ export default class App extends Component {
               showFeedback={this.showFeedback}
               setActivateFeedback={this.setActivateFeedback}
             />
-            <Cards path='/cards' cards={() => this.state.cards} create={this.createCard} currentUserID={() => this.state.currentUserID} />
+            <Cards path='/cards' cards={() => cards} create={this.createCard} currentUserID={() => this.state.currentUserID} />
             <Contacts path='/contacts' />
             <Profile path='/profile'
               notification_settings={this.state.notification_settings}

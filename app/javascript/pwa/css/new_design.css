@@ -349,6 +349,10 @@ svg.pin-last path {
   display: block;
 }
 
+.pick .buttons {
+  visibility: hidden;
+}
+
 .pick .wrapper {
   pointer-events: none;
 }

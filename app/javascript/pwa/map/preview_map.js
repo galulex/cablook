@@ -70,7 +70,8 @@ export default class PreviewMap extends Component {
       point: {
         lat: null,
         lng: null
-      }
+      },
+      isGeocoding: false
     }
   }
 
@@ -103,6 +104,7 @@ export default class PreviewMap extends Component {
     this.map.on('movestart', () => {
       this.move = true
       document.documentElement.style.setProperty('--car-transition', '0s')
+      this.setState({isGeocoding: true})
     })
 
     this.map.on('moveend', () => {
@@ -148,9 +150,6 @@ export default class PreviewMap extends Component {
       this.map.addSource('line', { type: 'geojson', lineMetrics: true, data: this.state.geojson || GEOJSON })
       this.map.addLayer(PATHLAYER)
     })
-  }
-
-  componentWillUnmount() {
   }
 
   updatePoint = (latlng) => {
@@ -223,7 +222,7 @@ export default class PreviewMap extends Component {
     this.markers.map(m => m.remove())
     this.map.on('movestart', this.movestart)
     this.map.on('moveend', this.moveend)
-    this.geocode()
+    this.geocode
   }
 
   moveend = () => {
@@ -231,7 +230,6 @@ export default class PreviewMap extends Component {
   }
 
   movestart = () => {
-    this.props.setGeocoding(true)
     clearTimeout(timeout)
     timeout = null
   }
@@ -246,7 +244,7 @@ export default class PreviewMap extends Component {
     this.props.geocode(`${lng},${lat}`, (address) => {
       if (this.move) return
       this.props.setAddress(address, `${lat},${lng}`, this.state.index)
-      this.props.setGeocoding(false)
+      this.setState({isGeocoding: false})
     })
   }
 
@@ -353,13 +351,21 @@ export default class PreviewMap extends Component {
   }
 
   render() {
-    const { trip } = this.props
-    let { cars_locations } = this.state
+    const { picker, pickAddress } = this.props
 
     return (
       <div class='main_map'>
         <Pin class='pin picker' width='30px' ref={pin => this.pin = pin}/>
         <div class='map' ref={el => this.mapContainer = el}/>
+        { (picker !== null && [CONFIRM_UPDATE_TRIP].includes(this.props.trip().status) ) &&
+          <button
+            class='button green pick_address fixed'
+            type='button'
+            disabled={this.state.isGeocoding}
+            onClick={pickAddress}>
+              OK
+          </button>
+        }
       </div>
     )
   }
