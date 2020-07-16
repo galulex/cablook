@@ -16,7 +16,7 @@ export default class CurrentDeliveryTrip extends Component {
     const time = localStorage.getItem('delivery_time')
 
     return(
-      <div>
+      <div class="general__holder">
         <header>{i18n.current_delivery_trip.header}</header>
         <section class='delivery-trip'>
           { dark_mode ? <TaxiDriverDT class='driver_icon'/>  : <TaxiDriverLT class='driver_icon'/> }
