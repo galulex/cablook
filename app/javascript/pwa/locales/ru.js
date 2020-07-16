@@ -79,7 +79,7 @@ const ru = {
   },
   drawer: {
     bonuses: 'Халява',
-    cards: 'Платежи',
+    cards: 'Карты',
     contacts: 'Контакты',
     home: 'Вызвать такси',
     logout: 'Выйти',

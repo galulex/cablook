@@ -52,7 +52,7 @@ export default class MapPicker extends Component {
 
     this.map.on('movestart', () => {
       this.hideAddressBar()
-      this.props.setGeocoding(true)
+      this.props.setGeocoding()
     });
 
     this.map.on('moveend', () => {
@@ -91,7 +91,7 @@ export default class MapPicker extends Component {
 
     this.props.geocode(`${lng},${lat}`, (address) => {
       this.props.setGeocoding(false)
-      this.setState({ address_bar: true, address: address });
+      this.setState({ address_bar: true, address: address })
     })
   }
 

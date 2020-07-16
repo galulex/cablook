@@ -630,7 +630,6 @@ export default class NewDesign extends Component {
   }
 
   renderFields(trip, isValid, cards) {
-
     return(
       <div id='fields' class='options' ref={fields => this.fields = fields} onScroll={this.props.scrollEnd}>
         <button class='trigger' onClick={ () => this.scroll(1) }>
@@ -724,7 +723,11 @@ export default class NewDesign extends Component {
   }
 
   render() {
-    const { lastTripId, showWidget, trip } = this.state
+    const { lastTripId, showWidget, trip,
+            paymentButtonDisabled, car, driver,
+            picker, cancelTimer } = this.state
+    const { language, isGeocoding, setGeocoding,
+            geocode, showFeedback, availableBonusTrips } = this.props
     const cards = this.props.cards()
     let isValid = trip.stops.includes('')
     let cost = (trip.cost) ? `${trip.cost}` : ''
@@ -738,16 +741,18 @@ export default class NewDesign extends Component {
           <style>{`fieldset.address:nth-child(${this.state.picker + 1}) { opacity: 1;}`}</style>
           <PreviewMap
             trip={() => trip}
-            car={this.state.car}
-            driver={this.state.driver}
+            car={car}
+            driver={driver}
             isValid={this.isValid}
-            language={this.props.language}
-            picker={this.state.picker}
+            language={language}
+            picker={picker}
             setAddress={this.setAddress}
-            geocode={this.props.geocode}
+            geocode={geocode}
+            isGeocoding={isGeocoding}
+            setGeocoding={setGeocoding}
+            pickAddress={this.pickAddress}
             ref={(el) => this.previewMapRef = el}
-            isGeocoding={this.props.isGeocoding}
-            setGeocoding={this.props.setGeocoding}/>
+          />
           { !this.props.showFeedback() &&
             <div class='wrapper'>
               { [CONFIRM_UPDATE_TRIP, CANCELED, CANCELED_BY_DRIVER, undefined, null].includes(trip.status) && this.renderFields(trip, isValid, cards) }
@@ -764,16 +769,15 @@ export default class NewDesign extends Component {
             cancel={this.cancel}
             retry={this.retry}
             cancelDeclined={this.cancelDeclined}
-            picker={this.state.picker}
-            isGeocoding={this.props.isGeocoding}
-            pickAddress={this.pickAddress}
+            picker={picker}
+            isGeocoding={isGeocoding}
             showWidget={this.showWidget}
             showWidgetTrue={this.showWidgetTrue}
             cards={cards}
-            paymentButtonDisabled={this.state.paymentButtonDisabled}
-            cancelTimer={this.state.cancelTimer}
-            showFeedback={this.props.showFeedback}
-            availableBonusTrips={this.props.availableBonusTrips}/>
+            paymentButtonDisabled={paymentButtonDisabled}
+            cancelTimer={cancelTimer}
+            showFeedback={showFeedback}
+            availableBonusTrips={availableBonusTrips}/>
           { showWidget && <Widget createCard={this.createCard} showWidget={() => this.setState({showWidget: false}) }/> }
         </section>
       </div>

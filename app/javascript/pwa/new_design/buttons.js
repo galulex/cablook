@@ -11,8 +11,8 @@ export default class Buttons extends Component {
             cancelTimer, cards, cost,
             picker, isValid, retry, cancel,
             paymentButtonDisabled, showWidgetTrue,
-            cancelDeclined, pickAddress, updateRoute,
-            confirmUpdate, showFeedback, isGeocoding } = this.props
+            cancelDeclined, updateRoute,
+            confirmUpdate, showFeedback } = this.props
     const { stops, status, bonus } = trip
 
     return (
@@ -89,15 +89,6 @@ export default class Buttons extends Component {
             value={bonus}
             onClick={updateRoute}>
               {i18n.trip.edit}
-          </button>
-        }
-        { (picker !== null) &&
-          <button
-            class='button green pick_address fixed'
-            type='button'
-            disabled={isGeocoding}
-            onClick={pickAddress}>
-              OK
           </button>
         }
       </div>
