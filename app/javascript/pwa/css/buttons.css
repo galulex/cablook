@@ -105,8 +105,10 @@
 }
 
 .button.retry {
-  background: #efcc3a;
-  background: var(--orange_2);
+  background: rgba(255, 255, 255, .5);
+  background: var(--orange-button-bg);
+  color: #efcc3a;
+  color: var(--orange_2);
   bottom: 75px;
 }
 
