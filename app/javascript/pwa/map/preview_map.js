@@ -357,7 +357,7 @@ export default class PreviewMap extends Component {
       <div class='main_map'>
         <Pin class='pin picker' width='30px' ref={pin => this.pin = pin}/>
         <div class='map' ref={el => this.mapContainer = el}/>
-        { (picker !== null && [CONFIRM_UPDATE_TRIP].includes(this.props.trip().status) ) &&
+        { (picker !== null ) &&
           <button
             class='button green pick_address fixed'
             type='button'
