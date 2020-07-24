@@ -27,23 +27,26 @@ export default class Category extends Component {
     }
 
     return (
-      <details>
-        <summary class='vendor-category'>{category}</summary>
-        <div class='content'>
-          {result.map((item, index) => {
-            return (
-              <ItemPreview
-                  category={category}
-                  item={item}
-                  key={index}
-                  updateCart={this.updateCart}
-                  vendor={vendor}
-                  hide_content={false}
-                  active={''}/>
-            )
-          })}
-        </div>
-      </details>
+      <div>
+        <details>
+          <summary class='vendor-category'>{category}</summary>
+          <div class='content'>
+            {result.map((item, index) => {
+              return (
+                <ItemPreview
+                    category={category}
+                    item={item}
+                    key={index}
+                    updateCart={this.updateCart}
+                    vendor={vendor}
+                    hide_content={false}
+                    active={''}/>
+              )
+            })}
+          </div>
+        </details>
+        <div class="arrow">▼</div>
+      </div>
     )
   }
 }
