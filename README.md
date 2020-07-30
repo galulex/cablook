@@ -109,3 +109,33 @@ github_workflow start -i, --issue-id=ISSUE_ID
 ```
 github_workflow push_and_pr
 ```
+
+## :taco: How to update vendors prices
+
+**Step 1:** Edit local JSON file in `cablook/public`.
+
+**Step 2:** Open edit link and replace content with information from JSON file.
+
+**Step 3:** Enter security key and save changes.
+
+**Step 3:** Commit and push local changes
+
+**McDonalds:**
+
+View: https://json.extendsclass.com/bin/6a654d47e2ce
+
+Edit: https://extendsclass.com/jsonstorage/6a654d47e2ce
+
+**Lviv Croissants:**
+
+View: https://json.extendsclass.com/bin/3518bd9b1b02
+
+Edit: https://extendsclass.com/jsonstorage/3518bd9b1b02
+
+**Doner Kebab:**
+
+View: https://json.extendsclass.com/bin/dd3449edceb0
+
+Edit: https://extendsclass.com/jsonstorage/dd3449edceb0
+
+Security key: `C@bL0ok2020`
