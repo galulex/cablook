@@ -108,7 +108,7 @@ export default class App extends Component {
       this.fetchUser()
       this.checkOneSignalToken()
       waitForToken = setInterval(this.waitForFCMToken, 3000)
-      document.documentElement.style.setProperty('--body-bg', '#e6efee')
+      document.documentElement.style.setProperty('--body-bg', '#ced5d3')
     }
     this.registerServiceworker()
     window.addEventListener('offline', this.offline, { passive: true })

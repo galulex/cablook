@@ -11,6 +11,10 @@ import Target from '../images/target.svg'
 import Location  from '../images/target.svg'
 import Cross  from '../images/cross.js'
 
+const locationPick = { location: '', address: '', favorite_address: true,
+                       structured_formatting: { main_text: i18n.address_input.pick_location, secondary_text: i18n.address_input.move_map },
+                       pick_address: true }
+
 export default class AddressInput extends Component {
   constructor(props) {
     super(props)
@@ -41,6 +45,9 @@ export default class AddressInput extends Component {
     if (this.props.currentLocation) {
       fav.push(this.props.currentLocation)
     }
+    if (mapboxgl.supported() && this.input.value === '') {
+      fav.push(locationPick)
+    }
     {this.props.favorite_addresses().map((el) => {
       fav.push({location: el.location,
                 address: el.address,
@@ -53,12 +60,16 @@ export default class AddressInput extends Component {
 
   renderPrediction = (prediction) => {
     return(
-      <li disabled={this.state.disabled} onClick={() => this.setLocation(prediction)} class={prediction === this.props.currentLocation ? 'prediction current_location' : 'prediction'}>
-        {prediction === this.props.currentLocation ? <Target/> : <Cablook width='32px'/>}
+      <li
+        disabled={this.state.disabled}
+        onClick={prediction.pick_address ? this.openMap : () => this.setLocation(prediction)}
+        class={prediction === this.props.currentLocation ? 'prediction current_location' : 'prediction'}
+      >
+        {prediction === this.props.currentLocation ? <Target/> : prediction.pick_address ? <Pin class='pin map-pick' /> : <Cablook width='32px'/>}
         <b>{(prediction.structured_formatting) ? prediction.structured_formatting.main_text : prediction}</b>
         <br/>
         <sub>{(prediction.structured_formatting) ? prediction.structured_formatting.secondary_text : 'Cherkasy'}</sub>
-      </li>
+      </li> 
     )
   }
 
@@ -182,7 +193,6 @@ export default class AddressInput extends Component {
     return (
       <fieldset class='address'>
         {(fieldsCount > 2 || address !== '') && !hideRemove && !readonly && (<button disabled={index === 0 ? inputDisabled : false} class='remove-address' type='button' onClick={() => this.eraseAddress(index)}> <Cross/> </button>)}
-        {mapboxgl.supported() && <Pin onClick={this.openMap} disabled={readonly || ( index === 0 ? inputDisabled : false )} class='pin map-pick'/>}
         {this.state.isShowMap && <MapPicker
                                     onCloseMap={this.closeMap}
                                     handleBack={this.handleBack}
