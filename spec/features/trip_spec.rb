@@ -31,11 +31,11 @@ RSpec.feature 'Trip', type: :feature, js: true do
     all('input')[0].trigger(:focus)
     all('input')[0].set('')
     wait 3 do
-      first('li.prediction', visible: false).trigger(:click)
+      all('li.prediction', visible: false)[1].trigger(:click)
     end
     all('input')[1].trigger(:focus)
     all('input')[1].set('')
-    all('li.prediction', visible: false)[1].trigger(:click)
+    all('li.prediction', visible: false)[2].trigger(:click)
     wait 3 do
       find_button('GO 56').trigger(:click)
     end
@@ -49,11 +49,11 @@ RSpec.feature 'Trip', type: :feature, js: true do
     all('input')[0].trigger(:focus)
     all('input')[0].set('')
     wait 3 do
-      first('li.prediction', visible: false).trigger(:click)
+      all('li.prediction', visible: false)[1].trigger(:click)
     end
     all('input')[1].trigger(:focus)
     all('input')[1].set('')
-    all('li.prediction', visible: false)[1].trigger(:click)
+    all('li.prediction', visible: false)[2].trigger(:click)
     wait 3 do
       find_button('GO 56').trigger(:click)
     end
@@ -79,7 +79,7 @@ RSpec.feature 'Trip', type: :feature, js: true do
     end
     all('input')[3].trigger(:focus)
     all('input')[3].set('')
-    first('li.prediction', visible: false).trigger(:click)
+    all('li.prediction', visible: false)[1].trigger(:click)
     wait 3 do
       find_button('GO 56').trigger(:click)
     end

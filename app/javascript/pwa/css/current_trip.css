@@ -250,6 +250,11 @@ svg.map-pick path {
   fill: var(--green);
 }
 
+li.prediction svg.map-pick {
+  height: 20px;
+  width: 12px;
+}
+
 select#entrance, input#time, .select select, select#select_time {
   color: #312d50;
   color: var(--navy-dark);
