@@ -390,7 +390,7 @@ export default class App extends Component {
 
     if (this.state.currentUser) {
       return(
-        <main id="app" onClick={this.closeDrawer} ref={main => this.main = main} dir='rtl'>
+        <main id="app" onClick={this.closeDrawer} ref={main => this.main = main}>
           { this.state.isBurgerShowing &&
             <button
               class={`button white-opacity burger ${this.state.activateFeedback ? 'hidden' : ''}`}
@@ -399,6 +399,7 @@ export default class App extends Component {
                 <Burger/>
             </button>
           }
+          <Drawer triggerDrawer={this.triggerDrawer} logOut={this.logOut} />
           <Router history={window.ios ? createMemoryHistory() : null} onChange={() => this.triggerDrawer(false)}>
             <NewDesign path='/'
               trip={currentTrip}
@@ -462,7 +463,6 @@ export default class App extends Component {
               showBurger={this.showBurger}
             />
           </Router>
-          <Drawer triggerDrawer={this.triggerDrawer} logOut={this.logOut}/>
           <Prompt />
         </main>
       )
