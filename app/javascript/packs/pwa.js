@@ -294,7 +294,7 @@ export default class App extends Component {
   }
 
   triggerDrawer = (open = true) => {
-    setTimeout(() => { this.main && this.main.scrollTo({left: (open) ? 0 : 300, behavior: 'smooth'}) }, 10)
+    setTimeout(() => { this.main && this.main.scrollTo({left: (open) ? -300 : 0, behavior: 'smooth'}) }, 10)
   }
 
   updateCards = (cards) => {
@@ -361,7 +361,7 @@ export default class App extends Component {
     let target = e.target
     clearTimeout(window.scrollTimeout)
     window.scrollTimeout = setTimeout(() => {
-      if (target.scrollLeft == 0 || target.scrollLeft == target.offsetWidth || target.scrollLeft == 300) return
+      if ([0, target.offsetWidth, 300, -300].includes(target.scrollLeft)) return
       let x = (target.scrollLeft > 0 && target.scrollLeft < target.offsetWidth / 2) ? 0 : target.offsetWidth
       if (!window.isTouching) target.scrollTo({left: x})
     }, 300)
@@ -462,7 +462,7 @@ export default class App extends Component {
               showBurger={this.showBurger}
             />
           </Router>
-          <Drawer triggerDrawer={this.triggerDrawer} logOut={this.logOut}/>
+          <Drawer logOut={this.logOut}/>
           <Prompt />
         </main>
       )

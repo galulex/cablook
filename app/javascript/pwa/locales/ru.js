@@ -92,7 +92,7 @@ const ru = {
     from: 'Откуда',
     loading: 'Загрузка...',
     location: 'Моё местоположение',
-    pick_location: 'Выберите место на карте',
+    pick_location: 'Выбрanm на карте',
     move_map: 'Двигайте карту, чтобы выбрать место',
     no_result: 'Нет результатов',
     where: 'Куда'
