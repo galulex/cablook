@@ -92,7 +92,7 @@ const en = {
     from: 'From',
     loading: 'Loading...',
     location: 'My Location',
-    pick_location: 'Pick location on map',
+    pick_location: 'Pick on map',
     move_map: 'Move map to pick location',
     no_result: 'No Results',
     where: 'Where'
