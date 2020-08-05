@@ -16,13 +16,9 @@ export default class Drawer extends Component {
     super(props)
   }
 
-  componentDidMount() {
-    this.props.triggerDrawer(false)
-  }
-
   render() {
     return (
-      <aside>
+      <aside dir='ltr'>
         <div class='nav-wrapper'>
           <Link class='nav-header' href='/profile'>
             <Profile/>
