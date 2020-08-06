@@ -12,8 +12,11 @@ module Events
       end
 
       def run
-        Telegram.bot.send_message(chat_id: data[:chat_id], text: data[:message], parse_mode: 'Markdown')
-        Telegram.bot.send_location(chat_id: data[:chat_id], latitude: data[:location][0], longitude: data[:location][1]) if data[:location]
+        chat_id = data[:chat_id]
+        location = data[:location]
+        bot = Telegram.bot
+        bot.send_message(chat_id: chat_id, text: data[:message], parse_mode: 'Markdown')
+        bot.send_location(chat_id: chat_id, latitude: location[0], longitude: location[1])
       end
     end
   end
