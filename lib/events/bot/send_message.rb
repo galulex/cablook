@@ -17,6 +17,9 @@ module Events
         bot = Telegram.bot
         bot.send_message(chat_id: chat_id, text: data[:message], parse_mode: 'Markdown')
         bot.send_location(chat_id: chat_id, latitude: location[0], longitude: location[1])
+      rescue Telegram::Bot::Error => error
+        wait 60
+        run
       end
     end
   end
