@@ -29,6 +29,16 @@ describe Events::Bot::SendMessage do
         it { is_expected.to raise_error(Events::InvalidParamsError) }
       end
     end
+
+    context 'and rerun when bot fails' do
+      let(:data) { default_data }
+
+      before do
+        allow(Telegram).to receive('bot').and_raise(Telegram::Bot::Error)
+        expect(Jobs::TelegramSendMessage).to receive_message_chain(:set, :perform_later)
+      end
+
+      it { subject.call }
+    end
   end
 end
-

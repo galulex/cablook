@@ -14,12 +14,12 @@ module Events
       def run
         chat_id = data[:chat_id]
         location = data[:location]
+        message = data[:message]
         bot = Telegram.bot
-        bot.send_message(chat_id: chat_id, text: data[:message], parse_mode: 'Markdown')
+        bot.send_message(chat_id: chat_id, text: message, parse_mode: 'Markdown')
         bot.send_location(chat_id: chat_id, latitude: location[0], longitude: location[1])
       rescue Telegram::Bot::Error => error
-        wait 60
-        run
+        Jobs::TelegramSendMessage.set(wait: 1.minute).perform_later(chat_id, message, location)
       end
     end
   end
