@@ -62,10 +62,9 @@ describe DriverMapChannel do
       }
     end
 
-    let(:redis_car_location) { Redis.current.get("car_#{car.id}") }
-    let(:redis_car_max) { Redis.current.get("max_#{car.id}") }
-
     context 'that redis save location' do
+      let(:redis_car_location) { Redis.current.get("car_#{car.id}") }
+
       before do
         Redis.current.set("car_#{car.id}", "#{latitude},#{longitude}")
         channel.perform_action(data)
@@ -87,9 +86,9 @@ describe DriverMapChannel do
 
     context 'and have enqued job' do
       before do
-        channel.perform_action(data)
         Redis.current.set("car_#{car.id}", "#{latitude},#{longitude}")
-        Redis.current.set("max_#{car.id}", speed) 
+        channel.perform_action(data)
+        Redis.current.set("max_#{car.id}", speed)
       end
 
       after { channel.perform_action(data) }
