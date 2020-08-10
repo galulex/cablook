@@ -143,8 +143,7 @@ export default class Session extends Component {
   }
 
   autoSubmitForm = (e) => {
-    if (typeof document.createElement('input').checkValidity !== 'function') return
-    if (e.target.checkValidity()) this.submitForm.click()
+    if ('reportValidity' in document.createElement('form') && e.target.checkValidity()) this.submitForm.click()
   }
 
   createSession = (e) => {
