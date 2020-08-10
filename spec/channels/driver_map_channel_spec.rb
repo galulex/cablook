@@ -5,11 +5,12 @@ describe DriverMapChannel do
   context '#send_location' do
     let(:trip) {create(:trip, car_id: car.id, status: Constants::Trip::DRIVING)}
     let(:car) {create(:car)}
-    let(:latitude) { 50.846042486788605 }
-    let(:longitude) { 14.88 }
+    let(:latitude) { 49.426168 }
+    let(:longitude) { 32.054251 }
     let(:latitude_first) { 42.78437439386835 }
     let(:longitude_first) { 15.2 }
     let(:speed) { 20 }
+    let(:overspeed) { 90 }
     let(:data) do
       {
         'action' => 'send_location',
@@ -39,7 +40,7 @@ describe DriverMapChannel do
           'latitude': latitude,
           'longitude': longitude,
           'car_id': car.id,
-          'speed': 90
+          'speed': overspeed
         }.to_json
       }
     end
@@ -51,8 +52,8 @@ describe DriverMapChannel do
           longitude: longitude
         },
         car: {
-          'deg' => 173.2511321253247,
-          'dis' => 866.391195752578,
+          'deg' => 155.65681685979482,
+          'dis' => 1991.1805060912232,
           'id' => car.id,
           'number' => car.number,
           'phone_number' => car.phone_number,
@@ -61,9 +62,9 @@ describe DriverMapChannel do
       }
     end
 
-    let(:redis_car_location) { Redis.current.get("car_#{car.id}") }
-
     context 'that redis save location' do
+      let(:redis_car_location) { Redis.current.get("car_#{car.id}") }
+
       before do
         Redis.current.set("car_#{car.id}", "#{latitude},#{longitude}")
         channel.perform_action(data)
@@ -72,15 +73,23 @@ describe DriverMapChannel do
       it { expect(redis_car_location).to eq("#{latitude},#{longitude}") }
     end
 
+    context 'and not have enqued job' do
+      before do
+        Redis.current.set("car_#{car.id}", "#{latitude},#{longitude}")
+        channel.perform_action(data)
+      end
+
+      it { expect(Jobs::TelegramSendMessage).not_to receive(:perform_later) }
+    end
+
     context 'and have enqued job' do
       before do
         Redis.current.set("car_#{car.id}", "#{latitude},#{longitude}")
-        channel.perform_action(data_overspeed)
+        Redis.current.set("max_#{car.id}", speed)
+        expect(Jobs::TelegramSendMessage).to receive(:perform_later)
       end
 
-      after { channel.perform_action(data_overspeed) }
-
-      it { expect(Jobs::TelegramSendMessage).to receive(:perform_later) }
+      it { channel.perform_action(data) }
     end
 
     context 'and broadcast car location to this channel' do
@@ -99,8 +108,8 @@ describe DriverMapChannel do
             location: [latitude, longitude],
             speed: speed,
             car: {
-              'deg' => 173.2511321253247,
-              'dis' => 866.391195752578,
+              'deg' => 155.65681685979482,
+              'dis' => 1991.1805060912232,
               'id' => car.id,
               'number' => car.number,
               'phone_number' => car.phone_number,
@@ -126,33 +135,6 @@ describe DriverMapChannel do
           )
         end
       end
-    end
-  end
-
-  context '#accept_trip' do
-    let(:driver) { create(:driver, car_id: create(:car).id) }
-    let(:trip) { create(:trip, status: 0) }
-    let(:data) do
-      {
-        'action' => 'accept_trip',
-        'body' => {
-          'car_id': driver.car_id,
-          'driver_id': driver.id,
-          'trip_id': trip.id
-        }.to_json
-      }
-    end
-
-    after { channel.perform_action(data) }
-
-    it { expect(Events::Trips::Accept).to receive(:call).once }
-
-    context 'when trip was accepted' do
-      let(:trip) { create(:trip, status: Constants::Trip::ON_THE_WAY) }
-    end
-
-    context 'when data is invalid' do
-      let(:data) { {} }
     end
   end
 
