@@ -138,33 +138,6 @@ describe DriverMapChannel do
     end
   end
 
-  context '#accept_trip' do
-    let(:driver) { create(:driver, car_id: create(:car).id) }
-    let(:trip) { create(:trip, status: 0) }
-    let(:data) do
-      {
-        'action' => 'accept_trip',
-        'body' => {
-          'car_id': driver.car_id,
-          'driver_id': driver.id,
-          'trip_id': trip.id
-        }.to_json
-      }
-    end
-
-    after { channel.perform_action(data) }
-
-    it { expect(Events::Trips::Accept).to receive(:call).once }
-
-    context 'when trip was accepted' do
-      let(:trip) { create(:trip, status: Constants::Trip::ON_THE_WAY) }
-    end
-
-    context 'when data is invalid' do
-      let(:data) { {} }
-    end
-  end
-
   context '#sos' do
     let(:driver) { create(:driver, car_id: create(:car).id) }
     let(:data) do

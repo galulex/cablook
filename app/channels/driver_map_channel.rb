@@ -23,19 +23,10 @@ class DriverMapChannel < ApplicationCable::Channel
     send_overspeed(car, speed)
   end
 
-  def accept_trip(data)
-    body = JSON.parse(data.fetch('body'))
-    Events::Trips::Accept.(body.symbolize_keys)
-  rescue Events::InvalidParamsError
-    # Bad parameters
-  end
-
   private
 
   def send_overspeed(car, speed)
-    polygon = Geokit::Polygon.new(JSON.parse(File.read('config/polygons/cherkassy.json')).map { |point| Geokit::LatLng.new(point['lat'], point['lng']) })
-    point = Geokit::LatLng.new(*car.location)
-    return unless polygon.contains?(point)
+    return unless polygon.contains?(Geokit::LatLng.new(*car.location))
     max = redis.get("max_#{car.id}")
     if max && speed < Constants::Car::MAX_SPEED
       message = "🚨Водій перевищив швидкість!🚨\n🚕 #{car.number}\n👤 #{car.driver&.name}\n📞 [#{car.phone_number}](tel:#{car.phone_number})\n⚠ #{max} КМ/Г"
@@ -74,6 +65,10 @@ class DriverMapChannel < ApplicationCable::Channel
         }
       )
     end
+  end
+
+  def polygon
+    @polygon ||= Geokit::Polygon.new(JSON.parse(File.read('config/polygons/cherkassy.json')).map { |point| Geokit::LatLng.new(point['lat'], point['lng']) })
   end
 
   def redis
