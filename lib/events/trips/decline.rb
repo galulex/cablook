@@ -10,8 +10,9 @@ module Events
       end
 
       def run
-        return unless trip.status == Constants::Trip::STATUS_CODES[Constants::Trip::PENDING]
-        trip.update(status: Constants::Trip::DECLINED)
+        return if !trip.pending? || trip.driver.present?
+
+        trip.declined!
         trip.trip_payment.update(status: Constants::Payments::DECLINE)
         refund_bonus
         broadcast
