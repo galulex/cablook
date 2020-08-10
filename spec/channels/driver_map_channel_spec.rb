@@ -5,8 +5,8 @@ describe DriverMapChannel do
   context '#send_location' do
     let(:trip) {create(:trip, car_id: car.id, status: Constants::Trip::DRIVING)}
     let(:car) {create(:car)}
-    let(:latitude) { 50.846042486788605 }
-    let(:longitude) { 14.88 }
+    let(:latitude) { 49.426168 }
+    let(:longitude) { 32.054251 }
     let(:latitude_first) { 42.78437439386835 }
     let(:longitude_first) { 15.2 }
     let(:speed) { 20 }
@@ -52,8 +52,8 @@ describe DriverMapChannel do
           longitude: longitude
         },
         car: {
-          'deg' => 173.2511321253247,
-          'dis' => 866.391195752578,
+          'deg' => 155.65681685979482,
+          'dis' => 1991.1805060912232,
           'id' => car.id,
           'number' => car.number,
           'phone_number' => car.phone_number,
@@ -86,11 +86,10 @@ describe DriverMapChannel do
       before do
         Redis.current.set("car_#{car.id}", "#{latitude},#{longitude}")
         Redis.current.set("max_#{car.id}", speed)
+        expect(Jobs::TelegramSendMessage).to receive(:perform_later)
       end
 
-      after { channel.perform_action(data) }
-
-      it { expect(Jobs::TelegramSendMessage).to receive(:perform_later) }
+      it { channel.perform_action(data) }
     end
 
     context 'and broadcast car location to this channel' do
@@ -109,8 +108,8 @@ describe DriverMapChannel do
             location: [latitude, longitude],
             speed: speed,
             car: {
-              'deg' => 173.2511321253247,
-              'dis' => 866.391195752578,
+              'deg' => 155.65681685979482,
+              'dis' => 1991.1805060912232,
               'id' => car.id,
               'number' => car.number,
               'phone_number' => car.phone_number,
