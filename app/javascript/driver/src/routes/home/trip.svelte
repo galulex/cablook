@@ -88,6 +88,7 @@
   }
 
   let paymentVerify = () => {
+    if (trip.vip || trip.trips_count > 20) return
     paymentIcon = Dollar
     paymentCheck = true
     axios.patch(`trips/${trip.id}/payments_verify`).then(res => {
