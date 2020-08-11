@@ -500,7 +500,7 @@ export default class NewDesign extends Component {
   }
 
   checkAcceptionTime = (cancelTimer) => {
-    return cancelTimer < 60
+    return cancelTimer < 120
   }
 
   startCountdown = () => {
@@ -514,7 +514,7 @@ export default class NewDesign extends Component {
     if (!trip.accepted_at) return
     let current = new Date().getTime()
     let accepted_at = new Date(trip.accepted_at).getTime()
-    let cancelTimer = 60 - Math.floor((current - accepted_at)/1000)
+    let cancelTimer = 120 - Math.floor((current - accepted_at)/1000)
     if (!this.checkAcceptionTime(cancelTimer)) return
     this.setState({cancelTimer}, () => {
       if (cancelTimer < 1) this.clearCountdown()
