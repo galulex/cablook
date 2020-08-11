@@ -113,6 +113,7 @@
   const actions = [
     {
       action: () => {
+        if (trip.pre_order && Math.round((new Date(trip.start_at).getTime() - new Date().getTime()) / 1000 / 60) > 20) return
         disabled = true
         axios.patch(`trips/${trip.id}/waiting_client`).then(update)
       },
