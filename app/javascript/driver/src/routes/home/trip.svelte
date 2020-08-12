@@ -104,7 +104,8 @@
   }
 
   let isAbleToStart = () => {
-    return !trip.pre_order && Math.round((new Date(trip.start_at).getTime() - new Date().getTime()) / 1000 / 60) < 20
+    const minutesToPreorder = Math.round((new Date(trip.start_at).getTime() - new Date().getTime()) / 1000 / 60)
+    return trip.pre_order ? (minutesToPreorder < 20) : true
   }
 
   const paymentVerifyError = (message) => {

@@ -6,7 +6,6 @@ class Presenters::Trips::Detailed < Presenters::BaseSingle
   property :start_time, exec_context: :decorator
   property :accepted_at, exec_context: :decorator
   property :finish_time, exec_context: :decorator
-  property :start_at, exec_context: :decorator
 
   property :bonus, exec_context: :decorator
   property :driver_name, exec_context: :decorator
@@ -64,12 +63,6 @@ class Presenters::Trips::Detailed < Presenters::BaseSingle
 
   def start_time
     represented.start_at.strftime('%d/%m') > Time.now.strftime('%d/%m') ? represented.start_at.strftime('%d/%m, %H:%M') : represented.start_at.strftime('%H:%M')
-  rescue
-    nil
-  end
-
-  def start_at
-    represented.start_at.utc
   rescue
     nil
   end
