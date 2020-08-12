@@ -88,6 +88,7 @@
   }
 
   let paymentVerify = () => {
+    if (trip.vip || trip.trips_count > 20) return alert('Це постійний клієнт. Кошти знімуться по закінченні поїздки')
     paymentIcon = Dollar
     paymentCheck = true
     axios.patch(`trips/${trip.id}/payments_verify`).then(res => {
@@ -102,6 +103,10 @@
     })
   }
 
+  let isAbleToStart = () => {
+    return !trip.pre_order && Math.round((new Date(trip.start_at).getTime() - new Date().getTime()) / 1000 / 60) < 20
+  }
+
   const paymentVerifyError = (message) => {
     paymentCheck = false
     paymentIcon = Exclamation
@@ -112,6 +117,7 @@
   const actions = [
     {
       action: () => {
+        if (!isAbleToStart()) return alert('Заплановані замовлення можна почати тільки за 20 хвилин до часу початку')
         disabled = true
         axios.patch(`trips/${trip.id}/waiting_client`).then(update)
       },
