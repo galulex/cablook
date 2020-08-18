@@ -20,6 +20,7 @@ module Operations
           update_payment_and_total
           update_bonus_trip_if_necessary if success_response?
         end
+        return wayforpay_response['transactionStatus']
       end
 
       private
