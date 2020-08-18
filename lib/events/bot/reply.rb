@@ -164,7 +164,7 @@ module Events
       def trips_payment
         trip_id = Trip.unpaid.where(user_id: current_user.user_id).first&.id
         return telegram_order.perform(@command) unless trip_id
-        response = Operations::Wayforpay.settle(trip_id)
+        response = Operations::Wayforpay::DoPayment.new(trip_id, Constants::Payments::TYPES[:trip], nil).call
         response == DECLINED ? telegram_order.payment_declined : telegram_order.successful_payment
       end
 
