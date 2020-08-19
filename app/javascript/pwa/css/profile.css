@@ -359,9 +359,7 @@ input.custom-checkbox ~ .custom-checkbox__label-title {
   height: 100%;
   width: 100%;
   padding: 0 5%;
-  scroll-snap-type: y mandatory;
   overflow-y: scroll;
-  -webkit-overflow-scrolling: touch;
 }
 
 .tab-content__items {
