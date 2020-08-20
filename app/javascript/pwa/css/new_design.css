@@ -18,7 +18,6 @@ section.new_design {
   height: calc(var(--vh, 1vh) * 100);
   margin-top: 0;
   position: relative;
-  height: calc(var(--vh, 1vh) * 100);
   padding: 0;
   overflow: hidden;
 }

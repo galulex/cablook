@@ -29,7 +29,7 @@ input.address:focus + ul, input.address.focus + ul {
   visibility: visible;
   opacity: 1;
   transition: opacity .3s, visibility 0s 0s, max-height .3s;
-  max-height: 60vh;
+  max-height: calc(32.5vh + 20px);
   scroll-snap-align: center;
 }
 
@@ -71,6 +71,7 @@ li.prediction {
   cursor: pointer;
   position: relative;
   width: 100%;
+  height: 6.5vh;
 }
 
 li.prediction:after {
