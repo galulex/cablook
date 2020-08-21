@@ -65,7 +65,7 @@ module Events
 
       def fake_taxi_payment
         return unless trip.status == Constants::Trip::STATUS_CODES[Constants::Trip::WAITING_CLIENT]
-        Jobs::PaymentSettle.perform_later(data[:trip_id], Constants::Payments::TYPES[:fake], fake_amount)
+        Jobs::PaymentSettle.perform_later(data[:trip_id], Constants::Payments::TYPES[:fake], Constants::Trip::FAKE_TAXI_AMOUNT)
       end
 
       def broadcast_notification_cancel
@@ -122,10 +122,6 @@ module Events
       def refund_bonus
         bonus_trip = BonusTrip.find_by(trip_id: trip.id)
         bonus_trip&.fresh!
-      end
-
-      def fake_amount
-        @fake_amount ||= price.landing / 100
       end
     end
   end

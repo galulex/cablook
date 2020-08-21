@@ -17,6 +17,7 @@ module Constants
     MAX_DISTANCE = 60_000
     MAX_BONUS_DISTANCE = 10_000
     FREE_IDLE_VALUE = 5.minutes.to_i
+    FAKE_TAXI_AMOUNT = 25
 
     EXPIRES_IN = 70.seconds.freeze
 
