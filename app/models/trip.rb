@@ -82,6 +82,10 @@ class Trip < ApplicationRecord
     preorder_time.present?
   end
 
+  def current?
+    on_the_way? || waiting_client? || driving?
+  end
+
   def vip
     return true if order.present? || trip_payment&.card&.business.present?
     user&.vip || false

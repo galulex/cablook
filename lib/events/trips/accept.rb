@@ -20,6 +20,7 @@ module Events
           broadcast_accepted_trip
           broadcast_accepted_trip_to_trip_channel
           notify
+          Jobs::BroadcastLocation.perform_later(trip.id) if car.number.eql?('TESLA')
         else
           broadcast_with_error
           invalid!([I18n.t('trips.assigned_or_canceled')])
