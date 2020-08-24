@@ -429,7 +429,7 @@ input.custom-checkbox ~ .custom-checkbox__label-title {
   border-bottom: 2px solid rgba(119, 119, 119, .2);
 }
 
-.tab-content__container-item input.checkbox-switcher:checked ~ label.label-switcher:before {
+input.checkbox-switcher:checked ~ label.label-switcher:before {
   top: 0;
   left: calc(100% - 2.6vh);
   left: calc(100% - (var(--vh, 1vh) * 2.6));
@@ -437,7 +437,7 @@ input.custom-checkbox ~ .custom-checkbox__label-title {
   background: var(--green);
 }
 
-.tab-content__container-item label.label-switcher {
+label.label-switcher {
   width: 5.2vh;
   width: calc(var(--vh, 1vh) * 5.2);
   height: 2.6vh;
@@ -448,12 +448,12 @@ input.custom-checkbox ~ .custom-checkbox__label-title {
   transition: box-shadow .3s;
 }
 
-.tab-content__container-item label.label-switcher:hover,
-.tab-content__container-item input.checkbox-switcher:focus ~ label.label-switcher {
+label.label-switcher:hover,
+input.checkbox-switcher:focus ~ label.label-switcher {
   box-shadow: inset 2px 1px 4px var(--shadow_color), inset 0 0 1px var(--white);
 }
 
-.tab-content__container-item label.label-switcher:before {
+label.label-switcher:before {
   content: '';
   position: absolute;
   top: 0;
@@ -469,13 +469,14 @@ input.custom-checkbox ~ .custom-checkbox__label-title {
   box-shadow: inset -6px 0px 4px -4px rgba(0, 0, 0, 0.3);
 }
 
-.tab-content__container-item label.label-header {
+label.label-header {
+  transition: color .3s;
   overflow-y: auto;
   outline: none;
 }
 
-.tab-content__container-item label.label-header:focus,
-.tab-content__container-item label.label-header:hover {
+label.label-header:focus,
+label.label-header:hover {
   color: #19a160;
   color: var(--green);
 }

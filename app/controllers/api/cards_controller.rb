@@ -20,13 +20,19 @@ module Api
     def destroy
       event = Events::Cards::Delete.(card_id: params[:id].to_i, user_id: current_user.id)
       raise Constants::NotFoundError unless event
-      head :ok
+
+      render json: { cards: cards }, status: 200
     end
 
-    def update
+    def complete
       return head :unprocessable_entity unless parameters
       event = Events::Cards::Update.(orderReference: parameters['orderReference'], recToken: parameters['recToken'], transactionStatus: parameters['transactionStatus'])
       event ? (render json: event) : (head :not_modified)
+    end
+
+    def update
+      User.first.cards.update_all("\"default\" = (id = #{params[:id]})")
+      render json: cards.to_json, status: 200
     end
 
     private

@@ -100,7 +100,8 @@ const en = {
   cards: {
     add: 'Add Card',
     no_cards: 'You have no cards',
-    please_add: 'Please add card to proceed with the ride'
+    please_add: 'Please add card to proceed with the ride',
+    main: 'DEFAULT'
   },
   find_driver: {
     cancel: 'Cancel',

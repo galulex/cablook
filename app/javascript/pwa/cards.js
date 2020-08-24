@@ -27,10 +27,24 @@ export default class Cards extends Component {
         cardList = (
           <ul class='cards'>
             { this.props.cards.map((card, i) => {
-              if (card.user_id === this.props.currentUserID()) return(
+              if (card.user_id === this.props.currentUserID) return(
                 <li>
                   <Card card={card} class={window.dark ? 'card dark' : 'card light'}/>
-                  <button class='x-card' type='button' onClick={() => this.delete(card.id, i)}><Close fill='#a925ad'/></button>
+                  <button class='x-card' type='button' onClick={() => this.delete(card.id)}><Close fill='#a925ad'/></button>
+                  <div class='default'>
+                    <input
+                      id={`default_card_${card.id}`}
+                      class='checkbox-switcher'
+                      name='card[default]'
+                      onChange={(e) => { this.update(card.id) }}
+                      diabled={this.props.cards.length > 1}
+                      checked={card.default}
+                      type='radio'
+                      value='1'
+                    />
+                    <label for={`default_card_${card.id}`} class='label-switcher'></label>&nbsp;
+                    <label for={`default_card_${card.id}`} class='label-header'>{i18n.cards.main}</label>
+                  </div>
                 </li>
               )
             })}
@@ -50,18 +64,28 @@ export default class Cards extends Component {
   }
 
   create = (data) => {
-    this.props.create(data)
+    let cards = this.props.cards
+
+    axios.post('cards', data).then((res) => {
+      cards.push(res.data)
+      this.props.updateCards(cards)
+    }).catch((error) => {
+      if (error.response) alert(error.response.data.errors)
+    })
     this.setState({showWidget: false})
   }
 
-  delete = (id, index) => {
-    if (!confirm(i18n.are_you_sure)) return;
-    let cards = this.props.cards
+  update = (id) => {
+    axios.patch(`cards/${id}`).catch((error) => {
+      if (error.response) alert(error.response.data.errors)
+    })
+  }
 
-    axios.delete(`cards/${id}`).then((card) => {
-      cards.splice(index, 1)
-      this.setState({cards: cards})
-      this.props.updateCards(cards)
+  delete = (id) => {
+    if (!confirm(i18n.are_you_sure)) return;
+
+    axios.delete(`cards/${id}`).then((res) => {
+      this.props.updateCards(res.data.cards)
     }).catch((error) => {
       if (error.response) alert(error.response.data.errors)
     })
