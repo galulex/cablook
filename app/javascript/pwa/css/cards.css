@@ -28,6 +28,10 @@ ul.cards svg.card.dark > text {
   fill: var(--font_color_3);
 }
 
+ul.cards svg.card.dark path#mastercard {
+  fill: var(--font_color_3);
+}
+
 ul.cards button.x-card {
   -webkit-appearance: none;
   -moz-appearance: none;
@@ -44,7 +48,7 @@ ul.cards button.x-card {
   outline: none;
   background: rgba(255, 255, 255, .5);
   background: var(--button-background);
-  box-shadow: var(--main-shadow);  
+  box-shadow: var(--main-shadow);
 }
 
 ul.cards button.x-card:hover {

@@ -428,7 +428,7 @@ export default class App extends Component {
               showFeedback={this.showFeedback}
               setActivateFeedback={this.setActivateFeedback}
             />
-            <Cards path='/cards' cards={() => cards} create={this.createCard} currentUserID={() => this.state.currentUserID} />
+            <Cards path='/cards' cards={cards} create={this.createCard} currentUserID={() => this.state.currentUserID} />
             <Contacts path='/contacts' />
             <Profile path='/profile'
               notification_settings={this.state.notification_settings}
