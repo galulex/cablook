@@ -1,19 +1,12 @@
-import { h, render, Component } from 'preact'
+import { h } from 'preact'
 
-import i18n from './i18n.js'
-import './css/not_found.css'
-import NotFoundText from './images/404/404.svg'
-import Blot from './images/404/Blot.svg'
-
-export default class NotFound extends Component {
-  render() {
-    return (
-      <div class='not-found-page'>
-        <header></header>
-        <NotFoundText class='not-found-text'/>
-        <Blot class='blot'/>
-      </div>
-    )
-  }
+export default function NotFound(props) {
+  return (
+    <div class='not-found-page general__holder'>
+      <header>404</header>
+      <section>
+        <h1 class='center'>:(</h1>
+      </section>
+    </div>
+  )
 }
-
