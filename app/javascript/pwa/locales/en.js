@@ -95,7 +95,8 @@ const en = {
     pick_location: 'Pick on map',
     move_map: 'Move map to pick location',
     no_result: 'No Results',
-    where: 'Where'
+    where: 'Where',
+    cherkasy: 'Cherkasy'
   },
   cards: {
     add: 'Add Card',

@@ -95,7 +95,8 @@ const uk = {
     pick_location: 'Обрати на карті',
     move_map: 'Рухайте карту, щоб обрати місце',
     no_result: 'Немає результатів',
-    where: 'Куди'
+    where: 'Куди',
+    cherkasy: 'Черкаси'
   },
   cards: {
     add: 'Додати картку',

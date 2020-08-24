@@ -331,10 +331,10 @@ export default class App extends Component {
 
   loadScript = () => {
     if (document.getElementById('google-script') === null) {
-      let script = document.createElement('script');
-      script.setAttribute('id', 'google-script');
-      script.setAttribute('src', `https://maps.googleapis.com/maps/api/js?key=AIzaSyDg2-aLroQJWY8LV8x1Gv5ZYDhIArWCDeU&libraries=places&language=${this.props.language}`);
-      document.body.appendChild(script);
+      let script = document.createElement('script')
+      script.setAttribute('id', 'google-script')
+      script.setAttribute('src', `https://maps.googleapis.com/maps/api/js?key=AIzaSyDg2-aLroQJWY8LV8x1Gv5ZYDhIArWCDeU&libraries=places&language=${this.state.language}`)
+      document.body.appendChild(script)
     }
   }
 

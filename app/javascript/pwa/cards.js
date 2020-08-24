@@ -22,29 +22,30 @@ export default class Cards extends Component {
   }
 
   render() {
+    let { cards } = this.props
     let cardList = (<div><h1 class='nocards'>{i18n.cards.no_cards}</h1><CardsIcon class='nocards'/></div>)
-      if (this.props.cards.length > 0) {
+      if (cards.length > 0) {
         cardList = (
           <ul class='cards'>
-            { this.props.cards.map((card, i) => {
+            { this.props.cards.map(card => {
               if (card.user_id === this.props.currentUserID) return(
                 <li>
-                  <Card card={card} class={window.dark ? 'card dark' : 'card light'}/>
+                  <Card card={card} />
                   <button class='x-card' type='button' onClick={() => this.delete(card.id)}><Close fill='#a925ad'/></button>
-                  <div class='default'>
+                  { cards.length > 1 && <div class='default'>
                     <input
                       id={`default_card_${card.id}`}
                       class='checkbox-switcher'
                       name='card[default]'
                       onChange={(e) => { this.update(card.id) }}
-                      diabled={this.props.cards.length > 1}
+                      diabled={this.props.cards.length < 2}
                       checked={card.default}
                       type='radio'
                       value='1'
                     />
                     <label for={`default_card_${card.id}`} class='label-switcher'></label>&nbsp;
                     <label for={`default_card_${card.id}`} class='label-header'>{i18n.cards.main}</label>
-                  </div>
+                  </div>}
                 </li>
               )
             })}
