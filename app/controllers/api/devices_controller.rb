@@ -10,8 +10,7 @@ module Api
     private
 
     def user
-      @user ||= User.fetch_user(auth_token)[0]
-      @user ? @user : (raise Constants::NotFoundError)
+      @user ||= User.fetch_user(auth_token).first!
     end
 
     def device_params

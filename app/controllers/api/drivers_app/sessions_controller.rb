@@ -1,15 +1,13 @@
 module Api
   module DriversApp
     class SessionsController < Api::DriversApp::ApplicationController
-      before_action :authorize!, only: :destroy
-
       def create
         driver = Events::DriversApp::Authorize.(sign_in_params)
         render json: driver.as_json.merge(cars: cars.as_json), status: 201
       end
 
       def destroy
-        Events::DriversApp::SignOut.(driver_id: current_driver.id)
+        Events::DriversApp::SignOut.(driver_id: current_driver.id) if current_driver
         cookies.clear
         render json: {}, status: 200
       end
