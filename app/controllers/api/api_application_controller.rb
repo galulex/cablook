@@ -4,7 +4,7 @@ module Api
       render json: { errors: ['User unauthorized'] }, status: 401
     end
 
-    rescue_from Constants::NotFoundError do |_errors|
+    rescue_from Constants::NotFoundError, ActiveRecord::RecordNotFound do |_errors|
       render json: { errors: ['Not found'] }, status: 404
     end
 
