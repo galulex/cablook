@@ -61,8 +61,9 @@ export default class AddressInput extends Component {
   renderPrediction = (prediction) => {
     return(
       <li
+        tabIndex='0'
         disabled={this.state.disabled}
-        onClick={prediction.pick_address ? this.openMap : () => this.setLocation(prediction)}
+        onFocus={prediction.pick_address ? this.openMap : () => this.setLocation(prediction) }
         class={prediction === this.props.currentLocation ? 'prediction current_location' : 'prediction'}
       >
         {prediction === this.props.currentLocation ? <Target/> : prediction.pick_address ? <Pin class='pin map-pick' /> : <Cablook width='32px'/>}
@@ -84,7 +85,7 @@ export default class AddressInput extends Component {
     if (!place.place_id) {
       this.setState({ address: `${place}, `, predictions: [], isValid: false })
       this.input.focus()
-      setTimeout(() => { this.input.scrollLeft = 500 }, 100)
+      // setTimeout(() => { this.input.scrollLeft = 500 }, 100)
       return
     }
 
@@ -142,15 +143,16 @@ export default class AddressInput extends Component {
   }
 
   focus = (e) => {
+    if (this.props.contentContainer) this.props.contentContainer.classList.add('open')
     const fields = document.getElementById('fields')
     this.input.classList.add('focus')
     if (this.state.address == '') this.favoriteAddressesPredictions()
-    // e.target.focus()
     if (window.timeout) clearTimeout(window.timeout)
     if (fields) fields.classList.add('noscroll')
   }
 
   blur = (e) => {
+    if (this.props.contentContainer) this.props.contentContainer.classList.remove('open')
     const fields = document.getElementById('fields')
     this.input.classList.remove('focus')
     window.timeout = setTimeout(() => {
@@ -161,6 +163,7 @@ export default class AddressInput extends Component {
     if (fields) {
       window.timeout = setTimeout(() => { fields.classList.remove('noscroll') }, 300)
     }
+
   }
 
   handleBack = (event) => {

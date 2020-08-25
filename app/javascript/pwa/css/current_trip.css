@@ -52,7 +52,7 @@ ul.predictions {
   max-width: 100%;
   position: relative;
   max-height: 0;
-  transition: opacity .3s, visibility 0s .5s, max-height .3s, max-width .3s;
+  transition: opacity .3s, visibility .3s, max-height .3s, max-width .3s;
   visibility: hidden;
   opacity: 0;
   overflow-x: hidden;
@@ -72,6 +72,7 @@ li.prediction {
   position: relative;
   width: 100%;
   height: 6.5vh;
+  height: calc(var(--vh, 1vh) * 6.5vh);
 }
 
 li.prediction:after {
