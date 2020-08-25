@@ -52,10 +52,10 @@ describe Api::CardsController, type: :controller do
     end
   end
 
-  describe '#update' do
+  describe '#complete' do
     subject { response }
 
-    before { post :update, params: { "{\"orderReference\":\"1996\",\"recToken\":\"testToken\",\"transactionStatus\":\"Approved\"}": nil } }
+    before { post :complete, params: { "{\"orderReference\":\"1996\",\"recToken\":\"testToken\",\"transactionStatus\":\"Approved\"}": nil } }
 
     it { is_expected.to be_successful }
 
@@ -66,49 +66,49 @@ describe Api::CardsController, type: :controller do
     end
 
     context 'when params are empty' do
-      before { post :update, params: {} }
+      before { post :complete, params: {} }
 
       it { is_expected.to have_http_status(:unprocessable_entity) }
     end
 
     context 'when only one parameter' do
-      before { post :update, params: { "{\"orderReference\":\"1996\"}": nil } }
+      before { post :complete, params: { "{\"orderReference\":\"1996\"}": nil } }
 
       it { is_expected.to have_http_status(:unprocessable_entity) }
     end
 
     context 'when recToken is empty' do
-      before { post :update, params: { "{\"orderReference\":\"1996\",\"recToken\":\"\"}": nil } }
+      before { post :complete, params: { "{\"orderReference\":\"1996\",\"recToken\":\"\"}": nil } }
 
       it { is_expected.to have_http_status(:unprocessable_entity) }
     end
 
     context 'when there are no required params' do
-      before { post :update, params: { "{\"cardPan\":\"1111000099998888\",\"currency\":\"UAH\"}": nil } }
+      before { post :complete, params: { "{\"cardPan\":\"1111000099998888\",\"currency\":\"UAH\"}": nil } }
 
       it { is_expected.to have_http_status(:unprocessable_entity) }
     end
 
     context 'when transactionStatus: Pending' do
-      before { post :update, params: { "{\"orderReference\":\"1996\",\"recToken\":\"\",\"transactionStatus\":\"Pending\"}": nil } }
+      before { post :complete, params: { "{\"orderReference\":\"1996\",\"recToken\":\"\",\"transactionStatus\":\"Pending\"}": nil } }
 
       it { is_expected.to have_http_status(:not_modified) }
     end
 
     context 'when transactionStatus: Approved' do
-      before { post :update, params: { "{\"orderReference\":\"1996\",\"recToken\":\"testToken\",\"transactionStatus\":\"Approved\"}": nil } }
+      before { post :complete, params: { "{\"orderReference\":\"1996\",\"recToken\":\"testToken\",\"transactionStatus\":\"Approved\"}": nil } }
 
       it { is_expected.to be_successful }
     end
 
     context 'when transactionStatus: Refunded' do
-      before { post :update, params: { "{\"orderReference\":\"1996\",\"recToken\":\"\",\"transactionStatus\":\"Refunded\"}": nil } }
+      before { post :complete, params: { "{\"orderReference\":\"1996\",\"recToken\":\"\",\"transactionStatus\":\"Refunded\"}": nil } }
 
       it { is_expected.to be_successful }
     end
 
     context 'when transactionStatus: Expired' do
-      before { post :update, params: { "{\"orderReference\":\"1996\",\"recToken\":\"\",\"transactionStatus\":\"Expired\"}": nil } }
+      before { post :complete, params: { "{\"orderReference\":\"1996\",\"recToken\":\"\",\"transactionStatus\":\"Expired\"}": nil } }
 
       it { is_expected.to be_successful }
     end

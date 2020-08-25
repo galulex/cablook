@@ -9,7 +9,7 @@ Rails.application.routes.draw do
     resource :business, only: %i[create update show destroy]
     resource :session, only: %i[create update]
     resources :bonus_trips, only: %i[index]
-    resources :cards, only: %i[index new create destroy]
+    resources :cards, only: %i[index new create update destroy]
     resources :orders, only: %i[create destroy]
     resources :payments, only: %i[index] do
       post 'retry_pendings', on: :collection
@@ -24,7 +24,7 @@ Rails.application.routes.draw do
 
     resource :statistics, only: :show
 
-    post 'cards/update', to: 'cards#update', as: :card_callback
+    post 'cards/update', to: 'cards#complete', as: :card_callback
     resource :address, only: :show
 
     resources :referrals, only: %i[index create]

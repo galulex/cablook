@@ -10,12 +10,11 @@ ul.cards {
 
 ul.cards li {
   position: relative;
-  width: 90%;
-  margin: 7vh auto;
+  width: 80%;
+  margin: 5vh auto;
 }
 
 ul.cards svg.card {
-  width: 80%;
   border-radius: 20px;
   box-shadow: 5px 3px 6px var(--shadow_color);
 }
@@ -39,16 +38,15 @@ ul.cards button.x-card {
   position: absolute;
   right: 0;
   top: 0;
-  border-radius: 10px;
+  border-radius: 35%;
   padding: 3%;
   min-width: 6vh;
   min-height: 6vh;
   border: none;
   cursor: pointer;
   outline: none;
-  background: rgba(255, 255, 255, .5);
-  background: var(--button-background);
-  box-shadow: var(--main-shadow);
+  background: none;
+  box-shadow: none;
 }
 
 ul.cards button.x-card:hover {
@@ -87,4 +85,28 @@ svg.nocards path {
 
 ul.cards::-webkit-scrollbar {
   width: 0;
+}
+
+.cards label.label-header {
+  display: inline-block;
+  vertical-align: middle;
+  font-size: 16px;
+}
+
+.cards input:checked ~ label.label-header {
+  color: #19a160;
+  color: var(--green);
+}
+
+div.default {
+  position: absolute;
+  left: 5%;
+  bottom: 15px;
+  width: 60%;
+}
+
+.cards label.label-switcher {
+  max-width: 25%;
+  display: inline-block;
+  vertical-align: middle;
 }

@@ -1,5 +1,6 @@
 class Card < ApplicationRecord
   self.inheritance_column = :_type_disabled
+  default_scope { order(default: :desc, id: :desc) }
 
   belongs_to :user
   has_one :business

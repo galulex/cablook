@@ -309,17 +309,6 @@ export default class App extends Component {
     this.setState({notification_settings})
   }
 
-  createCard = (data) => {
-    let cards = this.state.cards
-
-    axios.post('cards', data).then((res) => {
-      cards.push(res.data)
-      this.updateCards(cards)
-    }).catch((error) => {
-      if (error.response) alert(error.response.data.errors)
-    })
-  }
-
   geocode = (point, callback) => {
     axios.get(`address?coords=${point}`).then((res) => {
       callback(res.data.address)
@@ -342,10 +331,10 @@ export default class App extends Component {
 
   loadScript = () => {
     if (document.getElementById('google-script') === null) {
-      let script = document.createElement('script');
-      script.setAttribute('id', 'google-script');
-      script.setAttribute('src', `https://maps.googleapis.com/maps/api/js?key=AIzaSyDg2-aLroQJWY8LV8x1Gv5ZYDhIArWCDeU&libraries=places&language=${this.props.language}`);
-      document.body.appendChild(script);
+      let script = document.createElement('script')
+      script.setAttribute('id', 'google-script')
+      script.setAttribute('src', `https://maps.googleapis.com/maps/api/js?key=AIzaSyDg2-aLroQJWY8LV8x1Gv5ZYDhIArWCDeU&libraries=places&language=${this.state.language}`)
+      document.body.appendChild(script)
     }
   }
 
@@ -428,7 +417,7 @@ export default class App extends Component {
               showFeedback={this.showFeedback}
               setActivateFeedback={this.setActivateFeedback}
             />
-            <Cards path='/cards' cards={cards} create={this.createCard} currentUserID={() => this.state.currentUserID} />
+            <Cards path='/cards' cards={cards} updateCards={this.updateCards} currentUserID={this.state.currentUserID} />
             <Contacts path='/contacts' />
             <Profile path='/profile'
               notification_settings={this.state.notification_settings}

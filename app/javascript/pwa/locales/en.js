@@ -95,12 +95,14 @@ const en = {
     pick_location: 'Pick on map',
     move_map: 'Move map to pick location',
     no_result: 'No Results',
-    where: 'Where'
+    where: 'Where',
+    cherkasy: 'Cherkasy'
   },
   cards: {
     add: 'Add Card',
     no_cards: 'You have no cards',
-    please_add: 'Please add card to proceed with the ride'
+    please_add: 'Please add card to proceed with the ride',
+    main: 'DEFAULT'
   },
   find_driver: {
     cancel: 'Cancel',
