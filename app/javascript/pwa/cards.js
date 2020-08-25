@@ -27,7 +27,7 @@ export default class Cards extends Component {
       if (cards.length > 0) {
         cardList = (
           <ul class='cards'>
-            { this.props.cards.map(card => {
+            { cards.map(card => {
               if (card.user_id === this.props.currentUserID) return(
                 <li>
                   <Card card={card} />
@@ -38,7 +38,6 @@ export default class Cards extends Component {
                       class='checkbox-switcher'
                       name='card[default]'
                       onChange={(e) => { this.update(card.id) }}
-                      diabled={this.props.cards.length < 2}
                       checked={card.default}
                       type='radio'
                       value='1'

@@ -1,6 +1,6 @@
 module Api
   class CardsController < ApiApplicationController
-    before_action :authorize!, except: :update
+    before_action :authorize!, except: :complete
 
     def index
       render json: { cards: cards }, status: 200
@@ -31,7 +31,7 @@ module Api
     end
 
     def update
-      User.first.cards.update_all("\"default\" = (id = #{params[:id]})")
+      current_user.cards.update_all("\"default\" = (id = #{params[:id]})")
       render json: cards.to_json, status: 200
     end
 
