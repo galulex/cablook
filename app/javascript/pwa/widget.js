@@ -36,6 +36,15 @@ export default class Widget extends Component {
     return (<div></div>)
   }
 
+  create = (data) => {
+    axios.post('cards', data).then((res) => {
+      this.props.updateCards(res.data)
+    }).catch((error) => {
+      if (error.response) alert(error.response.data.errors)
+    })
+    this.props.showWidget(false)
+  }
+
   new = () => {
     const component = this
     const wayforpay = new Wayforpay();
@@ -46,7 +55,7 @@ export default class Widget extends Component {
         response =>{
           setTimeout(function(){
             wayforpay.closeit()
-            component.props.createCard(response)
+            component.create(response)
             localStorage.setItem('email', response.email)
           }, 1000)
         },
@@ -56,7 +65,7 @@ export default class Widget extends Component {
         response =>{
           setTimeout(function(){
             wayforpay.closeit()
-            component.props.createCard(response)
+            component.create(response)
             localStorage.setItem('email', response.email)
           }, 1000)
         }

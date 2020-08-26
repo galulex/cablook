@@ -57,22 +57,10 @@ export default class Cards extends Component {
         <section class='cards'>
           { cardList }
           <button class='button green fixed' disabled={this.state.showWidget} type='button' onClick={() => this.showWidget(true)}>+ {i18n.cards.add}</button>
-          { this.state.showWidget && <Widget createCard={this.create} showWidget={this.showWidget} /> }
+          { this.state.showWidget && <Widget updateCards={this.props.updateCards} showWidget={this.showWidget} /> }
         </section>
       </div>
     )
-  }
-
-  create = (data) => {
-    let cards = this.props.cards
-
-    axios.post('cards', data).then((res) => {
-      cards.push(res.data)
-      this.props.updateCards(cards)
-    }).catch((error) => {
-      if (error.response) alert(error.response.data.errors)
-    })
-    this.setState({showWidget: false})
   }
 
   update = (id) => {

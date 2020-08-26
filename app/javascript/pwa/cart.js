@@ -268,11 +268,6 @@ export default class Cart extends Component {
     localStorage.setItem('delivery_trip', JSON.stringify(delivery_trip))
   }
 
-  createCard = (data) => {
-    this.props.createCard(data)
-    this.setState({showWidget: false})
-  }
-
   handleBack = () => {
     this.props.showBurger()
     route('/delivery', true)
@@ -375,7 +370,7 @@ export default class Cart extends Component {
                       <input type='submit' class={`button green ${vendor_name_slug}`} onClick={this.createOrder} value={i18n.cart.create_order}/>}
                     </form>,
             !vendor_closed &&
-            showWidget && <Widget createCard={this.createCard} showWidget={() => this.setState({showWidget: false}) }/>,
+            showWidget && <Widget updateCards={this.props.updateCards} showWidget={() => this.setState({showWidget: false}) }/>,
             vendor_closed &&
             <p>{i18n.cart.vendor_closed}</p>]
           ) : (

@@ -19,10 +19,12 @@ export default class FavoriteAddresses extends Component {
   }
 
   componentDidMount() {
+    this.tabsContent.addEventListener('scroll', this.onScroll, { passive: true })
     this.setState({iosVersion: this.getIOSVersion()})
   }
 
   componentWillUnmount() {
+    this.tabsContent.removeEventListener('scroll', this.onScroll, { passive: true })
     this.resetTabs()
   }
 
@@ -124,7 +126,7 @@ export default class FavoriteAddresses extends Component {
                 }
               </div>
             </div>
-            <div class="tabs__content" ref={el => this.tabsContent = el} onScroll={this.onScroll}>
+            <div class="tabs__content" ref={el => this.tabsContent = el}>
               <div class='tab-content'>
                 <Settings
                   setLanguage={this.props.setLanguage}

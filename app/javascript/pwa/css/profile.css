@@ -367,9 +367,6 @@ input.custom-checkbox ~ .custom-checkbox__label-title {
   overflow-y: scroll;
 }
 
-.profile .tab-content__holder.settings {
-}
-
 .profile .tab-content__holder.settings.open {
   height: calc(100% + 33vh);
   height: calc(100% + calc(var(--vh, 1vh) * 33));

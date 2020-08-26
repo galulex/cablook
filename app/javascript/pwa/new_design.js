@@ -620,11 +620,6 @@ export default class NewDesign extends Component {
     if (navigator.vibrate) navigator.vibrate([200, 100, 200])
   }
 
-  createCard = (data) => {
-    this.props.createCard(data)
-    this.setState({showWidget: false})
-  }
-
   showWidgetTrue = () => {
     this.setState({showWidget: true})
   }
@@ -778,7 +773,7 @@ export default class NewDesign extends Component {
             cancelTimer={cancelTimer}
             showFeedback={showFeedback}
             availableBonusTrips={availableBonusTrips}/>
-          { showWidget && <Widget createCard={this.createCard} showWidget={() => this.setState({showWidget: false}) }/> }
+          { showWidget && <Widget updateCards={this.props.updateCards} showWidget={() => this.setState({showWidget: false}) }/> }
         </section>
       </div>
     )
