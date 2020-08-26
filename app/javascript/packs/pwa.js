@@ -394,7 +394,6 @@ export default class App extends Component {
               trip={currentTrip}
               cards={() => this.state.cards}
               bonus_trips={() => bonus_trips}
-              createCard={this.createCard}
               language={language}
               favorite_addresses={() => favorite_addresses}
               fetchUser={this.fetchUser}
@@ -411,6 +410,7 @@ export default class App extends Component {
               setGeocoding={this.setGeocoding}
               showBurger={this.showBurger}
               mainBurger={this.mainBurger}
+              updateCards={this.updateCards}
             />
             <Trips path='/trips/:id?'
               setCurrentTrip={this.setCurrentTrip}
@@ -444,12 +444,12 @@ export default class App extends Component {
             <NotFound type='404' default />
             <Cart path='/delivery/cart'
               cards={() => this.state.cards}
-              createCard={this.createCard}
               favorite_addresses={() => this.state.favorite_addresses}
               geocode={this.geocode}
               isGeocoding={isGeocoding}
               setGeocoding={this.setGeocoding}
               showBurger={this.showBurger}
+              updateCards={this.updateCards}
             />
           </Router>
           <Prompt />

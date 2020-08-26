@@ -126,7 +126,7 @@ export default class FavoriteAddresses extends Component {
                 }
               </div>
             </div>
-            <div class="tabs__content" ref={el => this.tabsContent = el} >
+            <div class="tabs__content" ref={el => this.tabsContent = el}>
               <div class='tab-content'>
                 <Settings
                   setLanguage={this.props.setLanguage}

@@ -105,7 +105,12 @@ ul.places li button svg {
   box-shadow: var(--main-shadow);
   background: rgba(255, 255, 255, .3);
   background: var(--container-background);
-  transition: all .5s;
+  transition: margin-bottom .5s, height .5s;
+}
+
+.profile .tab-content .tab-content__container:last-of-type.open {
+  margin-bottom: 33vh;
+  margin-bottom: calc(var(--vh, 1vh) * 33);
 }
 
 .tab-content__container.inset-shadow {
@@ -359,9 +364,12 @@ input.custom-checkbox ~ .custom-checkbox__label-title {
   height: 100%;
   width: 100%;
   padding: 0 5%;
-  scroll-snap-type: y mandatory;
   overflow-y: scroll;
-  -webkit-overflow-scrolling: touch;
+}
+
+.profile .tab-content__holder.settings.open {
+  height: calc(100% + 33vh);
+  height: calc(100% + calc(var(--vh, 1vh) * 33));
 }
 
 .tab-content__items {

@@ -120,6 +120,7 @@ export default class Settings extends Component {
           isGeocoding={this.props.isGeocoding}
           setGeocoding={this.props.setGeocoding}
           showBurger={this.props.showBurger}
+          contentContainer={this.contentContainer}
           ref={input => this.addressInput = input}
         />
         <button class="button green add_fav_address" type="button" disabled={this.state.disabled} onClick={this.create}>OK</button>
@@ -131,7 +132,6 @@ export default class Settings extends Component {
   create = (e) => {
     let self = this
     if (!e.target.form.checkValidity()) return e.target.form.reportValidity()
-    this.contentContainer.style.marginBottom = 'calc(var(--vh, 1vh) * 7)'
     this.setState({ disabled: true })
     axios.post('/favorite_addresses', {
       name: self.state.name,
