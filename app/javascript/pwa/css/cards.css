@@ -63,6 +63,11 @@ ul.cards button.x-card svg {
   margin: 0;
 }
 
+.default .checkbox-switcher {
+  position: absolute;
+  opacity: 0;
+}
+
 body.wfp-widget-open {
   padding-right: 0 !important;
 }
