@@ -27,7 +27,7 @@ gem 'paper_trail'
 gem 'pg', '~> 0.18'
 gem 'pry'
 gem 'puma', '~> 3.12'
-gem 'rack', '2.0.7'
+gem 'rack'
 gem 'rack-cors'
 gem 'react-rails'
 gem 'redis', '~> 3.0'
@@ -45,7 +45,7 @@ gem 'turbolinks'
 gem 'uglifier'
 gem 'wayforpay'
 gem 'webpacker', '~> 4.x'
-gem 'websocket-driver', git: 'https://github.com/faye/websocket-driver-ruby', ref: 'ee39af83d03ae3059c775583e4c4b291641257b8'
+gem 'websocket-driver'
 gem 'whenever', require: false
 
 group :development, :test do
