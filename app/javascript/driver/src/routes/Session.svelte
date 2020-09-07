@@ -99,7 +99,7 @@
     {:else}
       <form action='#' on:submit={update} class='select-car'>
         <select name='car_id' size=5 required>
-          <option value='' selected disabled>Select the car</option>
+          <option value='' disabled>Select the car</option>
           {#each cars as car, i}
             <option value={car.id}>{car.number}</option>
           {/each}
