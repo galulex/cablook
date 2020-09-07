@@ -7,7 +7,6 @@ import Driver from './images/feedback_driver.svg'
 import Currency from './images/ukraine-hryvna.svg'
 import Star from './images/star.svg'
 import './css/feedback.css'
-import './css/buttons.css'
 
 export default class Feedback extends Component {
   constructor(props){
