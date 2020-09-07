@@ -1,4 +1,5 @@
-import { h, render, Component } from 'preact'
+import render from 'preact-render-to-string'
+import { h, Component } from 'preact'
 import axios from 'axios'
 import mapboxgl from 'mapbox-gl'
 import MapboxLanguage from '@mapbox/mapbox-gl-language'
@@ -195,7 +196,7 @@ export default class PreviewMap extends Component {
     })
     marker.carAngleDeg = car.deg
     var popupContent = render(<CarPopup car={car} trip={trip} driver={driver}/>)
-    var popup = new mapboxgl.Popup({closeOnClick: false, closeButton: true, className: 'car-popup', anchor: 'bottom', offset: 10}).setHTML(popupContent.outerHTML)
+    var popup = new mapboxgl.Popup({closeOnClick: false, closeButton: true, className: 'car-popup', anchor: 'bottom', offset: 10}).setHTML(popupContent)
     marker.setPopup(popup).addTo(this.map).togglePopup()
 
     this.carFocus = new FocusOnCarControl({eventHandler: this.focusOnCar})
@@ -204,6 +205,7 @@ export default class PreviewMap extends Component {
     this.updateCarDirection(marker)
 
     this.setState({ car: marker})
+
     if (this.state.car && this.state.car._popup.isOpen()) this.map.flyTo({ center: this.state.car.getLngLat(), speed: 1 })
   }
 
@@ -299,7 +301,9 @@ export default class PreviewMap extends Component {
       if (w === '') return
       let klass = (i === trip.waypoints.length - 1) ? 'last' : ''
       if (i === 0) klass = 'first'
-      let marker = new mapboxgl.Marker(render(<div><Pin class={`pin pin-${klass}`} width='25px'/></div>))
+      let div = document.createElement('div')
+      div.innerHTML = render(<Pin class={`pin pin-${klass}`} width='25px'/>)
+      let marker = new mapboxgl.Marker(div)
 
       var popup = new mapboxgl.Popup({closeOnClick: false, closeButton: false, className: `point-${klass}`, anchor: 'left', offset: 10, opened: true}).setHTML(trip.stops[i])
       if (trip && [PENDING].includes(trip.status)) {
@@ -328,6 +332,7 @@ export default class PreviewMap extends Component {
 
   updateCarPosition(data) {
     let car = this.state.car
+    if (!car) return
     let position = [car.getLngLat().lng, car.getLngLat().lat]
     let distance
     if (position) {

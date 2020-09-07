@@ -1,4 +1,4 @@
-import { h, render, Component } from 'preact'
+import { h } from 'preact'
 
 import i18n from '../i18n.js'
 import Phone from '../images/white_phone.js'
@@ -9,22 +9,18 @@ import Leaves from '../images/popup_leaves.svg'
 import Cross from '../images/cross.js'
 import '../css/car_popup.css'
 
-export default class CarPopup extends Component {
-  render() {
-    let { car, trip, driver } = this.props
-    let driver_name = driver.name.split(' ').length == 1 ? driver.name : driver.name.split(' ')[1]
+export default function CarPopup(props) {
+  let { car, trip, driver } = props
+  let driver_name = driver.name.split(' ').length == 1 ? driver.name : driver.name.split(' ')[1]
 
-    return (
-      <div>
-        <div>
-          <div class="close-button"><Cross/></div>
-          <div class="mapboxgl-popup-content-line car"><Car/><span>{car.number}</span></div>
-          <div class="mapboxgl-popup-content-line"><a href={`tel:${driver.phone_number}`}><Phone/>{driver_name}</a></div>
-          <div class="mapboxgl-popup-content-line"><TripTime/>{trip.start_time}</div>
-          <div class="mapboxgl-popup-content-line"><TripPrice/>{`${trip.cost}`}</div>
-        </div>
-        <div class="popup_leaf"><Leaves/></div>
-      </div>
-    )
-  }
+  return(
+    <div class='car-popup'>
+      <Cross class="close-button"/>
+      <div><Car/><span>{car.number}</span></div>
+      <div><a href={`tel:${driver.phone_number}`}><Phone/>{driver_name}</a></div>
+      <div><TripTime/>{trip.start_time}</div>
+      <div><TripPrice/>{`${trip.cost}`}</div>
+      <Leaves class='popup_leaf'/>
+    </div>
+  )
 }

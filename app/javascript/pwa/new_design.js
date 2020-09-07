@@ -134,8 +134,8 @@ export default class NewDesign extends Component {
   addAddress = () => {
     this.setState(state => {
       state.trip.stops.push('')
-    })
-    setTimeout(() => { document.querySelector('fieldset:last-of-type input').focus() }, 100)
+      return state
+    }, () => { document.querySelector('fieldset:last-of-type input').focus() })
   }
 
   updateTrip = () => {
