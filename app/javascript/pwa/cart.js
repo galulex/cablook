@@ -90,8 +90,7 @@ export default class Cart extends Component {
   }
 
   setAddress = (destination_address, destination) => {
-    this.setState({ destination_address, destination, showLoader: true })
-    this.goDeliveryTrip()
+    this.setState({ destination_address, destination, showLoader: true }, this.goDeliveryTrip)
   }
 
   goDeliveryTrip = (e) => {

@@ -1,4 +1,4 @@
-import { h, render, Component } from 'preact'
+import { h } from 'preact'
 import SearchLogo from './images/search_logo.svg'
 
 const Loader = () => (
