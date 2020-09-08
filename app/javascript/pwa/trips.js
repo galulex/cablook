@@ -1,7 +1,6 @@
 import { h, render, Component } from 'preact';
 import axios from 'axios';
 import './css/trips.css'
-import './css/buttons.css'
 
 import i18n from './i18n.js'
 import TripCard from './tripCard.js'

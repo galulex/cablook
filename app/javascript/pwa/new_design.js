@@ -19,7 +19,6 @@ import Chevron from './images/chevron.js'
 import Back from './images/arrow-left.svg'
 import SearchLogo from './images/search_logo.svg'
 import './css/new_design.css'
-import './css/buttons.css'
 
 import { PENDING, ON_THE_WAY, WAITING_CLIENT, DRIVING, FINISHED, CANCELED, DECLINED, CANCELED_BY_DRIVER, CONFIRM_UPDATE_TRIP, MAP_MIN_ZOOM, MAP_MAX_ZOOM, CHERKASY_LONG_LAT } from './lib/constants.js'
 
@@ -134,8 +133,8 @@ export default class NewDesign extends Component {
   addAddress = () => {
     this.setState(state => {
       state.trip.stops.push('')
-    })
-    setTimeout(() => { document.querySelector('fieldset:last-of-type input').focus() }, 100)
+      return state
+    }, () => { document.querySelector('fieldset:last-of-type input').focus() })
   }
 
   updateTrip = () => {
