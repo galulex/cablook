@@ -36,7 +36,7 @@ export default class Drawer extends Component {
           <Link activeClassName='active' href='/cards' class='nav-link'><Card/>{i18n.drawer.cards}</Link>
           <Link activeClassName='active' href='/contacts' class='nav-link'><Contact/>{i18n.drawer.contacts}</Link>
           <Link activeClassName='active' href='/delivery' class='nav-link'><Vendors/>{i18n.drawer.vendors}</Link>
-          <Link activeClassName='active' href='' class='nav-link' onClick={this.props.logOut}><LogOut/>{i18n.drawer.logout}</Link>
+          <Link href='' class='nav-link' onClick={this.props.logOut}><LogOut/>{i18n.drawer.logout}</Link>
         </div>
       </aside>
     );
