@@ -389,7 +389,7 @@ export default class App extends Component {
             </button>
           }
           <Drawer triggerDrawer={this.triggerDrawer} logOut={this.logOut} />
-          <Router history={window.ios ? createMemoryHistory() : null} onChange={() => this.triggerDrawer(false)}>
+          <Router history={window.ios ? createMemoryHistory() : null} onChange={() => this.triggerDrawer(false) }>
             <NewDesign path='/'
               trip={currentTrip}
               cards={() => this.state.cards}
