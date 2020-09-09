@@ -21,7 +21,7 @@ export default class TripCard extends Component {
   componentDidMount() {
     this.setRate()
     this.props.section.classList.add('noscroll')
-    if (window.ios) return  
+    if (window.ios) return
     history.pushState(null, 'Trip Details',`/trips/${this.props.trip.id}`);
     window.addEventListener('popstate', this.props.handleBack, { once: true, passive: true });
   }
@@ -46,7 +46,7 @@ export default class TripCard extends Component {
       <div class="trip-details">
         <header class='details'>{i18n.trip.header}</header>
         <section class="trip-details__section">
-          <MapImg trip={() => this.props.trip} />
+          <MapImg trip={this.props.trip} />
           <div class='trip-details__content'>
             <div class='trip-details__holder'>
               <div class="buttons">

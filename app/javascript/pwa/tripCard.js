@@ -8,10 +8,9 @@ import Pin from './images/pin.svg'
 
 export default class TripCard extends Component {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       showDetails: false,
-      isFeedbackVisible: false
     }
   }
 
@@ -42,8 +41,8 @@ export default class TripCard extends Component {
           <span>{[`${trip.cost} ${i18n.trip.currency}`, trip.formatted_date, i18n.trips.statuses[trip.status]].join(", ")}</span>
           <span>{ this.showRate() }</span>
         </p>
-        { this.state.showDetails && 
-          <Details 
+        { this.state.showDetails &&
+          <Details
             handleBack={handleBack}
             showDetails={this.showDetails}
             trip={trip}
