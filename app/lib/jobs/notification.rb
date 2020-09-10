@@ -3,7 +3,7 @@ module Jobs
     def perform(trip, message)
       I18n.locale = trip.user.locale
       send_fcm_notifications(trip, message)
-      send_one_signal_notifications(trip, message)
+      send_one_signal_notifications(trip, message) unless message == 'clear'
     end
 
     private
@@ -14,8 +14,8 @@ module Jobs
       registration_ids = devices.fcm.pluck(:token)
       ios_fcm_ids = devices.ios_fcm.pluck(:token)
       options = set_fcm_options(trip, message)
-      ios_fcm_options = set_fcm_ios_options(trip.status, message)
-      fcm.send(ios_fcm_ids, ios_fcm_options)
+      ios_fcm_options = set_fcm_ios_options(trip, message)
+      fcm.send(ios_fcm_ids, ios_fcm_options) unless message == 'clear'
       fcm.send(registration_ids, options)
     end
 
@@ -47,7 +47,7 @@ module Jobs
       }
     end
 
-    def fcm_ios_options(message)
+    def fcm_ios_options(trip, message)
       {
         mutable_content: true,
         content_available: true,
@@ -56,6 +56,12 @@ module Jobs
           title: 'CabLook',
           body: message,
           sound: 'default'
+        },
+        data: {
+          trip: {
+            id: trip.id.to_s,
+            user_token: trip.user.auth_token
+          }
         },
         priority: 'high'
       }
@@ -108,13 +114,15 @@ module Jobs
       options
     end
 
-    def set_fcm_ios_options(status, message)
-      options = fcm_ios_options(message)
-      case status
+    def set_fcm_ios_options(trip, message)
+      options = fcm_ios_options(trip, message)
+      case trip.status
       when Constants::Trip::STATUS_CODES[Constants::Trip::DECLINED]
         options[:notification][:click_action] = 'cablook.retry'
       when Constants::Trip::STATUS_CODES[Constants::Trip::ON_THE_WAY]
         options[:notification][:click_action] = 'cablook.reply'
+      when Constants::Trip::STATUS_CODES[Constants::Trip::WAITING_CLIENT]
+        options[:data][:trip][:action] = 'coming'
       end
       options
     end
