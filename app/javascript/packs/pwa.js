@@ -162,6 +162,7 @@ export default class App extends Component {
   registerServiceworker = () => {
     if ('serviceWorker' in navigator ) {
       navigator.serviceWorker.register('/serviceworker.js').then((registration) => {
+        if (!messaging) return
         messaging.useServiceWorker(registration)
         this.requestPermission()
         messaging.onMessage((payload) => {
@@ -187,7 +188,6 @@ export default class App extends Component {
   }
 
   requestPermission = () => {
-    if (!messaging) return;
     messaging.requestPermission()
     .then(() => {
       messaging.getToken().then((token) => {
