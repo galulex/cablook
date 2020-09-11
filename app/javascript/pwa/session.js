@@ -91,13 +91,11 @@ export default class Session extends Component {
   }
 
   updateNumber = (e) => {
-    this.setState({number: NUMBER_CODE + e.target.value})
-    this.autoSubmitForm(e)
+    this.setState({number: NUMBER_CODE + e.target.value}, () => this.autoSubmitForm(e))
   }
 
   updateCode = (e) => {
-    this.setState({code: e.target.value})
-    this.autoSubmitForm(e)
+    this.setState({code: e.target.value}, () => this.autoSubmitForm(e))
   }
 
   resetNumber = () => {

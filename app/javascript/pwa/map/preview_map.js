@@ -196,7 +196,7 @@ export default class PreviewMap extends Component {
     })
     marker.carAngleDeg = car.deg
     var popupContent = render(<CarPopup car={car} trip={trip} driver={driver}/>)
-    var popup = new mapboxgl.Popup({closeOnClick: false, closeButton: true, className: 'car-popup', anchor: 'bottom', offset: 10}).setHTML(popupContent)
+    var popup = new mapboxgl.Popup({closeOnClick: false, closeButton: true, className: 'car-popup', anchor: 'bottom'}).setHTML(popupContent)
     marker.setPopup(popup).addTo(this.map).togglePopup()
 
     this.carFocus = new FocusOnCarControl({eventHandler: this.focusOnCar})
