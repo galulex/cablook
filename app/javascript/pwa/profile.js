@@ -146,6 +146,7 @@ export default class FavoriteAddresses extends Component {
                 <Bonuses
                   bonus_trips={this.props.bonus_trips}
                   parent_bonus={this.props.parent_bonus}
+                  cashback={this.props.cashback}
                 />
               </div>
               <div class='tab-content'>

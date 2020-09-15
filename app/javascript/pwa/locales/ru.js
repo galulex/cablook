@@ -149,7 +149,10 @@ const ru = {
       iced: 'Заморожен',
       fresh: 'Готов',
       used: 'Использован'
-    }
+    },
+    cashback: 'Кешбэк',
+    your_cashback: 'Ваш кешбэк',
+    residual: 'Остаток'
   },
   contacts: {
     header: 'Контакты',

@@ -149,7 +149,10 @@ const uk = {
       iced: 'Недоступний',
       fresh: 'Готовий',
       used: 'Використаний'
-    }
+    },
+    cashback: 'Кешбек',
+    your_cashback: 'Ваш кешбек',
+    residual: 'Залишок'
   },
   contacts: {
     header: 'Контакти',

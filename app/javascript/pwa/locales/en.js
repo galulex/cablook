@@ -149,7 +149,10 @@ const en = {
       iced: 'Frozen',
       fresh: 'Ready',
       used: 'Used'
-    }
+    },
+    cashback: 'Cashback',
+    your_cashback: 'Your cashback',
+    residual: 'Residual'
   },
   contacts: {
     header: 'Contacts',

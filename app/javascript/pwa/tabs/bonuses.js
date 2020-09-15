@@ -25,14 +25,11 @@ export default class Bonuses extends Component {
     const bonusTrips = Object.keys(groupByStatus).map(el => ({ status: el, count: groupByStatus[el].length }))
     return (
       <div class='tab-content__holder'>
-        <div class='tab-content__container referral-code'>
-          <div class='tab-content__header'>{i18n.bonuses.your_code}</div>
-          <span class='divider'></span>
-          <div class='referral-code__holder'>
-            <input id='referral' ref={(textarea) => this.textArea = textarea} value= {this.state.referralCode} readOnly />
-            <button disabled={this.state.copied} type='button' onClick={this.copy}>
-              <Copy fill='#312d50'/>
-            </button>
+        <div class='tab-content__container'>
+          <div class='tab-content__header'>{i18n.bonuses.your_cashback}</div>
+          <div class='tab-content__container-item'> 
+            <div>{i18n.bonuses.residual}</div>
+            <span class='value'>{this.props.cashback} {i18n.statistics.uah}</span>
           </div>
         </div>
         <div class='tab-content__container'>
@@ -55,7 +52,6 @@ export default class Bonuses extends Component {
           <p>{i18n.bonuses.details}</p>
           <p>{i18n.bonuses.notice}</p>
         </div>
-        { (this.state.parent_bonus.length == 0) && <button type='button' disabled={this.state.disabled} onClick={this.apply} class='button green friend-code'>{i18n.bonuses.apply_code}</button> }
       </div>
     );
   };
@@ -66,18 +62,5 @@ export default class Bonuses extends Component {
     document.execCommand('copy');
     if (navigator.vibrate) navigator.vibrate(200)
     this.setState({copied: true})
-  };
-
-  apply = () => {
-    var code = prompt(i18n.bonuses.apply_code, '');
-    if (code === '' || code === null) return
-    this.setState({disabled: true})
-    axios.post('referrals', {referral_code: code}).then((res) => {
-      this.setState({disabled: false, parent_bonus: [true]})
-      alert(i18n.bonuses.success)
-    }).catch((error) => {
-      this.setState({disabled: false})
-      if (error.response) alert(error.response.data.errors)
-    })
   }
 }
