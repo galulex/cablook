@@ -771,6 +771,7 @@ export default class NewDesign extends Component {
             paymentButtonDisabled={paymentButtonDisabled}
             cancelTimer={cancelTimer}
             showFeedback={showFeedback}
+            cashback={this.props.cashback}
             availableBonusTrips={availableBonusTrips}/>
           { showWidget && <Widget updateCards={this.props.updateCards} showWidget={() => this.setState({showWidget: false}) }/> }
         </section>
