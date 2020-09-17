@@ -97,7 +97,7 @@ export default class App extends Component {
       isScrollNegative: false,
       activateFeedback: false,
       isBurgerShowing: true,
-      cashback: null
+      cashbackAmount: null
     }
     axios.defaults.headers.common['Pwa-Language'] = this.state.language
   }
@@ -247,7 +247,7 @@ export default class App extends Component {
   }
 
   getAvailableBonusTrips = (bonus_trips) => {
-    return bonus_trips.filter(trip => trip.status === 'fresh')
+    return bonus_trips.filter(trip => trip.status === 'fresh' && trip.type !== 'cashback')
   }
 
   fetchUser = () => {
@@ -261,7 +261,7 @@ export default class App extends Component {
         bonus_trips: res.data.bonus_trips,
         availableBonusTrips: availableBonusTrips,
         parent_bonus: res.data.parent_bonus || [],
-        cashback: res.data.cashback,
+        cashbackAmount: res.data.cashback/100,
         currentUserID: res.data.id,
         currentTrip: res.data.current_trip
       })
@@ -413,7 +413,7 @@ export default class App extends Component {
               showBurger={this.showBurger}
               mainBurger={this.mainBurger}
               updateCards={this.updateCards}
-              cashback={this.state.cashback}
+              cashbackAmount={this.state.cashbackAmount}
             />
             <Trips path='/trips/:id?'
               setCurrentTrip={this.setCurrentTrip}
@@ -431,7 +431,7 @@ export default class App extends Component {
               setLanguage = {this.setLanguage}
               bonus_trips={() => this.state.bonus_trips}
               parent_bonus={() => this.state.parent_bonus}
-              cashback={this.state.cashback}
+              cashbackAmount={this.state.cashbackAmount}
               geocode={this.geocode}
               isGeocoding={isGeocoding}
               setGeocoding={this.setGeocoding}

@@ -29,7 +29,7 @@ export default class Bonuses extends Component {
           <div class='tab-content__header'>{i18n.bonuses.your_cashback}</div>
           <div class='tab-content__container-item'> 
             <div>{i18n.bonuses.residual}</div>
-            <span class='value'>{this.props.cashback} {i18n.statistics.uah}</span>
+            <span class='value'>{this.props.cashbackAmount} {i18n.statistics.uah}</span>
           </div>
         </div>
         <div class='tab-content__container'>
@@ -46,11 +46,6 @@ export default class Bonuses extends Component {
               )
             })}
           </ul>
-        </div>
-        <div class='tab-content__container inset-shadow how-works'>
-          <div class='tab-content__header'>{i18n.bonuses.how}</div>
-          <p>{i18n.bonuses.details}</p>
-          <p>{i18n.bonuses.notice}</p>
         </div>
       </div>
     );

@@ -44,6 +44,7 @@ export default class NewDesign extends Component {
       cards: this.props.cards(),
       showWidget: false,
       bonus: null,
+      cashback: null,
       currentLocation: null,
       inputDisabled: false,
       activateFeedback: false,
@@ -187,8 +188,8 @@ export default class NewDesign extends Component {
     })
   }
 
-  createTrip = (e) => {
-    this.setState({bonus: e.target.value, paymentButtonDisabled: true}, () => {
+  createTrip = (e, cashback = false) => {
+    this.setState({bonus: e.target.value, paymentButtonDisabled: true, cashback: cashback}, () => {
       this.create()
     })
   }
@@ -205,6 +206,7 @@ export default class NewDesign extends Component {
     const { trip, comment, entrance } = this.state
     let params = { ...trip, status: PENDING }
     if (this.state.bonus === 'true') params.bonus = this.state.bonus
+    if (this.state.cashback) params.cashback = this.state.cashback
     this.sendRequest(params)
   }
 
@@ -602,6 +604,7 @@ export default class NewDesign extends Component {
     this.props.setActivateFeedback(true)
     this.unsubscribe()
     if (this.state.trip.bonus) this.fetchBonusTrips()
+    this.props.fetchUser()
   }
 
   waiting_client = () => {
@@ -771,7 +774,7 @@ export default class NewDesign extends Component {
             paymentButtonDisabled={paymentButtonDisabled}
             cancelTimer={cancelTimer}
             showFeedback={showFeedback}
-            cashback={this.props.cashback}
+            cashbackAmount={this.props.cashbackAmount}
             availableBonusTrips={availableBonusTrips}/>
           { showWidget && <Widget updateCards={this.props.updateCards} showWidget={() => this.setState({showWidget: false}) }/> }
         </section>

@@ -138,10 +138,7 @@ const en = {
   },
   bonuses: {
     apply_code: 'Apply Referral Code',
-    details: 'Copy your referral code and share it with your friends. If someone applies your code and makes a trip you will get a bonus',
     header: 'Bonuses',
-    how: 'How bonus works?',
-    notice: 'Notice: You can apply someone`s code only once',
     success: 'Referral code is applied. Your friend will receive a free trip as soon as you make a trip',
     your_code: 'Your referral code',
     your_bonuses: 'Your bonuses',

@@ -192,7 +192,7 @@ ActiveRecord::Schema.define(version: 2020_09_14_094903) do
     t.boolean "vip", default: false
     t.string "notification_settings", default: [], array: true
     t.string "locale", default: "uk"
-    t.float "cashback", default: 0.0
+    t.integer "cashback", default: 0
   end
 
   create_table "vendors", force: :cascade do |t|

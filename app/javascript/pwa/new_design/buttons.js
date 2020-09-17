@@ -11,14 +11,14 @@ export default function Buttons() {
     picker, isValid, retry, cancel,
     paymentButtonDisabled, showWidgetTrue,
     cancelDeclined, updateRoute,
-    confirmUpdate, showFeedback, cashback } = this.props
+    confirmUpdate, showFeedback, cashbackAmount } = this.props
   const { stops, status, bonus } = trip
   if ([CANCELED, CANCELED_BY_DRIVER, undefined, null].includes(trip.status) && (picker === null)) {
     if (availableBonusTrips.length > 0) {
       bonusButton = bonusElement(`${i18n.confirm_trip.go} 0`, isValid, paymentButtonDisabled, createTrip)
     } else {
-      if (cost && cashback >= cost) {
-        bonusButton = bonusElement(`${i18n.bonuses.cashback} ${cashback}`, isValid, paymentButtonDisabled, createTrip)
+      if (cost && cashbackAmount >= cost) {
+        bonusButton = bonusElement(`${i18n.bonuses.cashback} ${cashbackAmount}`, isValid, paymentButtonDisabled, createTrip, true)
       }
     }
   }
@@ -94,14 +94,14 @@ export default function Buttons() {
   )
 }
 
-function bonusElement(title, isValid, paymentButtonDisabled, createTrip) {
+function bonusElement(title, isValid, paymentButtonDisabled, createTrip, cashback = false) {
   return (
     <button
       class='button bonus'
       type='button'
       value='true'
       disabled={!isValid || paymentButtonDisabled}
-      onClick={createTrip}>
+      onClick={cashback ? (e) => createTrip(e, true) : createTrip}>
       {title} <TripPrice/>
     </button>
   )
