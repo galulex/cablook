@@ -22,7 +22,7 @@ module Events
       def run_methods
         telegram_message
         update_trip
-        Jobs::PaymentSettle.perform_later(data[:trip_id], Constants::Payments::TYPES[:trip]) unless trip.bonus_trip
+        pay_for_trip
         broadcast
         update_car
         settle_payment_idle if data[:idle]
@@ -38,6 +38,18 @@ module Events
       def update_car
         return if next_trip?
         Car.find(trip.car_id).update(status: Constants::Car::FREE)
+      end
+
+      def pay_for_trip
+        if trip.bonus_trip
+          update_cashback if trip.bonus_trip.type == Constants::BonusTrip::CASHBACK
+        else
+          Jobs::PaymentSettle.perform_later(data[:trip_id], Constants::Payments::TYPES[:trip])
+        end
+      end
+
+      def update_cashback
+        user.update(cashback: user.cashback - trip.cost * 100)
       end
 
       def broadcast
@@ -90,8 +102,12 @@ module Events
         @idle ||= data[:idle] / 60 * price.idle_price
       end
 
+      def user
+        @user ||= trip.user
+      end
+
       def telegram_message
-        TelegramOrder.new(trip.telegram).update_step(:rate_trip) if trip.telegram && telegram_trip?(trip.user)
+        TelegramOrder.new(trip.telegram).update_step(:rate_trip) if trip.telegram && telegram_trip?(user)
       end
     end
   end

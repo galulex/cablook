@@ -99,11 +99,15 @@ module Events
           card_id: card_id,
           user_id: data[:user_id]
         )
-        bonus_trips.first.update(status: :used, trip_id: @trip.id)
+        if cashback?
+          fresh_cashback_bonus_trip ? update_bonus_trip(fresh_cashback_bonus_trip) : create_cashback_trip
+        else
+          update_bonus_trip(bonus_trips.first)
+        end
       end
 
       def create_trip
-        @trip = Trip.create(data.to_h.except(:bonus, :card_id, :id, :status, :created_at, :idle, :car_id, :driver_id, :finished_at, :arrived_at, :started_at, :feedbacks, :delivery, :order_id))
+        @trip = Trip.create(data.to_h.except(:bonus, :cashback, :card_id, :id, :status, :created_at, :idle, :car_id, :driver_id, :finished_at, :arrived_at, :started_at, :feedbacks, :delivery, :order_id))
       end
 
       def create_trip_job(trip_id)
@@ -114,7 +118,7 @@ module Events
       def approve_by_vendor
         @order.vendor_need_approve ? send_message_to_vendor : Events::Trips::UpdateStatus.(trip_id: @order.trip_id)
       end
-      
+
       def notify
         return if @trip.user.notification_settings.include?(Constants::User::SEARCH_CAR)
         message = I18n.t('notification.loading')
@@ -129,6 +133,24 @@ module Events
         @bonus_trips ||= User.find(data[:user_id]).bonus_trips.fresh
       end
 
+      def fresh_cashback_bonus_trip
+        bonus_trips.where(type: Constants::BonusTrip::CASHBACK).first
+      end
+
+      def create_cashback_trip
+        BonusTrip.create(
+          user_id: user.id,
+          trip_id: @trip.id,
+          status: :used,
+          code: SecureRandom.base58(24),
+          type: Constants::BonusTrip::CASHBACK
+        )
+      end
+
+      def update_bonus_trip(fresh_bonus_trip)
+        fresh_bonus_trip.update(status: :used, trip_id: @trip.id)
+      end
+
       def card_id
         card = user_cards.detect { |c| c.id == data[:card_id].to_i } if data[:card_id]
         card&.id || user_cards.first.id
@@ -138,8 +160,16 @@ module Events
         @user_cards ||= Card.user_cards(data[:user_id])
       end
 
+      def user
+        @user ||= User.find(data[:user_id])
+      end
+
       def bonus?
         data[:bonus].present?
+      end
+
+      def cashback?
+        data[:cashback].present?
       end
 
       def delivery?

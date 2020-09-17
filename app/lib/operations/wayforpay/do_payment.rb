@@ -18,9 +18,11 @@ module Operations
         when types[0]
           return if payment.status == Constants::Payments::BONUS
           update_payment_and_total
-          update_bonus_trip_if_necessary if success_response?
+          return unless success_response?
+          update_bonus_trip_if_necessary
+          add_cashback
         end
-        return wayforpay_response['transactionStatus']
+        wayforpay_response['transactionStatus']
       end
 
       private
@@ -70,14 +72,25 @@ module Operations
         update_total
       end
 
+      def add_cashback
+        user.update(cashback: user.cashback + cashback_amount)
+      end
+
+      def cashback_amount
+        trip.cost * 0.05 * 100
+      end
+
       def trip
         @trip ||= Trip.find(trip_id)
+      end
+
+      def user
+        @user ||= trip.user
       end
 
       def payment
         @payment ||= Payment.find_or_create_by(payment_attributes)
       end
-
 
       def order_reference
         secure_code = SecureRandom.base58(6)
