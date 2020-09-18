@@ -73,7 +73,7 @@ describe Events::Trips::Create do
     end
 
     context 'when payment by bonus' do
-      let!(:bonus_trip) { create(:bonus_trip, user_id: user.id, status: :fresh) }
+      let!(:bonus_trip) { create(:bonus_trip, user_id: user.id, status: :fresh, type: Constants::BonusTrip::GIFT) }
       let(:data) { trip_params.merge(bonus: true) }
 
       before { allow_any_instance_of(Directions).to receive(:distance) { 5_000 } }
@@ -91,6 +91,19 @@ describe Events::Trips::Create do
         before { allow_any_instance_of(Directions).to receive(:distance) { 15_000 } }
 
         it { is_expected.to raise_error(Events::InvalidParamsError) }
+      end
+
+      context 'and cashback param present' do
+        let(:data) { trip_params.merge(bonus: true, cashback: true) }
+
+        it { is_expected.to change { BonusTrip.count }.by(+1) }
+
+        context 'but user have fresh cashback bonus trip' do
+          let!(:bonus_trip) { create(:bonus_trip, user_id: user.id, status: :fresh, type: Constants::BonusTrip::CASHBACK) }
+
+          it { is_expected.not_to change { BonusTrip.count } }
+          it { is_expected.to change { bonus_trip.reload.used? }.to be_truthy }
+        end
       end
     end
 

@@ -63,6 +63,7 @@ module Events
       end
 
       def notify
+        return if trip.user.notification_settings.include?(Constants::User::SEARCH_CAR)
         message = I18n.t('notification.loading')
         Jobs::Notification.perform_later(trip, message)
       end

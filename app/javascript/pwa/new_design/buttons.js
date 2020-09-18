@@ -5,13 +5,23 @@ import i18n from '../i18n.js'
 import TripPrice from '../images/ukraine-hryvna.svg'
 
 export default function Buttons() {
+  let bonusButton
   const { trip, createTrip, availableBonusTrips,
     cancelTimer, cards, cost,
     picker, isValid, retry, cancel,
     paymentButtonDisabled, showWidgetTrue,
     cancelDeclined, updateRoute,
-    confirmUpdate, showFeedback } = this.props
+    confirmUpdate, showFeedback, cashbackAmount } = this.props
   const { stops, status, bonus } = trip
+  if ([CANCELED, CANCELED_BY_DRIVER, undefined, null].includes(trip.status) && (picker === null)) {
+    if (availableBonusTrips.length > 0) {
+      bonusButton = bonusElement(`${i18n.confirm_trip.go} 0`, isValid, paymentButtonDisabled, createTrip)
+    } else {
+      if (cost && cashbackAmount >= cost) {
+        bonusButton = bonusElement(`${i18n.bonuses.cashback} ${cashbackAmount}`, isValid, paymentButtonDisabled, createTrip, true)
+      }
+    }
+  }
 
   return (
     <div className="buttons">
@@ -35,16 +45,7 @@ export default function Buttons() {
           {(cost !== '' && !stops.includes('')) && <TripPrice/>}
         </button>
       }
-      { [CANCELED, CANCELED_BY_DRIVER, undefined, null].includes(trip.status) && (picker === null) && availableBonusTrips.length > 0 &&
-        <button
-          class='button bonus'
-          type='button'
-          value='true'
-          disabled={!isValid || paymentButtonDisabled}
-          onClick={createTrip}>
-          {`${i18n.confirm_trip.go} 0`} <TripPrice/>
-        </button>
-      }
+      { bonusButton }
       { [CONFIRM_UPDATE_TRIP].includes(status) &&
         <button
           class='button fixed'
@@ -90,5 +91,18 @@ export default function Buttons() {
         </button>
       }
     </div>
+  )
+}
+
+function bonusElement(title, isValid, paymentButtonDisabled, createTrip, cashback = false) {
+  return (
+    <button
+      class='button bonus'
+      type='button'
+      value='true'
+      disabled={!isValid || paymentButtonDisabled}
+      onClick={cashback ? (e) => createTrip(e, true) : createTrip}>
+      {title} <TripPrice/>
+    </button>
   )
 }

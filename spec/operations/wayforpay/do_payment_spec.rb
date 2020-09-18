@@ -12,7 +12,8 @@ describe Operations::Wayforpay::DoPayment do
     let(:amount) { payment.amount }
     let(:trip) { create(:trip, user_id: user.id, status: Constants::Trip::FINISHED) }
     let(:card) { create(:card, user_id: user.id) }
-    let(:user) { create(:user) }
+    let(:cashback) { 15 }
+    let(:user) { create(:user, cashback: cashback) }
 
     context 'when payment have success status' do
       let(:payment) { create(:payment, trip_id: trip.id, user_id: user.id, card_id: card.id, status: Constants::Payments::SUCCESS) }
@@ -35,6 +36,7 @@ describe Operations::Wayforpay::DoPayment do
       context 'and wayforpay status is ok' do
         it { is_expected.to change { payment.reload.status }.to(Constants::Payments::SUCCESS) }
         it { is_expected.to change { payment.reload.response }.from(nil) }
+        it { is_expected.to change { user.reload.cashback }.from(cashback).to(cashback + (trip.cost * 0.05 * 100).to_i) }
 
         it do
           expect(Wayforpay::Payments).to receive(:hold).once

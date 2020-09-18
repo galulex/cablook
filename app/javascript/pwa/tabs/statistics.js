@@ -73,7 +73,7 @@ export default class Statistics extends Component {
                 <Pin class='pin statistics-icon'/>
                 {i18n.statistics.distance}
               </div>
-              <span>
+              <span class='value'>
                 {this.state.statistics.distance / 1000}
                 {i18n.statistics.km}
               </span>
@@ -83,7 +83,7 @@ export default class Statistics extends Component {
                 <Amount class='statistics-icon'/>
                 {i18n.statistics.amount}
               </div>
-              <span>
+              <span class='value'>
                 {this.state.statistics.amount}
                 {i18n.statistics.uah}
               </span>
@@ -93,7 +93,7 @@ export default class Statistics extends Component {
                 <Leaf class='statistics-icon'/>
                 {i18n.statistics.trips_count}
               </div>
-              <span>
+              <span class='value'>
                 {this.state.statistics.trips_count}
               </span>
             </div>
@@ -102,7 +102,7 @@ export default class Statistics extends Component {
                 <Star class='statistics-icon'/>
                 {i18n.statistics.rate}
               </div>
-              <span>
+              <span class='value'>
                 {this.state.statistics.rate}
               </span>
             </div>
@@ -111,7 +111,7 @@ export default class Statistics extends Component {
                 <Tips class='statistics-icon'/>
                 {i18n.statistics.tips}
               </div>
-              <span>
+              <span class='value'>
                 {this.state.statistics.tips}
                 {i18n.statistics.uah}
               </span>

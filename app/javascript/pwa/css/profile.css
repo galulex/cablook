@@ -433,6 +433,11 @@ input.custom-checkbox ~ .custom-checkbox__label-title {
   border-top: 2px solid rgba(119, 119, 119, .2);
 }
 
+.tab-content__container-item span.value {
+  margin-left: 15px;
+  font-weight: 500;
+}
+
 .tab-content__container-item:last-of-type {
   border-bottom: 2px solid rgba(119, 119, 119, .2);
 }

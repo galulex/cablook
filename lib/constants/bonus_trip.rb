@@ -14,7 +14,8 @@ module Constants
 
     REFERRAL = 'referral'.freeze
     GIFT     = 'gift'.freeze
+    CASHBACK = 'cashback'.freeze
 
-    TYPES = [REFERRAL, GIFT].freeze
+    TYPES = [REFERRAL, GIFT, CASHBACK].freeze
   end
 end

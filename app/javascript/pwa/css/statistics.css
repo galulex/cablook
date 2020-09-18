@@ -52,11 +52,6 @@ svg.statistics-icon path {
   overflow-y: auto;
 }
 
-.statistics__item span {
-  margin-left: 15px;
-  font-weight: 500;
-}
-
 .statistics__item::-webkit-scrollbar {
   height: 0;
 }
