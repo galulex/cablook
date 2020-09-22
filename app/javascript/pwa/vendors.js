@@ -9,8 +9,6 @@ import Vendor from './vendor.js'
 import Loader from './loader.js'
 import CurrentDeliveryTrip from './current_delivery_trip.js'
 
-const DAYS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
-
 export default class Vendors extends Component {
   constructor(props) {
     super(props);
@@ -63,7 +61,6 @@ export default class Vendors extends Component {
 
   render() {
     const { vendors, showLoader, delivery_trip } = this.state
-    const day = new Date().getDay()
 
     if (!delivery_trip || !delivery_trip.id || [FINISHED,CANCELED,CANCELED_BY_DRIVER,DECLINED,null].includes(delivery_trip.status)) {
       localStorage.removeItem('delivery_trip')
@@ -72,8 +69,7 @@ export default class Vendors extends Component {
           <header>{i18n.vendors_page.header}</header>
           <section class='vendors'>
             <ul>
-              { vendors.map(vendor => {
-                if (!vendor.weekends.includes(DAYS[day - 1])) return(
+              { vendors.map(vendor => (
                   <VendorPreview
                     key={vendor.id}
                     vendor={vendor}
@@ -81,7 +77,7 @@ export default class Vendors extends Component {
                     setCurrentTrip={this.props.setCurrentTrip}
                     showBurger={this.props.showBurger}
                   />)
-                })
+                )
               }
             </ul>
           </section>

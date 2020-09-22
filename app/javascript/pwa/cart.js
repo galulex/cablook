@@ -274,7 +274,7 @@ export default class Cart extends Component {
 
   render() {
     let cart = localStorage.getItem('cart')
-    let vendor, items, open_at, close_at, vendor_name_slug
+    let vendor, items, open_at, close_at, vendor_name_slug, weekends
     if (cart) {
       cart = JSON.parse(cart)
       vendor = cart.vendor
@@ -282,6 +282,7 @@ export default class Cart extends Component {
       items = cart.items
       open_at = cart.vendor_open_at
       close_at = cart.vendor_close_at
+      weekends = cart.vendor_weekends
     }
     const { total_price, trip_cost, cards, card_id, showWidget, showLoader, vendor_closed } = this.state
 
@@ -338,6 +339,7 @@ export default class Cart extends Component {
                 <GenerateArrayTimes
                   open_at={open_at.split(':')}
                   close_at={close_at.split(':')}
+                  weekends={weekends}
                   updateTripTime={this.updateTripTime}
                   setTripTime={this.setTripTime}
                 />

@@ -60,6 +60,7 @@ export default class ItemPreview extends Component {
     cart.vendor_open_at = vendor.open_time
     cart.vendor_close_at = vendor.close_time
     cart.vendor_phone_number = vendor.phone_number
+    cart.vendor_weekends = vendor.weekends
 
     localStorage.setItem('cart', JSON.stringify(cart));
     this.props.updateCart(cart)

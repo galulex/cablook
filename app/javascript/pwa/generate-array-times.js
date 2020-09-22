@@ -4,6 +4,8 @@ import i18n from './i18n.js';
 import './css/current_trip.css'
 import Clock from './images/clock.svg'
 
+const DAYS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+
 export default class GenerateArrayTimes extends Component {
   constructor(props) {
     super(props);
@@ -14,14 +16,15 @@ export default class GenerateArrayTimes extends Component {
   }
 
   generateTimes = () => {
-    let { open_at, close_at } = this.props
+    let { open_at, close_at, weekends } = this.props
     const { times } = this.state
     const today = new Date()
+    const day = today.getDay()
 
     let start = parseInt(open_at[0])* 60 + parseInt(open_at[1])
     let close = parseInt(close_at[0]) * 60 + parseInt(close_at[1])
     let current = today.getHours() * 60 + Math.floor(today.getMinutes()/10)*10
-    if (Math.abs(current - start) > 60 && current < start) {
+    if ((Math.abs(current - start) > 60 && current < start) || weekends.includes(DAYS[day - 1]) ) {
       this.props.setTripTime(null)
       return
     }
