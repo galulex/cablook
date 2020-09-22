@@ -22,3 +22,8 @@ header svg.cart {
   top: 0;
   left: 0;
 }
+
+section.vendors {
+  padding: 0 3% 3vh 3%;
+  padding: 0 3% calc(var(--vh, 1vh) * 3) 3%;
+}
