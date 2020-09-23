@@ -138,4 +138,10 @@ View: https://json.extendsclass.com/bin/dd3449edceb0
 
 Edit: https://extendsclass.com/jsonstorage/dd3449edceb0
 
+**Mishiko:**
+
+View: https://json.extendsclass.com/bin/762ad4924f4c
+
+Edit: https://extendsclass.com/jsonstorage/762ad4924f4c
+
 Security key: `C@bL0ok2020`
