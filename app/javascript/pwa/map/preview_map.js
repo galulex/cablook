@@ -364,7 +364,7 @@ export default class PreviewMap extends Component {
         <div class='map' ref={el => this.mapContainer = el}/>
         { (picker !== null ) &&
           <button
-            class='button green pick_address fixed'
+            class='button green pick_address absolute'
             type='button'
             disabled={this.state.isGeocoding}
             onClick={pickAddress}>

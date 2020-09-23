@@ -73,8 +73,8 @@
   color: #233038;
 }
 
-.button.fixed {
-  position: fixed;
+.button.absolute {
+  position: absolute;
   display: block;
   bottom: 20px;
   left: 0;

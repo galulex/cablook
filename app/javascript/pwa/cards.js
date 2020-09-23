@@ -56,7 +56,7 @@ export default class Cards extends Component {
         <header>{i18n.drawer.cards}</header>
         <section class='cards'>
           { cardList }
-          <button class='button green fixed' disabled={this.state.showWidget} type='button' onClick={() => this.showWidget(true)}>+ {i18n.cards.add}</button>
+          <button class='button green absolute' disabled={this.state.showWidget} type='button' onClick={() => this.showWidget(true)}>+ {i18n.cards.add}</button>
           { this.state.showWidget && <Widget updateCards={this.props.updateCards} showWidget={this.showWidget} /> }
         </section>
       </div>

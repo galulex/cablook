@@ -27,7 +27,7 @@ export default function Buttons() {
     <div className="buttons">
       { (cards.length < 1) && [CANCELED, CANCELED_BY_DRIVER, undefined, null].includes(status) &&
       <button
-        class='button green trip_add_card fixed'
+        class='button green trip_add_card absolute'
         type='button'
         value={bonus}
         onClick={showWidgetTrue}>
@@ -36,7 +36,7 @@ export default function Buttons() {
       </button> }
       { [CANCELED, CANCELED_BY_DRIVER, undefined, null].includes(status) && picker === null && !showFeedback() && (cards.length >= 1) &&
         <button
-          class='button green fixed'
+          class='button green absolute'
           type='button'
           value={bonus}
           disabled={!isValid || paymentButtonDisabled}
@@ -48,7 +48,7 @@ export default function Buttons() {
       { bonusButton }
       { [CONFIRM_UPDATE_TRIP].includes(status) &&
         <button
-          class='button fixed'
+          class='button absolute'
           type='button'
           value={trip.bonus}
           disabled={!isValid}
@@ -59,7 +59,7 @@ export default function Buttons() {
       }
       { ([PENDING].includes(status) || (cancelTimer > 0 && [ON_THE_WAY].includes(status))) &&
         <button
-          class='button fixed cancel'
+          class='button absolute cancel'
           type='button'
           onClick={cancel}>
           {i18n.find_driver.cancel} {cancelTimer}
@@ -67,7 +67,7 @@ export default function Buttons() {
       }
       { [DECLINED].includes(status) &&
         <button
-          class='button fixed retry'
+          class='button absolute retry'
           type='button'
           onClick={retry}>
           {i18n.retry_trip.retry}
@@ -75,7 +75,7 @@ export default function Buttons() {
       }
       { [DECLINED].includes(status) &&
         <button
-          class='button fixed cancel'
+          class='button absolute cancel'
           type='button'
           onClick={cancelDeclined}>
           {i18n.find_driver.cancel}
@@ -83,7 +83,7 @@ export default function Buttons() {
       }
       { ([WAITING_CLIENT, DRIVING].includes(status) || (!cancelTimer && status === ON_THE_WAY)) &&
         <button
-          class='button fixed edit'
+          class='button absolute edit'
           type='button'
           value={bonus}
           onClick={updateRoute}>
