@@ -24,6 +24,6 @@ header svg.cart {
 }
 
 section.vendors {
-  padding: 0 3% 3vh 3%;
-  padding: 0 3% calc(var(--vh, 1vh) * 3) 3%;
+  padding-bottom: 3vh;
+  padding-bottom: calc(var(--vh, 1vh) * 3);
 }
