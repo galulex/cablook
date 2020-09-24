@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_14_094903) do
+ActiveRecord::Schema.define(version: 2020_09_22_093700) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -210,6 +210,7 @@ ActiveRecord::Schema.define(version: 2020_09_14_094903) do
     t.boolean "active", default: true
     t.integer "orders_count", default: 0
     t.boolean "need_approve", default: true
+    t.string "weekends", default: [], array: true
   end
 
   create_table "versions", force: :cascade do |t|

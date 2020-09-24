@@ -77,7 +77,7 @@ export default class Vendors extends Component {
                     setCurrentTrip={this.props.setCurrentTrip}
                     showBurger={this.props.showBurger}
                   />)
-                ) 
+                )
               }
             </ul>
           </section>

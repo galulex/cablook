@@ -5,7 +5,7 @@ module Api
     caches_action :show, expires_in: 6.hours
 
     def index
-      res = vendors.as_json(methods: %i(status open_time close_time name_slug))
+      res = vendors.as_json(methods: %i(status open_time close_time name_slug weekends))
       render json: res, status: 200
     end
 
