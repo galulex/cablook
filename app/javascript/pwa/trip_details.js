@@ -1,6 +1,6 @@
-import { h, render, Component } from 'preact';
+import { h, render, Component } from 'preact'
 import axios from 'axios'
-import { route } from 'preact-router';
+import { route } from 'preact-router'
 
 import Feedback from './feedback.js'
 import MapImg from './map_img.js'
@@ -13,7 +13,7 @@ import getRate from './new_design/rate.js'
 
 export default class TripCard extends Component {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       isFeedbackVisible: false
     }
@@ -21,24 +21,24 @@ export default class TripCard extends Component {
 
   componentDidMount() {
     this.setRate()
-    this.props.section.classList.add('noscroll')
+    this.props.main.classList.add('noscroll')
     if (window.ios) return
-    history.pushState(null, 'Trip Details',`/trips/${this.props.trip.id}`);
-    window.addEventListener('popstate', this.props.handleBack, { once: true, passive: true });
+    history.pushState(null, 'Trip Details',`/trips/${this.props.trip.id}`)
+    window.addEventListener('popstate', this.props.handleBack, { once: true, passive: true })
   }
 
   componentWillUnmount() {
-    this.props.section.classList.remove('noscroll')
+    this.props.main.classList.remove('noscroll')
     window.removeEventListener('popstate', this.props.handleBack, { passive: true })
   }
 
   toggleFeedback = () => {
     this.props.setActivateFeedback(true)
-  };
+  }
 
   handleFeedbackBack = (event) => {
     this.props.setActivateFeedback()
-  };
+  }
 
   render() {
     const { trip } = this.props
@@ -84,10 +84,12 @@ export default class TripCard extends Component {
   }
 
   reverseTrip = () => {
-    let start = this.props.trip.departure;
-    let start_address = this.props.trip.departure_address;
-    let finish = this.props.trip.destination;
-    let finish_address = this.props.trip.destination_address;
+    let start = this.props.trip.departure
+    let start_address = this.props.trip.departure_address
+    let finish = this.props.trip.destination
+    let finish_address = this.props.trip.destination_address
+    let waypoints = this.props.trip.waypoints.reverse()	
+    let stops = this.props.trip.stops.reverse()
 
     const trip = {
       ...this.props.trip,

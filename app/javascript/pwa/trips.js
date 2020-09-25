@@ -92,7 +92,7 @@ export default class Trips extends Component {
                     setCurrentTrip={this.props.setCurrentTrip}
                     showFeedback={this.props.showFeedback}
                     setActivateFeedback={this.props.setActivateFeedback}
-                    section={this.section}
+                    main={this.props.main}
                   />
                 )
               })
