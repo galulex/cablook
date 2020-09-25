@@ -1,4 +1,5 @@
 import { h, render, Component } from 'preact';
+import axios from 'axios'
 import { route } from 'preact-router';
 
 import Feedback from './feedback.js'
@@ -70,10 +71,16 @@ export default class TripCard extends Component {
   }
 
   repeatTrip = () => {
-    const trip = { ...this.props.trip, status: undefined, id: undefined, osrm: true }
+    const trip = {
+      ...this.props.trip,
+      status: undefined,
+      id: undefined,
+      osrm: true,
+      departure: this.props.trip.departure.join(','),
+      destination: this.props.trip.destination.join(',')
+    }
     delete trip.formatted_date
-    this.props.setCurrentTrip(trip)
-    route('/', true)
+    this.buildTrip(trip)
   }
 
   reverseTrip = () => {
@@ -81,23 +88,30 @@ export default class TripCard extends Component {
     let start_address = this.props.trip.departure_address;
     let finish = this.props.trip.destination;
     let finish_address = this.props.trip.destination_address;
-    let waypoints = this.props.trip.waypoints.reverse();
-    let stops = this.props.trip.stops.reverse();
 
     const trip = {
       ...this.props.trip,
       status: undefined,
       id: undefined,
-      departure: finish,
+      departure: finish.join(','),
       departure_address: finish_address,
-      destination: start,
+      destination: start.join(','),
       destination_address: start_address,
       osrm: true
     }
     delete trip.formatted_date
+    this.buildTrip(trip)
+  }
 
-    this.props.setCurrentTrip(trip)
-    route('/', true)
+  buildTrip = (trip) => {
+    axios.post('trips/new', {trip: trip}).then((res) => {
+      trip.path = res.data.path
+      trip.cost = res.data.cost
+      this.props.setCurrentTrip(trip)
+      route('/', true)
+    }).catch((error) => {
+      if (error.response) alert(error.response.data.errors)
+    })
   }
 
   getRate = (value) => {
