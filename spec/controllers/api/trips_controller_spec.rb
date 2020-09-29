@@ -41,7 +41,7 @@ describe Api::TripsController, type: :controller do
 
         context 'bonus trip is present' do
           before do
-            create(:bonus_trip, user_id: user.id, status: :fresh)
+            create(:bonus_trip, user_id: user.id, status: :fresh, type: Constants::BonusTrip::GIFT)
             post :create, params: params, as: :json
           end
 
