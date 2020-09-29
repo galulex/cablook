@@ -24,7 +24,7 @@ import { PENDING, ON_THE_WAY, WAITING_CLIENT, DRIVING, FINISHED, CANCELED, DECLI
 
 const cable = createConsumer()
 const ENTRANCES = Array.from({length: 15}, (v, k) => (k+1))
-const TRIP_FIELDS = ['departure', 'departure_address', 'destination', 'destination_address', 'path', 'status', 'id', 'stops', 'waypoints', 'cost', 'distance', 'duration', 'start_time', 'card_id', 'bonus', 'osrm', 'accepted_at']
+const TRIP_FIELDS = ['departure', 'departure_address', 'destination', 'destination_address', 'path', 'status', 'id', 'stops', 'waypoints', 'cost', 'distance', 'duration', 'start_time', 'card_id', 'bonus', 'osrm', 'accepted_at', 'with_cashback']
 
 const Shake = require('shake.js')
 let myShakeEvent = false
@@ -465,8 +465,13 @@ export default class NewDesign extends Component {
   }
 
   confirmUpdate = (e) => {
+    const { trip } = this.state
+    let params = { ...trip, osrm: true }
+    if (trip.bonus && trip.with_cashback && (trip.cost > this.props.cashbackAmount)) {
+      if(!confirm(i18n.confirm_trip.insufficient_cashback)) return
+      delete params.bonus
+    }
     this.props.mainBurger.classList.remove('hidden')
-    let params = { ...this.state.trip, osrm: true }
     this.sendRequest(params)
   }
 

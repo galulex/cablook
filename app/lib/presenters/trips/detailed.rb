@@ -8,6 +8,7 @@ class Presenters::Trips::Detailed < Presenters::BaseSingle
   property :finish_time, exec_context: :decorator
 
   property :bonus, exec_context: :decorator
+  property :with_cashback, exec_context: :decorator
   property :driver_name, exec_context: :decorator
   property :car_number, exec_context: :decorator
   property :car_phone_number, exec_context: :decorator
@@ -47,6 +48,10 @@ class Presenters::Trips::Detailed < Presenters::BaseSingle
 
   def bonus
     represented.bonus_trip.present?
+  end
+
+  def with_cashback
+    represented.bonus_trip&.type == Constants::BonusTrip::CASHBACK
   end
 
   def status

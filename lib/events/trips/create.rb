@@ -102,7 +102,7 @@ module Events
         if cashback?
           fresh_cashback_bonus_trip ? update_bonus_trip(fresh_cashback_bonus_trip) : create_cashback_trip
         else
-          update_bonus_trip(bonus_trips.first)
+          update_bonus_trip(fresh_bonus_trip)
         end
       end
 
@@ -131,6 +131,10 @@ module Events
 
       def bonus_trips
         @bonus_trips ||= User.find(data[:user_id]).bonus_trips.fresh
+      end
+
+      def fresh_bonus_trip
+        bonus_trips.where.not(type: Constants::BonusTrip::CASHBACK).first
       end
 
       def fresh_cashback_bonus_trip
