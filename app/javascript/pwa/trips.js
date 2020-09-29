@@ -72,7 +72,7 @@ export default class Trips extends Component {
         { !this.props.showFeedback() &&
           <button
             type='button'
-            class='button white-opacity burger'
+            class='button white-opacity burger trips'
             onClick={() => this.handleBack()}
             style={this.state.showDet ? "z-index:1000000" : "display: none"}>
             <Back/>

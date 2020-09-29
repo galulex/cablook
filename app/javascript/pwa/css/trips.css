@@ -287,6 +287,10 @@ nav {
   z-index: 300;
 }
 
+.button.burger.trips {
+  position: fixed;
+}
+
 .trip-details div.map {
   height: 500px;
 }
