@@ -570,7 +570,7 @@ export default class NewDesign extends Component {
   TripAccepted = (data) => {
     this.previewMapRef.cleanup()
     this.vibrate()
-    this.setState({ trip: { ...this.state.trip, status: ON_THE_WAY, start_time: data.trip.start_time, accepted_at: data.trip.accepted_at },
+    this.setState({ trip: { ...this.state.trip, status: ON_THE_WAY, start_time: data.trip.start_time, accepted_at: data.trip.accepted_at, with_cashback: data.trip.with_cashback },
                     car: { location: data.trip.car_location ,color: data.trip.car_color, number: data.trip.car_number, deg: data.trip.car.deg },
                     driver: { name: data.trip.driver_name, phone_number: data.trip.car_phone_number } }, () => this.startCountdown())
     this.clearFetchTripTimeout()
