@@ -75,7 +75,8 @@ const en = {
     km: "km",
     retry_payment: '\nPay debt with selected card?',
     trip_payment: '\nPay trip with selected card?',
-    payment_error: 'Insufficient funds or internet limit exceeded. \nPlease change your internet limit or use another card.'
+    payment_error: 'Insufficient funds or internet limit exceeded. \nPlease change your internet limit or use another card.',
+    insufficient_cashback: 'Insufficient cashback funds for this path. Money will be charged from card'
   },
   drawer: {
     bonuses: 'Bonuses',

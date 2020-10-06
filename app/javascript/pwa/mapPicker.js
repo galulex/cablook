@@ -149,7 +149,7 @@ export default class MapPicker extends Component {
         <Pin class='pin picker-pin'/>
         <button type='button'
           disabled={this.props.isGeocoding}
-          class='button green fixed'
+          class='button green absolute'
           onClick={this.onPickAddress}>
             OK
         </button>

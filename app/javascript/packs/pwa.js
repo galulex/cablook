@@ -419,6 +419,7 @@ export default class App extends Component {
               setCurrentTrip={this.setCurrentTrip}
               showFeedback={this.showFeedback}
               setActivateFeedback={this.setActivateFeedback}
+              main={this.main}
             />
             <Cards path='/cards' cards={cards} updateCards={this.updateCards} currentUserID={this.state.currentUserID} />
             <Contacts path='/contacts' />

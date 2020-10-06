@@ -82,10 +82,6 @@ section.feedback {
   overflow-y: overlay;
 }
 
-section.trips.noscroll {
-  overflow-y: unset;
-}
-
 section.feedback .stars-container {
   display: flex;
   justify-content: space-around;

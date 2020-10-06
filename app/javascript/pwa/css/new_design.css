@@ -450,6 +450,14 @@ svg.pin-last path {
   fill: var(--green_3)
 }
 
+main.noscroll {
+  -webkit-overflow-scrolling: auto;
+}
+
+main.noscroll .general__holder section.trips {
+  overflow-y: unset;
+}
+
 @media (min-width: 450px) {
   .trigger.back {
     right: -70px;

@@ -49,7 +49,7 @@ export default class TripCard extends Component {
             setCurrentTrip={this.props.setCurrentTrip}
             showFeedback={this.props.showFeedback}
             setActivateFeedback={this.props.setActivateFeedback}
-            section={this.props.section}
+            main={this.props.main}
           />
         }
       </li>

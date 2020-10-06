@@ -12,6 +12,7 @@ module Operations
         return unless card_id && card
         if retry_response['reasonCode'] == Constants::Payments::WAYFORPAY_SUCCESS
           payment.update(status: Constants::Payments::SUCCESS, response: retry_response)
+          add_cashback if payment.type == 'Payments::Trip'
         else
           payment.update(response: retry_response)
         end
@@ -22,6 +23,14 @@ module Operations
 
       def retry_response
         @retry_response ||= Operations::Wayforpay::SendPayment.new(card, payment.amount, payment.type, order_reference).call
+      end
+
+      def add_cashback
+        user.update(cashback: user.cashback + cashback_amount)
+      end
+
+      def cashback_amount
+        payment.amount * 0.05 * 100
       end
 
       def order_reference
@@ -41,6 +50,10 @@ module Operations
 
       def payment
         @payment ||= Payment.find(payment_id)
+      end
+
+      def user
+        @user ||= payment.user
       end
     end
   end
