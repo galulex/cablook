@@ -19,7 +19,7 @@
       "type": "Feature",
       "properties": {},
       "geometry": {
-        "coordinates": polyline.toGeoJSON(trip.path),
+        "coordinates": polyline.decode(trip.path).map(e => { return e.reverse() }),
         "type": "LineString"
       }
     }]
@@ -31,7 +31,7 @@
     id: `line_${trip.id}`,
     paint: {
       'line-color': '#19a160',
-      'line-width': 40,
+      'line-width': 4,
       'line-gradient': [
         'interpolate',
         ['linear'],
