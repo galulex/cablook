@@ -50,9 +50,9 @@
   ],
   "🥧 Десерти": [
     { "id": 39, "name": "🥧 Чізкейк",            "description": "", "weight": "100г", "price": 60.0 },
-    { "id": 42, "name": "🍪 Печиво Ванільне",    "description": "", "weight": "65г",  "price": 24.0 },
-    { "id": 43, "name": "🍪 Печиво Шоколадне",   "description": "", "weight": "65г",  "price": 24.0 },
-    { "id": 44, "name": "🥧 МакПиріг® вишневий", "description": "", "weight": "80г",  "price": 24.0 }
+    { "id": 42, "name": "🍪 Печиво Ванільне",    "description": "", "weight": "65г",  "price": 26.0 },
+    { "id": 43, "name": "🍪 Печиво Шоколадне",   "description": "", "weight": "65г",  "price": 26.0 },
+    { "id": 44, "name": "🥧 МакПиріг® вишневий", "description": "", "weight": "80г",  "price": 26.0 }
   ],
   "🍨 Холодні десерти": [
     { "id": 47, "name": "🍨 МакФлурі® КІТКАТ шоколадний",   "description": "", "weight": "195г", "price": 44.0 },
