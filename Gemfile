@@ -11,6 +11,7 @@ gem 'rails', '~> 5.2.2'
 
 gem 'actionpack-action_caching'
 gem 'activeadmin'
+gem 'activeadmin_addons'
 gem 'activeadmin-select2'
 gem 'arctic_admin'
 gem 'autoprefixer-rails'
