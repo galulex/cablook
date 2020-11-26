@@ -3,7 +3,7 @@ puts 'Creating users...'
 def token
   SecureRandom.base58(24)
 end
-password = BCrypt::Password.create('12341234')
+password = '12341234'
 
 user_data = [
   { phone_number: '+380990000001', auth_token: token },
@@ -21,11 +21,11 @@ puts "=============================\n"
 puts 'Creating drivers...'
 
 driver_data = [
-  { username: 'driver_1', encrypted_password: password, auth_token: token, name: 'Driver 1' },
-  { username: 'driver_2', encrypted_password: password, auth_token: token, name: 'Driver 2' },
-  { username: 'driver_3', encrypted_password: password, auth_token: token, name: 'Driver 3' },
-  { username: 'driver_4', encrypted_password: password, auth_token: token, name: 'Driver 4' },
-  { username: 'driver_5', encrypted_password: password, auth_token: token, name: 'Driver 5' },
+  { username: 'driver_1', password: password, auth_token: token, name: 'Driver 1' },
+  { username: 'driver_2', password: password, auth_token: token, name: 'Driver 2' },
+  { username: 'driver_3', password: password, auth_token: token, name: 'Driver 3' },
+  { username: 'driver_4', password: password, auth_token: token, name: 'Driver 4' },
+  { username: 'driver_5', password: password, auth_token: token, name: 'Driver 5' },
 ]
 driver_data.each { |data| Driver.create(data) }
 
