@@ -1,7 +1,7 @@
 ActiveAdmin.register Order do
   preserve_default_filters!
-  remove_filter :trip, :payment
-
+  remove_filter :trip, :payment, :user
+  filter :user_phone_number, as: :string, input_html: { inputmode: :numeric }
   filter :trip_status, as: :select, collection: proc { Trip.statuses }
 
   actions :index, :show

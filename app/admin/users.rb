@@ -1,7 +1,6 @@
 ActiveAdmin.register User do
   remove_filter :trips, :business, :bussinesses, :cards, :bonus_trips, :favorite_addresses,
-                :parent_bonus, :orders, :referral_code, :notification_settings, :versions
-
+                :parent_bonus, :orders, :referral_code, :notification_settings, :versions, :devices, :telegram, :locale, :cashback
   controller do
     def scoped_collection
       super.left_joins(:bonus_trips)

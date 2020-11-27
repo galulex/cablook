@@ -1,8 +1,8 @@
 ActiveAdmin.register Payment do
   preserve_default_filters!
-  remove_filter :trip, :order, :driver, :order_reference, :card, :versions
+  remove_filter :trip, :order, :driver, :order_reference, :card, :versions, :user
   filter :type, as: :select, collection: proc { Payment.distinct.pluck(:type) }
-  filter :user, as: :select, collection: proc { User.joins(:trips).group(:id).all }
+  filter :user_phone_number, as: :string, input_html: { inputmode: :numeric }
   filter :trip_car_id, as: :select, collection: proc { Car.all.group(:id) }
   filter :trip_created_at, as: :date_range
 
