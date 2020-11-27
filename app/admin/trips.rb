@@ -4,8 +4,8 @@ ActiveAdmin.register Trip do
                 :finish_at, :started_at, :finished_at, :arrived_at, :waypoints, :job, :bonus_trip, :feedbacks,
                 :tip_payment, :trip_payment, :idle_payment, :required_payments, :fake_taxi_payment, :distance,
                 :order, :order_payment, :telegram, :departure_address, :destination_address, :duration, :comment,
-                :stops, :idle, :total, :no_call, :preorder_time, :versions
-  filter :user, as: :select, collection: proc { User.joins(:trips).group(:id).all }
+                :stops, :idle, :total, :no_call, :preorder_time, :versions, :user
+  filter :user_phone_number, as: :string, input_html: { inputmode: :numeric }
   filter :status, as: :select, collection: proc { Trip.statuses }
 
   controller do

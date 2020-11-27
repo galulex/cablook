@@ -1,5 +1,7 @@
 ActiveAdmin.register Feedback do
-  remove_filter :trip
+  remove_filter :trip, :user
+  
+  filter :user_phone_number, as: :string, input_html: { inputmode: :numeric }
 
   controller do
     def permitted_params

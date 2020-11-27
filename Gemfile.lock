@@ -88,7 +88,7 @@ GEM
     babel-transpiler (0.7.0)
       babel-source (>= 4.0, < 6)
       execjs (~> 2.0)
-    bcrypt (3.1.11)
+    bcrypt (3.1.16)
     builder (3.2.4)
     capistrano (3.10.2)
       airbrussh (>= 1.0.0)
@@ -482,7 +482,7 @@ DEPENDENCIES
   activeadmin-select2
   arctic_admin
   autoprefixer-rails
-  bcrypt (~> 3.1.7)
+  bcrypt (~> 3.1.12)
   bugno!
   capistrano
   capistrano-db-tasks
