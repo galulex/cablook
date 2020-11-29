@@ -31,11 +31,7 @@ ActiveAdmin.register BonusTrip do
   form do |f|
     semantic_errors
     inputs do
-      f.input :user_id, as: :search_select, url: admin_users_path,
-                        fields: [:phone_number], display_name: 'phone_number', minimum_input_length: 2
-      f.input :friend_id, as: :search_select, url: admin_users_path,
-                          fields: [:phone_number], display_name: 'phone_number', minimum_input_length: 2
-      %w[status type].each { |title| input title }
+      %w[user friend status type].each { |title| input title }
     end
     actions
   end
