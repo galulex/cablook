@@ -9,7 +9,7 @@ ActiveAdmin.register Car do
 
   form do |f|
     semantic_errors
-    inputs ' Car Details' do
+    inputs 'Car Details' do
       input :number
       input :status
       input :color, as: :select, collection: Constants::Car::COLORS
