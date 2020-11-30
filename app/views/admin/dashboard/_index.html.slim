@@ -20,6 +20,16 @@ link href='https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.css' rel='style
         .field
           strong> User:
           span=trip.user_phone_number
+        .field
+          strong> Driver:
+          span=trip.driver.name
+        - unless trip.car.phone_number.blank?
+          .field
+            strong> Phone:
+            span=trip.car.phone_number
+        .field
+          strong> Car color:
+          span=trip.car.color
         - unless trip.start_at.blank?
           .field
             strong> Start time:
