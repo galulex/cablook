@@ -5,7 +5,7 @@ ActiveAdmin.register User, as: 'Owner' do
 
   controller do
     def scoped_collection
-      super.joins(:cards)
+      super.joins(:cards).select("distinct on (phone_number) cards.user_id, cards.created_at, users.*").order("user_id, cards.created_at")
     end
   end
 end
