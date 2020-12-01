@@ -3,7 +3,6 @@ import { h, Component } from 'preact'
 import axios from 'axios'
 import mapboxgl from 'mapbox-gl'
 import MapboxLanguage from '@mapbox/mapbox-gl-language'
-
 import { MAP_MIN_ZOOM, MAP_MAX_ZOOM, CHERKASY_LONG_LAT, NUM_DELTAS, TELEPORT_DISTANCE } from '../lib/constants.js'
 import { PENDING, ON_THE_WAY, WAITING_CLIENT, DRIVING, FINISHED, CANCELED, DECLINED, CANCELED_BY_DRIVER, CONFIRM_UPDATE_TRIP } from '../constants.js'
 
@@ -17,7 +16,6 @@ import CarPopup from '../new_design/car_popup.js'
 import FocusOnCarControl from '../../pwa/trips/custom-control.js'
 
 const polyline = require('@mapbox/polyline')
-
 const LANGUAGES = {en: 'en', uk: 'ru', ru: 'ru'}
 const MAPSTYLE = (localStorage.getItem('dark') === 'true') ? 'mapbox://styles/okunieva/ckb1wuli60k3u1ipjrdnqtan5' : 'mapbox://styles/okunieva/cjzwn3wx40yhq1cpjl3yo8p1z'
 const PATHCOLORS = (localStorage.getItem('dark') === 'true') ? ['#ffffff', '#19a160'] : ['#312d50', '#19a160']
@@ -204,9 +202,9 @@ export default class PreviewMap extends Component {
 
     this.updateCarDirection(marker)
 
-    this.setState({ car: marker})
-
-    if (this.state.car && this.state.car._popup.isOpen()) this.map.flyTo({ center: this.state.car.getLngLat(), speed: 1 })
+    this.setState({ car: marker}, () => {
+      this.map.flyTo({ center: this.state.car.getLngLat(), speed: 1 })
+    })
   }
 
   focusOnCar = () => {
