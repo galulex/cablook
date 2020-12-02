@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_22_093700) do
+ActiveRecord::Schema.define(version: 2020_12_02_091045) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -193,6 +193,7 @@ ActiveRecord::Schema.define(version: 2020_09_22_093700) do
     t.string "notification_settings", default: [], array: true
     t.string "locale", default: "uk"
     t.integer "cashback", default: 0
+    t.index ["phone_number"], name: "index_users_on_phone_number", unique: true
   end
 
   create_table "vendors", force: :cascade do |t|
