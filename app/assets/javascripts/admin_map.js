@@ -95,8 +95,7 @@ function subscribeToTripChannel(tripId) {
         this.unsubscribe();
         removeTrip(tripId);
       } else if (['TripAccepted', 'start_trip', 'waiting_client'].includes(data.action)) {
-        newStatus = { TripAccepted: 'on_the_way', start_trip: 'driving', waiting_client: 'waiting_client' };
-        updateTripStatus(tripId, newStatus[data.action]);
+        updateTripStatus(tripId, data);
       }
     } });
 }
@@ -146,9 +145,12 @@ function addNewTrip(trip) {
   drawRoute(color, trip);
 }
 
-function updateTripStatus(tripId, status) {
+function updateTripStatus(tripId, data) {
   el = getCard(tripId);
-  $('.status', el).html(status);
+  $('.status', el).html(data.trip.status);
+  $('.name', el).html(data.driver.name);
+  $('.car-number', el).html(data.driver.car.number);
+  $('.start-time', el).html(data.trip.start_time);
 }
 
 function removeTrip(tripId) {
