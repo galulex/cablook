@@ -22,14 +22,13 @@ link href='https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.css' rel='style
           span=trip.user_phone_number
         .field
           strong> Driver:
-          span=trip.driver.name
+          span.name=trip.driver&.name
         .field
           strong> Car number:
-          span=trip.car.number
-        - unless trip.start_at.blank?
-          .field
-            strong> Start time:
-            span=trip.start_at.strftime("%a, %d, %H:%M")
+          span.car-number=trip.car&.number
+        .field
+          strong> Start time:
+          span.start-time=trip.start_at&.strftime("%a, %-d, %H:%M")
 
 - @cars.each do |car|
   div.js-car data-info=car.to_json
