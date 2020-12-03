@@ -117,7 +117,7 @@ export default class AddressInput extends Component {
     }
     let autocomplete = new google.maps.places.AutocompleteService()
     this.setState({ predictions: [i18n.address_input.loading], address: e.target.value, disabled: true })
-    autocomplete.getPlacePredictions({input: `${e.target.value} ${i18n.address_input.cherkasy}`, componentRestrictions: {country: 'ua'}, location: new google.maps.LatLng(49.4311119, 31.9791903), radius: 100000, strictbounds: true, offset: 2}, data => {
+    autocomplete.getPlacePredictions({input: `${e.target.value} ${i18n.address_input.google_auto_complete_cherkasy}`, componentRestrictions: {country: 'ua'}, location: new google.maps.LatLng(49.4311119, 31.9791903), radius: 100000, strictbounds: true, offset: 2}, data => {
       if (!data) return this.setState({ predictions: [i18n.address_input.no_result], address: e.target.value, disabled: true })
       this.setState({ predictions: data, address: e.target.value, disabled: false })
     })

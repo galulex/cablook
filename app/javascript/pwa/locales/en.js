@@ -97,7 +97,8 @@ const en = {
     move_map: 'Move map to pick location',
     no_result: 'No Results',
     where: 'Where',
-    cherkasy: 'Cherkasy'
+    cherkasy: 'Cherkasy',
+    google_auto_complete_cherkasy: 'Cherkasy' 
   },
   cards: {
     add: 'Add Card',
