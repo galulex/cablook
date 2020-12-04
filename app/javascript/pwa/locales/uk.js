@@ -97,7 +97,8 @@ const uk = {
     move_map: 'Рухайте карту, щоб обрати місце',
     no_result: 'Немає результатів',
     where: 'Куди',
-    cherkasy: 'Черкаси'
+    cherkasy: 'Черкаси',
+    google_auto_complete_cherkasy: 'Черкаси' 
   },
   cards: {
     add: 'Додати картку',

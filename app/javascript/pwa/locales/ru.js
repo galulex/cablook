@@ -97,7 +97,8 @@ const ru = {
     move_map: 'Двигайте карту, чтобы выбрать место',
     no_result: 'Нет результатов',
     where: 'Куда',
-    cherkasy: 'Черкассы'
+    cherkasy: 'Черкассы',
+    google_auto_complete_cherkasy: 'Черкаси' 
   },
   cards: {
     add: 'Добавить карту',
