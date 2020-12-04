@@ -14,7 +14,7 @@ function loadMapbox() {
   script.onload = function () {
     init();
   };
-  script.src = 'https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.js';
+  script.src = 'https://api.mapbox.com/mapbox-gl-js/v1.13.0/mapbox-gl.js';
   document.head.appendChild(script);
 }
 
