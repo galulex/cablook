@@ -14,7 +14,7 @@ function loadMapbox() {
   script.onload = function () {
     init();
   };
-  script.src = 'https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.js';
+  script.src = 'https://api.mapbox.com/mapbox-gl-js/v1.13.0/mapbox-gl.js';
   document.head.appendChild(script);
 }
 
@@ -28,7 +28,7 @@ function init() {
   mapboxgl.accessToken = mapboxglToken;
   map = new mapboxgl.Map({
     container: 'map',
-    style: 'mapbox://styles/mapbox/streets-v9',
+    style: 'mapbox://styles/mapbox/streets-v11',
     center: [32.05, 49.43],
     zoom: 12
   });
