@@ -58,8 +58,7 @@ export default class Vendor extends Component {
   handleBack = () => {
     this.props.showBurger()
     route('/delivery', true)
-    history.pushState(null, null, '/')
-    history.pushState(null, null, '/delivery')
+    history.back()
   }
 
   render() {

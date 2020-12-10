@@ -25,10 +25,11 @@ export default class Trips extends Component {
     if (this.props.trips && this.props.trips.length > 0) return;
     this.loadTrips()
     this.section.addEventListener('scroll', this.handleScroll, { passive: true });
+    window.addEventListener('popstate', this.handleTripsBack, {once: true, passive: true})
   }
-
   componentWillUnmount() {
     this.section.removeEventListener('scroll', this.handleScroll, { passive: true });
+    window.removeEventListener('popstate')
   }
 
   applyUpdateResult = (result) => (prevState) => ({
@@ -57,8 +58,12 @@ export default class Trips extends Component {
     })
   }
 
-  handleBack = () => {
+  handleTripsBack = () => {
     this.setState({showDet: false})
+  }  
+
+  handleBack = () => {
+    history.back()
   }
 
   changeShowDet = () => {
