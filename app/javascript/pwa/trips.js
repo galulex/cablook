@@ -25,11 +25,11 @@ export default class Trips extends Component {
     if (this.props.trips && this.props.trips.length > 0) return;
     this.loadTrips()
     this.section.addEventListener('scroll', this.handleScroll, { passive: true });
-    window.addEventListener('popstate', this.handleTripsBack, {once: true, passive: true})
+    window.addEventListener('popstate', this.handleBack, {once: true, passive: true})
   }
   componentWillUnmount() {
     this.section.removeEventListener('scroll', this.handleScroll, { passive: true });
-    window.removeEventListener('popstate')
+    window.removeEventListener('popstate', this.handleBack, {once: true, passive: true})
   }
 
   applyUpdateResult = (result) => (prevState) => ({
@@ -59,11 +59,11 @@ export default class Trips extends Component {
   }
 
   handleTripsBack = () => {
-    this.setState({showDet: false})
-  }  
-
-  handleBack = () => {
     history.back()
+  }  
+  
+  handleBack = () => {
+    this.setState({showDet: false})
   }
 
   changeShowDet = () => {
@@ -78,7 +78,7 @@ export default class Trips extends Component {
           <button
             type='button'
             class='button white-opacity burger trips'
-            onClick={() => this.handleBack()}
+            onClick={() => this.handleTripsBack()}
             style={this.state.showDet ? "z-index:1000000" : "display: none"}>
             <Back/>
           </button>
