@@ -78,7 +78,7 @@ export default class Trips extends Component {
           <button
             type='button'
             class='button white-opacity burger trips'
-            onClick={() => this.handleTripsBack()}
+            onClick={ window.ios ? this.handleBack : this.handleTripsBack }
             style={this.state.showDet ? "z-index:1000000" : "display: none"}>
             <Back/>
           </button>
