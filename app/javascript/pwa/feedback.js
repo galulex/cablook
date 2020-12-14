@@ -22,7 +22,7 @@ export default class Feedback extends Component {
 
   componentDidMount() {
     if (window.ios) return;
-    history.pushState(null, null,'/')
+    history.length > 2 ? null : history.pushState(null, null, '/') 
     window.addEventListener('popstate', this.props.handleBack, {once: true, passive: true})
   }
 

@@ -36,7 +36,6 @@ export default class Vendor extends Component {
     if (delivery_trip && delivery_trip.id) route('/delivery', true)
   }
 
-
   getVendorInfoAndItems = () => {
     const { vendor_id } = this.state
 
@@ -59,6 +58,7 @@ export default class Vendor extends Component {
   handleBack = () => {
     this.props.showBurger()
     route('/delivery', true)
+    history.back()
   }
 
   render() {

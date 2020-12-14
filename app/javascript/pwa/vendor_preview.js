@@ -18,7 +18,7 @@ export default class VendorPreview extends Component {
     const { vendor } = this.props
 
     this.props.showBurger(false)
-    route(`/delivery/${vendor.id}`, true)
+    route(`/delivery/${vendor.id}`)
   }
 
   render() {
