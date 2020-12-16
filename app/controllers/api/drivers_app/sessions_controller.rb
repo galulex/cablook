@@ -15,7 +15,7 @@ module Api
       private
 
       def cars
-        @cars = Car.where(status: [Constants::Car::OFFLINE, Constants::Car::FREE])
+        @cars = Car.where(status: [Constants::Car::OFFLINE, Constants::Car::FREE], active: true)
       end
 
       def sign_in_params
