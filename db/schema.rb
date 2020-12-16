@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_02_091045) do
+ActiveRecord::Schema.define(version: 2020_12_16_124933) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -62,6 +62,7 @@ ActiveRecord::Schema.define(version: 2020_12_02_091045) do
     t.integer "status", default: 0
     t.string "color"
     t.string "phone_number"
+    t.boolean "active", default: true
   end
 
   create_table "devices", force: :cascade do |t|
@@ -79,6 +80,7 @@ ActiveRecord::Schema.define(version: 2020_12_02_091045) do
     t.bigint "car_id"
     t.string "address"
     t.decimal "address_location", default: [], array: true
+    t.boolean "active", default: true
     t.index ["car_id"], name: "index_drivers_on_car_id"
   end
 
