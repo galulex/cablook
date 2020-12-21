@@ -20,7 +20,6 @@ module Events
 
       # TODO: Impement logic when the price changed
       def run_methods
-        update_fav_address
         telegram_message
         update_trip
         pay_for_trip
@@ -39,10 +38,6 @@ module Events
       def update_car
         return if next_trip?
         Car.find(trip.car_id).update(status: Constants::Car::FREE)
-      end
-
-      def update_fav_address
-        Jobs::SetFavAddress.perform_later
       end
 
       def pay_for_trip

@@ -25,14 +25,6 @@ class User < ApplicationRecord
   scope :fetch_user, ->(auth_token) {
     eager_load(:favorite_addresses, :bonus_trips, :parent_bonus).where(auth_token: auth_token)
   }
-  
-  scope :without_fav_address, -> {
-    left_joins(:favorite_addresses)
-      .joins(:trips)
-      .select(:destination, :id, :destination_address).group(:id, :destination, :destination_address)
-      .where(favorite_addresses: {id: nil}, trips: {status: 'finished'})
-      .having("count(*) >= 5")
-  }
 
   def display_name
     phone_number
