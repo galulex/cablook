@@ -1,4 +1,3 @@
-require 'rubygems'
 extend ActionView::Helpers
 
 namespace :db do
