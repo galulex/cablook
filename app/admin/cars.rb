@@ -14,7 +14,7 @@ ActiveAdmin.register Car do
       input :status
       input :color, as: :select, collection: Constants::Car::COLORS
       input :phone_number
-      input :active, as: :select
+      input :active
     end
     actions
   end

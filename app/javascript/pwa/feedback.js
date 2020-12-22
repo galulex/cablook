@@ -28,6 +28,7 @@ export default class Feedback extends Component {
 
   componentWillUnmount() {
     this.feedbackForm.reset()
+    this.props.handleBack()
     window.removeEventListener('popstate', this.props.handleBack, {once: true, passive: true});
   }
 

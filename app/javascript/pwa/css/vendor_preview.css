@@ -32,6 +32,12 @@
   font-size: calc(var(--vh, 1vh) * 2);
 }
 
+.vendor .vendor-logo[src='']{
+  height: 100px;
+  width: 100px;
+  visibility: hidden;
+}
+
 .vendor .vendor-logo {
   width: 100%;
   max-width: 100px;
