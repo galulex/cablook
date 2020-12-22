@@ -30,6 +30,10 @@ export default class Vendor extends Component {
     this.getVendorInfoAndItems()
   }
 
+  componentWillUnmount() {
+    this.props.showBurger(true)
+  }
+
   checkCurrentDeliveryTrip = () => {
     const delivery_trip = JSON.parse(localStorage.getItem('delivery_trip'))
 

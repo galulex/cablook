@@ -10,7 +10,7 @@ export default class VendorPreview extends Component {
   constructor(props){
     super(props)
     this.state = {
-      trip: JSON.parse(localStorage.getItem('trip')),
+      trip: JSON.parse(localStorage.getItem('trip'))
     }
   }
 
@@ -40,7 +40,7 @@ export default class VendorPreview extends Component {
             </div>
           </div>
           <div class='col-3'>
-            <img src={vendor.logo_url} class='vendor-logo' />
+            <img src={vendor.logo_url || ''} class='vendor-logo' />
           </div>
         </div>
         <div class='time-container'>
