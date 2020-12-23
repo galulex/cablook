@@ -11,6 +11,7 @@ mapboxgl.accessToken = 'pk.eyJ1IjoiZ2FsdWxleCIsImEiOiJjamx6ampoZjgyMnYxM3FvZ2ppN
 import i18n from '../i18n.js'
 import '../css/map.css'
 import Pin from '../images/pin.svg'
+import Back from '../images/arrow-left.svg'
 
 import CarPopup from '../new_design/car_popup.js'
 import FocusOnCarControl from '../../pwa/trips/custom-control.js'
@@ -181,6 +182,15 @@ export default class PreviewMap extends Component {
     }
   }
 
+  popupContent(car, trip, driver) {
+    return render(<CarPopup car={car.number} trip={trip} driver={driver}/>)
+  }
+
+  updatePopup(car, trip, driver) {
+    if(!this.popup) return   
+    this.popup.setHTML(this.popupContent(car, trip, driver))
+  }
+
   renderCar(car, trip, driver) {
     let div = document.createElement('div')
     let img = document.createElement('img')
@@ -193,10 +203,10 @@ export default class PreviewMap extends Component {
       document.documentElement.style.setProperty('--car-transition', '0s')
     })
     marker.carAngleDeg = car.deg
-    var popupContent = render(<CarPopup car={car} trip={trip} driver={driver}/>)
-    var popup = new mapboxgl.Popup({closeOnClick: false, closeButton: true, className: 'car-popup', anchor: 'bottom'}).setHTML(popupContent)
-    marker.setPopup(popup).addTo(this.map).togglePopup()
+    var popupContent = this.popupContent(car, trip, driver)
+    this.popup = new mapboxgl.Popup({closeOnClick: false, closeButton: true, className: 'car-popup', anchor: 'bottom'}).setHTML(popupContent)
 
+    marker.setPopup(this.popup).addTo(this.map).togglePopup()
     this.carFocus = new FocusOnCarControl({eventHandler: this.focusOnCar})
     this.map.addControl(this.carFocus, 'bottom-right')
 
@@ -261,6 +271,7 @@ export default class PreviewMap extends Component {
   addCar = (props) => {
     if (!this.state.car) this.renderCar(props.car, props.trip(), props.driver)
     this.updateCarPosition(props.car)
+    this.popupContent(props.car, props.trip(), props.driver)
   }
 
   pathFocus = (trip) => {
@@ -317,15 +328,16 @@ export default class PreviewMap extends Component {
     if ([FINISHED].includes(props.trip().status)) return this.cleanup()
     if (props.car) this.addCar(props)
     if (props.picker !== null) return this.pick(props.picker)
-
     this.map.off('movestart', this.movestart)
     this.map.off('moveend', this.moveend)
+    let { driver, car } = props
     let trip = props.trip()
-
     this.drawMarkers(trip)
     this.drawPath(trip)
     if (![CONFIRM_UPDATE_TRIP, undefined, null].includes(trip.status) && this.map.getSource('line')) return
-    if (![CONFIRM_UPDATE_TRIP].includes(props.trip().status)) this.pathFocus(trip)
+    if (![CONFIRM_UPDATE_TRIP].includes(trip.status)) this.pathFocus(trip)
+    
+    this.updatePopup(car, props.trip(), driver)  
   }
 
   updateCarPosition(data) {
@@ -353,11 +365,23 @@ export default class PreviewMap extends Component {
     this.setState({zoom: event.target.value})
   }
 
-  render() {
-    const { picker, pickAddress } = this.props
+  handleBackEdit = async e => {
+    this.props.mainBurger.classList.remove('hidden')
+    let { driver, car } = this.props
+    
+    if (this.props.picker !== null) this.props.clearPicker()
+    window.ios ? this.props.fetchUser() : window.history.back()
+    
+    const rest = await this.props.fetchUser()   
+    
+    this.updatePopup(car, this.props.trip(), driver)
+  }
 
+  render() {
+    const { picker, pickAddress, trip } = this.props
     return (
       <div class='main_map'>
+        { [CONFIRM_UPDATE_TRIP].includes(trip().status) && <button type='button' class='burger button white-opacity back' onClick={this.handleBackEdit}><Back/></button> }
         <Pin class='pin picker' width='30px' ref={pin => this.pin = pin}/>
         <div class='map' ref={el => this.mapContainer = el}/>
         { (picker !== null ) &&
