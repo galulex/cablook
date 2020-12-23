@@ -16,7 +16,6 @@ import Card from './images/credit-cards-payment.js'
 import Phone from './images/phone_crossed.js'
 import Comment from './images/contacts.svg'
 import Chevron from './images/chevron.js'
-import Back from './images/arrow-left.svg'
 import SearchLogo from './images/search_logo.svg'
 import './css/new_design.css'
 
@@ -489,11 +488,6 @@ export default class NewDesign extends Component {
     this.props.fetchUser()
   }
 
-  handleBackEdit = (e) => {
-    this.props.mainBurger.classList.remove('hidden')
-    if (this.state.picker !== null) this.setState({picker: null, klass: ''})
-    window.ios ? this.props.fetchUser() : window.history.back()
-  }
 
   setField = (e) => {
     this.state.trip[e.target.id] = (e.target.id !== 'no_call') ? e.target.value : e.target.checked
@@ -719,6 +713,10 @@ export default class NewDesign extends Component {
     )
   }
 
+  clearPicker = () => {
+    this.setState({picker: null, klass: ''})
+  } 
+
   resetTrip = () => {
     this.props.setActivateFeedback()
     this.setState({ trip: this.initialTripState, car: null, driver: null })
@@ -737,7 +735,6 @@ export default class NewDesign extends Component {
     return (
       <div class='general__holder'>
         <header></header>
-        { [CONFIRM_UPDATE_TRIP].includes(trip.status) && <button type='button' class='burger button white-opacity back' onClick={this.handleBackEdit}><Back/></button> }
         <section class={`new_design ${this.state.klass} ${[PENDING].includes(trip.status) ? 'background' : ''}`}>
           { this.props.showFeedback() && <Feedback trip={trip} updateTrip={this.resetTrip} handleBack={this.resetTrip} lastTripId={lastTripId} /> }
           <style>{`fieldset.address:nth-child(${this.state.picker + 1}) { opacity: 1;}`}</style>
@@ -753,6 +750,9 @@ export default class NewDesign extends Component {
             isGeocoding={isGeocoding}
             setGeocoding={setGeocoding}
             pickAddress={this.pickAddress}
+            mainBurger={this.props.mainBurger}
+            clearPicker={this.clearPicker}
+            fetchUser={this.props.fetchUser}
             ref={(el) => this.previewMapRef = el}
           />
           { !this.props.showFeedback() &&
