@@ -183,11 +183,11 @@ export default class PreviewMap extends Component {
   }
 
   popupContent(car, trip, driver) {
-    return render(<CarPopup car={car.number} trip={trip} driver={driver}/>)
+    return render(<CarPopup car={car} trip={trip} driver={driver}/>)
   }
 
   updatePopup(car, trip, driver) {
-    if(!this.popup) return   
+    if (!this.popup) return   
     this.popup.setHTML(this.popupContent(car, trip, driver))
   }
 
@@ -203,7 +203,7 @@ export default class PreviewMap extends Component {
       document.documentElement.style.setProperty('--car-transition', '0s')
     })
     marker.carAngleDeg = car.deg
-    var popupContent = this.popupContent(car, trip, driver)
+    let popupContent = this.popupContent(car, trip, driver)
     this.popup = new mapboxgl.Popup({closeOnClick: false, closeButton: true, className: 'car-popup', anchor: 'bottom'}).setHTML(popupContent)
 
     marker.setPopup(this.popup).addTo(this.map).togglePopup()
@@ -314,7 +314,7 @@ export default class PreviewMap extends Component {
       div.innerHTML = render(<Pin class={`pin pin-${klass}`} width='25px'/>)
       let marker = new mapboxgl.Marker(div)
 
-      var popup = new mapboxgl.Popup({closeOnClick: false, closeButton: false, className: `point-${klass}`, anchor: 'left', offset: 10, opened: true}).setHTML(trip.stops[i])
+      let popup = new mapboxgl.Popup({closeOnClick: false, closeButton: false, className: `point-${klass}`, anchor: 'left', offset: 10, opened: true}).setHTML(trip.stops[i])
       if (trip && [PENDING].includes(trip.status)) {
         marker.setLngLat(w.split(',').reverse()).setPopup(popup).addTo(this.map).togglePopup()
       } else {
@@ -337,7 +337,7 @@ export default class PreviewMap extends Component {
     if (![CONFIRM_UPDATE_TRIP, undefined, null].includes(trip.status) && this.map.getSource('line')) return
     if (![CONFIRM_UPDATE_TRIP].includes(trip.status)) this.pathFocus(trip)
     
-    this.updatePopup(car, props.trip(), driver)  
+    this.updatePopup(car, trip, driver)  
   }
 
   updateCarPosition(data) {
@@ -367,13 +367,12 @@ export default class PreviewMap extends Component {
 
   handleBackEdit = async e => {
     this.props.mainBurger.classList.remove('hidden')
-    let { driver, car } = this.props
-    
-    if (this.props.picker !== null) this.props.clearPicker()
-    window.ios ? this.props.fetchUser() : window.history.back()
+    let { driver, car, fetchUser, clearPicker, picker} = this.props
+
+    if (picker !== null) clearPicker()
+    window.ios ? fetchUser() : window.history.back()
     
     const rest = await this.props.fetchUser()   
-    
     this.updatePopup(car, this.props.trip(), driver)
   }
 
