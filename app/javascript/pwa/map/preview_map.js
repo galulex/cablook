@@ -336,8 +336,7 @@ export default class PreviewMap extends Component {
     this.drawPath(trip)
     if (![CONFIRM_UPDATE_TRIP, undefined, null].includes(trip.status) && this.map.getSource('line')) return
     if (![CONFIRM_UPDATE_TRIP].includes(trip.status)) this.pathFocus(trip)
-    
-    this.updatePopup(car, trip, driver)  
+    if (driver) this.updatePopup(car, trip, driver)  
   }
 
   updateCarPosition(data) {
