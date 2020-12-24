@@ -35,12 +35,12 @@
     requestWakeLock()
     document.addEventListener('visibilitychange', requestWakeLock, false, { passive: true })
   })
-  
+
   onDestroy(() => {
     if (subscription) subscription.unsubscribe()
     if (watcher) watcher.clearWatch()
   })
-  
+
   let sendLocation = (geo) => {
     console.log(geo)
     let { latitude, longitude, speed } = geo.coords
@@ -55,7 +55,7 @@
     }
     subscription.perform('send_location', { body: JSON.stringify(params) })
   }
-  
+
   let login = (driver, car) => {
     localStorage.id = driver.id
     localStorage.carId = car.id
