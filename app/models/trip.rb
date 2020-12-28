@@ -21,9 +21,9 @@ class Trip < ApplicationRecord
   enum status: Constants::Trip::STATUS_CODES.invert
 
   delegate :phone_number, to: :user, prefix: true
-
-  before_validation :set_comment
-
+  
+  before_validation :set_entrance, on: %i[create update], if: :entrance
+  
   scope :statistics, (lambda do
     where(status: Constants::Trip::FINISHED)
       .left_joins(:tip_payment, :feedbacks, :required_payments)
@@ -42,7 +42,7 @@ class Trip < ApplicationRecord
   # Time for pre-order trip
   attr_reader :time, :vip
   attr_writer :pre_order, :vip
-  attr_accessor :osrm, :formatted_date, :entrance, :image
+  attr_accessor :osrm, :formatted_date, :image
 
   scope :sum_cost, (lambda do
     joins(:driver)
@@ -103,8 +103,7 @@ class Trip < ApplicationRecord
     @image ||= "https://api.mapbox.com/styles/v1/mapbox/streets-v10/static/pin-s-s+188753(#{departure.reverse.join(',')}),#{waypoints.map { |w| "pin-s-w+facc1f(#{w.split(',').reverse.join(',')})," }.join('')}pin-s-f+312d50(#{destination.reverse.join(',')}),path-5+188753-0.8(#{CGI.escape(path)})/auto/400x400?access_token=#{ENV['MAPBOX_KEY']}"
   end
 
-  def set_comment
-    entr = entrance.blank? ? nil : I18n.t('trips.entrance', val: entrance)
-    self[:comment] = "#{comment} #{entr}"
+  def set_entrance
+    self.entrance = I18n.t('trips.entrance', val: self.entrance.to_i)
   end
 end

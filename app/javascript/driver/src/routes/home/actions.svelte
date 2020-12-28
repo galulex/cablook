@@ -140,5 +140,5 @@
   </time>
   <time><Timer style={{fill: 'var(--red_color)', width: '15px', height: '15px'}}/><label>{time}</label></time>
 </p>
-<blockquote>{trip.comment}</blockquote>
+<blockquote>{`${trip.comment || ''} ${trip.entrance || ''}`}</blockquote>
 <button type='button' name={name}  disabled={disabledButton} on:click={accept} style="{btnStyle}">GO {time}</button>

@@ -278,7 +278,7 @@
       <time datatime={trip.start_at}><Clock style={{ fill: bgColor(), width: '15px', height: '15px'}}/><label>{trip.start_time}</label></time>
       <span><Distance style={{ fill: bgColor(), width: '15px', height: '15px'}}/><label>{distance}км</label></span>
     </p>
-    <blockquote>{trip.comment}</blockquote>
+    <blockquote>{`${trip.comment || ''} ${trip.entrance || ''}`}</blockquote>
     <div class='buttons'>
       <button type='button'
               title={actions[trip.status - 1].title}

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_16_124933) do
+ActiveRecord::Schema.define(version: 2020_12_28_094907) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -169,6 +169,7 @@ ActiveRecord::Schema.define(version: 2020_12_16_124933) do
     t.boolean "no_call", default: false
     t.datetime "preorder_time"
     t.datetime "accepted_at"
+    t.string "entrance"
     t.index ["car_id"], name: "index_trips_on_car_id"
     t.index ["driver_id"], name: "index_trips_on_driver_id"
     t.index ["user_id"], name: "index_trips_on_user_id"
