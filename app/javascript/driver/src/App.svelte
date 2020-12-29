@@ -32,6 +32,8 @@
     subscribe()
     setWatcher()
     loadScript()
+    requestWakeLock()
+    document.addEventListener('visibilitychange', requestWakeLock, false, { passive: true })
   })
 
   onDestroy(() => {
@@ -63,6 +65,15 @@
     subscribe()
     setWatcher()
     loadScript()
+  }
+
+  let requestWakeLock = () => {
+    if (document.visibilityState !== 'visible') return;
+    try {
+      wakeLock = navigator.wakeLock.request('screen');
+    } catch (err) {
+      console.error(err);
+    }
   }
 
   let logout = () => {
