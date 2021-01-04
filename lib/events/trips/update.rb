@@ -105,7 +105,7 @@ module Events
 
       def trip_params
         data.slice(:path, :cost, :departure, :destination, :departure_address,
-                   :destination_address, :duration, :distance, :stops, :waypoints)
+                   :destination_address, :duration, :distance, :stops, :waypoints, :entrance)
       end
 
       def payment_params

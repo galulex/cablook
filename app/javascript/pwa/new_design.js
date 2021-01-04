@@ -591,6 +591,7 @@ export default class NewDesign extends Component {
   }
 
   DriverLocationUpdated = (data) => {
+    if ([CONFIRM_UPDATE_TRIP].includes(this.state.trip.status)) return
     const position = this.state.car.location
     this.setState({ car: { ...this.state.car, location: [data.body.location.longitude, data.body.location.latitude], position: position, distance: data.body.car.dis, deg: data.body.car.deg } })
   }
@@ -626,6 +627,7 @@ export default class NewDesign extends Component {
   }
 
   renderFields(trip, isValid, cards) {
+    let entrance = trip.entrance && trip.entrance.split(' ').shift()
     return(
       <div id='fields' class='options' ref={fields => this.fields = fields} onScroll={this.props.scrollEnd}>
         <button class='trigger' onClick={ () => this.scroll(1) }>
@@ -669,7 +671,7 @@ export default class NewDesign extends Component {
               </label>
               <label htmlFor='entrance'>
                 <Entrance height='15'/>
-                <select id='entrance' value={trip.entrance} onChange={this.setField}>
+                <select id='entrance' value={entrance} onChange={this.setField}>
                   <option value=''>{i18n.current_trip.select_entrance}</option>
                   {ENTRANCES.map((el) => {
                     return (<option value={el}>{el} {i18n.current_trip.entrance}</option>)
