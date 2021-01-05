@@ -1,6 +1,6 @@
 # class to build new trip based on coordinates through OSRM directions api
 class OsrmDirections
-  URL = 'https://osrm.cablook.taxi/route/v1/driving/'.freeze
+  URL = 'https://osrm2.cablook.taxi/route/v1/driving/'.freeze
 
   attr_reader :result
 
