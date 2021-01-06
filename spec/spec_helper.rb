@@ -56,7 +56,7 @@ RSpec.configure do |config|
     body_mapbox = File.read('spec/fixtures/maps/mapbox_success_directions')
     stub_request(:get, %r{https://maps.googleapis.com/maps/api/directions/.*})
       .to_return(status: 200, headers: { 'Content-Type' => 'application/json' }, body: body)
-    stub_request(:get, %r{https://osrm.cablook.taxi/route/v1/driving/.*})
+    stub_request(:get, %r{https://osrm2.cablook.taxi/route/v1/driving/.*})
       .to_return(status: 200, headers: { 'Content-Type' => 'application/json' }, body: body_mapbox)
   end
 

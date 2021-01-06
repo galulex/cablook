@@ -26,7 +26,7 @@
   }
 
   let osrm =(async () => {
-    let res = await fetch(`https://osrm.cablook.taxi/route/v1/driving/${start};${finish}?overview=false`)
+    let res = await fetch(`https://osrm2.cablook.taxi/route/v1/driving/${start};${finish}?overview=false`)
     let json = await res.json()
     let result = json.routes[0]
     return { distance: Math.round(result.distance/1000), duration: Math.round(result.duration/60) }
