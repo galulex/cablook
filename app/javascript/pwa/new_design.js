@@ -112,7 +112,7 @@ export default class NewDesign extends Component {
               console.log(i18n.location.position_unavailable);
               break;
             default:
-              alert(error.message)
+              // alert(error.message)
               break;
           }
         }
