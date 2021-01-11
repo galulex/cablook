@@ -391,6 +391,7 @@ export default class App extends Component {
       }
     )
   }
+
   render() {
     const { currentTrip, isGeocoding, availableBonusTrips,
             cards, language, bonus_trips, favorite_addresses } = this.state
