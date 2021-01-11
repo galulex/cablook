@@ -84,6 +84,7 @@ GEM
     ast (2.4.0)
     autoprefixer-rails (9.8.6.3)
       execjs
+    awesome_print (1.8.0)
     axiom-types (0.1.1)
       descendants_tracker (~> 0.0.4)
       ice_nine (~> 0.11.0)
@@ -490,6 +491,7 @@ DEPENDENCIES
   activeadmin_addons
   arctic_admin
   autoprefixer-rails
+  awesome_print
   bcrypt (~> 3.1.12)
   bugno!
   capistrano

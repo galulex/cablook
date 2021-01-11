@@ -72,6 +72,18 @@ export default class NewDesign extends Component {
   }
 
   componentDidUpdate() {
+    if (!this.state.currentLocation && this.props.currentLocation && this.state.trip.stops[0] === '') {    
+      this.setAddress(this.props.currentLocation.address, this.props.currentLocation.location, 0)
+      this.setState({ currentLocation: {
+        location: this.props.currentLocation.location, 
+        address: this.props.currentLocation.address,
+        favorite_address: true,
+        structured_formatting: { 
+          main_text: this.props.currentLocation.address,
+          secondary_text: i18n.address_input.location 
+        }
+      } })
+    }
     this.addShakeListener()
   }
 
@@ -83,41 +95,6 @@ export default class NewDesign extends Component {
     }).catch((error) => {
       if (error.response) alert(error.response.data.errors)
     })
-  }
-
-  getLocation = () => {
-    let component = this
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition((result) => {
-        let lat = result.coords.latitude
-        let lng = result.coords.longitude
-
-        if (this.state.trip.stops[0] === '') {
-          this.props.geocode(`${lng},${lat}`, (address) => {
-            this.setAddress(address, `${lat},${lng}`, 0)
-            this.setState({currentLocation: {location: `${lat},${lng}`, address: address, favorite_address: true,
-              structured_formatting: { main_text: address, secondary_text: i18n.address_input.location }}})
-          })
-        }
-      },
-        (error) => {
-          switch(error.code) {
-            case error.PERMISSION_DENIED :
-              console.log(i18n.location.permission_denied);
-              break;
-            case error.TIMEOUT:
-              alert(i18n.location.timeout);
-              break;
-            case error.POSITION_UNAVAILABLE :
-              console.log(i18n.location.position_unavailable);
-              break;
-            default:
-              // alert(error.message)
-              break;
-          }
-        }
-      )
-    }
   }
 
   setAddress = (text, coords, index) => {
@@ -433,7 +410,6 @@ export default class NewDesign extends Component {
     let trip = {}
     if (!propsTrip) {
       trip = this.state.trip
-      if (trip.stops[0] == '') this.getLocation()
       if (trip.status !== PENDING) return
       this.setState({ trip: { ...trip, status: DECLINED} })
       return

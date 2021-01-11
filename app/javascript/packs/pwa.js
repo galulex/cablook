@@ -51,6 +51,7 @@ import { Router } from 'preact-router';
 import { createMemoryHistory } from 'history';
 
 import i18n from '../pwa/i18n.js'
+import geoLocation from '../pwa/geolocation.js'
 import NewDesign from '../pwa/new_design.js';
 import Session from '../pwa/session.js';
 import Cards from '../pwa/cards.js';
@@ -66,7 +67,6 @@ import Vendors from '../pwa/vendors.js';
 import Vendor from '../pwa/vendor.js';
 import Cart from '../pwa/cart.js';
 import NotFound from '../pwa/not_found.js';
-
 import { PENDING, ON_THE_WAY, WAITING_CLIENT, DRIVING, FINISHED, CANCELED, DECLINED, CANCELED_BY_DRIVER, CONFIRM_UPDATE_TRIP, MAP_MIN_ZOOM, MAP_MAX_ZOOM, CHERKASY_LONG_LAT } from '../pwa/lib/constants.js'
 
 import '../pwa/css/buttons.css';
@@ -83,6 +83,7 @@ export default class App extends Component {
   constructor(props){
     super(props)
     this.state = {
+      currentLocation: null,
       currentUser: localStorage.token,
       currentUserID: '',
       cards: [],
@@ -104,6 +105,7 @@ export default class App extends Component {
 
   componentDidMount() {
     this.loadScript()
+    geoLocation(this.geocode, this.setTrip)
     if (window.ios) this.focusOutForIos()
     if (this.state.currentUser && this.state.currentUser.length !== 0) {
       this.fetchUser()
@@ -375,6 +377,20 @@ export default class App extends Component {
     this.setState({isBurgerShowing})
   }
 
+  setTrip = (address, lat, lng) => {
+    this.setState({ 
+        currentLocation: {
+          location: `${lat},${lng}`,
+          address: address,
+          favorite_address: true,
+          structured_formatting: { 
+            main_text: address, 
+            secondary_text: i18n.address_input.location 
+          }
+        }
+      }
+    )
+  }
   render() {
     const { currentTrip, isGeocoding, availableBonusTrips,
             cards, language, bonus_trips, favorite_addresses } = this.state
@@ -395,6 +411,7 @@ export default class App extends Component {
             <NewDesign path='/'
               trip={currentTrip}
               cards={() => this.state.cards}
+              currentLocation={this.state.currentLocation}
               bonus_trips={() => bonus_trips}
               language={language}
               favorite_addresses={() => favorite_addresses}
