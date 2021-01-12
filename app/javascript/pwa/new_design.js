@@ -13,6 +13,7 @@ import Widget from './widget.js'
 import Entrance from './images/entrance.svg'
 import Clock from './images/clock.svg'
 import Card from './images/credit-cards-payment.js'
+import { geocode } from '../pwa/geolocation.js'
 import Phone from './images/phone_crossed.js'
 import Comment from './images/contacts.svg'
 import Chevron from './images/chevron.js'
@@ -315,7 +316,7 @@ export default class NewDesign extends Component {
         let lat = result.coords.latitude
         let lng = result.coords.longitude
 
-        this.props.geocode(`${lng},${lat}`, (address) => {
+        geocode(`${lng},${lat}`, (address) => {
           this.setTripParams(`${lat},${lng}`, address)
         })
       },
@@ -704,7 +705,7 @@ export default class NewDesign extends Component {
             paymentButtonDisabled, car, driver,
             picker, cancelTimer } = this.state
     const { language, isGeocoding, setGeocoding,
-            geocode, showFeedback, availableBonusTrips } = this.props
+            showFeedback, availableBonusTrips } = this.props
     const cards = this.props.cards()
     let isValid = trip.stops.includes('')
     let cost = (trip.cost) ? `${trip.cost}` : ''
@@ -723,7 +724,6 @@ export default class NewDesign extends Component {
             language={language}
             picker={picker}
             setAddress={this.setAddress}
-            geocode={geocode}
             isGeocoding={isGeocoding}
             setGeocoding={setGeocoding}
             pickAddress={this.pickAddress}

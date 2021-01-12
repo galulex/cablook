@@ -134,7 +134,6 @@ export default class FavoriteAddresses extends Component {
                   updateFavoriteAddresses={this.props.updateFavoriteAddresses}
                   notification_settings={this.props.notification_settings}
                   updateNotificationSettings={this.props.updateNotificationSettings}
-                  geocode={this.props.geocode}
                   language={this.props.language}
                   isGeocoding={this.props.isGeocoding}
                   setGeocoding={this.props.setGeocoding}

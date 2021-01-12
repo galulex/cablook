@@ -51,7 +51,7 @@ import { Router } from 'preact-router';
 import { createMemoryHistory } from 'history';
 
 import i18n from '../pwa/i18n.js'
-import { geoLocation, geocode } from '../pwa/geolocation.js'
+import { geoLocation } from '../pwa/geolocation.js'
 import NewDesign from '../pwa/new_design.js';
 import Session from '../pwa/session.js';
 import Cards from '../pwa/cards.js';
@@ -103,9 +103,10 @@ export default class App extends Component {
     axios.defaults.headers.common['Pwa-Language'] = this.state.language
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     this.loadScript()
-    geoLocation().then(location => { this.setLocation(location) })
+    let location = await geoLocation()
+    this.setLocation(location)
     if (window.ios) this.focusOutForIos()
     if (this.state.currentUser && this.state.currentUser.length !== 0) {
       this.fetchUser()
@@ -410,7 +411,6 @@ export default class App extends Component {
               language={language}
               favorite_addresses={() => favorite_addresses}
               fetchUser={this.fetchUser}
-              geocode={geocode}
               scrollEnd={this.scrollEnd}
               isYmapsLoading={this.state.isYmapsLoading}
               setBonusTrips={this.setBonusTrips}
@@ -444,7 +444,6 @@ export default class App extends Component {
               bonus_trips={() => this.state.bonus_trips}
               parent_bonus={() => this.state.parent_bonus}
               cashbackAmount={this.state.cashbackAmount}
-              geocode={geocode}
               isGeocoding={isGeocoding}
               setGeocoding={this.setGeocoding}
               showBurger={this.showBurger}
@@ -461,7 +460,6 @@ export default class App extends Component {
             <Cart path='/delivery/cart'
               cards={() => this.state.cards}
               favorite_addresses={() => this.state.favorite_addresses}
-              geocode={geocode}
               isGeocoding={isGeocoding}
               setGeocoding={this.setGeocoding}
               showBurger={this.showBurger}

@@ -1,6 +1,7 @@
 import render from 'preact-render-to-string'
 import { h, Component } from 'preact'
 import axios from 'axios'
+import { geocode } from '../../pwa/geolocation.js'
 import mapboxgl from 'mapbox-gl'
 import MapboxLanguage from '@mapbox/mapbox-gl-language'
 import { MAP_MIN_ZOOM, MAP_MAX_ZOOM, CHERKASY_LONG_LAT, NUM_DELTAS, TELEPORT_DISTANCE } from '../lib/constants.js'
@@ -251,7 +252,7 @@ export default class PreviewMap extends Component {
 
     this.updatePoint([lat, lng])
 
-    this.props.geocode(`${lng},${lat}`, (address) => {
+    geocode(`${lng},${lat}`, (address) => {
       if (this.move) return
       this.props.setAddress(address, `${lat},${lng}`, this.state.index)
       this.setState({isGeocoding: false})
