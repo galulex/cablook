@@ -5,8 +5,9 @@ async function geoLocation() {
   if (navigator.geolocation) {
     try {
       let { lng, lat } = await getCurrentPosition()
+      let coords = `${lat}, ${lng}`
       let address = await getAddress(lng, lat)
-      return { address, lat, lng}
+      return { address, coords}
     } catch (error) {
       console.log(i18n.location.position_unavailable)
     }

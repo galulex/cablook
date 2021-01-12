@@ -370,10 +370,10 @@ export default class App extends Component {
 
   setLocation = (location) => {
     if (!location) return 
-    let {lat, lng, address} = location
+    let {coords, address} = location
     this.setState({ 
         currentLocation: {
-          location: `${lat},${lng}`,
+          location: coords,
           address: address,
           favorite_address: true,
           structured_formatting: { 
