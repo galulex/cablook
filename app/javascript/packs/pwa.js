@@ -51,7 +51,7 @@ import { Router } from 'preact-router';
 import { createMemoryHistory } from 'history';
 
 import i18n from '../pwa/i18n.js'
-import geoLocation from '../pwa/geolocation.js'
+import { geoLocation, geocode } from '../pwa/geolocation.js'
 import NewDesign from '../pwa/new_design.js';
 import Session from '../pwa/session.js';
 import Cards from '../pwa/cards.js';
@@ -105,7 +105,7 @@ export default class App extends Component {
 
   componentDidMount() {
     this.loadScript()
-    geoLocation(this.geocode, this.setTrip)
+    geoLocation().then(location => { this.setLocation(location) })
     if (window.ios) this.focusOutForIos()
     if (this.state.currentUser && this.state.currentUser.length !== 0) {
       this.fetchUser()
@@ -312,15 +312,6 @@ export default class App extends Component {
   updateNotificationSettings = (notification_settings) => {
     this.setState({notification_settings})
   }
-
-  geocode = (point, callback) => {
-    axios.get(`address?coords=${point}`).then((res) => {
-      callback(res.data.address)
-    }).catch((error) => {
-      if (error.response) alert(error.response.data.errors)
-    })
-  }
-
   updateUserLocale = (locale) => {
     axios.patch('user', { locale: locale })
   }
@@ -377,7 +368,9 @@ export default class App extends Component {
     this.setState({isBurgerShowing})
   }
 
-  setTrip = (address, lat, lng) => {
+  setLocation = (location) => {
+    if (!location) return 
+    let {lat, lng, address} = location
     this.setState({ 
         currentLocation: {
           location: `${lat},${lng}`,
@@ -417,7 +410,7 @@ export default class App extends Component {
               language={language}
               favorite_addresses={() => favorite_addresses}
               fetchUser={this.fetchUser}
-              geocode={this.geocode}
+              geocode={geocode}
               scrollEnd={this.scrollEnd}
               isYmapsLoading={this.state.isYmapsLoading}
               setBonusTrips={this.setBonusTrips}
@@ -451,7 +444,7 @@ export default class App extends Component {
               bonus_trips={() => this.state.bonus_trips}
               parent_bonus={() => this.state.parent_bonus}
               cashbackAmount={this.state.cashbackAmount}
-              geocode={this.geocode}
+              geocode={geocode}
               isGeocoding={isGeocoding}
               setGeocoding={this.setGeocoding}
               showBurger={this.showBurger}
@@ -468,7 +461,7 @@ export default class App extends Component {
             <Cart path='/delivery/cart'
               cards={() => this.state.cards}
               favorite_addresses={() => this.state.favorite_addresses}
-              geocode={this.geocode}
+              geocode={geocode}
               isGeocoding={isGeocoding}
               setGeocoding={this.setGeocoding}
               showBurger={this.showBurger}
