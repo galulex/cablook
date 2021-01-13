@@ -103,10 +103,9 @@ export default class App extends Component {
     axios.defaults.headers.common['Pwa-Language'] = this.state.language
   }
 
-  async componentDidMount() {
+  componentDidMount() {
     this.loadScript()
-    let location = await geoLocation()
-    this.setLocation(location)
+    this.setLocation()
     if (window.ios) this.focusOutForIos()
     if (this.state.currentUser && this.state.currentUser.length !== 0) {
       this.fetchUser()
@@ -369,8 +368,8 @@ export default class App extends Component {
     this.setState({isBurgerShowing})
   }
 
-  setLocation = (location) => {
-    if (!location) return 
+  setLocation = async () => {
+    let location = await geoLocation()
     let {coords, address} = location
     this.setState({ 
         currentLocation: {
