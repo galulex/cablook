@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from 'axios'
 import i18n from '../pwa/i18n.js'
 
 const geoLocation = async() => {
@@ -17,36 +17,36 @@ const geoLocation = async() => {
 const getCurrentPosition = async() => {
   try {
     const res = await new Promise(function (resolve, reject) {
-      navigator.geolocation.getCurrentPosition(resolve, reject);
-    });
-    let lat = res.coords.latitude;
-    let lng = res.coords.longitude;
-    return { lng, lat };
+      navigator.geolocation.getCurrentPosition(resolve, reject)
+    })
+    let lat = res.coords.latitude
+    let lng = res.coords.longitude
+    return { lng, lat }
   } catch (error) {
     switch (error.code) {
       case error.PERMISSION_DENIED:
-        console.log(i18n.location.permission_denied);
-        break;
+        console.log(i18n.location.permission_denied)
+        break
       case error.TIMEOUT:
-        alert(i18n.location.timeout);
-        break;
+        alert(i18n.location.timeout)
+        break
       case error.POSITION_UNAVAILABLE:
-        console.log(i18n.location.position_unavailable);
-        break;
+        console.log(i18n.location.position_unavailable)
+        break
       default:
-        alert(error.message);
-        break;
+        alert(error.message)
+        break
     }
   }
 }
 
 const geocode = async(lng, lat) => {
   try {
-    const res = await axios.get(`address?coords=${lng},${lat}`);
-    return res.data.address;
+    const res = await axios.get(`address?coords=${lng},${lat}`)
+    return res.data.address
   } catch (error) {
     if (error.response)
-      return alert(error.response.data.errors);
+      return alert(error.response.data.errors)
   }  
 }
 
