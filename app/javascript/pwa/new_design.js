@@ -13,6 +13,7 @@ import Widget from './widget.js'
 import Entrance from './images/entrance.svg'
 import Clock from './images/clock.svg'
 import Card from './images/credit-cards-payment.js'
+import { geocode } from '../pwa/geolocation.js'
 import Phone from './images/phone_crossed.js'
 import Comment from './images/contacts.svg'
 import Chevron from './images/chevron.js'
@@ -72,6 +73,18 @@ export default class NewDesign extends Component {
   }
 
   componentDidUpdate() {
+    if (!this.state.currentLocation && this.props.currentLocation && this.state.trip.stops[0] === '') {    
+      this.setAddress(this.props.currentLocation.address, this.props.currentLocation.location, 0)
+      this.setState({ currentLocation: {
+        location: this.props.currentLocation.location, 
+        address: this.props.currentLocation.address,
+        favorite_address: true,
+        structured_formatting: { 
+          main_text: this.props.currentLocation.address,
+          secondary_text: i18n.address_input.location 
+        }
+      } })
+    }
     this.addShakeListener()
   }
 
@@ -83,41 +96,6 @@ export default class NewDesign extends Component {
     }).catch((error) => {
       if (error.response) alert(error.response.data.errors)
     })
-  }
-
-  getLocation = () => {
-    let component = this
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition((result) => {
-        let lat = result.coords.latitude
-        let lng = result.coords.longitude
-
-        if (this.state.trip.stops[0] === '') {
-          this.props.geocode(`${lng},${lat}`, (address) => {
-            this.setAddress(address, `${lat},${lng}`, 0)
-            this.setState({currentLocation: {location: `${lat},${lng}`, address: address, favorite_address: true,
-              structured_formatting: { main_text: address, secondary_text: i18n.address_input.location }}})
-          })
-        }
-      },
-        (error) => {
-          switch(error.code) {
-            case error.PERMISSION_DENIED :
-              console.log(i18n.location.permission_denied);
-              break;
-            case error.TIMEOUT:
-              alert(i18n.location.timeout);
-              break;
-            case error.POSITION_UNAVAILABLE :
-              console.log(i18n.location.position_unavailable);
-              break;
-            default:
-              // alert(error.message)
-              break;
-          }
-        }
-      )
-    }
   }
 
   setAddress = (text, coords, index) => {
@@ -332,33 +310,33 @@ export default class NewDesign extends Component {
     } else { this.createShakeTrip() }
   }
 
-  createShakeTrip = () => {
+  createShakeTrip = async() => {
     if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition((result) => {
-        let lat = result.coords.latitude
-        let lng = result.coords.longitude
+      try {
+        const res = await new Promise(function (resolve, reject) {
+          navigator.geolocation.getCurrentPosition(resolve, reject);
+        });
 
-        this.props.geocode(`${lng},${lat}`, (address) => {
-          this.setTripParams(`${lat},${lng}`, address)
-        })
-      },
-        (error) => {
-          switch(error.code) {
-            case error.PERMISSION_DENIED :
-              alert(i18n.location.permission_denied)
-              break
-            case error.TIMEOUT:
-              alert(i18n.location.timeout)
-              break
-            case error.POSITION_UNAVAILABLE :
-              alert(i18n.location.position_unavailable)
-              break
-            default:
-              alert(error.message)
-              break
-          }
+        let lat = res.coords.latitude;
+        let lng = res.coords.longitude;
+        let address = await geocode(`${lng},${lat}`)
+        this.setTripParams(`${lat},${lng}`, address)
+      } catch (error) {
+        switch (error.code) {
+          case error.PERMISSION_DENIED:
+            console.log(i18n.location.permission_denied);
+            break;
+          case error.TIMEOUT:
+            alert(i18n.location.timeout);
+            break;
+          case error.POSITION_UNAVAILABLE:
+            console.log(i18n.location.position_unavailable);
+            break;
+          default:
+            alert(error.message);
+            break;
         }
-      )
+      }
     } else alert(i18n.location.not_supported)
   }
 
@@ -433,7 +411,6 @@ export default class NewDesign extends Component {
     let trip = {}
     if (!propsTrip) {
       trip = this.state.trip
-      if (trip.stops[0] == '') this.getLocation()
       if (trip.status !== PENDING) return
       this.setState({ trip: { ...trip, status: DECLINED} })
       return
@@ -728,7 +705,7 @@ export default class NewDesign extends Component {
             paymentButtonDisabled, car, driver,
             picker, cancelTimer } = this.state
     const { language, isGeocoding, setGeocoding,
-            geocode, showFeedback, availableBonusTrips } = this.props
+            showFeedback, availableBonusTrips } = this.props
     const cards = this.props.cards()
     let isValid = trip.stops.includes('')
     let cost = (trip.cost) ? `${trip.cost}` : ''
@@ -747,7 +724,6 @@ export default class NewDesign extends Component {
             language={language}
             picker={picker}
             setAddress={this.setAddress}
-            geocode={geocode}
             isGeocoding={isGeocoding}
             setGeocoding={setGeocoding}
             pickAddress={this.pickAddress}

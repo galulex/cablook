@@ -115,7 +115,6 @@ export default class Settings extends Component {
           setAddress={this.setAddress}
           favorite_addresses={() => []}
           placeholder={i18n.profile_page.placeholder}
-          geocode={this.props.geocode}
           language={this.props.language}
           isGeocoding={this.props.isGeocoding}
           setGeocoding={this.props.setGeocoding}

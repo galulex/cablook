@@ -3,6 +3,7 @@ import 'mapbox-gl/dist/mapbox-gl.css'
 import mapboxgl from 'mapbox-gl'
 import MapboxLanguage from '@mapbox/mapbox-gl-language';
 
+import { geocode } from '../pwa/geolocation.js'
 import i18n from './i18n.js'
 import Back from './images/arrow-left.svg'
 import Pin from './images/pin.svg'
@@ -86,13 +87,13 @@ export default class MapPicker extends Component {
     section.classList.remove('map-open')
   }
 
-  showAddressBar = () => {
+  showAddressBar = async() => {
     const { lng, lat } = this.map.getCenter();
+  
+    let address = await geocode(lng, lat)
 
-    this.props.geocode(`${lng},${lat}`, (address) => {
-      this.props.setGeocoding(false)
-      this.setState({ address_bar: true, address: address })
-    })
+    this.props.setGeocoding(false)
+    this.setState({ address_bar: true, address: address })
   }
 
   hideAddressBar = () => {

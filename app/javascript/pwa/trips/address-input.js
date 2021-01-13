@@ -192,7 +192,7 @@ export default class AddressInput extends Component {
   render() {
     let placeholder = this.setPlaceholder()
 
-    const { fieldsCount, address, index, readonly, language, hideRemove, inputDisabled, geocode } = this.props
+    const { fieldsCount, address, index, readonly, language, hideRemove, inputDisabled} = this.props
     return (
       <fieldset class='address'>
         {(fieldsCount > 2 || address !== '') && !hideRemove && !readonly && (<button disabled={index === 0 ? inputDisabled : false} class='remove-address' type='button' onClick={() => this.eraseAddress(index)}> <Cross/> </button>)}
@@ -200,7 +200,6 @@ export default class AddressInput extends Component {
                                     onCloseMap={this.closeMap}
                                     handleBack={this.handleBack}
                                     language={language}
-                                    geocode={geocode}
                                     isGeocoding={this.props.isGeocoding}
                                     setGeocoding={this.props.setGeocoding}
                                     showBurger={this.props.showBurger}
