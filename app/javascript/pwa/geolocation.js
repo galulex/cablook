@@ -1,7 +1,7 @@
 import axios from 'axios';
 import i18n from '../pwa/i18n.js'
 
-async function geoLocation() {
+const geoLocation = async() => {
   if (navigator.geolocation) {
     try {
       let { lng, lat } = await getCurrentPosition()
@@ -14,7 +14,7 @@ async function geoLocation() {
   }
 }
 
-async function getCurrentPosition() {
+const getCurrentPosition = async() => {
   try {
     const res = await new Promise(function (resolve, reject) {
       navigator.geolocation.getCurrentPosition(resolve, reject);
@@ -40,7 +40,7 @@ async function getCurrentPosition() {
   }
 }
 
-async function geocode(lng, lat) {
+const geocode = async(lng, lat) => {
   try {
     const res = await axios.get(`address?coords=${lng},${lat}`);
     return res.data.address;
