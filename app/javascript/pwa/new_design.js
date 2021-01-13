@@ -310,33 +310,33 @@ export default class NewDesign extends Component {
     } else { this.createShakeTrip() }
   }
 
-  createShakeTrip = () => {
+  createShakeTrip = async() => {
     if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition((result) => {
-        let lat = result.coords.latitude
-        let lng = result.coords.longitude
+      try {
+        const res = await new Promise(function (resolve, reject) {
+          navigator.geolocation.getCurrentPosition(resolve, reject);
+        });
 
-        geocode(`${lng},${lat}`, (address) => {
-          this.setTripParams(`${lat},${lng}`, address)
-        })
-      },
-        (error) => {
-          switch(error.code) {
-            case error.PERMISSION_DENIED :
-              alert(i18n.location.permission_denied)
-              break
-            case error.TIMEOUT:
-              alert(i18n.location.timeout)
-              break
-            case error.POSITION_UNAVAILABLE :
-              alert(i18n.location.position_unavailable)
-              break
-            default:
-              alert(error.message)
-              break
-          }
+        let lat = res.coords.latitude;
+        let lng = res.coords.longitude;
+        let address = await geocode(`${lng},${lat}`)
+        this.setTripParams(`${lat},${lng}`, address)
+      } catch (error) {
+        switch (error.code) {
+          case error.PERMISSION_DENIED:
+            console.log(i18n.location.permission_denied);
+            break;
+          case error.TIMEOUT:
+            alert(i18n.location.timeout);
+            break;
+          case error.POSITION_UNAVAILABLE:
+            console.log(i18n.location.position_unavailable);
+            break;
+          default:
+            alert(error.message);
+            break;
         }
-      )
+      }
     } else alert(i18n.location.not_supported)
   }
 

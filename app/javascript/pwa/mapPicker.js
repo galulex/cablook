@@ -87,13 +87,13 @@ export default class MapPicker extends Component {
     section.classList.remove('map-open')
   }
 
-  showAddressBar = () => {
+  showAddressBar = async() => {
     const { lng, lat } = this.map.getCenter();
+  
+    let address = await geocode(lng, lat)
 
-    geocode(`${lng},${lat}`, (address) => {
-      this.props.setGeocoding(false)
-      this.setState({ address_bar: true, address: address })
-    })
+    this.props.setGeocoding(false)
+    this.setState({ address_bar: true, address: address })
   }
 
   hideAddressBar = () => {

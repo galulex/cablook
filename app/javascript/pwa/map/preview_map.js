@@ -245,18 +245,18 @@ export default class PreviewMap extends Component {
     timeout = null
   }
 
-  geocode = () => {
+  geocode = async() => {
     const { lng, lat } = this.map.getCenter()
 
     if ((this.state.point.lat === lat && this.state.point.lng === lng) || this.move || ![CONFIRM_UPDATE_TRIP, undefined, null].includes(this.props.trip().status)) return
 
     this.updatePoint([lat, lng])
 
-    geocode(`${lng},${lat}`, (address) => {
-      if (this.move) return
-      this.props.setAddress(address, `${lat},${lng}`, this.state.index)
-      this.setState({isGeocoding: false})
-    })
+    let address = await geocode(lng, lat)
+
+    if (this.move) return
+    this.props.setAddress(address, `${lat},${lng}`, this.state.index)
+    this.setState({isGeocoding: false})
   }
 
   cleanup = () => {
