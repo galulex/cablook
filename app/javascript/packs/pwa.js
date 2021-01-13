@@ -105,10 +105,10 @@ export default class App extends Component {
 
   componentDidMount() {
     this.loadScript()
-    this.setLocation()
     if (window.ios) this.focusOutForIos()
     if (this.state.currentUser && this.state.currentUser.length !== 0) {
       this.fetchUser()
+      this.setLocation()
       this.checkOneSignalToken()
       waitForToken = setInterval(this.waitForFCMToken, 3000)
       document.documentElement.style.setProperty('--body-bg', '#ced5d3')
@@ -370,6 +370,7 @@ export default class App extends Component {
 
   setLocation = async () => {
     let location = await geoLocation()
+    if (!location) return
     let {coords, address} = location
     this.setState({ 
         currentLocation: {
