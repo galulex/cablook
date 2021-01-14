@@ -171,7 +171,7 @@ main.login .button.resend:focus {
 
 @media screen and (max-width: 768px) {
   main.login input.number__input {
-    padding: 20px 0 20px calc(4rem + 30px);
+    padding: 20px 0 21px calc(4rem + 30px);
   }
 
   main.login input {
