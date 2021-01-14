@@ -108,7 +108,7 @@ export default class App extends Component {
     if (window.ios) this.focusOutForIos()
     if (this.state.currentUser && this.state.currentUser.length !== 0) {
       this.fetchUser()
-      this.setLocation()
+      if (!this.state.currentLocation) this.setLocation()
       this.checkOneSignalToken()
       waitForToken = setInterval(this.waitForFCMToken, 3000)
       document.documentElement.style.setProperty('--body-bg', '#ced5d3')
@@ -284,6 +284,7 @@ export default class App extends Component {
     if (fcmToken) this.sendTokenToServer(fcmToken)
     this.checkOneSignalToken()
     this.fetchUser()
+    this.setLocation()
   }
 
   logOut = (e) => {
