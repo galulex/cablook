@@ -106,11 +106,11 @@ export default class TripCard extends Component {
   }
 
   buildTrip = (trip) => {
+    route('/', true)
     axios.post('trips/new', {trip: trip}).then((res) => {
       trip.path = res.data.path
       trip.cost = res.data.cost
       this.props.setCurrentTrip(trip)
-      route('/', true)
     }).catch((error) => {
       if (error.response) alert(error.response.data.errors)
     })
