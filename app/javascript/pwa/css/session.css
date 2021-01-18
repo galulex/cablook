@@ -36,9 +36,6 @@ main.login {
   height: 100%;
 }
 
-main.login .logo__container {
-}
-
 main.login .logo__container div {
   margin-top: 1vh;
 }
@@ -172,9 +169,22 @@ main.login .button.resend:focus {
   color: var(--green);
 }
 
+@media screen and (max-width: 1600px) {
+  main.login input.number__input {
+    padding: 25px 0 25px calc(4rem + 40px);
+  }
+}
+
+@media screen and (max-width: 1400px) {
+  main.login input.number__input {
+    padding: 25px 0 25px calc(4rem + 45px);
+  }
+}
+
+
 @media screen and (max-width: 768px) {
   main.login input.number__input {
-    padding: 20px 0 20px calc(4rem + 40px);
+    padding: 20px 0 21px calc(4rem + 30px);
   }
 
   main.login input {
@@ -206,7 +216,7 @@ main.login .button.resend:focus {
   }
 
   main.login input.number__input {
-    padding: 15px 0 15px calc(2.5rem + 40px);
+    padding: 16px 0 16px calc(2.7rem + 40px);
   }
 
   main.login input {
