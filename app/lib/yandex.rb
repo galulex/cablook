@@ -7,7 +7,7 @@ class Yandex
   def initialize(coords)
     url = URI(URI.escape(format(URL, coords, I18n.locale)))
     result = JSON.parse(Net::HTTP.get_response(url).body)
-    geo_object = result.dig('response', 'GeoObjectCollection', 'featureMember')[0]
+    geo_object = result.dig('response', 'GeoObjectCollection', 'featureMember')&.first
     return unless geo_object
 
     @address = geo_object.dig('GeoObject', 'name')

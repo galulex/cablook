@@ -5,30 +5,24 @@ link href='https://api.mapbox.com/mapbox-gl-js/v1.13.0/mapbox-gl.css' rel='style
   ul.trips
     - @trips.each do |trip|
       li.trips__card data-trip=trip.to_json
-        .field
-          strong> Status:
-          span.status=trip.status
-        .field
-          strong> Departure:
-          span=trip.departure_address
-        .field
-          strong> Destination:
-          span=trip.destination_address
-        .field
-          strong> Cost:
-          span=trip.cost
-        .field
-          strong> User:
-          span=trip.user_phone_number
-        .field
-          strong> Driver:
-          span.name=trip.driver&.name
-        .field
-          strong> Car number:
-          span.car-number=trip.car&.number
-        .field
-          strong> Start time:
-          span.start-time=trip.start_at&.strftime("%H:%M")
+        = link_to admin_trip_path(trip)
+          .field
+            ' ♻️
+            = trip.status
+          - trip.stops.each do |address|
+            .field
+              '📍
+              = address
+          .field = "👤 #{trip.user_phone_number}"
+          .field
+            ' 🚖
+            => trip.car&.number
+            = trip.driver&.name
+          .field
+            ' 💲
+            => trip.cost
+            ' ⏰
+            = trip.start_at&.strftime("%H:%M") || '❓'
 
 - @cars.each do |car|
   div.js-car data-info=car.to_json
