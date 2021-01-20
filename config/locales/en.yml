@@ -27,7 +27,6 @@ en:
     invalid_argument: Invalid argument
   orders:
     no_items: You have selected an unknown item or the order amount is zero
-    vendor_closed: Store does not accept any orders at this moment
   cards:
     user_not_found: User with this phone number not found in database
     something_went_wrong: Something went wrong

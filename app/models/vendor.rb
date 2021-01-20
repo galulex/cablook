@@ -4,7 +4,7 @@ class Vendor < ApplicationRecord
   scope :visible, -> { where(active: true) }
 
   def open_now?
-    Time.now.change(year: 2000, month: 1, day: 1).between?(open_at.to_time, close_at.to_time)
+    Time.now.hour.between?(open_at.hour, close_at.hour)
   end
 
   def status

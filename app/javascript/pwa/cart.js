@@ -3,7 +3,6 @@ import { route } from 'preact-router'
 import axios from 'axios'
 import i18n from './i18n.js'
 import CartItem from './cart_item.js'
-import TimeSelect from './time_select.js'
 import './css/cart.css'
 import Back from './images/arrow-left.svg'
 import AddressInput from '../pwa/trips/address-input.js'
@@ -23,7 +22,6 @@ export default class Cart extends Component {
   constructor(props) {
     super(props);
     const cart = JSON.parse(localStorage.getItem('cart')) || {}
-    const time = `${(new Date().getHours() + 1).toString().padStart(2, '0')}:${new Date().getMinutes().toString().padStart(2, '0')}`
 
     this.state = {
       submitDisabled: false,
@@ -35,15 +33,14 @@ export default class Cart extends Component {
       destination_address: '',
       entrance_list: Array.from({length: 15}, (v, k) => (k+1)),
       trip_cost: null,
-      trip_time: time,
+      trip_time: '',
       trip_comment: '',
       comment: '',
       cards: this.props.cards(),
       card_id: null,
-      minTime: time,
       showWidget: false,
       showLoader: false,
-      vendor_closed: cart.vendor_status === 'close'
+      vendor_closed: false
     }
     this.calculateTotalPrice()
   }
@@ -338,7 +335,13 @@ export default class Cart extends Component {
                     })}
                   </select>
                 </label>
-                <TimeSelect open_at={open_at} close_at={close_at} setTime={this.updateTripTime} time={this.state.trip_time}/>
+                <GenerateArrayTimes
+                  open_at={open_at.split(':')}
+                  close_at={close_at.split(':')}
+                  weekends={weekends}
+                  updateTripTime={this.updateTripTime}
+                  setTripTime={this.setTripTime}
+                />
               </div>
               <label for='comment'>
                 <Comment width='24'/>
