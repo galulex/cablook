@@ -18,6 +18,7 @@ module Events
 
       def run
         validate!
+        validate_time!
 
         create_order
         return { valid: false } unless hold_money['reasonCode'] == Constants::Payments::WAYFORPAY_SUCCESS
@@ -26,6 +27,13 @@ module Events
       end
 
       private
+
+      def validate_time!
+        time = Time.new(2000, 1, 1, *data[:trip_time].split(':'))
+        return if time.between?(vendor.open_at.to_time, vendor.close_at.to_time)
+
+        invalid!([I18n.t('orders.vendor_closed')], status: 422)
+      end
 
       def create_order
         @order ||= Order.create(
@@ -67,7 +75,7 @@ module Events
       end
 
       def vendor
-        Vendor.find_by(id: data['vendor_id'])
+        Vendor.find_by(id: data[:vendor_id])
       end
 
       def items

@@ -8,11 +8,12 @@ describe Events::Orders::Create do
 
     subject { -> { described_class.call(data) } }
 
+    let!(:vendor) { create(:vendor) }
     let(:order_params) {
       {
         user_id: user.id,
         card_id: card.id,
-        trip_time: (Time.now + 2.hours).strftime('%H:%M'),
+        trip_time: '14:00',
         vendor_id: vendor.id,
         items: ActionController::Parameters.new({ '4537' => ActionController::Parameters.new({ 'quantity' => 1 }) }).permit!
       }
@@ -20,7 +21,6 @@ describe Events::Orders::Create do
 
     let(:data) { order_params }
     let!(:user) { create(:user) }
-    let!(:vendor) { create(:vendor) }
     let!(:card) { create(:card, user_id: user.id) }
 
     it { is_expected.to change { Order.count }.by(+1) }
