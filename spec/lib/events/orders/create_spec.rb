@@ -9,11 +9,12 @@ describe Events::Orders::Create do
     subject { -> { described_class.call(data) } }
 
     let!(:vendor) { create(:vendor) }
+    let(:time) { '14:00' }
     let(:order_params) {
       {
         user_id: user.id,
         card_id: card.id,
-        trip_time: '14:00',
+        trip_time: time,
         vendor_id: vendor.id,
         items: ActionController::Parameters.new({ '4537' => ActionController::Parameters.new({ 'quantity' => 1 }) }).permit!
       }
@@ -56,6 +57,42 @@ describe Events::Orders::Create do
       let!(:trip) { create(:trip, user_id: user.id, status: Constants::Trip::PENDING) }
 
       it { is_expected.to raise_error(Events::InvalidParamsError) }
+    end
+
+    context 'when order time is not in working hours range' do
+      let(:time) { '02:00' }
+
+      it { is_expected.to raise_error(Events::InvalidParamsError) }
+    end
+
+    context 'when vendor open 24/7' do
+      before do
+        vendor.update(open_at: '02:00', close_at: '01:59')
+      end
+
+      context 'in the night' do
+        let(:time) { '02:00' }
+
+        it { is_expected.to change { Order.count }.by(+1) }
+      end
+
+      context 'in the morning' do
+        let(:time) { '09:00' }
+
+        it { is_expected.to change { Order.count }.by(+1) }
+      end
+
+      context 'in the dinner' do
+        let(:time) { '13:00' }
+
+        it { is_expected.to change { Order.count }.by(+1) }
+      end
+
+      context 'in the evening' do
+        let(:time) { '17:00' }
+
+        it { is_expected.to change { Order.count }.by(+1) }
+      end
     end
   end
 end
