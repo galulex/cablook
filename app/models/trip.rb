@@ -78,7 +78,7 @@ class Trip < ApplicationRecord
   end
 
   def vip
-    return true if order.present? || trip_payment&.card&.business.present?
+    return true if trip_payment&.card&.business.present?
     user&.vip || false
   end
 

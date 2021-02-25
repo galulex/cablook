@@ -11,13 +11,6 @@ RSpec.describe Trip, type: :model do
       it { is_expected.to be_truthy }
     end
 
-    context 'when order is present' do
-      let!(:trip) { build(:trip, order: order) }
-      let(:order) { build(:order) }
-
-      it { is_expected.to be_truthy }
-    end
-
     context 'when trip_payment has business card' do
       let!(:trip) { build(:trip, user: user, trip_payment: trip_payment) }
       let(:user) { build(:user) }
