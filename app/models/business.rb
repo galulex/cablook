@@ -8,14 +8,12 @@ class Business < ApplicationRecord
 
   before_destroy { users.clear }
 
-  def employees=(numbers)
-    ids = []
-    numbers.map do |n|
-      ids << User.where(phone_number: n).first_or_create do |u|
+  def employees=(numbers = [])
+    self.user_ids = numbers.map do |n|
+      User.where(phone_number: n).first_or_create do |u|
         u.auth_token = SecureRandom.base58(24)
         u.referral_code = SecureRandom.base58(6)
       end.id
-      self.user_ids = ids
     end
   end
 end

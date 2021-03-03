@@ -68,6 +68,7 @@ import Vendor from '../pwa/vendor.js';
 import Cart from '../pwa/cart.js';
 import NotFound from '../pwa/not_found.js';
 import { PENDING, ON_THE_WAY, WAITING_CLIENT, DRIVING, FINISHED, CANCELED, DECLINED, CANCELED_BY_DRIVER, CONFIRM_UPDATE_TRIP, MAP_MIN_ZOOM, MAP_MAX_ZOOM, CHERKASY_LONG_LAT } from '../pwa/lib/constants.js'
+import FamilyTrip from '../pwa/family_trip.js'
 
 import '../pwa/css/buttons.css';
 
@@ -465,6 +466,9 @@ export default class App extends Component {
               setGeocoding={this.setGeocoding}
               showBurger={this.showBurger}
               updateCards={this.updateCards}
+            />
+            <FamilyTrip path='/family_trip' 
+              cards={cards}
             />
           </Router>
           <Prompt />

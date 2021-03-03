@@ -9,6 +9,7 @@ import Card from './images/credit-cards-payment.js'
 import Contact from './images/manual.js'
 import Vendors from './images/food.js'
 import LogOut from './images/sign-out.js'
+import Family from './images/family.js'
 import './css/drawer.css'
 
 export default function Drawer(props) {
@@ -27,6 +28,7 @@ export default function Drawer(props) {
         <Link activeClassName='active' href='/cards' class='nav-link'><Card/>{i18n.drawer.cards}</Link>
         <Link activeClassName='active' href='/contacts' class='nav-link'><Contact/>{i18n.drawer.contacts}</Link>
         <Link activeClassName='active' href='/delivery' class='nav-link'><Vendors/>{i18n.drawer.vendors}</Link>
+        <Link activeClassName='active' href='/family_trip' class='nav-link' name={localStorage.phone_number}><Family/>{i18n.family_trip.header}</Link>
         <Link href='' class='nav-link' onClick={props.logOut}><LogOut/>{i18n.drawer.logout}</Link>
       </div>
     </aside>
