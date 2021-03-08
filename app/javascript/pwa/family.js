@@ -1,38 +1,27 @@
-import { h, render, Component } from 'preact';
+import { h, Component } from 'preact';
 import axios from 'axios';
 import Close from './images/close.js'
 import i18n from './i18n.js';
-import compact from 'lodash/compact';
-import './css/statistics.css'
-import './css/inputs.css'
 import Phone from './images/green_phone.js';
 
 const NUMBER_CODE = '+380'
 
-export default class FamilyTrip extends Component {
+export default class Family extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      isLoading: false,
       showing: false,
       phoneNumbers: [],
-      phoneNumber: '',
       disabled: false,
-      card_id: '',
-      card: { load: true }
+      card: {}
     }
   }
 
   componentDidMount() {
-    this.setState({ isLoading: true }, () => {
-      axios.get('/business').then((res) => {
-        this.setState({ 
-          phoneNumbers: res.data.users.map(u => u.phone_number),
-          card_id: res.data.card_id,
-          card: res.data.card
-        })
-      }).catch((error) => {
-        this.setState({isLoading: false});
+    axios.get('/business').then((res) => {
+      this.setState({ 
+        phoneNumbers: res.data.users.map(u => u.phone_number),
+        card: res.data.card
       })
     })
   }
@@ -48,9 +37,9 @@ export default class FamilyTrip extends Component {
               <div class="tab-content__holder">
                 { this.cardSelect() }
                 <div class="tab-content__container">
-                  <div class="tab-content__header">{ i18n.family_trip.member_list }</div>
+                  <div class="tab-content__header">{ i18n.family_trip.members_list }</div>
                   <div class="tab-content__container-items">
-                    { this.familyMemberList() }
+                    { this.familyMembersList() }
                     { this.state.showing ? this.newForm() : this.newAddButton() }
                   </div>
                 </div>
@@ -78,12 +67,12 @@ export default class FamilyTrip extends Component {
   }
 
   setCard = (e) => {
-    this.setState({ card_id: e.target.value }, () => {
+    this.setState({ card: this.props.cards.find((card) => card.id == e.target.value)}, () => {
       if (this.state.phoneNumbers.length > 0) this.update()
     })
   }
 
-  familyMemberList = () => {
+  familyMembersList = () => {
     if (this.state.phoneNumbers.length > 0) return(this.listPhones())
     
     return(<div><h5 class='nocards center'></h5>{i18n.family_trip.blank_list}</div>)
@@ -116,7 +105,6 @@ export default class FamilyTrip extends Component {
             maxlength="9" minlength="9"
             placeholder="__  ___  __ __" type="tel"
             autocomplete="off" required autoFocus
-            onChange={this.handleChange}
             ref={ref => this.memberNumber = ref}
           />
         </div>
@@ -130,17 +118,24 @@ export default class FamilyTrip extends Component {
     this.setState({ showing: !this.state.showing })
   }
 
-  handleChange = (e) => {
-    this.setState({ phoneNumber: NUMBER_CODE + e.target.value })
-  }
-
   newAddButton = () => {
+    let pickerSuport = ('contacts' in navigator && 'ContactsManager' in window);
+
     return(
       <div>
         <br />
-        <button class='button green absolut' type='button' onClick={this.onAddClick}>{'+ ' + i18n.family_trip.add_member}</button>
+        <button class='button green absolut' type='button' onClick={pickerSuport ? this.contactPicker : this.onAddClick}>{'+ ' + i18n.family_trip.add_member}</button>
       </div>
     )
+  }
+
+  contactPicker = async () => {
+    let contacts = await navigator.contacts.select(['tel']);
+
+    if (contacts.length > 0) {
+      let phoneNumber = contacts[0].tel[0].replace(/\s/g, '')
+      this.update([...this.state.phoneNumbers, NUMBER_CODE + phoneNumber.slice(-9)])
+    }
   }
 
   removePhoneNumber = (i) => {
@@ -152,31 +147,26 @@ export default class FamilyTrip extends Component {
   addMemberNumber = (e) => {
     e.preventDefault()
     if (!e.target.checkValidity) return;
-    this.update()
+    this.update([...this.state.phoneNumbers, NUMBER_CODE + e.target[0].value])
   }
 
-  update = () => {
+  update = (phoneNumbers = this.state.phoneNumbers) => {
     this.setState({ disabled: true }, () => {
       axios.patch('/business', {
         business: {
           email: localStorage.email,
           name: localStorage.email.split('@')[0],
-          employees: compact([...this.state.phoneNumbers, this.state.phoneNumber]),
-          card_id: this.state.card_id ? this.state.card_id : this.props.cards[0].id
+          employees: phoneNumbers,
+          card_id: this.state.card.id
         }
       })
       .then( response => {
         this.setState({
           showing: false,
-          phoneNumber: '',
           disabled: false,
           phoneNumbers: response.data.users.map(u => u.phone_number),
           card: response.data.card
         })
-      })
-      .catch( error => {
-        this.setState({ disabled: false })
-        if (error.response) alert(error.response.data.errors)
       })
     })
   }

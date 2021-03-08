@@ -245,10 +245,10 @@ const en = {
     add_to_cart: 'Add to cart'
   },
   family_trip: {
-    header: 'Family trip',
-    member_list: 'Family member list',
-    card: 'Family card',
-    blank_list: "You don't have any family member yet",
+    header: 'Family',
+    members_list: 'Members list',
+    card: 'Card',
+    blank_list: "You don't have any family members yet",
     add_member: 'Add Member'
   },
   choose_address: 'Choose address from a list',

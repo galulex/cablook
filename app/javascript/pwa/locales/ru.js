@@ -245,11 +245,11 @@ const ru = {
     add_to_cart: 'Добавить в корзину'
   },
   family_trip: {
-    header: 'Семейная поездка',
-    member_list: 'Список членов семьи',
-    card: 'Семейная карта',
-    blank_list: 'У вас еще нет членов семьи',
-    add_member: 'Добавить участников'
+    header: 'Cемья',
+    members_list: 'Список участников',
+    card: 'Карта',
+    blank_list: 'У вас еще нет участников семьи',
+    add_member: 'Добавить участника'
   },
   choose_address: 'Выберите адрес из списка',
   are_you_sure: 'Вы уверены?'
