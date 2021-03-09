@@ -244,6 +244,13 @@ const uk = {
     uah: 'грн.',
     add_to_cart: 'Додати до корзини'
   },
+  family_trip: {
+    header: "Cім'я",
+    members_list: "Список учасників сім'ї",
+    card: 'Картка',
+    blank_list: "У вас ще немає жодного учасника сім'ї",
+    add_member: 'Додати учасника'
+  },
   choose_address: 'Виберіть адресу із списку',
   are_you_sure: 'Ви впевнені?'
 }

@@ -244,6 +244,13 @@ const en = {
     uah: 'uah',
     add_to_cart: 'Add to cart'
   },
+  family_trip: {
+    header: 'Family',
+    members_list: 'Members list',
+    card: 'Card',
+    blank_list: "You don't have any family members yet",
+    add_member: 'Add Member'
+  },
   choose_address: 'Choose address from a list',
   are_you_sure: 'Are you sure?'
 }

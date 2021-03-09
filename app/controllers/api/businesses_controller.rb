@@ -2,13 +2,13 @@ module Api
   class BusinessesController < ApiApplicationController
     def create
       business.update_attributes!(business_params)
-      render json: business.to_json(include: :users)
+      render json: business.to_json(include: %i[users card])
     end
     alias update create
 
     def show
       raise Constants::NotFoundError if business.new_record?
-      render json: business.to_json(include: :users)
+      render json: business.to_json(include: %i[users card])
     end
 
     def destroy
