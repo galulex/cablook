@@ -118,11 +118,11 @@ main.login svg.logo + div {
   font-size: 2.5rem;
 }
 
-main.login svg.phone {
+svg.phone {
   height: 2.5vh;
 }
 
-main.login svg.phone path,
+svg.phone path,
 main.login svg.lock path,
 div.number_input {
   fill: var(--font_color_1);

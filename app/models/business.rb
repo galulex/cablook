@@ -14,6 +14,6 @@ class Business < ApplicationRecord
         u.auth_token = SecureRandom.base58(24)
         u.referral_code = SecureRandom.base58(6)
       end.id
-    end
+    end.uniq
   end
 end
