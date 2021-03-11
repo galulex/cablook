@@ -1,0 +1,15 @@
+= form_with url: admin_notifications_notify_path, method: :post, class: 'filter_form' do |f|
+  .filter
+    = f.label :ua
+    = f.text_field :ua, required: true
+  .filter
+    = f.label :ru
+    = f.text_field :ru, required: true
+  .filter
+    = f.label :en
+    = f.text_field :en, required: true
+  .filter
+    = f.label :user
+    = f.collection_select :user_id, User.order(:phone_number), :id, :phone_number, prompt: true
+
+  = submit_tag 'Send', class: 'send-button'
