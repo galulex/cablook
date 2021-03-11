@@ -10,6 +10,26 @@
     = f.text_field :en, required: true
   .filter
     = f.label :user
-    = f.collection_select :user_id, User.order(:phone_number), :id, :phone_number, prompt: true
+    select#phoneNumber style=('width: 100%')
 
   = submit_tag 'Send', class: 'send-button'
+
+javascript:
+  $(document).ready(function() {
+    $('select#phoneNumber').select2({
+      ajax: {
+        url: '/admin/notifications/test_json',
+        dataType: 'json',
+        delay: 250,
+        processResults: function (data) {
+          return {
+            results: $.map(data, function(obj) {
+              return { id: obj.id, text: obj.phone_number };
+            })
+          };
+        }
+      },
+      placeholder: 'Search for a user',
+      minimumInputLength: 3
+    });
+  })
