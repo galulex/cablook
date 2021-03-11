@@ -13,13 +13,14 @@ export default class Family extends Component {
       showing: false,
       phoneNumbers: [],
       disabled: false,
-      card: {}
+      card: {},
+      unsupported: false
     }
   }
 
   componentDidMount() {
     axios.get('/business').then((res) => {
-      this.setState({ 
+      this.setState({
         phoneNumbers: res.data.users.map(u => u.phone_number),
         card: res.data.card
       })
@@ -34,21 +35,27 @@ export default class Family extends Component {
           <div class="tabs">
             <div class="tabs__content" ref={el => this.tabsContent = el}>
               <div class="tab-content">
-              <div class="tab-content__holder">
-                { this.cardSelect() }
-                <div class="tab-content__container">
-                  <div class="tab-content__header">{ i18n.family_trip.members_list }</div>
-                  <div class="tab-content__container-items">
-                    { this.familyMembersList() }
-                    { this.state.showing ? this.newForm() : this.newAddButton() }
-                  </div>
-                </div>
-              </div>
+                  { this.props.cards.length > 0 ? this.familyContent() : <div>{ i18n.family_trip.no_card }</div> }
               </div>
             </div>
           </div>
         </section>
-      </div> 
+      </div>
+    )
+  }
+
+  familyContent = () => {
+    return(
+      <div class="tab-content__holder">
+        { this.cardSelect() }
+        <div class="tab-content__container">
+          <div class="tab-content__header">{ i18n.family_trip.members_list }</div>
+          <div class="tab-content__container-items">
+            { this.familyMembersList() }
+            { this.state.showing ? this.newForm() : this.newAddButton() }
+          </div>
+        </div>
+      </div>
     )
   }
 
@@ -59,7 +66,7 @@ export default class Family extends Component {
         <span class='divider'></span>
         <label for='period' class='select'>
           <select id='period' onChange={(e) => this.setCard(e)}>
-            {this.props.cards.map(card => <option value={card.id} selected={card.id == this.state.card.id}>{card.pan}</option>)}
+            {this.props.cards.map(card => <option value={card.id} selected={card.id == this.state.card?.id}>{card.pan}</option>)}
           </select>
         </label>
       </div>
@@ -74,7 +81,7 @@ export default class Family extends Component {
 
   familyMembersList = () => {
     if (this.state.phoneNumbers.length > 0) return(this.listPhones())
-    
+
     return(<div><h5 class='nocards center'></h5>{i18n.family_trip.blank_list}</div>)
   }
 
@@ -124,18 +131,19 @@ export default class Family extends Component {
     return(
       <div>
         <br />
-        <button class='button green absolut' type='button' onClick={pickerSuport ? this.contactPicker : this.onAddClick}>{'+ ' + i18n.family_trip.add_member}</button>
+        <button class='button green absolut' type='button' onClick={pickerSuport && this.state.unsupported ? this.contactPicker : this.onAddClick}>{'+ ' + i18n.family_trip.add_member}</button>
       </div>
     )
   }
 
   contactPicker = async () => {
-    let contacts = await navigator.contacts.select(['tel']);
-
-    if (contacts.length > 0) {
-      let phoneNumber = contacts[0].tel[0].replace(/\s/g, '')
-      this.update([...this.state.phoneNumbers, NUMBER_CODE + phoneNumber.slice(-9)])
-    }
+    try {
+      let contacts = await navigator.contacts.select(['tel']);
+      if (contacts.length > 0) {
+        let phoneNumber = contacts[0].tel[0].replace(/\s/g, '')
+        this.update([...this.state.phoneNumbers, NUMBER_CODE + phoneNumber.slice(-9)])
+      }
+    } catch { this.setState({ unsupported: true }) }
   }
 
   removePhoneNumber = (i) => {
@@ -157,7 +165,7 @@ export default class Family extends Component {
           email: localStorage.email,
           name: localStorage.email.split('@')[0],
           employees: phoneNumbers,
-          card_id: this.state.card.id
+          card_id: this.state.card.id || this.props.cards[0].id
         }
       })
       .then( response => {

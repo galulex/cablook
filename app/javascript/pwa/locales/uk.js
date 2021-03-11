@@ -98,7 +98,7 @@ const uk = {
     no_result: 'Немає результатів',
     where: 'Куди',
     cherkasy: 'Черкаси',
-    google_auto_complete_cherkasy: 'Черкаси' 
+    google_auto_complete_cherkasy: 'Черкаси'
   },
   cards: {
     add: 'Додати картку',
@@ -249,7 +249,8 @@ const uk = {
     members_list: "Список учасників сім'ї",
     card: 'Картка',
     blank_list: "У вас ще немає жодного учасника сім'ї",
-    add_member: 'Додати учасника'
+    add_member: 'Додати учасника',
+    no_card: 'У вас ще немає картки. Будь ласка, додайте картку.'
   },
   choose_address: 'Виберіть адресу із списку',
   are_you_sure: 'Ви впевнені?'

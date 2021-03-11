@@ -98,7 +98,7 @@ const en = {
     no_result: 'No Results',
     where: 'Where',
     cherkasy: 'Cherkasy',
-    google_auto_complete_cherkasy: 'Cherkasy' 
+    google_auto_complete_cherkasy: 'Cherkasy'
   },
   cards: {
     add: 'Add Card',
@@ -249,7 +249,8 @@ const en = {
     members_list: 'Members list',
     card: 'Card',
     blank_list: "You don't have any family members yet",
-    add_member: 'Add Member'
+    add_member: 'Add Member',
+    no_card: "You don't have any card yet. Please add a card."
   },
   choose_address: 'Choose address from a list',
   are_you_sure: 'Are you sure?'
