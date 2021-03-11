@@ -1,5 +1,7 @@
 module Jobs
   class SendNotify < ActiveJob::Base
+    queue_as :notifications
+
     def perform(options)
       users = options[:user_id] ? User.where(id: options[:user_id]) : User.all
       users.each { |user| send_fcm_notification(user, options[user.locale]) }
