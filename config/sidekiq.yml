@@ -2,9 +2,9 @@
 timeout: 8
 
 development:
-  :concurrency: 1
+  :concurrency: 5
 production:
-  :concurrency: 1
+  :concurrency: 5
 :queues:
   - default
   - payments
@@ -12,4 +12,3 @@ production:
   - mailers
   - telegram_messages
   - notifications
-

@@ -10,7 +10,10 @@
     = f.text_field :en, required: true
   .filter
     = f.label :user
-    select#phoneNumber style=('width: 100%')
+    select#phoneNumber name='user_id' style=('width: 100%')
+  .filter
+    = f.label :send_all, 'Send to all users'
+    = f.check_box :send_all, {}, true, false
 
   = submit_tag 'Send', class: 'send-button'
 
@@ -18,7 +21,7 @@ javascript:
   $(document).ready(function() {
     $('select#phoneNumber').select2({
       ajax: {
-        url: '/admin/notifications/test_json',
+        url: '/admin/notifications/search',
         dataType: 'json',
         delay: 250,
         processResults: function (data) {
