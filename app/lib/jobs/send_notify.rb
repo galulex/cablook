@@ -1,6 +1,6 @@
 module Jobs
   class SendNotify < ActiveJob::Base
-    queue_as :notifications
+    queue_as :push_notifications
 
     def perform(options)
       users = options[:user_id] ? User.where(id: options[:user_id]) : User.all

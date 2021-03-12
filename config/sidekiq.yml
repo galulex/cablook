@@ -11,4 +11,4 @@ production:
   - retry_payments
   - mailers
   - telegram_messages
-  - notifications
+  - push_notifications
