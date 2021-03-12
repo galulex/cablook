@@ -98,7 +98,7 @@ const ru = {
     no_result: 'Нет результатов',
     where: 'Куда',
     cherkasy: 'Черкассы',
-    google_auto_complete_cherkasy: 'Черкаси' 
+    google_auto_complete_cherkasy: 'Черкаси'
   },
   cards: {
     add: 'Добавить карту',
@@ -249,7 +249,8 @@ const ru = {
     members_list: 'Список участников',
     card: 'Карта',
     blank_list: 'У вас еще нет участников семьи',
-    add_member: 'Добавить участника'
+    add_member: 'Добавить участника',
+    no_card: 'У тебя еще нет карты. Пожалуйста, добавьте карту.'
   },
   choose_address: 'Выберите адрес из списка',
   are_you_sure: 'Вы уверены?'
