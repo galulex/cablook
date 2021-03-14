@@ -19,7 +19,7 @@
     "core-js": "2",
     "css-loader": "^3.4.2",
     "history": "^4.9.0",
-    "mapbox-gl": "^1.13.0",
+    "mapbox-gl": "2.1.1",
     "preact": "^10.4.8",
     "preact-compat": "^3.18.4",
     "preact-render-to-string": "^5.1.10",
