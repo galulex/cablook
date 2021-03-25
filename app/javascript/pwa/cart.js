@@ -23,7 +23,9 @@ export default class Cart extends Component {
   constructor(props) {
     super(props);
     const cart = JSON.parse(localStorage.getItem('cart')) || {}
-    const time = `${(new Date().getHours() + 1).toString().padStart(2, '0')}:${new Date().getMinutes().toString().padStart(2, '0')}`
+    const timeNow = new Date()
+    const orderHour = timeNow.getHours() === 23 ? 0 : timeNow.getHours() + 1
+    const time = `${orderHour.toString().padStart(2, '0')}:${timeNow.getMinutes().toString().padStart(2, '0')}`
 
     this.state = {
       submitDisabled: false,
