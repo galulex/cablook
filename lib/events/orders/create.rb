@@ -29,8 +29,8 @@ module Events
       private
 
       def validate_time!
-        time = Time.new(2000, 1, 1, *data[:trip_time].split(':'))
-        return if time.between?(vendor.open_at.to_time, vendor.close_at.to_time)
+        time = Time.utc(2000, 1, 1, *data[:trip_time].split(':'))
+        return if time.between?(vendor.open_at.utc.to_time, vendor.close_at.utc.to_time)
 
         invalid!([I18n.t('orders.vendor_closed')], status: 422)
       end
