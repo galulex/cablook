@@ -99,8 +99,8 @@ export default class App extends Component {
       isScrollNegative: false,
       activateFeedback: false,
       isBurgerShowing: true,
-      cashbackAmount: null
-      currentDeliveryTrip: null,
+      cashbackAmount: null,
+      currentDeliveryTrip: null
     }
     axios.defaults.headers.common['Pwa-Language'] = this.state.language
   }
@@ -376,14 +376,14 @@ export default class App extends Component {
     let location = await geoLocation()
     if (!location) return
     let {coords, address} = location
-    this.setState({ 
+    this.setState({
         currentLocation: {
           location: coords,
           address: address,
           favorite_address: true,
-          structured_formatting: { 
-            main_text: address, 
-            secondary_text: i18n.address_input.location 
+          structured_formatting: {
+            main_text: address,
+            secondary_text: i18n.address_input.location
           }
         }
       }
@@ -392,7 +392,7 @@ export default class App extends Component {
 
   render() {
     const { currentTrip, isGeocoding, availableBonusTrips,
-            cards, language, bonus_trips, favorite_addresses } = this.state
+            cards, language, bonus_trips, favorite_addresses, currentDeliveryTrip } = this.state
 
     if (this.state.currentUser) {
       return(
