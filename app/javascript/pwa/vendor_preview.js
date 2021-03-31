@@ -21,6 +21,10 @@ export default class VendorPreview extends Component {
     route(`/delivery/${vendor.id}`)
   }
 
+  allDay = (vendor) => {
+    return vendor.all_day ? i18n.vendor_preview.accepts_orders_all_day : `${i18n.vendor_preview.accepts_orders} ${vendor.open_time} ${i18n.vendor_preview.to} ${vendor.close_time}`
+  }
+
   render() {
     const { vendor, cart_with_items } = this.props
     const latlong = (vendor.location ? vendor.location.split(',') : '')
@@ -44,7 +48,7 @@ export default class VendorPreview extends Component {
           </div>
         </div>
         <div class='time-container'>
-          {i18n.vendor_preview.accepts_orders} {vendor.open_time} {i18n.vendor_preview.to} {vendor.close_time}
+          { this.allDay(vendor) }
         </div>
       </li>
     )

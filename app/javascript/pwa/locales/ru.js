@@ -212,7 +212,8 @@ const ru = {
     go_to: 'Поехали сюда',
     accepts_orders: 'Заказы принимаются с',
     to: 'по',
-    create_order: 'Оформить заказ'
+    create_order: 'Оформить заказ',
+    accepts_orders_all_day: 'Заказы принимаются 24/7'
   },
   cart: {
     header: 'Корзина',

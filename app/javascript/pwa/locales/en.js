@@ -212,7 +212,8 @@ const en = {
     go_to: 'Go here',
     accepts_orders: 'The restaurant accepts orders from',
     to: 'to',
-    create_order: 'Create order'
+    create_order: 'Create order',
+    accepts_orders_all_day: 'The restaurant accepts orders 24/7'
   },
   cart: {
     header: 'Product cart',

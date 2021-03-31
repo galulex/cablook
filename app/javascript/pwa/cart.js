@@ -279,7 +279,7 @@ export default class Cart extends Component {
 
   render() {
     let cart = localStorage.getItem('cart')
-    let vendor, items, open_at, close_at, vendor_name_slug, weekends
+    let vendor, items, open_at, close_at, vendor_name_slug, weekends, all_day
     if (cart) {
       cart = JSON.parse(cart)
       vendor = cart.vendor
@@ -288,6 +288,7 @@ export default class Cart extends Component {
       open_at = cart.vendor_open_at
       close_at = cart.vendor_close_at
       weekends = cart.vendor_weekends
+      all_day = cart.vendor_all_day
     }
     const { total_price, trip_cost, cards, card_id, showWidget, showLoader, vendor_closed } = this.state
 
@@ -340,7 +341,7 @@ export default class Cart extends Component {
                     })}
                   </select>
                 </label>
-                <TimeSelect setTime={this.updateTripTime} time={this.state.trip_time}/>
+                <TimeSelect minTime={this.state.minTime} allDay={all_day} open_at={open_at} close_at={close_at} setTime={this.updateTripTime} time={this.state.trip_time}/>
               </div>
               <label for='comment'>
                 <Comment width='24'/>

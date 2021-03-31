@@ -1,4 +1,7 @@
 class Vendor < ApplicationRecord
+  MAX_OPEN_TIME = '02:00'.freeze
+  MAX_CLOSE_TIME = '01:59'.freeze
+
   has_many :orders, dependent: :nullify
 
   scope :visible, -> { where(active: true) }
@@ -21,5 +24,9 @@ class Vendor < ApplicationRecord
 
   def name_slug
     name.parameterize
+  end
+
+  def all_day
+    open_time == MAX_OPEN_TIME && close_time == MAX_CLOSE_TIME
   end
 end

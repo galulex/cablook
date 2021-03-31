@@ -212,7 +212,8 @@ const uk = {
     go_to: 'Поїхали сюди',
     accepts_orders: 'Замовлення приймаються з',
     to: 'по',
-    create_order: 'Cтворити замовлення'
+    create_order: 'Cтворити замовлення',
+    accepts_orders_all_day: 'Замовлення приймаються 24/7',
   },
   cart: {
     header: 'Корзина',
