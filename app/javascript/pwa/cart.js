@@ -340,7 +340,7 @@ export default class Cart extends Component {
                     })}
                   </select>
                 </label>
-                <TimeSelect setTime={this.updateTripTime} time={this.state.trip_time}/>
+                <TimeSelect minTime={this.state.minTime} open_at={open_at} close_at={close_at} setTime={this.updateTripTime} time={this.state.trip_time}/>
               </div>
               <label for='comment'>
                 <Comment width='24'/>
