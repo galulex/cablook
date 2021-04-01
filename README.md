@@ -144,4 +144,9 @@ View: https://json.extendsclass.com/bin/762ad4924f4c
 
 Edit: https://extendsclass.com/jsonstorage/762ad4924f4c
 
+**Klara Zakharivna**
+
+View: https://json.extendsclass.com/bin/37a3ab49e7ad
+Edit: https://extendsclass.com/jsonstorage/37a3ab49e7ad
+
 Security key: `C@bL0ok2020`
