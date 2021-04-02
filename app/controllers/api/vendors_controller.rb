@@ -2,8 +2,6 @@ module Api
   class VendorsController < ApiApplicationController
     before_action :authorize!
 
-    caches_action :show, expires_in: 6.hours
-
     def index
       res = vendors.as_json(methods: %i[status open_time close_time name_slug weekends all_day])
       render json: res, status: 200
@@ -28,11 +26,11 @@ module Api
     end
 
     def items
-      begin
+      @items ||= begin
         url = URI(vendor.api_url)
         res = Net::HTTP.get(url)
         ActiveSupport::JSON.decode(res)
-      rescue
+      rescue StandardError
         false
       end
     end
