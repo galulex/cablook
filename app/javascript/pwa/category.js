@@ -45,7 +45,6 @@ export default class Category extends Component {
             })}
           </div>
         </details>
-        <div class="arrow">▼</div>
       </div>
     )
   }
