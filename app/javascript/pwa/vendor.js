@@ -28,10 +28,17 @@ export default class Vendor extends Component {
     this.props.showBurger(false)
     this.checkCurrentDeliveryTrip()
     this.getVendorInfoAndItems()
+    this.tabsContent.addEventListener('scroll', this.onScroll, { passive: true })
   }
 
   componentWillUnmount() {
+    this.tabsContent.removeEventListener('scroll', this.onScroll, { passive: true })
     this.props.showBurger(true)
+  }
+
+  onScroll = () => {
+    let scrollPercent = (this.tabsContent.scrollTop / this.tabsContent.scrollHeight) * 100
+    this.activeTab.style.left = `${scrollPercent}%`
   }
 
   checkCurrentDeliveryTrip = () => {
@@ -56,7 +63,7 @@ export default class Vendor extends Component {
   }
 
   updateLoaderState = (showLoader) => {
-    this.setState({showLoader})
+    this.setState({ showLoader })
   }
 
   handleBack = () => {
@@ -65,49 +72,62 @@ export default class Vendor extends Component {
     history.back()
   }
 
+  scrollTo = (e) => {
+    document.getElementById(e.target.dataset.scroll).scrollIntoView()
+    e.stopPropagation()
+  }
+
   render() {
     const { vendor, cart, showLoader } = this.state
 
     return (
       <div class='general__holder'>
-        {showLoader && <Loader/>}
+        {showLoader && <Loader />}
         <button
           type='button'
           class='button burger white-opacity'
           onClick={(event) => this.handleBack()}>
-          <Back/>
+          <Back />
         </button>
         <header>
           {i18n.vendor_preview.menu}
           <Link href={'/delivery/cart'}>
-            { cart && cart.items &&
-              <span class='orange-dot'/>
+            {cart && cart.items &&
+              <span class='orange-dot' />
             }
-            <ShoppingCart class='cart' fill='#132d50'/>
+            <ShoppingCart class='cart' fill='#132d50' />
           </Link>
         </header>
-        <section class={showLoader ? 'vendor-page hide' : 'vendor-page'}>
-          <VendorPreview
-            key={vendor.id}
-            vendor={vendor}
-            hide_content={true}
-            active={'active'}
-            cart_with_items={cart && cart.items}
-            updateLoaderState={this.updateLoaderState}
-            setCurrentTrip={this.props.setCurrentTrip}
-            showBurger={this.props.showBurger}
-          />
-          {Object.keys(vendor.items).map((category, index) => {
-            if (category !== 'Гарячі Вина' && vendor.items[category].length > 0) return(
-              <Category
-                key={index}
-                category={category}
-                items={vendor.items[category]}
-                vendor={vendor}
-                updateCart={this.updateCart}/>
-            )
-          })}
-        </section>
+        <main1>
+          <section class={showLoader ? 'vendor-page hide' : 'vendor-page'} ref={el => this.tabsContent = el}>
+            {Object.keys(vendor.items).map((category, index) => {
+              if (category !== 'Гарячі Вина' && vendor.items[category].length > 0) return (
+                <Category
+                  key={index}
+                  categoryId={index}
+                  category={category}
+                  items={vendor.items[category]}
+                  vendor={vendor}
+                  updateCart={this.updateCart} />
+              )
+            })}
+          </section>
+        </main1>
+        <nav-delivery class='delivery'>
+          <div class='tab__active' ref={el => this.activeTab = el}></div>
+          <div class='tabs__container'>
+            {Object.keys(vendor.items).map((category, index) => {
+              return (
+                <button
+                  class='buttong'
+                  data-scroll={'navigation_' + index}
+                  onClick={this.scrollTo}>
+                  {category}
+                </button>
+              )
+            })}
+          </div>
+        </nav-delivery>
       </div>
     )
   }

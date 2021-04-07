@@ -68,6 +68,12 @@ summary.vendor-category {
   top: 16px;
 }
 
-details[open] ~ .arrow {
+details[open]~.arrow {
+  transform: rotate(180deg);
+}
+
+.right-btn {
+  right: 0;
+  left: auto !important;
   transform: rotate(180deg);
 }
