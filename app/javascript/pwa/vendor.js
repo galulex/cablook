@@ -7,10 +7,10 @@ import i18n from './i18n.js'
 import './css/vendor.css'
 import './css/vendors.css'
 import Category from './category.js'
-import VendorPreview from './vendor_preview.js'
 import ShoppingCart from './images/shopping-cart.svg'
 import Back from './images/arrow-left.svg'
 import Loader from './loader.js'
+import ControlButtons from './control_buttons.js'
 
 export default class Vendor extends Component {
   constructor(props) {
@@ -38,7 +38,13 @@ export default class Vendor extends Component {
 
   onScroll = () => {
     let scrollPercent = (this.tabsContent.scrollTop / this.tabsContent.scrollHeight) * 100
-    this.activeTab.style.left = `${scrollPercent}%`
+    let activePosition = this.navigation.scrollWidth / 100 * scrollPercent
+    let positionCurrentContainer = this.tabsContent.scrollTop / this.tabsContent.offsetHeight
+    let currentNavTab = this.navigation.childNodes[(positionCurrentContainer + 1).toFixed()]
+    this.navigation.childNodes.forEach(e => e.classList.remove( 'active' ))
+    currentNavTab.classList.add('active')
+
+    this.activeTab.style.left = `${activePosition}px`
   }
 
   checkCurrentDeliveryTrip = () => {
@@ -73,7 +79,9 @@ export default class Vendor extends Component {
   }
 
   scrollTo = (e) => {
-    document.getElementById(e.target.dataset.scroll).scrollIntoView()
+    this.tabsContent.scroll({top: document.getElementById(e.target.dataset.scroll).offsetTop - 70, behavior: 'smooth'})
+    // document.getElementById(e.target.dataset.scroll).scroll
+    // .scrollIntoView({behavior: 'smooth'})
     e.stopPropagation()
   }
 
@@ -81,45 +89,46 @@ export default class Vendor extends Component {
     const { vendor, cart, showLoader } = this.state
 
     return (
-      <div class='general__holder'>
-        {showLoader && <Loader />}
-        <button
-          type='button'
-          class='button burger white-opacity'
-          onClick={(event) => this.handleBack()}>
-          <Back />
-        </button>
-        <header>
-          {i18n.vendor_preview.menu}
-          <Link href={'/delivery/cart'}>
-            {cart && cart.items &&
-              <span class='orange-dot' />
-            }
-            <ShoppingCart class='cart' fill='#132d50' />
-          </Link>
-        </header>
-        <main1>
-          <section class={showLoader ? 'vendor-page hide' : 'vendor-page'} ref={el => this.tabsContent = el}>
-            {Object.keys(vendor.items).map((category, index) => {
-              if (category !== 'Гарячі Вина' && vendor.items[category].length > 0) return (
-                <Category
-                  key={index}
-                  categoryId={index}
-                  category={category}
-                  items={vendor.items[category]}
-                  vendor={vendor}
-                  updateCart={this.updateCart} />
-              )
-            })}
-          </section>
-        </main1>
+      <div class='general__holder' style="flex-direction: column">
+        <div>
+          {showLoader && <Loader />}
+          <button
+            type='button'
+            class='button burger white-opacity'
+            onClick={(event) => this.handleBack()}>
+            <Back />
+          </button>
+          <header style="z-index: 100">
+            {i18n.vendor_preview.menu}
+            <Link href={'/delivery/cart'}>
+              {cart && cart.items && <span class='orange-dot' />}
+              <ShoppingCart class='cart' fill='#132d50' />
+            </Link>
+          </header>
+          <main1>
+            <section class={showLoader ? 'vendor-page hide' : 'vendor-page'} ref={el => this.tabsContent = el}>
+              {Object.keys(vendor.items).map((category, index) => {
+                if (category !== 'Гарячі Вина' && vendor.items[category].length > 0) return (
+                  <Category
+                    key={index}
+                    categoryId={index}
+                    category={category}
+                    items={vendor.items[category]}
+                    vendor={vendor}
+                    updateCart={this.updateCart} />
+                )
+              })}
+            </section>
+          </main1>
+          <ControlButtons section={this.tabsContent} />
+        </div>
         <nav-delivery class='delivery'>
-          <div class='tab__active' ref={el => this.activeTab = el}></div>
-          <div class='tabs__container'>
+          <div class='tabs__container asd' style='width: 90vw;' ref={el => this.navigation = el}>
+            <div class='tab__active' ref={el => this.activeTab = el}></div>
             {Object.keys(vendor.items).map((category, index) => {
               return (
                 <button
-                  class='buttong'
+                  className={index == 0 && 'active'}
                   data-scroll={'navigation_' + index}
                   onClick={this.scrollTo}>
                   {category}

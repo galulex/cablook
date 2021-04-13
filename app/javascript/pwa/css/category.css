@@ -75,5 +75,8 @@ details[open]~.arrow {
 .right-btn {
   right: 0;
   left: auto !important;
+}
+
+.right-btn svg {
   transform: rotate(180deg);
 }

@@ -19,7 +19,6 @@
 }
 
 .vendor-page {
-  max-width: unset;
   scroll-snap-type: y mandatory;
 }
 
@@ -35,14 +34,13 @@
 
 .test {
   height: 100vh;
-  width: 100vh;
+  width: 100%;
   scroll-snap-align: start;
-}
-
-.wrap h2, img {
-  width: 100vw;
   display: flex;
+  flex-direction: column;
   justify-content: center;
+  padding-bottom: 115px;
+  padding: 0 30px;
 }
 
 main1 {
@@ -52,6 +50,7 @@ main1 {
   -webkit-overflow-scrolling: touch;
   display: flex;
   position: relative;
+  justify-content: center;
 }
 
 .xx {
@@ -67,8 +66,8 @@ main1 {
 
 nav-delivery.delivery {
   position: absolute;
-  left: 0%;
-  bottom: 8%;
+  left: 10%;
+  bottom: 35px;
   top: auto;
   display: flex;
   align-items: center;
@@ -79,10 +78,8 @@ nav-delivery.delivery {
 }
 
 nav-delivery.delivery button {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 190px;
+  z-index: 100;
+  min-width: 190px;
   height: auto;
   font-weight: 100;
   font-size: inherit;
@@ -95,17 +92,29 @@ nav-delivery.delivery button {
   background: inherit;
   outline: none;
   transition: .1s ease-in-out;
-  border-right: 1px solid;
+  scroll-snap-align: start;
 }
 
 .delivery .tab__active {
   width: 190px;
+  border-radius: 15px;
 }
 
 nav-delivery .tabs__container {
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
   z-index: 100;
 }
 
 .tabs__container {
   display: flex;
+}
+
+.tabs__container .active {
+  color: var(--white) !important;
+  font-weight: 700 !important;
+}
+
+.wrap::-webkit-scrollbar, .tabs__container::-webkit-scrollbar {
+  display: none;
 }
