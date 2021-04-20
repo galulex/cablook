@@ -100,7 +100,7 @@ export default class Vendor extends Component {
           </button>
           <header style="z-index: 100">
             {i18n.vendor_preview.menu}
-            <Link href={'/delivery/cart'}>
+            <Link href={'/delivery/shopping_cart'}>
               {cart && cart.items && <span class='orange-dot' />}
               <ShoppingCart class='cart' fill='#132d50' />
             </Link>

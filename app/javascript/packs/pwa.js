@@ -66,6 +66,7 @@ import Burger from '../pwa/images/burger.svg';
 import Vendors from '../pwa/vendors.js';
 import Vendor from '../pwa/vendor.js';
 import Cart from '../pwa/cart.js';
+import ShoppingCart from '../pwa/shopping_cart.js'
 import NotFound from '../pwa/not_found.js';
 import { PENDING, ON_THE_WAY, WAITING_CLIENT, DRIVING, FINISHED, CANCELED, DECLINED, CANCELED_BY_DRIVER, CONFIRM_UPDATE_TRIP, MAP_MIN_ZOOM, MAP_MAX_ZOOM, CHERKASY_LONG_LAT } from '../pwa/lib/constants.js'
 import Family from '../pwa/family.js'
@@ -374,14 +375,14 @@ export default class App extends Component {
     let location = await geoLocation()
     if (!location) return
     let {coords, address} = location
-    this.setState({ 
+    this.setState({
         currentLocation: {
           location: coords,
           address: address,
           favorite_address: true,
-          structured_formatting: { 
-            main_text: address, 
-            secondary_text: i18n.address_input.location 
+          structured_formatting: {
+            main_text: address,
+            secondary_text: i18n.address_input.location
           }
         }
       }
@@ -460,6 +461,14 @@ export default class App extends Component {
             />
             <NotFound type='404' default />
             <Cart path='/delivery/cart'
+              cards={() => this.state.cards}
+              favorite_addresses={() => this.state.favorite_addresses}
+              isGeocoding={isGeocoding}
+              setGeocoding={this.setGeocoding}
+              showBurger={this.showBurger}
+              updateCards={this.updateCards}
+            />
+            <ShoppingCart path='/delivery/shopping_cart'
               cards={() => this.state.cards}
               favorite_addresses={() => this.state.favorite_addresses}
               isGeocoding={isGeocoding}

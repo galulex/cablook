@@ -1,7 +1,6 @@
 import { h, render, Component } from 'preact';
-import { Link } from 'preact-router/match';
 
-import ItemPreview from './item_preview.js';
+import DeliveryItem from './delivery_item.js';
 import './css/category.css'
 
 export default class Category extends Component {
@@ -36,17 +35,9 @@ export default class Category extends Component {
         {result.map((item, index) => (
           <div class="test" id={"item_" + index}>
             <img src="https://www.mcdonalds.co.za/media/products/2-cheeseburger-meal/2-Cheese-Burger-Large-Meal.png" />
-            <ItemPreview
-              category={category}
-              item={item}
-              key={index}
-              updateCart={this.updateCart}
-              vendor={vendor}
-              hide_content={false}
-              active={''} />
+            <DeliveryItem item={item} updateCart={this.updateCart} vendor_id={vendor.id} />
           </div>
-        ))
-        }
+        ))}
       </div>
     )
   }
