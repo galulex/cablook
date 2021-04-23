@@ -110,7 +110,7 @@ nav-delivery .tabs__container {
   display: flex;
 }
 
-.tabs__container .active {
+.tabs__container .active button {
   color: var(--white) !important;
   font-weight: 700 !important;
 }

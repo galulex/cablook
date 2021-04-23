@@ -1,0 +1,128 @@
+.delivery-preview .row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.delivery-preview .col-4 {
+  width: 40%;
+}
+
+.delivery-preview .col-6 {
+  width: 60%;
+  font-size: 1.8vh;
+  font-size: calc(var(--vh, 1vh) * 1.8);
+}
+
+.delivery-preview .col-2 {
+  width: 20%;
+}
+
+.delivery-preview b.name {
+  font-size: 2vh;
+  font-size: calc(var(--vh, 1vh) * 2);
+}
+
+.delivery-preview span.description, .delivery-preview span.price {
+  font-size: 2vh;
+  font-size: calc(var(--vh, 1vh) * 2);
+  white-space: pre-line;
+  word-break: break-word;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.button.add-to-cart-button {
+  transition: none;
+  margin-bottom: 0;
+  font-size: 50%;
+  padding: 20% 0;
+}
+
+.button.plus-button {
+  width: 50%;
+  margin-bottom: 0;
+  padding: 0 5px 0 0;
+  border-radius: 15px 0 0 15px;
+  background: rgba(255, 255, 255, .5);
+  background: var(--button-background);
+  color: #19a160;
+  color: var(--green_3)
+}
+
+.button.minus-button {
+  width: 50%;
+  background: #efcc3a;
+  background: var(--orange);
+  margin-bottom: 0;
+  padding: 0 0 0 5px;
+  border-radius: 0 15px 15px 0;
+  color: #19a160;
+  color: var(--green_3)
+}
+
+.button.minus-button:active {
+  box-shadow: var(--minus-button-active-shadow);
+}
+
+.delivery-preview .button {
+  height: 50px;
+}
+
+.delivery-preview .circle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  min-width: 20px;
+  min-height: 20px;
+  width: 2.2vh;
+  height: 2.2vh;
+  max-width: 25px;
+  max-height: 25px;
+  border-radius: 50%;
+  background-color: white;
+  cursor: pointer;
+  box-shadow: inset 1px 1px 2px var(--shadow_color);
+  border: .5px solid var(--shadow_color);
+}
+
+.delivery-preview .number {
+  position: absolute;
+  top: 55%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 55%;
+  line-height: 0;
+  color: black;
+}
+
+.delivery-preview .remove-item {
+  position: absolute;
+  right: -40px;
+  font-size: 2rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: #a925ad;
+  padding: 0 5px;
+  margin: 0;
+  outline: none;
+  cursor: pointer;
+}
+
+.delivery-preview svg path {
+  fill: #1c1c1c;
+  fill: var(--black_2);
+}
+
+@media screen and (min-width: 768px) {
+  .delivery-preview .button {
+    height: 60px;
+    font-size: 75%;
+    padding: 0;
+  }
+}

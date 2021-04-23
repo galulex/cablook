@@ -1,7 +1,7 @@
 import { h, render, Component } from 'preact';
 
 import i18n from './i18n.js';
-import './css/item_preview.css'
+import './css/delivery_preview.css'
 
 export default class DeliveryItem extends Component {
   constructor(props) {
@@ -96,15 +96,16 @@ export default class DeliveryItem extends Component {
     let { item } = this.props
 
     return (
-      <div class='item-preview'>
+      <div class='delivery-preview'>
         <div class='row'>
           <div class='col-6'>
             <b class='name'>{item.name}</b>
-            <br />
             <span class='description'>{item.description}</span>
           </div>
-          <div class='col-2 text-center'>
+          <div class='col-2 text-center' style='display: flex'>
+            <hr />
             <span class='price'>{item.price} {i18n.item_preview.uah}</span>
+            <hr />
           </div>
           <div class='col-2'>
             {this.state.in_cart ? this.controlButtons() : <button class='button green add-to-cart-button' onClick={this.addToCart}>+</button>}

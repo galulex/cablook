@@ -6,11 +6,13 @@ import { route } from 'preact-router'
 import i18n from './i18n.js'
 import './css/vendor.css'
 import './css/vendors.css'
-import Category from './category.js'
+// import Category from './category.js'
+import Category from './delivery/category.js'
 import ShoppingCart from './images/shopping-cart.svg'
 import Back from './images/arrow-left.svg'
 import Loader from './loader.js'
 import ControlButtons from './control_buttons.js'
+import ItemsControll from './delivery/items_controll.js'
 
 export default class Vendor extends Component {
   constructor(props) {
@@ -19,8 +21,8 @@ export default class Vendor extends Component {
     this.state = {
       vendor_id: this.props.matches.id,
       vendor: { items: [] },
-      cart: JSON.parse(localStorage.getItem('cart')) || {},
-      showLoader: true
+      cart: JSON.parse(localStorage.getItem('cart')) || {}, // { items: { quantity: 0 } },
+      showLoader: true,
     }
   }
 
@@ -41,7 +43,7 @@ export default class Vendor extends Component {
     let activePosition = this.navigation.scrollWidth / 100 * scrollPercent
     let positionCurrentContainer = this.tabsContent.scrollTop / this.tabsContent.offsetHeight
     let currentNavTab = this.navigation.childNodes[(positionCurrentContainer + 1).toFixed()]
-    this.navigation.childNodes.forEach(e => e.classList.remove( 'active' ))
+    this.navigation.childNodes.forEach(e => e.classList.remove('active'))
     currentNavTab.classList.add('active')
 
     this.activeTab.style.left = `${activePosition}px`
@@ -79,15 +81,27 @@ export default class Vendor extends Component {
   }
 
   scrollTo = (e) => {
-    this.tabsContent.scroll({top: document.getElementById(e.target.dataset.scroll).offsetTop - 70, behavior: 'smooth'})
-    // document.getElementById(e.target.dataset.scroll).scroll
-    // .scrollIntoView({behavior: 'smooth'})
+    this.tabsContent.scroll({ top: document.getElementById(e.target.dataset.scroll).offsetTop - 70, behavior: 'smooth' })
     e.stopPropagation()
   }
 
-  render() {
-    const { vendor, cart, showLoader } = this.state
+  addToCart = (item, vendorId) => {
+    this.state.cart
+    // this.setState({cart: cart})
+    // this.validateVendor(vendor_id, cart)
+    // ItemsControll.add(item, vendorId, this.state.cart)
+    // console.log(this.state.cart)
+  }
 
+  removeFromCart = (item) => {
+    ItemsControll.remove(item, this.state.cart)
+    this.forceUpdate()
+  }
+
+  render() {
+    const { vendor, cart, showLoader, inCart } = this.state
+
+    console.log(cart.quantity == 0)
     return (
       <div class='general__holder' style="flex-direction: column">
         <div>
@@ -101,7 +115,7 @@ export default class Vendor extends Component {
           <header style="z-index: 100">
             {i18n.vendor_preview.menu}
             <Link href={'/delivery/shopping_cart'}>
-              {cart && cart.items && <span class='orange-dot' />}
+              {cart.items?.quantity == 0 && <span class='orange-dot' />}
               <ShoppingCart class='cart' fill='#132d50' />
             </Link>
           </header>
@@ -115,7 +129,12 @@ export default class Vendor extends Component {
                     category={category}
                     items={vendor.items[category]}
                     vendor={vendor}
-                    updateCart={this.updateCart} />
+                    cart={cart}
+                    cart_items={cart.items}
+                    updateCart={this.updateCart}
+                    inCart={inCart}
+                    addToCart={this.addToCart}
+                    removeFromCart={this.removeFromCart} />
                 )
               })}
             </section>
@@ -127,12 +146,12 @@ export default class Vendor extends Component {
             <div class='tab__active' ref={el => this.activeTab = el}></div>
             {Object.keys(vendor.items).map((category, index) => {
               return (
-                <button
-                  className={index == 0 && 'active'}
-                  data-scroll={'navigation_' + index}
-                  onClick={this.scrollTo}>
-                  {category}
-                </button>
+                <div style="display: flex;" className={index == 0 ? 'active' : ''}>
+                  <button data-scroll={'navigation_' + index} onClick={this.scrollTo}>
+                    {category}
+                  </button>
+                  <hr />
+                </div>
               )
             })}
           </div>
