@@ -2,21 +2,21 @@
 import { h, render, Component } from 'preact'
 import { route } from 'preact-router'
 import axios from 'axios'
-import i18n from './i18n.js'
+import i18n from '../i18n.js'
 import CartItem from './cart_item.js'
-import TimeSelect from './time_select.js'
-import './css/cart.css'
-import Back from './images/arrow-left.svg'
-import AddressInput from '../pwa/trips/address-input.js'
-import GenerateArrayTimes from './generate-array-times.js'
-import Widget from './widget.js'
-import Loader from './loader.js'
-import Wheel from './images/wheel.svg'
-import Dollar from './images/dollar.svg'
-import Entrance from './images/entrance.svg'
-import Card from './images/credit-cards-payment.js'
-import Comment from './images/contacts.svg'
-import UAH from './images/ukraine-hryvna.svg'
+import TimeSelect from '../time_select.js'
+import '../css/cart.css'
+import Back from '../images/arrow-left.svg'
+import AddressInput from '../trips/address-input.js'
+import Widget from '../widget.js'
+import Loader from '../loader.js'
+import Wheel from '../images/wheel.svg'
+import Dollar from '../images/dollar.svg'
+import Entrance from '../images/entrance.svg'
+import Card from '../images/credit-cards-payment.js'
+import Comment from '../images/contacts.svg'
+import UAH from '../images/ukraine-hryvna.svg'
+import Cart from './cart.js'
 
 const ENTRANCES = Array.from({ length: 15 }, (v, k) => (k + 1))
 
@@ -46,7 +46,9 @@ export default class ShoppingCart extends Component {
       minTime: time,
       showWidget: false,
       showLoader: false,
-      vendor_closed: cart.vendor_status === 'close'
+      isLoaded: false,
+      vendor_closed: cart.vendor_status === 'close',
+      cart: JSON.parse(localStorage.getItem('cart'))
     }
     this.calculateTotalPrice()
   }
@@ -55,10 +57,20 @@ export default class ShoppingCart extends Component {
     this.props.showBurger(false)
     this.checkCurrentDeliveryTrip()
     this.getCards()
+    this.getVendorInfo()
   }
 
   componentWillReceiveProps() {
     this.getCards()
+  }
+
+  getVendorInfo = () => {
+    axios.get(`vendors/${this.state.cart.vendor_id}`).then((res) => {
+      this.setState({ vendor: res.data, showLoader: false, isLoaded: true })
+    }).catch((error) => {
+      if (error.response) alert(error.response.data.errors)
+      if (error.response.status === 418) route('/delivery', true)
+    });
   }
 
   checkCurrentDeliveryTrip = () => {
@@ -225,33 +237,37 @@ export default class ShoppingCart extends Component {
     route('/delivery', true)
   }
 
+  addToCart = (item) => {
+    let { cart, vendor } = this.state
+    this.setState({ cart: Cart.format(cart, item, vendor.id) })
+    localStorage.setItem('cart', JSON.stringify(this.state.cart))
+  }
+
+  removeFromCart = (item) => {
+    let current_item = this.state.cart.items[item.id]
+    current_item['quantity'] > 1 ? Cart.decreaseItemQuantity(current_item) : this.clearCartItems(item.id)
+    this.setState(this.state)
+    localStorage.setItem('cart', JSON.stringify(this.state.cart))
+  }
+
+  clearCartItems = (itemId) => {
+    if (!window.confirm(i18n.cart_item.last_item)) return
+    delete (this.state.cart.items[itemId])
+  }
+
   render() {
-    let cart = localStorage.getItem('cart')
-    let vendor, items, open_at, close_at, vendor_name_slug, weekends, all_day
-    if (cart) {
-      cart = JSON.parse(cart)
-      vendor = cart.vendor
-      vendor_name_slug = cart.vendor_name_slug
-      items = cart.items
-      open_at = cart.vendor_open_at
-      close_at = cart.vendor_close_at
-      weekends = cart.vendor_weekends
-      all_day = cart.vendor_all_day
-    }
-    const { total_price, trip_cost, cards, showWidget, showLoader, vendor_closed } = this.state
+    let { total_price, trip_cost, cards, showWidget, showLoader, vendor_closed, cart, vendor, isLoaded } = this.state
 
     return (
       <div class='general__holder'>
-        <button type='button' class='button burger white-opacity' onClick={(event) => window.ios ? this.handleBack() : window.history.back()}><Back fill='#132d50' /></button>
+        <button type='button' class='button burger white-opacity' onClick={() => window.ios ? this.handleBack() : window.history.back()}><Back fill='#132d50' /></button>
         <header>{i18n.cart.header}</header>
         <section class='cart'>
           {showLoader && <Loader />}
-          {items ? ([
+          {isLoaded && Object.keys(cart.items).length > 0 ? ([
             <div class='tab-content__container'>
-              {Object.keys(items).map((item, index) => {
-                return (
-                  <CartItem key={index} id={item} item={items[item]} vendor={vendor} calculateTotalPrice={this.calculateTotalPrice} />
-                )
+              {Object.keys(cart.items).map((item, index) => {
+                return (<CartItem key={index} item={cart.items[item]} itemId={item} addToCart={this.addToCart} removeFromCart={this.removeFromCart} />)
               })
               }
             </div>,
@@ -261,10 +277,10 @@ export default class ShoppingCart extends Component {
               <UAH fill='#19a160' height='16px' width='16px' />
             </div>,
             <br />,
-            !vendor_closed &&
+            vendor.active &&
             (cards.length < 1) &&
             <button class='button' type='button' disabled={showWidget} onClick={() => this.setState({ showWidget: true })}>+ {i18n.cards.add}</button>,
-            !vendor_closed &&
+            vendor.active &&
             <form action='#' onSubmit={(e) => e.preventDefault()}>
               <AddressInput
                 setAddress={this.setAddress}
@@ -289,7 +305,13 @@ export default class ShoppingCart extends Component {
                     })}
                   </select>
                 </label>
-                <TimeSelect minTime={this.state.minTime} allDay={all_day} open_at={open_at} close_at={close_at} setTime={this.updateTripTime} time={this.state.trip_time} />
+                <TimeSelect
+                  minTime={this.state.minTime}
+                  allDay={vendor.all_day}
+                  open_at={vendor.open_at}
+                  close_at={vendor.close_at}
+                  setTime={this.updateTripTime}
+                  time={this.state.trip_time} />
               </div>
               <label for='comment'>
                 <Comment width='24' />
@@ -315,7 +337,7 @@ export default class ShoppingCart extends Component {
                 </div>}
               <br />
               {(cards.length !== 0) &&
-                <input type='submit' class={`button green ${vendor_name_slug}`} onClick={this.createOrder} value={i18n.cart.create_order} />}
+                <input type='submit' class={`button green ${vendor.name_slug}`} onClick={this.createOrder} value={i18n.cart.create_order} />}
             </form>,
             !vendor_closed &&
             showWidget && <Widget updateCards={this.props.updateCards} showWidget={() => this.setState({ showWidget: false })} />,

@@ -66,7 +66,7 @@ import Burger from '../pwa/images/burger.svg';
 import Vendors from '../pwa/vendors.js';
 import Vendor from '../pwa/vendor.js';
 import Cart from '../pwa/cart.js';
-import ShoppingCart from '../pwa/shopping_cart.js'
+import ShoppingCart from '../pwa/delivery/shopping_cart.js'
 import NotFound from '../pwa/not_found.js';
 import { PENDING, ON_THE_WAY, WAITING_CLIENT, DRIVING, FINISHED, CANCELED, DECLINED, CANCELED_BY_DRIVER, CONFIRM_UPDATE_TRIP, MAP_MIN_ZOOM, MAP_MAX_ZOOM, CHERKASY_LONG_LAT } from '../pwa/lib/constants.js'
 import Family from '../pwa/family.js'

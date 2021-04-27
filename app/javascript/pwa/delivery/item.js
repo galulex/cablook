@@ -3,7 +3,7 @@ import i18n from '../i18n';
 import '../css/delivery_preview.css'
 
 export default function DeliveryItem(props) {
-  let { item, quantity, addToCart, vendorId, inCart } = props
+  let { item, quantity, vendorId, currentVendor } = props
 
   return (
     <div class='delivery-preview' style='display: flex; flex-direction: column;'>
@@ -19,11 +19,17 @@ export default function DeliveryItem(props) {
           <hr />
         </div>
         <div class='col-2'>
-          {quantity > 0 ? controlButtons(props) : <button class='button green add-to-cart-button' onClick={() => addToCart(item, vendorId)}>+</button>}
+          {quantity && vendorId == currentVendor ? controlButtons(props) : addButton(props)}
         </div>
       </div>
     </div>
   )
+}
+
+function addButton(params) {
+  let { item, addToCart, vendorId } = params
+
+  return <button class='button green add-to-cart-button' onClick={() => addToCart(item, vendorId)}>+</button>
 }
 
 function controlButtons(params) {

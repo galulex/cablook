@@ -12,7 +12,7 @@ import ShoppingCart from './images/shopping-cart.svg'
 import Back from './images/arrow-left.svg'
 import Loader from './loader.js'
 import ControlButtons from './control_buttons.js'
-import ItemsControll from './delivery/items_controll.js'
+import Cart from './delivery/cart.js';
 
 export default class Vendor extends Component {
   constructor(props) {
@@ -21,8 +21,8 @@ export default class Vendor extends Component {
     this.state = {
       vendor_id: this.props.matches.id,
       vendor: { items: [] },
-      cart: JSON.parse(localStorage.getItem('cart')) || {}, // { items: { quantity: 0 } },
-      showLoader: true,
+      cart: JSON.parse(localStorage.getItem('cart')) || { items: {} },
+      showLoader: true
     }
   }
 
@@ -66,14 +66,6 @@ export default class Vendor extends Component {
     });
   }
 
-  updateCart = (cart) => {
-    this.setState({ cart })
-  }
-
-  updateLoaderState = (showLoader) => {
-    this.setState({ showLoader })
-  }
-
   handleBack = () => {
     this.props.showBurger()
     route('/delivery', true)
@@ -86,22 +78,33 @@ export default class Vendor extends Component {
   }
 
   addToCart = (item, vendorId) => {
-    this.state.cart
-    // this.setState({cart: cart})
-    // this.validateVendor(vendor_id, cart)
-    // ItemsControll.add(item, vendorId, this.state.cart)
-    // console.log(this.state.cart)
+    if (this.validateVendor(vendorId)) return
+    this.setState({ cart: Cart.format(this.state.cart, item, vendorId) })
+    localStorage.setItem('cart', JSON.stringify(this.state.cart))
   }
 
   removeFromCart = (item) => {
-    ItemsControll.remove(item, this.state.cart)
-    this.forceUpdate()
+    let current_item = this.state.cart.items[item.id]
+    current_item['quantity'] > 1 ? Cart.decreaseItemQuantity(current_item) : delete (this.state.cart['items'][item.id])
+    this.setState(this.state)
+    localStorage.setItem('cart', JSON.stringify(this.state.cart))
+  }
+
+  validateVendor = (vendorId) => {
+    let currentVendor = this.state.cart.vendor_id
+    console.log(currentVendor, "CURRENT VENDOR")
+    console.log(vendorId, "INCOME VENDOR")
+
+    if (currentVendor && currentVendor != vendorId) {
+      if (!window.confirm(i18n.item_preview.new_restaurant)) return true
+      this.setState({ cart: { items: {} } })
+      localStorage.removeItem('cart')
+    }
   }
 
   render() {
-    const { vendor, cart, showLoader, inCart } = this.state
+    const { vendor, cart, showLoader } = this.state
 
-    console.log(cart.quantity == 0)
     return (
       <div class='general__holder' style="flex-direction: column">
         <div>
@@ -109,13 +112,13 @@ export default class Vendor extends Component {
           <button
             type='button'
             class='button burger white-opacity'
-            onClick={(event) => this.handleBack()}>
+            onClick={(e) => this.handleBack()}>
             <Back />
           </button>
           <header style="z-index: 100">
             {i18n.vendor_preview.menu}
             <Link href={'/delivery/shopping_cart'}>
-              {cart.items?.quantity == 0 && <span class='orange-dot' />}
+              {Object.keys(cart.items).length > 0 && <span class='orange-dot' />}
               <ShoppingCart class='cart' fill='#132d50' />
             </Link>
           </header>
@@ -131,8 +134,6 @@ export default class Vendor extends Component {
                     vendor={vendor}
                     cart={cart}
                     cart_items={cart.items}
-                    updateCart={this.updateCart}
-                    inCart={inCart}
                     addToCart={this.addToCart}
                     removeFromCart={this.removeFromCart} />
                 )
