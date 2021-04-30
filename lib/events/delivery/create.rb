@@ -12,6 +12,7 @@ module Events
           required(:card_id).filled(:int?)
           required(:user_id).filled(:int?)
           required(:items)
+          required(:trip)
         end
       end
 
