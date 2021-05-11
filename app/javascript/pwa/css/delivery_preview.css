@@ -126,3 +126,8 @@
     padding: 0;
   }
 }
+
+.split-line {
+  display: block;
+  border-top: 1px solid #ccc;
+}

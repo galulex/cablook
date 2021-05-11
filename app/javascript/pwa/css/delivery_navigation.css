@@ -1,0 +1,104 @@
+@media only screen and (min-width: 1280px) {
+  button svg {
+    width: 35px !important;
+    height: 35px !important;
+    fill: var(--navy);
+  }
+}
+
+button svg {
+  width: 20px;
+  height: 20px;
+  fill: var(--navy);
+}
+
+.tabs__container .active button svg {
+  fill: white;
+  filter: url(#inset-shadow);
+}
+
+nav-delivery.delivery {
+  position: absolute;
+  left: 10%;
+  bottom: 35px;
+  top: auto;
+  display: flex;
+  align-items: center;
+  width: auto;
+  border-radius: 15px;
+  background: inherit;
+  box-shadow: inset 3px 2px 8px var(--shadow_color), inset -2px -1px 4px var(--white);
+}
+
+nav-delivery.delivery button {
+  z-index: 100;
+  min-width: 125px;
+  height: auto;
+  font-weight: 100;
+  font-size: inherit;
+  color: var(--font_color_2);
+  border: none;
+  border-radius: inherit;
+  transition: all .1s;
+  cursor: pointer;
+  text-transform: capitalize;
+  background: inherit;
+  outline: none;
+  transition: .1s ease-in-out;
+  scroll-snap-align: start;
+}
+
+.delivery .tab__active {
+  width: 150px;
+  border-radius: 15px;
+}
+
+nav-delivery .tabs__container {
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  z-index: 100;
+}
+
+.foo {
+  display: flex;
+  align-items: center;
+  margin: 100px;
+}
+
+.foo svg path {
+  fill: gray !important;
+  filter: url(#inset-shadow);
+}
+
+.dev-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 150px;
+}
+
+.tabs__container .active button {
+  color: var(--white) !important;
+  font-weight: 700 !important;
+}
+
+.bar {
+  display: flex;
+  align-items: center;
+  width: 150px;
+}
+
+@media only screen and (min-width: 1280px) {
+  .dev-btn {
+    font-size: 30px;
+    padding: 20px 0;
+    width: 300px;
+  }
+  .bar {
+    width: 300px;
+  }
+  .delivery .tab__active {
+    width: 300px;
+  }
+}

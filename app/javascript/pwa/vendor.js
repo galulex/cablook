@@ -6,13 +6,16 @@ import { route } from 'preact-router'
 import i18n from './i18n.js'
 import './css/vendor.css'
 import './css/vendors.css'
-// import Category from './category.js'
+import './css/category.css'
+import './css/delivery_navigation.css'
 import Category from './delivery/category.js'
 import ShoppingCart from './images/shopping-cart.svg'
 import Back from './images/arrow-left.svg'
 import Loader from './loader.js'
 import ControlButtons from './control_buttons.js'
 import Cart from './delivery/cart.js';
+import DeliveryNavigation from './delivery/navigation.js'
+import CategoryIcon from './delivery/category_icons.js'
 
 export default class Vendor extends Component {
   constructor(props) {
@@ -59,6 +62,7 @@ export default class Vendor extends Component {
     const { vendor_id } = this.state
 
     axios.get(`vendors/${vendor_id}`).then((res) => {
+      // console.log(res.data)
       this.setState({ vendor: res.data, showLoader: false })
     }).catch((error) => {
       if (error.response) alert(error.response.data.errors)
@@ -92,8 +96,6 @@ export default class Vendor extends Component {
 
   validateVendor = (vendorId) => {
     let currentVendor = this.state.cart.vendor_id
-    console.log(currentVendor, "CURRENT VENDOR")
-    console.log(vendorId, "INCOME VENDOR")
 
     if (currentVendor && currentVendor != vendorId) {
       if (!window.confirm(i18n.item_preview.new_restaurant)) return true
@@ -123,19 +125,20 @@ export default class Vendor extends Component {
             </Link>
           </header>
           <main1>
-            <section class={showLoader ? 'vendor-page hide' : 'vendor-page'} ref={el => this.tabsContent = el}>
+            <section class={showLoader ? 'vendor-page hide' : 'vendor-page'} style='padding: 0' ref={el => this.tabsContent = el}>
               {Object.keys(vendor.items).map((category, index) => {
-                if (category !== 'Гарячі Вина' && vendor.items[category].length > 0) return (
+                if (category !== 'Гарячі Вина' && vendor.items[category].items.length > 0) return (
                   <Category
                     key={index}
                     categoryId={index}
                     category={category}
-                    items={vendor.items[category]}
+                    items={vendor.items[category].items}
                     vendor={vendor}
                     cart={cart}
                     cart_items={cart.items}
                     addToCart={this.addToCart}
-                    removeFromCart={this.removeFromCart} />
+                    removeFromCart={this.removeFromCart}
+                    icon={vendor.items[category].icon} />
                 )
               })}
             </section>
@@ -147,11 +150,12 @@ export default class Vendor extends Component {
             <div class='tab__active' ref={el => this.activeTab = el}></div>
             {Object.keys(vendor.items).map((category, index) => {
               return (
-                <div style="display: flex;" className={index == 0 ? 'active' : ''}>
-                  <button data-scroll={'navigation_' + index} onClick={this.scrollTo}>
+                <div className={'bar ' + (index == 0 ? 'active' : '')}>
+                  <button data-scroll={'navigation_' + index} onClick={this.scrollTo} class='dev-btn'>
+                    <CategoryIcon icon={vendor.items[category].icon} />
                     {category}
                   </button>
-                  <hr />
+                  <span class='split-line' style='border-left: 1px solid #ccc; height: 50%;' />
                 </div>
               )
             })}

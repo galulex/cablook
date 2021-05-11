@@ -3,10 +3,10 @@ import { h } from 'preact'
 import DeliveryItem from './item.js';
 
 export default function Category(props) {
-  let { items, categoryId, cart, addToCart, removeFromCart, vendor, quantity, inCart } = props
+  let { items, categoryId, cart, addToCart, removeFromCart, vendor, inCart, icon } = props
 
   return (
-    <div class="wrap" id={"navigation_" + categoryId}>
+    <div class="wrap" id={"navigation_" + categoryId} style='height: 100%'>
       {items.map((item, index) => (
         <div class="test" id={"item_" + index}>
           <DeliveryItem
@@ -16,7 +16,8 @@ export default function Category(props) {
             currentVendor={cart.vendor_id}
             item={item}
             addToCart={addToCart}
-            removeFromCart={removeFromCart} />
+            removeFromCart={removeFromCart}
+            icon={icon} />
         </div>
       ))}
     </div>

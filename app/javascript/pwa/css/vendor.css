@@ -29,11 +29,9 @@
   scroll-snap-type: x mandatory;
   -webkit-overflow-scrolling: touch;
   width: 100%;
-  scroll-behavior: smooth;
 }
 
 .test {
-  height: 100vh;
   width: 100%;
   scroll-snap-align: start;
   display: flex;
@@ -64,57 +62,20 @@ main1 {
   border-radius: 15px;
 }
 
-nav-delivery.delivery {
-  position: absolute;
-  left: 10%;
-  bottom: 35px;
-  top: auto;
-  display: flex;
-  align-items: center;
-  width: auto;
-  border-radius: 15px;
-  background: inherit;
-  box-shadow: inset 3px 2px 8px var(--shadow_color), inset -2px -1px 4px var(--white);
-}
-
-nav-delivery.delivery button {
-  z-index: 100;
-  min-width: 190px;
-  height: auto;
-  font-weight: 100;
-  font-size: inherit;
-  color: var(--font_color_2);
-  border: none;
-  border-radius: inherit;
-  transition: all .1s;
-  cursor: pointer;
-  text-transform: capitalize;
-  background: inherit;
-  outline: none;
-  transition: .1s ease-in-out;
-  scroll-snap-align: start;
-}
-
-.delivery .tab__active {
-  width: 190px;
-  border-radius: 15px;
-}
-
-nav-delivery .tabs__container {
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  z-index: 100;
-}
-
 .tabs__container {
   display: flex;
 }
 
-.tabs__container .active button {
-  color: var(--white) !important;
-  font-weight: 700 !important;
-}
-
 .wrap::-webkit-scrollbar, .tabs__container::-webkit-scrollbar {
   display: none;
+}
+
+section.vendor {
+  padding: 0;
+}
+
+@media only screen and (min-width: 1280px) {
+  .vendor-page {
+    max-width: 70%;
+  }
 }
