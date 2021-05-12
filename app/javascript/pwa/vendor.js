@@ -14,7 +14,6 @@ import Back from './images/arrow-left.svg'
 import Loader from './loader.js'
 import ControlButtons from './control_buttons.js'
 import Cart from './delivery/cart.js';
-import DeliveryNavigation from './delivery/navigation.js'
 import CategoryIcon from './delivery/category_icons.js'
 
 export default class Vendor extends Component {
