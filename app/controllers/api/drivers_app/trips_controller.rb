@@ -32,7 +32,8 @@ module Api
         attrs = {
           trip_id: params[:trip_id].to_i,
           driver_id: current_driver.id,
-          car_id: current_driver.car_id
+          car_id: current_driver.car_id,
+          trip_duration: params[:tripDuration]
         }
         Events::Trips::Accept.(attrs)
         render json: Presenters::Trips::Detailed.new(trip).to_json, status: 200
