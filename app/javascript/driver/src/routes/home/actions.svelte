@@ -19,6 +19,8 @@
   let time = 0
   let name = 'disabled'
   let disabledButton = false
+  let tripDuration = ''
+  let timeDurationRange = [duration, 5, 10, 15, 20, 25]
 
   onMount(() => {
     countdown()
@@ -47,7 +49,7 @@
       return
     }
     disabledButton = true
-    axios.patch(`trips/${trip.id}/accept`).then(res => {
+    axios.patch(`trips/${trip.id}/accept`, {tripDuration}).then(res => {
       updateTrip(res.data)
       window.play('accept')
     }).catch((error) => {
@@ -123,6 +125,11 @@
   button[name='disabled'] {
     opacity: 0.5;
   }
+
+  select {
+    width: 30%;
+    text-align-last: center;
+  }
 </style>
 
 <p>
@@ -135,7 +142,11 @@
     {#if trip.pre_order }
       <label>{trip.start_time}</label>
     {:else}
-      <label>{duration}хв</label>
+      <select on:change="{e => tripDuration = e.target.value}">
+        {#each timeDurationRange as timeDuration}
+          <option value={timeDuration}>{timeDuration}</option>
+        {/each}
+      </select>
     {/if}
   </time>
   <time><Timer style={{fill: 'var(--red_color)', width: '15px', height: '15px'}}/><label>{time}</label></time>

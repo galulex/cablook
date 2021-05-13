@@ -82,6 +82,8 @@ module Events
 
       def start_time
         return trip.start_at if trip.preorder?
+        return Time.now + data[:trip_duration].to_i.minutes if data[:trip_duration]
+
         @start_time ||= car_trip ? (start_at + car_trip_remaining_time) : start_at
       end
 
