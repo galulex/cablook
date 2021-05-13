@@ -1,500 +1,535 @@
 {
-  "🍔🍟🥤 Комбо": [
-    {
-      "id": 1,
-      "name": "🌯�🥤 Твістер Де Люкс меню",
-      "description": "",
-      "price": 119.0
-    },
-    {
-      "id": 2,
-      "name": "🍔🍟🥤 Шефбургер Де Люкс меню",
-      "description": "",
-      "price": 115.0
-    },
-    {
-      "id": 3,
-      "name": "🍔🍟🥤 Шефбургер меню",
-      "description": "",
-      "price": 115.0
-    },
-    {
-      "id": 4,
-      "name": "��🥤 Твістер меню",
-      "description": "",
-      "price": 115.0
-    },
-    {
-      "id": 5,
-      "name": "🍔🍟🥤 Чізбургер де лю",
-      "description": "",
-      "price": 108.0
-    },
-    {
-      "id": 6,
-      "name": "🍔🍟🥤 Чізбургер меню",
-      "description": "",
-      "price": 90.0
-    },
-    {
-      "id": 7,
-      "name": "��🥤 Твicтер джуніор меню",
-      "description": "",
-      "price": 90.0
-    }
-  ],
-  "🍔 Бургери": [
-    {
-      "id": 8,
-      "name": "🍔 Дабл Шефбургер гострий",
-      "description": "",
-      "price": 100.0
-    },
-    {
-      "id": 9,
-      "name": "🍔 Дабл Шефбургер",
-      "description": "",
-      "price": 100.0
-    },
-    {
-      "id": 10,
-      "name": "🍔 Шефбургер Де Люкс оригінальний",
-      "description": "",
-      "price": 71.0
-    },
-    {
-      "id": 11,
-      "name": "🍔 Шефбургер Де Люкс гострий",
-      "description": "",
-      "price": 71.0
-    },
-    {
-      "id": 12,
-      "name": "🍔 Чізбургер де Люкс",
-      "description": "",
-      "price": 64.0
-    },
-    {
-      "id": 13,
-      "name": "🍔 Шефбургер оригінальний",
-      "description": "",
-      "price": 66.0
-    },
-    {
-      "id": 14,
-      "name": "🍔 Шефбургер гострий",
-      "description": "",
-      "price": 66.0
-    },
-    {
-      "id": 15,
-      "name": "🍔 Чізбургер",
-      "description": "",
-      "price": 42.0
-    },
-    {
-      "id": 16,
-      "name": "🍔 Шефбургер Джуніор",
-      "description": "",
-      "price": 47.0
-    }
-  ],
-  "🌯 Твістери": [
-    {
-      "id": 17,
-      "name": "🌯 Твістер Джуніор",
-      "description": "",
-      "price": 47.0
-    },
-    {
-      "id": 18,
-      "name": "🌯 Твістер оригінальний",
-      "description": "",
-      "price": 74.0
-    },
-    {
-      "id": 19,
-      "name": "🌯 Твістер гострій",
-      "description": "",
-      "price": 74.0
-    },
-    {
-      "id": 20,
-      "name": "🌯 Твістер Де Люкс оригінальний",
-      "description": "",
-      "price": 80.0
-    },
-    {
-      "id": 21,
-      "name": "🌯 Твістер Де Люкс гострий",
-      "description": "",
-      "price": 80.0
-    },
-    {
-      "id": 22,
-      "name": "🌯 Боксмайстер оригінальний",
-      "description": "",
-      "price": 100.0
-    }
-  ],
-  "🍟 Картопля": [
-    {
-      "id": 23,
-      "name": "🍟 Картопля Фрі стандарт",
-      "description": "",
-      "price": 39.0
-    },
-    {
-      "id": 24,
-      "name": "🍟 Бакет кортоплі фрі",
-      "description": "",
-      "price": 64.0
-    },
-    {
-      "id": 25,
-      "name": "🍟 Каротопля по-селянськи",
-      "description": "",
-      "price": 44.0
-    },
-    {
-      "id": 26,
-      "name": "🍟 Картопляники",
-      "description": "",
-      "price": 20.0
-    }
-  ],
-  "🥗 Салати": [
-    {
-      "id": 27,
-      "name": "🥗 Салат Чікен Спешл",
-      "description": "",
-      "price": 77.0
-    }
-  ],
-  "🍰 Десерти": [
-    {
-      "id": 28,
-      "name": "🍰 Пиріжок із вишнею",
-      "description": "",
-      "price": 27.0
-    },
-    {
-      "id": 29,
-      "name": "🍰 Донат Полуничний",
-      "description": "",
-      "price": 37.0
-    },
-    {
-      "id": 30,
-      "name": "🍰 Донат яблуко-коріця",
-      "description": "",
-      "price": 37.0
-    },
-    {
-      "id": 31,
-      "name": "🍰 Мафін з шоколодом",
-      "description": "",
-      "price": 29.0
-    }
-  ],
-  "🍨 Холодні десерти": [
-    {
-      "id": 32,
-      "name": "🍨 Мілкшейк полуничний",
-      "description": "",
-      "price": 42.0
-    },
-    {
-      "id": 33,
-      "name": "🍨 Мілкшейк шоколадно-горіховий",
-      "description": "",
-      "price": 42.0
-    },
-    {
-      "id": 34,
-      "name": "🍨 Мілкшейк ванільний",
-      "description": "",
-      "price": 42.0
-    },
-    {
-      "id": 35,
-      "name": "🍨 Морозиво",
-      "description": "",
-      "price": 37.0
-    },
-    {
-      "id": 36,
-      "name": "🍨 Морозиво Lion",
-      "description": "",
-      "price": 47.0
-    }
-  ],
-  "🥤 Холодні напої": [
-    {
-      "id": 37,
-      "name": "🥤 Pepsi",
-      "description": "",
-      "price": 31.0
-    },
-    {
-      "id": 38,
-      "name": "🥤 Pepsi Max",
-      "description": "",
-      "price": 31.0
-    },
-    {
-      "id": 39,
-      "name": "🥤 Pepsi Max(Банка)",
-      "description": "",
-      "price": 31.0
-    },
-    {
-      "id": 40,
-      "name": "🥤 7Up",
-      "description": "",
-      "price": 31.0
-    },
-    {
-      "id": 41,
-      "name": "🥤 Мірінда",
-      "description": "",
-      "price": 31.0
-    },
-    {
-      "id": 42,
-      "name": "🥤 Холодний чай Ліптон",
-      "description": "",
-      "price": 31.0
-    },
-    {
-      "id": 43,
-      "name": "🥤 Сок",
-      "description": "",
-      "price": 20.0
-    }
-  ],
-  "☕️ Гарячі напої": [
-    {
-      "id": 44,
-      "name": "☕️ Чай",
-      "description": "",
-      "price": 26.0
-    },
-    {
-      "id": 45,
-      "name": "☕️ Лате (300МЛ)",
-      "description": "",
-      "price": 36.0
-    },
-    {
-      "id": 46,
-      "name": "☕️ Лате (400мл)",
-      "description": "",
-      "price": 38.0
-    },
-    {
-      "id": 47,
-      "name": "☕️ Капучіно (300мл)",
-      "description": "",
-      "price": 36.0
-    },
-    {
-      "id": 48,
-      "name": "☕️ Капучіно (400мл)",
-      "description": "",
-      "price": 38.0
-    },
-    {
-      "id": 49,
-      "name": "☕️ Американо (300мл)",
-      "description": "",
-      "price": 26.0
-    },
-    {
-      "id": 50,
-      "name": "☕️ Американо (200мл)",
-      "description": "",
-      "price": 34.0
-    },
-    {
-      "id": 51,
-      "name": "☕️ Еспресо",
-      "description": "",
-      "price": 18.0
-    }
-  ],
-  "🥫 Соуси": [
-    {
-      "id": 52,
-      "name": "🥫 Соус Кисло-солодкий",
-      "description": "",
-      "price": 9.0
-    },
-    {
-      "id": 53,
-      "name": "🥫 Соус Сирний",
-      "description": "",
-      "price": 9.0
-    },
-    {
-      "id": 54,
-      "name": "🥫 Соус Карі",
-      "description": "",
-      "price": 9.0
-    },
-    {
-      "id": 55,
-      "name": "🥫 Соус Гірчичний",
-      "description": "",
-      "price": 9.0
-    },
-    {
-      "id": 56,
-      "name": "🥫 Соус Барбекю",
-      "description": "",
-      "price": 9.0
-    },
-    {
-      "id": 57,
-      "name": "🥫 Соус Тартар",
-      "description": "",
-      "price": 9.0
-    },
-    {
-      "id": 58,
-      "name": "🥫 Кетчуп",
-      "description": "",
-      "price": 9.0
-    },
-    {
-      "id": 59,
-      "name": "🥫 Майонез",
-      "description": "",
-      "price": 9.0
-    }
-  ],
-  "🍗 Курка": [
-    {
-      "id": 60,
-      "name": "🍗 9 Cтрiпсiв",
-      "description": "",
-      "price": 133.0
-    },
-    {
-      "id": 61,
-      "name": "🍗 9 Гострих Крилець",
-      "description": "",
-      "price": 133.0
-    },
-    {
-      "id": 62,
-      "name": "🍗 6 Cтрiпсiв",
-      "description": "",
-      "price": 98.0
-    },
-    {
-      "id": 63,
-      "name": "🍗 6 Гострих Крилець",
-      "description": "",
-      "price": 92.0
-    },
-    {
-      "id": 64,
-      "name": "🍗 4 ніжки гострих",
-      "description": "",
-      "price": 102.0
-    },
-    {
-      "id": 65,
-      "name": "🍗 4 нiжки®",
-      "description": "",
-      "price": 102.0
-    },
-    {
-      "id": 66,
-      "name": "🍗 Байтс Барбекю",
-      "description": "",
-      "price": 80.0
-    },
-    {
-      "id": 67,
-      "name": "🍗 Байтс Терiякi",
-      "description": "",
-      "price": 80.0
-    },
-    {
-      "id": 68,
-      "name": "🍗 3 Cтріпси теріяки",
-      "description": "",
-      "price": 67.0
-    },
-    {
-      "id": 69,
-      "name": "🍗 3 Стрiпси",
-      "description": "",
-      "price": 51.0
-    },
-    {
-      "id": 70,
-      "name": "🍗 3 Гострих Крилець",
-      "description": "",
-      "price": 51.0
-    },
-    {
-      "id": 71,
-      "name": "🍗 Байтс",
-      "description": "",
-      "price": 44.0
-    }
-  ],
-  "🍗🍗 Бакети": [
-    {
-      "id": 72,
-      "name": "🍗 Бакет Л",
-      "description": "",
-      "price": 330.0
-    },
-    {
-      "id": 73,
-      "name": "🍗🍗 Бакет М",
-      "description": "",
-      "price": 269.0
-    },
-    {
-      "id": 74,
-      "name": "🍗🍗🍗 Бакет С",
-      "description": "",
-      "price": 207.0
-    },
-    {
-      "id": 75,
-      "name": "🍗 Бакет Дует",
-      "description": "",
-      "price": 235.0
-    },
-    {
-      "id": 76,
-      "name": "🍗 Бакет Дует гострий",
-      "description": "",
-      "price": 235.0
-    },
-    {
-      "id": 77,
-      "name": "🍗 Сандер бакет",
-      "description": "",
-      "price": 81.0
-    },
-    {
-      "id": 78,
-      "name": "🍗 Сандер бакет гострий",
-      "description": "",
-      "price": 81.0
-    },
-    {
-      "id": 79,
-      "name": "🍗 Бакет 8 ніжок",
-      "description": "",
-      "price": 235.0
-    }
-  ]
+  "Комбо":{
+    "icon": "menus",
+    "items": [
+      {
+        "id": 1,
+        "name": "Твістер Де Люкс меню",
+        "description": "",
+        "price": 119.0
+      },
+      {
+        "id": 2,
+        "name": "Шефбургер Де Люкс меню",
+        "description": "",
+        "price": 115.0
+      },
+      {
+        "id": 3,
+        "name": "Шефбургер меню",
+        "description": "",
+        "price": 115.0
+      },
+      {
+        "id": 4,
+        "name": "Твістер меню",
+        "description": "",
+        "price": 115.0
+      },
+      {
+        "id": 5,
+        "name": "Чізбургер де лю",
+        "description": "",
+        "price": 108.0
+      },
+      {
+        "id": 6,
+        "name": "Чізбургер меню",
+        "description": "",
+        "price": 90.0
+      },
+      {
+        "id": 7,
+        "name": "Твicтер джуніор меню",
+        "description": "",
+        "price": 90.0
+      }
+    ]
+  },
+  "Бургери": {
+    "icon": "burger",
+    "items": [
+      {
+        "id": 8,
+        "name": "Дабл Шефбургер гострий",
+        "description": "",
+        "price": 100.0
+      },
+      {
+        "id": 9,
+        "name": "Дабл Шефбургер",
+        "description": "",
+        "price": 100.0
+      },
+      {
+        "id": 10,
+        "name": "Шефбургер Де Люкс оригінальний",
+        "description": "",
+        "price": 71.0
+      },
+      {
+        "id": 11,
+        "name": "Шефбургер Де Люкс гострий",
+        "description": "",
+        "price": 71.0
+      },
+      {
+        "id": 12,
+        "name": "Чізбургер де Люкс",
+        "description": "",
+        "price": 64.0
+      },
+      {
+        "id": 13,
+        "name": "Шефбургер оригінальний",
+        "description": "",
+        "price": 66.0
+      },
+      {
+        "id": 14,
+        "name": "Шефбургер гострий",
+        "description": "",
+        "price": 66.0
+      },
+      {
+        "id": 15,
+        "name": "Чізбургер",
+        "description": "",
+        "price": 42.0
+      },
+      {
+        "id": 16,
+        "name": "Шефбургер Джуніор",
+        "description": "",
+        "price": 47.0
+      }
+    ]
+  },
+  "Твістери": {
+    "icon": "rolls",
+    "items": [
+      {
+        "id": 17,
+        "name": "Твістер Джуніор",
+        "description": "",
+        "price": 47.0
+      },
+      {
+        "id": 18,
+        "name": "Твістер оригінальний",
+        "description": "",
+        "price": 74.0
+      },
+      {
+        "id": 19,
+        "name": "Твістер гострій",
+        "description": "",
+        "price": 74.0
+      },
+      {
+        "id": 20,
+        "name": "Твістер Де Люкс оригінальний",
+        "description": "",
+        "price": 80.0
+      },
+      {
+        "id": 21,
+        "name": "Твістер Де Люкс гострий",
+        "description": "",
+        "price": 80.0
+      },
+      {
+        "id": 22,
+        "name": "Боксмайстер оригінальний",
+        "description": "",
+        "price": 100.0
+      }
+    ]
+  },
+  "Картопля": {
+    "icon": "fries",
+    "items": [
+      {
+        "id": 23,
+        "name": "Картопля Фрі стандарт",
+        "description": "",
+        "price": 39.0
+      },
+      {
+        "id": 24,
+        "name": "Бакет кортоплі фрі",
+        "description": "",
+        "price": 64.0
+      },
+      {
+        "id": 25,
+        "name": "Каротопля по-селянськи",
+        "description": "",
+        "price": 44.0
+      },
+      {
+        "id": 26,
+        "name": "Картопляники",
+        "description": "",
+        "price": 20.0
+      }
+    ]
+  },
+  "Салати": {
+    "items": [
+      {
+        "id": 27,
+        "name": "Салат Чікен Спешл",
+        "description": "",
+        "price": 77.0
+      }
+    ]
+  },
+  "Десерти": {
+    "icon": "desserts",
+    "items": [
+      {
+        "id": 28,
+        "name": "Пиріжок із вишнею",
+        "description": "",
+        "price": 27.0
+      },
+      {
+        "id": 29,
+        "name": "Донат Полуничний",
+        "description": "",
+        "price": 37.0
+      },
+      {
+        "id": 30,
+        "name": "Донат яблуко-коріця",
+        "description": "",
+        "price": 37.0
+      },
+      {
+        "id": 31,
+        "name": "Мафін з шоколодом",
+        "description": "",
+        "price": 29.0
+      }
+    ]
+  },
+  "Холодні десерти": {
+    "icon": "cold_desserts",
+    "items": [
+      {
+        "id": 32,
+        "name": "Мілкшейк полуничний",
+        "description": "",
+        "price": 42.0
+      },
+      {
+        "id": 33,
+        "name": "Мілкшейк шоколадно-горіховий",
+        "description": "",
+        "price": 42.0
+      },
+      {
+        "id": 34,
+        "name": "Мілкшейк ванільний",
+        "description": "",
+        "price": 42.0
+      },
+      {
+        "id": 35,
+        "name": "Морозиво",
+        "description": "",
+        "price": 37.0
+      },
+      {
+        "id": 36,
+        "name": "Морозиво Lion",
+        "description": "",
+        "price": 47.0
+      }
+    ]
+  },
+  "Холодні напої": {
+    "icon": "cold_drinks",
+    "items": [
+      {
+        "id": 37,
+        "name": "Pepsi",
+        "description": "",
+        "price": 31.0
+      },
+      {
+        "id": 38,
+        "name": "Pepsi Max",
+        "description": "",
+        "price": 31.0
+      },
+      {
+        "id": 39,
+        "name": "Pepsi Max(Банка)",
+        "description": "",
+        "price": 31.0
+      },
+      {
+        "id": 40,
+        "name": "7Up",
+        "description": "",
+        "price": 31.0
+      },
+      {
+        "id": 41,
+        "name": "Мірінда",
+        "description": "",
+        "price": 31.0
+      },
+      {
+        "id": 42,
+        "name": "Холодний чай Ліптон",
+        "description": "",
+        "price": 31.0
+      },
+      {
+        "id": 43,
+        "name": "Сок",
+        "description": "",
+        "price": 20.0
+      }
+    ]
+  },
+  "Гарячі напої": {
+    "icon": "hot_drinks",
+    "items": [
+      {
+        "id": 44,
+        "name": "Чай",
+        "description": "",
+        "price": 26.0
+      },
+      {
+        "id": 45,
+        "name": "Лате (300МЛ)",
+        "description": "",
+        "price": 36.0
+      },
+      {
+        "id": 46,
+        "name": "Лате (400мл)",
+        "description": "",
+        "price": 38.0
+      },
+      {
+        "id": 47,
+        "name": "Капучіно (300мл)",
+        "description": "",
+        "price": 36.0
+      },
+      {
+        "id": 48,
+        "name": "Капучіно (400мл)",
+        "description": "",
+        "price": 38.0
+      },
+      {
+        "id": 49,
+        "name": "Американо (300мл)",
+        "description": "",
+        "price": 26.0
+      },
+      {
+        "id": 50,
+        "name": "Американо (200мл)",
+        "description": "",
+        "price": 34.0
+      },
+      {
+        "id": 51,
+        "name": "Еспресо",
+        "description": "",
+        "price": 18.0
+      }
+    ]
+  },
+  "Соуси": {
+    "icon": "sauces",
+    "items": [
+      {
+        "id": 52,
+        "name": "Соус Кисло-солодкий",
+        "description": "",
+        "price": 9.0
+      },
+      {
+        "id": 53,
+        "name": "Соус Сирний",
+        "description": "",
+        "price": 9.0
+      },
+      {
+        "id": 54,
+        "name": "Соус Карі",
+        "description": "",
+        "price": 9.0
+      },
+      {
+        "id": 55,
+        "name": "Соус Гірчичний",
+        "description": "",
+        "price": 9.0
+      },
+      {
+        "id": 56,
+        "name": "Соус Барбекю",
+        "description": "",
+        "price": 9.0
+      },
+      {
+        "id": 57,
+        "name": "Соус Тартар",
+        "description": "",
+        "price": 9.0
+      },
+      {
+        "id": 58,
+        "name": "Кетчуп",
+        "description": "",
+        "price": 9.0
+      },
+      {
+        "id": 59,
+        "name": "Майонез",
+        "description": "",
+        "price": 9.0
+      }
+    ]
+  },
+  "Курка": {
+    "icon": "meat",
+    "items": [
+      {
+        "id": 60,
+        "name": "9 Cтрiпсiв",
+        "description": "",
+        "price": 133.0
+      },
+      {
+        "id": 61,
+        "name": "9 Гострих Крилець",
+        "description": "",
+        "price": 133.0
+      },
+      {
+        "id": 62,
+        "name": "6 Cтрiпсiв",
+        "description": "",
+        "price": 98.0
+      },
+      {
+        "id": 63,
+        "name": "6 Гострих Крилець",
+        "description": "",
+        "price": 92.0
+      },
+      {
+        "id": 64,
+        "name": "4 ніжки гострих",
+        "description": "",
+        "price": 102.0
+      },
+      {
+        "id": 65,
+        "name": "4 нiжки®",
+        "description": "",
+        "price": 102.0
+      },
+      {
+        "id": 66,
+        "name": "Байтс Барбекю",
+        "description": "",
+        "price": 80.0
+      },
+      {
+        "id": 67,
+        "name": "Байтс Терiякi",
+        "description": "",
+        "price": 80.0
+      },
+      {
+        "id": 68,
+        "name": "3 Cтріпси теріяки",
+        "description": "",
+        "price": 67.0
+      },
+      {
+        "id": 69,
+        "name": "3 Стрiпси",
+        "description": "",
+        "price": 51.0
+      },
+      {
+        "id": 70,
+        "name": "3 Гострих Крилець",
+        "description": "",
+        "price": 51.0
+      },
+      {
+        "id": 71,
+        "name": "Байтс",
+        "description": "",
+        "price": 44.0
+      }
+    ]
+  },
+  "Бакети": {
+    "icon": "meat",
+    "items": [
+      {
+        "id": 72,
+        "name": "Бакет Л",
+        "description": "",
+        "price": 330.0
+      },
+      {
+        "id": 73,
+        "name": "Бакет М",
+        "description": "",
+        "price": 269.0
+      },
+      {
+        "id": 74,
+        "name": "Бакет С",
+        "description": "",
+        "price": 207.0
+      },
+      {
+        "id": 75,
+        "name": "Бакет Дует",
+        "description": "",
+        "price": 235.0
+      },
+      {
+        "id": 76,
+        "name": "Бакет Дует гострий",
+        "description": "",
+        "price": 235.0
+      },
+      {
+        "id": 77,
+        "name": "Сандер бакет",
+        "description": "",
+        "price": 81.0
+      },
+      {
+        "id": 78,
+        "name": "Сандер бакет гострий",
+        "description": "",
+        "price": 81.0
+      },
+      {
+        "id": 79,
+        "name": "Бакет 8 ніжок",
+        "description": "",
+        "price": 235.0
+      }
+    ]
+  }
 }
