@@ -7,20 +7,20 @@ export default function DeliveryItem(props) {
   let { item, quantity, vendorId, currentVendor, icon } = props
 
   return (
-    <div class='delivery-preview' style='display: flex; flex-direction: column;'>
+    <div class='delivery-preview'>
       {previewImage(item, icon)}
       <span class='split-line' />
-      <div class='row' style='margin: 10px 0 10px 0;justify-content: space-between; font-size: 2vh; width: 40vh;'>
-        <div style="width: 55%">
+      <div class='row item-container'>
+        <div class='info'>
           <div class='name'>{item.name}</div>
           <span class='description'>{item.description}</span>
         </div>
-        <div class='text-center' style='display: flex'>
-          <span class='split-line' style='border-left: 1px solid #ccc;' />
-          <b class='price' style='margin: 0 10px;'>{`${item.price} ${i18n.item_preview.uah}`}</b>
-          <span class='split-line' style='border-left: 1px solid #ccc;' />
+        <div class='text-center'>
+          <span class='split-line vertical' />
+          <b class='price'>{`${item.price} ${i18n.item_preview.uah}`}</b>
+          <span class='split-line vertical' />
         </div>
-        <div style="margin-left: auto;    width: 18%;">
+        <div class='add-btn'>
           {quantity && vendorId == currentVendor ? controlButtons(props) : addButton(props)}
         </div>
       </div>
@@ -50,5 +50,5 @@ function controlButtons(params) {
 }
 
 function previewImage(item, icon) {
-  return item.image ? <img src={item.image} /> : <div class="foo"><CategoryIcon icon={icon} /></div>
+  return item.image ? <img class='category-img' src={item.image} /> : <div class='category-icon'><CategoryIcon icon={icon} /></div>
 }

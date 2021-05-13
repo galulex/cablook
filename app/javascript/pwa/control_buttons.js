@@ -4,14 +4,14 @@ import Back from './images/arrow-left.svg'
 
 export default function ControlButtons(props) {
   return (
-    <div style="width: 100%; position: absolute; top: 45%;">
-      <button type='button' class='button burger white-opacity' style='top: 50%' data-action='prev' onClick={e => scrollToItem(e, props.section)}><Back /></button>
-      <button type='button' class='button burger white-opacity right-btn' style='top: 50%' data-action='next' onClick={e => scrollToItem(e, props.section)}><Back /></button>
+    <div class='control-section'>
+      <button type='button' class='button burger white-opacity' data-action='prev' onClick={e => scrollToItem(e, props.section)}><Back /></button>
+      <button type='button' class='button burger white-opacity right-btn' data-action='next' onClick={e => scrollToItem(e, props.section)}><Back /></button>
     </div>
   )
 }
 
-let scrollToItem = (e, section) => {
+function scrollToItem(e, section) {
   let positionCurrentContainer = section.scrollTop / section.offsetHeight
   let currentContainer = section.childNodes[positionCurrentContainer.toFixed()]
   let actions = { prev: '-', next: '+' }

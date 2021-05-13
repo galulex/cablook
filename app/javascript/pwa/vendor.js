@@ -3,18 +3,16 @@ import axios from 'axios';
 import { Link } from 'preact-router/match';
 import { route } from 'preact-router'
 
-import i18n from './i18n.js'
 import './css/vendor.css'
-import './css/vendors.css'
-import './css/category.css'
 import './css/delivery_navigation.css'
+import i18n from './i18n.js'
 import Category from './delivery/category.js'
 import ShoppingCart from './images/shopping-cart.svg'
 import Back from './images/arrow-left.svg'
 import Loader from './loader.js'
 import ControlButtons from './control_buttons.js'
 import Cart from './delivery/cart.js';
-import CategoryIcon from './delivery/category_icons.js'
+import DeliveryNavigation from './delivery/navigation.js';
 
 export default class Vendor extends Component {
   constructor(props) {
@@ -32,36 +30,20 @@ export default class Vendor extends Component {
     this.props.showBurger(false)
     this.checkCurrentDeliveryTrip()
     this.getVendorInfoAndItems()
-    this.tabsContent.addEventListener('scroll', this.onScroll, { passive: true })
   }
 
   componentWillUnmount() {
-    this.tabsContent.removeEventListener('scroll', this.onScroll, { passive: true })
     this.props.showBurger(true)
   }
 
-  onScroll = () => {
-    let scrollPercent = (this.tabsContent.scrollTop / this.tabsContent.scrollHeight) * 100
-    let activePosition = this.navigation.scrollWidth / 100 * scrollPercent
-    let positionCurrentContainer = this.tabsContent.scrollTop / this.tabsContent.offsetHeight
-    let currentNavTab = this.navigation.childNodes[(positionCurrentContainer + 1).toFixed()]
-    this.navigation.childNodes.forEach(e => e.classList.remove('active'))
-    currentNavTab.classList.add('active')
-
-    this.activeTab.style.left = `${activePosition}px`
-  }
-
   checkCurrentDeliveryTrip = () => {
-    const delivery_trip = JSON.parse(localStorage.getItem('delivery_trip'))
+    let delivery_trip = JSON.parse(localStorage.getItem('delivery_trip'))
 
     if (delivery_trip && delivery_trip.id) route('/delivery', true)
   }
 
   getVendorInfoAndItems = () => {
-    const { vendor_id } = this.state
-
-    axios.get(`vendors/${vendor_id}`).then((res) => {
-      // console.log(res.data)
+    axios.get(`vendors/${this.state.vendor_id}`).then((res) => {
       this.setState({ vendor: res.data, showLoader: false })
     }).catch((error) => {
       if (error.response) alert(error.response.data.errors)
@@ -73,11 +55,6 @@ export default class Vendor extends Component {
     this.props.showBurger()
     route('/delivery', true)
     history.back()
-  }
-
-  scrollTo = (e) => {
-    this.tabsContent.scroll({ top: document.getElementById(e.target.dataset.scroll).offsetTop - 70, behavior: 'smooth' })
-    e.stopPropagation()
   }
 
   addToCart = (item, vendorId) => {
@@ -123,8 +100,8 @@ export default class Vendor extends Component {
               <ShoppingCart class='cart' fill='#132d50' />
             </Link>
           </header>
-          <main1>
-            <section class={showLoader ? 'vendor-page hide' : 'vendor-page'} style='padding: 0' ref={el => this.tabsContent = el}>
+          <main-delivery>
+            <section class={showLoader ? 'vendor-page hide' : 'vendor-page'} ref={el => this.tabsContent = el}>
               {Object.keys(vendor.items).map((category, index) => {
                 if (category !== 'Гарячі Вина' && vendor.items[category].items.length > 0) return (
                   <Category
@@ -141,25 +118,10 @@ export default class Vendor extends Component {
                 )
               })}
             </section>
-          </main1>
+          </main-delivery>
           <ControlButtons section={this.tabsContent} />
         </div>
-        <nav-delivery class='delivery'>
-          <div class='tabs__container asd' style='width: 90vw;' ref={el => this.navigation = el}>
-            <div class='tab__active' ref={el => this.activeTab = el}></div>
-            {Object.keys(vendor.items).map((category, index) => {
-              return (
-                <div className={'bar ' + (index == 0 ? 'active' : '')}>
-                  <button data-scroll={'navigation_' + index} onClick={this.scrollTo} class='dev-btn'>
-                    <CategoryIcon icon={vendor.items[category].icon} />
-                    {category}
-                  </button>
-                  <span class='split-line' style='border-left: 1px solid #ccc; height: 50%;' />
-                </div>
-              )
-            })}
-          </div>
-        </nav-delivery>
+        {this.tabsContent && <DeliveryNavigation tabsContent={this.tabsContent} vendorItems={vendor.items} />}
       </div>
     )
   }

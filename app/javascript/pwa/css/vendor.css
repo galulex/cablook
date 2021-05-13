@@ -1,3 +1,16 @@
+.category__container {
+  height: 100%;
+}
+
+.split-line {
+  display: block;
+  border-top: 1px solid #ccc;
+}
+
+.split-line, .vertical {
+  border-left: 1px solid #ccc;
+}
+
 .vendor-page .load-background {
   position: absolute;
   top: 0;
@@ -20,6 +33,7 @@
 
 .vendor-page {
   scroll-snap-type: y mandatory;
+  padding: 0;
 }
 
 .wrap {
@@ -41,7 +55,7 @@
   padding: 0 30px;
 }
 
-main1 {
+main-delivery {
   width: 100%;
   overflow-y: auto;
   scroll-snap-type: x mandatory;

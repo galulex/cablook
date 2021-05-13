@@ -1,9 +1,20 @@
-@media only screen and (min-width: 1280px) {
-  button svg {
-    width: 35px !important;
-    height: 35px !important;
-    fill: var(--navy);
-  }
+.control-section {
+  width: 100%;
+  position: absolute;
+  top: 45%;
+}
+
+.right-btn {
+  right: 0;
+  left: auto !important;
+}
+
+.right-btn svg {
+  transform: rotate(180deg);
+}
+
+.control-section button {
+  top: 50%;
 }
 
 button svg {
@@ -59,17 +70,6 @@ nav-delivery .tabs__container {
   z-index: 100;
 }
 
-.foo {
-  display: flex;
-  align-items: center;
-  margin: 100px;
-}
-
-.foo svg path {
-  fill: gray !important;
-  filter: url(#inset-shadow);
-}
-
 .dev-btn {
   display: flex;
   flex-direction: column;
@@ -79,14 +79,18 @@ nav-delivery .tabs__container {
 }
 
 .tabs__container .active button {
-  color: var(--white) !important;
-  font-weight: 700 !important;
+  color: var(--white);
+  font-weight: 700;
 }
 
-.bar {
+.category__item {
   display: flex;
   align-items: center;
   width: 150px;
+}
+
+.tabs__container, .navigation {
+  width: 90vw;
 }
 
 @media only screen and (min-width: 1280px) {
@@ -95,10 +99,14 @@ nav-delivery .tabs__container {
     padding: 20px 0;
     width: 300px;
   }
-  .bar {
+  .category__item {
     width: 300px;
   }
   .delivery .tab__active {
     width: 300px;
+  }
+  button svg {
+    width: 40px;
+    height: 40px;
   }
 }

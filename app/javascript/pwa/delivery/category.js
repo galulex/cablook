@@ -6,7 +6,7 @@ export default function Category(props) {
   let { items, categoryId, cart, addToCart, removeFromCart, vendor, inCart, icon } = props
 
   return (
-    <div class="wrap" id={"navigation_" + categoryId} style='height: 100%'>
+    <div class="wrap category__container" id={"navigation_" + categoryId}>
       {items.map((item, index) => (
         <div class="test" id={"item_" + index}>
           <DeliveryItem
