@@ -17,6 +17,16 @@ describe Events::Trips::Accept do
     it { is_expected.to change { trip.reload.driver_id}.to(driver.id) }
     it { is_expected.to change { driver.car.reload.status }.to('during_trip') }
 
+    context 'when driver set start time' do
+      let(:data) { { trip_id: trip.id, driver_id: driver.id, car_id: driver.car_id, trip_duration: '20' } }
+      let(:time_now) { Time.now }
+      let(:trip_start) { time_now + 20.minutes }
+
+      before { allow(Time).to receive(:now).and_return(time_now) }
+
+      it { is_expected.to change(Trip.where(start_at: trip_start), :count).by(+1) }
+    end
+
     context 'when trip was accepted' do
       let(:trip) { create(:trip, status: Constants::Trip::ON_THE_WAY, user_id: user.id) }
 

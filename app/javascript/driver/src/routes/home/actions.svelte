@@ -20,6 +20,7 @@
   let name = 'disabled'
   let disabledButton = false
   let tripDuration = ''
+  let timeDurationRange = [duration, 5, 10, 15, 20, 25]
 
   onMount(() => {
     countdown()
@@ -142,7 +143,7 @@
       <label>{trip.start_time}</label>
     {:else}
       <select on:change="{e => tripDuration = e.target.value}">
-        {#each [duration, 5, 10, 15, 20, 25] as timeDuration}
+        {#each timeDurationRange as timeDuration}
           <option value={timeDuration}>{timeDuration}</option>
         {/each}
       </select>
