@@ -17,16 +17,6 @@ describe Events::Trips::Accept do
     it { is_expected.to change { trip.reload.driver_id}.to(driver.id) }
     it { is_expected.to change { driver.car.reload.status }.to('during_trip') }
 
-    context 'when driver set start time' do
-      let(:data) { { trip_id: trip.id, driver_id: driver.id, car_id: driver.car_id, trip_duration: '20' } }
-      let(:time_now) { Time.now }
-      let(:trip_start) { time_now + 20.minutes }
-
-      before { allow(Time).to receive(:now).and_return(time_now) }
-
-      it { is_expected.to change(Trip.where(start_at: trip_start), :count).by(+1) }
-    end
-
     context 'when trip was accepted' do
       let(:trip) { create(:trip, status: Constants::Trip::ON_THE_WAY, user_id: user.id) }
 
@@ -156,6 +146,26 @@ describe Events::Trips::Accept do
 
           it { expect(trip.reload.start_at.change(sec: 0).to_s).to eq(16.minutes.since.change(sec: 0).to_s) }
         end
+      end
+    end
+
+    context 'when driver set start time' do
+      let(:data) { { trip_id: trip.id, driver_id: driver.id, car_id: driver.car_id, trip_duration: '20' } }
+      let(:time_now) { Time.now }
+      let(:trip_start) { time_now + 20.minutes }
+
+      before { allow(Time).to receive(:now).and_return(time_now) }
+
+      it { is_expected.to change(Trip.where(start_at: trip_start), :count).by(+1) }
+
+      context 'with empty trip duration param' do
+        let(:data) { { trip_id: trip.id, driver_id: driver.id, car_id: driver.car_id, trip_duration: '' } }
+        let(:trip_start_at) { time_now + 9.minutes }
+
+        before { allow_any_instance_of(OsrmDirections).to receive(:duration).and_return(300) }
+
+        it { is_expected.to change(Trip.where(start_at: trip_start_at), :count).by(+1) }
+        it { is_expected.to change(Trip.where(start_at: trip_start), :count).by(0) }
       end
     end
   end
