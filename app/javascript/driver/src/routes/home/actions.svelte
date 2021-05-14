@@ -127,8 +127,10 @@
   }
 
   select {
-    width: 30%;
+    width: 60%;
     text-align-last: center;
+    padding: 5px 10px;
+    background-position: right 19px top 50%, right 15px top 50%;
   }
 </style>
 
