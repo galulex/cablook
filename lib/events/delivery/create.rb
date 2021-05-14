@@ -36,7 +36,7 @@ module Events
 
       def create_trip!
         trip = Events::Trips::Create.(trip_params)
-        Presenters::Trips::Single.new(trip).to_json
+        Presenters::Trips::Single.new(trip).as_json.merge(valid: true)
       end
 
       def trip_params
