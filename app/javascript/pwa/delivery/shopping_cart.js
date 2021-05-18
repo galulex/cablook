@@ -90,7 +90,7 @@ export default class ShoppingCart extends Component {
   }
 
   renderCard = (card) => {
-    return (<option value={card.id} key={card.id}>{card.pan} - {card.type}</option>)
+    return <option value={card.id} key={card.id}>{card.pan} - {card.type}</option>
   }
 
   calculateTotalPrice = () => {
@@ -181,10 +181,7 @@ export default class ShoppingCart extends Component {
   sendOrderRequest = (order) => {
     axios.post('delivery', { order }).then((res) => {
       if (res.statusText == 'Created' && res.data.valid) {
-        this.updateDeliveryTrip(res.data)
         this.setState({ showLoader: false })
-        localStorage.setItem('delivery_items', localStorage.getItem('cart'))
-        localStorage.setItem('delivery_time', this.state.trip_time)
         localStorage.removeItem('cart')
         this.vibrate()
         this.comment.disabled = false
@@ -223,10 +220,6 @@ export default class ShoppingCart extends Component {
     }).catch((error) => {
       if (error.response) alert(error.response.data.errors)
     })
-  }
-
-  updateDeliveryTrip = (delivery_trip) => {
-    localStorage.setItem('delivery_trip', JSON.stringify(delivery_trip))
   }
 
   handleBack = () => {

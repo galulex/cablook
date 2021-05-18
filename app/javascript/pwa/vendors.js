@@ -1,12 +1,9 @@
 import { h, render, Component } from 'preact'
 import axios from 'axios'
-import { Router } from 'preact-router'
 import { FINISHED, CANCELED, CANCELED_BY_DRIVER, DECLINED } from './constants.js'
 import i18n from './i18n.js'
 import './css/vendors.css'
 import VendorPreview from './vendor_preview.js'
-import Vendor from './vendor.js'
-import Loader from './loader.js'
 import CurrentDeliveryTrip from './current_delivery_trip.js'
 
 export default class Vendors extends Component {
