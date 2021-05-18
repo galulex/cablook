@@ -79,7 +79,7 @@ nav-delivery .tabs__container {
 }
 
 .tabs__container .active button {
-  color: var(--white);
+  color: white;
   font-weight: 700;
 }
 

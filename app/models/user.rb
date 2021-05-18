@@ -44,6 +44,11 @@ class User < ApplicationRecord
     Presenters::Trips::Detailed.new(trip).as_json if trip
   end
 
+  def current_delivery_trip
+    trip = trips.includes(:order, :payments).where.not(orders: { trip_id: nil }).find_by(status: Constants::Trip::DELIVERY_TRIP_STATUSES)
+    Presenters::Trips::DetailedDeliveryTrip.new(trip).as_json if trip
+  end
+
   private
 
   def generate_referral

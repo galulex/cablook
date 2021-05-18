@@ -52,18 +52,15 @@ export default class Cart extends Component {
 
   componentDidMount() {
     this.props.showBurger(false)
-    this.checkCurrentDeliveryTrip()
     this.getCards()
+  }
+
+  componentDidUpdate() {
+    if (this.props.delivery_trip?.id) route('/delivery', true)
   }
 
   componentWillReceiveProps() {
     this.getCards()
-  }
-
-  checkCurrentDeliveryTrip = () => {
-    const delivery_trip = JSON.parse(localStorage.getItem('delivery_trip'))
-
-    if (delivery_trip && delivery_trip.id) route('/delivery', true)
   }
 
   vibrate = () => {
@@ -123,7 +120,6 @@ export default class Cart extends Component {
     axios.post('trips/new', {trip: params}).then((res) => {
       let trip = res.data
       trip.delivery = true
-      localStorage.setItem('delivery_trip', JSON.stringify(trip))
       this.setState({ trip_cost: trip.cost, showLoader: false })
     }).catch((error) => {
       if (error.response) alert(error.response.data.errors)
@@ -199,7 +195,6 @@ export default class Cart extends Component {
       url: params.id ? `trips/${params.id}` : 'trips',
       data: { trip: params }
     }).then((res) => {
-      this.updateDeliveryTrip(res.data)
       this.setState({ showLoader: false })
       localStorage.setItem('delivery_items', localStorage.getItem('cart'))
       localStorage.setItem('delivery_time', this.state.trip_time)
@@ -266,10 +261,6 @@ export default class Cart extends Component {
     }).catch((error) => {
       if (error.response) alert(error.response.data.errors)
     })
-  }
-
-  updateDeliveryTrip = (delivery_trip) => {
-    localStorage.setItem('delivery_trip', JSON.stringify(delivery_trip))
   }
 
   handleBack = () => {

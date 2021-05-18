@@ -37,6 +37,7 @@
 
 .delivery-preview .price {
   margin: 0 10px;
+  color: var(--font_color_1);
 }
 
 .text-center {
@@ -154,6 +155,7 @@
 
 .delivery-preview .item-container .info {
   width: 55%;
+  color: var(--font_color_1);
 }
 
 .delivery-preview .add-btn {

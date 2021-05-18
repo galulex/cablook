@@ -28,18 +28,15 @@ export default class Vendor extends Component {
 
   componentDidMount() {
     this.props.showBurger(false)
-    this.checkCurrentDeliveryTrip()
     this.getVendorInfoAndItems()
+  }
+
+  componentDidUpdate() {
+    if (this.props.delivery_trip?.id) route('/delivery', true)
   }
 
   componentWillUnmount() {
     this.props.showBurger(true)
-  }
-
-  checkCurrentDeliveryTrip = () => {
-    let delivery_trip = JSON.parse(localStorage.getItem('delivery_trip'))
-
-    if (delivery_trip && delivery_trip.id) route('/delivery', true)
   }
 
   getVendorInfoAndItems = () => {
@@ -81,7 +78,7 @@ export default class Vendor extends Component {
   }
 
   render() {
-    const { vendor, cart, showLoader } = this.state
+    let { vendor, cart, showLoader } = this.state
 
     return (
       <div class='general__holder' style="flex-direction: column">

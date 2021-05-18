@@ -100,7 +100,8 @@ export default class App extends Component {
       isScrollNegative: false,
       activateFeedback: false,
       isBurgerShowing: true,
-      cashbackAmount: null
+      cashbackAmount: null,
+      currentDeliveryTrip: null
     }
     axios.defaults.headers.common['Pwa-Language'] = this.state.language
   }
@@ -267,7 +268,8 @@ export default class App extends Component {
         parent_bonus: res.data.parent_bonus || [],
         cashbackAmount: res.data.cashback/100,
         currentUserID: res.data.id,
-        currentTrip: res.data.current_trip
+        currentTrip: res.data.current_trip,
+        currentDeliveryTrip: res.data.current_delivery_trip
       })
     }).catch((error) => {
       if (error.response) alert(error.response.data.errors)
@@ -390,8 +392,8 @@ export default class App extends Component {
   }
 
   render() {
-    const { currentTrip, isGeocoding, availableBonusTrips,
-            cards, language, bonus_trips, favorite_addresses } = this.state
+    const { currentTrip, isGeocoding, availableBonusTrips, cards,
+            language, bonus_trips, favorite_addresses, currentDeliveryTrip } = this.state
 
     if (this.state.currentUser) {
       return(
@@ -454,10 +456,13 @@ export default class App extends Component {
             <Vendors path='/delivery'
               setCurrentTrip={this.setCurrentTrip}
               showBurger={this.showBurger}
+              delivery_trip={currentDeliveryTrip}
+              fetchUser={this.fetchUser}
             />
             <Vendor path='/delivery/:id'
               setCurrentTrip={this.setCurrentTrip}
               showBurger={this.showBurger}
+              delivery_trip={currentDeliveryTrip}
             />
             <NotFound type='404' default />
             <Cart path='/delivery/cart'
@@ -475,6 +480,7 @@ export default class App extends Component {
               setGeocoding={this.setGeocoding}
               showBurger={this.showBurger}
               updateCards={this.updateCards}
+              delivery_trip={currentDeliveryTrip}
             />
             <Family path='/family' cards={cards} />
           </Router>

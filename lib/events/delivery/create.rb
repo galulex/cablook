@@ -44,7 +44,7 @@ module Events
       end
 
       def additional_params
-        { user_id: data[:user_id], osrm: true, order_id: @order[:order_id], time: data[:trip_time] }.merge(comment)
+        { user_id: data[:user_id], osrm: true, order_id: order[:order_id], time: data[:trip_time], delivery: true }.merge(comment)
       end
 
       def comment

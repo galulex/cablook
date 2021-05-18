@@ -9,7 +9,7 @@ module Api
 
     def show
       if items
-        render json: vendor.as_json(methods: %i[status open_time close_time name_slug all_day]).merge({ items: items }), status: 200
+        render json: vendor.as_json(methods: %i[status open_time close_time name_slug all_day]).merge(items: items), status: 200
       else
         render json: { errors: I18n.t('vendors.vendor_unavailable') }.to_json, status: 418
       end

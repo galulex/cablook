@@ -48,20 +48,24 @@ export default class ShoppingCart extends Component {
       showLoader: false,
       isLoaded: false,
       vendor_closed: cart.vendor_status === 'close',
-      cart: JSON.parse(localStorage.getItem('cart'))
+      cart: JSON.parse(localStorage.getItem('cart')),
+      deliveryTrip: null
     }
     this.calculateTotalPrice()
   }
 
   componentDidMount() {
     this.props.showBurger(false)
-    this.checkCurrentDeliveryTrip()
     this.getCards()
     this.getVendorInfo()
   }
 
   componentWillReceiveProps() {
     this.getCards()
+  }
+
+  componentDidUpdate() {
+    if (this.props.delivery_trip?.id) route('/delivery', true)
   }
 
   getVendorInfo = () => {
@@ -71,12 +75,6 @@ export default class ShoppingCart extends Component {
       if (error.response) alert(error.response.data.errors)
       if (error.response.status === 418) route('/delivery', true)
     });
-  }
-
-  checkCurrentDeliveryTrip = () => {
-    const delivery_trip = JSON.parse(localStorage.getItem('delivery_trip'))
-
-    if (delivery_trip && delivery_trip.id) route('/delivery', true)
   }
 
   vibrate = () => {
@@ -123,8 +121,7 @@ export default class ShoppingCart extends Component {
     axios.get('delivery/new', { params }).then((res) => {
       let trip = res.data
       trip.delivery = true
-      localStorage.setItem('delivery_trip', JSON.stringify(trip))
-      this.setState({ showLoader: false, trip_cost: res.data.cost })
+      this.setState({ showLoader: false, trip_cost: res.data.cost, deliveryTrip: trip })
     }).catch((error) => {
       if (error.response) alert(error.response.data.errors)
     })
@@ -166,7 +163,7 @@ export default class ShoppingCart extends Component {
   }
 
   tripParams = () => {
-    let deliveryTrip = JSON.parse(localStorage.getItem('delivery_trip'))
+    let { deliveryTrip } = this.state
     return (
       {
         departure: deliveryTrip.departure.join(','),

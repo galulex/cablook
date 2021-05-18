@@ -46,7 +46,7 @@
   color: var(--white);
   background: #19a160;
   background: var(--navy);
-  box-shadow: 5px 3px 12px var(--shadow_color), inset -2px -2px 5px 1px var(--shadow_color);  
+  box-shadow: 5px 3px 12px var(--shadow_color), inset -2px -2px 5px 1px var(--shadow_color);
 }
 
 .button.navy:hover {
