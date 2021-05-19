@@ -6,6 +6,7 @@ describe Events::Delivery::Create do
       allow_any_instance_of(Events::Orders::Create).to receive(:hold_money) { payment_status }
       allow_any_instance_of(Events::Orders::Create).to receive(:items) { vendor_items }
       allow_any_instance_of(Events::Orders::Create).to receive(:create_order_payment) { true }
+      allow_any_instance_of(Events::Trips::Create).to receive(:assign_trip_to_order_payment) { true }
     end
 
     let(:payment_status) { { 'reasonCode' => Constants::Payments::WAYFORPAY_SUCCESS } }
