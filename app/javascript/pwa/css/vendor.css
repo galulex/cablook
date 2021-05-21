@@ -32,7 +32,8 @@
 }
 
 .vendor-page {
-  scroll-snap-type: y mandatory;
+  scroll-snap-type: both mandatory;
+  -webkit-scroll-snap-type: both mandatory;
   padding: 0;
 }
 
@@ -46,13 +47,13 @@
 }
 
 .test {
-  width: 100%;
+  /* width: 100%; */
   scroll-snap-align: start;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding-bottom: 115px;
-  padding: 0 30px;
+  padding-bottom: 70px;
+  /* padding: 0 30px; */
 }
 
 main-delivery {

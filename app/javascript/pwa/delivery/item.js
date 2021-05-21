@@ -7,24 +7,20 @@ export default function DeliveryItem(props) {
   let { item, quantity, vendorId, currentVendor, icon } = props
 
   return (
-    <div class='delivery-preview'>
+    <div class='delivery-preview' style="width: 100vw; max-width: 540px;">
       {previewImage(item, icon)}
-      <span class='split-line' />
       <div class='row item-container'>
         <div class='info'>
           <div class='name'>{item.name}</div>
           <span class='description'>{item.description}</span>
         </div>
         <div class='text-center'>
-          <span class='split-line vertical' />
           <b class='price'>{`${item.price} ${i18n.item_preview.uah}`}</b>
-          <span class='split-line vertical' />
         </div>
         <div class='add-btn'>
           {quantity && vendorId == currentVendor ? controlButtons(props) : addButton(props)}
         </div>
       </div>
-      <span class='split-line' />
     </div>
   )
 }
@@ -32,7 +28,7 @@ export default function DeliveryItem(props) {
 function addButton(params) {
   let { item, addToCart, vendorId } = params
 
-  return <button class='button green add-to-cart-button' onClick={() => addToCart(item, vendorId)} style='font-size: xxx-large; padding: unset;'>+</button>
+  return <button class='button green add-to-cart-button' onClick={() => addToCart(item, vendorId)}>+</button>
 }
 
 function controlButtons(params) {
@@ -50,5 +46,5 @@ function controlButtons(params) {
 }
 
 function previewImage(item, icon) {
-  return item.image ? <img class='category-img' src={item.image} /> : <div class='category-icon'><CategoryIcon icon={icon} /></div>
+  return item.image ? <div class="qwe"><img class='category-img' src={item.image} /></div> : <div class='category-icon'><CategoryIcon icon={icon} /></div>
 }

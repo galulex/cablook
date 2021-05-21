@@ -9,7 +9,6 @@
   padding: 4% 3%;
 }
 
-
 .item-preview .col-4 {
   width: 40%;
 }
@@ -43,8 +42,8 @@
 .button.add-to-cart-button {
   transition: none;
   margin-bottom: 0;
-  font-size: 50%;
-  padding: 20% 0;
+  font-size: 4vh;
+  padding: 1% 0;
 }
 
 .button.plus-button {

@@ -37,7 +37,7 @@ nav-delivery.delivery {
   align-items: center;
   width: auto;
   border-radius: 15px;
-  background: inherit;
+  background: white;
   box-shadow: inset 3px 2px 8px var(--shadow_color), inset -2px -1px 4px var(--white);
 }
 
@@ -56,7 +56,7 @@ nav-delivery.delivery button {
   background: inherit;
   outline: none;
   transition: .1s ease-in-out;
-  scroll-snap-align: start;
+  /* scroll-snap-align: start; */
 }
 
 .delivery .tab__active {
