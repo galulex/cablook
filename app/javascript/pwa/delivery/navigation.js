@@ -12,40 +12,35 @@ export default function DeliveryNavigation(props) {
   })
 
   let onScroll = () => {
-    let navigationContainer = document.querySelector("[data-navigation='container']")
     let scrollPercent = (tabsContent.scrollTop / tabsContent.scrollHeight) * 100
-    let activePosition = navigationContainer.scrollWidth / 100 * scrollPercent
-    let positionCurrentContainer = tabsContent.scrollTop / tabsContent.offsetHeight
-    let currentNavTab = navigationContainer.childNodes[(positionCurrentContainer + 1).toFixed()]
+    let gradientBg = `linear-gradient(90deg, transparent ${scrollPercent}%, #19a160 ${scrollPercent}%, #19a160 calc(${scrollPercent}% + 300px), transparent ${scrollPercent + 8}%)`
 
-    navigationContainer.childNodes.forEach(e => e.classList.remove('active'))
-    currentNavTab.classList.add('active')
-    document.querySelector("[data-navigation='active']").style.left = `${activePosition}px`
+    document.querySelector("[data-categories='wrap']").style.background = gradientBg
   }
 
-  let scrollTo = (e) => {
-    tabsContent.scroll({ top: document.getElementById(e.target.dataset.scroll).offsetTop - 70, behavior: 'smooth' })
+  let scrollTo = (e, index) => {
+    tabsContent.scroll({ top: document.getElementById('navigation_' + index).offsetTop - 70, behavior: 'smooth' })
     e.stopPropagation()
   }
 
   return (
-    <nav-delivery class='delivery'>
+    <nav class='delivery'>
       <div class='tabs__container navigation' data-navigation='container'>
-        <div class='tab__active' data-navigation='active'></div>
-        {Object.keys(vendorItems).map((category, index) => { return vendorCategory(vendorItems, category, index, scrollTo) })}
+        <div class='categories' data-categories='wrap'>
+          {Object.keys(vendorItems).map((category, index) => { return vendorCategory(vendorItems, category, index, scrollTo) })}
+        </div>
       </div>
-    </nav-delivery>
+    </nav>
   )
 }
 
 function vendorCategory(vendorItems, category, index, scrollTo) {
   return (
-    <div className={'category__item' + (index == 0 ? ' active' : '')}>
-      <button data-scroll={'navigation_' + index} class='dev-btn' onClick={scrollTo}>
+    <div className={'category__item' + (index == 0 ? '' : '')}>
+      <button data-scroll={'navigation_' + index} class='navigate-btn' onClick={(e) => scrollTo(e, index)}>
         <CategoryIcon icon={vendorItems[category].icon} />
         {category}
       </button>
-      <span class='split-line vertical' style='height: 50%;' />
     </div>
   )
 }

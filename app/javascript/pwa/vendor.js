@@ -87,7 +87,7 @@ export default class Vendor extends Component {
           <button
             type='button'
             class='button burger white-opacity'
-            onClick={(e) => this.handleBack()}>
+            onClick={() => this.handleBack()}>
             <Back />
           </button>
           <header style="z-index: 100">
@@ -100,7 +100,7 @@ export default class Vendor extends Component {
           <main-delivery>
             <section class={showLoader ? 'vendor-page hide' : 'vendor-page'} ref={el => this.tabsContent = el}>
               {Object.keys(vendor.items).map((category, index) => {
-                if (category !== 'Гарячі Вина' && vendor.items[category].items.length > 0) return (
+                if (vendor.items[category].items.length > 0) return (
                   <Category
                     key={index}
                     categoryId={index}

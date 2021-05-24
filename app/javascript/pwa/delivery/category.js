@@ -8,7 +8,7 @@ export default function Category(props) {
   return (
     <div class="wrap category__container" id={"navigation_" + categoryId}>
       {items.map((item, index) => (
-        <div class="test" id={"item_" + index}>
+        <div class="delivery-item" id={"item_" + index}>
           <DeliveryItem
             inCart={inCart}
             quantity={itemQuantity(item, cart)}
