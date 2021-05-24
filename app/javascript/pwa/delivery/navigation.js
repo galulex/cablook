@@ -12,45 +12,35 @@ export default function DeliveryNavigation(props) {
   })
 
   let onScroll = () => {
-    let navigationContainer = document.querySelector("[data-navigation='container']")
     let scrollPercent = (tabsContent.scrollTop / tabsContent.scrollHeight) * 100
-    let activePosition = navigationContainer.scrollWidth / 100 * scrollPercent
-    let positionCurrentContainer = tabsContent.scrollTop / tabsContent.offsetHeight
-    let currentNavTab = navigationContainer.childNodes[(positionCurrentContainer + 1).toFixed()]
-    let tabActive = document.querySelector("[data-navigation='active']")
+    let gradientBg = `linear-gradient(90deg, transparent ${scrollPercent}%, #19a160 ${scrollPercent}%, #19a160 calc(${scrollPercent}% + 300px), transparent ${scrollPercent + 8}%)`
 
-    navigationContainer.scroll({ left: activePosition, behavior: 'smooth' })
-    // if (!isInViewport(tabActive)) {
-    // if (this.state.iosVersion && this.state.iosVersion > 12) {
-    // tabActive.style.left = `${activePosition}px`
-    tabActive.style.transform = `translate(${activePosition}px, 0)`
-    navigationContainer.childNodes.forEach(e => e.classList.remove('active'))
-    currentNavTab.classList.add('active')
+    document.querySelector("[data-categories='wrap']").style.background = gradientBg
   }
 
   let scrollTo = (e, index) => {
-    tabsContent.scroll({ top: document.getElementById('navigation_' + index).offsetTop - 70 })
+    tabsContent.scroll({ top: document.getElementById('navigation_' + index).offsetTop - 70, behavior: 'smooth' })
     e.stopPropagation()
   }
 
   return (
-    <nav-delivery class='delivery'>
+    <nav class='delivery'>
       <div class='tabs__container navigation' data-navigation='container'>
-        <div class='tab__active' data-navigation='active' style='z-index: 10'></div>
-        {Object.keys(vendorItems).map((category, index) => { return vendorCategory(vendorItems, category, index, scrollTo) })}
+        <div class='categories' data-categories='wrap'>
+          {Object.keys(vendorItems).map((category, index) => { return vendorCategory(vendorItems, category, index, scrollTo) })}
+        </div>
       </div>
-    </nav-delivery>
+    </nav>
   )
 }
 
 function vendorCategory(vendorItems, category, index, scrollTo) {
   return (
-    <div className={'category__item' + (index == 0 ? ' active' : '')} style="z-index: 100">
-      <button data-scroll={'navigation_' + index} class='dev-btn' onClick={(e) => scrollTo(e, index)}>
+    <div className={'category__item' + (index == 0 ? '' : '')}>
+      <button data-scroll={'navigation_' + index} class='navigate-btn' onClick={(e) => scrollTo(e, index)}>
         <CategoryIcon icon={vendorItems[category].icon} />
         {category}
       </button>
-      <span class='split-line vertical' style='height: 50%;' />
     </div>
   )
 }

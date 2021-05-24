@@ -26,14 +26,13 @@ module Api
     end
 
     def items
-      @items = JSON.parse File.open('/home/den/Documents/programming/cablook/public/mcdonalds.json').read
-      # @items ||= begin
-      #   url = URI(vendor.api_url)
-      #   res = Net::HTTP.get(url)
-      #   ActiveSupport::JSON.decode(res)
-      # rescue StandardError
-      #   false
-      # end
+      @items ||= begin
+        url = URI(vendor.api_url)
+        res = Net::HTTP.get(url)
+        ActiveSupport::JSON.decode(res)
+      rescue StandardError
+        false
+      end
     end
   end
 end

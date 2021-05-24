@@ -7,7 +7,7 @@ export default function DeliveryItem(props) {
   let { item, quantity, vendorId, currentVendor, icon } = props
 
   return (
-    <div class='delivery-preview' style="width: 100vw; max-width: 540px;">
+    <div class='delivery-preview'>
       {previewImage(item, icon)}
       <div class='row item-container'>
         <div class='info'>
@@ -46,5 +46,5 @@ function controlButtons(params) {
 }
 
 function previewImage(item, icon) {
-  return item.image ? <div class="qwe"><img class='category-img' src={item.image} /></div> : <div class='category-icon'><CategoryIcon icon={icon} /></div>
+  return item.image ? <img class='category-img' src={item.image} /> : <div class='category-icon'><CategoryIcon icon={icon} /></div>
 }

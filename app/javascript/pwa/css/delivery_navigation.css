@@ -20,7 +20,7 @@
 button svg {
   width: 20px;
   height: 20px;
-  fill: var(--navy);
+  fill: var(--font_color_1);
 }
 
 .tabs__container .active button svg {
@@ -28,7 +28,7 @@ button svg {
   filter: url(#inset-shadow);
 }
 
-nav-delivery.delivery {
+nav.delivery {
   position: absolute;
   left: 10%;
   bottom: 35px;
@@ -37,17 +37,18 @@ nav-delivery.delivery {
   align-items: center;
   width: auto;
   border-radius: 15px;
-  background: white;
   box-shadow: inset 3px 2px 8px var(--shadow_color), inset -2px -1px 4px var(--white);
 }
 
-nav-delivery.delivery button {
+nav.delivery button {
   z-index: 100;
   min-width: 125px;
   height: auto;
   font-weight: 100;
   font-size: inherit;
-  color: var(--font_color_2);
+  color: var(--font_color_1);
+  text-shadow: 0 0 2px var(--font_color_1);
+  mix-blend-mode: color-burn;
   border: none;
   border-radius: inherit;
   transition: all .1s;
@@ -56,26 +57,35 @@ nav-delivery.delivery button {
   background: inherit;
   outline: none;
   transition: .1s ease-in-out;
-  /* scroll-snap-align: start; */
+  scroll-snap-align: start;
 }
 
-.delivery .tab__active {
-  width: 150px;
-  border-radius: 15px;
+nav.delivery .categories {
+  display: flex;
+  background: linear-gradient(90deg, #19a160 0%, #19a160 calc(0% + 300px), transparent calc(0% + 300px));
+  border-radius: 10px;
 }
 
-nav-delivery .tabs__container {
+nav .tabs__container {
   overflow-x: auto;
   scroll-snap-type: x mandatory;
   z-index: 100;
 }
 
-.dev-btn {
+.navigate-btn {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   width: 150px;
+}
+
+.navigate-btn::after {
+  content: ' ';
+  border-left: 1px solid #ccc;
+  position: absolute;
+  right: 0;
+  height: 50%;
 }
 
 .tabs__container .active button {
@@ -94,15 +104,12 @@ nav-delivery .tabs__container {
 }
 
 @media only screen and (min-width: 1280px) {
-  .dev-btn {
+  .navigate-btn {
     font-size: 30px;
     padding: 20px 0;
     width: 300px;
   }
   .category__item {
-    width: 300px;
-  }
-  .delivery .tab__active {
     width: 300px;
   }
   button svg {
