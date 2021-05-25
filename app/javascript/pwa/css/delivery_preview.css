@@ -187,8 +187,9 @@
     font-size: 75%;
     padding: 0;
   }
-  .delivery-preview .category-icon svg {
+  .delivery-preview .category-icon {
     width: 300px;
+    height: 300px;
   }
   .delivery-preview .category-icon img {
     max-width: 300px;

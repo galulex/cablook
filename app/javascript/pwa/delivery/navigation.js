@@ -4,6 +4,8 @@ import CategoryIcon from './category_icons.js'
 
 export default function DeliveryNavigation(props) {
   let { tabsContent, vendorItems } = props
+  let scrollEndTimeout
+
 
   useEffect(() => {
     tabsContent.addEventListener('scroll', onScroll, { passive: true })
@@ -12,10 +14,14 @@ export default function DeliveryNavigation(props) {
   })
 
   let onScroll = () => {
+    let navContainer = document.querySelector("[data-navigation='container']")
     let scrollPercent = (tabsContent.scrollTop / tabsContent.scrollHeight) * 100
-    let gradientBg = `linear-gradient(90deg, transparent ${scrollPercent}%, #19a160 ${scrollPercent}%, #19a160 calc(${scrollPercent}% + 300px), transparent ${scrollPercent + 8}%)`
 
-    document.querySelector("[data-categories='wrap']").style.background = gradientBg
+    document.documentElement.style.setProperty('--gradient-scroll-percent', `${scrollPercent}%`)
+    clearTimeout(scrollEndTimeout)
+    scrollEndTimeout = setTimeout(() => {
+      navContainer.scroll({left: navContainer.scrollWidth / 100 * scrollPercent , behavior: 'smooth'})
+    }, 100)
   }
 
   let scrollTo = (e, index) => {
@@ -24,11 +30,9 @@ export default function DeliveryNavigation(props) {
   }
 
   return (
-    <nav class='delivery'>
-      <div class='tabs__container navigation' data-navigation='container'>
-        <div class='categories' data-categories='wrap'>
-          {Object.keys(vendorItems).map((category, index) => { return vendorCategory(vendorItems, category, index, scrollTo) })}
-        </div>
+    <nav class='delivery' data-navigation='container'>
+      <div class='categories' data-categories='wrap'>
+        {Object.keys(vendorItems).map((category, index) => { return vendorCategory(vendorItems, category, index, scrollTo) })}
       </div>
     </nav>
   )
@@ -36,11 +40,9 @@ export default function DeliveryNavigation(props) {
 
 function vendorCategory(vendorItems, category, index, scrollTo) {
   return (
-    <div className={'category__item' + (index == 0 ? '' : '')}>
-      <button data-scroll={'navigation_' + index} class='navigate-btn' onClick={(e) => scrollTo(e, index)}>
-        <CategoryIcon icon={vendorItems[category].icon} />
-        {category}
-      </button>
-    </div>
+    <button data-scroll={'navigation_' + index} class='navigate-btn' onClick={(e) => scrollTo(e, index)}>
+      <CategoryIcon icon={vendorItems[category].icon} />
+      {category}
+    </button>
   )
 }

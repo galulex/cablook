@@ -7,7 +7,7 @@ import './css/vendor.css'
 import './css/delivery_navigation.css'
 import i18n from './i18n.js'
 import Category from './delivery/category.js'
-import ShoppingCart from './images/shopping-cart.svg'
+import ShoppingCart from './images/Shopping_cart.svg'
 import Back from './images/arrow-left.svg'
 import Loader from './loader.js'
 import ControlButtons from './control_buttons.js'
@@ -97,7 +97,7 @@ export default class Vendor extends Component {
               <ShoppingCart class='cart' fill='#132d50' />
             </Link>
           </header>
-          <main-delivery>
+          <main class='delivery'>
             <section class={showLoader ? 'vendor-page hide' : 'vendor-page'} ref={el => this.tabsContent = el}>
               {Object.keys(vendor.items).map((category, index) => {
                 if (vendor.items[category].items.length > 0) return (
@@ -115,7 +115,7 @@ export default class Vendor extends Component {
                 )
               })}
             </section>
-          </main-delivery>
+          </main>
           <ControlButtons section={this.tabsContent} />
         </div>
         {this.tabsContent && <DeliveryNavigation tabsContent={this.tabsContent} vendorItems={vendor.items} />}

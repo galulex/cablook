@@ -53,6 +53,9 @@ html lang="#{I18n.locale}"
         --green-hover-shadow: 2px 2px 5px var(--shadow_color), inset -2px -2px 5px 1px var(--shadow_color);
         --green-active-sahdow: inset 5px 5px 5px 1px var(--shadow_color), inset -2px -2px 5px 1px #4fb785;
         --minus-button-active-shadow: inset 2px 2px 5px 1px var(--shadow_color), inset -2px -2px 5px 1px var(--shadow_color);
+        --gradient-scroll-percent: 0%;
+        --gradient-active-bar: linear-gradient(90deg, transparent calc(var(--gradient-scroll-percent) - 3px), #19a160 var(--gradient-scroll-percent), #19a160 calc(var(--gradient-scroll-percent) + 150px), transparent calc(var(--gradient-scroll-percent) + 150px));
+        --gradient-active-bar-pc: linear-gradient(90deg, transparent calc(var(--gradient-scroll-percent) - 3px), #19a160 var(--gradient-scroll-percent), #19a160 calc(var(--gradient-scroll-percent) + 300px), transparent calc(var(--gradient-scroll-percent) + 300px));
       }
 
       html {

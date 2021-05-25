@@ -44,7 +44,7 @@
   padding-bottom: 70px;
 }
 
-main-delivery {
+main.delivery {
   width: 100%;
   overflow-y: auto;
   scroll-snap-type: x mandatory;
@@ -54,16 +54,18 @@ main-delivery {
   justify-content: center;
 }
 
-.tabs__container {
-  display: flex;
-}
-
-.wrap::-webkit-scrollbar, .tabs__container::-webkit-scrollbar {
+.wrap::-webkit-scrollbar, nav.delivery::-webkit-scrollbar {
   display: none;
 }
 
 section.vendor {
   padding: 0;
+}
+
+@media screen and (min-width: 768px) {
+  .vendor-page {
+    max-width: 88%;
+  }
 }
 
 @media only screen and (min-width: 1280px) {

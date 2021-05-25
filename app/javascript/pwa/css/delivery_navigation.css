@@ -23,7 +23,7 @@ button svg {
   fill: var(--font_color_1);
 }
 
-.tabs__container .active button svg {
+.delivery .active button svg {
   fill: white;
   filter: url(#inset-shadow);
 }
@@ -33,62 +33,60 @@ nav.delivery {
   left: 10%;
   bottom: 35px;
   top: auto;
-  display: flex;
   align-items: center;
-  width: auto;
-  border-radius: 15px;
   box-shadow: inset 3px 2px 8px var(--shadow_color), inset -2px -1px 4px var(--white);
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  z-index: 100;
+  border-radius: 10px;
+  display: flex;
+  width: 90vw;
 }
 
 nav.delivery button {
   z-index: 100;
-  min-width: 125px;
+  min-width: 150px;
   height: auto;
   font-weight: 100;
   font-size: inherit;
   color: var(--font_color_1);
-  text-shadow: 0 0 2px var(--font_color_1);
   mix-blend-mode: color-burn;
   border: none;
-  border-radius: inherit;
-  transition: all .1s;
   cursor: pointer;
   text-transform: capitalize;
-  background: inherit;
   outline: none;
   transition: .1s ease-in-out;
   scroll-snap-align: start;
+  background-color: var(--bg_gradient_color_1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  justify-content: center;
 }
 
 nav.delivery .categories {
   display: flex;
-  background: linear-gradient(90deg, #19a160 0%, #19a160 calc(0% + 300px), transparent calc(0% + 300px));
+  background: var(--gradient-active-bar);
   border-radius: 10px;
+  box-shadow: inset 3px 2px 8px var(--shadow_color), inset -2px -1px 4px var(--white);
 }
 
-nav .tabs__container {
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  z-index: 100;
-}
-
-.navigate-btn {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  width: 150px;
-}
-
-.navigate-btn::after {
+button.navigate-btn::after {
   content: ' ';
   border-left: 1px solid #ccc;
   position: absolute;
   right: 0;
   height: 50%;
+  top: auto;
+  bottom: 23%;
 }
 
-.tabs__container .active button {
+button.navigate-btn:last-child::after {
+  content: unset;
+}
+
+.delivery .active button {
   color: white;
   font-weight: 700;
 }
@@ -97,10 +95,6 @@ nav .tabs__container {
   display: flex;
   align-items: center;
   width: 150px;
-}
-
-.tabs__container, .navigation {
-  width: 90vw;
 }
 
 @media only screen and (min-width: 1280px) {
@@ -115,5 +109,14 @@ nav .tabs__container {
   button svg {
     width: 40px;
     height: 40px;
+  }
+  nav.delivery .categories {
+    background: var(--gradient-active-bar-pc);
+  }
+}
+
+@media screen and (max-width: 540px) {
+  section.vendor-page {
+    padding: unset;
   }
 }
