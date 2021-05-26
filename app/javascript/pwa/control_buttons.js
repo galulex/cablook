@@ -13,7 +13,7 @@ export default function ControlButtons(props) {
 
 function scrollToItem(e, section) {
   let positionCurrentContainer = section.scrollTop / section.offsetHeight
-  let currentContainer = section.childNodes[positionCurrentContainer.toFixed()]
+  let currentContainer = section.childNodes[positionCurrentContainer.toFixed()].firstElementChild
   let actions = { prev: '-', next: '+' }
 
   currentContainer.scrollTo({ left: eval(currentContainer.scrollLeft + actions[e.target.dataset.action] + currentContainer.offsetWidth), behavior: 'smooth' })

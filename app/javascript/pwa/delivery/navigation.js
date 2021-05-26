@@ -16,8 +16,10 @@ export default function DeliveryNavigation(props) {
   let onScroll = () => {
     let navContainer = document.querySelector("[data-navigation='container']")
     let scrollPercent = (tabsContent.scrollTop / tabsContent.scrollHeight) * 100
+    let wrap = document.querySelector("[data-categories='wrap']")
+    let gradientBg = `linear-gradient(90deg, transparent ${scrollPercent}%, #19a160 ${scrollPercent}%, #19a160 calc(${scrollPercent}% + ${wrap.firstElementChild.offsetWidth}px), transparent ${scrollPercent + 8}%)`
 
-    document.documentElement.style.setProperty('--gradient-scroll-percent', `${scrollPercent}%`)
+    wrap.style.background = gradientBg
     clearTimeout(scrollEndTimeout)
     scrollEndTimeout = setTimeout(() => {
       navContainer.scroll({left: navContainer.scrollWidth / 100 * scrollPercent , behavior: 'smooth'})

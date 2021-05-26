@@ -34,7 +34,6 @@ nav.delivery {
   bottom: 35px;
   top: auto;
   align-items: center;
-  box-shadow: inset 3px 2px 8px var(--shadow_color), inset -2px -1px 4px var(--white);
   overflow-x: auto;
   scroll-snap-type: x mandatory;
   z-index: 100;
@@ -63,17 +62,20 @@ nav.delivery button {
   align-items: center;
   position: relative;
   justify-content: center;
+  padding: 10px 0;
+  width: 150px;
+  border-radius: 10px;
 }
 
 nav.delivery .categories {
   display: flex;
-  background: var(--gradient-active-bar);
+  background: linear-gradient(90deg, #19a160 150px, #19a160 150px, transparent 150px);
   border-radius: 10px;
   box-shadow: inset 3px 2px 8px var(--shadow_color), inset -2px -1px 4px var(--white);
 }
 
 button.navigate-btn::after {
-  content: ' ';
+  content: '';
   border-left: 1px solid #ccc;
   position: absolute;
   right: 0;
@@ -98,7 +100,7 @@ button.navigate-btn:last-child::after {
 }
 
 @media only screen and (min-width: 1280px) {
-  .navigate-btn {
+  nav.delivery button {
     font-size: 30px;
     padding: 20px 0;
     width: 300px;
@@ -111,7 +113,7 @@ button.navigate-btn:last-child::after {
     height: 40px;
   }
   nav.delivery .categories {
-    background: var(--gradient-active-bar-pc);
+    background: linear-gradient(90deg, #19a160 300px, #19a160 300px, transparent 300px);
   }
 }
 

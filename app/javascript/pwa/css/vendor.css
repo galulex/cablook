@@ -25,6 +25,7 @@
 .vendor-page {
   scroll-snap-type: both mandatory;
   -webkit-scroll-snap-type: both mandatory;
+  max-width: 100%;
 }
 
 .wrap {
@@ -36,12 +37,18 @@
   width: 100%;
 }
 
+.category__scroll {
+  height: 100vh;
+  position: relative;
+  scroll-snap-align: start;
+}
+
 .delivery-item {
   scroll-snap-align: start;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding-bottom: 70px;
+  padding-bottom: 100px;
 }
 
 main.delivery {
@@ -64,12 +71,12 @@ section.vendor {
 
 @media screen and (min-width: 768px) {
   .vendor-page {
-    max-width: 88%;
+    padding: 0 300px;
   }
 }
 
 @media only screen and (min-width: 1280px) {
   .vendor-page {
-    max-width: 70%;
+    padding: 0 400px;
   }
 }
