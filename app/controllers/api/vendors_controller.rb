@@ -26,13 +26,15 @@ module Api
     end
 
     def items
-      @items ||= begin
-        url = URI(vendor.api_url)
-        res = Net::HTTP.get(url)
-        ActiveSupport::JSON.decode(res)
-      rescue StandardError
-        false
-      end
+      @items = File.exist?("#{Rails.public_path}/#{vendor.name.downcase}.json") ? JSON.parse(File.open("#{Rails.public_path}/#{vendor.name.downcase}.json").read) : json_api
+    end
+
+    def json_api
+      url = URI(vendor.api_url)
+      res = Net::HTTP.get(url)
+      ActiveSupport::JSON.decode(res)
+    rescue StandardError
+      false
     end
   end
 end
