@@ -6,13 +6,13 @@ export default function Category(props) {
   let { items, categoryId, cart, addToCart, removeFromCart, vendor, inCart, icon } = props
 
   return (
-    <div class="category__scroll">
-      <div class="wrap category__container" id={"navigation_" + categoryId}>
+    <div class="category__scroll" id={"navigation_" + categoryId}>
+      <div class="wrap category__container">
         {items.map((item, index) => (
           <div class="delivery-item" id={"item_" + index}>
             <DeliveryItem
               inCart={inCart}
-              quantity={itemQuantity(item, cart)}
+              quantity={cart.items[item.id]?.quantity}
               vendorId={vendor.id}
               currentVendor={cart.vendor_id}
               item={item}
@@ -24,8 +24,4 @@ export default function Category(props) {
       </div>
     </div>
   )
-}
-
-function itemQuantity(item, cart) {
-  if (Object.keys(cart.items).length > 0) return cart.items[item.id]?.quantity
 }

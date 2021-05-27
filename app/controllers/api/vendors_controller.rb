@@ -26,7 +26,8 @@ module Api
     end
 
     def items
-      @items = File.exist?("#{Rails.public_path}/#{vendor.name.downcase}.json") ? JSON.parse(File.open("#{Rails.public_path}/#{vendor.name.downcase}.json").read) : json_api
+      vendor_json_path = "#{Rails.public_path}/#{vendor.name.downcase}.json"
+      @items = File.exist?(vendor_json_path) ? JSON.parse(File.open(vendor_json_path).read) : json_api
     end
 
     def json_api
