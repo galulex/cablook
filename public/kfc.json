@@ -1,48 +1,55 @@
 {
-  "Комбо":{
+  "Комбо": {
     "icon": "menus",
     "items": [
       {
         "id": 1,
         "name": "Твістер Де Люкс меню",
         "description": "",
-        "price": 119.0
+        "price": 119.0,
+        "image": "https://imgur.com/IpV2wm8.png"
       },
       {
         "id": 2,
         "name": "Шефбургер Де Люкс меню",
         "description": "",
-        "price": 115.0
+        "price": 115.0,
+        "image": "https://imgur.com/bXdEeam.png"
       },
       {
         "id": 3,
         "name": "Шефбургер меню",
         "description": "",
-        "price": 115.0
+        "price": 115.0,
+        "image": "https://imgur.com/bXdEeam.png"
       },
       {
         "id": 4,
         "name": "Твістер меню",
         "description": "",
-        "price": 115.0
+        "price": 115.0,
+        "image": "https://imgur.com/TNxCgGj.png"
       },
       {
         "id": 5,
         "name": "Чізбургер де лю",
         "description": "",
-        "price": 108.0
+        "price": 108.0,
+        "image": "https://imgur.com/74IyMGd.png"
       },
       {
         "id": 6,
         "name": "Чізбургер меню",
         "description": "",
-        "price": 90.0
+        "price": 90.0,
+        "image": "https://imgur.com/j3PRiNU.png"
       },
       {
         "id": 7,
         "name": "Твicтер джуніор меню",
         "description": "",
-        "price": 90.0
+        "price": 90.0,
+        "image": "https://imgur.com/jiMIodr.png"
       }
     ]
   },
@@ -53,55 +60,71 @@
         "id": 8,
         "name": "Дабл Шефбургер гострий",
         "description": "",
-        "price": 100.0
+        "price": 100.0,
+        "image": "https://imgur.com/DsGfuFS.png"
       },
       {
         "id": 9,
         "name": "Дабл Шефбургер",
         "description": "",
-        "price": 100.0
+        "price": 100.0,
+        "image": "https://imgur.com/heq347E.png"
       },
       {
         "id": 10,
         "name": "Шефбургер Де Люкс оригінальний",
         "description": "",
-        "price": 71.0
+        "price": 71.0,
+        "image": "https://imgur.com/DC9uS7o.png"
       },
       {
         "id": 11,
         "name": "Шефбургер Де Люкс гострий",
         "description": "",
-        "price": 71.0
+        "price": 71.0,
+        "image": "https://imgur.com/DC9uS7o.png"
       },
       {
         "id": 12,
         "name": "Чізбургер де Люкс",
         "description": "",
-        "price": 64.0
+        "price": 64.0,
+        "image": "https://imgur.com/cdD0u1p.png"
       },
       {
         "id": 13,
         "name": "Шефбургер оригінальний",
         "description": "",
-        "price": 66.0
+        "price": 66.0,
+        "image": "https://imgur.com/DC9uS7o.png"
       },
       {
         "id": 14,
         "name": "Шефбургер гострий",
         "description": "",
-        "price": 66.0
+        "price": 66.0,
+        "image": "https://imgur.com/Pc2wrVS.png"
       },
       {
         "id": 15,
         "name": "Чізбургер",
         "description": "",
-        "price": 42.0
+        "price": 42.0,
+        "image": "https://imgur.com/z4EtIiV.png"
       },
       {
         "id": 16,
         "name": "Шефбургер Джуніор",
         "description": "",
-        "price": 47.0
+        "price": 47.0,
+        "image": "https://imgur.com/bGimH7w.png"
+      },
+      {
+        "id": 81,
+        "name": "Шефбургер Джуніор гострий",
+        "description": "",
+        "price": 47.0,
+        "image": "https://imgur.com/6jIqei3.png"
       }
     ]
   },
@@ -112,37 +135,43 @@
         "id": 17,
         "name": "Твістер Джуніор",
         "description": "",
-        "price": 47.0
+        "price": 47.0,
+        "image": "https://imgur.com/39hTtP8.png"
       },
       {
         "id": 18,
         "name": "Твістер оригінальний",
         "description": "",
-        "price": 74.0
+        "price": 74.0,
+        "image": "https://imgur.com/t7LvZiZ.png"
       },
       {
         "id": 19,
         "name": "Твістер гострій",
         "description": "",
-        "price": 74.0
+        "price": 74.0,
+        "image": "https://imgur.com/w0F91u7.png"
       },
       {
         "id": 20,
         "name": "Твістер Де Люкс оригінальний",
         "description": "",
-        "price": 80.0
+        "price": 80.0,
+        "image": "https://imgur.com/t7LvZiZ.png"
       },
       {
         "id": 21,
         "name": "Твістер Де Люкс гострий",
         "description": "",
-        "price": 80.0
+        "price": 80.0,
+        "image": "https://imgur.com/t7LvZiZ.png"
       },
       {
         "id": 22,
         "name": "Боксмайстер оригінальний",
         "description": "",
-        "price": 100.0
+        "price": 100.0,
+        "image": "https://imgur.com/uqWHIjD.png"
       }
     ]
   },
@@ -153,25 +182,29 @@
         "id": 23,
         "name": "Картопля Фрі стандарт",
         "description": "",
-        "price": 39.0
+        "price": 39.0,
+        "image": "https://imgur.com/D6JCtAy.png"
       },
       {
         "id": 24,
         "name": "Бакет кортоплі фрі",
         "description": "",
-        "price": 64.0
+        "price": 64.0,
+        "image": "https://imgur.com/aznqX1z.png"
       },
       {
         "id": 25,
         "name": "Каротопля по-селянськи",
         "description": "",
-        "price": 44.0
+        "price": 44.0,
+        "image": "https://imgur.com/DuW1mC9.png"
       },
       {
         "id": 26,
         "name": "Картопляники",
         "description": "",
-        "price": 20.0
+        "price": 20.0,
+        "image": "https://imgur.com/bcD4Zgm.png"
       }
     ]
   },
@@ -182,7 +215,8 @@
         "id": 27,
         "name": "Салат Чікен Спешл",
         "description": "",
-        "price": 77.0
+        "price": 77.0,
+        "image": "https://imgur.com/YNiXwa1.png"
       }
     ]
   },
@@ -193,25 +227,29 @@
         "id": 28,
         "name": "Пиріжок із вишнею",
         "description": "",
-        "price": 27.0
+        "price": 27.0,
+        "image": "https://imgur.com/39z8BSn.png"
       },
       {
         "id": 29,
         "name": "Донат Полуничний",
         "description": "",
-        "price": 37.0
+        "price": 37.0,
+        "image": "https://imgur.com/0j9socr.png"
       },
       {
         "id": 30,
-        "name": "Донат яблуко-коріця",
+        "name": "Донат яблуко-кориця",
         "description": "",
-        "price": 37.0
+        "price": 37.0,
+        "image": "https://imgur.com/a3WeAXO.png"
       },
       {
         "id": 31,
         "name": "Мафін з шоколодом",
         "description": "",
-        "price": 29.0
+        "price": 29.0,
+        "image": "https://imgur.com/Yq68WeK.png"
       }
     ]
   },
@@ -222,31 +260,36 @@
         "id": 32,
         "name": "Мілкшейк полуничний",
         "description": "",
-        "price": 42.0
+        "price": 42.0,
+        "image": "https://imgur.com/0KJz6sx.png"
       },
       {
         "id": 33,
         "name": "Мілкшейк шоколадно-горіховий",
         "description": "",
-        "price": 42.0
+        "price": 42.0,
+        "image": "https://imgur.com/pvYXZgc.png"
       },
       {
         "id": 34,
         "name": "Мілкшейк ванільний",
         "description": "",
-        "price": 42.0
+        "price": 42.0,
+        "image": "https://imgur.com/e5JCUWY.png"
       },
       {
         "id": 35,
         "name": "Морозиво",
         "description": "",
-        "price": 37.0
+        "price": 37.0,
+        "image": "https://imgur.com/7kzDtCy.png"
       },
       {
         "id": 36,
         "name": "Морозиво Lion",
         "description": "",
-        "price": 47.0
+        "price": 47.0,
+        "image": "https://imgur.com/u0WOA1r.png"
       }
     ]
   },
@@ -257,43 +300,50 @@
         "id": 37,
         "name": "Pepsi",
         "description": "",
-        "price": 31.0
+        "price": 31.0,
+        "image": "https://imgur.com/J2eOczN.png"
       },
       {
         "id": 38,
         "name": "Pepsi Max",
         "description": "",
-        "price": 31.0
+        "price": 31.0,
+        "image": "https://imgur.com/J2eOczN.png"
       },
       {
         "id": 39,
         "name": "Pepsi Max(Банка)",
         "description": "",
-        "price": 31.0
+        "price": 31.0,
+        "image": "https://imgur.com/J2eOczN.png"
       },
       {
         "id": 40,
         "name": "7Up",
         "description": "",
-        "price": 31.0
+        "price": 31.0,
+        "image": "https://imgur.com/fHuonR3.png"
       },
       {
         "id": 41,
         "name": "Мірінда",
         "description": "",
-        "price": 31.0
+        "price": 31.0,
+        "image": "https://imgur.com/5y3Mr8j.png"
       },
       {
         "id": 42,
         "name": "Холодний чай Ліптон",
         "description": "",
-        "price": 31.0
+        "price": 31.0,
+        "image": "https://imgur.com/C6jJ0tY.png"
       },
       {
         "id": 43,
         "name": "Сок",
         "description": "",
-        "price": 20.0
+        "price": 20.0,
+        "image": "https://imgur.com/RIAnVqH.png"
       }
     ]
   },
@@ -304,49 +354,57 @@
         "id": 44,
         "name": "Чай",
         "description": "",
-        "price": 26.0
+        "price": 26.0,
+        "image": "https://imgur.com/KP506ZA.png"
       },
       {
         "id": 45,
         "name": "Лате (300МЛ)",
         "description": "",
-        "price": 36.0
+        "price": 36.0,
+        "image": "https://imgur.com/WnioKrJ.png"
       },
       {
         "id": 46,
         "name": "Лате (400мл)",
         "description": "",
-        "price": 38.0
+        "price": 38.0,
+        "image": "https://imgur.com/KbPrguw.png"
       },
       {
         "id": 47,
         "name": "Капучіно (300мл)",
         "description": "",
-        "price": 36.0
+        "price": 36.0,
+        "image": "https://imgur.com/im1S59x.png"
       },
       {
         "id": 48,
         "name": "Капучіно (400мл)",
         "description": "",
-        "price": 38.0
+        "price": 38.0,
+        "image": "https://imgur.com/im1S59x.png"
       },
       {
         "id": 49,
         "name": "Американо (300мл)",
         "description": "",
-        "price": 26.0
+        "price": 26.0,
+        "image": "https://imgur.com/rr1cyfx.png"
       },
       {
         "id": 50,
         "name": "Американо (200мл)",
         "description": "",
-        "price": 34.0
+        "price": 34.0,
+        "image": "https://imgur.com/rr1cyfx.png"
       },
       {
         "id": 51,
         "name": "Еспресо",
         "description": "",
-        "price": 18.0
+        "price": 18.0,
+        "image": "https://imgur.com/2DkwPCp.png"
       }
     ]
   },
@@ -357,49 +415,57 @@
         "id": 52,
         "name": "Соус Кисло-солодкий",
         "description": "",
-        "price": 9.0
+        "price": 9.0,
+        "image": "https://imgur.com/s58tEAU.png"
       },
       {
         "id": 53,
         "name": "Соус Сирний",
         "description": "",
-        "price": 9.0
+        "price": 9.0,
+        "image": "https://imgur.com/lPvU40q.png"
       },
       {
         "id": 54,
         "name": "Соус Карі",
         "description": "",
-        "price": 9.0
+        "price": 9.0,
+        "image": "https://imgur.com/s58tEAU.png"
       },
       {
         "id": 55,
         "name": "Соус Гірчичний",
         "description": "",
-        "price": 9.0
+        "price": 9.0,
+        "image": "https://imgur.com/dQteAYR.png"
       },
       {
         "id": 56,
         "name": "Соус Барбекю",
         "description": "",
-        "price": 9.0
+        "price": 9.0,
+        "image": "https://imgur.com/4kLk9Qa.png"
       },
       {
         "id": 57,
         "name": "Соус Тартар",
         "description": "",
-        "price": 9.0
+        "price": 9.0,
+        "image": "https://imgur.com/eXKWqqH.png"
       },
       {
         "id": 58,
         "name": "Кетчуп",
         "description": "",
-        "price": 9.0
+        "price": 9.0,
+        "image": "https://imgur.com/hxXomZD.png"
       },
       {
         "id": 59,
         "name": "Майонез",
         "description": "",
-        "price": 9.0
+        "price": 9.0,
+        "image": "https://imgur.com/QtTsqdv.png"
       }
     ]
   },
@@ -410,73 +476,85 @@
         "id": 60,
         "name": "9 Cтрiпсiв",
         "description": "",
-        "price": 133.0
+        "price": 133.0,
+        "image": "https://imgur.com/5YaeHMu.png"
       },
       {
         "id": 61,
         "name": "9 Гострих Крилець",
         "description": "",
-        "price": 133.0
+        "price": 133.0,
+        "image": "https://imgur.com/BuRPMTe.png"
       },
       {
         "id": 62,
         "name": "6 Cтрiпсiв",
         "description": "",
-        "price": 98.0
+        "price": 98.0,
+        "image": "https://imgur.com/SkE4co0.png"
       },
       {
         "id": 63,
         "name": "6 Гострих Крилець",
         "description": "",
-        "price": 92.0
+        "price": 92.0,
+        "image": "https://imgur.com/pgsjFpi.png"
       },
       {
         "id": 64,
         "name": "4 ніжки гострих",
         "description": "",
-        "price": 102.0
+        "price": 102.0,
+        "image": "https://imgur.com/mogMPxE.png"
       },
       {
         "id": 65,
         "name": "4 нiжки®",
         "description": "",
-        "price": 102.0
+        "price": 102.0,
+        "image": "https://imgur.com/mogMPxE.png"
       },
       {
         "id": 66,
         "name": "Байтс Барбекю",
         "description": "",
-        "price": 80.0
+        "price": 80.0,
+        "image": "https://imgur.com/zdd4bna.png"
       },
       {
         "id": 67,
         "name": "Байтс Терiякi",
         "description": "",
-        "price": 80.0
+        "price": 80.0,
+        "image": "https://imgur.com/9txcvj2.png"
       },
       {
         "id": 68,
         "name": "3 Cтріпси теріяки",
         "description": "",
-        "price": 67.0
+        "price": 67.0,
+        "image": "https://imgur.com/5cqyDke.png"
       },
       {
         "id": 69,
         "name": "3 Стрiпси",
         "description": "",
-        "price": 51.0
+        "price": 51.0,
+        "image": "https://imgur.com/5YaeHMu.png"
       },
       {
         "id": 70,
         "name": "3 Гострих Крилець",
         "description": "",
-        "price": 51.0
+        "price": 51.0,
+        "image": "https://imgur.com/NVlSaUN.png"
       },
       {
         "id": 71,
         "name": "Байтс",
         "description": "",
-        "price": 44.0
+        "price": 44.0,
+        "image": "https://imgur.com/uItTWXm.png"
       }
     ]
   },
@@ -487,49 +565,64 @@
         "id": 72,
         "name": "Бакет Л",
         "description": "",
-        "price": 330.0
+        "price": 330.0,
+        "image": "https://imgur.com/M3ci4hg.png"
       },
       {
         "id": 73,
         "name": "Бакет М",
         "description": "",
-        "price": 269.0
+        "price": 269.0,
+        "image": "https://imgur.com/lb1hVW3.png"
       },
       {
         "id": 74,
         "name": "Бакет С",
         "description": "",
-        "price": 207.0
+        "price": 207.0,
+        "image": "https://imgur.com/THWO7Ql.png"
       },
       {
         "id": 75,
         "name": "Бакет Дует",
         "description": "",
-        "price": 235.0
+        "price": 235.0,
+        "image": "https://imgur.com/Ss4090r.png"
       },
       {
         "id": 76,
         "name": "Бакет Дует гострий",
         "description": "",
-        "price": 235.0
+        "price": 235.0,
+        "image": "https://imgur.com/Ss4090r.png"
       },
       {
         "id": 77,
         "name": "Сандер бакет",
         "description": "",
-        "price": 81.0
+        "price": 81.0,
+        "image": "https://imgur.com/6hKx1f4.png"
       },
       {
         "id": 78,
         "name": "Сандер бакет гострий",
         "description": "",
-        "price": 81.0
+        "price": 81.0,
+        "image": "https://imgur.com/6hKx1f4.png"
       },
       {
         "id": 79,
         "name": "Бакет 8 ніжок",
         "description": "",
-        "price": 235.0
+        "price": 235.0,
+        "image": "https://imgur.com/Ss4090r.png"
+      },
+      {
+        "id": 80,
+        "name": "Дiскаверi",
+        "description": "",
+        "price": 79.0,
+        "image": "https://imgur.com/R53DlTI.png"
       }
     ]
   }
