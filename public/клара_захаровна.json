@@ -1,0 +1,115 @@
+{
+  "Піца": { 
+    "icon": "pizza",
+    "items": [
+    {
+      "id":1,
+      "name":"Клара",
+      "price":"85",
+      "description":"соус пелаті, моцарела, базилік, помідори чері, пармезан",
+      "image":false,
+      "type":"dish",
+      "image": "https://imgur.com/KAvRm6P.png"
+    },
+    {
+      "id":2,
+      "name":"4 Полонини",
+      "price":"115",
+      "description":"соус пелаті, моцарела, пепероні, гриби гливи, грудинка м'ясна, французьке карпачо, огірок маринований",
+      "image":false,
+      "type":"dish",
+      "image": "https://imgur.com/TOk1mCk.png"
+    },
+    {
+      "id":3,
+      "name":"Не риба, а м'ясо",
+      "price":"118",
+      "description":"Пілаті, моцарела, бекон, помідори ",
+      "image":false,
+      "type":"dish",
+      "image": "https://imgur.com/vbTC64b.png"
+    },
+    {
+      "id":4,
+      "name":"Королівський гриб",
+      "price":"105",
+      "description":"вершковий соус, печериці, гриби гливи, моцарела, цибуля зелена",
+      "image":true,
+      "type":"dish",
+      "image": "https://imgur.com/q32uFWx.png"
+    },
+    {
+      "id":5,
+      "name":"Пепероні",
+      "price":"115",
+      "description":"соус пелаті, моцарела, пепероні, сир чедр",
+      "image":false,
+      "type":"dish",
+      "image": "https://imgur.com/SY3SQxi.png"
+    },
+    {
+      "id":6,
+      "name":"Заморський півень",
+      "price":"98",
+      "description":"вершковий соус, моцарела, філе куряче, ананас, кукурудза",
+      "image":false,
+      "type":"dish",
+      "image": "https://imgur.com/5vvIiWx.png"
+    },
+    {
+      "id":7,
+      "name":"Полтавська Мацьонька",
+      "price":"98",
+      "description":"соус пелаті, моцарела, бекон, печериці, цибуля зелена",
+      "image":false,
+      "type":"dish",
+      "image": "https://imgur.com/uYrzrZ8.png"
+    },
+    {
+      "id":8,
+      "name":"Цезар з куркой",
+      "price":"120",
+      "description":"соус цезарь, моцарела, салат айсберг, помідори чері, філе куряче, пармезан",
+      "image":false,
+      "type":"dish",
+      "image": "https://imgur.com/T4sKMzC.png"
+    },
+    {
+      "id":9,
+      "name":"Французький пан",
+      "price":"110",
+      "description":"вершковий соус, моцарела, базилік свіжий, помідори чері, французьке карпачо, маслини",
+      "image":false,
+      "type":"dish",
+      "image": "https://imgur.com/WcWdaWV.png"
+    },
+    {
+      "id":10,
+      "name":"Підстрелений кабан",
+      "price":"112",
+      "description":"соус пелаті, моцарела, ковбаски мисливські, цибуля ріпчаста, перець болгарський, соус чилі",
+      "image":false,
+      "type":"dish",
+      "image": "https://imgur.com/M5pjts6.png"
+    },
+    {
+      "id":11,
+      "name":"Файна Зьоба",
+      "price":"140",
+      "description":"вершковий соус, моцарела, лосось, дорблю, рукола, лимон",
+      "image":false,
+      "type":"dish",
+      "image": "https://imgur.com/Qq8MZRs.png"
+    },
+    {
+      "id":12,
+      "name":"Пепероні Максі",
+      "price":"150",
+      "description":"соус пелаті, пепероні, подвійна моцарела, сир чедр, перець халапеньйо",
+      "image":false,
+      "type":"dish",
+      "image": "https://imgur.com/Y93jdLs.png"
+    }
+  ]
+  }
+}
