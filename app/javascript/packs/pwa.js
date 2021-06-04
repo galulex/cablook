@@ -456,7 +456,7 @@ export default class App extends Component {
             <Vendors path='/delivery'
               setCurrentTrip={this.setCurrentTrip}
               showBurger={this.showBurger}
-              delivery_trip={currentDeliveryTrip}
+              deliveryTrip={currentDeliveryTrip}
               fetchUser={this.fetchUser}
             />
             <Vendor path='/delivery/:id'

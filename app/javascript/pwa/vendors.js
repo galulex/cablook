@@ -30,9 +30,9 @@ export default class Vendors extends Component {
 
   render() {
     let { vendors } = this.state
-    let { delivery_trip } = this.props
+    let { deliveryTrip, setCurrentTrip, showBurger } = this.props
 
-    if (delivery_trip?.id) { return <CurrentDeliveryTrip delivery_trip={delivery_trip} /> }
+    if (deliveryTrip?.id) { return <CurrentDeliveryTrip delivery_trip={deliveryTrip} /> }
     return (
       <div class='general__holder'>
         <header>{i18n.vendors_page.header}</header>
@@ -43,8 +43,8 @@ export default class Vendors extends Component {
                 key={vendor.id}
                 vendor={vendor}
                 updateLoaderState={this.updateLoaderState}
-                setCurrentTrip={this.props.setCurrentTrip}
-                showBurger={this.props.showBurger}
+                setCurrentTrip={setCurrentTrip}
+                showBurger={showBurger}
               />)
             )
             }

@@ -2,13 +2,15 @@ import { h } from 'preact'
 import i18n from '../i18n';
 import '../css/delivery_preview.css'
 import CategoryIcon from './category_icons.js'
+import Cart from './cart.js'
 
 export default function DeliveryItem(props) {
-  let { item, quantity, vendorId, currentVendor, icon } = props
+  const { item, currentVendorId, updateCart, icon, quantity } = props
+  const cart = new Cart()
 
   return (
     <div class='delivery-preview'>
-      {previewImage(item, icon)}
+      {previewImage(item.image, icon)}
       <div class='row item-container'>
         <div class='info'>
           <div class='name'>{item.name}</div>
@@ -18,33 +20,27 @@ export default function DeliveryItem(props) {
           <b class='price'>{`${item.price} ${i18n.item_preview.uah}`}</b>
         </div>
         <div class='add-btn'>
-          {quantity && vendorId == currentVendor ? controlButtons(props) : addButton(props)}
+          {quantity && cart.vendorId == currentVendorId ? controlButtons({...props, cart}) : <button class='button green add-to-cart-button' onClick={() => cart.addItem(item, currentVendorId, updateCart)}>+</button>}
         </div>
       </div>
     </div>
   )
 }
 
-function addButton(params) {
-  let { item, addToCart, vendorId } = params
-
-  return <button class='button green add-to-cart-button' onClick={() => addToCart(item, vendorId)}>+</button>
-}
-
 function controlButtons(params) {
-  let { item, removeFromCart, addToCart, quantity, vendorId } = params
+  let { item, quantity, currentVendorId, cart, updateCart } = params
 
   return (
     <div>
-      <button class='button plus-button' onClick={() => addToCart(item, vendorId)}>+</button>
+      <button class='button plus-button' onClick={() => cart.addItem(item, currentVendorId, updateCart)}>+</button>
       <div class='circle'>
         <span class='number'>{quantity}</span>
       </div>
-      <button class='button minus-button' onClick={() => removeFromCart(item)}>-</button>
+      <button class='button minus-button' onClick={() => cart.removeItem(item, updateCart)}>-</button>
     </div>
   )
 }
 
-function previewImage(item, icon) {
-  return item.image ? <img class='category-img' src={item.image} /> : <div class='category-icon'><CategoryIcon icon={icon} /></div>
+function previewImage(image, icon) {
+  return image ? <img class='category-img' src={image} /> : <div class='category-icon'><CategoryIcon icon={icon} /></div>
 }

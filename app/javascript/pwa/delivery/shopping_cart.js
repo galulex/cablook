@@ -23,7 +23,6 @@ const ENTRANCES = Array.from({ length: 15 }, (v, k) => (k + 1))
 export default class ShoppingCart extends Component {
   constructor(props) {
     super(props);
-    const cart = JSON.parse(localStorage.getItem('cart')) || {}
     const timeNow = new Date()
     const orderHour = timeNow.getHours() === 23 ? 0 : timeNow.getHours() + 1
     const time = `${orderHour.toString().padStart(2, '0')}:${timeNow.getMinutes().toString().padStart(2, '0')}`
@@ -32,8 +31,6 @@ export default class ShoppingCart extends Component {
       submitDisabled: false,
       entrance: '',
       total_price: null,
-      departure: cart.vendor_location,
-      departure_address: cart.vendor_address,
       destination: null,
       destination_address: '',
       entrance_list: Array.from({ length: 15 }, (v, k) => (k + 1)),
@@ -45,11 +42,12 @@ export default class ShoppingCart extends Component {
       card_id: null,
       minTime: time,
       showWidget: false,
-      showLoader: false,
-      isLoaded: false,
-      vendor_closed: cart.vendor_status === 'close',
-      cart: JSON.parse(localStorage.getItem('cart')),
-      deliveryTrip: null
+      showLoader: true,
+      vendor_closed: false,
+      deliveryTrip: null,
+      cart: new Cart(),
+      quantity: 0,
+      isLoaded: false
     }
     this.calculateTotalPrice()
   }
@@ -68,9 +66,13 @@ export default class ShoppingCart extends Component {
     if (this.props.delivery_trip?.id) route('/delivery', true)
   }
 
+  getCards = () => {
+    this.setState({ cards: this.props.cards(), card_id: this.props.cards().length > 0 ? this.props.cards()[0].id : null })
+  }
+
   getVendorInfo = () => {
-    axios.get(`vendors/${this.state.cart.vendor_id}`).then((res) => {
-      this.setState({ vendor: res.data, showLoader: false, isLoaded: true })
+    axios.get(`vendors/${this.state.cart.vendorId}`).then((res) => {
+      this.setState({ vendor: res.data, vendor_closed: res.data.status !== 'open', showLoader: false, isLoaded: true })
     }).catch((error) => {
       if (error.response) alert(error.response.data.errors)
       if (error.response.status === 418) route('/delivery', true)
@@ -81,24 +83,16 @@ export default class ShoppingCart extends Component {
     if (navigator.vibrate) navigator.vibrate([200, 100, 200])
   }
 
-  getCards = () => {
-    this.setState({ cards: this.props.cards(), card_id: (this.props.cards().length >= 1) ? this.props.cards()[0].id : null })
-  }
-
-  selectCard = (event) => {
-    this.setState({ card_id: parseInt(event.target.value) })
-  }
-
   renderCard = (card) => {
     return <option value={card.id} key={card.id}>{card.pan} - {card.type}</option>
   }
 
   calculateTotalPrice = () => {
-    const items = localStorage.getItem('cart') ? JSON.parse(localStorage.getItem('cart')).items : {}
     let prices = []
+    let { cart } = this.state
 
-    Object.keys(items).map((item, index) => {
-      const current_item = JSON.parse(localStorage.getItem('cart')).items[item]
+    Object.keys(cart.items).map((item) => {
+      const current_item = cart.items[item]
       prices.push(current_item.total_price)
     })
 
@@ -109,61 +103,46 @@ export default class ShoppingCart extends Component {
     this.setState({ destination_address, destination, showLoader: true }, this.goDeliveryTrip)
   }
 
-  goDeliveryTrip = (e) => {
-    let { destination, destination_address } = this.state
-    let cart = JSON.parse(localStorage.cart)
+  goDeliveryTrip = () => {
+    const { destination, destination_address, cart } = this.state
     let params = {
       destination: destination,
       destination_address: destination_address,
-      vendor_id: cart.vendor_id
+      vendor_id: cart.vendorId
     }
 
     axios.get('delivery/new', { params }).then((res) => {
-      let trip = res.data
-      trip.delivery = true
-      this.setState({ showLoader: false, trip_cost: res.data.cost, deliveryTrip: trip })
+      let deliveryTrip = res.data
+      deliveryTrip.delivery = true
+      this.setState({ showLoader: false, trip_cost: res.data.cost, deliveryTrip })
     }).catch((error) => {
       if (error.response) alert(error.response.data.errors)
     })
   }
 
-  setComment = (e) => {
-    this.setState({ trip_comment: e.target.value })
-  }
-
-  updateTripTime = (e) => {
-    this.setState({ trip_time: e.target.value })
-  }
-
-  setTripTime = (trip_time) => {
-    if (trip_time) {
-      this.setState({ trip_time })
-    } else {
-      this.setState({ vendor_closed: true })
-    }
-  }
-
-  updateEntrance = (e) => {
-    this.setState({ entrance: e.target.value })
+  updateStateValue = (e) => {
+    this.setState({ [e.target.dataset.state]: e.target.value })
+    console.log(this.state)
   }
 
   createOrder = (e) => {
+    const { cart, card_id, trip_time } = this.state
+
     if (!e.target.form.checkValidity()) return e.target.form.reportValidity()
     this.comment.disabled = true
     this.setState({ submitDisabled: true, showLoader: true })
-    let cart = JSON.parse(localStorage.getItem('cart'))
-    let params = {
+    const params = {
       items: cart.items,
-      vendor_id: cart.vendor_id,
-      card_id: this.state.card_id,
-      trip_time: this.state.trip_time,
+      vendor_id: cart.vendorId,
+      card_id: card_id,
+      trip_time: trip_time,
       trip: this.tripParams()
     }
     this.sendOrderRequest(params)
   }
 
   tripParams = () => {
-    let { deliveryTrip } = this.state
+    const { deliveryTrip, trip_time, entrance, trip_comment } = this.state
     return (
       {
         departure: deliveryTrip.departure.join(','),
@@ -171,9 +150,9 @@ export default class ShoppingCart extends Component {
         destination: deliveryTrip.destination.join(','),
         destination_address: deliveryTrip.destination_address,
         waypoints: [deliveryTrip.departure, deliveryTrip.destination],
-        time: this.state.trip_time,
-        entrance: this.state.entrance,
-        comment: this.state.trip_comment
+        time: trip_time,
+        entrance: entrance,
+        comment: trip_comment
       }
     )
   }
@@ -228,25 +207,18 @@ export default class ShoppingCart extends Component {
   }
 
   addToCart = (item) => {
-    let { cart, vendor } = this.state
-    this.setState({ cart: Cart.format(cart, item, vendor.id) })
-    localStorage.setItem('cart', JSON.stringify(this.state.cart))
+    this.state.cart.addItem(item, this.state.vendor.id)
+    this.setState({ items: Cart.items })
   }
 
   removeFromCart = (item) => {
-    let current_item = this.state.cart.items[item.id]
-    current_item['quantity'] > 1 ? Cart.decreaseItemQuantity(current_item) : this.clearCartItems(item.id)
-    this.setState(this.state)
-    localStorage.setItem('cart', JSON.stringify(this.state.cart))
-  }
+    const { cart } = this.state
 
-  clearCartItems = (itemId) => {
-    if (!window.confirm(i18n.cart_item.last_item)) return
-    delete (this.state.cart.items[itemId])
+    this.setState({ quantity: item.quantity > 1 ? cart.removeItem(item) : cart.clearItem(item.id) })
   }
 
   render() {
-    let { total_price, trip_cost, cards, showWidget, showLoader, vendor_closed, cart, vendor, isLoaded } = this.state
+    let { total_price, trip_cost, cards, showWidget, showLoader, vendor_closed, vendor, cart, isLoaded } = this.state
 
     return (
       <div class='general__holder'>
@@ -254,12 +226,11 @@ export default class ShoppingCart extends Component {
         <header>{i18n.cart.header}</header>
         <section class='cart'>
           {showLoader && <Loader />}
-          {isLoaded && Object.keys(cart.items).length > 0 ? ([
+          {isLoaded && cart.isEmpty() ? ([
             <div class='tab-content__container'>
               {Object.keys(cart.items).map((item, index) => {
-                return (<CartItem key={index} item={cart.items[item]} itemId={item} addToCart={this.addToCart} removeFromCart={this.removeFromCart} />)
-              })
-              }
+                return <CartItem key={index} item={cart.items[item]} itemId={item} addToCart={this.addToCart} removeFromCart={this.removeFromCart} />
+              })}
             </div>,
             <div class='order-price'>
               <b>{i18n.cart.order_price}</b>
@@ -282,17 +253,15 @@ export default class ShoppingCart extends Component {
               <div class='additions'>
                 {(cards.length > 1) && <label class='select' for='card'>
                   <Card width='24' />
-                  <select id='card' onChange={(e) => this.selectCard(e)}>
+                  <select id='card' onChange={(e) => this.setState({ card_id: parseInt(e.target.value) })}>
                     {cards.map(card => <option value={card.id}>{card.pan}</option>)}
                   </select>
                 </label>}
                 <label for='entrance'>
                   <Entrance height='27' />
-                  <select id='entrance' onChange={this.updateEntrance}>
+                  <select id='entrance' data-state='entrance' onChange={this.updateStateValue}>
                     <option value=''>{i18n.current_trip.select_entrance}</option>
-                    {ENTRANCES.map((el) => {
-                      return (<option value={el}>{el} {i18n.current_trip.entrance}</option>)
-                    })}
+                    {ENTRANCES.map((el) => { return <option value={el}>{el} {i18n.current_trip.entrance}</option> })}
                   </select>
                 </label>
                 <TimeSelect
@@ -300,12 +269,20 @@ export default class ShoppingCart extends Component {
                   allDay={vendor.all_day}
                   open_at={vendor.open_at}
                   close_at={vendor.close_at}
-                  setTime={this.updateTripTime}
+                  setTime={this.updateStateValue}
                   time={this.state.trip_time} />
               </div>
               <label for='comment'>
                 <Comment width='24' />
-                <input id='comment' ref={(el) => this.comment = el} type='text' class='comment' value={this.state.trip_comment} placeholder={i18n.current_trip.comment} onChange={this.setComment} />
+                <input
+                  id='comment'
+                  data-state='trip_comment'
+                  ref={(el) => this.comment = el}
+                  type='text'
+                  class='comment'
+                  value={this.state.trip_comment}
+                  placeholder={i18n.current_trip.comment}
+                  onChange={this.updateStateValue} />
               </label>
               <br />
               {trip_cost &&
@@ -326,16 +303,11 @@ export default class ShoppingCart extends Component {
                   </div>
                 </div>}
               <br />
-              {(cards.length !== 0) &&
-                <input type='submit' class={`button green ${vendor.name_slug}`} onClick={this.createOrder} value={i18n.cart.create_order} />}
+              {(cards.length !== 0) && <input type='submit' class={`button green ${vendor.name_slug}`} onClick={this.createOrder} value={i18n.cart.create_order} />}
             </form>,
-            !vendor_closed &&
-            showWidget && <Widget updateCards={this.props.updateCards} showWidget={() => this.setState({ showWidget: false })} />,
-            vendor_closed &&
-            <p>{i18n.cart.vendor_closed}</p>]
-          ) : (
-            <p>{i18n.cart.empty_cart}</p>
-          )}
+            !vendor_closed && showWidget && <Widget updateCards={this.props.updateCards} showWidget={() => this.setState({ showWidget: false })} />,
+            vendor_closed && <p>{i18n.cart.vendor_closed}</p>]
+          ) : (<p>{i18n.cart.empty_cart}</p>)}
         </section>
       </div>
     )

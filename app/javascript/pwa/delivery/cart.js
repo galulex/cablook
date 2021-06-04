@@ -1,23 +1,58 @@
+import i18n from '../i18n.js'
+
 class Cart {
-  format(cart, item, vendorId) {
-    if (cart.vendor_id != vendorId) cart.items = {}
-    let qty = cart.items[item.id] ? cart.items[item.id].quantity + 1 : 1
-    let item_price = item.price || item.item_price
-    cart.items[item.id] = {
-      quantity: qty,
-      item_price,
-      total_price: item_price * qty,
-      item_name: item.name || item.item_name,
-    }
-    cart.vendor_id = vendorId
-    return cart
+  constructor() {
+    this.items = JSON.parse(localStorage.getItem('cart'))?.items || {}
+    this.vendorId = JSON.parse(localStorage.getItem('cart'))?.vendorId
   }
 
-  decreaseItemQuantity(item) {
-    item['quantity']--
-    item['total_price'] = item['total_price'] - item['item_price']
-    return item
+  addItem(item, vendorId, updateCart) {
+    if (this.vendorId) { this.validateVendor(vendorId) }
+
+    const quantity = this.items[item.id] ? this.items[item.id].quantity + 1 : 1
+    const item_price = item.price || item.item_price
+    this.items[item.id] = {
+      quantity,
+      item_price,
+      total_price: item_price * quantity,
+      item_name: item.name || item.item_name,
+    }
+    this.vendorId = vendorId
+    localStorage.setItem('cart', JSON.stringify(this))
+    updateCart()
+
+    return quantity
+  }
+
+  removeItem(item, updateCart) {
+    const cartItem = this.items[item.id]
+    cartItem.quantity--
+    cartItem.total_price = cartItem.total_price - cartItem.item_price
+    if (cartItem.quantity == 0) delete this.items[item.id]
+    localStorage.setItem('cart', JSON.stringify(this))
+    updateCart()
+
+    return cartItem.quantity
+  }
+
+  validateVendor(vendorId) {
+    if (vendorId !== this.vendorId) {
+      if (!window.confirm(i18n.item_preview.new_restaurant)) return true
+      localStorage.removeItem('cart')
+      this.items = {}
+    }
+  }
+
+  clearItem(itemId) {
+    if (!window.confirm(i18n.cart_item.last_item)) return
+    delete (this.items[itemId])
+    localStorage.setItem('cart', JSON.stringify(this))
+    return 0
+  }
+
+  isEmpty() {
+    return Object.keys(this.items).length > 0
   }
 }
 
-export default new Cart()
+export default Cart

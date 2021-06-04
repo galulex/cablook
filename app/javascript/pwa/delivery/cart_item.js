@@ -18,11 +18,11 @@ export default function CartItem(props) {
         </div>
         <div class='col-2'>
           <div>
-            <button class='button plus-button' onClick={() => addToCart({ ...item, id: itemId })}>+</button>
+            <button class='button plus-button' onClick={() => addToCart({ ...item, id: parseInt(itemId) })}>+</button>
             <div class='circle'>
               <span class='number'>{item.quantity}</span>
             </div>
-            <button class='button minus-button' onClick={() => removeFromCart({ ...item, id: itemId })}>-</button>
+            <button class='button minus-button' onClick={() => removeFromCart({ ...item, id: parseInt(itemId) })}>-</button>
           </div>
         </div>
       </div>

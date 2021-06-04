@@ -21,7 +21,6 @@ export default class Vendor extends Component {
     this.state = {
       vendor_id: this.props.matches.id,
       vendor: { items: [] },
-      cart: JSON.parse(localStorage.getItem('cart')) || { items: {} },
       showLoader: true
     }
   }
@@ -48,40 +47,22 @@ export default class Vendor extends Component {
     });
   }
 
+  updateCart = () => {
+    this.setState({ cart: new Cart() })
+  }
+
   handleBack = () => {
     this.props.showBurger()
     route('/delivery', true)
     history.back()
   }
 
-  addToCart = (item, vendorId) => {
-    if (this.validateVendor(vendorId)) return
-    this.setState({ cart: Cart.format(this.state.cart, item, vendorId) })
-    localStorage.setItem('cart', JSON.stringify(this.state.cart))
-  }
-
-  removeFromCart = (item) => {
-    let current_item = this.state.cart.items[item.id]
-    current_item['quantity'] > 1 ? Cart.decreaseItemQuantity(current_item) : delete (this.state.cart['items'][item.id])
-    this.setState(this.state)
-    localStorage.setItem('cart', JSON.stringify(this.state.cart))
-  }
-
-  validateVendor = (vendorId) => {
-    let currentVendor = this.state.cart.vendor_id
-
-    if (currentVendor && currentVendor != vendorId) {
-      if (!window.confirm(i18n.item_preview.new_restaurant)) return true
-      this.setState({ cart: { items: {} } })
-      localStorage.removeItem('cart')
-    }
-  }
-
   render() {
-    let { vendor, cart, showLoader } = this.state
+    const { vendor, showLoader } = this.state
+    const cart = new Cart()
 
     return (
-      <div class='general__holder' style="flex-direction: column">
+      <div class='general__holder delivery__holder'>
         <div>
           {showLoader && <Loader />}
           <button
@@ -93,7 +74,7 @@ export default class Vendor extends Component {
           <header style="z-index: 100">
             {i18n.vendor_preview.menu}
             <Link href={'/delivery/shopping_cart'}>
-              {Object.keys(cart.items).length > 0 && <span class='orange-dot' />}
+              {cart.isEmpty() && <span class='orange-dot' />}
               <ShoppingCart class='cart' fill='#132d50' />
             </Link>
           </header>
@@ -102,16 +83,16 @@ export default class Vendor extends Component {
               {Object.keys(vendor.items).map((category, index) => {
                 if (vendor.items[category].items.length > 0) return (
                   <Category
-                    key={index}
-                    categoryId={index}
-                    category={category}
-                    items={vendor.items[category].items}
-                    vendor={vendor}
                     cart={cart}
                     cart_items={cart.items}
-                    addToCart={this.addToCart}
+                    category={category}
+                    categoryId={index}
+                    icon={vendor.items[category].icon}
+                    items={vendor.items[category].items}
+                    key={index}
                     removeFromCart={this.removeFromCart}
-                    icon={vendor.items[category].icon} />
+                    updateCart={this.updateCart}
+                    vendor={vendor} />
                 )
               })}
             </section>

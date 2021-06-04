@@ -68,7 +68,7 @@ nav.delivery button {
 
 nav.delivery .categories {
   display: flex;
-  background: linear-gradient(90deg, #19a160 150px, #19a160 150px, transparent 150px);
+  background: var(--navigation-bg);
   border-radius: 10px;
   box-shadow: inset 3px 2px 8px var(--shadow_color), inset -2px -1px 4px var(--white);
 }

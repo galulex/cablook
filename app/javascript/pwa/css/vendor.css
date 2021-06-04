@@ -2,6 +2,10 @@
   height: 100%;
 }
 
+.delivery__holder {
+  flex-direction: column;
+}
+
 .vendor-page .load-background {
   position: absolute;
   top: 0;
