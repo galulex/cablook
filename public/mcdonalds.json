@@ -373,21 +373,24 @@
         "name": "МакСанді® полуничний",
         "description": "",
         "weight": "138г",
-        "price": 34.0
+        "price": 34.0,
+        "image": "https://imgur.com/w2p2LU1.png"
       },
       {
         "id": 51,
         "name": "МакСанді® шоколадний",
         "description": "",
         "weight": "138г",
-        "price": 34.0
+        "price": 34.0,
+        "image": "https://imgur.com/a30RevE.png"
       },
       {
         "id": 52,
         "name": "МакСанді® карамельний",
         "description": "",
         "weight": "138г",
-        "price": 34.0
+        "price": 34.0,
+        "image": "https://imgur.com/V4ZfuRv.png"
       },
       {
         "id": 54,
