@@ -62,8 +62,11 @@ module Events
 
       def calculate_amount
         data[:items].to_h.sum do |order_item|
-          current_item = cached_items.find do |item|
-            item['id'].to_i == order_item[0].to_i
+          current_item = {}
+          cached_items.each do |item|
+            item['items'].each do |i|
+              current_item = i if i['id'].to_i == order_item[0].to_i
+            end
           end
           return 0 unless current_item && current_item['price']
           order_item[1]['quantity'] * current_item['price'].to_f

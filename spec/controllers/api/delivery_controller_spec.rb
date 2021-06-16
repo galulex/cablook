@@ -42,7 +42,7 @@ describe Api::DeliveryController, type: :controller do
 
     context 'success' do
       let(:payment_status) { { 'reasonCode' => Constants::Payments::WAYFORPAY_SUCCESS } }
-      let(:vendor_items) { { 'Category' => [{ 'id' => '4537', 'name' => 'Item', 'price' => '125' }] } }
+      let(:vendor_items) { { 'Category' => {'icon' => 'meat', 'items' => [{ 'id' => '4537', 'name' => 'Item', 'price' => '125' }]} } }
 
       before do
         allow_any_instance_of(Events::Orders::Create).to receive(:hold_money) { payment_status }
