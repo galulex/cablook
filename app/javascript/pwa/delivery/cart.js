@@ -7,7 +7,7 @@ class Cart {
   }
 
   addItem(item, vendorId, updateCart) {
-    if (this.vendorId) { this.validateVendor(vendorId) }
+    if (this.vendorId) { if(this.validateVendor(vendorId)) return }
 
     const quantity = this.items[item.id] ? this.items[item.id].quantity + 1 : 1
     const item_price = item.price || item.item_price
