@@ -3,7 +3,7 @@ import { h } from 'preact'
 import DeliveryItem from './item.js';
 
 export default function Category(props) {
-  const { items, categoryId, cart, vendor, icon, updateCart } = props
+  const { items, categoryId, cart, vendor, icon, updateCart, category } = props
 
   return (
     <div class="category__scroll" id={"navigation_" + categoryId}>
@@ -14,6 +14,7 @@ export default function Category(props) {
               currentVendorId={vendor.id}
               icon={icon}
               item={item}
+              category={category}
               quantity={cart.items[item.id]?.quantity}
               updateCart={updateCart} />
           </div>

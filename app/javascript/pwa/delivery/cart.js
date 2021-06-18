@@ -14,8 +14,9 @@ class Cart {
     this.items[item.id] = {
       quantity,
       item_price,
+      category: item.category,
       total_price: item_price * quantity,
-      item_name: item.name || item.item_name,
+      name: item.name || item.item_name,
     }
     this.vendorId = vendorId
     localStorage.setItem('cart', JSON.stringify(this))

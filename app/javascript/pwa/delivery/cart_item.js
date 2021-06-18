@@ -9,7 +9,7 @@ export default function CartItem(props) {
     <div class='item-preview'>
       <div class='row'>
         <div class='col-6'>
-          <b class='name'>{item.item_name}</b>
+          <b class='name'>{item.name}</b>
         </div>
         <div class='col-2 text-center'>
           <span class='price'>
