@@ -376,7 +376,7 @@ export default class App extends Component {
   setLocation = async () => {
     let location = await geoLocation()
     if (!location) return
-    let {coords, address} = location
+    let { coords, address } = location
     this.setState({
         currentLocation: {
           location: coords,

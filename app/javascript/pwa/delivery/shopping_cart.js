@@ -122,7 +122,6 @@ export default class ShoppingCart extends Component {
 
   updateStateValue = (e) => {
     this.setState({ [e.target.dataset.state]: e.target.value })
-    console.log(this.state)
   }
 
   createOrder = (e) => {
