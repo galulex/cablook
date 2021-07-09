@@ -2,7 +2,7 @@ describe Events::Orders::Create do
   describe '.call' do
     before {
       allow_any_instance_of(described_class).to receive(:hold_money) { { 'reasonCode' => Constants::Payments::WAYFORPAY_SUCCESS } }
-      allow_any_instance_of(described_class).to receive(:items) { { 'Category' => [{ 'id' => '4537', 'name' => 'Item', 'price' => '125' }] } }
+      allow_any_instance_of(described_class).to receive(:items) { { 'Category' => {'icon' => 'meat', 'items' => [{ 'id' => '4537', 'name' => 'Item', 'price' => '125' }]} } }
       allow_any_instance_of(described_class).to receive(:create_order_payment) { true }
     }
 

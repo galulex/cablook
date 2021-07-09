@@ -207,15 +207,20 @@ export default class ShoppingCart extends Component {
   }
 
   addToCart = (item) => {
-    this.state.cart.addItem(item, this.state.vendor.id)
-    this.setState({ items: Cart.items })
+    this.state.cart.addItem(item, this.state.vendor.id, this.updateCart)
+    this.setState({ items: Cart.items }, () => this.calculateTotalPrice())
   }
 
   removeFromCart = (item) => {
     const { cart } = this.state
 
-    this.setState({ quantity: item.quantity > 1 ? cart.removeItem(item) : cart.clearItem(item.id) })
+    this.setState({ quantity: item.quantity > 1 ? cart.removeItem(item, this.updateCart) : cart.clearItem(item.id) }, () => this.calculateTotalPrice())
   }
+
+  updateCart = () => {
+    this.setState({ cart: new Cart() })
+  }
+
 
   render() {
     let { total_price, trip_cost, cards, showWidget, showLoader, vendor_closed, vendor, cart, isLoaded } = this.state
