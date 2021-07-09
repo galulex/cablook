@@ -7,7 +7,7 @@ class Cart {
   }
 
   addItem(item, vendorId, updateCart) {
-    if (this.vendorId) { if(this.validateVendor(vendorId)) return }
+    if (this.validateVendor(vendorId)) { return }
 
     const quantity = this.items[item.id] ? this.items[item.id].quantity + 1 : 1
     const item_price = item.price || item.item_price
@@ -30,6 +30,7 @@ class Cart {
     cartItem.quantity--
     cartItem.total_price = cartItem.total_price - cartItem.item_price
     if (cartItem.quantity == 0) delete this.items[item.id]
+    if (Object.keys(this.items).length === 0) delete this.vendorId
     localStorage.setItem('cart', JSON.stringify(this))
     updateCart()
 
@@ -37,6 +38,8 @@ class Cart {
   }
 
   validateVendor(vendorId) {
+    if (!this.vendorId) { return }
+
     if (vendorId !== this.vendorId) {
       if (!window.confirm(i18n.item_preview.new_restaurant)) return true
       localStorage.removeItem('cart')
@@ -51,9 +54,7 @@ class Cart {
     return 0
   }
 
-  isEmpty() {
-    return Object.keys(this.items).length > 0
-  }
+  isEmpty() { return Object.keys(this.items).length > 0 }
 }
 
 export default Cart
