@@ -220,6 +220,19 @@ export default class ShoppingCart extends Component {
     this.setState({ cart: new Cart() })
   }
 
+  nonCardProvided = () => {
+    let { cards, showWidget } = this.state
+
+    if (cards.length < 1) {
+      return <button class='button'
+                     type='button'
+                     disabled={showWidget}
+                     onClick={() => this.setState({ showWidget: true })}>
+                     + {i18n.cards.add}
+             </button>
+    }
+  }
+
 
   render() {
     let { total_price, trip_cost, cards, showWidget, showLoader, vendor_closed, vendor, cart, isLoaded } = this.state
@@ -230,7 +243,7 @@ export default class ShoppingCart extends Component {
         <header>{i18n.cart.header}</header>
         <section class='cart'>
           {showLoader && <Loader />}
-          {isLoaded && cart.isEmpty() ? ([
+          {cart.isEmpty() ? ([
             <div class='tab-content__container'>
               {Object.keys(cart.items).map((item, index) => {
                 return <CartItem key={index} item={cart.items[item]} itemId={item} addToCart={this.addToCart} removeFromCart={this.removeFromCart} />
@@ -242,10 +255,7 @@ export default class ShoppingCart extends Component {
               <UAH fill='#19a160' height='16px' width='16px' />
             </div>,
             <br />,
-            vendor.active &&
-            (cards.length < 1) &&
-            <button class='button' type='button' disabled={showWidget} onClick={() => this.setState({ showWidget: true })}>+ {i18n.cards.add}</button>,
-            vendor.active &&
+            isLoaded && vendor.active &&
             <form action='#' onSubmit={(e) => e.preventDefault()}>
               <AddressInput
                 setAddress={this.setAddress}
@@ -289,6 +299,7 @@ export default class ShoppingCart extends Component {
                   onChange={this.updateStateValue} />
               </label>
               <br />
+              {this.nonCardProvided()}
               {trip_cost &&
                 <div class='prices'>
                   <div class='mb-1'>
