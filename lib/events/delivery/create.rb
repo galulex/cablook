@@ -49,8 +49,8 @@ module Events
 
       def comment
         { comment: "Доставка їжі з закладу: #{vendor.name}. "\
-                   "Номер телефону закладу: #{vendor.phone_number}."\
-                   " #{data.dig(:trip, :comment)}" }
+                   "Номер телефону закладу: #{vendor.phone_number}. "\
+                   "Коментар користувача: #{data.dig(:trip, :comment)}" }
       end
 
       def vendor

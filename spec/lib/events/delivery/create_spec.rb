@@ -4,19 +4,17 @@ describe Events::Delivery::Create do
 
     before do
       allow_any_instance_of(Events::Orders::Create).to receive(:hold_money) { payment_status }
-      allow_any_instance_of(Events::Orders::Create).to receive(:items) { vendor_items }
       allow_any_instance_of(Events::Orders::Create).to receive(:create_order_payment) { true }
       allow_any_instance_of(Events::Trips::Create).to receive(:assign_trip_to_order_payment) { true }
     end
 
     let(:payment_status) { { 'reasonCode' => Constants::Payments::WAYFORPAY_SUCCESS } }
-    let(:vendor_items) { { 'Category' => {'icon' => 'meat', 'items' => [{ 'id' => '4537', 'name' => 'Item', 'price' => '125' }]} } }
     let!(:price) { Price.create }
     let!(:card) { create :card, user_id: user.id }
     let(:vendor) { create :vendor }
     let(:user) { create :user }
     let(:trip_params) { attributes_for :trip, user_id: user.id }
-    let(:items) { { '4537' => { 'quantity' => 1 } } }
+    let(:items) { { '4537' => { 'total_price' => '125', 'quantity' => 1 } } }
     let(:time) { Time.now.strftime('%H:%M') }
     let(:data) do
       { vendor_id: vendor.id,

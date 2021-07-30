@@ -71,7 +71,11 @@ export default class ShoppingCart extends Component {
   }
 
   getVendorInfo = () => {
-    axios.get(`vendors/${this.state.cart.vendorId}`).then((res) => {
+    let { vendorId } = this.state.cart
+
+    if (!vendorId) return this.setState({ showLoader: false })
+
+    axios.get(`vendors/${vendorId}`).then((res) => {
       this.setState({ vendor: res.data, vendor_closed: res.data.status !== 'open', showLoader: false, isLoaded: true })
     }).catch((error) => {
       if (error.response) alert(error.response.data.errors)

@@ -29,4 +29,17 @@ class Vendor < ApplicationRecord
   def all_day
     open_time == MAX_OPEN_TIME && close_time == MAX_CLOSE_TIME
   end
+
+  def items
+    json_path = "#{Rails.public_path}/#{name.downcase.tr(' ', '_')}.json"
+    File.exist?(json_path) ? JSON.parse(File.open(json_path).read) : json_api
+  end
+
+  private
+
+  def json_api
+    ActiveSupport::JSON.decode(Net::HTTP.get(URI(api_url)))
+  rescue StandardError
+    false
+  end
 end
