@@ -1,7 +1,9 @@
 ActiveAdmin.register Vendor do
   preserve_default_filters!
 
-  before_action :clean_weekends, only: [:update, :create]
+  json_editor
+
+  before_action :clean_weekends, only: %i[update create]
 
   controller do
     def permitted_params
@@ -11,6 +13,13 @@ ActiveAdmin.register Vendor do
     def clean_weekends
       permitted_params[:vendor][:weekends].reject!(&:blank?)
     end
+  end
+
+  index do
+    (Vendor.column_names - ['items']).each do |field|
+      column field
+    end
+    actions
   end
 
   form do |f|
@@ -29,6 +38,7 @@ ActiveAdmin.register Vendor do
     f.input :active, as: :boolean
     f.input :need_approve, as: :boolean
     f.input :weekends, as: :check_boxes, collection: Date::DAYNAMES
+    f.input :items, as: :json
     actions
   end
 end
