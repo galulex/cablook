@@ -15,7 +15,7 @@ describe Events::Delivery::Create do
     let(:user) { create :user }
     let(:trip_params) { attributes_for :trip, user_id: user.id }
     let(:items) { { '4537' => { 'total_price' => '125', 'quantity' => 1 } } }
-    let(:time) { Time.now.strftime('%H:%M') }
+    let(:time) { Time.zone.now.strftime('%H:%M') }
     let(:data) do
       { vendor_id: vendor.id,
         trip_time: time,

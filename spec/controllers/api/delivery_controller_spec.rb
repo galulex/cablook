@@ -30,7 +30,7 @@ describe Api::DeliveryController, type: :controller do
     let!(:card) { create :card, user_id: user.id }
     let(:trip_params) { attributes_for :trip, user_id: user.id }
     let(:items) { { '4537' => { 'total_price' => '125', 'quantity' => 1 } } }
-    let(:time) { Time.now.strftime('%H:%M') }
+    let(:time) { Time.zone.now.strftime('%H:%M') }
     let(:params) do
       { order: { vendor_id: vendor.id,
                  trip_time: time,
