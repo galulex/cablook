@@ -108,14 +108,17 @@ export default class ShoppingCart extends Component {
   }
 
   goDeliveryTrip = () => {
-    const { destination, destination_address, cart } = this.state
-    let params = {
+    const { destination, destination_address, cart, vendor } = this.state
+    const params = {
+      departure: vendor.location,
+      departure_address: vendor.address,
       destination: destination,
       destination_address: destination_address,
+      osrm: true,
       vendor_id: cart.vendorId
     }
 
-    axios.get('delivery/new', { params }).then((res) => {
+    axios.post('trips/new', { trip: params }).then((res) => {
       let deliveryTrip = res.data
       deliveryTrip.delivery = true
       this.setState({ showLoader: false, trip_cost: res.data.cost, deliveryTrip })

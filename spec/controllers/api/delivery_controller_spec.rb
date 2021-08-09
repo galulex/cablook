@@ -10,22 +10,6 @@ describe Api::DeliveryController, type: :controller do
     Price.create
   end
 
-  describe '#new' do
-    it_behaves_like 'authorization_required'
-    let(:params) { { destination: '49.426269,32.054189', destination_address: 'Active Bridge', vendor_id: vendor.id } }
-
-    before { get :new, params: params }
-
-    it { is_expected.to be_successful }
-    it { expect(subject.body).to include(params[:destination_address]) }
-
-    context 'whith invalid params' do
-      let(:params) { { vendor_id: vendor.id } }
-
-      it { is_expected.to have_http_status :unprocessable_entity }
-    end
-  end
-
   describe '#create' do
     let!(:card) { create :card, user_id: user.id }
     let(:trip_params) { attributes_for :trip, user_id: user.id }

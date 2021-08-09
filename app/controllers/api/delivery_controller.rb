@@ -2,11 +2,6 @@ module Api
   class DeliveryController < ApiApplicationController
     before_action :authorize!
 
-    def new
-      trip = Events::Orders::Build.(trip_params)
-      render json: Presenters::Trips::Single.new(trip).to_json, status: 200
-    end
-
     def create
       trip = Events::Delivery::Create.(order_params)
       render json: trip, status: 201

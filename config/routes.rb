@@ -11,7 +11,7 @@ Rails.application.routes.draw do
     resources :bonus_trips, only: %i[index]
     resources :cards, only: %i[index new create update destroy]
     resources :orders, only: %i[create destroy]
-    resources :delivery, only: %i[create new]
+    resources :delivery, only: :create
     resources :payments, only: %i[index] do
       post 'retry_pendings', on: :collection
       get 'pending', on: :collection
