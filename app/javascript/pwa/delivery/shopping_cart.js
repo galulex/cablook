@@ -165,7 +165,7 @@ export default class ShoppingCart extends Component {
 
   sendOrderRequest = (order) => {
     axios.post('delivery', { order }).then((res) => {
-      if (res.statusText == 'Created' && res.data.valid) {
+      if (res.status == 201 && res.data.valid) {
         this.setState({ showLoader: false })
         localStorage.removeItem('cart')
         this.vibrate()
