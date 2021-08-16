@@ -11,7 +11,7 @@ describe Events::Delivery::Create do
     let(:payment_status) { { 'reasonCode' => Constants::Payments::WAYFORPAY_SUCCESS } }
     let!(:price) { Price.create }
     let!(:card) { create :card, user_id: user.id }
-    let(:vendor) { create :vendor, open_time: Vendor::MAX_OPEN_TIME, close_time: Vendor::MAX_CLOSE_TIME }
+    let(:vendor) { create :vendor, open_at: Vendor::MAX_OPEN_TIME, close_at: Vendor::MAX_CLOSE_TIME }
     let(:user) { create :user }
     let(:trip_params) { attributes_for :trip, user_id: user.id }
     let(:items) { { '4537' => { 'total_price' => '125', 'quantity' => 1 } } }
