@@ -3,7 +3,7 @@ describe Api::DeliveryController, type: :controller do
 
   let(:user) { create :user }
   let(:auth_token) { user.auth_token }
-  let(:vendor) { create :vendor }
+  let(:vendor) { create :vendor, open_at: Vendor::MAX_OPEN_TIME, close_at: Vendor::MAX_CLOSE_TIME }
 
   before do
     request.headers['Auth-Token'] = auth_token
