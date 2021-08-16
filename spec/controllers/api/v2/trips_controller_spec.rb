@@ -15,12 +15,12 @@ describe Api::V2::TripsController, type: :controller do
       let(:params) { { trip: JSON.parse(File.read('spec/fixtures/build_params/as_string.json')) } }
 
       before { post :new, params: params }
-  
+
       it { is_expected.to be_successful }
-  
+
       context 'when params are invalid' do
         let(:params) { { trip: super().merge(destination: nil) } }
-  
+
         it { is_expected.to have_http_status(:unprocessable_entity) }
       end
     end
@@ -31,12 +31,12 @@ describe Api::V2::TripsController, type: :controller do
       let(:params) { { trip: JSON.parse(File.read('spec/fixtures/build_params/as_array.json')) } }
 
       before { post :new, params: params }
-  
+
       it { is_expected.to be_successful }
-  
+
       context 'when params are invalid' do
         let(:params) { { trip: super().merge(destination: nil) } }
-  
+
         it { is_expected.to have_http_status(:unprocessable_entity) }
       end
     end

@@ -66,6 +66,7 @@ import Burger from '../pwa/images/burger.svg';
 import Vendors from '../pwa/vendors.js';
 import Vendor from '../pwa/vendor.js';
 import Cart from '../pwa/cart.js';
+import ShoppingCart from '../pwa/delivery/shopping_cart.js'
 import NotFound from '../pwa/not_found.js';
 import { PENDING, ON_THE_WAY, WAITING_CLIENT, DRIVING, FINISHED, CANCELED, DECLINED, CANCELED_BY_DRIVER, CONFIRM_UPDATE_TRIP, MAP_MIN_ZOOM, MAP_MAX_ZOOM, CHERKASY_LONG_LAT } from '../pwa/lib/constants.js'
 import Family from '../pwa/family.js'
@@ -99,7 +100,8 @@ export default class App extends Component {
       isScrollNegative: false,
       activateFeedback: false,
       isBurgerShowing: true,
-      cashbackAmount: null
+      cashbackAmount: null,
+      currentDeliveryTrip: null
     }
     axios.defaults.headers.common['Pwa-Language'] = this.state.language
   }
@@ -266,7 +268,8 @@ export default class App extends Component {
         parent_bonus: res.data.parent_bonus || [],
         cashbackAmount: res.data.cashback/100,
         currentUserID: res.data.id,
-        currentTrip: res.data.current_trip
+        currentTrip: res.data.current_trip,
+        currentDeliveryTrip: res.data.current_delivery_trip
       })
     }).catch((error) => {
       if (error.response) alert(error.response.data.errors)
@@ -373,15 +376,15 @@ export default class App extends Component {
   setLocation = async () => {
     let location = await geoLocation()
     if (!location) return
-    let {coords, address} = location
-    this.setState({ 
+    let { coords, address } = location
+    this.setState({
         currentLocation: {
           location: coords,
           address: address,
           favorite_address: true,
-          structured_formatting: { 
-            main_text: address, 
-            secondary_text: i18n.address_input.location 
+          structured_formatting: {
+            main_text: address,
+            secondary_text: i18n.address_input.location
           }
         }
       }
@@ -389,8 +392,8 @@ export default class App extends Component {
   }
 
   render() {
-    const { currentTrip, isGeocoding, availableBonusTrips,
-            cards, language, bonus_trips, favorite_addresses } = this.state
+    const { currentTrip, isGeocoding, availableBonusTrips, cards,
+            language, bonus_trips, favorite_addresses, currentDeliveryTrip } = this.state
 
     if (this.state.currentUser) {
       return(
@@ -453,10 +456,13 @@ export default class App extends Component {
             <Vendors path='/delivery'
               setCurrentTrip={this.setCurrentTrip}
               showBurger={this.showBurger}
+              deliveryTrip={currentDeliveryTrip}
+              fetchUser={this.fetchUser}
             />
             <Vendor path='/delivery/:id'
               setCurrentTrip={this.setCurrentTrip}
               showBurger={this.showBurger}
+              delivery_trip={currentDeliveryTrip}
             />
             <NotFound type='404' default />
             <Cart path='/delivery/cart'
@@ -466,6 +472,15 @@ export default class App extends Component {
               setGeocoding={this.setGeocoding}
               showBurger={this.showBurger}
               updateCards={this.updateCards}
+            />
+            <ShoppingCart path='/delivery/shopping_cart'
+              cards={() => this.state.cards}
+              favorite_addresses={() => this.state.favorite_addresses}
+              isGeocoding={isGeocoding}
+              setGeocoding={this.setGeocoding}
+              showBurger={this.showBurger}
+              updateCards={this.updateCards}
+              delivery_trip={currentDeliveryTrip}
             />
             <Family path='/family' cards={cards} />
           </Router>

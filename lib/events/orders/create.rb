@@ -62,26 +62,12 @@ module Events
 
       def calculate_amount
         data[:items].to_h.sum do |order_item|
-          current_item = cached_items.find do |item|
-            item['id'].to_i == order_item[0].to_i
-          end
-          return 0 unless current_item && current_item['price']
-          order_item[1]['quantity'] * current_item['price'].to_f
+          order_item[1]['quantity'].to_i * order_item[1]['total_price'].to_f
         end
-      end
-
-      def cached_items
-        @cached_items ||= items.values.flatten
       end
 
       def vendor
         Vendor.find_by(id: data[:vendor_id])
-      end
-
-      def items
-        url = URI(vendor.api_url)
-        res = Net::HTTP.get(url)
-        ActiveSupport::JSON.decode(res)
       end
 
       def user_card

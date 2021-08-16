@@ -1,113 +1,698 @@
 {
-  "🍔🍟🥤 МакМеню": [
-    { "id": 1,  "name": "🍔🍟🥤 Біг Мак Меню",                                  "description": "", "price": 107.0 },
-    { "id": 2,  "name": "🍔🍟🥤 Біг Тейсті Меню",                               "description": "", "price": 141.0 },
-    { "id": 3,  "name": "🍔🍟🥤 Бургер з куркою та медовою гірчицею Меню",      "description": "", "price": 110.0 },
-    { "id": 4,  "name": "🍔🍟🥤 Бургер зі свининою та солоними огірками Меню",  "description": "", "price": 113.0 },
-    { "id": 25, "name": "🍔🍟🥤 Біг Техас Меню",                                "description": "", "price": 145.0 },
-    { "id": 5,  "name": "🍔🍟🥤 Маестро Класік Меню",                           "description": "", "price": 145.0 },
-    { "id": 6,  "name": "🍔🍟🥤 Чікен Макнагетс® 6шт Меню",                     "description": "", "price":  96.0 },
-    { "id": 7,  "name": "🍔🍟🥤 Чікен Макнагетс® 9шт Меню",                     "description": "", "price": 114.0 },
-    { "id": 8,  "name": "🍔🍟🥤 МакЧікен Меню",                                 "description": "", "price": 100.0 },
-    { "id": 9,  "name": "🍔🍟🥤 Дабл Чізбургер Меню",                           "description": "", "price":  103.0 },
-    { "id": 10, "name": "🍔🍟🥤 Філе-о-Фіш® Меню",                              "description": "", "price": 101.0 }
-  ],
-  "🍔 Бургери": [
-    { "id": 11, "name": "🍔 Біг Мак®",                                "description": "", "weight": "205г", "price": 60.0 },
-    { "id": 12, "name": "🍔 Біг Тейсті®",                             "description": "", "weight": "324г", "price": 92.0 },
-    { "id": 13, "name": "🍔 Бургер з куркою та медовою гірчицею",     "description": "", "weight": "240г", "price": 96.0 },
-    { "id": 14, "name": "🍔 Бургер зі свининою та солоними огірками", "description": "", "weight": "240г", "price": 96.0 },
-    { "id": 15, "name": "🍔 Біг Техас",                               "description": "", "weight": "240г", "price": 96.0 },
-    { "id": 16, "name": "🍔 Філе-о-фіш®",                             "description": "", "weight": "130г", "price": 53.0 },
-    { "id": 17, "name": "🍔 МакЧікен®",                               "description": "", "weight": "165г", "price": 53.0 },
-    { "id": 18, "name": "🍔 Чізбургер",                               "description": "", "weight": "109г", "price": 30.0 },
-    { "id": 19, "name": "🍔 Дабл Чізбургер",                          "description": "", "weight": "163г", "price": 52.0 },
-    { "id": 20, "name": "🍔 Чізбургер з беконом",                     "description": "", "weight": "118г", "price": 38.0 },
-    { "id": 21, "name": "🍔 Гамбургер",                               "description": "", "weight": "96г",  "price": 26.0 }
-  ],
-  "🌯 Роли": [
-    { "id": 22, "name": "🌯 Чікен Рол",         "description": "", "weight": "215г", "price": 66.0 },
-    { "id": 23, "name": "🌯 Фіш Фреш Рол",      "description": "", "weight": "190г", "price": 66.0 },
-    { "id": 24, "name": "🌯 Рол з креветками",  "description": "", "weight": "160г", "price": 74.0 }
-  ],
-  "🍟 Картопля": [
-    { "id": 27, "name": "🍟 Картопля Фрі",                           "description": "", "price": 40.0 },
-    { "id": 28, "name": "🍟 Картопляні ДІПИ",                        "description": "", "price": 45.0 },
-    { "id": 29, "name": "🍟 Картопля Фрі з сирним соусом і цибулею", "description": "", "weight": "150г", "price": 45.0 }
-  ],
-  "🥡 Снеки": [
-    { "id": 30, "name": "🍗 Чікен МакНаггетс® 20шт", "description": "", "price": 145.0 },
-    { "id": 31, "name": "🍤 Креветки 5шт",           "description": "", "price": 88.0 },
-    { "id": 32, "name": "🍤 Креветки 9шт",           "description": "", "price": 137.0 },
-    { "id": 33, "name": "🧀 Сир Камамбер",           "description": "", "price": 60.0 },
-    { "id": 34, "name": "🍗 Чікен МакНаггетс® 4шт",  "description": "", "price": 34.0 },
-    { "id": 35, "name": "🍗 Чікен МакНаггетс®, 6шт", "description": "", "price": 50.0 },
-    { "id": 36, "name": "🍗 Чікен МакНаггетс®, 9шт", "description": "", "price": 69.0 }
-  ],
-  "🥗 Салати": [
-    { "id": 37, "name": "🥗 Салат Овочевий", "description": "", "weight": "150г", "price": 62.0 },
-    { "id": 38, "name": "🥗 Салат Чікен",    "description": "", "weight": "224г", "price": 74.0 }
-  ],
-  "🥧 Десерти": [
-    { "id": 39, "name": "🥧 Чізкейк",            "description": "", "weight": "100г", "price": 60.0 },
-    { "id": 42, "name": "🍪 Печиво Ванільне",    "description": "", "weight": "65г",  "price": 26.0 },
-    { "id": 43, "name": "🍪 Печиво Шоколадне",   "description": "", "weight": "65г",  "price": 26.0 },
-    { "id": 44, "name": "🥧 МакПиріг® вишневий", "description": "", "weight": "80г",  "price": 26.0 }
-  ],
-  "🍨 Холодні десерти": [
-    { "id": 47, "name": "🍨 МакФлурі® КІТКАТ шоколадний",   "description": "", "weight": "195г", "price": 44.0 },
-    { "id": 48, "name": "🍨 МакФлурі® КІТКАТ карамельний",  "description": "", "weight": "195г", "price": 44.0 },
-    { "id": 49, "name": "🍨 МакФлурі® КІТКАТ полуничний",   "description": "", "weight": "195г", "price": 44.0 },
-    { "id": 50, "name": "🍦 МакСанді® полуничний",          "description": "", "weight": "138г", "price": 34.0 },
-    { "id": 51, "name": "🍦 МакСанді® шоколадний",          "description": "", "weight": "138г", "price": 34.0 },
-    { "id": 52, "name": "🍦 МакСанді® карамельний",         "description": "", "weight": "138г", "price": 34.0 },
-    { "id": 54, "name": "🥤 МакШейк® шоколадний",           "description": "", "weight": "200г", "price": 39.0 },
-    { "id": 55, "name": "🥤 МакШейк® ванільний",            "description": "", "weight": "200г", "price": 39.0 },
-    { "id": 56, "name": "🥤 МакШейк® полуничний",           "description": "", "weight": "200г", "price": 39.0 }
-  ],
-  "🥤 Холодні напої": [
-    { "id": 57, "name": "🥤 Кока-Кола® ЕКОНОМ",   "description": "", "price": 20.0 },
-    { "id": 58, "name": "🥤 Кока-Кола® МАЛА",     "description": "", "price": 25.0 },
-    { "id": 59, "name": "🥤 Кока-Кола® СЕРЕДНЯ",  "description": "", "price": 28.0 },
-    { "id": 60, "name": "🥤 Фанта® ЕКОНОМ",       "description": "", "price": 20.0 },
-    { "id": 61, "name": "🥤 Фанта® МАЛА",         "description": "", "price": 25.0 },
-    { "id": 62, "name": "🥤 Фанта® СЕРЕДНЯ",      "description": "", "price": 28.0 },
-    { "id": 63, "name": "🥤 Холодний лате",       "description": "", "price": 32.0 },
-    { "id": 64, "name": "🥤 Апельсиновий сік",    "description": "", "price": 34.0 },
-    { "id": 65, "name": "🥤 Спрайт® ЕКОНОМ",      "description": "", "price": 20.0 },
-    { "id": 66, "name": "🥤 Спрайт® МАЛА",        "description": "", "price": 25.0 },
-    { "id": 67, "name": "🥤 Спрайт® СЕРЕДНЯ",     "description": "", "price": 28.0 }
-  ],
-  "☕ Гарячі напої": [
-    { "id": 70, "name": "🍵 Чай",                         "description": "", "price": 24.0 },
-    { "id": 71, "name": "☕ Флет Вайт",                   "description": "", "price": 32.0 },
-    { "id": 72, "name": "☕ Еспресо",                     "description": "", "price": 19.0 },
-    { "id": 69, "name": "☕ Подвійне Еспресо",            "description": "", "price": 23.0 },
-    { "id": 73, "name": "☕ Американо мале",              "description": "", "price": 25.0 },
-    { "id": 74, "name": "☕ Американо КЛАСІК",            "description": "", "price": 31.0 },
-    { "id": 75, "name": "☕ Американо з молоком МАЛЕ",    "description": "", "price": 26.0 },
-    { "id": 76, "name": "☕ Американо з молоком КЛАСІК",  "description": "", "price": 32.0 },
-    { "id": 78, "name": "☕ Капучино МАЛЕ",               "description": "", "price": 26.0 },
-    { "id": 79, "name": "☕ Капучино КЛАСІК",             "description": "", "price": 32.0 }
-  ],
-  "🥡 Хеппі Міл": [
-    { "id": 80, "name": "🥡 Хеппі Міл Гамбургер",             "description": "", "price": 76.0 },
-    { "id": 81, "name": "🥡 Хеппі Міл Чізбургер",             "description": "", "price": 76.0 },
-    { "id": 82, "name": "🥡 Хеппі Міл Чікен Макнагетс 4 шт",  "description": "", "price": 76.0 },
-    { "id": 83, "name": "🧸 Іграшка ",                        "description": "", "price": 30.0 }
-  ],
-  "🥫 Соуси": [
-    { "id": 84, "name": "🥫 Соус Барбекю",        "description": "", "price": 9.0 },
-    { "id": 85, "name": "🥫 Соус Кисло-Солодкий", "description": "", "price": 9.0 },
-    { "id": 86, "name": "🥫 Соус Український",    "description": "", "price": 9.0 },
-    { "id": 87, "name": "🥫 Соус Сирний",         "description": "", "price": 9.0 },
-    { "id": 88, "name": "🥫 Соус Солодкий Чилі",  "description": "", "price": 9.0 },
-    { "id": 89, "name": "🥫 Кетчуп",              "description": "", "price": 9.0 },
-    { "id": 90, "name": "🥫 Гірчиця",             "description": "", "price": 9.0 },
-    { "id": 91, "name": "🥫 Майонез",             "description": "", "price": 9.0 },
-    { "id": 92, "name": "🥫 Соус журавлиновий",   "description": "", "price": 9.0 },
-    { "id": 93, "name": "🥫 Соус 1000 островів",  "description": "", "price": 9.0 },
-    { "id": 94, "name": "🥫 Олівкова олія",       "description": "", "price": 9.0 },
-    { "id": 95, "name": "🥫 Вершки",              "description": "", "price": 6.0 }
-  ]
+  "МакМеню": {
+    "icon": "menus",
+    "items": [
+      {
+        "id": 1,
+        "name": "Біг Мак Меню",
+        "description": "",
+        "price": 107.0,
+        "image": "https://imgur.com/FaGLm8J.png"
+      },
+      {
+        "id": 2,
+        "name": "Біг Тейсті Меню",
+        "description": "",
+        "price": 141.0,
+        "image": "https://imgur.com/Wso1m3X.png"
+      },
+      {
+        "id": 3,
+        "name": "Бургер з куркою та медовою гірчицею Меню",
+        "description": "",
+        "price": 110.0,
+        "image": "https://imgur.com/ZNzsKP9.png"
+      },
+      {
+        "id": 4,
+        "name": "Бургер зі свининою та солоними огірками Меню",
+        "description": "",
+        "price": 113.0,
+        "image": "https://imgur.com/5p76DVl.png"
+      },
+      {
+        "id": 25,
+        "name": "Біг Техас Меню",
+        "description": "",
+        "price": 145.0,
+        "image": "https://imgur.com/1cgXCl6.png"
+      },
+      {
+        "id": 5,
+        "name": "Маестро Класік Меню",
+        "description": "",
+        "price": 145.0,
+        "image": "https://imgur.com/Nzrvlvo.png"
+      },
+      {
+        "id": 6,
+        "name": "Чікен Макнагетс® 6шт Меню",
+        "description": "",
+        "price": 96.0,
+        "image": "https://imgur.com/Fzo0Ib1.png"
+      },
+      {
+        "id": 7,
+        "name": "Чікен Макнагетс® 9шт Меню",
+        "description": "",
+        "price": 114.0,
+        "image": "https://imgur.com/oMS45Ne.png"
+      },
+      {
+        "id": 8,
+        "name": "МакЧікен Меню",
+        "description": "",
+        "price": 100.0,
+        "image": "https://imgur.com/7DAodzK.png"
+      },
+      {
+        "id": 9,
+        "name": "Дабл Чізбургер Меню",
+        "description": "",
+        "price": 103.0,
+        "image": "https://imgur.com/UWoLooX.png"
+      },
+      {
+        "id": 10,
+        "name": "Філе-о-Фіш® Меню",
+        "description": "",
+        "price": 101.0,
+        "image": "https://imgur.com/w2roOPZ.png"
+      }
+    ]
+  },
+  "Бургери": {
+    "icon": "burger",
+    "items": [
+      {
+        "id": 11,
+        "name": "Біг Мак®",
+        "description": "",
+        "weight": "205г",
+        "price": 60.0,
+        "image": "https://imgur.com/zD3z7G9.png"
+      },
+      {
+        "id": 12,
+        "name": "Біг Тейсті®",
+        "description": "",
+        "weight": "324г",
+        "price": 92.0,
+        "image": "https://imgur.com/7lZjn5N.png"
+      },
+      {
+        "id": 13,
+        "name": "Бургер з куркою та медовою гірчицею",
+        "description": "",
+        "weight": "240г",
+        "price": 96.0,
+        "image": "https://imgur.com/BWRHl3h.png"
+      },
+      {
+        "id": 14,
+        "name": "Бургер зі свининою та солоними огірками",
+        "description": "",
+        "weight": "240г",
+        "price": 96.0
+      },
+      {
+        "id": 15,
+        "name": "Біг Техас",
+        "description": "",
+        "weight": "240г",
+        "price": 96.0,
+        "image": "https://imgur.com/ykJkQZg.png"
+      },
+      {
+        "id": 16,
+        "name": "Філе-о-фіш®",
+        "description": "",
+        "weight": "130г",
+        "price": 53.0,
+        "image": "https://imgur.com/fkVmvih.png"
+      },
+      {
+        "id": 17,
+        "name": "МакЧікен®",
+        "description": "",
+        "weight": "165г",
+        "price": 53.0,
+        "image": "https://imgur.com/Wkwutnv.png"
+      },
+      {
+        "id": 18,
+        "name": "Чізбургер",
+        "description": "",
+        "weight": "109г",
+        "price": 30.0,
+        "image": "https://imgur.com/4btE5qB.png"
+      },
+      {
+        "id": 19,
+        "name": "Дабл Чізбургер",
+        "description": "",
+        "weight": "163г",
+        "price": 52.0,
+        "image": "https://imgur.com/gulwOYt.png"
+      },
+      {
+        "id": 20,
+        "name": "Чізбургер з беконом",
+        "description": "",
+        "weight": "118г",
+        "price": 38.0,
+        "image": "https://imgur.com/ry4RHwz.png"
+      },
+      {
+        "id": 21,
+        "name": "Гамбургер",
+        "description": "",
+        "weight": "96г",
+        "price": 26.0,
+        "image": "https://imgur.com/EtaqllX.png"
+      }
+    ]
+  },
+  "Роли": {
+    "icon": "rolls",
+    "items": [
+      {
+        "id": 22,
+        "name": "Чікен Рол",
+        "description": "",
+        "weight": "215г",
+        "price": 66.0,
+        "image": "https://imgur.com/Zyt2ao5.png"
+      },
+      {
+        "id": 23,
+        "name": "Фіш Фреш Рол",
+        "description": "",
+        "weight": "190г",
+        "price": 66.0,
+        "image": "https://imgur.com/7ciTcXh.png"
+      },
+      {
+        "id": 24,
+        "name": "Рол з креветками",
+        "description": "",
+        "weight": "160г",
+        "price": 74.0,
+        "image": "https://imgur.com/9dyuh2b.png"
+      }
+    ]
+  },
+  "Картопля": {
+    "icon": "fries",
+    "items": [
+      {
+        "id": 27,
+        "name": "Картопля Фрі",
+        "description": "",
+        "price": 40.0,
+        "image": "https://imgur.com/S4VWAhq.png"
+      },
+      {
+        "id": 28,
+        "name": "Картопляні ДІПИ",
+        "description": "",
+        "price": 45.0,
+        "image": "https://imgur.com/sMpAXCR.png"
+      },
+      {
+        "id": 29,
+        "name": "Картопля Фрі з сирним соусом і цибулею",
+        "description": "",
+        "weight": "150г",
+        "price": 45.0,
+        "image": "https://imgur.com/J8s0YiM.png"
+      }
+    ]
+  },
+  "Снеки": {
+    "icon": "snacks",
+    "items": [
+      {
+        "id": 30,
+        "name": "Чікен МакНаггетс® 20шт",
+        "description": "",
+        "price": 145.0,
+        "image": "https://imgur.com/HS8H79W.png"
+      },
+      {
+        "id": 31,
+        "name": "Креветки 5шт",
+        "description": "",
+        "price": 88.0,
+        "image": "https://imgur.com/HOjLv1h.png"
+      },
+      {
+        "id": 32,
+        "name": "Креветки 9шт",
+        "description": "",
+        "price": 137.0,
+        "image": "https://imgur.com/HOjLv1h.png"
+      },
+      {
+        "id": 33,
+        "name": "Сир Камамбер",
+        "description": "",
+        "price": 60.0,
+        "image": "https://imgur.com/lnkVBrg.png"
+      },
+      {
+        "id": 34,
+        "name": "Чікен МакНаггетс® 4шт",
+        "description": "",
+        "price": 34.0,
+        "image": "https://imgur.com/HS8H79W.png"
+      },
+      {
+        "id": 35,
+        "name": "Чікен МакНаггетс®, 6шт",
+        "description": "",
+        "price": 50.0,
+        "image": "https://imgur.com/HS8H79W.png"
+      },
+      {
+        "id": 36,
+        "name": "Чікен МакНаггетс®, 9шт",
+        "description": "",
+        "price": 69.0,
+        "image": "https://imgur.com/HS8H79W.png"
+      }
+    ]
+  },
+  "Салати": {
+    "icon": "salads",
+    "items": [
+      {
+        "id": 37,
+        "name": "Салат Овочевий",
+        "description": "",
+        "weight": "150г",
+        "price": 62.0,
+        "image": "https://imgur.com/xRO6Jbp.png"
+      },
+      {
+        "id": 38,
+        "name": "Салат Чікен",
+        "description": "",
+        "weight": "224г",
+        "price": 74.0,
+        "image": "https://imgur.com/nwN6jRv.png"
+      }
+    ]
+  },
+  "Десерти": {
+    "icon": "desserts",
+    "items": [
+      {
+        "id": 39,
+        "name": "Чізкейк",
+        "description": "",
+        "weight": "100г",
+        "price": 60.0,
+        "image": "https://imgur.com/x3ZkjML.png"
+      },
+      {
+        "id": 42,
+        "name": "Печиво Ванільне",
+        "description": "",
+        "weight": "65г",
+        "price": 26.0,
+        "image": "https://imgur.com/OaDyZ5W.png"
+      },
+      {
+        "id": 43,
+        "name": "Печиво Шоколадне",
+        "description": "",
+        "weight": "65г",
+        "price": 26.0,
+        "image": "https://imgur.com/PYJbgR7.png"
+      },
+      {
+        "id": 44,
+        "name": "МакПиріг® вишневий",
+        "description": "",
+        "weight": "80г",
+        "price": 26.0,
+        "image": "https://imgur.com/Yx53r7R.png"
+      }
+    ]
+  },
+  "Холодні десерти": {
+    "icon": "cold_desserts",
+    "items": [
+      {
+        "id": 47,
+        "name": "МакФлурі® КІТКАТ шоколадний",
+        "description": "",
+        "weight": "195г",
+        "price": 44.0,
+        "image": "https://imgur.com/tBXJglJ.png"
+      },
+      {
+        "id": 48,
+        "name": "МакФлурі® КІТКАТ карамельний",
+        "description": "",
+        "weight": "195г",
+        "price": 44.0,
+        "image": "https://imgur.com/Tfb5jsn.png"
+      },
+      {
+        "id": 49,
+        "name": "МакФлурі® КІТКАТ полуничний",
+        "description": "",
+        "weight": "195г",
+        "price": 44.0,
+        "image": "https://imgur.com/6DfmYNY.png"
+      },
+      {
+        "id": 50,
+        "name": "МакСанді® полуничний",
+        "description": "",
+        "weight": "138г",
+        "price": 34.0,
+        "image": "https://imgur.com/w2p2LU1.png"
+      },
+      {
+        "id": 51,
+        "name": "МакСанді® шоколадний",
+        "description": "",
+        "weight": "138г",
+        "price": 34.0,
+        "image": "https://imgur.com/a30RevE.png"
+      },
+      {
+        "id": 52,
+        "name": "МакСанді® карамельний",
+        "description": "",
+        "weight": "138г",
+        "price": 34.0,
+        "image": "https://imgur.com/V4ZfuRv.png"
+      },
+      {
+        "id": 54,
+        "name": "МакШейк® шоколадний",
+        "description": "",
+        "weight": "200г",
+        "price": 39.0,
+        "image": "https://imgur.com/mgiInUK.png"
+      },
+      {
+        "id": 55,
+        "name": "МакШейк® ванільний",
+        "description": "",
+        "weight": "200г",
+        "price": 39.0,
+        "image": "https://imgur.com/CNfuitU.png"
+      },
+      {
+        "id": 56,
+        "name": "МакШейк® полуничний",
+        "description": "",
+        "weight": "200г",
+        "price": 39.0,
+        "image": "https://imgur.com/DHFCTCL.png"
+      }
+    ]
+  },
+  "Холодні напої": {
+    "icon": "cold_drinks",
+    "items": [
+      {
+        "id": 57,
+        "name": "Кока-Кола® ЕКОНОМ",
+        "description": "",
+        "price": 20.0,
+        "image": "https://imgur.com/rV5S59U.png"
+      },
+      {
+        "id": 58,
+        "name": "Кока-Кола® МАЛА",
+        "description": "",
+        "price": 25.0,
+        "image": "https://imgur.com/rV5S59U.png"
+      },
+      {
+        "id": 59,
+        "name": "Кока-Кола® СЕРЕДНЯ",
+        "description": "",
+        "price": 28.0,
+        "image": "https://imgur.com/rV5S59U.png"
+      },
+      {
+        "id": 60,
+        "name": "Фанта® ЕКОНОМ",
+        "description": "",
+        "price": 20.0,
+        "image": "https://imgur.com/NlPAINL.png"
+      },
+      {
+        "id": 61,
+        "name": "Фанта® МАЛА",
+        "description": "",
+        "price": 25.0,
+        "image": "https://imgur.com/NlPAINL.png"
+      },
+      {
+        "id": 62,
+        "name": "Фанта® СЕРЕДНЯ",
+        "description": "",
+        "price": 28.0,
+        "image": "https://imgur.com/NlPAINL.png"
+      },
+      {
+        "id": 63,
+        "name": "Холодний лате",
+        "description": "",
+        "price": 32.0,
+        "image": "https://imgur.com/Sh1082t.png"
+      },
+      {
+        "id": 64,
+        "name": "Апельсиновий сік",
+        "description": "",
+        "price": 34.0,
+        "image": "https://imgur.com/3nexTna.png"
+      },
+      {
+        "id": 65,
+        "name": "Спрайт® ЕКОНОМ",
+        "description": "",
+        "price": 20.0,
+        "image": "https://imgur.com/OrUf4t0.png"
+      },
+      {
+        "id": 66,
+        "name": "Спрайт® МАЛА",
+        "description": "",
+        "price": 25.0,
+        "image": "https://imgur.com/OrUf4t0.png"
+      },
+      {
+        "id": 67,
+        "name": "Спрайт® СЕРЕДНЯ",
+        "description": "",
+        "price": 28.0,
+        "image": "https://imgur.com/OrUf4t0.png"
+      }
+    ]
+  },
+  "Гарячі напої": {
+    "icon": "hot_drinks",
+    "items": [
+      {
+        "id": 70,
+        "name": "Чай",
+        "description": "",
+        "price": 24.0,
+        "image": "https://imgur.com/blIzCR2.png"
+      },
+      {
+        "id": 71,
+        "name": "Флет Вайт",
+        "description": "",
+        "price": 32.0,
+        "image": "https://imgur.com/EjxuzVp.png"
+      },
+      {
+        "id": 72,
+        "name": "Еспресо",
+        "description": "",
+        "price": 19.0,
+        "image": "https://imgur.com/0CnCjlp.png"
+      },
+      {
+        "id": 69,
+        "name": "Подвійне Еспресо",
+        "description": "",
+        "price": 23.0,
+        "image": "https://imgur.com/0CnCjlp.png"
+      },
+      {
+        "id": 73,
+        "name": "Американо мале",
+        "description": "",
+        "price": 25.0,
+        "image": "https://imgur.com/A8aR39Y.png"
+      },
+      {
+        "id": 74,
+        "name": "Американо КЛАСІК",
+        "description": "",
+        "price": 31.0,
+        "image": "https://imgur.com/A8aR39Y.png"
+      },
+      {
+        "id": 75,
+        "name": "Американо з молоком МАЛЕ",
+        "description": "",
+        "price": 26.0,
+        "image": "https://imgur.com/BuH9i9g.png"
+      },
+      {
+        "id": 76,
+        "name": "Американо з молоком КЛАСІК",
+        "description": "",
+        "price": 32.0,
+        "image": "https://imgur.com/BuH9i9g.png"
+      },
+      {
+        "id": 78,
+        "name": "Капучино МАЛЕ",
+        "description": "",
+        "price": 26.0,
+        "image": "https://imgur.com/gpCxgE8.png"
+      },
+      {
+        "id": 79,
+        "name": "Капучино КЛАСІК",
+        "description": "",
+        "price": 32.0,
+        "image": "https://imgur.com/gpCxgE8.png"
+      }
+    ]
+  },
+  "Хеппі Міл": {
+    "icon": "happy_meal",
+    "items": [
+      {
+        "id": 80,
+        "name": "Хеппі Міл Гамбургер",
+        "description": "",
+        "price": 76.0,
+        "image": "https://imgur.com/AKSUh6n.png"
+      },
+      {
+        "id": 81,
+        "name": "Хеппі Міл Чізбургер",
+        "description": "",
+        "price": 76.0,
+        "image": "https://imgur.com/YMdUMEk.png"
+      },
+      {
+        "id": 82,
+        "name": "Хеппі Міл Чікен Макнагетс 4 шт",
+        "description": "",
+        "price": 76.0,
+        "image": "https://imgur.com/vi4llYZ.png"
+      },
+      {
+        "id": 83,
+        "name": "Іграшка ",
+        "description": "",
+        "price": 30.0,
+        "image": "https://imgur.com/zujZej3.png"
+      }
+    ]
+  },
+  "Соуси": {
+    "icon": "sauces",
+    "items": [
+      {
+        "id": 84,
+        "name": "Соус Барбекю",
+        "description": "",
+        "price": 9.0,
+        "image": "https://imgur.com/v8s56Px.png"
+      },
+      {
+        "id": 85,
+        "name": "Соус Кисло-Солодкий",
+        "description": "",
+        "price": 9.0,
+        "image": "https://imgur.com/61XBdPR.png"
+      },
+      {
+        "id": 86,
+        "name": "Соус Український",
+        "description": "",
+        "price": 9.0,
+        "image": "https://imgur.com/CoiU8mg.png"
+      },
+      {
+        "id": 87,
+        "name": "Соус Сирний",
+        "description": "",
+        "price": 9.0,
+        "image": "https://imgur.com/KrUWRtJ.png"
+      },
+      {
+        "id": 88,
+        "name": "Соус Солодкий Чилі",
+        "description": "",
+        "price": 9.0
+      },
+      {
+        "id": 89,
+        "name": "Кетчуп",
+        "description": "",
+        "price": 9.0,
+        "image": "https://imgur.com/9D0gN5n.png"
+      },
+      {
+        "id": 90,
+        "name": "Гірчиця",
+        "description": "",
+        "price": 9.0,
+        "image": "https://imgur.com/St1jPCJ.png"
+      },
+      {
+        "id": 91,
+        "name": "Майонез",
+        "description": "",
+        "price": 9.0,
+        "image": "https://imgur.com/L8KK1Sm.png"
+      },
+      {
+        "id": 92,
+        "name": "Соус журавлиновий",
+        "description": "",
+        "price": 9.0,
+        "image": "https://imgur.com/BbcvRjI.png"
+      },
+      {
+        "id": 93,
+        "name": "Соус 1000 островів",
+        "description": "",
+        "price": 9.0,
+        "image": "https://imgur.com/NNCaU3c.png"
+      },
+      {
+        "id": 94,
+        "name": "Олівкова олія",
+        "description": "",
+        "price": 9.0,
+        "image": "https://imgur.com/3D3bvx2.png"
+      },
+      {
+        "id": 95,
+        "name": "Вершки",
+        "description": "",
+        "price": 6.0
+      }
+    ]
+  }
 }

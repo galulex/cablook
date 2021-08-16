@@ -1,10 +1,9 @@
 describe Events::Orders::Create do
   describe '.call' do
-    before {
+    before do
       allow_any_instance_of(described_class).to receive(:hold_money) { { 'reasonCode' => Constants::Payments::WAYFORPAY_SUCCESS } }
-      allow_any_instance_of(described_class).to receive(:items) { { 'Category' => [{ 'id' => '4537', 'name' => 'Item', 'price' => '125' }] } }
       allow_any_instance_of(described_class).to receive(:create_order_payment) { true }
-    }
+    end
 
     subject { -> { described_class.call(data) } }
 
@@ -16,7 +15,7 @@ describe Events::Orders::Create do
         card_id: card.id,
         trip_time: time,
         vendor_id: vendor.id,
-        items: ActionController::Parameters.new({ '4537' => ActionController::Parameters.new({ 'quantity' => 1 }) }).permit!
+        items: ActionController::Parameters.new('4537' => ActionController::Parameters.new('quantity' => 1, 'total_price' => '125')).permit!
       }
     }
 
@@ -33,15 +32,15 @@ describe Events::Orders::Create do
     end
 
     context 'when user manually edit items' do
-      let(:data) {
+      let(:data) do
         {
           user_id: user.id,
           card_id: card.id,
           trip_time: (Time.now + 2.hours).strftime('%H:%M'),
           vendor_id: vendor.id,
-          items: ActionController::Parameters.new({'Item, Category'=>ActionController::Parameters.new({ 'quantity'=>1 }) }).permit!
+          items: ActionController::Parameters.new('Item, Category' => ActionController::Parameters.new('quantity' => 1)).permit!
         }
-      }
+      end
 
       it { is_expected.to raise_error(Events::InvalidParamsError) }
     end

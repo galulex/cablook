@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_16_124933) do
+ActiveRecord::Schema.define(version: 2021_07_30_160544) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -153,7 +153,7 @@ ActiveRecord::Schema.define(version: 2020_12_16_124933) do
     t.bigint "car_id"
     t.bigint "driver_id"
     t.bigint "user_id"
-    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }
+    t.datetime "created_at", default: -> { "now()" }
     t.integer "distance"
     t.integer "duration"
     t.datetime "start_at"
@@ -189,7 +189,7 @@ ActiveRecord::Schema.define(version: 2020_12_16_124933) do
     t.string "phone_number"
     t.string "auth_token"
     t.string "referral_code"
-    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }
+    t.datetime "created_at", default: -> { "now()" }
     t.integer "trips_count", default: 0
     t.boolean "vip", default: false
     t.string "notification_settings", default: [], array: true
@@ -214,6 +214,7 @@ ActiveRecord::Schema.define(version: 2020_12_16_124933) do
     t.integer "orders_count", default: 0
     t.boolean "need_approve", default: true
     t.string "weekends", default: [], array: true
+    t.jsonb "items"
   end
 
   create_table "versions", force: :cascade do |t|

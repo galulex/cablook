@@ -1,0 +1,123 @@
+.control-section {
+  width: 100%;
+  position: absolute;
+  top: 45%;
+}
+
+.right-btn {
+  right: 0;
+  left: auto !important;
+}
+
+.right-btn svg {
+  transform: rotate(180deg);
+}
+
+.control-section button {
+  top: 50%;
+}
+
+button svg {
+  width: 20px;
+  height: 20px;
+  fill: var(--font_color_1);
+}
+
+.delivery .active button svg {
+  fill: white;
+  filter: url(#inset-shadow);
+}
+
+nav.delivery {
+  position: absolute;
+  left: 5%;
+  bottom: 35px;
+  top: auto;
+  align-items: center;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  z-index: 100;
+  border-radius: 10px;
+  display: flex;
+  width: 90vw;
+}
+
+nav.delivery button {
+  z-index: 100;
+  min-width: 150px;
+  height: auto;
+  font-weight: 100;
+  font-size: inherit;
+  color: var(--font_color_1);
+  mix-blend-mode: color-burn;
+  border: none;
+  cursor: pointer;
+  text-transform: capitalize;
+  outline: none;
+  transition: .1s ease-in-out;
+  scroll-snap-align: start;
+  background-color: var(--bg_gradient_color_1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  justify-content: center;
+  padding: 10px 0;
+  width: 150px;
+}
+
+nav.delivery .categories {
+  display: flex;
+  background: var(--navigation-bg);
+  border-radius: 10px;
+  box-shadow: inset 3px 2px 8px var(--shadow_color), inset -2px -1px 4px var(--white);
+}
+
+button.navigate-btn::after {
+  content: '';
+  border-left: 1px solid #ccc;
+  position: absolute;
+  right: 0;
+  height: 50%;
+  top: auto;
+  bottom: 23%;
+}
+
+button.navigate-btn:last-child::after {
+  content: unset;
+}
+
+.delivery .active button {
+  color: white;
+  font-weight: 700;
+}
+
+.category__item {
+  display: flex;
+  align-items: center;
+  width: 150px;
+}
+
+@media only screen and (min-width: 1280px) {
+  nav.delivery button {
+    font-size: 30px;
+    padding: 20px 0;
+    width: 300px;
+  }
+  .category__item {
+    width: 300px;
+  }
+  button svg {
+    width: 40px;
+    height: 40px;
+  }
+  nav.delivery .categories {
+    background: linear-gradient(90deg, #19a160 300px, #19a160 300px, transparent 300px);
+  }
+}
+
+@media screen and (max-width: 540px) {
+  section.vendor-page {
+    padding: unset;
+  }
+}

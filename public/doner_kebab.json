@@ -1,0 +1,243 @@
+{
+  "Бургери": {
+    "icon": "burger",
+    "items": [
+      {
+        "id": 7,
+        "description": "(пшенична булочка, соковитий біфштекс з яловичини, сир Чеддер, овочі, соуси)",
+        "name": "Класичний ЧізБургер/Classy cheese burger",
+        "price": "58",
+        "weight": "250 г",
+        "image": "https://imgur.com/IJGLKCw.png"
+      },
+      {
+        "id": 8,
+        "description": "(пшенична булочка, два соковитих біфштекса з яловичини, овочі, сир Чеддер, соуси)",
+        "name": "ДаблЧізБургер/Double cheese burger",
+        "price": "80",
+        "weight": "350 г",
+        "image": "https://imgur.com/CaKdnYa.png"
+      },
+      {
+        "id": 9,
+        "description": "(пшенична булочка, два соковитих біфштекса з яловичини, сир Чеддер, бекон, овочі, соус)",
+        "name": "ДаблБеконЧіз/Double bacon cheese",
+        "price": "90",
+        "weight": "300 г",
+        "image": "https://imgur.com/dJIym5S.png"
+      },
+      {
+        "id": 10,
+        "description": "(чорна булочка, соковитий біфштекс з яловичини, соус з цілої вишні, сир Чеддер, бекон, гірчичний соус)",
+        "name": "Бургер «Особливий»/Special One",
+        "price": "85",
+        "weight": "280 г",
+        "image": "https://imgur.com/fOntpby.png"
+      },
+      {
+        "id": 11,
+        "description": "(п’ять соковитих біфштексів з яловичини, бекон, сир Чеддер, соус, пшенична булочка)",
+        "name": "Бургер «Чемпіон»/Champion Burger",
+        "price": "199",
+        "weight": "600 г",
+        "image": "https://imgur.com/6jE2A7c.png"
+      },
+      {
+        "id": 12,
+        "description": "(пшенична булочка, соковитий біфштекс з яловичини, салат айсберг, свіжий томат, сир Дор Блю, соус БлуЧіз з білим шоколадом)",
+        "name": "Блю ЧізБургер/Blue cheese burger",
+        "price": "90",
+        "weight": "280 г",
+        "image": "https://imgur.com/dPWeLQ1.png"
+      }
+    ]
+  },
+  "Кебаби": {
+    "icon": "rolls",
+    "items": [
+      {
+        "id": 1,
+        "description": "(курка, свіжі овочі, соуси, сир, лимонний сік)",
+        "name": "Донер кебаб в лаваші S",
+        "price": "45",
+        "weight": "200 г",
+        "image": "https://imgur.com/aKcInTC.png"
+      },
+      {
+        "id": 2,
+        "description": "(курка, свіжі овочі, соуси, сир, лимонний сік)",
+        "name": "Донер кебаб в лаваші M",
+        "price": "55",
+        "weight": "300 г",
+        "image": "https://imgur.com/aKcInTC.png"
+      },
+      {
+        "id": 3,
+        "description": "(курка, свіжі овочі, соуси, сир, лимонний сік)",
+        "name": "Донер кебаб в лаваші L",
+        "price": "70",
+        "weight": "480 г",
+        "image": "https://imgur.com/aKcInTC.png"
+      },
+      {
+        "id": 4,
+        "description": "(курка, свіжі овочі, соуси, сир, лимонний сік)",
+        "name": "Донер кебаб в лаваші XL",
+        "price": "110",
+        "weight": "900 г",
+        "image": "https://imgur.com/aKcInTC.png"
+      },
+      {
+        "id": 5,
+        "description": "(сир, свіжі овочі, фалафель, соуси, лимонний сік)",
+        "name": "Донер кебаб вега",
+        "price": "45",
+        "weight": "25(пшенична булочка, соковитий біфштекс з яловичини, салат айсберг, цибуля, маринований огірок, сир Чеддер, соуси)0 г",
+        "image": "https://imgur.com/uPkHwsj.png"
+      },
+      {
+        "id": 6,
+        "description": "(свіжі овочі, курка, соуси, картполя фрі, лаваш, напій)",
+        "name": "Донер кебаб бокс",
+        "price": "85",
+        "weight": "500 г",
+        "image": "https://imgur.com/W50zlBQ.png"
+      }
+    ]
+  },
+  "Меню": {
+    "icon": "menu",
+    "items": [
+      {
+        "id": 13,
+        "description": "(донер кебаб в лаваші, картполя фрі, coca-cola 0,5)",
+        "name": "Донер кебаб в лаваші меню S",
+        "price": "75",
+        "weight": "",
+        "image": "https://imgur.com/kTgNNGc.png"
+      },
+      {
+        "id": 14,
+        "description": "(донер кебаб в лаваші, картполя фрі, coca-cola 0,5)",
+        "name": "Донер кебаб в лаваші меню M",
+        "price": "90",
+        "weight": "",
+        "image": "https://imgur.com/kTgNNGc.png"
+      },
+      {
+        "id": 15,
+        "description": "(донер кебаб в лаваші, картполя фрі, coca-cola 0,5)",
+        "name": "Донер кебаб в лаваші меню L",
+        "price": "100",
+        "weight": "",
+        "image": "https://imgur.com/kTgNNGc.png"
+      },
+      {
+        "id": 16,
+        "description": "(класичний ЧізБургер, картопля фрі, coca-cola 0,5)",
+        "name": "Класичний ЧізБургер меню",
+        "price": "90",
+        "weight": "",
+        "image": "https://imgur.com/4DfTUlL.png"
+      },
+      {
+        "id": 17,
+        "description": "(ДаблЧізБургер, картопля фрі, coca-cola 0,5)",
+        "name": "ДаблЧізБургер меню",
+        "price": "110",
+        "weight": "",
+        "image": "https://imgur.com/bvTE3bj.png"
+      },
+      {
+        "id": 18,
+        "description": "(ДаблБеконЧіз, картопля фрі, coca-cola 0,5)",
+        "name": "ДаблБеконЧіз меню",
+        "price": "120",
+        "weight": "",
+        "image": "https://imgur.com/qTf0fxi.png"
+      },
+      {
+        "id": 19,
+        "description": "(БлюЧізБургер, картопля фрі, coca-cola 0,5)",
+        "name": "БлюЧізБургер меню",
+        "price": "120",
+        "weight": "",
+        "image": "https://imgur.com/xpusjCN.png"
+      },
+      {
+        "id": 20,
+        "description": "(Бургер «Особливий», картопля фрі, coca-cola 0,5)",
+        "name": "Бургер «Особливий» меню",
+        "price": "120",
+        "weight": "",
+        "image": "https://imgur.com/VxKGicR.png"
+      }
+    ]
+  },
+  "Iнше": {
+    "icon": "sauces",
+    "items": [
+      {
+        "id": 21,
+        "description": "",
+        "name": "Картопля фрі",
+        "price": "30",
+        "weight": "150 г",
+        "image": "https://imgur.com/gtaHIdw.png"
+      },
+      {
+        "id": 22,
+        "description": "",
+        "name": "Соус часниковий",
+        "price": "8",
+        "weight": "",
+        "image": "https://imgur.com/Zv5MsGM.png"
+      },
+      {
+        "id": 23,
+        "description": "",
+        "name": "Соус фірмовий",
+        "price": "8",
+        "weight": "",
+        "image": "https://imgur.com/MUVI9MX.png"
+      },
+      {
+        "id": 24,
+        "description": "",
+        "name": "Соус кетчуп",
+        "price": "8",
+        "weight": "",
+        "image": "https://imgur.com/J79rkpg.png"
+      }
+    ]
+  },
+  "Напої": {
+    "icon": "cold_drinks",
+    "items": [
+      {
+        "id": 25,
+        "description": "",
+        "name": "Coca-cola 0,5",
+        "price": "15",
+        "weight": "",
+        "image": "https://imgur.com/xWnpnM1.png"
+      },
+      {
+        "id": 26,
+        "description": "",
+        "name": "Fanta 0,5",
+        "price": "15",
+        "weight": "",
+        "image": "https://imgur.com/9kXPi6s.png"
+      },
+      {
+        "id": 27,
+        "description": "",
+        "name": "Sprite 0,5",
+        "price": "15",
+        "weight": "",
+        "image": "https://imgur.com/HWlM8L5.png"
+      }
+    ]
+  }
+}

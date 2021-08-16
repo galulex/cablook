@@ -1,3 +1,11 @@
+.category__container {
+  height: 100%;
+}
+
+.delivery__holder {
+  flex-direction: column;
+}
+
 .vendor-page .load-background {
   position: absolute;
   top: 0;
@@ -16,4 +24,60 @@
 .vendor-page ul a:link {
   color: black;
   color: var(--black);
+}
+
+.vendor-page {
+  scroll-snap-type: both mandatory;
+  -webkit-scroll-snap-type: both mandatory;
+  max-width: 100%;
+  padding: unset;
+}
+
+.wrap {
+  scroll-snap-align: start;
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  width: 100%;
+}
+
+.wrap .delivery-item:first-child {
+  margin-left: auto;
+}
+
+.wrap .delivery-item:last-child {
+  margin-right: auto;
+}
+
+.category__scroll {
+  height: 100%;
+  position: relative;
+  scroll-snap-align: start;
+}
+
+.delivery-item {
+  scroll-snap-align: start;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-bottom: 100px;
+}
+
+main.delivery {
+  width: 100%;
+  overflow-y: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  display: flex;
+  position: relative;
+  justify-content: center;
+}
+
+.wrap::-webkit-scrollbar, nav.delivery::-webkit-scrollbar {
+  display: none;
+}
+
+section.vendor {
+  padding: 0;
 }

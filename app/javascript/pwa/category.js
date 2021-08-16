@@ -15,7 +15,7 @@ export default class Category extends Component {
     const result = []
     const map = new Map()
     for (const item of vendor.items[category]) {
-      if(!map.has(item.name)){
+      if (!map.has(item.name)) {
         map.set(item.name, true)
         result.push({
           name: item.name,
@@ -34,13 +34,13 @@ export default class Category extends Component {
             {result.map((item, index) => {
               return (
                 <ItemPreview
-                    category={category}
-                    item={item}
-                    key={index}
-                    updateCart={this.updateCart}
-                    vendor={vendor}
-                    hide_content={false}
-                    active={''}/>
+                  category={category}
+                  item={item}
+                  key={index}
+                  updateCart={this.updateCart}
+                  vendor={vendor}
+                  hide_content={false}
+                  active={''} />
               )
             })}
           </div>

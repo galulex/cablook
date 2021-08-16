@@ -12,36 +12,35 @@ export default class CurrentDeliveryTrip extends Component {
   render() {
     const { delivery_trip } = this.props
     const dark_mode = JSON.parse(localStorage.getItem('dark'))
-    const items = JSON.parse(localStorage.getItem('delivery_items')).items
-    const time = localStorage.getItem('delivery_time')
+    const items = delivery_trip.delivery_items.map((item) => { return JSON.parse(item) })
 
-    return(
+    return (
       <div class="general__holder">
         <header>{i18n.current_delivery_trip.header}</header>
         <section class='delivery-trip'>
-          { dark_mode ? <TaxiDriverDT class='driver_icon'/>  : <TaxiDriverLT class='driver_icon'/> }
-          <br/>
+          {dark_mode ? <TaxiDriverDT class='driver_icon' /> : <TaxiDriverLT class='driver_icon' />}
+          <br />
           <h4>{i18n.current_delivery_trip.order_accepted}</h4>
           <p class='info'>{i18n.current_delivery_trip.info}</p>
           <div class='info-container'>
             <div class='info-item'>
-              <TripTime/>
+              <TripTime />
               <b>{i18n.current_delivery_trip.time}</b>
-              <b class='desc'>{time}</b>
+              <b class='desc'>{delivery_trip.finish_time}</b>
             </div>
             <div class='info-item'>
-              <Pin class='pin'/>
+              <Pin class='pin' />
               <b>{i18n.current_delivery_trip.address}</b>
               <b class='desc'>{delivery_trip.destination_address}</b>
             </div>
             <div class='info-item'>
-              <Pizza/>
+              <Pizza />
               <b>{i18n.current_delivery_trip.order}</b>
-              { Object.keys(items).map((item) => {
-                return(
+              {Object.keys(items).map((item) => {
+                return (
                   <span>
-                    <b class='desc'>{items[item].item_name} - {items[item].quantity} шт.</b>
-                    <br/>
+                    <b class='desc'>{items[item].name} - {items[item].quantity} шт.</b>
+                    <br />
                   </span>
                 )
               })}

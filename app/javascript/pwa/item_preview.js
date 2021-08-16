@@ -115,7 +115,7 @@ export default class ItemPreview extends Component {
           </div>
           <div class='col-2'>
             { !in_cart &&
-                <button class='button green add-to-cart-button' onClick={this.addToCart}>{i18n.item_preview.add_to_cart}</button>
+                <button class='button green add-to-cart-button' onClick={this.addToCart}>+</button>
             }
             { in_cart &&
               <div>

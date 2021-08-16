@@ -1,92 +1,66 @@
 import { h, render, Component } from 'preact'
+import { Link } from 'preact-router/match';
 import axios from 'axios'
-import { Router } from 'preact-router'
-import { FINISHED, CANCELED, CANCELED_BY_DRIVER, DECLINED } from './constants.js'
 import i18n from './i18n.js'
 import './css/vendors.css'
 import VendorPreview from './vendor_preview.js'
-import Vendor from './vendor.js'
-import Loader from './loader.js'
 import CurrentDeliveryTrip from './current_delivery_trip.js'
+import Cart from './delivery/cart.js';
+import ShoppingCart from './images/Shopping_cart.svg'
 
 export default class Vendors extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      delivery_trip: JSON.parse(localStorage.getItem('delivery_trip')),
       showLoader: true,
       vendors: []
     }
   }
 
   componentDidMount() {
-    this.getDeliveryTrip()
+    let { fetchUser } = this.props;
+
+    fetchUser()
     this.getVendors()
   }
 
   getVendors = () => {
     axios.get('vendors').then((res) => {
       this.setState({ vendors: res.data, showLoader: false })
-    }).catch((error) => {
-      if (error.response) alert(error.response.data.errors)
-    });
-  }
-
-  getDeliveryTrip = () => {
-    const { delivery_trip } = this.state
-
-    if (delivery_trip && delivery_trip.id && ![null, 10].includes(delivery_trip.status)) this.getDeliveryTripRequest()
-  }
-
-  getDeliveryTripRequest = () => {
-    const { delivery_trip } = this.state
-
-    if (!delivery_trip.id) return;
-    axios.get(`trips/${delivery_trip.id}`).then((res) => {
-      this.updateDeliveryTrip(res.data)
-    }).catch((error) => {
-      if (error.response) alert(error.response.data.errors)
-    })
-  }
-
-  updateDeliveryTrip = (delivery_trip) => {
-    localStorage.setItem('delivery_trip', JSON.stringify(delivery_trip))
-    this.setState({delivery_trip, showLoader: false})
-  }
-
-  updateLoaderState = (showLoader) => {
-    this.setState({showLoader})
+    }).catch((error) => { if (error.response) alert(error.response.data.errors) });
   }
 
   render() {
-    const { vendors, showLoader, delivery_trip } = this.state
+    let { vendors } = this.state
+    let { deliveryTrip, setCurrentTrip, showBurger } = this.props
+    const cart = new Cart()
 
-    if (!delivery_trip || !delivery_trip.id || [FINISHED,CANCELED,CANCELED_BY_DRIVER,DECLINED,null].includes(delivery_trip.status)) {
-      localStorage.removeItem('delivery_trip')
-      return (
-        <div class='general__holder'>
-          <header>{i18n.vendors_page.header}</header>
-          <section class='vendors'>
-            <ul>
-              { vendors.map(vendor => (
-                  <VendorPreview
-                    key={vendor.id}
-                    vendor={vendor}
-                    updateLoaderState={this.updateLoaderState}
-                    setCurrentTrip={this.props.setCurrentTrip}
-                    showBurger={this.props.showBurger}
-                  />)
-                )
-              }
-            </ul>
-          </section>
-        </div>
-      )
-    } else {
-      return (
-        <CurrentDeliveryTrip delivery_trip={delivery_trip}/>
-      )
-    }
+    if (deliveryTrip?.id) { return <CurrentDeliveryTrip delivery_trip={deliveryTrip} /> }
+    return (
+      <div class='general__holder'>
+        <header>
+          {i18n.vendors_page.header}
+          <Link href={'/delivery/shopping_cart'}>
+            {cart.isEmpty() && <span class='orange-dot' />}
+            <ShoppingCart class='cart' fill='#132d50' />
+          </Link>
+        </header>
+        <section class='vendors'>
+          <ul>
+            {vendors.map(vendor => (
+              <VendorPreview
+                key={vendor.id}
+                vendor={vendor}
+                updateLoaderState={this.updateLoaderState}
+                setCurrentTrip={setCurrentTrip}
+                showBurger={showBurger}
+              />)
+            )
+            }
+          </ul>
+        </section>
+      </div>
+    )
   }
 }
