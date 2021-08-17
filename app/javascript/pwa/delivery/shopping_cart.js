@@ -246,7 +246,7 @@ export default class ShoppingCart extends Component {
 
     return (
       <div class='general__holder'>
-        <button type='button' class='button burger white-opacity' onClick={() => window.ios ? this.handleBack() : window.history.back()}><Back fill='#132d50' /></button>
+        <button type='button' class='button burger white-opacity' onClick={() => this.handleBack()}><Back fill='#132d50' /></button>
         <header>{i18n.cart.header}</header>
         <section class='cart'>
           {showLoader && <Loader />}
@@ -325,7 +325,7 @@ export default class ShoppingCart extends Component {
                   </div>
                 </div>}
               <br />
-              {(cards.length !== 0) && <input type='submit' class={`button green ${vendor.name_slug}`} onClick={this.createOrder} value={i18n.cart.create_order} />}
+                {(cards.length !== 0) && <input type='submit' disabled={this.state.submitDisabled} class={`button green ${vendor.name_slug}`} onClick={this.createOrder} value={i18n.cart.create_order} />}
             </form>,
             !vendor_closed && showWidget && <Widget updateCards={this.props.updateCards} showWidget={() => this.setState({ showWidget: false })} />,
             vendor_closed && <p>{i18n.cart.vendor_closed}</p>]
