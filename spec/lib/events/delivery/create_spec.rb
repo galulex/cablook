@@ -14,6 +14,9 @@ describe Events::Delivery::Create do
     let(:vendor) { create :vendor, open_at: Vendor::MAX_OPEN_TIME, close_at: Vendor::MAX_CLOSE_TIME }
     let(:user) { create :user }
     let(:trip_params) { attributes_for :trip, user_id: user.id }
+    let(:trip_waypoints) { [trip_params[:departure], trip_params[:destination]] }
+    let(:expected_waypoints) { trip_waypoints.map { |point| point.join(',') } }
+    let(:trip_stops) { [trip_params[:departure_address], trip_params[:destination_address]] }
     let(:items) { { '4537' => { 'total_price' => '125', 'quantity' => 1 } } }
     let(:time) { Time.zone.now.strftime('%H:%M') }
     let(:data) do
@@ -21,7 +24,7 @@ describe Events::Delivery::Create do
         trip_time: time,
         card_id: card.id,
         user_id: user.id,
-        trip: trip_params,
+        trip: trip_params.merge(waypoints: trip_waypoints),
         items: items }
     end
 
@@ -29,6 +32,8 @@ describe Events::Delivery::Create do
     it { is_expected.to change(Trip, :count).by(+1) }
     it { is_expected.to change(Order.where(items: items), :count).by(+1) }
     it { is_expected.not_to raise_error(Events::InvalidParamsError) }
+    it { is_expected.to change(Trip.where(waypoints: expected_waypoints), :count).by(+1) }
+    it { is_expected.to change(Trip.where(stops: trip_stops), :count).by(+1) }
 
     context 'with invalid params' do
       let(:data) { { vendor_id: vendor.id, trip_time: time, card_id: card.id, user_id: user.id } }
@@ -44,7 +49,11 @@ describe Events::Delivery::Create do
     end
 
     context 'when invalid trip params' do
-      let(:trip_params) { { destination: 'test_des', destination_address: 'test_addr' } }
+      let(:trip_params) do
+        { destination_address: 'test_addr',
+          departure: [-89.2018, -70.3303],
+          destination: [68.33643, 173.93436] }
+      end
 
       it { is_expected.to raise_error(Events::InvalidParamsError) }
     end

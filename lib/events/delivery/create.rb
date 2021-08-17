@@ -44,13 +44,27 @@ module Events
       end
 
       def additional_params
-        { user_id: data[:user_id], osrm: true, order_id: order[:order_id], time: data[:trip_time], delivery: true }.merge(comment)
+        { user_id: data[:user_id],
+          osrm: true,
+          order_id: order[:order_id],
+          time: data[:trip_time],
+          delivery: true,
+          waypoints: trip_waypoints,
+          stops: trip_stops }.merge(comment)
       end
 
       def comment
         { comment: "Доставка їжі з закладу: #{vendor.name}. "\
-                   "Номер телефону закладу: #{vendor.phone_number}. "\
-                   "Коментар користувача: #{data.dig(:trip, :comment)}" }
+          "Номер телефону закладу: #{vendor.phone_number}. "\
+          "Коментар користувача: #{data.dig(:trip, :comment)}" }
+      end
+
+      def trip_waypoints
+        data.dig(:trip, :waypoints).map { |point| point.join(',') }
+      end
+
+      def trip_stops
+        [data.dig(:trip, :departure_address), data.dig(:trip, :destination_address)]
       end
 
       def vendor
