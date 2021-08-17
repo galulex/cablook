@@ -15,12 +15,13 @@ describe Api::DeliveryController, type: :controller do
     let(:trip_params) { attributes_for :trip, user_id: user.id }
     let(:items) { { '4537' => { 'total_price' => '125', 'quantity' => 1 } } }
     let(:time) { Time.zone.now.strftime('%H:%M') }
+    let(:waypoints) { { waypoints: [trip_params[:departure], trip_params[:destination]] } }
     let(:params) do
       { order: { vendor_id: vendor.id,
                  trip_time: time,
                  card_id: card.id,
                  user_id: user.id,
-                 trip: trip_params,
+                 trip: trip_params.merge(waypoints),
                  items: items } }
     end
 
