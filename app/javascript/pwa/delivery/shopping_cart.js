@@ -97,7 +97,7 @@ export default class ShoppingCart extends Component {
 
     Object.keys(cart.items).map((item) => {
       const current_item = cart.items[item]
-      prices.push(current_item.total_price * current_item.quantity)
+      prices.push(current_item.item_price * current_item.quantity)
     })
 
     this.setState({ total_price: prices.reduce((a, b) => { return a + b; }, 0) })
