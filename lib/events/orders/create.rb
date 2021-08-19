@@ -62,7 +62,7 @@ module Events
 
       def calculate_amount
         data[:items].to_h.sum do |order_item|
-          order_item[1]['quantity'].to_i * order_item[1]['total_price'].to_f
+          order_item[1]['quantity'].to_i * order_item[1]['item_price'].to_f
         end
       end
 

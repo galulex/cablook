@@ -9,13 +9,14 @@ describe Events::Orders::Create do
 
     let!(:vendor) { create(:vendor) }
     let(:time) { '14:00' }
+    let(:items) { ActionController::Parameters.new('4537' => ActionController::Parameters.new('quantity' => 1, 'total_price' => '125')).permit! }
     let(:order_params) {
       {
         user_id: user.id,
         card_id: card.id,
         trip_time: time,
         vendor_id: vendor.id,
-        items: ActionController::Parameters.new('4537' => ActionController::Parameters.new('quantity' => 1, 'total_price' => '125')).permit!
+        items: items
       }
     }
 
@@ -24,6 +25,12 @@ describe Events::Orders::Create do
     let!(:card) { create(:card, user_id: user.id) }
 
     it { is_expected.to change { Order.count }.by(+1) }
+
+    context 'correct order amount with a few items' do
+      let(:items) { ActionController::Parameters.new('4537' => ActionController::Parameters.new('quantity' => 2, 'item_price' => '9', 'total_price' => '18')).permit! }
+
+      it { is_expected.to change(Order.where(amount: 18), :count).by(+1) }
+    end
 
     context 'when user_id is empty' do
       let(:data) { order_params.except(:user_id) }
