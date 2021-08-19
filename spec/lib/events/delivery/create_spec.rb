@@ -17,7 +17,7 @@ describe Events::Delivery::Create do
     let(:trip_waypoints) { [trip_params[:departure], trip_params[:destination]] }
     let(:expected_waypoints) { trip_waypoints.map { |point| point.join(',') } }
     let(:trip_stops) { [trip_params[:departure_address], trip_params[:destination_address]] }
-    let(:items) { { '4537' => { 'total_price' => '125', 'quantity' => 1 } } }
+    let(:items) { { '4537' => { 'total_price' => '125', 'quantity' => 1, 'item_price' => '125' } } }
     let(:time) { Time.zone.now.strftime('%H:%M') }
     let(:data) do
       { vendor_id: vendor.id,

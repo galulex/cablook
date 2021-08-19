@@ -9,7 +9,7 @@ describe Events::Orders::Create do
 
     let!(:vendor) { create(:vendor) }
     let(:time) { '14:00' }
-    let(:items) { ActionController::Parameters.new('4537' => ActionController::Parameters.new('quantity' => 1, 'total_price' => '125')).permit! }
+    let(:items) { ActionController::Parameters.new('4537' => ActionController::Parameters.new('quantity' => 1, 'total_price' => '125', 'item_price' => '125')).permit! }
     let(:order_params) {
       {
         user_id: user.id,

@@ -13,7 +13,7 @@ describe Api::DeliveryController, type: :controller do
   describe '#create' do
     let!(:card) { create :card, user_id: user.id }
     let(:trip_params) { attributes_for :trip, user_id: user.id }
-    let(:items) { { '4537' => { 'total_price' => '125', 'quantity' => 1 } } }
+    let(:items) { { '4537' => { 'total_price' => '125', 'quantity' => 1, 'item_price' => '125' } } }
     let(:time) { Time.zone.now.strftime('%H:%M') }
     let(:waypoints) { { waypoints: [trip_params[:departure], trip_params[:destination]] } }
     let(:params) do
