@@ -37,7 +37,6 @@ nav.delivery {
   overflow-x: auto;
   scroll-snap-type: x mandatory;
   z-index: 100;
-  border-radius: 10px;
   display: flex;
   width: 90vw;
 }
