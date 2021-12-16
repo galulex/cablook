@@ -1,0 +1,13 @@
+section {
+  /* position: relative; */
+  padding: 50px 30px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+
+  overflow-x: auto;
+  flex: 1 1 auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+
+}

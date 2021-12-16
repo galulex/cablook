@@ -177,8 +177,15 @@ const ru = {
       all_time: 'ВСЁ ВРЕМЯ',
       last_month: 'ПОСЛЕДНИЙ МЕСЯЦ',
       last_week: 'ПОСЛЕДНЯЯ НЕДЕЛЯ',
-      this_month: 'ЭТОТ МЕСЯЦ'
-    }
+      this_month: 'ЭТОТ МЕСЯЦ',
+      today: 'СЕГОДНЯ',
+      last_two_days: 'ПОСЛЕДНИЕ 2 ДНЯ',
+      this_week: 'ЭТА НЕДЕЛЯ',
+      this_year: 'ЭТОТ ГОД'
+    },
+    total_trips_cost: 'Стоимость поездок',
+    points: ' баллов',
+    tips_count: 'Количество'
   },
   profile_page: {
     header: 'Профиль',

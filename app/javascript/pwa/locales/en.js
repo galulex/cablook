@@ -177,8 +177,15 @@ const en = {
       all_time: 'ALL TIME',
       last_month: 'LAST MONTH',
       last_week: 'LAST WEEK',
-      this_month: 'THIS MONTH'
-    }
+      this_month: 'THIS MONTH',
+      today: 'TODAY',
+      last_two_days: 'LAST 2 DAYS',
+      this_week: 'THIS WEEK',
+      this_year: 'THIS YEAR'
+    },
+    total_trips_cost: 'Trips cost',
+    points: 'points',
+    tips_count: 'Count'
   },
   profile_page: {
     header: 'Profile',

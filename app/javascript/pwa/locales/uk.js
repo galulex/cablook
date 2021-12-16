@@ -177,8 +177,15 @@ const uk = {
       all_time: 'ВЕСЬ ЧАС',
       last_month: 'ОСТАННІЙ МІСЯЦЬ',
       last_week: 'ОСТАННІЙ ТИЖДЕНЬ',
-      this_month: 'ЦЕЙ МІСЯЦЬ'
-    }
+      this_month: 'ЦЕЙ МІСЯЦЬ',
+      today: 'СЬОГОДНІ',
+      last_two_days: 'ОСТАННІ 2 ДНІ',
+      this_week: 'ЦЕЙ ТИЖДЕНЬ',
+      this_year: 'ЦЕЙ РІК'
+    },
+    total_trips_cost: 'Вартість поїздок',
+    points: ' балів',
+    tips_count: 'Кількість'
   },
   profile_page: {
     header: 'Профіль',
