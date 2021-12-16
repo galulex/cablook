@@ -39,8 +39,8 @@ class Trip < ApplicationRecord
   scope :last_week, ->  { where('created_at BETWEEN ? AND ?', Date.current.beginning_of_week, Date.current.end_of_week) }
   scope :last_month, -> { where('created_at BETWEEN ? AND ?', 1.month.ago.to_date.beginning_of_month, 1.month.ago.to_date.end_of_month) }
   scope :this_year, -> { where('created_at BETWEEN ? AND ?', Date.current.beginning_of_year, Date.current.end_of_year) }
-  # scope :today, -> { where('created_at ?', Date.current) }
-  # scope :last_two_days, -> { where('created_at BETWEEN ? AND ?', Date.current - 1, Date.current) }
+  scope :today, -> { where('DATE(created_at) = ?', Date.today) }
+  scope :last_two_days, -> { where('created_at > ?', Date.current - 2.days) }
 
   # Time for pre-order trip
   attr_reader :time, :vip

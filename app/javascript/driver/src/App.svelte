@@ -90,7 +90,7 @@
     return trips
   })
 
-  let getStatistics = (async (period = 'all') => {
+  let getStatistics = (async (period = 'today') => {
     let res = await axios.get(`statistics?period=${period}`)
     statistics = res.data.statistics || {}
     return statistics
