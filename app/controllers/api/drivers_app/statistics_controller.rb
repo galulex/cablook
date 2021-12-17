@@ -8,7 +8,7 @@ module Api
       private
 
       def statistics
-        current_driver.trips.statistics('driver_id').send(params[:period]).first
+        current_driver.trips.driver_statistics.send(params[:period]).first
       end
     end
   end
