@@ -1,10 +1,10 @@
 <script>
   import { onMount } from 'svelte'
   import i18n from '../../../pwa/i18n.js'
-  // import Star from '../../../pwa/images/star.svg'
-  // import Tips from '../../../pwa/images/tips.js'
-  // import Amount from '../../../pwa/images/trip_price.js'
-  // import Leaf from '../../../pwa/images/leaf_icon.js'
+  import Star from '../../images/Star.svelte'
+  import Tips from '../../images/Tips.svelte'
+  import Points from '../../images/Trip_price.svelte'
+  import Leaf from '../../images/Leaf.svelte'
 
   import '../../css/statistics.css'
 
@@ -38,44 +38,51 @@
     <div class='tab-content__container'>
       <div class='tab-content__header'>{i18n.statistics.your_data}</div>
       <div class='tab-content__container-items'>
-        <div class='tab-content__container-item statistics__item'>
+        <div class='tab-content__container-item'>
           <div class='statistics__container'>
-            <!-- <Leaf class='statistics-icon'/> -->
+            <Leaf/>
             {i18n.statistics.trips_count}
           </div>
           <span class='value'>
             {(statistics.trips_count) || 0}
           </span>
         </div>
-        <div class='tab-content__container-item statistics__item'>
+        <div class='tab-content__container-item'>
           <div class='statistics__container'>
-            <!-- <Amount class='statistics-icon'/> -->
-            {i18n.statistics.points}
+            <Points/>
+            {i18n.statistics.points_2}
           </div>
           <span class='value'>
             {(statistics.amount) || 0}
-            {i18n.statistics.points}
+            {i18n.statistics.points_1}
           </span>
         </div>
-
-
-        <div class='tab-content__container-item statistics__item'>
+        <div class='tab-content__container-item'>
           <div class='statistics__container'>
-            <!-- <Star class='statistics-icon'/> -->
+            <Star/>
             {i18n.statistics.rate}
           </div>
           <span class='value'>
             {(statistics.rate) || 0}
           </span>
         </div>
-        <div class='tab-content__container-item statistics__item'>
+        <div class='tab-content__container-item'>
           <div class='statistics__container'>
-            <!-- <Tips class='statistics-icon'/> -->
+            <Tips/>
             {i18n.statistics.tips}
           </div>
           <span class='value'>
             {(statistics.tips) || 0}
             {i18n.statistics.uah}
+          </span>
+        </div>
+        <div class='tab-content__container-item'>
+          <div class='statistics__container'>
+            <Tips/>
+            {i18n.statistics.tips_count}
+          </div>
+          <span class='value'>
+            {(statistics.tips_count) || 0}
           </span>
         </div>
       </div>
