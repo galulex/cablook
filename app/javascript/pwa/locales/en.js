@@ -184,7 +184,8 @@ const en = {
       this_year: 'THIS YEAR'
     },
     total_trips_cost: 'Trips cost',
-    points: 'points',
+    points_1: ' points',
+    points_2: 'Points',
     tips_count: 'Count'
   },
   profile_page: {

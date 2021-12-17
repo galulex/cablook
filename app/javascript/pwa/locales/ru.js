@@ -184,7 +184,8 @@ const ru = {
       this_year: 'ЭТОТ ГОД'
     },
     total_trips_cost: 'Стоимость поездок',
-    points: ' баллов',
+    points_1: ' баллов',
+    points_2: 'Баллы',
     tips_count: 'Количество'
   },
   profile_page: {
