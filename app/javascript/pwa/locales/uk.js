@@ -184,7 +184,8 @@ const uk = {
       this_year: 'ЦЕЙ РІК'
     },
     total_trips_cost: 'Вартість поїздок',
-    points: ' балів',
+    points_1: ' балів',
+    points_2: 'Бали',
     tips_count: 'Кількість'
   },
   profile_page: {
