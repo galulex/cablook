@@ -15,7 +15,7 @@
 <nav>
   <Link to="/map"><Pin/></Link>
   <Link to="/"><Home/></Link>
-  <Link to="/statistic">Statistic</Link>
   <button type='button' on:click={getTrips}>{speed}</button>
   <button type='button' on:click={logout}><CrossX/></button>
+  <Link to="/statistic"><Profile/></Link>
 </nav>

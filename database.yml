@@ -1,0 +1,21 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  pool: 5
+  username: katenaumenko
+  password: rikanaumenko23
+
+development:
+  <<: *default
+  host: localhost
+  database: cablook_development
+
+test:
+  <<: *default
+  database: cablook_test
+
+production:
+  <<: *default
+  database: cablook_production
+  username: cablook
+  password: <%= ENV['CABLOOK_DATABASE_PASSWORD'] %>

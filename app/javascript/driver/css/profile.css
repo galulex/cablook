@@ -1,7 +1,7 @@
 section {
-  padding-top: 50px;
+  padding-top: 40px;
   width: 100%;
-  height: 100%;
+  height: 80vh;
   display: flex;
   justify-content: center;
 }
@@ -70,7 +70,6 @@ section {
   font-size: 2.6vh;
   font-size: calc(var(--vh, 1vh) * 2.6);
   text-align-last: center;
-
 }
 
 .tab-content__container label.select:before {

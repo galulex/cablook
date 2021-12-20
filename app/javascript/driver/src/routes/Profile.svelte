@@ -6,7 +6,7 @@
   import Points from '../../images/Trip_price.svelte'
   import Leaf from '../../images/Leaf.svelte'
 
-  import '../../css/statistics.css'
+  import '../../css/profile.css'
 
   export let getStatistics
   export let statistics
@@ -20,6 +20,7 @@
     {name: i18n.statistics.periods.this_year, value: 'this_year'},
     {name: i18n.statistics.periods.all_time, value: 'all'}
   ]
+
 </script>
 
 <section>

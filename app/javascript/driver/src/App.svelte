@@ -17,7 +17,7 @@
   import Spinner from './Spinner.svelte'
   import Sos from './Sos.svelte'
   import Warning from './Warning.svelte'
-  import Statistic from './routes/Statistic.svelte'
+  import Profile from './routes/Profile.svelte';
 
   let isLoggedIn = !!document.cookie.match(/token/)
   let carSpeed = 0
@@ -219,7 +219,7 @@
         {#await getStatistics()}
           <Spinner/>
         {:then}
-          <Statistic getStatistics={getStatistics} statistics={statistics}/>
+          <Profile getStatistics={getStatistics} statistics={statistics}/>
         {:catch error}
           <h3>Сталася помилка перезайдіть в акаунт</h3>
         {/await}
