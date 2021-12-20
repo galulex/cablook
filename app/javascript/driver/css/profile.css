@@ -90,3 +90,14 @@ section {
   width: 3vh;
   width: calc(var(--vh, 1vh) * 3);
 }
+
+.log-out {
+  display: flex;
+  align-items: center;
+  margin: 0 5%;
+  width: 90%;
+  padding: 2%;
+  background-color:
+}
+
+.log-out svg { padding-right: 5px;}

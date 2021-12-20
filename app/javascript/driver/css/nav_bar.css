@@ -46,6 +46,8 @@ nav svg {
   display: block;
 }
 
+nav svg.profile { width: 30px; }
+
 nav svg path {
   fill: var(--white);
 }

@@ -219,13 +219,13 @@
         {#await getStatistics()}
           <Spinner/>
         {:then}
-          <Profile getStatistics={getStatistics} statistics={statistics}/>
+          <Profile getStatistics={getStatistics} statistics={statistics} logout={logout}/>
         {:catch error}
           <h3>Сталася помилка перезайдіть в акаунт</h3>
         {/await}
       </Route>
     </main>
-    <Nav speed={carSpeed} logout={logout} getTrips={getTrips}/>
+    <Nav speed={carSpeed} getTrips={getTrips}/>
     <Sos sendSos={sendSos}/>
   {:else}
     <Route path="/" component={Session} login={login} />

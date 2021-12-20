@@ -5,11 +5,13 @@
   import Tips from '../../images/Tips.svelte'
   import Points from '../../images/Trip_price.svelte'
   import Leaf from '../../images/Leaf.svelte'
+  import Sign_out from '../../images/Sign_out.svelte'
 
   import '../../css/profile.css'
 
   export let getStatistics
   export let statistics
+  export let logout
 
   let Periods = [
     {name: i18n.statistics.periods.today, value: 'today'},
@@ -90,3 +92,9 @@
     </div>
   </div>
 </section>
+<div>
+  <button class='log-out' type='button' on:click={logout}>
+    <Sign_out/>
+    {i18n.drawer.logout}
+  </button>
+</div>
