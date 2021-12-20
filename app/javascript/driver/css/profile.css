@@ -84,11 +84,14 @@ section {
 
 .tab-content__container label[for='period'] { color: #19a160; }
 
+.statistics__container { display: flex; }
+
 .statistics__container svg {
   height: 3vh;
   height: calc(var(--vh, 1vh) * 3);
   width: 3vh;
   width: calc(var(--vh, 1vh) * 3);
+  margin-right: 7px;
 }
 
 .log-out {
@@ -96,8 +99,7 @@ section {
   align-items: center;
   margin: 0 5%;
   width: 90%;
-  padding: 2%;
-  background-color:
+  padding: 2% 7%;
 }
 
-.log-out svg { padding-right: 5px;}
+.log-out svg { padding-right: 7px;}
