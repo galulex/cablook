@@ -84,7 +84,10 @@ section {
 
 .tab-content__container label[for='period'] { color: #19a160; }
 
-.statistics__container { display: flex; }
+.statistics__container {
+  display: flex;
+  align-items: center;
+}
 
 .statistics__container svg {
   height: 3vh;
