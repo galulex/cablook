@@ -91,10 +91,10 @@
       </div>
     </div>
   </div>
+  <div>
+    <button class='log-out' type='button' on:click={logout}>
+      <Sign_out/>
+      {i18n.drawer.logout}
+    </button>
+  </div>
 </section>
-<div>
-  <button class='log-out' type='button' on:click={logout}>
-    <Sign_out/>
-    {i18n.drawer.logout}
-  </button>
-</div>
