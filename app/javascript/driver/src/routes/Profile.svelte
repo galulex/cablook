@@ -21,7 +21,7 @@
   })
 </script>
 
-<section>
+<section class='driver-profile'>
   <div class='tab-content__holder'>
     <div class='tab-content__container'>
       <div class='tab-content__header'>{i18n.statistics.period}</div>
