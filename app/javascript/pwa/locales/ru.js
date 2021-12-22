@@ -174,14 +174,13 @@ const ru = {
     tips: 'Чаюха',
     uah: ' грн',
     periods: {
-      all_time: 'ВСЁ ВРЕМЯ',
-      last_month: 'ПОСЛЕДНИЙ МЕСЯЦ',
-      last_week: 'ПОСЛЕДНЯЯ НЕДЕЛЯ',
-      this_month: 'ЭТОТ МЕСЯЦ',
       today: 'СЕГОДНЯ',
       last_two_days: 'ПОСЛЕДНИЕ 2 ДНЯ',
-      this_week: 'ЭТА НЕДЕЛЯ',
-      this_year: 'ЭТОТ ГОД'
+      last_week: 'ПОСЛЕДНЯЯ НЕДЕЛЯ',
+      this_month: 'ЭТОТ МЕСЯЦ',
+      last_month: 'ПОСЛЕДНИЙ МЕСЯЦ',
+      this_year: 'ЭТОТ ГОД',
+      all: 'ВСЁ ВРЕМЯ'
     },
     total_trips_cost: 'Стоимость поездок',
     points_1: ' баллов',

@@ -1,5 +1,6 @@
 <script>
-  import { onMount } from 'svelte'
+  import axios from 'axios'
+
   import i18n from '../../../pwa/i18n.js'
   import Star from '../../images/Star.svelte'
   import Tips from '../../images/Tips.svelte'
@@ -9,20 +10,15 @@
 
   import '../../css/profile.css'
 
-  export let getStatistics
-  export let statistics
   export let logout
 
-  let Periods = [
-    {name: i18n.statistics.periods.today, value: 'today'},
-    {name: i18n.statistics.periods.last_two_days, value: 'last_two_days'},
-    {name: i18n.statistics.periods.this_week, value: 'last_week'},
-    {name: i18n.statistics.periods.this_month, value: 'this_month'},
-    {name: i18n.statistics.periods.last_month, value: 'last_month'},
-    {name: i18n.statistics.periods.this_year, value: 'this_year'},
-    {name: i18n.statistics.periods.all_time, value: 'all'}
-  ]
+  let statistics = {}
 
+  let getStatistics = (async (period = 'today') => {
+    let res = await axios.get(`statistics?period=${period}`)
+    statistics = res.data.statistics || {}
+    return statistics
+  })
 </script>
 
 <section>
@@ -32,8 +28,8 @@
       <span class='divider'></span>
       <label for='period' class='select'>
         <select id='period' on:change={ (e) => getStatistics(e.target.value) }>
-          {#each Periods as period}
-            <option value={period.value} key={period.value}>{period.name}</option>
+          {#each Object.keys(i18n.statistics.periods) as period}
+            <option value={period} key={period}>{i18n.statistics.periods[period]}</option>
           {/each}
         </select>
       </label>

@@ -174,14 +174,13 @@ const uk = {
     tips: 'Чаюха',
     uah: ' грн',
     periods: {
-      all_time: 'ВЕСЬ ЧАС',
-      last_month: 'ОСТАННІЙ МІСЯЦЬ',
-      last_week: 'ОСТАННІЙ ТИЖДЕНЬ',
-      this_month: 'ЦЕЙ МІСЯЦЬ',
       today: 'СЬОГОДНІ',
       last_two_days: 'ОСТАННІ 2 ДНІ',
-      this_week: 'ЦЕЙ ТИЖДЕНЬ',
-      this_year: 'ЦЕЙ РІК'
+      last_week: 'ОСТАННІЙ ТИЖДЕНЬ',
+      this_month: 'ЦЕЙ МІСЯЦЬ',
+      last_month: 'ОСТАННІЙ МІСЯЦЬ',
+      this_year: 'ЦЕЙ РІК',
+      all: 'ВЕСЬ ЧАС'
     },
     total_trips_cost: 'Вартість поїздок',
     points_1: ' балів',

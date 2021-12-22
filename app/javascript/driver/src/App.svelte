@@ -17,7 +17,7 @@
   import Spinner from './Spinner.svelte'
   import Sos from './Sos.svelte'
   import Warning from './Warning.svelte'
-  import Profile from './routes/Profile.svelte';
+  import Profile from './routes/Profile.svelte'
 
   let isLoggedIn = !!document.cookie.match(/token/)
   let carSpeed = 0
@@ -28,7 +28,6 @@
   let subscription = null
   const cable = createConsumer()
   let trips = []
-  let statistics = {};
 
   onMount(() => {
     if (!isLoggedIn) return
@@ -88,12 +87,6 @@
     let res = await axios.get('trips/all')
     trips = res.data.trips
     return trips
-  })
-
-  let getStatistics = (async (period = 'today') => {
-    let res = await axios.get(`statistics?period=${period}`)
-    statistics = res.data.statistics || {}
-    return statistics
   })
 
   let subscribe = () => {
@@ -216,13 +209,7 @@
         <Map cable={cable} location={location} sos={sos} trips={trips.filter(trip => { return trip.driver_id === parseInt(localStorage.id) && trip.status !== 0 })}/>
       </Route>
       <Route path="/statistic">
-        {#await getStatistics()}
-          <Spinner/>
-        {:then}
-          <Profile getStatistics={getStatistics} statistics={statistics} logout={logout}/>
-        {:catch error}
-          <h3>Сталася помилка перезайдіть в акаунт</h3>
-        {/await}
+        <Profile logout={logout}/>
       </Route>
     </main>
     <Nav speed={carSpeed} getTrips={getTrips}/>

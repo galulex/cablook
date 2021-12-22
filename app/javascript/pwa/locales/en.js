@@ -174,14 +174,13 @@ const en = {
     tips: 'Tips',
     uah: ' uah',
     periods: {
-      all_time: 'ALL TIME',
-      last_month: 'LAST MONTH',
-      last_week: 'LAST WEEK',
-      this_month: 'THIS MONTH',
       today: 'TODAY',
       last_two_days: 'LAST 2 DAYS',
-      this_week: 'THIS WEEK',
-      this_year: 'THIS YEAR'
+      last_week: 'LAST WEEK',
+      this_month: 'THIS MONTH',
+      last_month: 'LAST MONTH',
+      this_year: 'THIS YEAR',
+      all: 'ALL TIME'
     },
     total_trips_cost: 'Trips cost',
     points_1: ' points',
