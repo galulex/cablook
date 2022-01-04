@@ -17,6 +17,7 @@
   import Spinner from './Spinner.svelte'
   import Sos from './Sos.svelte'
   import Warning from './Warning.svelte'
+  import Profile from './routes/Profile.svelte'
 
   let isLoggedIn = !!document.cookie.match(/token/)
   let carSpeed = 0
@@ -207,8 +208,11 @@
       <Route path="/map">
         <Map cable={cable} location={location} sos={sos} trips={trips.filter(trip => { return trip.driver_id === parseInt(localStorage.id) && trip.status !== 0 })}/>
       </Route>
+      <Route path="/statistic">
+        <Profile logout={logout}/>
+      </Route>
     </main>
-    <Nav speed={carSpeed} logout={logout} getTrips={getTrips}/>
+    <Nav speed={carSpeed} getTrips={getTrips}/>
     <Sos sendSos={sendSos}/>
   {:else}
     <Route path="/" component={Session} login={login} />

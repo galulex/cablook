@@ -60,6 +60,7 @@ Rails.application.routes.draw do
         patch 'payments_verify'
         patch 'unrelease'
       end
+      resources :statistics, only: :index
     end
 
     namespace :verifications do

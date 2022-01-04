@@ -35,9 +35,24 @@ class Trip < ApplicationRecord
       .order(:user_id)
   end)
 
+  scope :driver_statistics, (lambda do
+    where(status: Constants::Trip::FINISHED)
+      .left_joins(:tip_payment, :feedbacks, :required_payments)
+      .select('COUNT(trips.id) AS trips_count, SUM(COALESCE(required_payments_trips.amount, 0)) AS amount')
+      .select('SUM(COALESCE(trips.distance, 0)) AS distance')
+      .select('SUM(COALESCE(payments.amount, 0)) AS tips')
+      .select('COUNT(payments.id) AS tips_count')
+      .select('ROUND(COALESCE(AVG(feedbacks.rate), 0), 1) AS rate')
+      .group(:driver_id)
+      .order(:driver_id)
+  end)
+
   scope :this_month, -> { where('created_at BETWEEN ? AND ?', Date.current.beginning_of_month, Date.current.end_of_month) }
   scope :last_week, ->  { where('created_at BETWEEN ? AND ?', Date.current.beginning_of_week, Date.current.end_of_week) }
   scope :last_month, -> { where('created_at BETWEEN ? AND ?', 1.month.ago.to_date.beginning_of_month, 1.month.ago.to_date.end_of_month) }
+  scope :this_year, -> { where('created_at BETWEEN ? AND ?', Date.current.beginning_of_year, Date.current) }
+  scope :today, -> { where('DATE(created_at) = ?', Date.today) }
+  scope :last_two_days, -> { where('created_at > ?', 2.days.ago.beginning_of_day) }
 
   # Time for pre-order trip
   attr_reader :time, :vip

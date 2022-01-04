@@ -46,6 +46,20 @@ nav svg {
   display: block;
 }
 
+nav a:last-child {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+nav svg.profile {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 40px;
+}
+
 nav svg path {
   fill: var(--white);
 }

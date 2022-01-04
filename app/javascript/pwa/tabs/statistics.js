@@ -49,7 +49,7 @@ export default class Statistics extends Component {
 
   render() {
     let Periods = [
-      {name: i18n.statistics.periods.all_time, value: 'all'},
+      {name: i18n.statistics.periods.all, value: 'all'},
       {name: i18n.statistics.periods.this_month, value: 'this_month'},
       {name: i18n.statistics.periods.last_week, value: 'last_week'},
       {name: i18n.statistics.periods.last_month, value: 'last_month'}
