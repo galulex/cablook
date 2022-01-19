@@ -42,11 +42,10 @@
   })
 
   let sendLocation = (geo) => {
-    console.log(geo)
     let { latitude, longitude, speed } = geo.coords
     carSpeed = Math.round(speed * 3.6)
+    if (!subscription || (location[0] === longitude && location[1] === latitude)) return
     location = [longitude, latitude]
-    if (!subscription) return
     let params = {
       car_id: parseInt(localStorage.carId),
       speed: carSpeed,

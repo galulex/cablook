@@ -56,7 +56,7 @@
     deg = (bearing(location, position) || 180) - map.getBearing()
     pin.setLngLat(location)
     updatePopup()
-    pin._element.firstChild.style.transform = `rotate(${deg}deg)`;
+    /* pin._element.firstChild.style.transform = `rotate(${deg}deg)`; */
   }
 
 </script>
@@ -69,5 +69,5 @@
 </style>
 
 <div class='marker' bind:this={marker}>
-  <img src={`//res.cloudinary.com/active-bridge/image/upload/leafs/leaf_lights_${car.color}.svg`} alt='car' />
+  <figure></figure>
 </div>
