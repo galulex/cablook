@@ -59,7 +59,7 @@ const en = {
     uah: 'uah',
     pay: 'Pay now',
     add_card: 'Add card',
-    preorder: 'Pre-order time should be more than 15 minutes from now',
+    preorder: 'Pre-order time should be more than 30 minutes from now',
     tomorrow: 'It is pre order for tomorrow'
   },
   confirm_trip: {
