@@ -505,7 +505,7 @@ export default class NewDesign extends Component {
     let range = (time.getTime() - now.getTime())/60000
 
     if (range <= -1) alert(i18n.current_trip.tomorrow)
-    if (range <= 15 && range > -1) {
+    if (range <= 30 && range > -1) {
       e.target.value = ''
       e.target.blur()
       alert(i18n.current_trip.preorder)
