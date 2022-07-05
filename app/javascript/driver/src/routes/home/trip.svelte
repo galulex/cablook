@@ -88,7 +88,7 @@
   }
 
   let paymentVerify = () => {
-    if (trip.vip || trip.trips_count > 20) return alert('Це постійний клієнт. Кошти знімуться по закінченні поїздки')
+    if (trip.vip) return alert('Це постійний клієнт. Кошти знімуться по закінченні поїздки')
     paymentIcon = Dollar
     paymentCheck = true
     axios.patch(`trips/${trip.id}/payments_verify`).then(res => {
