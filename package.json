@@ -28,7 +28,7 @@
     "prop-types": "^15.6.2",
     "shake.js": "^1.2.2",
     "smoothscroll-polyfill": "^0.4.4",
-    "svelte": "^3.19.2",
+    "svelte": "^3.49.0",
     "svelte-loader": "^2.13.6",
     "svelte-routing": "^1.4.1",
     "webpack-cli": "^3.3.11"
