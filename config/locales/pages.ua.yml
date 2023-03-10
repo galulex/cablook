@@ -109,7 +109,7 @@ uk:
         share: Розішли промокод друзям
         get: Отримай безкоштовну поїздку за кожного друга, який скористався послугою CabLook Taxi
       benefits:
-        - title: Cablook Taxi и MasterCard/Visa
+        - title: Cablook Taxi та MasterCard/Visa
           img: cards
           description:
             CabLook Taxi - простий та швидкий сервіс.
