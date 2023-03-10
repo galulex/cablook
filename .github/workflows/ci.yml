@@ -21,9 +21,9 @@ jobs:
     - uses: zhulik/redis-action@1.1.0
     - uses: actions/checkout@v1
     - name: Set up Ruby 2.6
-      uses: actions/setup-ruby@v1
+      uses: ruby/setup-ruby@v1
       with:
-        ruby-version: 2.6.x
+        ruby-version: '2.6'
     - uses: actions/setup-node@v1
       with:
         node-version: '10'
