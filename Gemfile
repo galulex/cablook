@@ -74,7 +74,7 @@ group :development do
   gem 'capistrano-rails'
   gem 'capistrano-sidekiq'
   gem 'capistrano-yarn'
-  gem 'listen', '>= 3.0.5', '< 3.2'
+  gem 'listen', '3.5'
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
 end
