@@ -5,24 +5,21 @@ module Events
         Dry::Validation.Schema do
           configure { config.messages = :i18n }
 
-          required(:cardPan).filled(:str?)
           required(:user_id).filled(:int?)
-          required(:recToken).maybe(:str?)
-          optional(:cardType).filled(:str?)
+          optional(:masked_card).filled(:str?)
+          optional(:card_type).filled(:str?)
           optional(:currency).filled(:str?)
-          optional(:email).filled(:str?)
         end
       end
 
       def run
         find_user!
         validate!
-        update_user_email
-        return if data[:transactionStatus] == 'Declined'
         create_card
         telegram_message
         #UserMailer.new_card(data[:email], data[:cardPan]).deliver_later
         @card
+        payment_page_link
       end
 
       private
@@ -40,20 +37,11 @@ module Events
         @card.save
       end
 
-      def update_user_email
-        user.update(email: data[:email])
-      end
-
-      def rec_token
-        data[:recToken].presence || data[:orderReference]
-      end
-
       def card_params
         {
-          token: rec_token,
-          pan: data[:cardPan],
-          type: data[:cardType],
-          currency: data[:currency],
+          token: fondy.order_id,
+          pan: '****',
+          type: 'verify',
           user_id: data[:user_id]
         }
       end
@@ -65,6 +53,14 @@ module Events
       def telegram_message
         return if user.telegram.blank?
         TelegramOrder.new(user.telegram).confirm_card
+      end
+
+      def fondy
+       @fondy ||= Fondy::Verify.new(user)
+      end
+
+      def payment_page_link
+        fondy.call[:checkout_url]
       end
     end
   end

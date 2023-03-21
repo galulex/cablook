@@ -7,14 +7,12 @@ module Api
     end
 
     def new
-      render json: WFP.new(current_user, api_card_callback_url).params
+      render json: { create_card: 'create' }, status: 200
     end
 
-    # https://wiki.wayforpay.com/pages/viewpage.action?pageId=852102
-    # params: spec/fixtures/card_callback.json
     def create
-      card = Events::Cards::Create.(params.merge(user_id: current_user.id, recToken: params[:recToken] || params[:orderReference]))
-      card ? (render json: cards.to_json, status: 200) : (head :unprocessable_entity)
+      payment_page_link = Events::Cards::Create.(params.merge(user_id: current_user.id))
+      render json: { link: payment_page_link }, status: 201
     end
 
     def destroy
@@ -25,9 +23,10 @@ module Api
     end
 
     def complete
-      return head :unprocessable_entity unless parameters
-      event = Events::Cards::Update.(orderReference: parameters['orderReference'], recToken: parameters['recToken'], transactionStatus: parameters['transactionStatus'])
-      event ? (render json: event) : (head :not_modified)
+      Events::Cards::Update.(order_id: params[:order_id], sender_email: params[:sender_email],
+                                      rectoken: params[:rectoken], card_type: params[:card_type],
+                                      masked_card: params[:masked_card], currency: params[:currency] )
+      redirect_to root_path
     end
 
     def update
@@ -39,12 +38,6 @@ module Api
 
     def cards
       @cards ||= Card.user_cards(current_user.id)
-    end
-
-    # Wayforpay send all params as one, which is key with nil value.
-    def parameters
-      return if params.keys.length < 3
-      JSON.parse(params.keys.first)
     end
   end
 end
