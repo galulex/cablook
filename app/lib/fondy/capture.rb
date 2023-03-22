@@ -2,9 +2,9 @@ module Fondy
   class Capture < Base
     URL = URI.parse('https://pay.fondy.eu/api/capture/order_id').freeze
 
-    def initialize(order_id, amount)
+    def initialize(order_id, cost)
       @order_id = order_id
-      @amount = amount
+      @cost = cost
     end
 
     def call
@@ -13,13 +13,13 @@ module Fondy
 
     private
 
-    attr_reader :order_id, :amount
+    attr_reader :order_id, :cost
 
     def capture_params 
       {
         order_id: order_id,
         currency: CURRENCY,
-        amount: amount.to_s,
+        amount: amount,
         merchant_id: merchant_id
       }
     end

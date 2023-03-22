@@ -13,6 +13,14 @@ module Fondy
     def pass
       ENV['FONDY_MERCHANT_PASS']
     end
+
+    def order_id
+      "trip_payment_user_#{user.id}_trip_#{trip_id}"
+    end
+
+    def amount
+      (cost * 100).to_s
+    end
   
     def signature(params)
       sha = Digest::SHA1.new
