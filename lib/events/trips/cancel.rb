@@ -2,6 +2,7 @@ module Events
   module Trips
     class Cancel < Events::BaseEvent
       TRIP_STATUSES = [Constants::Trip::PENDING, Constants::Trip::ON_THE_WAY, Constants::Trip::WAITING_CLIENT, Constants::Trip::DECLINED, Constants::Trip::WAITING_FOR_VENDOR_APPROVE].freeze
+      FAKE_TAXI_COST = 10.freeze
 
       def schema
         Dry::Validation.Schema do
@@ -31,7 +32,7 @@ module Events
         fake_taxi_payment
         update_trip
         refund_bonus
-        refund_order_payment if trip.order
+        trip_refound_hold_payment
         broadcast_unavailable_to_map
         broadcast_unavailable_to_trip
         clear_notifications
@@ -56,16 +57,21 @@ module Events
       end
 
       def update_payment_status
-        payment.update(status: Constants::Payments::DECLINE)
+        payment.update(status: Constants::Payments::DECLINE, response: cencel_by_user_response)
       end
 
-      def refund_order_payment
-        Operations::Wayforpay::RefundForOrder.new(order_payment.id).call
+      def cencel_by_user_response
+        { cancel_by_user: true }.merge(trip_refound_hold_payment || {})
+      end
+
+      def trip_refound_hold_payment
+        return if trip.status == Constants::Trip::STATUS_CODES[Constants::Trip::WAITING_CLIENT]
+        @trip_refound_hold_payment ||= Fondy::Reverse.new(trip.cost, payment.order_reference).call
       end
 
       def fake_taxi_payment
         return unless trip.status == Constants::Trip::STATUS_CODES[Constants::Trip::WAITING_CLIENT]
-        Jobs::PaymentSettle.perform_later(data[:trip_id], Constants::Payments::TYPES[:fake], fake_amount)
+        Jobs::PaymentSettle.perform_later(data[:trip_id], Constants::Payments::TYPES[:fake], FAKE_TAXI_COST)
       end
 
       def broadcast_notification_cancel
@@ -122,10 +128,6 @@ module Events
       def refund_bonus
         bonus_trip = BonusTrip.find_by(trip_id: trip.id)
         bonus_trip&.fresh!
-      end
-
-      def fake_amount
-        @fake_amount ||= price.landing / 100
       end
     end
   end

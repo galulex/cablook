@@ -2,10 +2,9 @@ module Fondy
   class Reverse < Base
     URL_REC = URI.parse('https://pay.fondy.eu/api/reverse/order_id').freeze
 
-    def initialize(user, cost, trip_id)
-      @user = user
+    def initialize(cost, order_reference)
       @cost = cost
-      @trip_id = trip_id
+      @order_reference = order_reference
     end
 
     def call
@@ -14,11 +13,11 @@ module Fondy
 
     private
 
-    attr_reader :user, :cost, :rec_token, :trip_id
+    attr_reader :cost, :rec_token, :order_reference
 
     def recuring_params 
       {
-        order_id: order_id,
+        order_id: order_reference,
         currency: CURRENCY,
         amount: amount,
         merchant_id: merchant_id,

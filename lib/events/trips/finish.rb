@@ -44,7 +44,7 @@ module Events
         if trip.bonus_trip
           update_cashback if trip.bonus_trip.type == Constants::BonusTrip::CASHBACK
         else
-          Jobs::PaymentSettle.perform_later(data[:trip_id], Constants::Payments::TYPES[:trip])
+          Jobs::PaymentSettle.perform_later(data[:trip_id], Constants::Payments::TYPES[:trip], trip.cost)
         end
       end
 

@@ -34,10 +34,11 @@ module Events
       def run
         assign_attrs
         validate!
-
         update_trip_time if delivery?
         create_trip
-        bonus? ? pay_by_bonus : create_payment
+        hold_money
+        # bonus? ? pay_by_bonus : create_payment
+        create_payment
         order_operations if delivery?
         create_trip_job(@trip.id) unless delivery?
         notify
@@ -87,8 +88,22 @@ module Events
           amount: @trip.cost,
           user_id: @trip.user_id,
           card_id: card_id,
-          trip_id: @trip.id
+          trip_id: @trip.id,
+          order_reference: order_reference
         )
+      end
+
+      def order_reference
+        secure_code = SecureRandom.base58(6)
+        @order_reference ||= if Rails.env.production?
+                               "cablook_#{@trip.id}_payments_trip_#{secure_code}"
+                             else
+                               "cablook_#{Rails.env}_#{@trip.id}_payments_trip_#{secure_code}"
+                             end
+      end
+
+      def hold_money
+        @hold_money ||= Fondy::Recurring.new(user, @trip.cost, Card.find(card_id).token, order_reference).call
       end
 
       def pay_by_bonus

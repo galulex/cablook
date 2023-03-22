@@ -2,11 +2,11 @@ module Fondy
   class Recurring < Base
     URL_REC = URI.parse('https://pay.fondy.eu/api/recurring').freeze
 
-    def initialize(user, cost, rec_token, trip_id)
+    def initialize(user, cost, rec_token, order_reference)
       @user = user
       @cost = cost
       @rec_token = rec_token
-      @trip_id = trip_id
+      @order_reference = order_reference
     end
 
     def call
@@ -15,11 +15,11 @@ module Fondy
 
     private
 
-    attr_reader :user, :cost, :rec_token, :trip_id
+    attr_reader :user, :cost, :rec_token, :order_reference
 
     def recuring_params 
       {
-        order_id: order_id,
+        order_id: order_reference,
         order_desc: order_desc,
         currency: CURRENCY,
         rectoken: rec_token,
@@ -40,8 +40,7 @@ module Fondy
 
     def result(response_body)
       response = JSON.parse(response_body).dig('response')
-      # { response_status: response['response_status'] }
-      { response_status: 'failed' }
+      { response_status: response['response_status'] }
     end
   end
 end
