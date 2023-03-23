@@ -38,6 +38,7 @@ en:
     add_card: Please add a card before creating a trip
     cant_delete: You have a pending payments
     current_trip: You can't delete card during trip
+    hold_failed: Can't hold payment amount
   bonus_trips:
     disable_for_yourself: Can't create bonus trip for yourself
     already_have_referrer: You already have referrer

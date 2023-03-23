@@ -38,6 +38,7 @@ module Events
         update_trip_time if delivery?
         create_trip
         hold_money
+        validate_hold_money!
         # bonus? ? pay_by_bonus : create_payment
         create_payment
         order_operations if delivery?
@@ -95,7 +96,11 @@ module Events
       end
 
       def hold_money
-        @hold_money ||= Fondy::Recurring.new(user, @trip.cost, Card.find(card_id).token, order_reference).call
+        @hold_money ||= Fondy::Recurring.new(user, @trip.cost, card_token, order_reference).call
+      end
+
+      def card_token
+        Card.find(card_id).token
       end
 
       def pay_by_bonus
@@ -189,6 +194,12 @@ module Events
 
       def update_trip_time
         data[:time] = (data[:time].in_time_zone - data[:duration].seconds).strftime('%H:%M')
+      end
+
+      def validate_hold_money!
+        return if hold_money[:response_status] == Constants::Payments::FONDY_SUCCESS
+        @trip.destroy
+        invalid!([I18n.t('cards.hold_failed')]) 
       end
     end
   end

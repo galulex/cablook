@@ -17,7 +17,11 @@ module Events
       end
 
       def run
-        create_tip_payment; send_tip_for_driver if data[:tip]&.positive? 
+        if data[:tip]&.positive?
+          create_tip_payment
+          validate_hold_money!
+          send_tip_for_driver
+        end
         create_feedback
       end
 
@@ -28,7 +32,6 @@ module Events
       end
 
       def send_tip_for_driver
-        return unless success_hold?
         Jobs::PaymentSettle.perform_later(data[:trip_id], Constants::Payments::TYPES[:tip], data[:tip])
       end
 
@@ -42,6 +45,7 @@ module Events
             user_id: data[:user_id],
             card_id: card.id,
             type: TIP_PAYMENT,
+            amount: data[:tip],
             order_reference: tip_order_reference)
       end
 
@@ -64,7 +68,13 @@ module Events
       end
 
       def success_hold?
-        hold_money_for_tip[:response_status] == 'success'
+        hold_money_for_tip[:response_status] == Constants::Payments::FONDY_SUCCESS
+      end
+
+      def validate_hold_money!
+        return if hold_money_for_tip[:response_status] == Constants::Payments::FONDY_SUCCESS
+        trip.payments.find_by!(order_reference: tip_order_reference).destroy
+        invalid!([I18n.t('cards.hold_failed')]) 
       end
     end
   end

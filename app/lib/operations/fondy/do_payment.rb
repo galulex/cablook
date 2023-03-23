@@ -51,7 +51,7 @@ module Operations
       end
 
       def success_response?
-        @success_response ||= JSON.parse(fondy_response)['response']['response_status'] == 'success'
+        @success_response ||= JSON.parse(fondy_response)['response']['response_status'] == Constants::Payments::FONDY_SUCCESS
       end
 
       def update_total
