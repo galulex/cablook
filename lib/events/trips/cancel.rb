@@ -72,6 +72,7 @@ module Events
 
       def fake_taxi_payment
         return unless data[:by_driver]
+        payment.update!(type: "Payments::#{Constants::Payments::TYPES[:fake]}")
         Jobs::PaymentSettle.perform_later(data[:trip_id], Constants::Payments::TYPES[:fake], FAKE_TAXI_COST)
       end
 

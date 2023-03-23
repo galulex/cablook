@@ -44,7 +44,7 @@ module Events
       end
 
       def hold_money
-        @hold_money ||= Fondy::Recurring.new(user, @trip.cost, Card.find(trip.trip_payment.card_id).token, order_reference).call
+        @hold_money ||= Fondy::Recurring.new(user, trip.cost, card_token, order_reference).call
       end
 
       def update_payment
@@ -81,6 +81,10 @@ module Events
 
       def cards
         @cards ||= Card.where(user_id: data[:user_id])
+      end
+
+      def card_token
+        Card.find(trip.trip_payment.card_id).token
       end
 
       def validate_user_cards!

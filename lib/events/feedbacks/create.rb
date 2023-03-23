@@ -41,12 +41,12 @@ module Events
             trip_id: data[:trip_id],
             user_id: data[:user_id],
             card_id: card.id,
-            type: TIP_PAYMENT_TYPE,
+            type: TIP_PAYMENT,
             order_reference: tip_order_reference)
       end
 
       def tip_order_reference
-        result = trip.payments.where(type: TRIP_PAYMENT_TYPE).first.order_reference
+        result = trip.payments.where(type: TRIP_PAYMENT).first.order_reference
         result.sub!(Constants::Payments::TYPES[:trip].downcase, Constants::Payments::TYPES[:tip].downcase)
         @tip_order_reference ||= result
       end

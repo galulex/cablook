@@ -56,7 +56,7 @@ module Events
       end
 
       def fondy
-       @fondy ||= Fondy::Verify.new(user)
+        @fondy ||= Fondy::Verify.new(user)
       end
 
       def payment_page_link
