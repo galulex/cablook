@@ -38,7 +38,7 @@ module Operations
       end
 
       def fondy_response
-        @fondy_response ||= ::Fondy::Capture.new(order_reference, amount || trip.cost).call
+        @fondy_response ||= ::Fondy::Capture.new(trip.trip_payment.order_reference, amount || trip.cost).call
       end
 
       def success_response?
@@ -64,10 +64,6 @@ module Operations
 
       def payment
         @payment ||= trip.payments.last
-      end
-
-      def order_reference
-        @order_reference = trip.trip_payment.order_reference
       end
     end
   end

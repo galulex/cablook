@@ -28,11 +28,11 @@ module Events
 
       def run_methods
         update_car if trip.car
+        update_trip
         update_payment_status
         fake_taxi_payment
-        update_trip
-        refund_bonus
         trip_refound_hold_payment
+        refund_bonus
         broadcast_unavailable_to_map
         broadcast_unavailable_to_trip
         clear_notifications
@@ -57,20 +57,21 @@ module Events
       end
 
       def update_payment_status
+        return unless payment.response.blank?
         payment.update(status: Constants::Payments::DECLINE, response: cencel_by_user_response)
       end
 
       def cencel_by_user_response
-        { cancel_by_user: true }.merge(trip_refound_hold_payment || {})
+        { canceled_by: :user }.merge(trip_refound_hold_payment || {})
       end
 
       def trip_refound_hold_payment
-        return if trip.status == Constants::Trip::STATUS_CODES[Constants::Trip::WAITING_CLIENT]
+        return if data[:by_driver]
         @trip_refound_hold_payment ||= Fondy::Reverse.new(trip.cost, payment.order_reference).call
       end
 
       def fake_taxi_payment
-        return unless trip.status == Constants::Trip::STATUS_CODES[Constants::Trip::WAITING_CLIENT]
+        return unless data[:by_driver]
         Jobs::PaymentSettle.perform_later(data[:trip_id], Constants::Payments::TYPES[:fake], FAKE_TAXI_COST)
       end
 

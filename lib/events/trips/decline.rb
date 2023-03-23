@@ -13,8 +13,9 @@ module Events
         return if !trip.pending? || trip.driver.present?
 
         trip.declined!
-        trip.trip_payment.update(status: Constants::Payments::DECLINE)
         refund_bonus
+        cancel_hold
+        update_trip_payment
         broadcast
         broadcast_to_trip_channel
         notify
@@ -22,6 +23,18 @@ module Events
       end
 
       private
+
+      def cancel_hold
+        @cancel_hold ||= Fondy::Reverse.new(trip.cost, trip.trip_payment.order_reference).call
+      end
+
+      def update_trip_payment
+        trip.trip_payment.update(status: Constants::Payments::DECLINE, response: cencel_by_timeout)
+      end
+
+      def cencel_by_timeout
+        { canceled_by: :timeout }.merge(cancel_hold || {})
+      end
 
       def trip
         @trip ||= Trip.find(data[:trip_id])

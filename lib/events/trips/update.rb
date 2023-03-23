@@ -2,6 +2,7 @@ module Events
   module Trips
     class Update < BaseEvent
       include Validations::Update
+      include Concerns::Payments
 
       def schema
         Dry::Validation.Schema do
@@ -30,14 +31,23 @@ module Events
 
       def run
         validate!
-
+        cancel_previous_hold
         update_trip
         update_payment unless bonus?
         broadcast_unavailable_to_trip
+        hold_money
         trip
       end
 
       private
+
+      def cancel_previous_hold
+        Fondy::Reverse.new(trip.cost, trip.trip_payment.order_reference).call
+      end
+
+      def hold_money
+        Fondy::Recurring.new(user, trip.cost, card_token, order_reference).call
+      end
 
       def update_trip
         trip.update(trip_params)
@@ -95,23 +105,23 @@ module Events
         data[:by_driver].present?
       end
 
-      def order_reference
-        @order_reference ||= if Rails.env.production?
-                               "cablook_trip_#{trip.id}"
-                             else
-                               "cablook_#{Rails.env}_trip_#{trip.id}"
-                             end
-      end
-
       def trip_params
         data.slice(:path, :cost, :departure, :destination, :departure_address,
                    :destination_address, :duration, :distance, :stops, :waypoints)
       end
 
       def payment_params
-        params = {amount: trip.cost}
+        params = {amount: trip.cost, order_reference: order_reference}
         params[:card_id] = data[:card_id] if data[:card_id]
         params
+      end
+
+      def user
+        @user ||= User.find(trip.user_id)
+      end
+
+      def card_token
+        @card_token ||= Card.find(card_id).token
       end
     end
   end

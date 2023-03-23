@@ -2,6 +2,7 @@ module Events
   module Trips
     class Create < BaseEvent
       include Concerns::Direction
+      include Concerns::Payments
       include Validations::Create
 
       FIELDS = %i[duration distance path].freeze
@@ -91,15 +92,6 @@ module Events
           trip_id: @trip.id,
           order_reference: order_reference
         )
-      end
-
-      def order_reference
-        secure_code = SecureRandom.base58(6)
-        @order_reference ||= if Rails.env.production?
-                               "cablook_#{@trip.id}_payments_trip_#{secure_code}"
-                             else
-                               "cablook_#{Rails.env}_#{@trip.id}_payments_trip_#{secure_code}"
-                             end
       end
 
       def hold_money
