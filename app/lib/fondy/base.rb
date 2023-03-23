@@ -11,7 +11,7 @@ module Fondy
     end
   
     def pass
-      ENV['FONDY_MERCHANT_PASS']
+      self.instance_of?(ChargeCard) ? ENV['FONDY_MERCHANT_CREDIT_PASS'] : ENV['FONDY_MERCHANT_PASS'] 
     end
 
     def amount

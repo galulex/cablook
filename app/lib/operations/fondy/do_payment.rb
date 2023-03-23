@@ -25,7 +25,8 @@ module Operations
       private
 
       def charge_driver_card
-        { status: 'OK' }
+        return if Rails.env.development? #todo
+        ::Fondy::ChargeCard.new(trip.trip_payment.order_reference, amount || trip.cost, driver_card_number).call
       end
 
       def update_payment
@@ -64,6 +65,10 @@ module Operations
 
       def payment
         @payment ||= trip.payments.last
+      end
+
+      def driver_card_number
+        '4444555566661111' #todo
       end
     end
   end
