@@ -11,22 +11,30 @@ module Operations
 
       def call
         return if payment.status == Constants::Payments::SUCCESS
-        types = Constants::Payments::TYPES.except(:order).values
-        case payment_type
-        when types[1], types[2], types[3]
-          update_payment_and_total
-        when types[0]
-          update_payment_and_total
-        end
 
+        update_payment
+        update_total
         charge_driver_card if success_response?
       end
 
       private
 
+      def payment_attributes
+        {
+          trip_id: trip_id,
+          user_id: trip.user_id,
+          card_id: card.id,
+          type: "Payments::#{payment_type}"
+        }
+      end
+
+      def card
+        trip.trip_payment&.card || trip.user.cards.last
+      end
+
       def charge_driver_card
         return if Rails.env.development? #todo
-        ::Fondy::ChargeCard.new(trip.trip_payment.order_reference, amount || trip.cost, driver_card_number).call
+        ::Fondy::ChargeCard.new(payment.order_reference, amount, driver_card_number).call
       end
 
       def update_payment
@@ -39,7 +47,7 @@ module Operations
       end
 
       def fondy_response
-        @fondy_response ||= ::Fondy::Capture.new(trip.trip_payment.order_reference, amount || trip.cost).call
+        @fondy_response ||= ::Fondy::Capture.new(payment.order_reference, amount).call
       end
 
       def success_response?
@@ -50,21 +58,12 @@ module Operations
         trip.update(total: trip.payments.sum(:amount))
       end
 
-      def card
-        trip.trip_payment&.card || trip.user.cards.last
-      end
-
-      def update_payment_and_total
-        update_payment
-        update_total
-      end
-
       def trip
         @trip ||= Trip.find(trip_id)
       end
 
       def payment
-        @payment ||= trip.payments.last
+        @payment ||= Payment.find_by(payment_attributes)
       end
 
       def driver_card_number
