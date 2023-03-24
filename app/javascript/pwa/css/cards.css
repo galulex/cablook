@@ -63,6 +63,39 @@ ul.cards button.x-card svg {
   margin: 0;
 }
 
+ul.cards button.r-card {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  position: absolute;
+  right: 0;
+  top: 0;
+  border-radius: 35%;
+  padding: 3%;
+  min-width: 6vh;
+  min-height: 6vh;
+  border: none;
+  cursor: pointer;
+  outline: none;
+  background: none;
+  box-shadow: none;
+}
+
+ul.cards button.r-card:hover {
+  box-shadow: var(--hover-shadow);
+}
+
+ul.cards button.r-card:active {
+  box-shadow: var(--active-shadow);
+}
+
+ul.cards button.r-card svg {
+  min-width: 30px;
+  min-height: 30px;
+  margin: 0;
+  fill: #19a160;
+}
+
 .default .checkbox-switcher {
   position: absolute;
   opacity: 0;

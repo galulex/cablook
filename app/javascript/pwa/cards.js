@@ -7,6 +7,8 @@ import './css/cards.css'
 import CardsIcon from './images/credit-cards-payment.js'
 import Card from './images/card.js'
 import Close from './images/close.js'
+import Refresh from './images/refresh.svg'
+import { MIGRATION_TO_FONDY_DATE } from './constants'
 
 export default class Cards extends Component {
   constructor(props) {
@@ -31,7 +33,12 @@ export default class Cards extends Component {
               if (card.user_id === this.props.currentUserID) return(
                 <li>
                   <Card card={card} />
-                  <button class='x-card' type='button' onClick={() => this.delete(card.id)}><Close fill='#a925ad'/></button>
+                  { this.isRefreshCard(card.updated_at)? (
+                      <button class='r-card' type='button' onClick={() => this.refresh(card.id)}><Refresh/></button>
+                    ) : (
+                      <button class='x-card' type='button' onClick={() => this.delete(card.id)}><Close fill='#a925ad'/></button>
+                    )
+                  }
                   { cards.length > 1 && <div class='default'>
                     <input
                       id={`default_card_${card.id}`}
@@ -67,6 +74,13 @@ export default class Cards extends Component {
     axios.patch(`cards/${id}`).catch((error) => {
       if (error.response) alert(error.response.data.errors)
     })
+  }
+
+  isRefreshCard = (date) => new Date(date) < new Date(MIGRATION_TO_FONDY_DATE)
+
+  refresh = (id) => {
+    this.delete(id)
+    this.showWidget(true)
   }
 
   delete = (id) => {
