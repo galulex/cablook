@@ -30,6 +30,7 @@
   let duration = (trip.duration/60).toFixed(1)
   let distance = (trip.distance/1000).toFixed(1)
   let disabled = false
+  let cancelTripDisabled = true
   let item
   let subscription
   let timer = parseInt(localStorage[`timer_${trip.id}`]) || 0
@@ -87,22 +88,6 @@
     })
   }
 
-  let paymentVerify = () => {
-    if (trip.vip) return alert('Це постійний клієнт. Кошти знімуться по закінченні поїздки')
-    paymentIcon = Dollar
-    paymentCheck = true
-    axios.patch(`trips/${trip.id}/payments_verify`).then(res => {
-      if (res.data.payment_status == 2) {
-        paymentIcon = Check
-        paymentClass = 'success'
-      } else {
-        paymentVerifyError('Не вдалося здійснити оплату')
-      }
-    }).catch(error => {
-      paymentVerifyError(error.message)
-    })
-  }
-
   let isAbleToStart = () => {
     const minutesToPreorder = Math.round((new Date(trip.start_at).getTime() - new Date().getTime()) / 1000 / 60)
     return trip.pre_order ? (minutesToPreorder < 20) : true
@@ -120,6 +105,7 @@
       action: () => {
         if (!isAbleToStart()) return alert('Заплановані замовлення можна почати тільки за 20 хвилин до часу початку')
         disabled = true
+        cancelTripDisabled = false
         axios.patch(`trips/${trip.id}/waiting_client`).then(update)
       },
       title: 'Arrived',
@@ -128,6 +114,7 @@
     {
       action: () => {
         disabled = true
+        cancelTripDisabled = false
         axios.patch(`trips/${trip.id}/start`).then(update)
       },
       title: 'Start',
@@ -188,20 +175,22 @@
     margin: 0 30px;
   }
 
-  p {
-    text-align: justify;
+  info {
+    margin-left: 5px;
+    margin-right: 5px;
+    margin-top: 5px;
+    text-align: left;
+    display: flex;
+    justify-content: space-around;
+    flex-flow: row wrap;
+    align-items: stretch;
   }
 
-  time, span {
-    width: 32%;
-    display: inline-block;
+  span {
+    flex-grow: 1;
   }
 
-  time {
-    text-align: center;
-  }
-
-  span:last-child {
+  cost {
     text-align: right;
   }
 
@@ -254,14 +243,6 @@
   blockquote {
     margin-bottom: 60px;
   }
-
-  .success {
-    background: green;
-  }
-
-  .failed {
-    background: var(--red_color);
-  }
 </style>
 
 <li bind:this={item}>
@@ -273,11 +254,12 @@
         <address><Pin style={{fill: 'var(--main_dark_color)', width: '15px', height: '15px' }}/><label>{stop}</label></address>
       {/if}
     {/each}
-    <p>
-      <span><Leaf style ={{width: '30px'}}/><label>{trip.trips_count}</label></span>
-      <time datatime={trip.start_at}><Clock style={{ fill: bgColor(), width: '15px', height: '15px'}}/><label>{trip.start_time}</label></time>
+    <info>
+      <span><Leaf style={{width: '30px'}}/><label>{trip.trips_count}</label></span>
+      <span datatime={trip.start_at}><Clock style={{ fill: bgColor(), width: '15px', height: '15px'}}/><label>{trip.start_time}</label></span>
       <span><Distance style={{ fill: bgColor(), width: '15px', height: '15px'}}/><label>{distance}км</label></span>
-    </p>
+      <cost><Dollar style={{width: '15px', height: '15px', fill: 'green'}}/><label>{trip.cost}</label></cost>
+    </info>
     <blockquote>{trip.comment}</blockquote>
     <div class='buttons'>
       <button type='button'
@@ -286,7 +268,9 @@
               on:click={actions[trip.status - 1].action}
               style="background: #89d5d4;">
         <svelte:component this={actions[trip.status - 1].icon} style={{fill: 'var(--white)', width: '25px', height: '25px' }}/>
+        
       </button>
+      <button type='button' disabled={disabled} on:click={count}><Timer style={{fill: 'var(--main_dark_color)', width: '25px', height: '25px'}}/><label>{timer}</label></button>
       <button on:click="{() => showModal = true}"><Pencil style={{fill: 'var(--main_dark_color)', width: '25px', height: '25px'}}/></button>
     </div>
     <div class='buttons'>
@@ -302,12 +286,11 @@
          href={`https://www.google.com/maps/dir/?api=1&waypoints=${trip.waypoints.join('|')}&destination=${trip.waypoints[trip.waypoints.length - 1]}&travelmode=driving&dir_action=navigate`} >
         <Pin style={{fill: 'var(--main_dark_color)', width: '25px', height: '25px' }}/>
       </a>
-      <button type='button' disabled={disabled} on:click={cancel}><CrossX style={{fill: 'var(--red_color)', width: '20px', height: '25px'}}/></button>
+      <button type='button' on:click={unrelease} disabled={disabled}><Back style={{fill: 'var(--main_dark_color)', width: '25px', height: '25px'}}/></button>
     </div>
     <div class='buttons'>
-      <button type='button' disabled={disabled} on:click={count}><Timer style={{fill: 'var(--main_dark_color)', width: '25px', height: '25px'}}/><label>{timer}</label></button>
-      <button type='button' disabled={trip.payment_status == 2 || paymentCheck} on:click={paymentVerify} class={paymentClass}><svelte:component this={paymentIcon} style={{fill: 'var(--main_dark_color)', width: '25px', height: '25px' }}/></button>
-      <button type='button' on:click={unrelease} disabled={disabled}><Back style={{fill: 'var(--main_dark_color)', width: '25px', height: '25px'}}/></button>
+      <span></span>
+      <button type='button' disabled={cancelTripDisabled} on:click={cancel}><CrossX style={{fill: 'var(--red_color)', width: '20px', height: '25px'}}/></button>
     </div>
   </div>
 

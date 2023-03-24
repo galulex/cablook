@@ -6,6 +6,7 @@
   import Timer from '../../../images/Timer.svelte'
   import Clock from '../../../images/Clock.svelte'
   import Distance from '../../../images/Distance.svelte'
+  import Dollar from '../../../images/Dollar.svelte'
 
   export let trip
   export let distance
@@ -72,31 +73,35 @@
 </script>
 
 <style>
-  span, time {
-    padding-left: 5px;
-    display: inline-block;
-    width: 49%;
+  info {
+    margin-left: 5px;
+    margin-right: 5px;
+    margin-top: 5px;
     text-align: left;
+    display: flex;
+    justify-content: space-around;
+    flex-flow: row wrap;
+    align-items: stretch;
   }
 
-  .car {
-    padding: 0;
+  .clock {
+    flex-grow: 2;
+  }
+
+  timer {
+    text-align: right;
+    min-width: 60px;
+    max-width: 60px;
+  }
+
+  .cost {
+    text-align: center;
+    flex-grow: 1;
   }
 
   p {
     margin: 10px 0;
     text-align: justify;
-  }
-
-  time:last-child , span:last-child {
-    width: 48%;
-    text-align: right;
-  }
-
-  time:last-child label, span:last-child label {
-    display: inline-block;
-    text-align: left;
-    width: 40px;
   }
 
   button {
@@ -134,24 +139,29 @@
   }
 </style>
 
+<info>
+  <div><Leaf style ={{width: '25px'}}/><label>{trip.trips_count}</label></div>
+  <div class='cost'><Dollar style={{width: '15px', height: '15px', fill: 'var(--main_green_color)'}}/><label>{trip.cost} грн</label></div>
+  <div><Distance style={{ fill: bgColor, width: '15px', height: '15px'}}/><label>{distance}км</label></div>
+</info>
 <p>
-  <span class='car'><Leaf style ={{width: '25px'}}/><label>{trip.trips_count}</label></span>
-  <span><Distance style={{ fill: bgColor, width: '15px', height: '15px'}}/><label>{distance}км</label></span>
-</p>
-<p>
-  <time>
-    <Clock style={{ fill: bgColor, width: '15px', height: '15px'}}/>
-    {#if trip.pre_order }
-      <label>{trip.start_time}</label>
-    {:else}
-      <select on:change="{e => tripDuration = e.target.value}">
-        {#each timeDurationRange as timeDuration}
-          <option value={timeDuration}>{timeDuration}</option>
-        {/each}
-      </select>
-    {/if}
-  </time>
-  <time><Timer style={{fill: 'var(--red_color)', width: '15px', height: '15px'}}/><label>{time}</label></time>
+  <info>
+    <span class='clock'>
+      <Clock style={{ fill: bgColor, width: '15px', height: '15px'}}/>
+      {#if trip.pre_order }
+        <label>{trip.start_time}</label>
+      {:else}
+        <select on:change="{e => tripDuration = e.target.value}">
+          {#each timeDurationRange as timeDuration}
+            <option value={timeDuration}>{timeDuration}</option>
+          {/each}
+        </select>
+      {/if}
+    </span>
+    <timer><Timer style={{fill: 'var(--red_color)', width: '15px', height: '15px'}}/>
+      <label>{time}</label>
+    </timer>
+  </info>
 </p>
 <blockquote>{trip.comment}</blockquote>
 <button type='button' name={name}  disabled={disabledButton} on:click={accept} style="{btnStyle}">GO {time}</button>
