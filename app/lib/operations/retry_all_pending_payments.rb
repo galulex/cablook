@@ -9,7 +9,7 @@ module Operations
         begin
           card = payment.card || payment.user.cards.last
           if card
-            Operations::Wayforpay::RetryPayment.new(payment.id, card.id).call
+            Operations::Fondy::DoPayment.new(payment.trip_id, payment.type, payment.amount).call
           end
         end
       end

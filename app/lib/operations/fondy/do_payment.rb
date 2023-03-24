@@ -4,7 +4,7 @@ module Operations
       def initialize(trip_id, payment_type, amount)
         @trip_id = trip_id
         @payment_type = payment_type
-        @amount = amount
+        @amount = amount.to_i # amount.kind_of?(Numeric)
       end
 
       attr_reader :trip_id, :payment_type, :amount
@@ -63,7 +63,7 @@ module Operations
       end
 
       def payment
-        @payment ||= Payment.find_by(payment_attributes)
+        @payment ||= Payment.find_by(payment_attributes) || Payment.find_by!(trip_id: trip_id, type: payment_type)
       end
 
       def driver_card_number

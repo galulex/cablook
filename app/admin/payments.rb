@@ -25,7 +25,7 @@ ActiveAdmin.register Payment do
           begin
             card = payment.card || payment.user.cards.last
             if card
-              Jobs::PaymentRetry.perform_later(payment.id, payment.card_id)
+              Jobs::PaymentRetry.perform_later(payment.id)
             end
           end
         end
@@ -93,8 +93,7 @@ ActiveAdmin.register Payment do
 
   member_action :retry_payment, method: :post do
     payment = Payment.find(params[:id])
-    card_id = payment.card_id || Card.find_by(user_id: payment.user_id)&.id
-    Operations::Wayforpay::RetryPayment.new(payment.id, card_id).call
+    Operations::Fondy::DoPayment.new(payment.trip_id, payment.type, payment.amount).call
     notice = if payment.reload.status == Constants::Payments::SUCCESS
                'Payment success'
              else
