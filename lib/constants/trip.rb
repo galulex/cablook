@@ -14,6 +14,11 @@ module Constants
     CURRENT_TRIP_STATUSES = [ON_THE_WAY, WAITING_CLIENT, PENDING, DRIVING].freeze
     DELIVERY_TRIP_STATUSES = [ON_THE_WAY, WAITING_CLIENT, PENDING, DRIVING, WAITING_FOR_VENDOR_APPROVE].freeze
 
+    FAKE_TAXI_TRIP_STATUSES = {
+      WAITING_CLIENT             => 'waiting_client'.freeze,
+      DRIVING                    => 'driving'.freeze
+    }.freeze
+
     FEE = 0.025
     MAX_DISTANCE = 60_000
     MAX_BONUS_DISTANCE = 10_000
