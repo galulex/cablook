@@ -19,7 +19,6 @@ module Events
         telegram_message
         #UserMailer.new_card(data[:email], data[:cardPan]).deliver_later
         @card
-        payment_page_link
       end
 
       private
@@ -39,9 +38,10 @@ module Events
 
       def card_params
         {
-          token: fondy.order_id,
-          pan: '****',
-          type: 'verify',
+          token: data[:rectoken],
+          pan: "#{data[:masked_card].first(2)}****#{data[:masked_card].last(4)}",
+          type: data[:card_type],
+          currency: data[:currency],
           user_id: data[:user_id]
         }
       end
@@ -53,14 +53,6 @@ module Events
       def telegram_message
         return if user.telegram.blank?
         TelegramOrder.new(user.telegram).confirm_card
-      end
-
-      def fondy
-        @fondy ||= Fondy::Verify.new(user)
-      end
-
-      def payment_page_link
-        fondy.call[:checkout_url]
       end
     end
   end

@@ -3,13 +3,10 @@ module Fondy
     URL = URI.parse('https://pay.fondy.eu/api/checkout/url/').freeze
     RESPONSE_URL = 'http://app.lvh.me:3000/api/cards/update'.freeze
     CARD_VERIFY = 'Card verify'.freeze
+    CARD_VERIFY_AMOUNT = 100.freeze
 
     def initialize(current_user)
-        @current_user = current_user
-    end
-
-    def order_id
-      "card_verification_user_#{current_user.id}_#{date_time}"
+      @current_user = current_user
     end
 
     def call
@@ -25,14 +22,19 @@ module Fondy
         order_id: order_id,
         order_desc: CARD_VERIFY,
         currency: CURRENCY,
-        amount: 100,
+        amount: CARD_VERIFY_AMOUNT,
         merchant_id: merchant_id,
         verification: YES,
         required_rectoken: YES,
         payment_systems: CARD,
         default_payment_system: CARD,
-        response_url: RESPONSE_URL
+        response_url: RESPONSE_URL,
+        merchant_data: current_user.id.to_s
       }
+    end
+
+    def order_id
+      "card_verification_user_#{current_user.id}_#{date_time}"
     end
 
     def date_time

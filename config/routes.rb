@@ -9,7 +9,7 @@ Rails.application.routes.draw do
     resource :business, only: %i[create update show destroy]
     resource :session, only: %i[create update]
     resources :bonus_trips, only: %i[index]
-    resources :cards, only: %i[index new create update destroy]
+    resources :cards, only: %i[index new update destroy]
     resources :orders, only: %i[create destroy]
     resources :delivery, only: :create
     resources :payments, only: %i[index] do

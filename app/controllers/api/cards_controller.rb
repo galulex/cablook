@@ -7,12 +7,8 @@ module Api
     end
 
     def new
-      render json: { create_card: 'create' }, status: 200
-    end
-
-    def create
-      payment_page_link = Events::Cards::Create.(params.merge(user_id: current_user.id))
-      render json: { link: payment_page_link }, status: 201
+      payment_page_link = Events::Cards::New.(user_id: current_user.id)
+      render json: { link: payment_page_link }, status: 200
     end
 
     def destroy
@@ -23,9 +19,10 @@ module Api
     end
 
     def complete
-      Events::Cards::Update.(order_id: params[:order_id], sender_email: params[:sender_email],
-                                      rectoken: params[:rectoken], card_type: params[:card_type],
-                                      masked_card: params[:masked_card], currency: params[:currency] )
+      Events::Cards::Create.(user_id: params[:merchant_data].to_i, order_id: params[:order_id],
+                              sender_email: params[:sender_email], rectoken: params[:rectoken],
+                              card_type: params[:card_type], masked_card: params[:masked_card],
+                              currency: params[:currency] )
       redirect_to root_path
     end
 

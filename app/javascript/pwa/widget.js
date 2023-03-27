@@ -11,7 +11,7 @@ export default class Widget extends Component {
   }
 
   addCard = () => {
-    axios.post('cards').then(({data}) => {
+    axios.get('cards/new').then(({data}) => {
       window.location.href = data.link
     }).catch((error) => {
       if (error.response) alert(error.response.data.errors)
