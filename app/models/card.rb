@@ -1,4 +1,6 @@
 class Card < ApplicationRecord
+  PAYMENT_SYSTEM = :fondy
+
   self.inheritance_column = :_type_disabled
   default_scope { order(default: :desc, id: :desc) }
 
@@ -15,6 +17,7 @@ class Card < ApplicationRecord
       .joins('LEFT JOIN businesses ON businesses.card_id = cards.id')
       .joins('LEFT JOIN businesses_users ON businesses.id = businesses_users.business_id')
       .where('businesses_users.user_id = :user OR cards.user_id = :user', user: user)
+      .where(payment_system: PAYMENT_SYSTEM)
       .group('cards.id')
       .order('property ASC, id DESC')
   end)

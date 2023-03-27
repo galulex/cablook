@@ -33,12 +33,7 @@ export default class Cards extends Component {
               if (card.user_id === this.props.currentUserID) return(
                 <li>
                   <Card card={card} />
-                  { this.isRefreshCard(card.updated_at)? (
-                      <button class='r-card' type='button' onClick={() => this.refresh(card.id)}><Refresh/></button>
-                    ) : (
-                      <button class='x-card' type='button' onClick={() => this.delete(card.id)}><Close fill='#a925ad'/></button>
-                    )
-                  }
+                    <button class='x-card' type='button' onClick={() => this.delete(card.id)}><Close fill='#a925ad'/></button>
                   { cards.length > 1 && <div class='default'>
                     <input
                       id={`default_card_${card.id}`}
@@ -75,8 +70,6 @@ export default class Cards extends Component {
       if (error.response) alert(error.response.data.errors)
     })
   }
-
-  isRefreshCard = (date) => new Date(date) < new Date(MIGRATION_TO_FONDY_DATE)
 
   refresh = (id) => {
     this.delete(id)

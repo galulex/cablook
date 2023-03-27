@@ -42,7 +42,8 @@ module Events
           pan: "#{data[:masked_card].first(2)}****#{data[:masked_card].last(4)}",
           type: data[:card_type],
           currency: data[:currency],
-          user_id: data[:user_id]
+          user_id: data[:user_id],
+          payment_system: Card::PAYMENT_SYSTEM
         }
       end
 

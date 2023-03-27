@@ -54,6 +54,7 @@ ActiveRecord::Schema.define(version: 2023_03_27_102321) do
     t.boolean "default", default: false
     t.datetime "created_at", default: -> { "now()" }, null: false
     t.datetime "updated_at", default: -> { "now()" }, null: false
+    t.string "payment_system"
     t.index ["user_id"], name: "index_cards_on_user_id"
   end
 
@@ -79,10 +80,10 @@ ActiveRecord::Schema.define(version: 2023_03_27_102321) do
     t.string "username"
     t.string "encrypted_password"
     t.string "auth_token"
-    t.bigint "car_id"
     t.string "address"
     t.decimal "address_location", default: [], array: true
     t.boolean "active", default: true
+    t.bigint "car_id"
     t.index ["car_id"], name: "index_drivers_on_car_id"
   end
 
@@ -155,7 +156,7 @@ ActiveRecord::Schema.define(version: 2023_03_27_102321) do
     t.bigint "car_id"
     t.bigint "driver_id"
     t.bigint "user_id"
-    t.datetime "created_at", default: -> { "now()" }
+    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }
     t.integer "distance"
     t.integer "duration"
     t.datetime "start_at"
@@ -191,7 +192,7 @@ ActiveRecord::Schema.define(version: 2023_03_27_102321) do
     t.string "phone_number"
     t.string "auth_token"
     t.string "referral_code"
-    t.datetime "created_at", default: -> { "now()" }
+    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }
     t.integer "trips_count", default: 0
     t.boolean "vip", default: false
     t.string "notification_settings", default: [], array: true
