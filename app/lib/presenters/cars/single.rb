@@ -1,5 +1,5 @@
 class Presenters::Cars::Single < Presenters::BaseSingle
-  properties :id, :number, :status, :phone_number
+  properties :id, :number, :status, :phone_number, :brand, :model
 
   property :dis, exec_context: :decorator
   property :deg, exec_context: :decorator

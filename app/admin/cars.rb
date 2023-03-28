@@ -15,6 +15,8 @@ ActiveAdmin.register Car do
       input :color, as: :select, collection: Constants::Car::COLORS
       input :phone_number
       input :active
+      input :brand
+      input :model
     end
     actions
   end
