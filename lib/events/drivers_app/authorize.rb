@@ -13,7 +13,6 @@ module Events
       def run
         check_username!
         check_password!
-        set_free_car_status
         driver
       end
 
@@ -21,10 +20,6 @@ module Events
 
       def driver
         @driver ||= Driver.find_by(username: data[:username])
-      end
-
-      def set_free_car_status
-        driver.car&.update(status: Constants::Car::FREE)
       end
 
       def encrypted_password

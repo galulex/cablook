@@ -77,8 +77,8 @@
   <div class='login-form'>
     <h3>Log In</h3>
       <form action='#' on:submit={create}>
-        <input name='username' type='text' placeholder='Username' required/>
-        <input name='password' type='password' placeholder='Password' required/>
+        <input name='username' type='text' placeholder='Username' autocomplete="username" required/>
+        <input name='password' type='password' placeholder='Password' autocomplete="password" required/>
         <button disabled={disabled} type='submit'>OK</button>
       </form>
   </div>

@@ -22,10 +22,10 @@ describe Events::DriversApp::Authorize do
     end
 
     context 'when driver login successful' do
-      let(:car) { create(:car, status: Constants::Car::OFFLINE) }
+      let(:car) { create(:car, status: Constants::Car::FREE) }
       let!(:driver) { create(:driver, car_id: car.id) }
 
-      it { is_expected.to change { car.reload.status }.to('free') }
+      it { is_expected.to_not change(car.reload, :status) }
     end
   end
 end
