@@ -4,15 +4,5 @@ main.content.ext_opportunities
     div.logo-title
       b CAB
       | LOOK
-  h1= t('welcome.ext_opportunities.title')
-  .ext_opportunities-section
-    - I18n.t('welcome.ext_opportunities.ext_opp').each do |o|
-      .ext_opp
-        = inline_svg "#{o[:img]}.svg", class: 'ext_opp_image'
-        h2= o[:title]
-        details[open]
-          summary= o[:subtitle]
-          - o[:item].each do |i|
-              p= i[:description]
 
   = inline_svg 'city.svg', class: 'city violet'

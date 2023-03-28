@@ -48,12 +48,6 @@ main.content.become-driver
         = t('.form_fields.email')
       = f.email_field :email, autocomplete: 'off'
 
-    .col-12.attach-cv
-      = f.file_field :cv
-      b = f.label :cv
-        = inline_svg 'clip.svg', class: 'svgs clip'
-        span.result = t('.form_fields.cv')
-
     .col-12
       b = f.label :comment
         = t('.form_fields.comment')
@@ -63,9 +57,3 @@ main.content.become-driver
 
 
   = inline_svg 'city.svg', class: 'city violet'
-
-javascript:
-  document.querySelector('#cv_cv').addEventListener('change', (event) => {
-    const result = document.querySelector('.result');
-    result.textContent = `${event.target.files[0].name}`;
-  });

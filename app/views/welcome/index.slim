@@ -6,15 +6,11 @@ main.welcome.content role='main'
   h1.title= t('.title')
   a.btn href='https://app.cablook.taxi' target='_blank' = t('order')
   br
+  br
   a.pd href='https://itunes.apple.com/us/app/cablook-taxi/id1356063043?ls=1&mt=8' target=:_blank
     = inline_svg 'applestore.svg', class: 'icon-2x'
   a.pd href='https://play.google.com/store/apps/details?id=com.cablook' target=:_blank
     = inline_svg 'googleplay.svg', class: 'icon-2x'
-  h2.title.green= t('.subtitle')
-  ul
-    li= t('.download')
-    li= t('.share')
-    li= t('.receive')
 
   = inline_svg 'city.svg', class: :city
   .city-road
