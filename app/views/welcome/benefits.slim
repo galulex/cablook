@@ -21,30 +21,5 @@ main.content.benefits
         ul
           - t('.opportunities').each do |o|
             li= o
-  hr
   br
-  .title.black Bonus +
-  .title.green= t('.free_trips')
-  div.bonus.text-left
-    .col-6
-      div.step
-        => inline_svg('bonus/download.svg', class: :icon)
-        = t('.bonus.download')
-      div.step
-        => inline_svg('bonus/login.svg', class: :icon)
-        = t('.bonus.login')
-      div.step
-        => inline_svg('bonus/navigate.svg', class: :icon)
-        = t('.bonus.navigate')
-    .col-6
-      div.step
-        => inline_svg('bonus/share.svg', class: :icon)
-        = t('.bonus.share')
-      div.step
-        => inline_svg('bonus/thumbsup.svg', class: :icon)
-        =< t('.bonus.get')
-  br
-      div.step
-        = link_to ext_opp_path do
-          =t('.extended_opportunities')
   = inline_svg 'city.svg', class: 'city violet'

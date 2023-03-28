@@ -11,15 +11,12 @@ nav
     = link_to page_path(:why), class: 'menu-item' do
       => inline_svg 'pin', class: :icon
       = t('.why')
-    = link_to page_path(:faq), class: 'menu-item' do
-      => inline_svg 'faq', class: :icon
-      ' FAQ
     = link_to page_path(:benefits), class: 'menu-item' do
       => inline_svg 'car', class: :icon
       = t('.benefits')
-    = link_to ext_opp_path, class: 'menu-item' do
-      => inline_svg 'extended_opp-s', class: :icon
-      =t('.ext_opportunities')
+    = link_to page_path(:faq), class: 'menu-item' do
+      => inline_svg 'faq', class: :icon
+      ' FAQ
     = link_to page_path(:become_driver), class: 'menu-item' do
       => inline_svg 'car', class: :icon
       = t('.become_driver')
@@ -40,9 +37,6 @@ nav
       .flag
         = link_to locale_path(:uk)
           = inline_svg 'ua_flag.svg', width: '23', height: '15', alt: 'Ukraine'
-      .flag
-        = link_to locale_path(:ru)
-          = inline_svg 'ru_flag.svg', width: '23', height: '15', alt: 'Russia'
     .bottom-menu__rights
       div CabLook Taxi
       div Україна
