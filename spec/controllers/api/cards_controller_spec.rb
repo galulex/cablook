@@ -28,6 +28,15 @@ describe Api::CardsController, type: :controller do
         expect(subject.size).to eql(2)
       end
     end
+
+    context 'personal cards with older paysystem' do
+      let!(:personal_card) { create(:card, user_id: user.id, payment_system: nil) }
+      before { get :index, as: :json }
+
+      it 'returns all cards' do
+        expect(subject.size).to eql(0)
+      end
+    end
   end
 
   describe '#create' do

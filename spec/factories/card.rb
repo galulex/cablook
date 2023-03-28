@@ -5,5 +5,6 @@ FactoryBot.define do
     type { %w[Visa MasterCard].sample }
     currency { 'UAH' }
     association(:user)
+    payment_system { :fondy }
   end
 end

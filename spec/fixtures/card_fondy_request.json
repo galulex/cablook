@@ -1,0 +1,16 @@
+{
+  "request" : {
+                    "order_id" : "card_verification_user_6_20230328_1708",
+                  "order_desc" : "Card verify",
+                    "currency" : "UAH",
+                      "amount" : 100,
+                 "merchant_id" : "1519395",
+                "verification" : "Y",
+           "required_rectoken" : "Y",
+             "payment_systems" : "card",
+      "default_payment_system" : "card",
+                "response_url" : "http://app.lvh.me:3000/api/cards/update",
+               "merchant_data" : "6",
+                   "signature" : "a65874bf3b2f531d78ca5ba6edcfe858734de833"
+  }
+}
