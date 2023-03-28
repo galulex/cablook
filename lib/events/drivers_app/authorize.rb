@@ -13,17 +13,10 @@ module Events
       def run
         check_username!
         check_password!
-        reset_status!
         driver
       end
 
       private
-
-      def reset_status!
-        return unless driver.car_id
-        Car.find(driver.car_id).update(status: Constants::Car::OFFLINE)
-        driver.update(car_id: nil)
-      end
 
       def driver
         @driver ||= Driver.find_by(username: data[:username])
