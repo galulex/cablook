@@ -15,7 +15,8 @@ module Constants
       trip: 'Trip'.freeze,
       tip: 'Tip'.freeze,
       idle: 'Idle'.freeze,
-      fake: 'FakeTaxi'.freeze
+      fake: 'FakeTaxi'.freeze,
+      payout: 'PayOut'.freeze
     }.freeze
   end
 end

@@ -14,7 +14,7 @@ module Operations
 
         update_payment
         update_total
-        charge_driver_card if success_response?
+        payout_driver if success_response?
       end
 
       private
@@ -32,9 +32,25 @@ module Operations
         trip.trip_payment&.card || trip.user.cards.last
       end
 
-      def charge_driver_card
-        return if Rails.env.development? #todo
+      def payout_driver
+        Payment.create(
+          trip_id: trip_id,
+          user_id: trip.user_id,
+          card_id: card.id,
+          type: "Payments::#{Constants::Payments::TYPES[:payout]}",
+          response: payout_response,
+          status: pay_out_status,
+          amount: amount || payment.amount)
+      end
+
+      def payout_response
+        return { response: { response_status: 'success', payout: 'Driver payout'} }.to_json if Rails.env.development? #todo
         ::Fondy::ChargeCard.new(payment.order_reference, amount, driver_card_number).call
+      end
+
+      def pay_out_status
+        return Constants::Payments::SUCCESS if JSON.parse(payout_response)['response']['response_status'] == Constants::Payments::FONDY_SUCCESS
+        Constants::Payments::PENDING
       end
 
       def update_payment
