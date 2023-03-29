@@ -16,8 +16,7 @@ export default function CarPopup(props) {
   return(
     <div class='car-popup'>
       <Cross class="close-button"/>
-      <div className='car-popup-line'><Car/><span>{car.brand}</span></div>
-      <div className='car-popup-line'><Car/><span>{car.model}</span></div>
+      { (car.brand || car.model) && <div className='car-popup-line' title={car.brand}><Car/><span>{car.brand} {car.model}</span></div> }
       <div className='car-popup-line'><Car/><span>{car.number}</span></div>
       <div className='car-popup-line'><a href={`tel:${driver.phone_number}`}><Phone/>{driver.name}</a></div>
       <div className='car-popup-line'><TripTime/>{trip.start_time}</div>

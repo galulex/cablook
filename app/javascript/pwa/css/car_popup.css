@@ -42,7 +42,7 @@ div.car-popup div {
 .car-popup-line {
   z-index: 6;
   display: inline-block;
-  width: 270px;
+  width: 250px;
   word-wrap: break-word;
   overflow: hidden;
   text-overflow: ellipsis;
