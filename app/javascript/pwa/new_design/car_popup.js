@@ -12,13 +12,14 @@ import '../css/car_popup.css'
 export default function CarPopup(props) {
   let { car, trip, driver } = props
   let driver_name = driver.name.split(' ').length == 1 ? driver.name : driver.name.split(' ')[1]
+  const car_brand = `${car.brand} ${car.model}`
 
   return(
     <div class='car-popup'>
       <Cross class="close-button"/>
-      { (car.brand || car.model) && <div className='car-popup-line' title={car.brand}><Car/><span>{car.brand} {car.model}</span></div> }
+      { car_brand && <div className='car-popup-line' title={car_brand}><Car/><span>{car_brand}</span></div> }
       <div className='car-popup-line'><Car/><span>{car.number}</span></div>
-      <div className='car-popup-line'><a href={`tel:${driver.phone_number}`}><Phone/>{driver.name}</a></div>
+      <div className='car-popup-line'><a href={`tel:${driver.phone_number}`}><Phone/>{driver_name}</a></div>
       <div className='car-popup-line'><TripTime/>{trip.start_time}</div>
       <div className='car-popup-line'><TripPrice/>{`${trip.cost}`}</div>
       <Leaves class='popup_leaf'/>
