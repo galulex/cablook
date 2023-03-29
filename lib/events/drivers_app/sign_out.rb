@@ -9,7 +9,6 @@ module Events
 
       def run
         car&.offline!
-        driver.update(car: nil)
         broadcast_to_driver_map
       end
 

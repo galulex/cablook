@@ -21,12 +21,11 @@ describe Events::DriversApp::Authorize do
       it { is_expected.to raise_error(Events::InvalidParamsError) }
     end
 
-    context 'when car is assigned' do
+    context 'when driver login successful' do
       let(:car) { create(:car, status: Constants::Car::FREE) }
       let!(:driver) { create(:driver, car_id: car.id) }
 
-      it { is_expected.to change { driver.reload.car_id }.to(nil) }
-      it { is_expected.to change { car.reload.status }.to('offline') }
+      it { is_expected.to_not change(car.reload, :status) }
     end
   end
 end

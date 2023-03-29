@@ -1,13 +1,13 @@
 .car-popup.mapboxgl-popup .mapboxgl-popup-content {
-  padding: 10px;
-  font-size: calc(var(--vh, 1vh) * 2.6);
+  padding: 20px 10px 10px 10px;
+  font-size: calc(var(--vh, 1vh) * 2.3);
   font-weight: 100;
   background: #19A160;
   background: var(--green);
   color: white;
   color: var(--white);
   border-radius: 15px;
-  width: 250px;
+  width: 300px;
   box-shadow: inset -2px -2px 5px 0px var(--shadow_color), inset 1px 1px 5px -1px var(--white);
 }
 
@@ -20,7 +20,7 @@
   fill: var(--white);
   width: 25px;
   height: 25px;
-  margin: 0 8px 0 10px !important;
+  margin: -8px 8px 0 10px !important;
 }
 
 .car-popup.mapboxgl-popup a {
@@ -36,7 +36,17 @@
 
 div.car-popup div {
   z-index: 6;
-  margin-bottom: 15px;
+  line-height: 2rem;
+}
+
+.car-popup-line {
+  z-index: 6;
+  display: inline-block;
+  width: 270px;
+  word-wrap: break-word;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap; 
 }
 
 .car svg {

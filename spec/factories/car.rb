@@ -3,6 +3,8 @@ FactoryBot.define do
     number { Faker::Number.number(4).to_s }
     status 1
     color { Faker::Color.hex_color }
-    phone_number { "+#{Faker::Number.number(12)}" }
+    brand { 'Tesla' }
+    model { 'Model S' }
+    phone_number { '0987654321' }
   end
 end

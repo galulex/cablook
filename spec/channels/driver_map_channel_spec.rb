@@ -57,7 +57,9 @@ describe DriverMapChannel do
           'id' => car.id,
           'number' => car.number,
           'phone_number' => car.phone_number,
-          'status' => car.status
+          'status' => car.status,
+          'brand' => car.brand,
+          'model' => car.model
         }
       }
     end
@@ -114,6 +116,8 @@ describe DriverMapChannel do
               'number' => car.number,
               'phone_number' => car.phone_number,
               'status' => car.status,
+              'brand' => car.brand,
+              'model' => car.model
             }
           ).once
 
