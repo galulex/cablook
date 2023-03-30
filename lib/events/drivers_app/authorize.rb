@@ -13,13 +13,27 @@ module Events
       def run
         check_username!
         check_password!
+        validate_driver_car!
+        set_free_status
         driver
       end
 
       private
 
+      def validate_driver_car!
+        invalid!([I18n.t('driver.authorizations.errors.car_not_assigned')]) unless driver.car
+      end
+
       def driver
         @driver ||= Driver.find_by(username: data[:username])
+      end
+
+      def set_free_status
+        driver.car.update(status: heve_active_trips? ? Constants::Car::DURING_TRIP : Constants::Car::FREE)
+      end
+
+      def heve_active_trips?
+        driver.car.trips.where(status: Constants::Trip::CURRENT_TRIP_STATUSES, preorder_time: nil).size.positive?
       end
 
       def encrypted_password

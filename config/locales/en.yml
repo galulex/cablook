@@ -4,6 +4,10 @@ en:
       invalid_username: Username is invalid
       invalid_password: Password is invalid
       invalid_phone_number: Phone number is invalid
+  driver:
+    authorizations:
+      errors:
+        car_not_assigned: Car is not assigned yet
   assignings:
     errors:
       messages:
