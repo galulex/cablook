@@ -11,6 +11,7 @@ module Events
 
       def run
         update_trip
+        update_car_status
         telegram_message
         broadcast
         notify unless trip.order
@@ -20,6 +21,10 @@ module Events
 
       def update_trip
         trip.update(params)
+      end
+
+      def update_car_status
+        trip.car&.update(status: Constants::Car::DURING_TRIP)
       end
 
       def params

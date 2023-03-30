@@ -4,6 +4,10 @@ uk:
       invalid_username: Ім'я користувача введено невірно
       invalid_password: Пароль введено невірно
       invalid_phone_number: Номер телефона введено невірно
+  driver:
+    authorizations:
+      errors:
+        car_not_assigned: Автомобіль не закріплено за водієм
   assignings:
     errors:
       messages:
