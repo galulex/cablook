@@ -4,7 +4,7 @@ module Operations
       def initialize(trip_id, payment_type, amount)
         @trip_id = trip_id
         @payment_type = payment_type
-        @amount = amount.to_i # amount.kind_of?(Numeric)
+        @amount = amount.to_i
       end
 
       attr_reader :trip_id, :payment_type, :amount
@@ -44,8 +44,7 @@ module Operations
       end
 
       def payout_response
-        return { response: { response_status: 'success', payout: 'Driver payout'} }.to_json if Rails.env.development? #todo
-        ::Fondy::ChargeCard.new(payment.order_reference, amount, driver_card_number).call
+        @payout_response = ::Fondy::ChargeCard.new(payment.order_reference, amount, trip.driver.card_number).call
       end
 
       def pay_out_status
@@ -80,10 +79,6 @@ module Operations
 
       def payment
         @payment ||= Payment.find_by(payment_attributes) || Payment.find_by!(trip_id: trip_id, type: payment_type)
-      end
-
-      def driver_card_number
-        '4444555566661111' #todo
       end
     end
   end

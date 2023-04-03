@@ -1,5 +1,5 @@
 ActiveAdmin.register Driver do
-  DRIVER_COLUMNS = %w[name username password auth_token address active car].freeze
+  DRIVER_COLUMNS = %w[name username password auth_token address active car card_number].freeze
   preserve_default_filters!
   remove_filter :car, :trips, :address, :address_location
 

@@ -6,7 +6,8 @@ describe Api::DriversApp::RegistrationsController, type: :controller do
       { driver: {
         name: Faker::Lorem.word,
         username: Faker::Name.name,
-        password: Faker::Internet.password
+        password: Faker::Internet.password,
+        card_number: '4444555566661113'
       } }
     end
 
@@ -19,7 +20,21 @@ describe Api::DriversApp::RegistrationsController, type: :controller do
         { driver: {
           name: Faker::Name.name,
           username: '',
-          password: Faker::Internet.password
+          password: Faker::Internet.password,
+          card_number: '4444555566661113'
+        } }
+      end
+
+      it { is_expected.to have_http_status(:unprocessable_entity) }
+    end
+
+    context 'when card number is blank' do
+      let(:params) do
+        { driver: {
+          name: Faker::Lorem.word,
+          username: Faker::Name.name,
+          password: Faker::Internet.password,
+          card_number: ''
         } }
       end
 

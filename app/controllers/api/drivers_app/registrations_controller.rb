@@ -12,12 +12,13 @@ module Api
         {
           name: driver_params[:name],
           username: driver_params[:username],
-          encrypted_password: BCrypt::Password.create(driver_params[:password])
+          encrypted_password: BCrypt::Password.create(driver_params[:password]),
+          card_number: driver_params[:card_number]
         }
       end
 
       def driver_params
-        params.require(:driver).permit(:name, :username, :password)
+        params.require(:driver).permit(:name, :username, :password, :card_number)
       end
     end
   end
