@@ -10,7 +10,7 @@ module Fondy
     end
 
     def call
-      result(Net::HTTP.post(URL, request_body, initheader = header).body)
+      Net::HTTP.post(URL, request_body, initheader = header).body
     end
 
     private
@@ -43,17 +43,6 @@ module Fondy
 
     def request_body
       { request: verify_params.merge(signature(verify_params)) }.to_json
-    end
-
-    def result(response_body)
-      response = JSON.parse(response_body).dig('response')
-      return { checkout_url: '' } if response['response_status'] != 'success'
-
-      {
-        checkout_url: response['checkout_url'],
-        payment_id: response['payment_id'],
-        response_status: ['response_status']
-      }
     end
   end
 end

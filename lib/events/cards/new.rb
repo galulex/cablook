@@ -25,7 +25,7 @@ module Events
       end
 
       def create_card_verification_link
-        Fondy::Verify.new(user).call[:checkout_url]
+        Fondy::Verify.new(user).call
       end
     end
   end

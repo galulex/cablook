@@ -2,7 +2,6 @@ module Events
   module Trips
     class Cancel < Events::BaseEvent
       TRIP_STATUSES = [Constants::Trip::PENDING, Constants::Trip::ON_THE_WAY, Constants::Trip::WAITING_CLIENT, Constants::Trip::DECLINED, Constants::Trip::WAITING_FOR_VENDOR_APPROVE].freeze
-      FAKE_TAXI_COST = 10.freeze
 
       def schema
         Dry::Validation.Schema do
@@ -74,7 +73,7 @@ module Events
       def fake_taxi_payment
         return unless data[:by_driver]
         payment.update!(type: "Payments::#{Constants::Payments::TYPES[:fake]}")
-        Jobs::PaymentSettle.perform_later(data[:trip_id], Constants::Payments::TYPES[:fake], FAKE_TAXI_COST)
+        Jobs::PaymentSettle.perform_later(data[:trip_id], Constants::Payments::TYPES[:fake], Constants::Payments::FAKE_TAXI_COST)
       end
 
       def broadcast_notification_cancel

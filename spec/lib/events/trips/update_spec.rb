@@ -152,7 +152,7 @@ describe Events::Trips::Update do
           it { is_expected.to change { trip_payment.reload.amount } }
           it { is_expected.to change { trip_payment.reload.status }.to(Constants::Payments::PENDING) }
           it { is_expected.to change { trip_payment.reload.card_id }.to(card.id) }
-          it { is_expected.to change { trip_payment.reload.order_reference }.to("cablook_test_trip_#{trip.id}") }
+          it { is_expected.to change { trip_payment.reload.order_reference }.to (match(/cablook_test_#{trip.id}_payments_trip_/)) }
 
           it { is_expected.to change { bonus_trip.reload.fresh? }.to be_truthy }
           it { is_expected.to change { bonus_trip.reload.trip_id }.to(nil) }

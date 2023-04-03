@@ -6,9 +6,11 @@ module Events
           configure { config.messages = :i18n }
 
           required(:user_id).filled(:int?)
-          optional(:masked_card).filled(:str?)
-          optional(:card_type).filled(:str?)
-          optional(:currency).filled(:str?)
+          required(:masked_card).filled(:str?)
+          required(:card_type).filled(:str?)
+          required(:currency).filled(:str?)
+          required(:rectoken).filled(:str?)
+          required(:sender_email).filled(:str?)
         end
       end
 
@@ -16,6 +18,7 @@ module Events
         find_user!
         validate!
         create_card
+        update_user_email
         telegram_message
         #UserMailer.new_card(data[:email], data[:cardPan]).deliver_later
         @card
@@ -34,6 +37,10 @@ module Events
 
       def create_card
         @card.save
+      end
+
+      def update_user_email
+        user.update!(email: data[:sender_email])
       end
 
       def card_params

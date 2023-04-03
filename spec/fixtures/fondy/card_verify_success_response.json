@@ -1,0 +1,6 @@
+{
+  "response" : {
+    "response_status" : "success",
+    "checkout_url" : "https://pay.fondy.eu/checkout?token=afcb21aef707b1fea2565b66bac7dc41d7833390"
+  }
+}

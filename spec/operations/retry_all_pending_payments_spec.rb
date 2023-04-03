@@ -5,7 +5,7 @@ describe Operations::RetryAllPendingPayments do
   let(:wayforpay_body) { { reasonCode: Constants::Payments::WAYFORPAY_SUCCESS }.to_json }
   let(:trip) { create(:trip, user_id: user.id, status: Constants::Trip::STATUS_CODES[Constants::Trip::FINISHED]) }
  
-  before { allow_any_instance_of(Operations::Wayforpay::RetryPayment).to receive(:call).once }
+  before { allow_any_instance_of(Operations::Fondy::DoPayment).to receive(:call).once }
 
   describe '#call' do
     subject { -> { instance.call } }
@@ -16,7 +16,7 @@ describe Operations::RetryAllPendingPayments do
     end
 
     it do
-      expect_any_instance_of(Operations::Wayforpay::RetryPayment).to receive(:call).once
+      expect_any_instance_of(Operations::Fondy::DoPayment).to receive(:call).once
       subject.call
     end
   end

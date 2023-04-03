@@ -42,6 +42,9 @@ describe Events::Feedbacks::Create do
     context 'when tip will be created' do
       let(:data) { super().merge(tip: amount) }
       let(:amount) { 10 }
+      let!(:trip_payment) { create(:trip_payment, trip_id: trip.id, user_id: user.id, order_reference: 'order_reference') }
+
+      before { user.cards.create(attributes_for(:card, user_id: user.id)) }
 
       it { is_expected.to have_enqueued_job(Jobs::PaymentSettle).with(trip.id, Constants::Payments::TYPES[:tip], amount) }
     end

@@ -12,7 +12,7 @@ export default class Widget extends Component {
 
   addCard = () => {
     axios.get('cards/new').then(({data}) => {
-      window.location.href = data.link
+      window.location.href = data.response.checkout_url
     }).catch((error) => {
       if (error.response) alert(error.response.data.errors)
     })

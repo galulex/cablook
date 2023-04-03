@@ -80,10 +80,10 @@ ActiveRecord::Schema.define(version: 2023_03_27_102321) do
     t.string "username"
     t.string "encrypted_password"
     t.string "auth_token"
+    t.bigint "car_id"
     t.string "address"
     t.decimal "address_location", default: [], array: true
     t.boolean "active", default: true
-    t.bigint "car_id"
     t.index ["car_id"], name: "index_drivers_on_car_id"
   end
 

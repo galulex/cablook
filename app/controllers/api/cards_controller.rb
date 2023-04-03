@@ -7,8 +7,7 @@ module Api
     end
 
     def new
-      payment_page_link = Events::Cards::New.(user_id: current_user.id)
-      render json: { link: payment_page_link }, status: 200
+      render json: Events::Cards::New.(user_id: current_user.id), status: 200
     end
 
     def destroy

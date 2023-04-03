@@ -19,12 +19,20 @@ describe Events::Trips::Cancel do
 
     context 'and have fake settle job' do
       let(:trip) { create(:trip, status: Constants::Trip::WAITING_CLIENT) }
+      let(:data) { { trip_id: trip.id, by_driver: true } }
 
-      it { is_expected.to have_enqueued_job(Jobs::PaymentSettle).with(trip.id, Constants::Payments::TYPES[:fake], price.landing / 100) }
+      it { is_expected.to have_enqueued_job(Jobs::PaymentSettle).with(trip.id, Constants::Payments::TYPES[:fake], Constants::Payments::FAKE_TAXI_COST) }
+    end
+
+    context 'and dont have fake settle job on trip when status on the way' do
+      let(:trip) { create(:trip, status: Constants::Trip::ON_THE_WAY) }
+      let(:data) { { trip_id: trip.id, by_driver: true } }
+
+      it { is_expected.to_not have_enqueued_job(Jobs::PaymentSettle).with(trip.id, Constants::Payments::TYPES[:fake], Constants::Payments::FAKE_TAXI_COST) }
     end
 
     context 'and not have fake settle job when waiting for client' do
-      it { is_expected.not_to have_enqueued_job(Jobs::PaymentSettle).with(trip.id, Constants::Payments::TYPES[:fake], price.landing / 100) }
+      it { is_expected.not_to have_enqueued_job(Jobs::PaymentSettle).with(trip.id, Constants::Payments::TYPES[:fake], Constants::Payments::FAKE_TAXI_COST) }
     end
 
     context 'and broadcast to channel' do
@@ -136,7 +144,7 @@ describe Events::Trips::Cancel do
         let(:trip) { create(:trip, status: Constants::Trip::DRIVING) }
         let(:data) { { trip_id: trip.id, by_driver: true } }
 
-        it { is_expected.to change { payment.reload.status }.to(Constants::Payments::DECLINE) }
+        it { is_expected.to change { trip.payments.first.reload.type }.to("Payments::#{Constants::Payments::TYPES[:fake]}") }
       end
 
       context 'and job deleted' do

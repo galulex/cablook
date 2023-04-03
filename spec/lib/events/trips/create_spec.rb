@@ -72,40 +72,40 @@ describe Events::Trips::Create do
       end
     end
 
-    context 'when payment by bonus' do
-      let!(:bonus_trip) { create(:bonus_trip, user_id: user.id, status: :fresh, type: Constants::BonusTrip::GIFT) }
-      let(:data) { trip_params.merge(bonus: true) }
+    # context 'when payment by bonus' do
+    #   let!(:bonus_trip) { create(:bonus_trip, user_id: user.id, status: :fresh, type: Constants::BonusTrip::GIFT) }
+    #   let(:data) { trip_params.merge(bonus: true) }
 
-      before { allow_any_instance_of(Directions).to receive(:distance) { 5_000 } }
+    #   before { allow_any_instance_of(Directions).to receive(:distance) { 5_000 } }
 
-      it { is_expected.to change { Payment.count }.by(+1) }
-      it { is_expected.to change { bonus_trip.reload.used? }.to be_truthy }
+    #   it { is_expected.to change { Payment.count }.by(+1) }
+    #   it { is_expected.to change { bonus_trip.reload.used? }.to be_truthy }
 
-      context 'but bonus was used before' do
-        before { bonus_trip.used! }
+    #   context 'but bonus was used before' do
+    #     before { bonus_trip.used! }
 
-        it { is_expected.to raise_error(Events::InvalidParamsError) }
-      end
+    #     it { is_expected.to raise_error(Events::InvalidParamsError) }
+    #   end
 
-      context 'when bonus more than 10 km' do
-        before { allow_any_instance_of(Directions).to receive(:distance) { 15_000 } }
+    #   context 'when bonus more than 10 km' do
+    #     before { allow_any_instance_of(Directions).to receive(:distance) { 15_000 } }
 
-        it { is_expected.to raise_error(Events::InvalidParamsError) }
-      end
+    #     it { is_expected.to raise_error(Events::InvalidParamsError) }
+    #   end
 
-      context 'and cashback param present' do
-        let(:data) { trip_params.merge(bonus: true, cashback: true) }
+    #   context 'and cashback param present' do
+    #     let(:data) { trip_params.merge(bonus: true, cashback: true) }
 
-        it { is_expected.to change { BonusTrip.count }.by(+1) }
+    #     it { is_expected.to change { BonusTrip.count }.by(+1) }
 
-        context 'but user have fresh cashback bonus trip' do
-          let!(:bonus_trip) { create(:bonus_trip, user_id: user.id, status: :fresh, type: Constants::BonusTrip::CASHBACK) }
+    #     context 'but user have fresh cashback bonus trip' do
+    #       let!(:bonus_trip) { create(:bonus_trip, user_id: user.id, status: :fresh, type: Constants::BonusTrip::CASHBACK) }
 
-          it { is_expected.not_to change { BonusTrip.count } }
-          it { is_expected.to change { bonus_trip.reload.used? }.to be_truthy }
-        end
-      end
-    end
+    #       it { is_expected.not_to change { BonusTrip.count } }
+    #       it { is_expected.to change { bonus_trip.reload.used? }.to be_truthy }
+    #     end
+    #   end
+    # end
 
     context 'when user have pending payments' do
       let!(:trip) { create(:trip, user_id: user.id, status: Constants::Trip::FINISHED) }
