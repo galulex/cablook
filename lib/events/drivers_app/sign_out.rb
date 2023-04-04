@@ -9,6 +9,7 @@ module Events
 
       def run
         car&.offline!
+        driver_update_token
         broadcast_to_driver_map
       end
 
@@ -21,6 +22,10 @@ module Events
           driver_id: driver.id,
           car_id: car&.id
         )
+      end
+
+      def driver_update_token
+        driver.update!(auth_token: nil)
       end
 
       def driver

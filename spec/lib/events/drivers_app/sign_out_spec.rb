@@ -6,7 +6,7 @@ describe Events::DriversApp::SignOut do
     let(:car) { create(:car, status: Constants::Car::FREE) }
     let(:data) { { driver_id: driver.id } }
 
-    xit { is_expected.to change { driver.reload.auth_token }.from(driver.auth_token) }
+    it { is_expected.to change { driver.reload.auth_token }.from(driver.auth_token).to(nil) }
     it { is_expected.to change { car.reload.status }.to(Constants::Car::STATUS_CODES[Constants::Car::OFFLINE]) }
 
     context 'and broadcast to driver map channel' do

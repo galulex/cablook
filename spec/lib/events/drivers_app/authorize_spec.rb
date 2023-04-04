@@ -29,6 +29,7 @@ describe Events::DriversApp::Authorize do
 
     context 'when driver login successful' do
       it { is_expected.to change { driver.car.reload.status }.to(Constants::Car::STATUS_CODES[Constants::Car::FREE]) }
+      it { is_expected.to change { driver.reload.auth_token } }
     end
 
     context 'when driver login successful and have active trip' do

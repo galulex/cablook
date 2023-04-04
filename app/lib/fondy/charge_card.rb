@@ -18,7 +18,7 @@ module Fondy
 
     attr_reader :order_reference, :cost, :card_number
 
-    def capture_params 
+    def params 
       {
         order_id: order_reference.concat(ORDER_ID_SUFIX),
         currency: CURRENCY,
@@ -30,7 +30,7 @@ module Fondy
     end
 
     def request_body
-      { request: capture_params.merge(signature(capture_params)) }.to_json
+      { request: params.merge(signature(params)) }.to_json
     end
   end
 end
