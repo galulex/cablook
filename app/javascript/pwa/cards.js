@@ -7,8 +7,6 @@ import './css/cards.css'
 import CardsIcon from './images/credit-cards-payment.js'
 import Card from './images/card.js'
 import Close from './images/close.js'
-import Refresh from './images/refresh.svg'
-import { MIGRATION_TO_FONDY_DATE } from './constants'
 
 export default class Cards extends Component {
   constructor(props) {
