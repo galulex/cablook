@@ -18,34 +18,34 @@ puts '============================='
 puts 'Users created'
 puts "=============================\n"
 
-puts 'Creating drivers...'
-
-driver_data = [
-  { username: 'driver_1', password: password, auth_token: token, name: 'Driver 1' },
-  { username: 'driver_2', password: password, auth_token: token, name: 'Driver 2' },
-  { username: 'driver_3', password: password, auth_token: token, name: 'Driver 3' },
-  { username: 'driver_4', password: password, auth_token: token, name: 'Driver 4' },
-  { username: 'driver_5', password: password, auth_token: token, name: 'Driver 5' },
-]
-driver_data.each { |data| Driver.create(data) }
-
-puts '============================='
-puts 'Drivers created'
-puts "=============================\n"
-
 puts 'Creating cars...'
 
 car_data = [
-  { number: '01', status: 0, color: 'red' },
-  { number: '02', status: 0, color: 'black' },
-  { number: '03', status: 0, color: 'white' },
-  { number: '04', status: 0, color: 'black' },
-  { number: '05', status: 0, color: 'blue' }
+  { number: '01', status: 0, color: 'red', brand: 'Nissan', model: 'Leaf' },
+  { number: '02', status: 0, color: 'black', brand: 'Nissan', model: 'Leaf' },
+  { number: '03', status: 0, color: 'white', brand: 'Nissan', model: 'Leaf' },
+  { number: '04', status: 0, color: 'black', brand: 'Nissan', model: 'Leaf' },
+  { number: '05', status: 0, color: 'blue', brand: 'Nissan', model: 'Leaf' }
 ]
 car_data.each { |data| Car.create(data) }
 
 puts '============================='
 puts 'Cars created'
+puts "=============================\n"
+
+puts 'Creating drivers...'
+
+driver_data = [
+  { username: 'driver_1', password: password, auth_token: token, name: 'Driver 1', card_number: '4444555566661111', car_id: 1 },
+  { username: 'driver_2', password: password, auth_token: token, name: 'Driver 2', card_number: '4444555566661112', car_id: 2 },
+  { username: 'driver_3', password: password, auth_token: token, name: 'Driver 3', card_number: '4444555566661113', car_id: 3 },
+  { username: 'driver_4', password: password, auth_token: token, name: 'Driver 4', card_number: '4444555566661114', car_id: 4 },
+  { username: 'driver_5', password: password, auth_token: token, name: 'Driver 5', card_number: '4444555566661115', car_id: 5 },
+]
+driver_data.each { |data| Driver.create(data) }
+
+puts '============================='
+puts 'Drivers created'
 puts "=============================\n"
 
 puts 'Creating trips...'
@@ -56,8 +56,8 @@ address = "TestAddress"
 trip_data = [
   { status: 0, path: 'test_path', cost: 35.33, departure: location_1, destination: location_2, user_id: 1, departure_address: address, destination_address: address },
   { status: 1, path: 'test_path', cost: 14.88, departure: location_1, destination: location_2, user_id: 2, departure_address: address, destination_address: address },
-  { status: 2, path: 'test_path', cost: 51.51, departure: location_1, destination: location_2, user_id: 3, car_id: 1, driver_id: 1, departure_address: address, destination_address: address },
-  { status: 3, path: 'test_path', cost: 13.37, departure: location_1, destination: location_2, user_id: 4, car_id: 2, driver_id: 2, departure_address: address, destination_address: address },
+  { status: 2, path: 'test_path', cost: 51.51, departure: location_1, destination: location_2, user_id: 3, departure_address: address, destination_address: address },
+  { status: 3, path: 'test_path', cost: 13.37, departure: location_1, destination: location_2, user_id: 4, departure_address: address, destination_address: address },
   { status: 4, path: 'test_path', cost: 22.22, departure: location_1, destination: location_2, user_id: 5, departure_address: address, destination_address: address }
 ]
 trip_data.each { |data| Trip.create(data) }
@@ -87,3 +87,16 @@ bonus_trip_data = [
   { status: 0, user_id: 1, friend_id: 1, code: 'test_frozen' }
 ]
 bonus_trip_data.each { |data| BonusTrip.create(data) }
+
+puts '============================='
+puts 'Bonus trips created'
+puts "=============================\n"
+
+puts 'Update trips...'
+
+Trip.find(3).update!(car_id: 1, driver_id: 1)
+Trip.find(4).update!(car_id: 2, driver_id: 2)
+
+puts '============================='
+puts 'Trips updated'
+puts "=============================\n"
