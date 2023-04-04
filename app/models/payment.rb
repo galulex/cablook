@@ -9,5 +9,5 @@ class Payment < ApplicationRecord
 
   delegate :pan, to: :card, prefix: true, allow_nil: true
 
-  scope :pending, ->(user_id) { where(status: Constants::Payments::PENDING, user_id: user_id).joins(:trip).where(trips: { status: Constants::Trip::STATUS_CODES[Constants::Trip::FINISHED] }) }
+  scope :pending, ->(user_id) { where(status: Constants::Payments::PENDING, type: Constants::Payments::PENDING_TYPES, user_id: user_id).joins(:trip).where(trips: { status: Constants::Trip::STATUS_CODES[Constants::Trip::FINISHED] }) }
 end

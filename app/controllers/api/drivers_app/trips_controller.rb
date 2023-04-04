@@ -55,7 +55,6 @@ module Api
       end
 
       def payments_verify
-        # Operations::Fondy::DoPayment.new(trip.id, Constants::Payments::TYPES[:trip], trip.cost).call
         render json: Presenters::Trips::Detailed.new(trip).to_json, status: 200
       end
 

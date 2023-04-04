@@ -11,6 +11,8 @@ module Constants
     FONDY_SUCCESS = 'success'.freeze
     FAKE_TAXI_COST = 10
 
+    PENDING_TYPES = ["Payments::Trip".freeze, "Payments::Tip".freeze].freeze
+
     TYPES = {
       order: 'Order'.freeze,
       trip: 'Trip'.freeze,
