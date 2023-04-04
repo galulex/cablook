@@ -93,7 +93,7 @@ ActiveAdmin.register Payment do
 
   member_action :retry_payment, method: :post do
     payment = Payment.find(params[:id])
-    Operations::Fondy::DoPayment.new(payment.trip_id, payment.type, payment.amount).call
+    Operations::Fondy::RetryPayment.new(payment.id).call
     notice = if payment.reload.status == Constants::Payments::SUCCESS
                'Payment success'
              else
