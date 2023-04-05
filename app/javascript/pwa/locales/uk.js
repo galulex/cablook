@@ -205,7 +205,7 @@ const uk = {
     },
     tabs: {
       settings: 'Налаштування',
-      bonuses: 'Бонуси',
+      // bonuses: 'Бонуси',
       statistics: 'Статистика'
     }
   },

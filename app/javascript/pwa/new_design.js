@@ -705,7 +705,7 @@ export default class NewDesign extends Component {
             paymentButtonDisabled, car, driver,
             picker, cancelTimer } = this.state
     const { language, isGeocoding, setGeocoding,
-            showFeedback, availableBonusTrips } = this.props
+            showFeedback } = this.props
     const cards = this.props.cards()
     let isValid = trip.stops.includes('')
     let cost = (trip.cost) ? `${trip.cost}` : ''
@@ -741,7 +741,6 @@ export default class NewDesign extends Component {
           <Buttons trip={trip}
             isValid={this.isValid}
             cost={cost}
-            bonusTrips={this.props.bonus_trips()}
             createTrip={this.createTrip}
             updateRoute={this.updateRoute}
             confirmUpdate={this.confirmUpdate}
@@ -756,8 +755,8 @@ export default class NewDesign extends Component {
             paymentButtonDisabled={paymentButtonDisabled}
             cancelTimer={cancelTimer}
             showFeedback={showFeedback}
-            cashbackAmount={this.props.cashbackAmount}
-            availableBonusTrips={availableBonusTrips}/>
+            cashbackAmount={0}
+            availableBonusTrips={0}/>
           { showWidget && <Widget updateCards={this.props.updateCards} showWidget={() => this.setState({showWidget: false}) }/> }
         </section>
       </div>

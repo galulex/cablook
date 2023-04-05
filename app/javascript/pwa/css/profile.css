@@ -288,7 +288,7 @@ input.custom-checkbox ~ .custom-checkbox__label-title {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 33%;
+  width: 50%;
   height: 100%;
   font-weight: 100;
   font-size: inherit;
@@ -339,7 +339,7 @@ input.custom-checkbox ~ .custom-checkbox__label-title {
   font-size: inherit;
   z-index: 1;
   height: 100%;
-  width: 33%;
+  width: 50%;
   color: white;
   font-weight: 500;
   background: #19a160;

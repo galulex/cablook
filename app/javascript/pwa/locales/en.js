@@ -205,7 +205,7 @@ const en = {
     },
     tabs: {
       settings: 'Settings',
-      bonuses: 'Bonuses',
+      // bonuses: 'Bonuses',
       statistics: 'Statistics'
     }
   },

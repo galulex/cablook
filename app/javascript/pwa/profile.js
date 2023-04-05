@@ -141,13 +141,13 @@ export default class FavoriteAddresses extends Component {
                   showBurger={this.props.showBurger}
                 />
               </div>
-              <div class='tab-content'>
+              {/* <div class='tab-content'>
                 <Bonuses
                   bonus_trips={this.props.bonus_trips}
                   parent_bonus={this.props.parent_bonus}
                   cashbackAmount={this.props.cashbackAmount}
                 />
-              </div>
+              </div> */}
               <div class='tab-content'>
                 <Statistics />
               </div>
