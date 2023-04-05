@@ -13,7 +13,7 @@ module Events
       def run
         check_for_referrer
         validate!
-        Events::BonusTrips::Create.(user_id: referrer.id, friend_id: data[:referral_id])
+        # Events::BonusTrips::Create.(user_id: referrer.id, friend_id: data[:referral_id])
       end
 
       private

@@ -91,7 +91,7 @@ describe Events::Trips::Cancel do
       let!(:payment) { create(:payment, trip_id: trip.id, status: Constants::Payments::BONUS, user_id: trip.user_id) }
       let!(:bonus_trip) { create(:bonus_trip, trip_id: trip.id, status: :used, user_id: trip.user_id) }
 
-      it { is_expected.to change { bonus_trip.reload.fresh? }.to be_truthy }
+      it { is_expected.not_to change { bonus_trip.reload.fresh? } }
     end
 
     context 'when trip is finished' do
@@ -152,7 +152,7 @@ describe Events::Trips::Cancel do
         let!(:payment) { create(:payment, trip_id: trip.id, status: Constants::Payments::BONUS, user_id: trip.user_id) }
         let!(:bonus_trip) { create(:bonus_trip, trip_id: trip.id, status: :used, user_id: trip.user_id) }
 
-        it { is_expected.to change { bonus_trip.reload.fresh? }.to be_truthy }
+        it { is_expected.to_not change { bonus_trip.reload.fresh? } }
       end
     end
   end

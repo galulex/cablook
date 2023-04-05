@@ -37,7 +37,8 @@ module Events
 
         update_trip_time if delivery?
         create_trip
-        bonus? ? pay_by_bonus : create_payment
+        # bonus? ? pay_by_bonus : create_payment
+        create_payment
         order_operations if delivery?
         create_trip_job(@trip.id) unless delivery?
         notify

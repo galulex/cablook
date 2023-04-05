@@ -79,7 +79,7 @@ describe Events::Trips::Create do
       before { allow_any_instance_of(Directions).to receive(:distance) { 5_000 } }
 
       it { is_expected.to change { Payment.count }.by(+1) }
-      it { is_expected.to change { bonus_trip.reload.used? }.to be_truthy }
+      it { is_expected.to_not change { bonus_trip.reload.used? } }
 
       context 'but bonus was used before' do
         before { bonus_trip.used! }
@@ -96,13 +96,13 @@ describe Events::Trips::Create do
       context 'and cashback param present' do
         let(:data) { trip_params.merge(bonus: true, cashback: true) }
 
-        it { is_expected.to change { BonusTrip.count }.by(+1) }
+        it { is_expected.to_not change { BonusTrip.count } }
 
         context 'but user have fresh cashback bonus trip' do
           let!(:bonus_trip) { create(:bonus_trip, user_id: user.id, status: :fresh, type: Constants::BonusTrip::CASHBACK) }
 
           it { is_expected.not_to change { BonusTrip.count } }
-          it { is_expected.to change { bonus_trip.reload.used? }.to be_truthy }
+          it { is_expected.to_not change { bonus_trip.reload.used? } }
         end
       end
     end

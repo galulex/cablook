@@ -46,7 +46,7 @@ describe Events::Trips::Retry do
 
       after { subject.call }
 
-      it { is_expected.to change { bonus_trip.reload.used? }.to be_truthy }
+      it { is_expected.to_not change { bonus_trip.reload.used? } }
       it { is_expected.to change { trip_payment.reload.status }.to(Constants::Payments::BONUS) }
     end
 

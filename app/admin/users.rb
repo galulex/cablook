@@ -63,9 +63,9 @@ ActiveAdmin.register User do
 
   member_action :create_gift, method: :post do
     user_id = permitted_params[:id].to_i
-    Events::BonusTrips::CreateGift.(user_id: user_id)
+    # Events::BonusTrips::CreateGift.(user_id: user_id)
     redirect_back fallback_location: admin_user_path(user_id),
-      notice: 'Gift successfully sent!'
+      notice: 'Gifts unavailable for now!'
   end
 
   remove_filter *Constants::Admin::USER_EXCLUDED_COLUMNS

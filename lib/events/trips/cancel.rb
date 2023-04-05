@@ -30,7 +30,7 @@ module Events
         update_payment_status
         fake_taxi_payment
         update_trip
-        refund_bonus
+        # refund_bonus
         refund_order_payment if trip.order
         broadcast_unavailable_to_map
         broadcast_unavailable_to_trip

@@ -24,7 +24,7 @@ module Events
         validate_user_cards!
         update_trip
         update_payment
-        update_bonus_trip if bonus?
+        # update_bonus_trip if bonus?
         retry_trip_job(trip.id)
         notify
       end

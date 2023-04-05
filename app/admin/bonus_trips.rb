@@ -1,5 +1,6 @@
 ActiveAdmin.register BonusTrip do
   BONUS_TRIP_COLUMNS = %w[id user friend trip status type].freeze
+  actions :all, except: [:new]
 
   remove_filter :trip, :code, :user
   filter :user_phone_number, as: :string, input_html: { inputmode: :numeric }
