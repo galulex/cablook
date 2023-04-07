@@ -154,8 +154,8 @@ describe Events::Trips::Update do
           it { is_expected.to change { trip_payment.reload.card_id }.to(card.id) }
           it { is_expected.to change { trip_payment.reload.order_reference }.to("cablook_test_trip_#{trip.id}") }
 
-          it { is_expected.to_not change { bonus_trip.reload.fresh? } }
-          it { is_expected.to_not change { bonus_trip.reload.trip_id } }
+          it { is_expected.to change { bonus_trip.reload.fresh? }.to be_truthy }
+          it { is_expected.to change { bonus_trip.reload.trip_id }.to(nil) }
 
           it { is_expected.to change { trip.reload.cost } }
           it { is_expected.to change { trip.reload.path } }

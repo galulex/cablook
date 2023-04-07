@@ -55,6 +55,7 @@ module Operations
       end
 
       def update_bonus_trip_if_necessary
+        return unless settings.bonuses
         frozen_bonuses = trip.user.bonus_trips.iced
         frozen_bonuses.first.fresh! if frozen_bonuses.any? && trip.user.trips.finished.count.positive?
       end
@@ -73,6 +74,7 @@ module Operations
       end
 
       def add_cashback
+        return unless settings.cashback
         user.update(cashback: user.cashback + cashback_amount)
       end
 
@@ -99,6 +101,10 @@ module Operations
                              else
                                "cablook_#{Rails.env}_#{trip.id}_#{payment_type.underscore}_#{secure_code}"
                              end
+      end
+
+      def settings
+        @settings ||= Settings.get
       end
     end
   end

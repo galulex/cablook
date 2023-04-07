@@ -32,8 +32,7 @@ module Events
         validate!
 
         update_trip
-        # update_payment unless bonus?
-        update_trip_payment
+        update_payment unless bonus?
         broadcast_unavailable_to_trip
         trip
       end
@@ -44,14 +43,14 @@ module Events
         trip.update(trip_params)
       end
 
-      # def update_payment
-      #   if bonus_trip
-      #     bonus_trip.update(status: :fresh, trip_id: nil)
-      #     update_trip_payment
-      #   else
-      #     trip.trip_payment.update(payment_params)
-      #   end
-      # end
+      def update_payment
+        if bonus_trip
+          bonus_trip.update(status: :fresh, trip_id: nil)
+          update_trip_payment
+        else
+          trip.trip_payment.update(payment_params)
+        end
+      end
 
       def bonus_trip
         @bonus_trip ||= trip.bonus_trip
@@ -109,11 +108,11 @@ module Events
                    :destination_address, :duration, :distance, :stops, :waypoints)
       end
 
-      # def payment_params
-      #   params = { amount: trip.cost }
-      #   params[:card_id] = data[:card_id] if data[:card_id]
-      #   params
-      # end
+      def payment_params
+        params = {amount: trip.cost}
+        params[:card_id] = data[:card_id] if data[:card_id]
+        params
+      end
     end
   end
 end

@@ -14,7 +14,7 @@ module Events
 
         trip.declined!
         trip.trip_payment.update(status: Constants::Payments::DECLINE)
-        # refund_bonus
+        refund_bonus
         broadcast
         broadcast_to_trip_channel
         notify

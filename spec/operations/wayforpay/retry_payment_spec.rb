@@ -16,7 +16,13 @@ describe Operations::Wayforpay::RetryPayment do
       subject.call
     end
     it { is_expected.to change { payment.reload.status }.to(Constants::Payments::SUCCESS) }
-    it { is_expected.to change { user.reload.cashback }.to(user.cashback + payment.amount * 100 * 0.05) }
+    it { is_expected.to_not change { user.reload.cashback } }
+
+    context 'when cashback enabled' do
+      before { Settings.get.update(cashback: true) }
+
+      it { is_expected.to change { user.reload.cashback }.to(user.cashback + payment.amount * 100 * 0.05) }
+    end
 
     context 'when payment type is not trip' do
       let!(:payment) { create(:payment, user_id: user.id, status: Constants::Payments::PENDING, type: 'Payments::Tip') }

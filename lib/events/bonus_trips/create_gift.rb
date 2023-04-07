@@ -10,15 +10,10 @@ module Events
       end
 
       def run
-        # create_bonus_trip
-        show_message
+        create_bonus_trip
       end
 
       private
-
-      def show_message
-        invalid!(['Unavailable'])
-      end
 
       def create_bonus_trip
         BonusTrip.create(

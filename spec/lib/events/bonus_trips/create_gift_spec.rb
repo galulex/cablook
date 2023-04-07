@@ -4,7 +4,7 @@ describe Events::BonusTrips::CreateGift do
 
     let(:data) { { user_id: create(:user).id } }
 
-    it { is_expected.to raise_error(Events::InvalidParamsError) }
+    it { is_expected.to change { BonusTrip.count }.by(+1) }
 
     context 'when user_id is missing' do
       let(:data) { super().except(:user_id) }

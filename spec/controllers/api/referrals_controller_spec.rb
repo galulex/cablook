@@ -34,10 +34,10 @@ describe Api::ReferralsController, type: :controller do
       it { is_expected.to have_http_status(:not_found) }
     end
 
-    # context 'when referrer and referral the same users' do
-    #   let(:user) { referrer }
+    context 'when referrer and referral the same users' do
+      let(:user) { referrer }
 
-    #   it { is_expected.to have_http_status(:unprocessable_entity) }
-    # end
+      it { is_expected.to have_http_status(:unprocessable_entity) }
+    end
   end
 end

@@ -14,7 +14,8 @@ export default class FavoriteAddresses extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      iosVersion: null
+      iosVersion: null,
+      tabs: ['settings', 'statistics']
     }
   }
 
@@ -104,6 +105,9 @@ export default class FavoriteAddresses extends Component {
     target.classList.add('active')
   }
 
+  showBonusTab = () => (this.props.cashbackAmount > 0 || this.props.bonus_trips().length > 0) 
+  tabList = () => this.showBonusTab() ? [...this.state.tabs, 'bonuses'] : this.state.tabs
+
   render() {
     return (
       <div class='profile__container general__holder'>
@@ -111,13 +115,14 @@ export default class FavoriteAddresses extends Component {
         <section class='profile'>
           <div class='tabs'>
             <div class="tabs__holder">
-              <div class='tab__active' ref={el => this.activeTab = el}></div>
-              <div class='tabs__container' ref={el => this.tabsContainer = el}>
+              <div class='tab__active' style={{ width: this.showBonusTab() ? '33%' : '50%' }} ref={el => this.activeTab = el}></div>
+              <div class='tabs__container' ref={el => this.tabsContainer = el} >
                 {
-                  Object.keys(i18n.profile_page.tabs).map((key, index) => {
+                  this.tabList().map((key, index) => {
                     return(
                       <button
                         class={`tab__header ${index === 0 ? 'active' : ''}`}
+                        style={{ width: this.showBonusTab() ? '33%' : '50%' }}
                         onClick={this.onClick}>
                           {i18n.profile_page.tabs[key]}
                       </button>
@@ -126,7 +131,7 @@ export default class FavoriteAddresses extends Component {
                 }
               </div>
             </div>
-            <div class="tabs__content" ref={el => this.tabsContent = el}>
+            <div class="tabs__content" ref={el => this.tabsContent = el} >
               <div class='tab-content'>
                 <Settings
                   setLanguage={this.props.setLanguage}
@@ -141,16 +146,18 @@ export default class FavoriteAddresses extends Component {
                   showBurger={this.props.showBurger}
                 />
               </div>
-              {/* <div class='tab-content'>
-                <Bonuses
-                  bonus_trips={this.props.bonus_trips}
-                  parent_bonus={this.props.parent_bonus}
-                  cashbackAmount={this.props.cashbackAmount}
-                />
-              </div> */}
               <div class='tab-content'>
                 <Statistics />
               </div>
+              {this.showBonusTab() && 
+                <div class='tab-content'>
+                  <Bonuses
+                    bonus_trips={this.props.bonus_trips}
+                    parent_bonus={this.props.parent_bonus}
+                    cashbackAmount={this.props.cashbackAmount}
+                  />
+                </div>
+              }
             </div>
           </div>
         </section>

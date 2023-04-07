@@ -6,7 +6,7 @@ describe Events::Users::AddReferral do
     let(:user) { create(:user) }
     let(:data) { { referral_code: referrer.referral_code, referral_id: user.id } }
 
-    it { is_expected.to_not change { BonusTrip.count } }
+    it { is_expected.to change { BonusTrip.count }.by(+1) }
 
     context 'when user already have referrer' do
       before { create(:bonus_trip, user_id: create(:user).id, friend_id: user.id) }

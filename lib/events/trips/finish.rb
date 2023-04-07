@@ -40,21 +40,18 @@ module Events
         Car.find(trip.car_id).update(status: Constants::Car::FREE)
       end
 
-      # def pay_for_trip
-      #   if trip.bonus_trip
-      #     update_cashback if trip.bonus_trip.type == Constants::BonusTrip::CASHBACK
-      #   else
-      #     Jobs::PaymentSettle.perform_later(data[:trip_id], Constants::Payments::TYPES[:trip])
-      #   end
-      # end
-
       def pay_for_trip
-        Jobs::PaymentSettle.perform_later(data[:trip_id], Constants::Payments::TYPES[:trip])
+        if trip.bonus_trip
+          update_cashback if trip.bonus_trip.type == Constants::BonusTrip::CASHBACK
+        else
+          Jobs::PaymentSettle.perform_later(data[:trip_id], Constants::Payments::TYPES[:trip])
+        end
       end
 
-      # def update_cashback
-      #   user.update(cashback: user.cashback - trip.cost * 100)
-      # end
+      def update_cashback
+        return unless Settings.get.cashback
+        user.update(cashback: user.cashback - trip.cost * 100)
+      end
 
       def broadcast
         ActionCable.server.broadcast(

@@ -205,7 +205,7 @@ const ru = {
     },
     tabs: {
       settings: 'Настройки',
-      // bonuses: 'Бонусы',
+      bonuses: 'Бонусы',
       statistics: 'Статистика'
     }
   },
