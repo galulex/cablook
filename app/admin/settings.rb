@@ -1,8 +1,8 @@
 ActiveAdmin.register Settings do
-  SETTINGS_COLUMNS = %w[bonuses cashback].freeze
+  SETTINGS_COLUMNS = %w[bonuses cashback delivery].freeze
 
   menu false
-  permit_params :bonuses, :cashback
+  permit_params SETTINGS_COLUMNS
   actions :index, :show, :update, :edit
 
   show title: 'Settings' do |settings|

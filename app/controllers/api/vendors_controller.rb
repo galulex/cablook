@@ -1,6 +1,6 @@
 module Api
   class VendorsController < ApiApplicationController
-    before_action :authorize!
+    before_action :authorize!, :is_delivery_available?
 
     def index
       res = vendors.as_json(methods: %i[status open_time close_time name_slug weekends all_day])

@@ -25,10 +25,11 @@ describe Api::DeliveryController, type: :controller do
                  items: items } }
     end
 
-    context 'success' do
+    context 'success when delivery enabled' do
       let(:payment_status) { { 'reasonCode' => Constants::Payments::WAYFORPAY_SUCCESS } }
 
       before do
+        Settings.get.update(delivery: true)
         allow_any_instance_of(Events::Orders::Create).to receive(:hold_money) { payment_status }
         allow_any_instance_of(Events::Orders::Create).to receive(:create_order_payment) { true }
         allow_any_instance_of(Events::Trips::Create).to receive(:assign_trip_to_order_payment) { true }
@@ -36,6 +37,20 @@ describe Api::DeliveryController, type: :controller do
       end
 
       it { is_expected.to be_successful }
+    end
+
+    context 'when delivery disabled' do
+      let(:payment_status) { { 'reasonCode' => Constants::Payments::WAYFORPAY_SUCCESS } }
+
+      before do
+        Settings.get.update(delivery: false)
+        allow_any_instance_of(Events::Orders::Create).to receive(:hold_money) { payment_status }
+        allow_any_instance_of(Events::Orders::Create).to receive(:create_order_payment) { true }
+        allow_any_instance_of(Events::Trips::Create).to receive(:assign_trip_to_order_payment) { true }
+        post :create, params: params, as: :json
+      end
+
+      it { is_expected.to_not be_successful }
     end
 
     context 'invalid params' do

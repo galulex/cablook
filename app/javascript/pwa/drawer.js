@@ -13,6 +13,8 @@ import FamilyIcon from './images/family_icon.js'
 import './css/drawer.css'
 
 export default function Drawer(props) {
+  const is_delivery_enabled = props.settings.delivery
+
   return (
     <aside>
       <div class='nav-wrapper'>
@@ -27,7 +29,7 @@ export default function Drawer(props) {
         <Link activeClassName='active' href='/trips' class='nav-link'><Trip/>{i18n.drawer.trips}</Link>
         <Link activeClassName='active' href='/cards' class='nav-link'><Card/>{i18n.drawer.cards}</Link>
         <Link activeClassName='active' href='/contacts' class='nav-link'><Contact/>{i18n.drawer.contacts}</Link>
-        <Link activeClassName='active' href='/delivery' class='nav-link'><Vendors/>{i18n.drawer.vendors}</Link>
+        {is_delivery_enabled && <Link activeClassName='active' href='/delivery' class='nav-link'><Vendors/>{i18n.drawer.vendors}</Link> }
         <Link activeClassName='active' href='/family' class='nav-link'><FamilyIcon/>{i18n.family_trip.header}</Link>
         <Link href='' class='nav-link' onClick={props.logOut}><LogOut/>{i18n.drawer.logout}</Link>
       </div>

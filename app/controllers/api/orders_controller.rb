@@ -1,6 +1,6 @@
 module Api
   class OrdersController < ApiApplicationController
-    before_action :authorize!
+    before_action :authorize!, :is_delivery_available?
 
     def create
       status = Events::Orders::Create.(order_params.merge(vendor_id: vendor_id))
