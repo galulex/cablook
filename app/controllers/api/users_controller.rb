@@ -4,7 +4,6 @@ module Api
     before_action :prevent_page_caching, only: :show
 
     def show
-      settings = Settings.get
       response = user.as_json(only: %i[id email phone_number locale],
                               include: %i[favorite_addresses parent_bonus],
                               methods: %i[enabled_notifications current_trip current_delivery_trip])
