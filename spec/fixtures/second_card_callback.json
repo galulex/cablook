@@ -13,7 +13,7 @@
   "cardType": "MasterCard",
   "issuerBankCountry": "Israel",
   "issuerBankName": "ISRAEL NATIONAL BANK",
-  "recToken": "",
+  "recToken": "testToken",
   "transactionStatus": "Pending",
   "reason": "Transaction is pending",
   "reasonCode": 1134,

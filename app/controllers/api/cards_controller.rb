@@ -7,7 +7,7 @@ module Api
     end
 
     def new
-      render json: WFP.new(current_user, api_card_callback_url).params
+      render json: Events::Cards::New.(current_user: current_user, api_card_callback_url: api_card_callback_url)
     end
 
     # https://wiki.wayforpay.com/pages/viewpage.action?pageId=852102
@@ -25,9 +25,8 @@ module Api
     end
 
     def complete
-      return head :unprocessable_entity unless parameters
-      event = Events::Cards::Update.(orderReference: parameters['orderReference'], recToken: parameters['recToken'], transactionStatus: parameters['transactionStatus'])
-      event ? (render json: event) : (head :not_modified)
+      Events::Cards::Complete.(params: params)
+      redirect_to root_path
     end
 
     def update
@@ -39,12 +38,6 @@ module Api
 
     def cards
       @cards ||= Card.user_cards(current_user.id)
-    end
-
-    # Wayforpay send all params as one, which is key with nil value.
-    def parameters
-      return if params.keys.length < 3
-      JSON.parse(params.keys.first)
     end
   end
 end
