@@ -1,6 +1,8 @@
 class Settings < ApplicationRecord
   before_create :only_one_settings
 
+  enum payment_system: Constants::Card::PAYMENT_SYSTEM
+
   private
 
     def only_one_settings
@@ -9,21 +11,5 @@ class Settings < ApplicationRecord
 
     def self.get
       self.last
-    end
-
-    def self.bonuses_enabled?
-      self.last.bonuses
-    end
-
-    def self.bonuses_switch
-      self.last.update!(bonuses: !self.last.bonuses)
-    end
-
-    def self.cashback_enabled?
-      self.last.cashback
-    end
-
-    def self.cashback_switch
-      self.last.update!(cashback: !self.last.cashback)
     end
 end

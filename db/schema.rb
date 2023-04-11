@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_04_10_085829) do
+ActiveRecord::Schema.define(version: 2023_04_11_110615) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -54,6 +54,7 @@ ActiveRecord::Schema.define(version: 2023_04_10_085829) do
     t.boolean "default", default: false
     t.datetime "created_at", default: -> { "now()" }, null: false
     t.datetime "updated_at", default: -> { "now()" }, null: false
+    t.integer "payment_system", default: 0
     t.index ["user_id"], name: "index_cards_on_user_id"
   end
 
@@ -147,6 +148,7 @@ ActiveRecord::Schema.define(version: 2023_04_10_085829) do
     t.boolean "bonuses", default: false
     t.boolean "cashback", default: false
     t.boolean "delivery", default: true
+    t.integer "payment_system", default: 0
   end
 
   create_table "trips", force: :cascade do |t|
