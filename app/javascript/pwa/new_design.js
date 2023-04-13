@@ -254,6 +254,10 @@ export default class NewDesign extends Component {
             this.setState({paymentButtonDisabled: false})
           }
           break
+        case 402:
+          alert(error.response.data.errors)
+          this.setState({paymentButtonDisabled: false})
+          break
         case 422:
           this.setState({paymentButtonDisabled: false})
         default:

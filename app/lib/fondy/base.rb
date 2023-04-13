@@ -2,6 +2,7 @@ module Fondy
   class Base
     CURRENCY = 'UAH'.freeze
     YES = 'Y'.freeze
+    NO = 'N'.freeze
     CARD = 'card'.freeze  
 
     private

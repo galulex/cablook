@@ -85,8 +85,9 @@ module Events
           status: Constants::Payments::PENDING,
           amount: @trip.cost,
           user_id: @trip.user_id,
-          card_id: card_id,
-          trip_id: @trip.id
+          card_id: card.id,
+          trip_id: @trip.id,
+          order_reference: order_reference
         )
       end
 
@@ -95,7 +96,7 @@ module Events
           status: Constants::Payments::BONUS,
           amount: 0,
           trip_id: @trip.id,
-          card_id: card_id,
+          card_id: card.id,
           user_id: data[:user_id]
         )
         if cashback?
@@ -107,6 +108,24 @@ module Events
 
       def create_trip
         @trip = Trip.create(data.to_h.except(:bonus, :cashback, :card_id, :id, :status, :created_at, :idle, :car_id, :driver_id, :finished_at, :arrived_at, :started_at, :feedbacks, :delivery, :order_id))
+        validate_hold_amount! if settings.fondy?
+      end
+
+      def hold_amount
+        @fondy_hold_amount ||= Fondy::Recurring.new(user, data[:cost], card.token, order_reference, true).call
+      end
+
+      def hold_success?
+        JSON.parse(hold_amount)['response']['response_status'] == Constants::Payments::FONDY_SUCCESS
+      end
+
+      def order_reference
+        secure_code = SecureRandom.base58(6)
+        @order_reference ||= if Rails.env.production?
+                               "cablook_#{@trip.id}_payments_trip_#{secure_code}"
+                             else
+                               "cablook_#{Rails.env}_#{@trip.id}_payments_trip_#{secure_code}"
+                             end
       end
 
       def create_trip_job(trip_id)
@@ -154,9 +173,9 @@ module Events
         fresh_bonus_trip.update(status: :used, trip_id: @trip.id)
       end
 
-      def card_id
+      def card
         card = user_cards.detect { |c| c.id == data[:card_id].to_i } if data[:card_id]
-        card&.id || user_cards.first.id
+        card || user_cards.first
       end
 
       def user_cards

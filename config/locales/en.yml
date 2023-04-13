@@ -25,6 +25,7 @@ en:
     trip_already_finished: Trip is already finished
     entrance: "%{val} Entrance"
     cant_retry: You can't retry trip without your card
+    cant_hold_amount: Amount can't be hold
   vendors:
     vendor_unavailable: Vendor temporary unavailable
   users:
