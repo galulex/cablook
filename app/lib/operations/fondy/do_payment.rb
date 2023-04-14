@@ -1,6 +1,6 @@
 module Operations
   module Fondy
-    class DoPayment
+    class DoPayment < Base
       def initialize(trip_id, payment_type, amount)
         @trip_id = trip_id
         @payment_type = payment_type
@@ -41,7 +41,8 @@ module Operations
         payment.update(
           response: response,
           status: status,
-          amount: amount || payment.amount
+          amount: amount || payment.amount,
+          order_reference: JSON.parse(capture_response)['response']['order_id']
         )
       end
 
@@ -104,10 +105,6 @@ module Operations
 
       def success_response?(response)
         JSON.parse(response)['response']['response_status'] == Constants::Payments::FONDY_SUCCESS
-      end
-
-      def settings
-        @settings ||= Settings.get
       end
     end
   end

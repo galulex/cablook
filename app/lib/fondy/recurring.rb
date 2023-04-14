@@ -1,6 +1,6 @@
 module Fondy
   class Recurring < Base
-    URL_REC = URI.parse('https://pay.fondy.eu/api/recurring').freeze
+    URL = URI.parse('https://pay.fondy.eu/api/recurring').freeze
 
     def initialize(user, cost, rec_token, order_reference, hold = false)
       @user = user
@@ -11,7 +11,7 @@ module Fondy
     end
 
     def call
-      Net::HTTP.post(URL_REC, request_body, initheader = header).body
+      Net::HTTP.post(URL, request_body, initheader = header).body
     end
 
     private
@@ -25,7 +25,7 @@ module Fondy
         currency: CURRENCY,
         rectoken: rec_token,
         preauth: hold ? YES : NO,
-        amount: amount,
+        amount: amount.to_i.to_s,
         merchant_id: merchant_id,
         sender_email: user.email
       }

@@ -1,6 +1,6 @@
 module Fondy
   class Reverse < Base
-    URL_REC = URI.parse('https://pay.fondy.eu/api/reverse/order_id').freeze
+    URL = URI.parse('https://pay.fondy.eu/api/reverse/order_id').freeze
 
     def initialize(cost, order_reference)
       @cost = cost
@@ -8,7 +8,7 @@ module Fondy
     end
 
     def call
-      result(Net::HTTP.post(URL_REC, request_body, initheader = header).body)
+      result(Net::HTTP.post(URL, request_body, initheader = header).body)
     end
 
     private

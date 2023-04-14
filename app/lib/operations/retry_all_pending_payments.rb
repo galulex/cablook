@@ -9,10 +9,17 @@ module Operations
         begin
           card = payment.card || payment.user.cards.last
           if card
-            Operations::Wayforpay::RetryPayment.new(payment.id, card.id).call
+            return Operations::Wayforpay::RetryPayment.new(payment.id, card.id).call if settings.wayforpay?
+            return Operations::Fondy::RetryPayment.new(payment.id, card.id).call if settings.fondy?
           end
         end
       end
+    end
+
+    private
+
+    def settings
+      @settings ||= Settings.get
     end
   end
 end
