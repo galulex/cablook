@@ -73,20 +73,22 @@ ActiveAdmin.register Payment do
 
   collection_action :retry_all, method: :post do
     retry_all_payments
-
   end
 
   member_action :refund_payment, method: :post do
+    settings = Settings.get
     payment = Payment.find(params[:id])
-    if payment.type.demodulize == Constants::Payments::TYPES[:order]
+    if payment.type.demodulize == Constants::Payments::TYPES[:order] && settings.wayforpay?
       Operations::Wayforpay::RefundForOrder.new(payment.id).call
     else
       Operations::Wayforpay::Refund.new(payment.id).call
     end
     notice = if payment.reload.status == Constants::Payments::REFUND
-               'Refund success'
-             else
-               'Something went wrong. Check response'
+                'Refund success'
+              elsif !settings.wayforpay?
+                'Payment system dont have refund strategy'
+              else
+                'Something went wrong. Check response'
              end
     redirect_to admin_payment_path(payment), notice: notice
   end
