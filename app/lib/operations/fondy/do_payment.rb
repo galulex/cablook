@@ -13,14 +13,16 @@ module Operations
         return if payment.status == Constants::Payments::SUCCESS
         types = Constants::Payments::TYPES.except(:order).values
         case payment_type
-        when types[1], types[2], types[3]
-          update_payment_and_total(success_response?(recurring_response), recurring_response)
-        when types[0]
-          return if payment.status == Constants::Payments::BONUS
-          update_payment_and_total( success_response?(capture_response), capture_response)
-          return unless success_response?(capture_response)
-          update_bonus_trip_if_necessary
-          add_cashback
+          when types[0]
+            return if payment.status == Constants::Payments::BONUS
+            update_payment_and_total( success_response?(capture_response), capture_response)
+            return unless success_response?(capture_response)
+            update_bonus_trip_if_necessary
+            add_cashback
+          when types[1], types[2]
+            update_payment_and_total(success_response?(recurring_response), recurring_response)
+          when types[3]
+            update_payment_and_total(success_response?(capture_response), capture_response)
         end
         JSON.parse(capture_response)['response']['response_status']
       end
@@ -57,7 +59,7 @@ module Operations
       end
 
       def card
-        trip.trip_payment&.card || trip.user.cards.last
+        trip.trip_payment&.card || trip.user.cards.where(payment_system: :fondy).last
       end
 
       def update_payment_and_total(success, response)

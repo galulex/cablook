@@ -5,6 +5,8 @@ describe Events::Trips::Cancel do
     let(:trip) { create(:trip, status: Constants::Trip::PENDING) }
     let(:data) { { trip_id: trip.id } }
 
+    before { Settings.get.update(bonuses: true) }
+
     subject { -> { described_class.call(data) } }
 
     let!(:payment) { create(:payment, trip_id: trip.id, user_id: trip.user.id) }
@@ -19,6 +21,7 @@ describe Events::Trips::Cancel do
 
     context 'and have fake settle job' do
       let(:trip) { create(:trip, status: Constants::Trip::WAITING_CLIENT) }
+      let(:data) { { trip_id: trip.id, by_driver: true } }
 
       it { is_expected.to have_enqueued_job(Jobs::PaymentSettle).with(trip.id, Constants::Payments::TYPES[:fake], price.landing / 100) }
     end
@@ -133,7 +136,7 @@ describe Events::Trips::Cancel do
       end
 
       context 'and payment status is changed' do
-        let(:trip) { create(:trip, status: Constants::Trip::DRIVING) }
+        let(:trip) { create(:trip, status: Constants::Trip::ON_THE_WAY) }
         let(:data) { { trip_id: trip.id, by_driver: true } }
 
         it { is_expected.to change { payment.reload.status }.to(Constants::Payments::DECLINE) }

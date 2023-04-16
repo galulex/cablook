@@ -65,7 +65,7 @@ module Operations
       end
 
       def card
-        trip.trip_payment.card || trip.user.cards.last
+        trip.trip_payment&.card || trip.user.cards.where(payment_system: :wayforpay).last
       end
 
       def update_payment_and_total
