@@ -30,7 +30,11 @@ module Events
 
       def run
         validate!
-
+        if settings.fondy?
+          cancel_previous_hold
+          hold_updated_amount
+          validate_hold_amount!
+        end
         update_trip
         update_payment unless bonus?
         broadcast_unavailable_to_trip
@@ -38,6 +42,22 @@ module Events
       end
 
       private
+
+      def cancel_previous_hold
+        Fondy::Reverse.new(trip.cost, trip.trip_payment.order_reference).call
+      end
+
+      def hold_updated_amount
+        @hold_updated_amount ||= Fondy::Recurring.new(trip.user, data[:cost], card.token, fondy_order_reference, true).call
+      end
+
+      def hold_success?
+        JSON.parse(hold_updated_amount)['response']['response_status'] == Constants::Payments::FONDY_SUCCESS
+      end
+
+      def validate_hold_amount!
+        invalid!([I18n.t('trips.cant_hold_amount')], status: 402) unless hold_success?
+      end
 
       def update_trip
         trip.update(trip_params)
@@ -60,8 +80,8 @@ module Events
         trip.trip_payment.update(
           status: Constants::Payments::PENDING,
           amount: trip.cost,
-          card_id: card_id,
-          order_reference: order_reference
+          card_id: card.id,
+          order_reference: settings.wayforpay? ? order_reference : fondy_order_reference
         )
       end
 
@@ -74,9 +94,9 @@ module Events
         )
       end
 
-      def card_id
+      def card
         card = user_cards.detect { |c| c.id == data[:card_id].to_i } if data[:card_id]
-        card&.id || user_cards.first.id
+        card || user_cards.first
       end
 
       def user_cards
@@ -88,7 +108,7 @@ module Events
       end
 
       def bonus?
-        data[:bonus].present?
+        data[:bonus].present? && settings.bonuses
       end
 
       def updated_by_driver?
@@ -103,6 +123,15 @@ module Events
                              end
       end
 
+      def fondy_order_reference
+        secure_code = SecureRandom.base58(6)
+        @fondy_order_reference ||= if Rails.env.production?
+                               "cablook_#{@trip.id}_payments_trip_#{secure_code}"
+                             else
+                               "cablook_#{Rails.env}_#{@trip.id}_payments_trip_#{secure_code}"
+                             end
+      end
+
       def trip_params
         data.slice(:path, :cost, :departure, :destination, :departure_address,
                    :destination_address, :duration, :distance, :stops, :waypoints)
@@ -111,6 +140,7 @@ module Events
       def payment_params
         params = {amount: trip.cost}
         params[:card_id] = data[:card_id] if data[:card_id]
+        params[:order_reference] = fondy_order_reference 
         params
       end
     end
