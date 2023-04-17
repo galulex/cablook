@@ -15,6 +15,7 @@ module Operations
           return payment_status
         elsif JSON.parse(retry_response)['response']['response_status'] == Constants::Payments::FONDY_SUCCESS
           payment.update(status: Constants::Payments::SUCCESS, response: retry_response)
+          driver_pay_out
           add_cashback if payment.type == 'Payments::Trip'
         else
           payment.update(response: retry_response)
@@ -23,6 +24,10 @@ module Operations
       end
 
       private
+
+      def driver_pay_out
+        Operations::Fondy::DriverPayOut.new(payment_id).call
+      end
 
       def retry_response
         @retry_response ||= ::Fondy::Recurring.new(user, payment.amount, card.token, order_reference).call

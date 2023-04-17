@@ -8,6 +8,7 @@ en:
     authorizations:
       errors:
         car_not_assigned: Car is not assigned yet
+        card_not_assigned: Card number is not assigned yet
   assignings:
     errors:
       messages:

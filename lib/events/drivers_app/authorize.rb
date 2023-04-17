@@ -14,6 +14,7 @@ module Events
         check_username!
         check_password!
         validate_driver_car!
+        validate_driver_card_number!
         set_free_status
         driver
       end
@@ -22,6 +23,10 @@ module Events
 
       def validate_driver_car!
         invalid!([I18n.t('driver.authorizations.errors.car_not_assigned')]) unless driver.car
+      end
+
+      def validate_driver_card_number!
+        invalid!([I18n.t('driver.authorizations.errors.card_not_assigned')]) unless driver.card_number
       end
 
       def driver

@@ -11,7 +11,7 @@ module Operations
 
       def call
         return if payment.status == Constants::Payments::SUCCESS
-        types = Constants::Payments::TYPES.except(:order).values
+        types = Constants::Payments::TYPES.except(:order, :payout).values
         case payment_type
           when types[0]
             return if payment.status == Constants::Payments::BONUS
@@ -19,10 +19,13 @@ module Operations
             return unless success_response?(capture_response)
             update_bonus_trip_if_necessary
             add_cashback
+            driver_pay_out
           when types[1], types[2]
             update_payment_and_total(success_response?(recurring_response), recurring_response)
+            driver_pay_out if success_response?(recurring_response)
           when types[3]
             update_payment_and_total(success_response?(capture_response), capture_response)
+            driver_pay_out if success_response?(capture_response)
         end
         JSON.parse(capture_response)['response']['response_status']
       end
@@ -38,13 +41,17 @@ module Operations
         }
       end
 
+      def driver_pay_out
+        Operations::Fondy::DriverPayOut.new(payment.id).call
+      end
+
       def update_payment(success, response)
         status = success ? Constants::Payments::SUCCESS : Constants::Payments::PENDING
         payment.update(
           response: response,
           status: status,
           amount: amount || payment.amount,
-          order_reference: JSON.parse(capture_response)['response']['order_id']
+          order_reference: JSON.parse(response)['response']['order_id']
         )
       end
 

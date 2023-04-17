@@ -8,6 +8,7 @@ uk:
     authorizations:
       errors:
         car_not_assigned: Автомобіль не закріплено за водієм
+        card_not_assigned: Не введено номер картки
   assignings:
     errors:
       messages:
