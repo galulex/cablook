@@ -44,6 +44,8 @@ describe Events::Trips::Retry do
     context 'when payment by bonus' do
       let!(:bonus_trip) { create(:bonus_trip, trip: trip, user_id: user.id, status: :fresh) }
 
+      before { Settings.get.update!(bonuses: true) }
+
       after { subject.call }
 
       it { is_expected.to change { bonus_trip.reload.used? }.to be_truthy }

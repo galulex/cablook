@@ -22,6 +22,7 @@ module Events
 
       def run_methods
         validate_user_cards!
+        validate_hold_amount! if settings.fondy?
         update_trip
         update_payment
         update_bonus_trip if bonus?
@@ -36,12 +37,39 @@ module Events
         Jobs::DeclineTrip.set(wait: Constants::Trip::EXPIRES_IN).perform_later(trip_id)
       end
 
+      def hold_amount
+        @hold_amount ||= Fondy::Recurring.new(user, trip.cost, card_token, order_reference, true).call
+      end
+
+      def hold_success?
+        JSON.parse(hold_amount)['response']['response_status'] == Constants::Payments::FONDY_SUCCESS
+      end
+
+      def validate_hold_amount!
+        invalid!([I18n.t('trips.cant_hold_amount')], status: 402) unless hold_success?
+      end
+
+      def order_reference
+        secure_code = SecureRandom.base58(6)
+        @order_reference ||= if Rails.env.production?
+                               "cablook_#{trip.id}_payments_trip_#{secure_code}"
+                             else
+                               "cablook_#{Rails.env}_#{trip.id}_payments_trip_#{secure_code}"
+                             end
+      end
+
+      def card_token
+        trip.trip_payment.card.token
+      end
+
       def update_trip
         trip.update(status: Constants::Trip::PENDING)
       end
 
       def update_payment
-        trip.trip_payment.update(status: bonus? ? Constants::Payments::BONUS : Constants::Payments::PENDING)
+        trip.trip_payment.update(status: bonus? ? Constants::Payments::BONUS : Constants::Payments::PENDING,
+                                  order_reference: order_reference, 
+                                  response: nil)
       end
 
       def update_bonus_trip
@@ -59,7 +87,7 @@ module Events
       end
 
       def bonus?
-        trip.bonus_trip.present?
+        trip.bonus_trip.present? && settings.bonuses
       end
 
       def notify
@@ -68,12 +96,16 @@ module Events
         Jobs::Notification.perform_later(trip, message)
       end
 
+      def user
+        @user ||= User.find(data[:user_id])
+      end
+
       def trip
         @trip ||= Trip.find(data[:trip_id])
       end
 
       def cards
-        @cards ||= Card.where(user_id: data[:user_id])
+        @cards ||= Card.where(user_id: data[:user_id], payment_system: settings.payment_system)
       end
 
       def validate_user_cards!

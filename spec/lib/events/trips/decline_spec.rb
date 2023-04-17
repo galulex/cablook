@@ -21,6 +21,8 @@ describe Events::Trips::Decline do
       let!(:payment) { create(:payment, trip_id: trip.id, status: Constants::Payments::BONUS, user_id: trip.user_id) }
       let!(:bonus_trip) { create(:bonus_trip, trip_id: trip.id, status: :used, user_id: trip.user_id) }
 
+      before { Settings.get.update!(bonuses: true) }
+
       it { is_expected.to change { bonus_trip.reload.fresh? }.to be_truthy }
     end
 

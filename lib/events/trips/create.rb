@@ -201,10 +201,6 @@ module Events
       def update_trip_time
         data[:time] = (data[:time].in_time_zone - data[:duration].seconds).strftime('%H:%M')
       end
-
-      def settings
-        @settings ||= Settings.get
-      end
     end
   end
 end
