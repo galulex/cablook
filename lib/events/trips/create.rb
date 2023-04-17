@@ -2,6 +2,7 @@ module Events
   module Trips
     class Create < BaseEvent
       include Concerns::Direction
+      include Concerns::Fondy
       include Validations::Create
 
       FIELDS = %i[duration distance path].freeze
@@ -87,7 +88,7 @@ module Events
           user_id: @trip.user_id,
           card_id: card.id,
           trip_id: @trip.id,
-          order_reference: order_reference
+          order_reference: order_reference(@trip.id)
         )
       end
 
@@ -112,20 +113,11 @@ module Events
       end
 
       def hold_amount
-        @fondy_hold_amount ||= Fondy::Recurring.new(user, data[:cost], card.token, order_reference, true).call
+        @fondy_hold_amount ||= Fondy::Recurring.new(user, data[:cost], card.token, order_reference(@trip.id), true).call
       end
 
       def hold_success?
         JSON.parse(hold_amount)['response']['response_status'] == Constants::Payments::FONDY_SUCCESS
-      end
-
-      def order_reference
-        secure_code = SecureRandom.base58(6)
-        @order_reference ||= if Rails.env.production?
-                               "cablook_#{@trip.id}_payments_trip_#{secure_code}"
-                             else
-                               "cablook_#{Rails.env}_#{@trip.id}_payments_trip_#{secure_code}"
-                             end
       end
 
       def create_trip_job(trip_id)

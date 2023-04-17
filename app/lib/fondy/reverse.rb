@@ -15,7 +15,7 @@ module Fondy
 
     attr_reader :cost, :rec_token, :order_reference
 
-    def recuring_params 
+    def reverse_params 
       {
         order_id: order_reference,
         currency: CURRENCY,
@@ -30,7 +30,7 @@ module Fondy
     end
 
     def request_body
-      { request: recuring_params.merge(signature(recuring_params)) }.to_json
+      { request: reverse_params.merge(signature(reverse_params)) }.to_json
     end
 
     def result(response_body)

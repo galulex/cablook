@@ -97,12 +97,7 @@ module Operations
       end
 
       def order_reference
-        secure_code = SecureRandom.base58(6)
-        @order_reference ||= if Rails.env.production?
-                               "cablook_#{@trip.id}_payments_#{payment_type}_#{secure_code}"
-                             else
-                               "cablook_#{Rails.env}_#{@trip.id}_payments_#{payment_type}_#{secure_code}"
-                             end
+        super(@trip.id, payment_type)
       end
 
       def success_response?(response)

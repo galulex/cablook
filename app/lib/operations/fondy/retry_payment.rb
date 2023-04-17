@@ -9,7 +9,7 @@ module Operations
       attr_reader :payment_id, :card_id
 
       def call
-        return unless card_id && card && card.payment_system == settings.payment_system['fondy']
+        return unless card_id && card && card.payment_system == settings.payment_system[:fondy.to_s]
         if JSON.parse(payment_status)['response']['order_status'] == Constants::Payments::FONDY_APPROVED
           payment.update(status: Constants::Payments::SUCCESS, response: payment_status)
           return payment_status
@@ -33,12 +33,7 @@ module Operations
       end
 
       def order_reference
-        secure_code = SecureRandom.base58(6)
-        @order_reference ||= if Rails.env.production?
-                               "cablook_#{payment.trip.id}_payments_#{payment.type}_#{secure_code}"
-                             else
-                               "cablook_#{Rails.env}_#{payment.trip.id}_payments_#{payment.type}_#{secure_code}"
-                             end
+        super(payment.trip.id, payment.type)
       end
 
       def add_cashback

@@ -1,6 +1,8 @@
 module Events
   module Trips
     class Retry < Events::BaseEvent
+      include Concerns::Fondy
+
       def schema
         Dry::Validation.Schema do
           configure { config.messages = :i18n }
@@ -38,7 +40,7 @@ module Events
       end
 
       def hold_amount
-        @hold_amount ||= Fondy::Recurring.new(user, trip.cost, card_token, order_reference, true).call
+        @hold_amount ||= Fondy::Recurring.new(user, trip.cost, card_token, order_reference(trip.id), true).call
       end
 
       def hold_success?
@@ -47,15 +49,6 @@ module Events
 
       def validate_hold_amount!
         invalid!([I18n.t('trips.cant_hold_amount')], status: 402) unless hold_success?
-      end
-
-      def order_reference
-        secure_code = SecureRandom.base58(6)
-        @order_reference ||= if Rails.env.production?
-                               "cablook_#{trip.id}_payments_trip_#{secure_code}"
-                             else
-                               "cablook_#{Rails.env}_#{trip.id}_payments_trip_#{secure_code}"
-                             end
       end
 
       def card_token
@@ -68,7 +61,7 @@ module Events
 
       def update_payment
         trip.trip_payment.update(status: bonus? ? Constants::Payments::BONUS : Constants::Payments::PENDING,
-                                  order_reference: order_reference, 
+                                  order_reference: order_reference(trip.id), 
                                   response: nil)
       end
 

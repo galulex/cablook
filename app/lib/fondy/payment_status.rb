@@ -14,7 +14,7 @@ module Fondy
 
     attr_reader :order_reference
 
-    def recuring_params 
+    def params 
       {
         order_id: order_reference,
         merchant_id: merchant_id
@@ -22,7 +22,7 @@ module Fondy
     end
 
     def request_body
-      { request: recuring_params.merge(signature(recuring_params)) }.to_json
+      { request: params.merge(signature(params)) }.to_json
     end
   end
 end

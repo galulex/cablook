@@ -2,10 +2,7 @@ describe Events::Cards::Complete do
   describe '.call' do
     subject { -> { described_class.call(params: data) } }
 
-    let(:data) do
-       JSON.parse(File.read('spec/fixtures/second_card_callback.json'))
-          .symbolize_keys
-    end
+    let(:data) { JSON.parse(File.read('spec/fixtures/second_card_callback.json')).symbolize_keys }
 
     let(:card) { create(:card, token: 'testOrderReference') }
 

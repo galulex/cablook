@@ -11,7 +11,7 @@ module Events
 
       def run
         create_fondy_card if settings.fondy?
-        update_wayfor_pay_card if settings.wayforpay?
+        update_wayforpay_card if settings.wayforpay?
       end
 
       private
@@ -20,7 +20,7 @@ module Events
         @params ||= data[:params]
       end
 
-      def update_wayfor_pay_card
+      def update_wayforpay_card
         validate_wayforpay_params!
         update_card unless card.nil?
         send_response if params[:transactionStatus] != 'Pending'
