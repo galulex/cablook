@@ -30,6 +30,7 @@ module Events
         Events::Cards::Create.(user_id: params[:merchant_data].to_i, email: params[:sender_email],
                                 recToken: params[:rectoken], cardType: params[:card_type].downcase.capitalize,
                                 cardPan: card_pan, currency: params[:currency] )
+        rescue Events::InvalidParamsError
       end
 
       def card_pan
