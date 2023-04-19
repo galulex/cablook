@@ -18,21 +18,6 @@ puts '============================='
 puts 'Users created'
 puts "=============================\n"
 
-puts 'Creating drivers...'
-
-driver_data = [
-  { username: 'driver_1', password: password, auth_token: token, name: 'Driver 1' },
-  { username: 'driver_2', password: password, auth_token: token, name: 'Driver 2' },
-  { username: 'driver_3', password: password, auth_token: token, name: 'Driver 3' },
-  { username: 'driver_4', password: password, auth_token: token, name: 'Driver 4' },
-  { username: 'driver_5', password: password, auth_token: token, name: 'Driver 5' },
-]
-driver_data.each { |data| Driver.create(data) }
-
-puts '============================='
-puts 'Drivers created'
-puts "=============================\n"
-
 puts 'Creating cars...'
 
 car_data = [
@@ -46,6 +31,21 @@ car_data.each { |data| Car.create(data) }
 
 puts '============================='
 puts 'Cars created'
+puts "=============================\n"
+
+puts 'Creating drivers...'
+
+driver_data = [
+  { username: 'driver_1', password: password, auth_token: token, name: 'Driver 1', car_id: 1, card_number: '4444555566661111' },
+  { username: 'driver_2', password: password, auth_token: token, name: 'Driver 2', car_id: 2, card_number: '4444555566661112' },
+  { username: 'driver_3', password: password, auth_token: token, name: 'Driver 3', car_id: 3, card_number: '4444555566661113' },
+  { username: 'driver_4', password: password, auth_token: token, name: 'Driver 4', car_id: 4, card_number: '4444555566661114' },
+  { username: 'driver_5', password: password, auth_token: token, name: 'Driver 5', car_id: 5, card_number: '4444555566661115' },
+]
+driver_data.each { |data| Driver.create(data) }
+
+puts '============================='
+puts 'Drivers created'
 puts "=============================\n"
 
 puts 'Creating trips...'
