@@ -5,6 +5,6 @@ class CreateSettings < ActiveRecord::Migration[5.2]
       t.boolean :cashback, default: false
     end
 
-    Settings.create
+    up_only { Settings.create }
   end
 end

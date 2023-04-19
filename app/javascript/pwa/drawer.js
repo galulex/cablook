@@ -13,7 +13,7 @@ import FamilyIcon from './images/family_icon.js'
 import './css/drawer.css'
 
 export default function Drawer(props) {
-  const is_delivery_enabled = props.settings.delivery
+  const {  settings: { delivery: is_delivery_enabled } } = props
 
   return (
     <aside>
