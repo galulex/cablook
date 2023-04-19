@@ -6,6 +6,7 @@
   import Timer from '../../../images/Timer.svelte'
   import Clock from '../../../images/Clock.svelte'
   import Distance from '../../../images/Distance.svelte'
+  import Dollar from '../../../images/Dollar.svelte'
 
   export let trip
   export let distance
@@ -72,15 +73,11 @@
 </script>
 
 <style>
-  span, time {
+  time {
     padding-left: 5px;
     display: inline-block;
     width: 49%;
     text-align: left;
-  }
-
-  .car {
-    padding: 0;
   }
 
   p {
@@ -88,15 +85,15 @@
     text-align: justify;
   }
 
-  time:last-child , span:last-child {
+  time:last-child {
     width: 48%;
     text-align: right;
   }
 
-  time:last-child label, span:last-child label {
+  time:last-child label {
     display: inline-block;
-    text-align: left;
-    width: 40px;
+    text-align: right;
+    width: 20px;
   }
 
   button {
@@ -132,12 +129,29 @@
     padding: 5px 10px;
     background-position: right 19px top 50%, right 15px top 50%;
   }
+
+  info {
+    margin-left: 5px;
+    margin-right: 5px;
+    margin-top: 5px;
+    text-align: left;
+    display: flex;
+    justify-content: space-around;
+    flex-flow: row wrap;
+    align-items: stretch;
+  }
+
+  .cost {
+    text-align: center;
+    flex-grow: 1;
+  }
 </style>
 
-<p>
-  <span class='car'><Leaf style ={{width: '25px'}}/><label>{trip.trips_count}</label></span>
-  <span><Distance style={{ fill: bgColor, width: '15px', height: '15px'}}/><label>{distance}км</label></span>
-</p>
+<info>
+  <div><Leaf style ={{width: '25px'}}/><label>{trip.trips_count}</label></div>
+  <div class='cost'><Dollar style={{width: '15px', height: '15px', fill: 'var(--main_green_color)'}}/><label>{trip.cost} грн</label></div>
+  <div><Distance style={{ fill: bgColor, width: '15px', height: '15px'}}/><label>{distance}км</label></div>
+</info>
 <p>
   <time>
     <Clock style={{ fill: bgColor, width: '15px', height: '15px'}}/>

@@ -30,6 +30,8 @@
   let duration = (trip.duration/60).toFixed(1)
   let distance = (trip.distance/1000).toFixed(1)
   let disabled = false
+  let cancelTripDisabled = true
+  let paymentVerifyDisabled = true
   let item
   let subscription
   let timer = parseInt(localStorage[`timer_${trip.id}`]) || 0
@@ -120,6 +122,7 @@
       action: () => {
         if (!isAbleToStart()) return alert('Заплановані замовлення можна почати тільки за 20 хвилин до часу початку')
         disabled = true
+        cancelTripDisabled = false
         axios.patch(`trips/${trip.id}/waiting_client`).then(update)
       },
       title: 'Arrived',
@@ -128,6 +131,7 @@
     {
       action: () => {
         disabled = true
+        paymentVerifyDisabled = false
         axios.patch(`trips/${trip.id}/start`).then(update)
       },
       title: 'Start',
@@ -188,17 +192,19 @@
     margin: 0 30px;
   }
 
-  p {
-    text-align: justify;
-  }
-
-  time, span {
-    width: 32%;
+  span {
+    width: 25%;
     display: inline-block;
+    text-align: center;
+    flex-grow: 1;
   }
 
-  time {
-    text-align: center;
+  span:last-child {
+    text-align: right;
+  }
+
+  span:first-child {
+    text-align: left;
   }
 
   span:last-child {
@@ -262,6 +268,17 @@
   .failed {
     background: var(--red_color);
   }
+
+  info {
+    margin-left: 5px;
+    margin-right: 5px;
+    margin-top: 5px;
+    text-align: left;
+    display: flex;
+    justify-content: space-around;
+    flex-flow: row wrap;
+    align-items: stretch;
+  }
 </style>
 
 <li bind:this={item}>
@@ -273,11 +290,12 @@
         <address><Pin style={{fill: 'var(--main_dark_color)', width: '15px', height: '15px' }}/><label>{stop}</label></address>
       {/if}
     {/each}
-    <p>
-      <span><Leaf style ={{width: '30px'}}/><label>{trip.trips_count}</label></span>
-      <time datatime={trip.start_at}><Clock style={{ fill: bgColor(), width: '15px', height: '15px'}}/><label>{trip.start_time}</label></time>
+    <info>
+      <span><Leaf style={{width: '30px'}}/><label>{trip.trips_count}</label></span>
+      <span datatime={trip.start_at}><Clock style={{ fill: bgColor(), width: '15px', height: '15px'}}/><label>{trip.start_time}</label></span>
       <span><Distance style={{ fill: bgColor(), width: '15px', height: '15px'}}/><label>{distance}км</label></span>
-    </p>
+      <span><Dollar style={{width: '15px', height: '15px', fill: 'green'}}/><label>{trip.cost}</label></span>
+    </info>
     <blockquote>{trip.comment}</blockquote>
     <div class='buttons'>
       <button type='button'
@@ -302,11 +320,11 @@
          href={`https://www.google.com/maps/dir/?api=1&waypoints=${trip.waypoints.join('|')}&destination=${trip.waypoints[trip.waypoints.length - 1]}&travelmode=driving&dir_action=navigate`} >
         <Pin style={{fill: 'var(--main_dark_color)', width: '25px', height: '25px' }}/>
       </a>
-      <button type='button' disabled={disabled} on:click={cancel}><CrossX style={{fill: 'var(--red_color)', width: '20px', height: '25px'}}/></button>
+      <button type='button' disabled={cancelTripDisabled} on:click={cancel}><CrossX style={{fill: 'var(--red_color)', width: '20px', height: '25px'}}/></button>
     </div>
     <div class='buttons'>
       <button type='button' disabled={disabled} on:click={count}><Timer style={{fill: 'var(--main_dark_color)', width: '25px', height: '25px'}}/><label>{timer}</label></button>
-      <button type='button' disabled={trip.payment_status == 2 || paymentCheck} on:click={paymentVerify} class={paymentClass}><svelte:component this={paymentIcon} style={{fill: 'var(--main_dark_color)', width: '25px', height: '25px' }}/></button>
+      <button type='button' disabled={trip.payment_status == 2 || paymentCheck || paymentVerifyDisabled} on:click={paymentVerify} class={paymentClass}><svelte:component this={paymentIcon} style={{fill: 'var(--main_dark_color)', width: '25px', height: '25px' }}/></button>
       <button type='button' on:click={unrelease} disabled={disabled}><Back style={{fill: 'var(--main_dark_color)', width: '25px', height: '25px'}}/></button>
     </div>
   </div>
