@@ -433,6 +433,7 @@ export default class App extends Component {
               mainBurger={this.mainBurger}
               updateCards={this.updateCards}
               cashbackAmount={this.state.cashbackAmount}
+              paymentSystem={this.state.settings.payment_system}
             />
             <Trips path='/trips/:id?'
               setCurrentTrip={this.setCurrentTrip}
