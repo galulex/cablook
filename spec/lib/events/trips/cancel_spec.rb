@@ -158,5 +158,35 @@ describe Events::Trips::Cancel do
         it { is_expected.to change { bonus_trip.reload.fresh? }.to be_truthy }
       end
     end
+
+    context 'when payment system Fondy' do
+      before { Settings.get.update!(payment_system: :fondy) }
+
+      it { is_expected.to change { trip.reload.status }.to(Constants::Trip::STATUS_CODES[Constants::Trip::CANCELED]) }
+      it { is_expected.to have_enqueued_job(Jobs::Notification) }
+
+      context 'and have fake taxi settle job' do
+        let(:trip) { create(:trip, status: Constants::Trip::WAITING_CLIENT) }
+        let(:data) { { trip_id: trip.id, by_driver: true } }
+  
+        it { is_expected.to have_enqueued_job(Jobs::PaymentSettle).with(trip.id, Constants::Payments::TYPES[:fake], price.landing / 100) }
+      end
+
+      context 'and canceled by user' do
+        let(:trip) { create(:trip, status: Constants::Trip::PENDING) }
+        let(:data) { { trip_id: trip.id, by_driver: false } }
+        let(:reverse_params) { [trip.cost, trip.trip_payment.order_reference] }
+        let(:reverse_stub) { double(Fondy::Reverse, call: { reverse_status: 'approved' }) }
+  
+          before do
+            allow(Fondy::Reverse).to receive(:new).with(*reverse_params).and_return(reverse_stub)
+
+            subject.call
+          end
+
+        it { (expect(Fondy::Reverse).to have_received(:new).with(*reverse_params).once) }
+        it { (expect(trip.reload.status).to eq(Constants::Trip::STATUS_CODES[Constants::Trip::CANCELED])) }
+      end
+    end
   end
 end

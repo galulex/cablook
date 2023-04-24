@@ -69,5 +69,13 @@ describe Events::Trips::Finish do
         expect(car.reload.status).to eq('during_trip')
       end
     end
+
+    context 'when payment system Fondy' do
+      before { Settings.get.update!(payment_system: :fondy) }
+
+      it { is_expected.to change { trip.reload.status }.to(Constants::Trip::STATUS_CODES[Constants::Trip::FINISHED]) }
+      it { is_expected.to change { car.reload.status }.to('free') }
+      it { is_expected.to have_enqueued_job(Jobs::PaymentSettle) }
+    end
   end
 end

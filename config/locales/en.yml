@@ -27,6 +27,7 @@ en:
     entrance: "%{val} Entrance"
     cant_retry: You can't retry trip without your card
     cant_hold_amount: Amount can't be hold
+    cant_unhold_amount: Something goes wrong, try again please
   vendors:
     vendor_unavailable: Vendor temporary unavailable
   users:

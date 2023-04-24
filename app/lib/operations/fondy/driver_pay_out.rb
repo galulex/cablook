@@ -29,7 +29,7 @@ module Operations
       end
 
       def payout_response
-        return { response: { response_status: 'success', payout: 'Driver payout'} }.to_json if Rails.env.development?
+        return { response: { response_status: 'success', payout: 'Driver payout'} }.to_json unless Rails.env.production?
         ::Fondy::ChargeCard.new(payment.order_reference, payment.amount, driver_card_number).call
       end
 

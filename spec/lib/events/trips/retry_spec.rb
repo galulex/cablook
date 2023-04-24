@@ -19,6 +19,22 @@ describe Events::Trips::Retry do
       )
     end
 
+    context 'when payment system Fondy' do
+      let!(:card) { create(:card, user_id: user.id, payment_system: :fondy) }
+
+      before { Settings.get.update(payment_system: :fondy) }
+
+      it { is_expected.to change { trip.reload.status }.to(Constants::Trip::STATUS_CODES[Constants::Trip::PENDING]) }
+      it { is_expected.to change { trip_payment.reload.status }.to(Constants::Payments::PENDING) }
+      it { is_expected.to have_enqueued_job(Jobs::DeclineTrip).with(trip.id) }
+      it do
+        expect(ActionCable.server).not_to receive(:broadcast).with(
+          "#{Constants::Channels::TRIP}_#{trip.id}",
+          action: Constants::BroadcastActions::NOTIFICATION_RETRY
+        )
+      end
+    end
+
     context 'when notification param present' do
       let(:trip) { create(:trip, status: Constants::Trip::DECLINED) }
       let(:data) { { trip_id: trip.id, user_id: user.id, notification: true } }

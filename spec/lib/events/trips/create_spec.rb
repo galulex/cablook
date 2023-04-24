@@ -173,5 +173,25 @@ describe Events::Trips::Create do
         it { expect(Trip.last.comment).to include(amount) && include(item) }
       end
     end
+
+    context 'when payment system Fondy' do
+      let!(:card) { create(:card, user_id: user.id, payment_system: :fondy) }
+
+      before { Settings.get.update(payment_system: :fondy) }
+
+      context 'when trip amount hold success' do
+        before { allow_any_instance_of(described_class).to receive(:hold_success?).and_return(true) }
+
+        it { is_expected.to have_enqueued_job(Jobs::SearchCarForTrip).with(data[:id]) }
+        it { is_expected.to have_enqueued_job(Jobs::DeclineTrip).with(data[:id]) }
+        it { is_expected.to have_enqueued_job(Jobs::Notification).with(data[:id]) }
+      end
+
+      context 'when trip amount hold failed' do
+        before { allow_any_instance_of(described_class).to receive(:hold_success?).and_return(false) }
+
+        it { is_expected.to raise_error Events::InvalidParamsError }
+      end
+    end
   end
 end

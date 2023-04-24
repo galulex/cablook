@@ -32,6 +32,7 @@ module Events
         validate!
         if settings.fondy?
           cancel_previous_hold
+          validate_canceling_previous_hold!
           hold_updated_amount
           validate_hold_amount!
         end
@@ -44,7 +45,7 @@ module Events
       private
 
       def cancel_previous_hold
-        Fondy::Reverse.new(trip.cost, trip.trip_payment.order_reference).call
+        @cancel_previous_hold ||= Fondy::Reverse.new(trip.cost, trip.trip_payment.order_reference).call
       end
 
       def hold_updated_amount
@@ -55,8 +56,16 @@ module Events
         JSON.parse(hold_updated_amount)['response']['response_status'] == Constants::Payments::FONDY_SUCCESS
       end
 
+      def reverse_success?
+        cancel_previous_hold[:reverse_status] == Constants::Payments::FONDY_APPROVED
+      end
+
       def validate_hold_amount!
         invalid!([I18n.t('trips.cant_hold_amount')], status: 402) unless hold_success?
+      end
+
+      def validate_canceling_previous_hold!
+        invalid!(I18n.t('trips.cant_unhold_amount')) unless reverse_success?
       end
 
       def update_trip
