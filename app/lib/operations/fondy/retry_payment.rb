@@ -38,7 +38,7 @@ module Operations
       end
 
       def order_reference
-        super(payment.trip.id, payment.type)
+        @order_reference ||= OrderReference.new(payment.trip.id, payment.type).call
       end
 
       def add_cashback

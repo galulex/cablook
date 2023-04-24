@@ -2,7 +2,6 @@ module Events
   module Trips
     class Create < BaseEvent
       include Concerns::Direction
-      include Concerns::Fondy
       include Validations::Create
 
       FIELDS = %i[duration distance path].freeze
@@ -88,7 +87,7 @@ module Events
           user_id: @trip.user_id,
           card_id: card.id,
           trip_id: @trip.id,
-          order_reference: order_reference(@trip.id)
+          order_reference: order_reference
         )
       end
 
@@ -113,7 +112,7 @@ module Events
       end
 
       def hold_amount
-        @fondy_hold_amount ||= Fondy::Recurring.new(user, data[:cost], card.token, order_reference(@trip.id), true).call
+        @fondy_hold_amount ||= Fondy::Recurring.new(user, data[:cost], card.token, order_reference, true).call
       end
 
       def hold_success?
@@ -192,6 +191,10 @@ module Events
 
       def update_trip_time
         data[:time] = (data[:time].in_time_zone - data[:duration].seconds).strftime('%H:%M')
+      end
+
+      def order_reference
+        OrderReference.new(@trip.id).call
       end
     end
   end

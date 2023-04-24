@@ -140,6 +140,7 @@ describe Events::Trips::Update do
 
         context 'and distance less than MAX_DISTANCE' do
           let(:data) { trip_params.merge(distance: Constants::Trip::MAX_DISTANCE - 1) }
+          let(:order_reference) { "cablook_test_trip_#{trip.id}" }
 
           context 'and broadcast to channel' do
             it do
@@ -151,10 +152,12 @@ describe Events::Trips::Update do
             end
           end
 
+          before { allow_any_instance_of(described_class).to receive(:order_reference).and_return(order_reference) }
+
           it { is_expected.to change { trip_payment.reload.amount } }
           it { is_expected.to change { trip_payment.reload.status }.to(Constants::Payments::PENDING) }
           it { is_expected.to change { trip_payment.reload.card_id }.to(card.id) }
-          it { is_expected.to change { trip_payment.reload.order_reference }.to("cablook_test_trip_#{trip.id}") }
+          it { is_expected.to change { trip_payment.reload.order_reference }.to(order_reference) }
 
           it { is_expected.to change { bonus_trip.reload.fresh? }.to be_truthy }
           it { is_expected.to change { bonus_trip.reload.trip_id }.to(nil) }
@@ -182,7 +185,7 @@ describe Events::Trips::Update do
       before do
          Settings.get.update(payment_system: :fondy)
 
-         allow_any_instance_of(described_class).to receive(:fondy_order_reference).and_return(order_reference)
+         allow_any_instance_of(described_class).to receive(:order_reference).and_return(order_reference)
 
          allow(Fondy::Reverse).to receive(:new).with(*reverse_params).and_return(reverse_stub)
          allow(Fondy::Recurring).to receive(:new).with(*recurring_params).and_return(recurring_stub)

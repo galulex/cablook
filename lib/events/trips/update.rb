@@ -49,7 +49,7 @@ module Events
       end
 
       def hold_updated_amount
-        @hold_updated_amount ||= Fondy::Recurring.new(trip.user, data[:cost], card.token, fondy_order_reference, true).call
+        @hold_updated_amount ||= Fondy::Recurring.new(trip.user, data[:cost], card.token, order_reference, true).call
       end
 
       def hold_success?
@@ -90,7 +90,7 @@ module Events
           status: Constants::Payments::PENDING,
           amount: trip.cost,
           card_id: card.id,
-          order_reference: settings.wayforpay? ? order_reference : fondy_order_reference
+          order_reference: order_reference
         )
       end
 
@@ -125,20 +125,7 @@ module Events
       end
 
       def order_reference
-        @order_reference ||= if Rails.env.production?
-                               "cablook_trip_#{trip.id}"
-                             else
-                               "cablook_#{Rails.env}_trip_#{trip.id}"
-                             end
-      end
-
-      def fondy_order_reference
-        secure_code = SecureRandom.base58(6)
-        @fondy_order_reference ||= if Rails.env.production?
-                               "cablook_#{@trip.id}_payments_trip_#{secure_code}"
-                             else
-                               "cablook_#{Rails.env}_#{@trip.id}_payments_trip_#{secure_code}"
-                             end
+        @order_reference ||= OrderReference.new(@trip.id).call
       end
 
       def trip_params
@@ -149,7 +136,7 @@ module Events
       def payment_params
         params = {amount: trip.cost}
         params[:card_id] = data[:card_id] if data[:card_id]
-        params[:order_reference] = fondy_order_reference 
+        params[:order_reference] = order_reference 
         params
       end
     end

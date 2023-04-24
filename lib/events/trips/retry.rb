@@ -1,7 +1,6 @@
 module Events
   module Trips
     class Retry < Events::BaseEvent
-      include Concerns::Fondy
 
       def schema
         Dry::Validation.Schema do
@@ -40,7 +39,7 @@ module Events
       end
 
       def hold_amount
-        @hold_amount ||= Fondy::Recurring.new(user, trip.cost, card_token, order_reference(trip.id), true).call
+        @hold_amount ||= Fondy::Recurring.new(user, trip.cost, card_token, order_reference, true).call
       end
 
       def hold_success?
@@ -61,7 +60,7 @@ module Events
 
       def update_payment
         trip.trip_payment.update(status: bonus? ? Constants::Payments::BONUS : Constants::Payments::PENDING,
-                                  order_reference: order_reference(trip.id), 
+                                  order_reference: order_reference, 
                                   response: nil)
       end
 
@@ -103,6 +102,10 @@ module Events
 
       def validate_user_cards!
         invalid!([I18n.t('trips.cant_retry')]) unless cards.any?
+      end
+
+      def order_reference
+        @order_reference ||= OrderReference.new(trip.id).call
       end
     end
   end

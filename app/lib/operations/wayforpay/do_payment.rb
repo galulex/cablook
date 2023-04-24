@@ -95,12 +95,7 @@ module Operations
       end
 
       def order_reference
-        secure_code = SecureRandom.base58(6)
-        @order_reference ||= if Rails.env.production?
-                               "cablook_#{trip.id}_#{payment_type.underscore}_#{secure_code}"
-                             else
-                               "cablook_#{Rails.env}_#{trip.id}_#{payment_type.underscore}_#{secure_code}"
-                             end
+        @order_reference ||= OrderReference.new(trip.id, payment_type.underscore).call
       end
 
       def settings

@@ -1,6 +1,8 @@
 module Operations
   module Wayforpay
     class RetryPayment
+      RETRY_SUFIX = '_retry'.freeze
+
       def initialize(payment_id, card_id)
         @payment_id = payment_id
         @card_id = card_id
@@ -35,14 +37,7 @@ module Operations
       end
 
       def order_reference
-        secure_code = SecureRandom.base58(6)
-        type = payment.type.demodulize.downcase
-        ref = "#{payment.trip_id}_retry_#{type}_#{secure_code}"
-        @order_reference ||= if Rails.env.production?
-                               "cablook_" + ref
-                             else
-                               "cablook_#{Rails.env}_" + ref
-                             end
+        @order_reference ||= OrderReference.new(payment.trip_id, payment.type.demodulize.downcase).call.concat(RETRY_SUFIX)
       end
 
       def card

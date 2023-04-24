@@ -55,8 +55,7 @@ module Api
       end
 
       def payments_verify
-        Operations::Wayforpay::DoPayment.new(trip.id, Constants::Payments::TYPES[:trip], nil).call if settings.wayforpay?
-        Operations::Fondy::DoPayment.new(trip.id, Constants::Payments::TYPES[:trip], nil).call if settings.fondy?
+        Operations::DoPayment.new(trip.id, Constants::Payments::TYPES[:trip], nil).call
         render json: Presenters::Trips::Detailed.new(trip).to_json, status: 200
       end
 
@@ -73,10 +72,6 @@ module Api
 
       def trip_params
         params.require(:trip).permit!
-      end
-
-      def settings
-        @settings ||= Settings.get
       end
     end
   end

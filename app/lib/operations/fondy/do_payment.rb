@@ -104,7 +104,7 @@ module Operations
       end
 
       def order_reference
-        super(@trip.id, payment_type)
+        @order_reference ||= OrderReference.new(@trip.id, payment_type).call
       end
 
       def success_response?(response)
