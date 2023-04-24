@@ -36,7 +36,13 @@ describe Operations::Wayforpay::DoPayment do
       context 'and wayforpay status is ok' do
         it { is_expected.to change { payment.reload.status }.to(Constants::Payments::SUCCESS) }
         it { is_expected.to change { payment.reload.response }.from(nil) }
-        it { is_expected.to change { user.reload.cashback }.from(cashback).to(cashback + (trip.cost * 0.05 * 100).to_i) }
+        it { is_expected.to_not change { user.reload.cashback } }
+
+        context 'when cashback enabled' do
+          before { Settings.get.update(cashback: true) }
+          
+          it { is_expected.to change { user.reload.cashback }.from(cashback).to(cashback + (trip.cost * 0.05 * 100).to_i) }
+        end
 
         it do
           expect(Wayforpay::Payments).to receive(:hold).once
@@ -54,7 +60,13 @@ describe Operations::Wayforpay::DoPayment do
       context 'and user have frozen bonuses' do
         let(:frozen_bonus) { create(:bonus_trip, user_id: user.id, status: :iced) }
 
-        it { is_expected.to change { frozen_bonus.reload.fresh? }.to be_truthy }
+        it { is_expected.to_not change { frozen_bonus.reload.fresh? } }
+
+        context 'when bonuses enabled' do
+          before { Settings.get.update(bonuses: true) }
+
+          it { is_expected.to change { frozen_bonus.reload.fresh? }.to be_truthy }
+        end
 
         context 'and user have not finished trips' do
           let(:trip) { create(:trip, user_id: user.id, status: Constants::Trip::PENDING) }

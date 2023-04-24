@@ -12,6 +12,11 @@ ActiveAdmin.setup do |config|
   config.meta_tags_for_logged_out_pages = meta_tags_options
   config.register_stylesheet 'active_admin/json_editor.css'
   config.register_javascript 'active_admin/json_editor.js'
+  config.namespace :admin do |admin|
+    admin.build_menu do |menu|
+      menu.add label: 'Settings', url: '/admin/settings/1'
+    end
+  end
 end
 
 class ActiveAdmin::BaseController

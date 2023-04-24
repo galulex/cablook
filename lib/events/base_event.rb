@@ -40,5 +40,9 @@ module Events
       parsed_trip = JSON.parse(trip_json)
       parsed_trip['telegram_trip'] && parsed_trip['id'].present? && parsed_trip['id'] == trip.id
     end
+
+    def settings
+      @settings ||= Settings.get
+    end
   end
 end

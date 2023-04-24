@@ -20,7 +20,13 @@ describe Events::Trips::Finish do
       context 'with cashback type' do
         let!(:bonus_trip) { create(:bonus_trip, user: user, trip: trip, type: Constants::BonusTrip::CASHBACK) }
 
-        it { is_expected.to change { user.reload.cashback }.to(user.cashback - trip.cost * 100) }
+        it { is_expected.to_not change { user.reload.cashback } }
+
+        context 'when cashback enabled' do
+          before {Settings.get.update(cashback: true)}
+
+          it { is_expected.to change { user.reload.cashback }.to(user.cashback - trip.cost * 100) }
+        end
       end
     end
 

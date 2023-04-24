@@ -26,6 +26,7 @@ module Operations
       end
 
       def add_cashback
+        return unless Settings.get.cashback
         user.update(cashback: user.cashback + cashback_amount)
       end
 

@@ -1,6 +1,6 @@
 module Api
   class DeliveryController < ApiApplicationController
-    before_action :authorize!
+    before_action :authorize!, :is_delivery_available?
 
     def create
       trip = Events::Delivery::Create.(order_params)

@@ -23,30 +23,36 @@ export default class Bonuses extends Component {
   render() {
     const groupByStatus = this.state.bonus_trips.reduce((a, b) => { (a[b['status']] = a[b['status']] || []).push(b); return a; }, {})
     const bonusTrips = Object.keys(groupByStatus).map(el => ({ status: el, count: groupByStatus[el].length }))
+    const cashbackAmount = this.props.cashbackAmount
+
     return (
       <div class='tab-content__holder'>
-        <div class='tab-content__container'>
-          <div class='tab-content__header'>{i18n.bonuses.your_cashback}</div>
-          <div class='tab-content__container-item'> 
-            <div>{i18n.bonuses.residual}</div>
-            <span class='value'>{this.props.cashbackAmount} {i18n.statistics.uah}</span>
+        {cashbackAmount > 0 && 
+          <div class='tab-content__container'>
+            <div class='tab-content__header'>{i18n.bonuses.your_cashback}</div>
+            <div class='tab-content__container-item'> 
+              <div>{i18n.bonuses.residual}</div>
+              <span class='value'>{cashbackAmount} {i18n.statistics.uah}</span>
+            </div>
           </div>
-        </div>
-        <div class='tab-content__container'>
-          <div class='tab-content__header'>{i18n.bonuses.your_bonuses}</div>
-          <ul class='bonus-trips-list tab-content__container-items'>
-            { bonusTrips.map((bonus, i) => {
-              return(
-                <li class={`bonus-${bonus.status} tab-content__container-item`}>
-                  <div>{i18n.bonuses.statuses[bonus.status]}</div>
-                  <div class='bonus-badge'>
-                    <span class='bonus-badge__text'>{bonus.count}</span>
-                  </div>
-                </li>
-              )
-            })}
-          </ul>
-        </div>
+        }
+        {bonusTrips.length > 0 && 
+          <div class='tab-content__container'>
+            <div class='tab-content__header'>{i18n.bonuses.your_bonuses}</div>
+            <ul class='bonus-trips-list tab-content__container-items'>
+              { bonusTrips.map((bonus, i) => {
+                return(
+                  <li class={`bonus-${bonus.status} tab-content__container-item`}>
+                    <div>{i18n.bonuses.statuses[bonus.status]}</div>
+                    <div class='bonus-badge'>
+                      <span class='bonus-badge__text'>{bonus.count}</span>
+                    </div>
+                  </li>
+                )
+              })}
+            </ul>
+          </div>
+        }
       </div>
     );
   };

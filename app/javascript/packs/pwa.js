@@ -101,7 +101,8 @@ export default class App extends Component {
       activateFeedback: false,
       isBurgerShowing: true,
       cashbackAmount: null,
-      currentDeliveryTrip: null
+      currentDeliveryTrip: null,
+      settings: {}
     }
     axios.defaults.headers.common['Pwa-Language'] = this.state.language
   }
@@ -257,6 +258,7 @@ export default class App extends Component {
 
   fetchUser = () => {
     return axios.get('user').then((res) => {
+
       if ((res.data.locale !== this.state.language)) { this.updateUserLocale(this.state.language) }
       let availableBonusTrips = []
       if (res.data.bonus_trips) availableBonusTrips = this.getAvailableBonusTrips(res.data.bonus_trips)
@@ -269,7 +271,8 @@ export default class App extends Component {
         cashbackAmount: res.data.cashback/100,
         currentUserID: res.data.id,
         currentTrip: res.data.current_trip,
-        currentDeliveryTrip: res.data.current_delivery_trip
+        currentDeliveryTrip: res.data.current_delivery_trip,
+        settings: res.data.settings
       })
     }).catch((error) => {
       if (error.response) alert(error.response.data.errors)
@@ -406,7 +409,7 @@ export default class App extends Component {
                 <Burger/>
             </button>
           }
-          <Drawer triggerDrawer={this.triggerDrawer} logOut={this.logOut} />
+          <Drawer triggerDrawer={this.triggerDrawer} logOut={this.logOut} settings={this.state.settings} />
           <Router history={window.ios ? createMemoryHistory() : null} onChange={() => this.triggerDrawer(false) }>
             <NewDesign path='/'
               trip={currentTrip}

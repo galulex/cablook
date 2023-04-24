@@ -30,6 +30,10 @@ module Api
 
     private
 
+    def settings
+      @settings ||= Settings.get
+    end
+
     def auth_token
       @auth_token ||= request.headers['Auth-Token']
     end
@@ -40,6 +44,10 @@ module Api
 
     def authorize_user_or_driver!
       raise Constants::UnauthorizedError unless auth_token && (current_user || current_driver)
+    end
+
+    def is_delivery_available?
+      render json: {errors: 'Delivery unavailable now'}, status: 422 unless settings.delivery
     end
   end
 end

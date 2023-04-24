@@ -34,10 +34,9 @@ module Events
       def run
         assign_attrs
         validate!
-
         update_trip_time if delivery?
         create_trip
-        bonus? ? pay_by_bonus : create_payment
+        (settings.bonuses || settings.cashback) && bonus? ? pay_by_bonus : create_payment
         order_operations if delivery?
         create_trip_job(@trip.id) unless delivery?
         notify
@@ -182,6 +181,10 @@ module Events
 
       def update_trip_time
         data[:time] = (data[:time].in_time_zone - data[:duration].seconds).strftime('%H:%M')
+      end
+
+      def settings
+        @settings ||= Settings.get
       end
     end
   end
