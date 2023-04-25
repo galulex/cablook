@@ -3,10 +3,12 @@ describe Operations::RetryUserPendingPayments do
   let(:user) { create(:user) }
   let(:card) { create(:card, user_id: user.id) }
   let(:wayforpay_body) { { reasonCode: Constants::Payments::WAYFORPAY_SUCCESS }.to_json }
+  let(:fondy_retry_response) { { 'response' => { 'response_status' => Constants::Payments::FONDY_SUCCESS } }.to_json }
   let(:wfp) { double(call: OpenStruct.new(body: wayforpay_body)) }
 
   before do
     allow_any_instance_of(Operations::Wayforpay::RetryPayment).to receive(:call) { OpenStruct.new(body: wayforpay_body) }
+    allow_any_instance_of(Operations::Fondy::RetryPayment).to receive(:call) { fondy_retry_response }
   end
 
   describe '#call' do
@@ -23,6 +25,15 @@ describe Operations::RetryUserPendingPayments do
     context 'when ok response' do
       it do
         expect_any_instance_of(Operations::Wayforpay::RetryPayment).to receive(:call).once
+        subject.call
+      end
+    end
+
+    context 'when payment system Fondy' do
+      before { Settings.get.update!(payment_system: :fondy) }
+
+      it do
+        expect_any_instance_of(Operations::Fondy::RetryPayment).to receive(:call).once
         subject.call
       end
     end

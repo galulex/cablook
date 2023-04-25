@@ -94,11 +94,9 @@ ActiveAdmin.register Payment do
   end
 
   member_action :retry_payment, method: :post do
-    settings = Settings.get
     payment = Payment.find(params[:id])
     card_id = payment.card_id || Card.find_by(user_id: payment.user_id)&.id
-    Operations::Wayforpay::RetryPayment.new(payment.id, card_id).call if settings.wayforpay?
-    Operations::Fondy::RetryPayment.new(payment.id, card_id).call if settings.fondy?
+    Operations::Payments::RetryPayment.new(payment.id, card_id).call
     notice = if payment.reload.status == Constants::Payments::SUCCESS
                'Payment success'
              else

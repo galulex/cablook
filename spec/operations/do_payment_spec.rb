@@ -1,4 +1,4 @@
-describe Operations::DoPayment do
+describe Operations::Payments::DoPayment do
   describe '.call' do
     let(:instance) { described_class.new(*params) }
     let(:params) { [1, 'Payments::Trip', 50] }

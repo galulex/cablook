@@ -4,9 +4,7 @@ module Jobs
 
     def perform(payment_id, card_id)
       payment = Payment.find(payment_id)
-      settings = Settings.get
-      return Operations::Wayforpay::RetryPayment.new(payment_id, card_id).call if settings.wayforpay?
-      return Operations::Fondy::RetryPayment.new(payment_id, card_id).call if settings.fondy?
+      Operations::Payments::RetryPayment.new(payment_id, card_id).call
     end
   end
 end

@@ -35,14 +35,16 @@ module Operations
 
     def retry_payment(payment_id, card_id)
       settings = Settings.get
-      if settings.wayforpay?
-        response = Operations::Wayforpay::RetryPayment.new(payment_id, card_id).call
-        response['reasonCode'] == Constants::Payments::WAYFORPAY_SUCCESS
-      end
-      if settings.fondy?
-        response = Operations::Fondy::RetryPayment.new(payment_id, card_id).call
-        JSON.parse(response)['response']['response_status'] == Constants::Payments::FONDY_SUCCESS
-      end
+      response = Operations::Payments::RetryPayment.new(payment_id, card_id).call
+      settings.wayforpay? ? wayforpay_success?(response) : fondy_success?(response)
+    end
+
+    def wayforpay_success?(response)
+      response.body['reasonCode'] == Constants::Payments::WAYFORPAY_SUCCESS
+    end
+
+    def fondy_success?(response)
+      JSON.parse(response)['response']['response_status'] == Constants::Payments::FONDY_SUCCESS
     end
   end
 end
