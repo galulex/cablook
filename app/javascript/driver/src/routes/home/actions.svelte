@@ -130,7 +130,7 @@
     background-position: right 19px top 50%, right 15px top 50%;
   }
 
-  info {
+  .info {
     margin-left: 5px;
     margin-right: 5px;
     margin-top: 5px;
@@ -147,11 +147,11 @@
   }
 </style>
 
-<info>
+<div class='info'>
   <div><Leaf style ={{width: '25px'}}/><label>{trip.trips_count}</label></div>
   <div class='cost'><Dollar style={{width: '15px', height: '15px', fill: 'var(--main_green_color)'}}/><label>{trip.cost} грн</label></div>
   <div><Distance style={{ fill: bgColor, width: '15px', height: '15px'}}/><label>{distance}км</label></div>
-</info>
+</div>
 <p>
   <time>
     <Clock style={{ fill: bgColor, width: '15px', height: '15px'}}/>

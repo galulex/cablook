@@ -27,11 +27,14 @@
   export let updateTrip
   export let cable
 
+  const TRIP_STATUS_WAITING_CLIENT = 2
+  const TRIP_STATUS_DRIVING = 3
+
   let duration = (trip.duration/60).toFixed(1)
   let distance = (trip.distance/1000).toFixed(1)
   let disabled = false
-  let cancelTripDisabled = true
-  let paymentVerifyDisabled = true
+  let cancelTripDisabled = trip.status < TRIP_STATUS_WAITING_CLIENT
+  let paymentVerifyDisabled = trip.status < TRIP_STATUS_DRIVING
   let item
   let subscription
   let timer = parseInt(localStorage[`timer_${trip.id}`]) || 0
@@ -269,7 +272,7 @@
     background: var(--red_color);
   }
 
-  info {
+  .info {
     margin-left: 5px;
     margin-right: 5px;
     margin-top: 5px;
@@ -290,12 +293,12 @@
         <address><Pin style={{fill: 'var(--main_dark_color)', width: '15px', height: '15px' }}/><label>{stop}</label></address>
       {/if}
     {/each}
-    <info>
+    <div class='info'>
       <span><Leaf style={{width: '30px'}}/><label>{trip.trips_count}</label></span>
       <span datatime={trip.start_at}><Clock style={{ fill: bgColor(), width: '15px', height: '15px'}}/><label>{trip.start_time}</label></span>
       <span><Distance style={{ fill: bgColor(), width: '15px', height: '15px'}}/><label>{distance}км</label></span>
       <span><Dollar style={{width: '15px', height: '15px', fill: 'green'}}/><label>{trip.cost}</label></span>
-    </info>
+    </div>
     <blockquote>{trip.comment}</blockquote>
     <div class='buttons'>
       <button type='button'

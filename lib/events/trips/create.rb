@@ -194,7 +194,7 @@ module Events
       end
 
       def order_reference
-        OrderReference.new(@trip.id).call
+        @order_reference ||= OrderReference.new(@trip.id).call
       end
     end
   end
