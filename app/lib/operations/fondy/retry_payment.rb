@@ -1,6 +1,8 @@
 module Operations
   module Fondy
     class RetryPayment < Base
+      PAYMENTS_TRIP_TYPE = 'Payments::Trip'.freeze
+
       def initialize(payment_id, card_id)
         @payment_id = payment_id
         @card_id = card_id
@@ -10,13 +12,13 @@ module Operations
 
       def call
         return unless card_id && card && card.payment_system == settings.payment_system[:fondy.to_s]
-        if JSON.parse(payment_status)['response']['order_status'] == Constants::Payments::FONDY_APPROVED
+        if payment_status_success?
           payment.update(status: Constants::Payments::SUCCESS, response: payment_status)
           return payment_status
-        elsif JSON.parse(retry_response)['response']['response_status'] == Constants::Payments::FONDY_SUCCESS
+        elsif retry_response_success?
           payment.update(status: Constants::Payments::SUCCESS, response: retry_response)
           driver_pay_out
-          add_cashback if payment.type == 'Payments::Trip'
+          add_cashback
         else
           payment.update(response: retry_response)
         end
@@ -24,6 +26,14 @@ module Operations
       end
 
       private
+
+      def payment_status_success?
+        JSON.parse(payment_status)['response']['order_status'] == Constants::Payments::FONDY_APPROVED
+      end
+
+      def retry_response_success?
+        JSON.parse(retry_response)['response']['response_status'] == Constants::Payments::FONDY_SUCCESS
+      end
 
       def driver_pay_out
         Operations::Fondy::DriverPayOut.new(payment_id).call
@@ -42,7 +52,7 @@ module Operations
       end
 
       def add_cashback
-        return unless settings.cashback
+        return unless settings.cashback && payment.type == PAYMENTS_TRIP_TYPE
         user.update(cashback: user.cashback + cashback_amount)
       end
 
