@@ -34,6 +34,11 @@
   text-align: center;
 }
 
+.tab-content__container-trips {
+  width: 100%;
+  margin: 2% 0;
+}
+
 .tab-content__container-items {
   display: flex;
   flex-direction: column;
@@ -112,4 +117,22 @@
   padding: 2% 7%;
 }
 
-.log-out svg { padding-right: 7px;}
+.log-out svg { padding-right: 7px; }
+
+.statistics__container-date-select {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.statistics__container-date-select input[type="date"] { margin-left:10px; width: 45px; }
+
+.statistics__container-date-select input[type="date"]::-webkit-datetime-edit { display: none; }
+
+.statistics__container-date-select input[type="date"]::-webkit-calendar-picker-indicator { width: 45px; }
+
+.statistics__container-date-select input[type="date"]::-webkit-calendar-picker-indicator {
+  font-size: 30px;
+  width: 30px;
+  padding: 5px;
+}
