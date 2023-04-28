@@ -1,7 +1,7 @@
 # class to get address from coordinates
 module AddressGeocoder
   class Yandex
-    URL = 'https://geocode-maps.yandex.ru/1.x/?apikey=9bbf546a-a5ca-44e1-abb2-8785a76fcbb4&format=json&geocode=%s&lang=%s'.freeze
+    URL = "#{ENV['YANDEX_GEOCODER_DOMAIN']}/?apikey=#{ENV['YANDEX_GEOCODER_API_KEY']}&format=json&geocode=%s&lang=%s".freeze
 
     attr_reader :address
 
