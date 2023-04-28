@@ -3,7 +3,7 @@ module Api
     before_action :authorize!
 
     def show
-      render json: { address: Yandex.new(params[:coords]).address }
+      render json: { address: ReverseGeocoding.new(params[:coords]).address }
     end
   end
 end

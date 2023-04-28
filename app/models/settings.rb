@@ -3,6 +3,8 @@ class Settings < ApplicationRecord
 
   enum payment_system: Constants::Card::PAYMENT_SYSTEM
 
+  enum address_geocoder: %w[yandex open_street_map]
+
   private
 
     def only_one
