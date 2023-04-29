@@ -55,14 +55,14 @@ describe Api::CardsController, type: :controller do
   describe '#complete' do
     subject { response }
 
-    before { post :complete, params: { "{\"orderReference\":\"1996\",\"recToken\":\"testToken\",\"transactionStatus\":\"Approved\"}": nil } }
+    before { post :complete, params: { orderReference: '1996', recToken: 'testToken', transactionStatus: 'Approved' } }
 
-    it { is_expected.to be_successful }
+    it { is_expected.to redirect_to(root_path) }
 
     context 'when recToken already exsist' do
       let(:card) { create(:card, token: 'testToken') }
 
-      it { is_expected.to be_successful }
+      it { is_expected.to redirect_to(root_path) }
     end
 
     context 'when params are empty' do
@@ -72,45 +72,45 @@ describe Api::CardsController, type: :controller do
     end
 
     context 'when only one parameter' do
-      before { post :complete, params: { "{\"orderReference\":\"1996\"}": nil } }
+      before { post :complete, params: { orderReference: '1996' } }
 
       it { is_expected.to have_http_status(:unprocessable_entity) }
     end
 
     context 'when recToken is empty' do
-      before { post :complete, params: { "{\"orderReference\":\"1996\",\"recToken\":\"\"}": nil } }
+      before { post :complete, params: { orderReference: '1996', recToken: '' } }
 
       it { is_expected.to have_http_status(:unprocessable_entity) }
     end
 
     context 'when there are no required params' do
-      before { post :complete, params: { "{\"cardPan\":\"1111000099998888\",\"currency\":\"UAH\"}": nil } }
+      before { post :complete, params: { cardPan: '1111000099998888', currency: 'UAH' } }
 
       it { is_expected.to have_http_status(:unprocessable_entity) }
     end
 
     context 'when transactionStatus: Pending' do
-      before { post :complete, params: { "{\"orderReference\":\"1996\",\"recToken\":\"\",\"transactionStatus\":\"Pending\"}": nil } }
+      before { post :complete, params: { orderReference: '1996', recToken: '', transactionStatus: 'Pending' } }
 
-      it { is_expected.to have_http_status(:not_modified) }
+      it { is_expected.to have_http_status(:unprocessable_entity) }
     end
 
     context 'when transactionStatus: Approved' do
-      before { post :complete, params: { "{\"orderReference\":\"1996\",\"recToken\":\"testToken\",\"transactionStatus\":\"Approved\"}": nil } }
+      before { post :complete, params: { orderReference: '1996', recToken: 'testToken', transactionStatus: 'Approved' } }
 
-      it { is_expected.to be_successful }
+      it { is_expected.to redirect_to(root_path) }
     end
 
     context 'when transactionStatus: Refunded' do
-      before { post :complete, params: { "{\"orderReference\":\"1996\",\"recToken\":\"\",\"transactionStatus\":\"Refunded\"}": nil } }
+      before { post :complete, params: { orderReference: '1996', recToken: 'testToken', transactionStatus: 'Refunded' } }
 
-      it { is_expected.to be_successful }
+      it { is_expected.to redirect_to(root_path) }
     end
 
     context 'when transactionStatus: Expired' do
-      before { post :complete, params: { "{\"orderReference\":\"1996\",\"recToken\":\"\",\"transactionStatus\":\"Expired\"}": nil } }
+      before { post :complete, params: { orderReference: '1996', recToken: 'testToken', transactionStatus: 'Expired' } }
 
-      it { is_expected.to be_successful }
+      it { is_expected.to redirect_to(root_path) }
     end
   end
 

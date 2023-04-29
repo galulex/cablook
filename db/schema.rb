@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_04_10_085829) do
+ActiveRecord::Schema.define(version: 2023_04_28_082654) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -54,6 +54,7 @@ ActiveRecord::Schema.define(version: 2023_04_10_085829) do
     t.boolean "default", default: false
     t.datetime "created_at", default: -> { "now()" }, null: false
     t.datetime "updated_at", default: -> { "now()" }, null: false
+    t.integer "payment_system", default: 0
     t.index ["user_id"], name: "index_cards_on_user_id"
   end
 
@@ -83,7 +84,9 @@ ActiveRecord::Schema.define(version: 2023_04_10_085829) do
     t.string "address"
     t.decimal "address_location", default: [], array: true
     t.boolean "active", default: true
+    t.string "card_number", limit: 16
     t.index ["car_id"], name: "index_drivers_on_car_id"
+    t.index ["card_number"], name: "index_drivers_on_card_number", unique: true
   end
 
   create_table "favorite_addresses", force: :cascade do |t|
@@ -147,6 +150,8 @@ ActiveRecord::Schema.define(version: 2023_04_10_085829) do
     t.boolean "bonuses", default: false
     t.boolean "cashback", default: false
     t.boolean "delivery", default: true
+    t.integer "payment_system", default: 0
+    t.integer "address_geocoder", default: 0
   end
 
   create_table "trips", force: :cascade do |t|

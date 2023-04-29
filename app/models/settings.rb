@@ -1,11 +1,15 @@
 class Settings < ApplicationRecord
   validate :only_one, on: :create
 
+  enum payment_system: Constants::Card::PAYMENT_SYSTEM
+
+  enum address_geocoder: %w[yandex open_street_map]
+
   private
 
     def only_one
       if Settings.count >= 1
-        errors.add :base, 'Settings alredy created' 
+        errors.add :base, 'Settings already created'
       end
     end
 

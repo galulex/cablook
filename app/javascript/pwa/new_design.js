@@ -254,6 +254,10 @@ export default class NewDesign extends Component {
             this.setState({paymentButtonDisabled: false})
           }
           break
+        case 402:
+          alert(error.response.data.errors)
+          this.setState({paymentButtonDisabled: false})
+          break
         case 422:
           this.setState({paymentButtonDisabled: false})
         default:
@@ -758,7 +762,7 @@ export default class NewDesign extends Component {
             showFeedback={showFeedback}
             cashbackAmount={cashbackAmount}
             availableBonusTrips={availableBonusTrips}/>
-          { showWidget && <Widget updateCards={this.props.updateCards} showWidget={() => this.setState({showWidget: false}) }/> }
+          { showWidget && <Widget paymentSystem={this.props.paymentSystem} updateCards={this.props.updateCards} showWidget={() => this.setState({showWidget: false})  }/> }
         </section>
       </div>
     )

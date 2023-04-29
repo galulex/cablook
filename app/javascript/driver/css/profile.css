@@ -34,6 +34,11 @@
   text-align: center;
 }
 
+.tab-content__container-trips {
+  width: 100%;
+  margin: 2% 0;
+}
+
 .tab-content__container-items {
   display: flex;
   flex-direction: column;
@@ -65,9 +70,10 @@
 
 .tab-content__container .select select {
   all: unset;
+  display: inline-flex;
   position: relative;
-  width: 100%;
-  padding: 3% 0;
+  width: 93%;
+  padding: 3% 0 3% 3%;
   box-shadow: none;
   color: #19a160;
   font-weight: 500;
@@ -76,14 +82,16 @@
   text-align-last: center;
 }
 
-.tab-content__container label.select:before {
+.tab-content__container label.select:after {
+  display: inline-flex;
+  position: relative;
+  width: 4%;
   content: '▼';
-  position: absolute;
-  right: 10%;
-  padding-top: 8px;
+  padding: 3% 0;
   color: #19a160;
   font-size: 2.6vh;
   font-size: calc(var(--vh, 1vh) * 2.6);
+  flex-direction: row-reverse;
 }
 
 .tab-content__container label[for='period'] { color: #19a160; }
@@ -109,4 +117,22 @@
   padding: 2% 7%;
 }
 
-.log-out svg { padding-right: 7px;}
+.log-out svg { padding-right: 7px; }
+
+.statistics__container-date-select {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.statistics__container-date-select input[type="date"] { margin-left:10px; width: 45px; }
+
+.statistics__container-date-select input[type="date"]::-webkit-datetime-edit { display: none; }
+
+.statistics__container-date-select input[type="date"]::-webkit-calendar-picker-indicator { width: 45px; }
+
+.statistics__container-date-select input[type="date"]::-webkit-calendar-picker-indicator {
+  font-size: 30px;
+  width: 30px;
+  padding: 5px;
+}

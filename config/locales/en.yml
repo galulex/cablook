@@ -8,6 +8,7 @@ en:
     authorizations:
       errors:
         car_not_assigned: Car is not assigned yet
+        card_not_assigned: Card number is not assigned yet
   assignings:
     errors:
       messages:
@@ -25,6 +26,8 @@ en:
     trip_already_finished: Trip is already finished
     entrance: "%{val} Entrance"
     cant_retry: You can't retry trip without your card
+    cant_hold_amount: Amount can't be hold
+    cant_unhold_amount: Something goes wrong, try again please
   vendors:
     vendor_unavailable: Vendor temporary unavailable
   users:

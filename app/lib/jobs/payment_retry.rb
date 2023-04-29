@@ -4,7 +4,7 @@ module Jobs
 
     def perform(payment_id, card_id)
       payment = Payment.find(payment_id)
-      Operations::Wayforpay::RetryPayment.new(payment_id, card_id).call
+      Operations::Payments::RetryPayment.new(payment_id, card_id).call
     end
   end
 end

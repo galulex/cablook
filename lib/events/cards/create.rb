@@ -54,7 +54,8 @@ module Events
           pan: data[:cardPan],
           type: data[:cardType],
           currency: data[:currency],
-          user_id: data[:user_id]
+          user_id: data[:user_id],
+          payment_system: settings.payment_system
         }
       end
 

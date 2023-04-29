@@ -79,12 +79,7 @@ module Events
       end
 
       def order_reference
-        secure_code = SecureRandom.base58(6)
-        @order_reference ||= if Rails.env.production?
-                               "cablook_#{@order.id}_order_#{secure_code}"
-                             else
-                               "cablook_#{Rails.env}_#{@order.id}_order_#{secure_code}"
-                             end
+        @order_reference ||= OrderReference.new(@order.id, Constants::Payments::TYPES[:order]).call
       end
     end
   end

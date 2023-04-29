@@ -170,6 +170,7 @@ const en = {
     trips_count: 'Number of orders',
     period: 'Statistics period',
     your_data: 'Your data',
+    your_trips: 'Your orders',
     rate: 'Average rating',
     tips: 'Tips',
     uah: ' uah',

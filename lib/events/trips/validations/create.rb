@@ -32,6 +32,13 @@ module Events
           return if (bonus_trips.any? || data[:cost] <= user.cashback) && data[:distance] < Constants::Trip::MAX_BONUS_DISTANCE
           invalid!([I18n.t('bonus_trips.no_available_bonus')], status: 406)
         end
+
+        def validate_hold_amount!
+          unless hold_success?
+            @trip.destroy
+            invalid!([I18n.t('trips.cant_hold_amount')], status: 402) 
+          end
+        end
       end
     end
   end

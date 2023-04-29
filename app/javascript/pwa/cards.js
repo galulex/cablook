@@ -57,7 +57,7 @@ export default class Cards extends Component {
         <section class='cards'>
           { cardList }
           <button class='button green absolute' disabled={this.state.showWidget} type='button' onClick={() => this.showWidget(true)}>+ {i18n.cards.add}</button>
-          { this.state.showWidget && <Widget updateCards={this.props.updateCards} showWidget={this.showWidget} /> }
+          { this.state.showWidget && <Widget updateCards={this.props.updateCards} showWidget={this.showWidget} paymentSystem={this.props.paymentSystem} /> }
         </section>
       </div>
     )

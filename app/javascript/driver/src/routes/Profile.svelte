@@ -7,6 +7,7 @@
   import Points from '../../images/Trip_price.svelte'
   import Leaf from '../../images/Leaf.svelte'
   import Sign_out from '../../images/Sign_out.svelte'
+  import TripDetails from "../components/TripDetails.svelte";
 
   import '../../css/profile.css'
 
@@ -19,6 +20,22 @@
     statistics = res.data.statistics || {}
     return statistics
   })
+
+  let todayDate = new Date().toDateString()
+  let selectedDate = todayDate
+
+  let trips = []
+
+  let getTripsStats = (async (date = todayDate) => {
+    let res = await axios.get(`trips_statistics/?date=${date}`)
+    trips = res.data.trips || []
+    selectedDate = new Date(date).toDateString()
+
+    return trips
+  })
+
+  getTripsStats()
+
 </script>
 
 <section class='driver-profile'>
@@ -86,7 +103,26 @@
         </div>
       </div>
     </div>
-  </div>
+    <div class='tab-content__container'>
+      <div class='tab-content__header'>{i18n.statistics.your_trips}</div>
+      <div class='tab-content__container-item'>
+          <div class='statistics__container'>
+            <Leaf/> {trips.length || 0}
+          </div>
+          <div class='statistics__container-date-select'>
+            {selectedDate}<input type="date" id="trips-date" name="trips" on:change={ (e) => getTripsStats(e.target.value)}>
+          </div>
+        </div>
+
+        {#if trips.length > 0}
+          <div class='tab-content__container-trips'>
+            {#each trips as trip, index}
+              <TripDetails trip={trip}/>
+            {/each}
+          </div>
+        {/if}
+    </div>
+
   <div>
     <button class='log-out' type='button' on:click={logout}>
       <Sign_out/>

@@ -28,9 +28,9 @@ module Events
       def run_methods
         update_car if trip.car
         update_payment_status
-        fake_taxi_payment
+        is_fake_taxi? ? fake_taxi_payment : refund_holded_amount
         update_trip
-        refund_bonus
+        refund_bonus if settings.bonuses
         refund_order_payment if trip.order
         broadcast_unavailable_to_map
         broadcast_unavailable_to_trip
@@ -63,9 +63,26 @@ module Events
         Operations::Wayforpay::RefundForOrder.new(order_payment.id).call
       end
 
+      def is_fake_taxi?
+        trip.status.in?(Constants::Trip::FAKE_TAXI_TRIP_STATUSES.values) && data[:by_driver]
+      end
+
       def fake_taxi_payment
-        return unless trip.status == Constants::Trip::STATUS_CODES[Constants::Trip::WAITING_CLIENT]
+        payment.update!(type: "Payments::#{Constants::Payments::TYPES[:fake]}")
         Jobs::PaymentSettle.perform_later(data[:trip_id], Constants::Payments::TYPES[:fake], fake_amount)
+      end
+
+      def refund_holded_amount
+        return if trip.status == Constants::Trip::STATUS_CODES[Constants::Trip::DECLINED] || !settings.fondy?
+        payment.update(status: Constants::Payments::DECLINE, response: cencel_by_user_response)
+      end
+
+      def cencel_by_user_response
+        { canceled_by: data[:by_driver]? :driver : :user }.merge(trip_refound_hold_payment || {})
+      end
+
+      def trip_refound_hold_payment
+        @trip_refound_hold_payment ||= Fondy::Reverse.new(trip.cost, payment.order_reference).call
       end
 
       def broadcast_notification_cancel

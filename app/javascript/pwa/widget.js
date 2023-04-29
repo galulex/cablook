@@ -1,4 +1,5 @@
 import { h, render, Component } from 'preact';
+import { PAYMENT_SYSTEM } from '../pwa/constants.js';
 import axios from 'axios';
 
 import i18n from './i18n.js';
@@ -7,6 +8,7 @@ export default class Widget extends Component {
   constructor(props) {
     super(props)
     this.state = {
+      paymentSystem: this.props.paymentSystem
     }
   }
 
@@ -51,6 +53,7 @@ export default class Widget extends Component {
     this.setState({disabled: true})
 
     axios.get('cards/new').then((res) => {
+    if (this.state.paymentSystem === PAYMENT_SYSTEM.wayforpay) {
       wayforpay.run((res.data),
         response =>{
           setTimeout(function(){
@@ -61,16 +64,11 @@ export default class Widget extends Component {
         },
         response =>{
           component.setState({disabled: false})
-        },
-        response =>{
-          setTimeout(function(){
-            wayforpay.closeit()
-            component.create(response)
-            localStorage.setItem('email', response.email)
-          }, 1000)
         }
       )
-    }).catch((error) => {
+    } else {
+    window.location.href = res.data
+  }}).catch((error) => {
       component.setState({disabled: false})
       if (error.response) alert(error.response.data.errors)
     })

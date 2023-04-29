@@ -54,10 +54,13 @@ RSpec.configure do |config|
     WebMock.disable_net_connect! allow_localhost: true
     body = File.read('spec/fixtures/maps/success_directions')
     body_mapbox = File.read('spec/fixtures/maps/mapbox_success_directions')
+    card_verify_success_response = File.read('spec/fixtures/fondy/card_verify_success_response.json')
     stub_request(:get, %r{https://maps.googleapis.com/maps/api/directions/.*})
       .to_return(status: 200, headers: { 'Content-Type' => 'application/json' }, body: body)
     stub_request(:get, %r{https://osrm.cablook.taxi/route/v1/driving/.*})
       .to_return(status: 200, headers: { 'Content-Type' => 'application/json' }, body: body_mapbox)
+    stub_request(:post, %r{https://pay.fondy.eu/api/})
+      .to_return(status: 200, body: card_verify_success_response, headers: {})
   end
 
   config.before(:each, type: :feature) do

@@ -1,6 +1,8 @@
 module Operations
   module Wayforpay
     class RetryPayment
+      RETRY_SUFIX = '_retry'.freeze
+
       def initialize(payment_id, card_id)
         @payment_id = payment_id
         @card_id = card_id
@@ -9,7 +11,7 @@ module Operations
       attr_reader :payment_id, :card_id
 
       def call
-        return unless card_id && card
+        return unless card_id && card && card.payment_system == settings.payment_system['wayforpay']
         if retry_response['reasonCode'] == Constants::Payments::WAYFORPAY_SUCCESS
           payment.update(status: Constants::Payments::SUCCESS, response: retry_response)
           add_cashback if payment.type == 'Payments::Trip'
@@ -26,7 +28,7 @@ module Operations
       end
 
       def add_cashback
-        return unless Settings.get.cashback
+        return unless settings.cashback
         user.update(cashback: user.cashback + cashback_amount)
       end
 
@@ -35,14 +37,7 @@ module Operations
       end
 
       def order_reference
-        secure_code = SecureRandom.base58(6)
-        type = payment.type.demodulize.downcase
-        ref = "#{payment.trip_id}_retry_#{type}_#{secure_code}"
-        @order_reference ||= if Rails.env.production?
-                               "cablook_" + ref
-                             else
-                               "cablook_#{Rails.env}_" + ref
-                             end
+        @order_reference ||= OrderReference.new(payment.trip_id, payment.type.demodulize.downcase).call.concat(RETRY_SUFIX)
       end
 
       def card
@@ -55,6 +50,10 @@ module Operations
 
       def user
         @user ||= payment.user
+      end
+
+      def settings
+        @settings ||= Settings.get
       end
     end
   end

@@ -8,5 +8,6 @@ FactoryBot.define do
     factory :fake_taxi_payment, class: Payments::FakeTaxi
     factory :tip_payment, class: Payments::Tip
     factory :trip_payment, class: Payments::Trip
+    factory :payout_payment, class: Payments::PayOut
   end
 end

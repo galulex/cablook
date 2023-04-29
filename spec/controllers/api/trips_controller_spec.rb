@@ -160,6 +160,7 @@ describe Api::TripsController, type: :controller do
       let(:trip_params) { super().merge(bonus: true, distance: distance) }
 
       before do
+        Settings.get.update!(bonuses: true)
         create(:bonus_trip, user_id: user.id, status: Constants::BonusTrip::USED, trip_id: trip.id)
         patch :update, params: params, as: :json
       end

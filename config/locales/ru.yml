@@ -34,6 +34,8 @@ ru:
     trip_already_finished: Поездка уже завершена
     entrance: "%{val} Подъезд"
     cant_retry: Невозможно повторить поездку без карты. Добавьте вначале карту!
+    cant_hold_amount: Не удалось удержать сумму
+    cant_unhold_amount: Не удалось разморозить предыдущую сумму, попробуйте еще!
   vendors:
     vendor_unavailable: Поставщик временно недоступен
   users:

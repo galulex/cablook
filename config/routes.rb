@@ -61,6 +61,7 @@ Rails.application.routes.draw do
         patch 'unrelease'
       end
       resources :statistics, only: :index
+      resources :trips_statistics, only: :index
     end
 
     namespace :verifications do

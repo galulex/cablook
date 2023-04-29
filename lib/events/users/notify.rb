@@ -21,7 +21,7 @@ module Events
       end
 
       def send_push
-        message = 'У вас є несплачена поїздка. Перевірте, чи є кошти на вашій карті, або сплатіть другою картою'
+        message = 'У вас є несплачена поїздка. Перевірте, чи є кошти на вашій карті, або сплатіть іншою картою'
         Jobs::Notification.perform_later(trip, message)
       end
 
