@@ -168,6 +168,7 @@ const ru = {
     km: ' км',
     amount: 'Потраченные средства',
     card_number: 'Карта',
+    loading: 'загрузка...',
     trips_count: 'Количество заказов',
     period: 'Период статистики',
     your_data: 'Ваши данные',
@@ -185,8 +186,7 @@ const ru = {
       all: 'ВСЁ ВРЕМЯ'
     },
     total_trips_cost: 'Стоимость поездок',
-    points_1: ' баллов',
-    points_2: 'Баллы',
+    points_2: 'Сумма',
     tips_count: 'Количество'
   },
   profile_page: {

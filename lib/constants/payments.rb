@@ -26,5 +26,7 @@ module Constants
     TIP = 'Payments::Tip'.freeze
     FAKE = 'Payments::FakeTaxi'.freeze
     PAYOUT = 'Payments::PayOut'.freeze
+
+    OPTIONAL_PAYMENTS = [TIP, PAYOUT].freeze
   end
 end
