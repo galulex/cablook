@@ -23,6 +23,7 @@
 
   let todayDate = new Date().toDateString()
   let selectedDate = todayDate
+  let todayValue = new Date().toISOString().substr(0, 10)
 
   let trips = []
 
