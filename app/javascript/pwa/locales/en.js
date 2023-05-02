@@ -167,6 +167,7 @@ const en = {
     header: 'Statistics',
     km: ' km',
     amount: 'Spent money',
+    card_number: 'Card',
     trips_count: 'Number of orders',
     period: 'Statistics period',
     your_data: 'Your data',

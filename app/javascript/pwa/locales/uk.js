@@ -167,6 +167,7 @@ const uk = {
     header: 'Статистика',
     km: ' км',
     amount: 'Витрачені кошти',
+    card_number: 'Картка',
     trips_count: 'Кількість замовлень',
     period: 'Період статистики',
     your_data: 'Ваші дані',

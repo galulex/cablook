@@ -62,7 +62,7 @@ Rails.application.routes.draw do
       end
       resources :statistics, only: :index
       resources :trips_statistics, only: :index
-      resource :driver_cards, only: %i[show update]
+      resource :driver_cards, only: :show
     end
 
     namespace :verifications do

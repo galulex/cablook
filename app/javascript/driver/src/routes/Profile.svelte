@@ -36,32 +36,15 @@
 
   let driverCardNumber
   let cardNumber
-  let updateEnabled = false
-
-  let handleCardInput = () => {
-    ((cardNumber.value.length === 16) && (cardNumber.value !== driverCardNumber)) ? updateEnabled=true : updateEnabled=false
-  }
 
   let getDriverCardNumber = (async () => {
     let res = await axios.get(`driver_cards/`)
-    driverCardNumber = res.data.card_number || 'Card not setted yet'
+    driverCardNumber = res.data.card_number
 
     return driverCardNumber
   })
 
-  let updateCardNumber = (async () => {
-    let res = await axios.patch(`driver_cards/`, { card_number: Number(cardNumber.value) })
-      if (res.status === 200) {
-        alert('Номер картки оновлено!')
-        driverCardNumber = res.data.card_number
-        updateEnabled = false
-        cardNumber.value = null
-      } else {
-        alert('Сталась помилка! Спробуйте ще!')
-      }
-  })
-
-  let formattedCardNumber = (number) => String(number).match(/.{1,4}/g).join('-')
+  let displayCardNumber = (number) => String(number).match(/.{1,4}/g).join('-')
 
   getDriverCardNumber()
   getTripsStats()
@@ -83,10 +66,19 @@
     <div class='tab-content__container'>
       <div class='tab-content__header'>{i18n.statistics.your_data}</div>
       <div class='tab-content__container-items'>
-        <div class='tab-content__container-card'>
-          <input bind:this={cardNumber} on:input={() => handleCardInput()} type='number' placeholder={formattedCardNumber(driverCardNumber)}>
-          <button on:click={() => updateCardNumber()} disabled='{!updateEnabled}'>Зберегти</button>
-        </div>
+
+        {#if driverCardNumber}
+          <div class='tab-content__container-item'>
+            <div class='statistics__container'>
+              <Points/>
+              {i18n.statistics.card_number}
+            </div>
+            <span class='value'>
+              {displayCardNumber(driverCardNumber)}
+            </span>
+          </div>
+        {/if}
+
         <div class='tab-content__container-item'>
           <div class='statistics__container'>
             <Leaf/>
