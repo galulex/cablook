@@ -25,7 +25,25 @@ module Events
       end
 
       def send_and_create_tip_for_driver
+        Payment.find_or_create_by(payment_attributes)
         Jobs::PaymentSettle.perform_later(data[:trip_id], Constants::Payments::TYPES[:tip], data[:tip])
+      end
+
+      def card
+        trip.trip_payment&.card || trip.user.cards.last
+      end
+
+      def trip
+        @trip ||= Trip.find(data[:trip_id])
+      end
+
+      def payment_attributes
+        {
+          trip_id: data[:trip_id],
+          user_id: data[:user_id],
+          card_id: card.id, 
+          type: "Payments::#{Constants::Payments::TYPES[:tip]}"
+        }
       end
     end
   end

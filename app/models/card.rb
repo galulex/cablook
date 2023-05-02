@@ -17,12 +17,16 @@ class Card < ApplicationRecord
       .joins('LEFT JOIN businesses ON businesses.card_id = cards.id')
       .joins('LEFT JOIN businesses_users ON businesses.id = businesses_users.business_id')
       .where('businesses_users.user_id = :user OR cards.user_id = :user', user: user)
-      .where(payment_system: Settings.get.payment_system)
+      .where(payment_system: payment_system)
       .group('cards.id')
       .order('property ASC, id DESC')
   end)
 
   def as_json(*)
     super(except: :token)
+  end
+
+  def self.payment_system
+    Settings.get.fondy? ? [:wayforpay, :fondy] : [:wayforpay]
   end
 end
