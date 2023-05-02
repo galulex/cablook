@@ -32,14 +32,6 @@
     justify-content: space-between;
   }
 
-  .vip {
-    position: absolute;
-    right: 20px;
-    top: 25px;
-    font-weight: 400;
-    color: var(--red_color);
-  }
-
   .address {
     display: flex;
     font-style: normal;
