@@ -7,7 +7,7 @@
   import Points from '../../images/Trip_price.svelte'
   import Leaf from '../../images/Leaf.svelte'
   import Sign_out from '../../images/Sign_out.svelte'
-  import TripDetails from "../components/TripDetails.svelte";
+  import TripDetails from '../components/TripDetails.svelte'
 
   import '../../css/profile.css'
 
@@ -34,8 +34,37 @@
     return trips
   })
 
-  getTripsStats()
+  let driverCardNumber
+  let cardNumber
+  let updateEnabled = false
 
+  let handleCardInput = () => {
+    ((cardNumber.value.length === 16) && (cardNumber.value !== driverCardNumber)) ? updateEnabled=true : updateEnabled=false
+  }
+
+  let getDriverCardNumber = (async () => {
+    let res = await axios.get(`driver_cards/`)
+    driverCardNumber = res.data.card_number || 'Card not setted yet'
+
+    return driverCardNumber
+  })
+
+  let updateCardNumber = (async () => {
+    let res = await axios.patch(`driver_cards/`, { card_number: Number(cardNumber.value) })
+      if (res.status === 200) {
+        alert('Номер картки оновлено!')
+        driverCardNumber = res.data.card_number
+        updateEnabled = false
+        cardNumber.value = null
+      } else {
+        alert('Сталась помилка! Спробуйте ще!')
+      }
+  })
+
+  let formattedCardNumber = (number) => String(number).match(/.{1,4}/g).join('-')
+
+  getDriverCardNumber()
+  getTripsStats()
 </script>
 
 <section class='driver-profile'>
@@ -54,6 +83,10 @@
     <div class='tab-content__container'>
       <div class='tab-content__header'>{i18n.statistics.your_data}</div>
       <div class='tab-content__container-items'>
+        <div class='tab-content__container-card'>
+          <input bind:this={cardNumber} on:input={() => handleCardInput()} type='number' placeholder={formattedCardNumber(driverCardNumber)}>
+          <button on:click={() => updateCardNumber()} disabled='{!updateEnabled}'>Зберегти</button>
+        </div>
         <div class='tab-content__container-item'>
           <div class='statistics__container'>
             <Leaf/>
@@ -110,7 +143,7 @@
             <Leaf/> {trips.length || 0}
           </div>
           <div class='statistics__container-date-select'>
-            {selectedDate}<input type="date" id="trips-date" name="trips" on:change={ (e) => getTripsStats(e.target.value)}>
+            {selectedDate}<input type='date' id='trips-date' name='trips' on:change={ (e) => getTripsStats(e.target.value)}>
           </div>
         </div>
 
