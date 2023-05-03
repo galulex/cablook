@@ -53,8 +53,8 @@ export default class Widget extends Component {
     this.setState({disabled: true})
 
     axios.get('cards/new').then((res) => {
-    if (this.state.paymentSystem === PAYMENT_SYSTEM.wayforpay) {
-      wayforpay.run((res.data),
+    if (res.data.method === PAYMENT_SYSTEM.wayforpay ) {
+      wayforpay.run((res.data.payload),
         response =>{
           setTimeout(function(){
             wayforpay.closeit()
@@ -67,7 +67,7 @@ export default class Widget extends Component {
         }
       )
     } else {
-    window.location.href = res.data
+    window.location.href = res.data.payload
   }}).catch((error) => {
       component.setState({disabled: false})
       if (error.response) alert(error.response.data.errors)

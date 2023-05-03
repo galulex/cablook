@@ -5,6 +5,10 @@ class Settings < ApplicationRecord
 
   enum address_geocoder: %w[yandex open_street_map]
 
+  def is_allowed_for_fondy?(user_phone_number)
+    allowed_users.split(',').any? { |phone_number| user_phone_number.include?(phone_number) }
+  end
+
   private
 
     def only_one

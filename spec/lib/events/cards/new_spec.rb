@@ -17,16 +17,16 @@ describe Events::Cards::New do
       end
 
       it { expect(WFP).to have_received(:new).with(current_user, api_card_callback_url) }
-      it { expect(subject.call).to eq(wfp_params) }
+      it { expect(subject.call).to eq({ method: :wayforpay, payload: wfp_params }) }
     end
 
     context 'when Fondy' do
       let(:fondy_response) { JSON.parse(File.read('spec/fixtures/fondy/card_verify_success_response.json')) }
       let(:fondy_checkout_url) { fondy_response['response']['checkout_url'] }
 
-      before { Settings.get.update!(payment_system: :fondy) }
+      before { Settings.get.update!(payment_system: :fondy, allowed_users: current_user.phone_number) }
 
-      it { expect(subject.call).to eq(fondy_checkout_url) }
+      it { expect(subject.call).to eq({method: :fondy, payload: fondy_checkout_url }) }
     end
   end
 end
