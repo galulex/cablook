@@ -17,18 +17,27 @@ module Events
       private
 
       def payment_system_response
-        return fondy_verify_url if settings.fondy?
-        return wfp_widget_params if settings.wayforpay?
+        return fondy_new_card_response if is_fondy_method?
+        wayforpay_new_card_response
       end
 
       def fondy_verify_url
         Fondy::Verify.new(data[:current_user], data[:api_card_callback_url]).call[:checkout_url]
       end
 
-      def wfp_widget_params
-        WFP.new(data[:current_user], data[:api_card_callback_url]).params
+      def fondy_new_card_response
+        payload = JSON.parse(Fondy::Verify.new(data[:current_user], data[:api_card_callback_url]).call)['response']['checkout_url']
+        { method: :fondy, payload: payload }
       end
-      
+
+      def wayforpay_new_card_response
+        payload = WFP.new(data[:current_user], data[:api_card_callback_url]).params
+        { method: :wayforpay, payload: payload }
+      end
+
+      def settings
+        @settings = Settings.get
+      end
     end
   end
 end
