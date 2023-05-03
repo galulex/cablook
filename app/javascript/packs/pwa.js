@@ -60,6 +60,7 @@ import Trips from '../pwa/trips.js';
 import Drawer from '../pwa/drawer.js';
 import Prompt from '../pwa/prompt.js';
 import Profile from '../pwa/profile.js';
+import WelcomePopup from '../pwa/new_design/welcome_popup.js';
 import { messaging, firebaseAuth } from '../pwa/firebase.js'
 
 import Burger from '../pwa/images/burger.svg';
@@ -102,7 +103,8 @@ export default class App extends Component {
       isBurgerShowing: true,
       cashbackAmount: null,
       currentDeliveryTrip: null,
-      settings: {}
+      settings: {},
+      showWelcomeMessage: false
     }
     axios.defaults.headers.common['Pwa-Language'] = this.state.language
   }
@@ -262,6 +264,7 @@ export default class App extends Component {
       if ((res.data.locale !== this.state.language)) { this.updateUserLocale(this.state.language) }
       let availableBonusTrips = []
       if (res.data.bonus_trips) availableBonusTrips = this.getAvailableBonusTrips(res.data.bonus_trips)
+      if (res.data.settings.welcome_message) { this.setState({ showWelcomeMessage: true }) }
       this.setState({cards: res.data.cards,
         favorite_addresses: res.data.favorite_addresses,
         notification_settings: res.data.enabled_notifications,
@@ -394,6 +397,10 @@ export default class App extends Component {
     )
   }
 
+  closeWelcomeMessagePopUp = () => {
+    this.setState({showWelcomeMessage: false})
+  }
+
   render() {
     const { currentTrip, isGeocoding, availableBonusTrips, cards,
             language, bonus_trips, favorite_addresses, currentDeliveryTrip } = this.state
@@ -401,6 +408,12 @@ export default class App extends Component {
     if (this.state.currentUser) {
       return(
         <main id="app" onClick={this.closeDrawer} ref={main => this.main = main}>
+          { this.state.showWelcomeMessage && 
+            <WelcomePopup
+              message={this.state.settings.welcome_message}
+              onClose={this.closeWelcomeMessagePopUp}
+            />
+          }
           { this.state.isBurgerShowing &&
             <button
               class={`button white-opacity burger ${this.state.activateFeedback ? 'hidden' : ''}`}
