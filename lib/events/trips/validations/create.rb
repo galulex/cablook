@@ -15,6 +15,7 @@ module Events
         end
 
         def validate_unpaid_trips!
+          return unless settings.validate_unpaid_trips
           pending_payments = Trip.unpaid.where(user_id: data[:user_id])
           invalid!([I18n.t('trips.pay_off_debt')], status: 418) if pending_payments.any?
         end
