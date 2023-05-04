@@ -76,7 +76,7 @@ GEM
       tzinfo (~> 1.1)
     addressable (2.8.1)
       public_suffix (>= 2.0.2, < 6.0)
-    airbrussh (1.3.0)
+    airbrussh (1.4.1)
       sshkit (>= 1.6.1, != 1.7.0)
     arbre (1.2.1)
       activesupport (>= 3.0.0)
@@ -98,8 +98,9 @@ GEM
       babel-source (>= 4.0, < 6)
       execjs (~> 2.0)
     bcrypt (3.1.16)
+    bcrypt_pbkdf (1.1.0)
     builder (3.2.4)
-    capistrano (3.10.2)
+    capistrano (3.17.2)
       airbrussh (>= 1.0.0)
       i18n
       rake (>= 10.0.0)
@@ -141,7 +142,7 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.12.2)
-    concurrent-ruby (1.1.7)
+    concurrent-ruby (1.2.2)
     connection_pool (2.2.2)
     crack (0.4.3)
       safe_yaml (~> 1.0.0)
@@ -185,6 +186,7 @@ GEM
       dry-equalizer (~> 0.2)
       dry-logic (~> 0.4, >= 0.4.0)
       dry-types (~> 0.12.0)
+    ed25519 (1.3.0)
     equalizer (0.0.11)
     erubi (1.9.0)
     execjs (2.7.0)
@@ -222,7 +224,7 @@ GEM
       mime-types (~> 3.0)
       multi_xml (>= 0.5.2)
     httpclient (2.8.3)
-    i18n (1.8.5)
+    i18n (1.13.0)
       concurrent-ruby (~> 1.0)
     ice_nine (0.11.2)
     inflecto (0.0.2)
@@ -277,9 +279,9 @@ GEM
     minitest (5.15.0)
     multi_json (1.15.0)
     multi_xml (0.6.0)
-    net-scp (1.2.1)
-      net-ssh (>= 2.6.5)
-    net-ssh (4.2.0)
+    net-scp (4.0.0)
+      net-ssh (>= 2.6.5, < 8.0.0)
+    net-ssh (6.1.0)
     netrc (0.11.0)
     nio4r (2.3.1)
     nokogiri (1.10.10)
@@ -334,7 +336,7 @@ GEM
       rake (>= 0.8.7)
       thor (>= 0.19.0, < 2.0)
     rainbow (3.0.0)
-    rake (13.0.1)
+    rake (13.0.6)
     ransack (2.3.2)
       activerecord (>= 5.2.1)
       activesupport (>= 5.2.1)
@@ -441,7 +443,7 @@ GEM
       actionpack (>= 4.0)
       activesupport (>= 4.0)
       sprockets (>= 3.0.0)
-    sshkit (1.16.0)
+    sshkit (1.21.4)
       net-scp (>= 1.1.2)
       net-ssh (>= 2.8.0)
     telegram-bot (0.14.1)
@@ -502,6 +504,7 @@ DEPENDENCIES
   autoprefixer-rails
   awesome_print
   bcrypt (~> 3.1.12)
+  bcrypt_pbkdf (>= 1.0, < 2.0)
   bugno!
   capistrano
   capistrano-db-tasks
@@ -513,6 +516,7 @@ DEPENDENCIES
   cuprite
   database_cleaner
   dry-validation
+  ed25519
   factory_bot_rails (~> 4.0)
   faker
   fcm
