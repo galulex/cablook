@@ -151,8 +151,8 @@ ActiveRecord::Schema.define(version: 2023_05_03_194104) do
     t.boolean "delivery", default: true
     t.integer "payment_system", default: 0
     t.integer "address_geocoder", default: 0
-    t.string "allowed_users"
     t.string "welcome_message"
+    t.boolean "validate_unpaid_trips", default: true
   end
 
   create_table "trips", force: :cascade do |t|
