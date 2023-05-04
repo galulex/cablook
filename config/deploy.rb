@@ -1,5 +1,5 @@
 # config valid only for current version of Capistrano
-lock '3.10.2'
+lock '3.17.2'
 
 set :application, 'cablook'
 set :repo_url, 'git@github.com:galulex/cablook.git'

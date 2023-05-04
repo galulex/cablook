@@ -1,3 +1,4 @@
+require 'ed25519'
 require 'capistrano/setup'
 require 'capistrano/deploy'
 require 'capistrano/scm/git'
