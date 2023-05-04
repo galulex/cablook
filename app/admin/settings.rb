@@ -1,5 +1,5 @@
 ActiveAdmin.register Settings do
-  SETTINGS_COLUMNS = %w[bonuses cashback delivery payment_system address_geocoder].freeze
+  SETTINGS_COLUMNS = %w[bonuses cashback delivery payment_system address_geocoder validate_unpaid_trips].freeze
 
   menu false
   permit_params SETTINGS_COLUMNS
