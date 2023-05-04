@@ -8,6 +8,10 @@ module Events
           return if data[:distance] < Constants::Trip::MAX_DISTANCE
           invalid!([I18n.t('trips.to_far')])
         end
+
+        def settings
+          @settings ||= Settings.get
+        end
       end
     end
   end
