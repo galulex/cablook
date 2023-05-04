@@ -3,7 +3,7 @@ describe Operations::RetryUserPendingPayments do
   let(:user) { create(:user) }
   let(:card) { create(:card, user_id: user.id) }
   let(:wayforpay_body) { { reasonCode: Constants::Payments::WAYFORPAY_SUCCESS }.to_json }
-  let(:fondy_retry_response) { { 'response' => { 'response_status' => Constants::Payments::FONDY_SUCCESS } }.to_json }
+  let(:fondy_retry_response) { { response_status: Constants::Payments::FONDY_SUCCESS } }
   let(:wfp) { double(call: OpenStruct.new(body: wayforpay_body)) }
 
   before do

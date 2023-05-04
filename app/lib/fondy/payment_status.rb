@@ -7,7 +7,7 @@ module Fondy
     end
 
     def call
-      Net::HTTP.post(URI.parse("#{BASE_URL}/#{order_reference}"), request_body, initheader = header).body
+      response_body(Net::HTTP.post(URI.parse("#{BASE_URL}/#{order_reference}"), request_body, initheader = header).body)
     end
 
     private

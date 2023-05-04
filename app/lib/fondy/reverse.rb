@@ -8,7 +8,7 @@ module Fondy
     end
 
     def call
-      result(Net::HTTP.post(URL, request_body, initheader = header).body)
+      { reverse_status: response_body((Net::HTTP.post(URL, request_body, initheader = header).body))[:reverse_status] }
     end
 
     private
@@ -31,11 +31,6 @@ module Fondy
 
     def request_body
       { request: reverse_params.merge(signature(reverse_params)) }.to_json
-    end
-
-    def result(response_body)
-      response = JSON.parse(response_body).dig('response')
-      { reverse_status: response['reverse_status'] }
     end
   end
 end

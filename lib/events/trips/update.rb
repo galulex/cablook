@@ -53,7 +53,7 @@ module Events
       end
 
       def hold_success?
-        JSON.parse(hold_updated_amount)['response']['response_status'] == Constants::Payments::FONDY_SUCCESS
+        hold_updated_amount[:response_status] == Constants::Payments::FONDY_SUCCESS
       end
 
       def reverse_success?

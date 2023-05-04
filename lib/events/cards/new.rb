@@ -22,7 +22,7 @@ module Events
       end
 
       def fondy_verify_url
-        JSON.parse(Fondy::Verify.new(data[:current_user], data[:api_card_callback_url]).call)['response']['checkout_url']
+        Fondy::Verify.new(data[:current_user], data[:api_card_callback_url]).call[:checkout_url]
       end
 
       def wfp_widget_params

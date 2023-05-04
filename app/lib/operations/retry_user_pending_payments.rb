@@ -44,7 +44,7 @@ module Operations
     end
 
     def fondy_success?(response)
-      JSON.parse(response)['response']['response_status'] == Constants::Payments::FONDY_SUCCESS
+      response[:response_status] == Constants::Payments::FONDY_SUCCESS
     end
   end
 end

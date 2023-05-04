@@ -25,11 +25,11 @@ module Operations
       end
 
       def pay_out_status
-        JSON.parse(payout_response)['response']['response_status'] == Constants::Payments::FONDY_SUCCESS
+        payout_response[:response_status] == Constants::Payments::FONDY_SUCCESS
       end
 
       def payout_response
-        return { response: { response_status: 'success', payout: 'Driver payout'} }.to_json unless Rails.env.production?
+        return { response_status: 'success', payout: 'Driver payout'} unless Rails.env.production?
         ::Fondy::ChargeCard.new(payment.order_reference, payment.amount, driver_card_number).call
       end
 
