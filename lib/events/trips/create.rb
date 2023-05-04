@@ -112,11 +112,11 @@ module Events
       end
 
       def hold_amount
-        @fondy_hold_amount ||= Fondy::Recurring.new(user, data[:cost], card.token, order_reference, true).call
+        @hold_amount ||= Fondy::Recurring.new(user, data[:cost], card.token, order_reference, true).call
       end
 
       def hold_success?
-        JSON.parse(hold_amount)['response']['response_status'] == Constants::Payments::FONDY_SUCCESS
+        hold_amount[:response_status] == Constants::Payments::FONDY_SUCCESS
       end
 
       def create_trip_job(trip_id)

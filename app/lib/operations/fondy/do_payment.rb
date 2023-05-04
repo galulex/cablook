@@ -27,7 +27,7 @@ module Operations
             update_payment_and_total(success_response?(capture_response), capture_response)
             driver_pay_out if success_response?(capture_response)
         end
-        JSON.parse(capture_response)['response']['response_status']
+        capture_response[:response_status]
       end
 
       private
@@ -51,7 +51,7 @@ module Operations
           response: response,
           status: status,
           amount: amount || payment.amount,
-          order_reference: JSON.parse(response)['response']['order_id']
+          order_reference: response[:order_id]
         )
       end
 
@@ -108,7 +108,7 @@ module Operations
       end
 
       def success_response?(response)
-        JSON.parse(response)['response']['response_status'] == Constants::Payments::FONDY_SUCCESS
+        response[:response_status] == Constants::Payments::FONDY_SUCCESS
       end
     end
   end

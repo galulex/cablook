@@ -1,6 +1,6 @@
 describe Operations::Fondy::DriverPayOut do
   let(:instance) { described_class.new(payment.id) }
-  let!(:charge_response) { { 'response' => { 'response_status' => Constants::Payments::FONDY_SUCCESS } }.to_json }
+  let!(:charge_response) { { response_status: Constants::Payments::FONDY_SUCCESS } }
   let!(:user) { create(:user) }
   let!(:card) { create(:card, user_id: user.id, payment_system: :fondy) }
   let!(:trip) { create(:trip, user_id: user.id, driver_id: driver.id) }
@@ -22,7 +22,7 @@ describe Operations::Fondy::DriverPayOut do
     end
 
     context 'when payout status is not ok' do
-      let!(:charge_response) { { 'response' => { 'response_status' => 'failed' } }.to_json }
+      let!(:charge_response) { { response_status: 'failed' } }
 
       before { subject.call }
 

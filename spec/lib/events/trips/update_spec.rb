@@ -174,7 +174,7 @@ describe Events::Trips::Update do
 
     context 'when payment system Fondy' do
       let(:reverse_stub) { double(Fondy::Reverse, call: { reverse_status: 'approved' }) }
-      let(:recurring_stub) { double(Fondy::Recurring, call: { 'response' => { 'response_status' => 'success' } }.to_json) }
+      let(:recurring_stub) { double(Fondy::Recurring, call: { response_status: 'success' } ) }
       let(:order_reference) { 'test_order_reference' }
       let(:trip) { create(:trip, user_id: user.id) }
       let!(:trip_payment) { create(:trip_payment, trip_id: trip.id, user_id: user.id, order_reference: order_reference) }
@@ -207,7 +207,7 @@ describe Events::Trips::Update do
       end
 
       context 'and cant hold updated trip amount' do
-        let(:recurring_stub) { double(Fondy::Recurring, call: { 'response' => { 'response_status' => 'failed' } }.to_json) }
+        let(:recurring_stub) { double(Fondy::Recurring, call: { response_status: 'failed' }) }
 
         it { is_expected.to raise_error Events::InvalidParamsError }
       end
