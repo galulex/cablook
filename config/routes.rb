@@ -24,6 +24,7 @@ Rails.application.routes.draw do
     resource :device, only: :create
 
     resource :statistics, only: :show
+    resource :settings, only: :show
 
     post 'cards/update', to: 'cards#complete', as: :card_callback
     resource :address, only: :show
