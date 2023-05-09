@@ -16,7 +16,7 @@ module Fondy
     end
 
     def amount
-      (cost * 100).to_s
+      cost * 100
     end
   
     def signature(params)
@@ -27,6 +27,10 @@ module Fondy
   
     def header 
       { 'Content-Type' => 'application/json' }
+    end
+
+    def response_body(request_body)
+      JSON.parse(request_body).dig('response').symbolize_keys
     end
   end
 end

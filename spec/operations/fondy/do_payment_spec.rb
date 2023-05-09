@@ -1,9 +1,9 @@
 describe Operations::Fondy::DoPayment do
   let(:instance) { described_class.new(trip.id, payment_type, amount) }
   let(:success) { Constants::Payments::FONDY_SUCCESS }
-  let(:payout_response) { {  'response' => { 'response_status' => success, 'payout' => 'Driver payout'} }.to_json }
-  let(:capture_response) { { 'response' => { 'response_status' => success } }.to_json }
-  let(:recurring_response) { { 'response' => { 'response_status' => success } }.to_json }
+  let(:payout_response) { { response_status: success, payout: 'Driver payout' } }
+  let(:capture_response) { { response_status: success } }
+  let(:recurring_response) { { response_status: success }  }
 
   before do
     allow_any_instance_of(Operations::Fondy::DriverPayOut).to receive(:call).and_return(payout_response)
@@ -65,7 +65,7 @@ describe Operations::Fondy::DoPayment do
       end
 
       context 'and Fondy status is not ok' do
-        let(:capture_response) { { 'response' => { 'response_status' => 'failed' } }.to_json }
+        let(:capture_response) { { response_status: 'failed' } }
 
         it { is_expected.not_to change { payment.reload.status } }
         it { is_expected.to change { payment.reload.response } }
@@ -90,7 +90,7 @@ describe Operations::Fondy::DoPayment do
         end
 
         context 'and Fondy status is not ok' do
-          let(:recurring_response) { { 'response' => { 'response_status' => 'failed' } }.to_json }
+          let(:recurring_response) { { response_status: 'failed' } }
 
           it { is_expected.not_to change { frozen_bonus.reload.status } }
         end
@@ -121,7 +121,7 @@ describe Operations::Fondy::DoPayment do
       end
 
       context 'and Fondy status is not ok' do
-        let(:recurring_response) { { 'response' => { 'response_status' => 'failed' } }.to_json }
+        let(:recurring_response) { { response_status: 'failed' } }
 
         before { subject.call }
 
@@ -149,7 +149,7 @@ describe Operations::Fondy::DoPayment do
       end
 
       context 'and Fondy status is not ok' do
-        let(:recurring_response) { { 'response' => { 'response_status' => 'failed' } }.to_json }
+        let(:recurring_response) { { response_status: 'failed' } }
 
         before { subject.call }
 
@@ -176,7 +176,7 @@ describe Operations::Fondy::DoPayment do
       end
 
       context 'and Fondy status is not ok' do
-        let(:capture_response) { { 'response' => { 'response_status' => 'failed' } }.to_json }
+        let(:capture_response) { { response_status: 'failed' } }
 
         before { subject.call }
 

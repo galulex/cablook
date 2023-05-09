@@ -28,11 +28,11 @@ module Operations
       private
 
       def payment_status_success?
-        JSON.parse(payment_status)['response']['order_status'] == Constants::Payments::FONDY_APPROVED
+        payment_status[:order_status] == Constants::Payments::FONDY_APPROVED
       end
 
       def retry_response_success?
-        JSON.parse(retry_response)['response']['response_status'] == Constants::Payments::FONDY_SUCCESS
+        retry_response[:response_status] == Constants::Payments::FONDY_SUCCESS
       end
 
       def driver_pay_out

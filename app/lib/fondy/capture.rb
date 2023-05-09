@@ -8,7 +8,7 @@ module Fondy
     end
 
     def call
-      Net::HTTP.post(URL, request_body, initheader = header).body
+      response_body(Net::HTTP.post(URL, request_body, initheader = header).body)
     end
 
     private

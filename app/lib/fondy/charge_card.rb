@@ -11,7 +11,7 @@ module Fondy
 
     def call
       return { response: { response_status: 'success', payout: 'Driver payout'} }.to_json unless Rails.env.production?
-      Net::HTTP.post(URL, request_body, initheader = header).body
+      response_body(Net::HTTP.post(URL, request_body, initheader = header).body)
     end
 
     private

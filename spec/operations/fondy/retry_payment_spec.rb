@@ -3,9 +3,9 @@ describe Operations::Fondy::RetryPayment do
   let(:user) { create(:user) }
   let(:card) { create(:card, user_id: user.id, payment_system: :fondy) }
   let(:success) { Constants::Payments::FONDY_SUCCESS }
-  let(:payout_response) { {  'response' => { 'response_status' => success, 'payout' => 'Driver payout'} }.to_json }
-  let(:status_response) { { 'response' => { 'order_status' => 'not approved' } }.to_json }
-  let(:recurring_response) { { 'response' => { 'response_status' => success } }.to_json }
+  let(:payout_response) { { response_status: success, payout: 'Driver payout' } }
+  let(:status_response) { { order_status: 'not approved' } }
+  let(:recurring_response) { { response_status: success } }
 
   before do
     Settings.get.update!(payment_system: :fondy)
@@ -29,14 +29,14 @@ describe Operations::Fondy::RetryPayment do
     
     
     it { is_expected.to change { payment.reload.status }.to(Constants::Payments::SUCCESS) }
-    it { is_expected.to change { payment.reload.response }.to(recurring_response) }
+    it { is_expected.to change { payment.reload.response }.to(JSON.parse(recurring_response.to_json)) }
     it { is_expected.to_not change { user.reload.cashback } }
 
     context 'when Fondy already has successfull payment status' do
-      let!(:status_response) { { 'response' => { 'order_status' => Constants::Payments::FONDY_APPROVED } }.to_json }
+      let!(:status_response) { { order_status: Constants::Payments::FONDY_APPROVED } }
 
       it { is_expected.to change { payment.reload.status }.to(Constants::Payments::SUCCESS) }
-      it { is_expected.to change { payment.reload.response }.to(status_response) }
+      it { is_expected.to change { payment.reload.response }.to(JSON.parse(status_response.to_json)) }
     end
 
     context 'when cashback enabled' do
@@ -52,10 +52,10 @@ describe Operations::Fondy::RetryPayment do
     end
 
     context 'when Fondy recurring response failed' do
-      let(:recurring_response) { { 'response' => { 'response_status' => 'failed' } }.to_json }
+      let(:recurring_response) { { response_status: 'failed' } }
 
       it { is_expected.not_to change { payment.reload.status } }
-      it { is_expected.to change { payment.reload.response }.to(recurring_response) }
+      it { is_expected.to change { payment.reload.response }.to(JSON.parse(recurring_response.to_json)) }
     end
   end
 end
