@@ -283,6 +283,7 @@ GEM
       net-ssh (>= 2.6.5, < 8.0.0)
     net-ssh (6.1.0)
     netrc (0.11.0)
+    newrelic_rpm (9.2.2)
     nio4r (2.3.1)
     nokogiri (1.10.10)
       mini_portile2 (~> 2.4.0)
@@ -526,6 +527,7 @@ DEPENDENCIES
   letter_opener
   listen (= 3.5)
   multi_json
+  newrelic_rpm
   one_signal
   paper_trail
   pg (~> 0.18)
