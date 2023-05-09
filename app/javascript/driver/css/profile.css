@@ -125,14 +125,4 @@
   justify-content: flex-end;
 }
 
-.statistics__container-date-select input[type="date"] { margin-left:10px; width: 45px; }
-
-.statistics__container-date-select input[type="date"]::-webkit-datetime-edit { display: none; }
-
-.statistics__container-date-select input[type="date"]::-webkit-calendar-picker-indicator { width: 45px; }
-
-.statistics__container-date-select input[type="date"]::-webkit-calendar-picker-indicator {
-  font-size: 30px;
-  width: 30px;
-  padding: 5px;
-}
+.statistics__container-date-select input[type="date"] { margin-left:10px; padding: 7px; }
