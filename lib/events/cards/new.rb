@@ -26,7 +26,7 @@ module Events
       end
 
       def fondy_new_card_response
-        payload = JSON.parse(Fondy::Verify.new(data[:current_user], data[:api_card_callback_url]).call)['response']['checkout_url']
+        payload = Fondy::Verify.new(data[:current_user], data[:api_card_callback_url]).call[:checkout_url]
         { method: :fondy, payload: payload }
       end
 
