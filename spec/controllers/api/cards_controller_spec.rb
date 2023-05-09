@@ -49,7 +49,7 @@ describe Api::CardsController, type: :controller do
     let(:api_card_callback_url) { 'http://test.host/api/cards/update' }
 
     context 'when Wayforpay enabled' do
-      let(:wfp_params) { { data: 'data' }.to_json }
+      let(:wfp_params) { { payload: 'data' }.to_json }
       let(:wfp_double) { double(WFP, params: wfp_params, sign: 'SimpleSignature') }
 
       before do
@@ -59,18 +59,20 @@ describe Api::CardsController, type: :controller do
         post :new, params: params
       end
 
-      it { expect(response.body).to eq(wfp_params) }
+      it { expect(response.body).to eq({ method: :wayforpay, payload: wfp_params }.to_json) }
     end
 
     context 'when Fondy enabled' do
-      let(:fondy_checkout_url) { 'https://pay.fondy.eu/checkout?token=' }
+      let(:test_url) { 'test_url' }
+      let(:fondy_verify_response) { { response: { checkout_url: test_url } }.to_json }
 
       before do
-        Settings.get.update!(payment_system: :fondy)
+        allow_any_instance_of(Fondy::Verify).to receive(:call).and_return(fondy_verify_response)
+        Settings.get.update!(payment_system: :fondy, allowed_users: user.phone_number)
         post :new, params: params
       end
 
-      it { expect(response.body).to include(fondy_checkout_url) }
+      it { expect(response.body).to eq({ method: :fondy, payload: test_url }.to_json) }
     end
   end
 
