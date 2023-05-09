@@ -64,7 +64,7 @@ describe Api::CardsController, type: :controller do
 
     context 'when Fondy enabled' do
       let(:test_url) { 'test_url' }
-      let(:fondy_verify_response) { { response: { checkout_url: test_url } }.to_json }
+      let(:fondy_verify_response) { { checkout_url: test_url } }
 
       before do
         allow_any_instance_of(Fondy::Verify).to receive(:call).and_return(fondy_verify_response)
