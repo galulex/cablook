@@ -32,23 +32,6 @@
     justify-content: space-between;
   }
 
-  .distance {
-    flex-grow: 1;
-  }
-
-  .cost {
-    flex-grow: 1;
-    text-align: end;
-  }
-
-  .vip {
-    position: absolute;
-    right: 20px;
-    top: 25px;
-    font-weight: 400;
-    color: var(--red_color);
-  }
-
   .address {
     display: flex;
     font-style: normal;

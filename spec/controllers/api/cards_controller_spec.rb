@@ -28,6 +28,52 @@ describe Api::CardsController, type: :controller do
         expect(subject.size).to eql(2)
       end
     end
+
+    context 'when Fondy enabled' do
+      let!(:fondy_card) { create(:card, user_id: user.id, payment_system: :fondy) }
+
+      before { Settings.get.update!(payment_system: :fondy) }
+
+      context 'returns Wayforpay and Fondy cards' do
+        before { get :index, as: :json }
+
+        it { expect(subject.size).to eql(2) }
+        it { expect(subject.first['payment_system']).to eql(:fondy.to_s) }
+        it { expect(subject.last['payment_system']).to eql(:wayforpay.to_s) }
+      end
+    end
+  end
+
+  describe '#new' do
+    let(:params) { { current_user: user, api_card_callback_url: api_card_callback_url } }
+    let(:api_card_callback_url) { 'http://test.host/api/cards/update' }
+
+    context 'when Wayforpay enabled' do
+      let(:wfp_params) { { payload: 'data' }.to_json }
+      let(:wfp_double) { double(WFP, params: wfp_params, sign: 'SimpleSignature') }
+
+      before do
+        allow(Wayforpay).to receive(:encrypt_secret_key).and_return('key')
+        allow(WFP).to receive(:new).with(user, api_card_callback_url).and_return(wfp_double)
+
+        post :new, params: params
+      end
+
+      it { expect(response.body).to eq({ method: :wayforpay, payload: wfp_params }.to_json) }
+    end
+
+    context 'when Fondy enabled' do
+      let(:test_url) { 'test_url' }
+      let(:fondy_verify_response) { { response: { checkout_url: test_url } }.to_json }
+
+      before do
+        allow_any_instance_of(Fondy::Verify).to receive(:call).and_return(fondy_verify_response)
+        Settings.get.update!(payment_system: :fondy, allowed_users: user.phone_number)
+        post :new, params: params
+      end
+
+      it { expect(response.body).to eq({ method: :fondy, payload: test_url }.to_json) }
+    end
   end
 
   describe '#create' do
