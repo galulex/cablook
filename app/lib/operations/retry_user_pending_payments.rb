@@ -44,7 +44,7 @@ module Operations
     end
 
     def wayforpay_success?(response)
-      response.body['reasonCode'] == Constants::Payments::WAYFORPAY_SUCCESS
+      response['reasonCode'] == Constants::Payments::WAYFORPAY_SUCCESS
     end
 
     def fondy_success?(response)

@@ -23,6 +23,7 @@
 
   let todayDate = new Date().toDateString()
   let selectedDate = todayDate
+  let todayValue = new Date().toISOString().substr(0, 10)
 
   let trips = []
 
@@ -110,7 +111,7 @@
             <Leaf/> {trips.length || 0}
           </div>
           <div class='statistics__container-date-select'>
-            {selectedDate}<input type="date" id="trips-date" name="trips" on:change={ (e) => getTripsStats(e.target.value)}>
+            <input type="date" id="trips-date" value={todayValue} name="trips" on:change={ (e) => getTripsStats(e.target.value)}>
           </div>
         </div>
 

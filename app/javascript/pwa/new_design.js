@@ -51,7 +51,8 @@ export default class NewDesign extends Component {
       lastTripId: null,
       paymentButtonDisabled: false,
       cancelTimer: null,
-      klass: ''
+      klass: '',
+      settings: {}
     }
   }
 
@@ -62,6 +63,7 @@ export default class NewDesign extends Component {
   }
 
   componentDidMount() {
+    this.fetchSettings()
     this.props.fetchUser().then(() => { this.startCountdown() })
 
     this.loadTrips()
@@ -86,6 +88,13 @@ export default class NewDesign extends Component {
       } })
     }
     this.addShakeListener()
+  }
+
+  fetchSettings = () => {
+    axios.get('settings').then((res) => {
+      const settings = res.data.settings
+      this.setState({settings: settings})
+    })
   }
 
   loadTrips = () => {
@@ -166,6 +175,10 @@ export default class NewDesign extends Component {
   }
 
   createTrip = (e, cashback = false) => {
+    const message = this.state.settings.before_create_trip_message
+
+    if (message) { if (confirm(message) === false) return }
+
     this.setState({bonus: e.target.value, paymentButtonDisabled: true, cashback: cashback}, () => {
       this.create()
     })
@@ -268,6 +281,8 @@ export default class NewDesign extends Component {
   }
 
   sendRequestForUnpaidPayments = () => {
+    if (this.state.settings.validate_unpaid_trips === false) return
+
     axios.get('payments/pending').then((res) => {
       if (res.data.length === 0) return
       let result = confirm(i18n.retry_payment.unpaid_payments)
