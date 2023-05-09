@@ -32,14 +32,6 @@
     justify-content: space-between;
   }
 
-  .vip {
-    position: absolute;
-    right: 20px;
-    top: 25px;
-    font-weight: 400;
-    color: var(--red_color);
-  }
-
   .address {
     display: flex;
     font-style: normal;
@@ -64,8 +56,8 @@
   {/each}
 
   <div class='info'>
-    <div><Distance style={{fill: 'var(--yellow_color)', width: '15px', height: '15px'}}/><label>{formatDistance(trip.distance)}км</label></div>
-    <div><Clock style={{fill: 'var(--yellow_color)', width: '15px', height: '15px'}}/><label>{trip.start_time} - {trip.finish_time}</label></div>
-    <div><Dollar style={{fill: 'var(--main_green_color)', width: '15px', height: '15px'}}/><label>{trip.cost} грн</label></div>
+    <div class='distance'><Distance style={{fill: 'var(--yellow_color)', width: '15px', height: '15px'}}/><label>{formatDistance(trip.distance)}км</label></div>
+    <div><Clock style={{fill: 'var(--yellow_color)', width: '15px', height: '15px'}}/><label>{trip.start_time}-{trip.finish_time}</label></div>
+    <div class='cost'><Dollar style={{fill: 'var(--main_green_color)', width: '15px', height: '15px'}}/><label>{trip.cost}грн</label></div>
   </div>
 </div>

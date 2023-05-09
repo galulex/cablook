@@ -258,7 +258,7 @@ export default class App extends Component {
 
   fetchUser = () => {
     return axios.get('user').then((res) => {
-
+      const welcome_message = this.state.settings.welcome_message
       if ((res.data.locale !== this.state.language)) { this.updateUserLocale(this.state.language) }
       let availableBonusTrips = []
       if (res.data.bonus_trips) availableBonusTrips = this.getAvailableBonusTrips(res.data.bonus_trips)
@@ -274,6 +274,7 @@ export default class App extends Component {
         currentDeliveryTrip: res.data.current_delivery_trip,
         settings: res.data.settings
       })
+      if (welcome_message) { alert(welcome_message) }
     }).catch((error) => {
       if (error.response) alert(error.response.data.errors)
       // this.removeData()
@@ -433,7 +434,6 @@ export default class App extends Component {
               mainBurger={this.mainBurger}
               updateCards={this.updateCards}
               cashbackAmount={this.state.cashbackAmount}
-              paymentSystem={this.state.settings.payment_system}
             />
             <Trips path='/trips/:id?'
               setCurrentTrip={this.setCurrentTrip}
