@@ -7,7 +7,7 @@ end
 
 ruby '> 2.4.1'
 
-gem 'rails', '~> 5.2.2'
+gem 'rails', '~> 5.2.7'
 
 gem 'actionpack-action_caching'
 gem 'activeadmin'
