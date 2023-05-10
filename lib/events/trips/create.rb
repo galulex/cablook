@@ -112,7 +112,7 @@ module Events
       end
 
       def is_fondy_method?
-        settings.fondy? && card.fondy?
+        settings.fondy? && card.fondy? && settings.is_allowed_for_fondy?(user.phone_number)
       end
 
       def hold_amount

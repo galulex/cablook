@@ -177,7 +177,7 @@ describe Events::Trips::Create do
     context 'when payment system Fondy' do
       let!(:card) { create(:card, user_id: user.id, payment_system: :fondy) }
 
-      before { Settings.get.update(payment_system: :fondy) }
+      before { Settings.get.update(payment_system: :fondy, allowed_users: Settings::ALLOW_FONDY_FOR_ALL_USERS) }
 
       context 'when trip amount hold success' do
         before { allow_any_instance_of(described_class).to receive(:hold_success?).and_return(true) }
