@@ -21,7 +21,7 @@ ActiveAdmin.register Payment do
 
     def retry_all_payments
       if retry_queue.size.zero?
-        Payment.where(status: Constants::Payments::PENDING).joins(:trip).where(trips: { status: Constants::Trip::STATUS_CODES[Constants::Trip::FINISHED] }).find_each do |payment|
+        Payment.pending.payments.find_each do |payment|
           begin
             card = payment.card || payment.user.cards.last
             if card
