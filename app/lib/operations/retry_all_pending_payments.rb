@@ -5,7 +5,7 @@ module Operations
     end
 
     def call
-      Payment.where(status: Constants::Payments::PENDING).joins(:trip).where(trips: {status: Constants::Trip::STATUS_CODES[Constants::Trip::FINISHED]}).find_each do |payment|
+      Payment.pending.find_each do |payment|
         begin
           card = payment.card || payment.user.cards.last
           if card
@@ -13,12 +13,6 @@ module Operations
           end
         end
       end
-    end
-
-    private
-
-    def settings
-      @settings ||= Settings.get
     end
   end
 end

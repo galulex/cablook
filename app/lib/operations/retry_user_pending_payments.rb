@@ -30,11 +30,10 @@ module Operations
     end
 
     def payments
-      @payments ||= Payment.pending(user_id)
+      @payments ||= Payment.pending.by_user(user_id).payments
     end
 
     def retry_payment(payment_id, card_id)
-      settings = Settings.get
       response = Operations::Payments::RetryPayment.new(payment_id, card_id).call
       is_fondy_method? ? fondy_success?(response) : wayforpay_success?(response)
     end
