@@ -1,10 +1,10 @@
 require 'spec_helper'
 
-RSpec.describe Settings, type: :model do
-  describe '#is_allowed_for_fondy?' do
-    subject { Settings.get.is_allowed_for_fondy?(user.phone_number) }
+RSpec.describe User, type: :model do
+  describe '#fondy?' do
+    subject { user.fondy? }
 
-    let(:user) { build(:user, phone_number: '+380987654321') }
+    let(:user) { create(:user, phone_number: '+380987654321') }
 
     context 'when allowed users nil' do
       before { Settings.get.update!(allowed_users: nil) }

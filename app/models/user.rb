@@ -49,6 +49,12 @@ class User < ApplicationRecord
     Presenters::Trips::DetailedDeliveryTrip.new(trip).as_json if trip
   end
 
+  def fondy?
+    return false unless allowed_users.present?
+    return true if allowed_users == Settings::ALLOW_FONDY_FOR_ALL_USERS
+    allowed_users.split(',').include?(phone_number)
+  end
+
   private
 
   def generate_referral
@@ -57,5 +63,9 @@ class User < ApplicationRecord
 
   def self.sanitize_phone(number)
     number.tr('^0-9', '')
+  end
+
+  def allowed_users
+    @allowed_users ||= Settings.get.allowed_users
   end
 end
