@@ -22,7 +22,7 @@ module Events
       end
 
       def is_fondy_method?
-        settings.fondy? && settings.is_allowed_for_fondy?(data[:current_user].phone_number)
+        settings.fondy? && data[:current_user].fondy?
       end
 
       def fondy_new_card_response
