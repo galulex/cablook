@@ -12,7 +12,7 @@ module Operations
       end
 
       def is_fondy_method?
-        card.fondy? && settings.fondy? && settings.is_allowed_for_fondy?(card.user.phone_number)
+        card.fondy? && settings.fondy? && card.user.fondy?
       end
 
       def card
