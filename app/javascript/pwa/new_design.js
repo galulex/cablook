@@ -52,7 +52,8 @@ export default class NewDesign extends Component {
       paymentButtonDisabled: false,
       cancelTimer: null,
       klass: '',
-      settings: {}
+      settings: {},
+      showLoading: false
     }
   }
 
@@ -214,7 +215,7 @@ export default class NewDesign extends Component {
   }
 
   clearTrip = () => {
-    this.setState({ trip: this.initialTripState, cost: null, car: null, driver: null, paymentButtonDisabled: false })
+    this.setState({ trip: this.initialTripState, cost: null, car: null, driver: null, paymentButtonDisabled: false , showLoading: false})
     this.previewMapRef.cleanup()
     this.unsubscribe()
     this.clearFetchTripTimeout()
@@ -239,6 +240,7 @@ export default class NewDesign extends Component {
   }
 
   sendRequest = (params) => {
+    this.setState({ showLoading: true })
     axios({
       method: params.id ? 'put' : 'post',
       url: params.id ? `trips/${params.id}` : 'trips',
@@ -249,6 +251,7 @@ export default class NewDesign extends Component {
       if (!params.id) { this.subscribe(res.data) }
       this.setFetchTripTimeout()
     }).catch((error) => {
+      this.setState({ showLoading: false })
       if (!error.response) return
       switch(error.response.status) {
         case 418:
@@ -562,19 +565,20 @@ export default class NewDesign extends Component {
     this.vibrate()
     this.setState({ trip: { ...this.state.trip, status: ON_THE_WAY, start_time: data.trip.start_time, accepted_at: data.trip.accepted_at, with_cashback: data.trip.with_cashback },
                     car: { location: data.trip.car_location ,color: data.trip.car_color, number: data.trip.car_number, deg: data.trip.car.deg, brand: data.trip.car.brand, model: data.trip.car.model },
-                    driver: { name: data.trip.driver_name, phone_number: data.trip.car_phone_number } }, () => this.startCountdown())
+                    driver: { name: data.trip.driver_name, phone_number: data.trip.car_phone_number },
+                    showLoading: false }, () => this.startCountdown())
     this.clearFetchTripTimeout()
   }
 
   TripDeclined = (data) => {
     this.vibrate()
-    this.setState({ trip: { ...this.state.trip, status: DECLINED } })
+    this.setState({ trip: { ...this.state.trip, status: DECLINED}, showLoading: false })
     this.clearFetchTripTimeout()
   }
 
   TripUnavailable = (data) => {
     const status = data.by_driver ? CANCELED_BY_DRIVER : CANCELED
-    this.setState({ trip: { ...this.initialTripState, status }, car: null, driver: null, paymentButtonDisabled: false, inputDisabled: false })
+    this.setState({ trip: { ...this.initialTripState, status }, car: null, driver: null, paymentButtonDisabled: false, inputDisabled: false, showLoading: false })
     this.previewMapRef.cleanup()
     this.unsubscribe()
     this.clearFetchTripTimeout()
@@ -583,7 +587,7 @@ export default class NewDesign extends Component {
   }
 
   TripUpdated = (data) => {
-    this.setState({ trip: JSON.parse(data.data) })
+    this.setState({ trip: JSON.parse(data.data), showLoading: false })
   }
 
   DriverLocationUpdated = (data) => {
@@ -701,7 +705,7 @@ export default class NewDesign extends Component {
     return (
       <div>
         <div className="driverSearch">
-          {`${i18n.trip.driver_search}`}
+          {[PENDING].includes(this.state.trip.status) && `${i18n.trip.driver_search}`}
         </div>
         <div className="loaderWrapper">
           <SearchLogo className="search_logo" />
@@ -709,6 +713,8 @@ export default class NewDesign extends Component {
       </div>
     )
   }
+
+  isShowLoading = () => [PENDING].includes(this.state.trip.status) || this.state.showLoading
 
   clearPicker = () => {
     this.setState({picker: null, klass: ''})
@@ -732,7 +738,7 @@ export default class NewDesign extends Component {
     return (
       <div class='general__holder'>
         <header></header>
-        <section class={`new_design ${this.state.klass} ${[PENDING].includes(trip.status) ? 'background' : ''}`}>
+        <section class={`new_design ${this.state.klass} ${this.isShowLoading() ? 'background' : ''}`}>
           { this.props.showFeedback() && <Feedback trip={trip} updateTrip={this.resetTrip} handleBack={this.resetTrip} lastTripId={lastTripId} /> }
           <style>{`fieldset.address:nth-child(${this.state.picker + 1}) { opacity: 1;}`}</style>
           <PreviewMap
@@ -753,8 +759,11 @@ export default class NewDesign extends Component {
           />
           { !this.props.showFeedback() &&
             <div class='wrapper'>
-              { [CONFIRM_UPDATE_TRIP, CANCELED, CANCELED_BY_DRIVER, undefined, null].includes(trip.status) && this.renderFields(trip, isValid, cards) }
-              { [PENDING].includes(trip.status) && this.renderLoading() }
+              { this.isShowLoading() ?
+                this.renderLoading()
+                :
+                [CONFIRM_UPDATE_TRIP, CANCELED, CANCELED_BY_DRIVER, undefined, null].includes(trip.status) && this.renderFields(trip, isValid, cards) 
+              }
             </div>
           }
           <Buttons trip={trip}
