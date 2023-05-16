@@ -40,6 +40,8 @@ describe Events::Trips::Finish do
       let(:data) { { trip_id: trip.id, idle: idle} }
       let(:price) { Price.create }
       let(:idle) { 800 }
+      let(:card) { create(:card, user_id: user.id) }
+      let!(:trip_payment) { create(:trip_payment, user_id: user.id, card_id: card.id, trip_id: trip.id) }
 
       it { is_expected.to have_enqueued_job(Jobs::PaymentSettle).with(trip.id, Constants::Payments::TYPES[:idle], idle / 60 * price.idle_price) }
     end

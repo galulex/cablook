@@ -68,7 +68,7 @@ module Events
       end
 
       def fake_taxi_payment
-        payment.update!(type: "Payments::#{Constants::Payments::TYPES[:fake]}")
+        payment.update!(type: Constants::Payments::FAKE)
         Jobs::PaymentSettle.perform_later(data[:trip_id], Constants::Payments::TYPES[:fake], fake_amount)
       end
 

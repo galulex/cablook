@@ -42,7 +42,7 @@ module Events
           trip_id: data[:trip_id],
           user_id: data[:user_id],
           card_id: card.id, 
-          type: "Payments::#{Constants::Payments::TYPES[:tip]}"
+          type: Constants::Payments::TIP
         }
       end
     end
