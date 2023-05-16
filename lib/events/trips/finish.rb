@@ -63,7 +63,18 @@ module Events
 
       def settle_payment_idle
         return if data[:idle] < Constants::Trip::FREE_IDLE_VALUE
+        Payments::Idle.create(
+          status: Constants::Payments::PENDING,
+          amount: idle,
+          user_id: user.id,
+          card_id: card_id,
+          trip_id: data[:trip_id]
+        )
         Jobs::PaymentSettle.perform_later(data[:trip_id], Constants::Payments::TYPES[:idle], idle)
+      end
+
+      def card_id
+        trip.payments.find_by!(type: Constants::Payments::TRIP).card.id
       end
 
       def settle_order_payment

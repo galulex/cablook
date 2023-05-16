@@ -19,5 +19,10 @@ module Constants
       fake: 'FakeTaxi'.freeze,
       payout: 'PayOut'.freeze
     }.freeze
+
+    TRIP = 'Payments::Trip'.freeze
+    TIP = 'Payments::Tip'.freeze
+    FAKE = 'Payments::FakeTaxi'.freeze
+    PAYOUT = 'Payments::PayOut'.freeze
   end
 end
