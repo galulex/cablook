@@ -63,7 +63,12 @@ ActiveAdmin.register Payment do
   form do |f|
     semantic_errors
     inputs do
-      f.input :card, label: 'Card', as: :select, collection: Card.user_cards(payment.user_id).map { |c| [c.pan, c.id] }
+      if action_name == :new.to_s
+        f.input :type, label: 'Payment type', as: :select, collection: Constants::Payments::TYPES.values.map { |v| "Payments::#{v}" }
+        %w[user trip_id].each { |title| input title }
+      else
+        f.input :card, label: 'Card', as: :select, collection: Card.user_cards(payment.user_id).map { |c| [c.pan, c.id] }
+      end
       %w[amount status order_reference response].each { |title| input title }
     end
     actions
