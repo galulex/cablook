@@ -23,7 +23,7 @@ module Api
     end
 
     def pending_payments
-      @pending_payments ||= Payment.pending(current_user.id)
+      @pending_payments ||= Payment.pending.by_user(current_user.id).payments
     end
   end
 end
