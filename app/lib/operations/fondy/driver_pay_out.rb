@@ -29,11 +29,7 @@ module Operations
       end
 
       def payout_response
-        @payout_response ||= ::Fondy::ChargeCard.new(payment.order_reference, payment.amount, driver_card_number).call
-      end
-
-      def driver_card_number
-        payment.driver.card_number
+        @payout_response ||= ::Fondy::ChargeCard.new(payment.order_reference, payment.amount, payment.driver).call
       end
 
       def payment
