@@ -19,7 +19,7 @@ module Fondy
       {
         order_id: order_id,
         currency: CURRENCY,
-        amount: amount.to_i.to_s,
+        amount: amount,
         merchant_id: merchant_id
       }
     end
