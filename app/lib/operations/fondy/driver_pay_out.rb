@@ -17,7 +17,7 @@ module Operations
         Payment.create(
           trip_id: payment.trip.id,
           user_id: payment.user.id,
-          card_id: payment.card.id,
+          card_id: payment.card&.id,
           type: Constants::Payments::PAYOUT,
           response: payout_response,
           status: pay_out_status ? Constants::Payments::SUCCESS : Constants::Payments::PENDING,
