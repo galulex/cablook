@@ -66,7 +66,7 @@ module Operations
       end
 
       def card
-        trip.trip_payment&.card || trip.user.cards.where(payment_system: :fondy).last
+       @card ||= trip.payments.find_by(type: "Payments::#{payment_type}").card
       end
 
       def update_payment_and_total(success, response)
