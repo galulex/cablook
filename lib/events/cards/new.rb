@@ -17,7 +17,8 @@ module Events
       private
 
       def payment_system_response
-        return fondy_new_card_response if is_fondy_method?
+        return fondy_new_card_response if settings.fondy?
+
         wayforpay_new_card_response
       end
 

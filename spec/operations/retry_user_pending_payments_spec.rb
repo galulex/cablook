@@ -30,10 +30,7 @@ describe Operations::RetryUserPendingPayments do
     end
 
     context 'when payment system Fondy' do
-      before do
-         Settings.get.update!(payment_system: :fondy) 
-         allow_any_instance_of(Operations::Payments::RetryPayment).to receive(:is_fondy_method?).and_return(true)
-      end
+      before { Settings.get.update!(payment_system: :fondy) }
 
       it do
         expect_any_instance_of(Operations::Fondy::RetryPayment).to receive(:call).once

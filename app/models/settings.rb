@@ -1,6 +1,5 @@
 class Settings < ApplicationRecord
   MESSAGE_SETTINGS_ALREADY_CREATED = 'Settings already created'.freeze
-  ALLOW_FONDY_FOR_ALL_USERS = 'all'.freeze
 
   validate :only_one, on: :create
 

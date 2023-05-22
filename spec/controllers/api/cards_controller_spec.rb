@@ -37,9 +37,8 @@ describe Api::CardsController, type: :controller do
       context 'returns Wayforpay and Fondy cards' do
         before { get :index, as: :json }
 
-        it { expect(subject.size).to eql(2) }
+        it { expect(subject.size).to eql(1) }
         it { expect(subject.first['payment_system']).to eql(:fondy.to_s) }
-        it { expect(subject.last['payment_system']).to eql(:wayforpay.to_s) }
       end
     end
   end
@@ -68,7 +67,7 @@ describe Api::CardsController, type: :controller do
 
       before do
         allow_any_instance_of(Fondy::Verify).to receive(:call).and_return(fondy_verify_response)
-        Settings.get.update!(payment_system: :fondy, allowed_users: user.phone_number)
+        Settings.get.update!(payment_system: :fondy)
         post :new, params: params
       end
 
