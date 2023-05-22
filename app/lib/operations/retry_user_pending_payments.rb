@@ -35,11 +35,7 @@ module Operations
 
     def retry_payment(payment_id, card_id)
       response = Operations::Payments::RetryPayment.new(payment_id, card_id).call
-      is_fondy_method? ? fondy_success?(response) : wayforpay_success?(response)
-    end
-
-    def is_fondy_method?
-      (settings.fondy? || card.fondy?)
+      settings.fondy? ? fondy_success?(response) : wayforpay_success?(response)
     end
 
     def wayforpay_success?(response)

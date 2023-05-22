@@ -10,7 +10,6 @@ describe Operations::Payments::DoPayment do
       before do
         allow(wayforpay_dopayment_class).to receive(:new).with(*params).and_call_original
         allow(fondy_dopayment_class).to receive(:new).with(*params).and_call_original
-        allow_any_instance_of(described_class).to receive(:is_fondy_method?).and_return(false)
         allow_any_instance_of(wayforpay_dopayment_class).to receive(:call).and_return({})
         allow_any_instance_of(fondy_dopayment_class).to receive(:call).and_return({})
       end
@@ -25,10 +24,7 @@ describe Operations::Payments::DoPayment do
       end
 
       context 'when Fondy selected' do
-        before do
-          allow_any_instance_of(described_class).to receive(:is_fondy_method?).and_return(true)
-          Settings.get.update!(payment_system: :fondy)
-        end
+        before { Settings.get.update!(payment_system: :fondy) }
 
         it { expect(fondy_dopayment_class).to receive(:new).with(*params).once }
         it { expect_any_instance_of(fondy_dopayment_class).to receive(:call).once }

@@ -108,11 +108,7 @@ module Events
 
       def create_trip
         @trip = Trip.create(data.to_h.except(:bonus, :cashback, :card_id, :id, :status, :created_at, :idle, :car_id, :driver_id, :finished_at, :arrived_at, :started_at, :feedbacks, :delivery, :order_id))
-        validate_hold_amount! if is_fondy_method?
-      end
-
-      def is_fondy_method?
-        settings.fondy? && card.fondy? && user.fondy?
+        validate_hold_amount! if settings.fondy?
       end
 
       def hold_amount

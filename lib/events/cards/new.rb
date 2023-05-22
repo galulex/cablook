@@ -17,12 +17,9 @@ module Events
       private
 
       def payment_system_response
-        return fondy_new_card_response if is_fondy_method?
-        wayforpay_new_card_response
-      end
+        return fondy_new_card_response if settings.fondy?
 
-      def is_fondy_method?
-        settings.fondy? && data[:current_user].fondy?
+        wayforpay_new_card_response
       end
 
       def fondy_new_card_response
