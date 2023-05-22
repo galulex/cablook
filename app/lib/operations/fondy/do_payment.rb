@@ -15,7 +15,7 @@ module Operations
         case payment_type
           when types[0]
             return if payment.status == Constants::Payments::BONUS
-            update_payment_and_total( success_response?(capture_response), capture_response)
+            update_payment_and_total(success_response?(capture_response), capture_response)
             return unless success_response?(capture_response)
             update_bonus_trip_if_necessary
             add_cashback
@@ -51,7 +51,7 @@ module Operations
           response: response,
           status: status,
           amount: amount || payment.amount,
-          order_reference: response[:order_id]
+          order_reference: response[:order_id] || payment.order_reference
         )
       end
 
