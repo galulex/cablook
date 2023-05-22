@@ -19,7 +19,7 @@ module Fondy
 
     def params 
       {
-        order_id: order_reference,
+        order_id: "#{order_reference}_payout",
         currency: CURRENCY,
         amount: amount,
         merchant_id: merchant_id,
