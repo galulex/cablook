@@ -30,11 +30,22 @@ describe Operations::RetryUserPendingPayments do
     end
 
     context 'when payment system Fondy' do
+      let!(:card) { create(:card, user_id: user.id, payment_system: :fondy) }
       before { Settings.get.update!(payment_system: :fondy) }
 
       it do
         expect_any_instance_of(Operations::Fondy::RetryPayment).to receive(:call).once
         subject.call
+      end
+
+      context 'and no added fondy card' do
+        let!(:card) { create(:card, user_id: user.id, payment_system: :wayforpay) }
+        before { Settings.get.update!(payment_system: :fondy) }
+  
+        it do
+          expect_any_instance_of(Operations::Fondy::RetryPayment).to receive(:call).once
+          subject.call
+        end
       end
     end
 

@@ -1,7 +1,6 @@
 module Fondy
   class ChargeCard < Base
     URL = URI.parse('https://pay.fondy.eu/api/p2pcredit/').freeze
-    ORDER_ID_SUFIX = '_charge_card'.freeze
 
     def initialize(order_reference, cost, card_number)
       @order_reference = order_reference
@@ -10,7 +9,7 @@ module Fondy
     end
 
     def call
-      return { response: { response_status: 'success', payout: 'Driver payout'} } unless Rails.env.production?
+      return { response_status: 'success', payout: 'Driver payout'} unless Rails.env.production?
       response_body(Net::HTTP.post(URL, request_body, initheader = header).body)
     end
 
@@ -20,7 +19,7 @@ module Fondy
 
     def params 
       {
-        order_id: order_reference.concat(ORDER_ID_SUFIX),
+        order_id: order_reference,
         currency: CURRENCY,
         amount: amount,
         merchant_id: merchant_id,
