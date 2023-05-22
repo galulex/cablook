@@ -10,7 +10,7 @@ module Fondy
     end
 
     def call
-      return { response: { response_status: 'success', payout: 'Driver payout'} }.to_json unless Rails.env.production?
+      return { response: { response_status: 'success', payout: 'Driver payout'} } unless Rails.env.production?
       response_body(Net::HTTP.post(URL, request_body, initheader = header).body)
     end
 
