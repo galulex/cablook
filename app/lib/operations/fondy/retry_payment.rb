@@ -11,12 +11,12 @@ module Operations
       attr_reader :payment_id, :card_id
 
       def call
-        return unless card_id && card && card.payment_system == settings.payment_system[:fondy.to_s]
+        return unless card_id && card && card.payment_system == settings.payment_system
         if payment_status_success?
-          payment.update(status: Constants::Payments::SUCCESS, response: payment_status)
+          payment.update(status: Constants::Payments::SUCCESS, response: payment_status, card_id: card_id)
           return payment_status
         elsif retry_response_success?
-          payment.update(status: Constants::Payments::SUCCESS, response: retry_response)
+          payment.update(status: Constants::Payments::SUCCESS, response: retry_response, card_id: card_id)
           driver_pay_out
           add_cashback
         else

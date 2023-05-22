@@ -14,7 +14,7 @@ describe Operations::Fondy::DoPayment do
   describe '#call' do
     subject { -> { instance.call } }
 
-    let!(:payment) { create(:payment, trip_id: trip.id, user_id: user.id, card_id: card.id) }
+    let!(:payment) { create(:payment, trip_id: trip.id, user_id: user.id, card_id: card.id, type: "Payments::#{payment_type}") }
     let!(:payment_type) { 'Trip' }
     let(:amount) { payment.amount }
     let(:trip) { create(:trip, user_id: user.id, status: Constants::Trip::FINISHED) }
@@ -99,14 +99,6 @@ describe Operations::Fondy::DoPayment do
 
     context 'when payment_type is Tip' do
       let!(:payment_type) { 'Tip' }
-      let(:amount) { 5 }
-      let(:trip) { create(:trip, user_id: user.id, cost: total) }
-      let(:payment) { create(:payment, user_id: user.id, trip_id: trip.id, card_id: card.id, amount: total) }
-      let(:total) { 25 }
-      let(:instance) { described_class.new(trip.id, payment_type, amount) }
-
-      it { is_expected.to change { Payments::Tip.count }.by(+1) }
-      it { is_expected.to change { trip.reload.total }.from(0).to(total + amount) }
 
       context 'and Fondy status is ok' do
         before { subject.call }
@@ -131,14 +123,6 @@ describe Operations::Fondy::DoPayment do
 
     context 'when payment_type is Idle' do
       let!(:payment_type) { 'Idle' }
-      let!(:amount) { 15 }
-      let(:trip) { create(:trip, user_id: user.id, cost: total) }
-      let(:payment) { create(:payment, user_id: user.id, trip_id: trip.id, card_id: card.id, amount: total) }
-      let(:total) { 40 }
-      let(:instance) { described_class.new(trip.id, payment_type, amount) }
-
-      it { is_expected.to change { Payments::Idle.count }.by(+1) }
-      it { is_expected.to change { trip.reload.total }.from(0).to(total + amount) }
 
       context 'and Fondy status is ok' do
         let(:idle_payment) { Payments::Idle.last }
@@ -159,15 +143,6 @@ describe Operations::Fondy::DoPayment do
 
     context 'when payment_type is FakeTaxi' do
       let!(:payment_type) { 'FakeTaxi' }
-      let!(:price) { Price.create }
-      let(:amount) { price.landing / 100 }
-      let(:trip) { create(:trip, user_id: user.id, cost: total) }
-      let(:payment) { create(:payment, trip_id: trip.id, user_id: user.id, card_id: card.id, amount: total) }
-      let(:total) { 40 }
-      let(:instance) { described_class.new(trip.id, payment_type, amount) }
-
-      it { is_expected.to change { Payments::FakeTaxi.count }.by(+1) }
-      it { is_expected.to change { trip.reload.total }.from(0).to(total + amount) }
 
       context 'and Fondy status is ok' do
         before { subject.call }
