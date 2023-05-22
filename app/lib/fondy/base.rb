@@ -16,7 +16,7 @@ module Fondy
     end
 
     def amount
-      cost * 100
+      (cost * 100).to_i.to_s
     end
   
     def signature(params)

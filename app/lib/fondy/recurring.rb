@@ -25,7 +25,7 @@ module Fondy
         currency: CURRENCY,
         rectoken: rec_token,
         preauth: hold ? YES : NO,
-        amount: amount.to_i.to_s,
+        amount: amount,
         merchant_id: merchant_id,
         sender_email: user.email
       }

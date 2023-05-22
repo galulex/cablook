@@ -29,8 +29,7 @@ module Operations
       end
 
       def payout_response
-        return { response_status: 'success', payout: 'Driver payout'} unless Rails.env.production?
-        ::Fondy::ChargeCard.new(payment.order_reference, payment.amount, driver_card_number).call
+        @payout_response ||= ::Fondy::ChargeCard.new(payment.order_reference, payment.amount, driver_card_number).call
       end
 
       def driver_card_number
