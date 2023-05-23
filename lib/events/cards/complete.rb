@@ -1,6 +1,8 @@
 module Events
   module Cards
     class Complete < BaseEvent
+      CARD_VERIFY_AMOUNT = 1
+
       def schema
         Dry::Validation.Schema do
           configure { config.messages = :i18n }
@@ -30,6 +32,7 @@ module Events
         Events::Cards::Create.(user_id: params[:merchant_data].to_i, email: params[:sender_email],
                                 recToken: params[:rectoken], cardType: params[:card_type].downcase.capitalize,
                                 cardPan: card_pan, currency: params[:currency])
+        Fondy::Reverse.new(CARD_VERIFY_AMOUNT, params[:order_id]).call
         rescue Events::InvalidParamsError
       end
 
