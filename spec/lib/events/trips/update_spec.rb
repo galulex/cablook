@@ -173,8 +173,8 @@ describe Events::Trips::Update do
     end
 
     context 'when payment system Fondy' do
-      let(:reverse_stub) { double(Fondy::Reverse, call: { reverse_status: 'approved' }) }
-      let(:recurring_stub) { double(Fondy::Recurring, call: { response_status: 'success' } ) }
+      let(:reverse_stub) { double(Fondy::Reverse, call: { reverse_status: 'approved', response_status: 'success', status: true }) }
+      let(:recurring_stub) { double(Fondy::Recurring, call: { order_status: 'approved', response_status: 'success', status: true } ) }
       let(:order_reference) { 'test_order_reference' }
       let(:trip) { create(:trip, user_id: user.id) }
       let!(:trip_payment) { create(:trip_payment, trip_id: trip.id, user_id: user.id, order_reference: order_reference) }

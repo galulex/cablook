@@ -3,9 +3,9 @@ describe Operations::Fondy::RetryPayment do
   let(:user) { create(:user) }
   let(:card) { create(:card, user_id: user.id, payment_system: :fondy) }
   let(:success) { Constants::Payments::FONDY_SUCCESS }
-  let(:payout_response) { { response_status: success, payout: 'Driver payout' } }
-  let(:status_response) { { order_status: 'not approved' } }
-  let(:recurring_response) { { response_status: success } }
+  let(:payout_response) { { response_status: success, payout: 'Driver payout', status: true } }
+  let(:status_response) { { order_status: 'not approved', status: false } }
+  let(:recurring_response) { { response_status: success, status: true } }
 
   before do
     Settings.get.update!(payment_system: :fondy)
@@ -33,7 +33,7 @@ describe Operations::Fondy::RetryPayment do
     it { is_expected.to_not change { user.reload.cashback } }
 
     context 'when Fondy already has successfull payment status' do
-      let!(:status_response) { { order_status: Constants::Payments::FONDY_APPROVED } }
+      let!(:status_response) { { order_status: Constants::Payments::FONDY_APPROVED, status: true } }
 
       it { is_expected.to change { payment.reload.status }.to(Constants::Payments::SUCCESS) }
       it { is_expected.to change { payment.reload.response }.to(JSON.parse(status_response.to_json)) }

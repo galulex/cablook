@@ -20,12 +20,13 @@ module Operations
           card_id: payment.card&.id,
           type: Constants::Payments::PAYOUT,
           response: payout_response,
-          status: pay_out_status ? Constants::Payments::SUCCESS : Constants::Payments::PENDING,
-          amount: payment.amount)
+          status: pay_out_status,
+          amount: payment.amount
+        )
       end
 
       def pay_out_status
-        payout_response[:response_status] == Constants::Payments::FONDY_SUCCESS
+        payout_response[:status] ? Constants::Payments::SUCCESS : Constants::Payments::PENDING
       end
 
       def payout_response

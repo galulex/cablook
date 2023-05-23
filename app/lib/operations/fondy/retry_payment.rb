@@ -11,6 +11,7 @@ module Operations
       def call
         return if payment.type == Constants::Payments::PAYOUT
         return unless card_id && card && card.payment_system == settings.payment_system
+
         if payment_status_success?
           payment.update(status: Constants::Payments::SUCCESS, response: payment_status, card_id: card_id)
           return payment_status
@@ -27,11 +28,11 @@ module Operations
       private
 
       def payment_status_success?
-        payment_status[:order_status] == Constants::Payments::FONDY_APPROVED
+        payment_status[:status]
       end
 
       def retry_response_success?
-        retry_response[:response_status] == Constants::Payments::FONDY_SUCCESS
+        retry_response[:status]
       end
 
       def driver_pay_out
@@ -47,11 +48,12 @@ module Operations
       end
 
       def order_reference
-        @order_reference ||= OrderReference.new(payment.trip.id, payment.type).call
+        @order_reference ||= OrderReference.new(payment.trip.id, payment.type).call + '_retry'
       end
 
       def add_cashback
         return unless settings.cashback && payment.type == Constants::Payments::TRIP
+
         user.update(cashback: user.cashback + cashback_amount)
       end
 

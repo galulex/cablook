@@ -8,14 +8,18 @@ module Fondy
     end
 
     def call
-      response_body(Net::HTTP.post(URL, request_body, initheader = header).body)
+      body.merge(status(body))
     end
 
     private
 
     attr_reader :order_id, :cost
 
-    def capture_params 
+    def body
+      @body ||= response_body(Net::HTTP.post(URL, request_body, initheader = header).body)
+    end
+
+    def capture_params
       {
         order_id: order_id,
         currency: CURRENCY,

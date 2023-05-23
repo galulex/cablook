@@ -53,7 +53,7 @@ module Events
       end
 
       def hold_success?
-        hold_updated_amount[:response_status] == Constants::Payments::FONDY_SUCCESS
+        hold_updated_amount[:status]
       end
 
       def reverse_success?
@@ -134,9 +134,9 @@ module Events
       end
 
       def payment_params
-        params = {amount: trip.cost}
+        params = { amount: trip.cost }
         params[:card_id] = data[:card_id] if data[:card_id]
-        params[:order_reference] = order_reference 
+        params[:order_reference] = order_reference
         params
       end
     end
