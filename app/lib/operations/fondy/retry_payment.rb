@@ -1,8 +1,6 @@
 module Operations
   module Fondy
     class RetryPayment < Base
-      PAYMENTS_TRIP_TYPE = 'Payments::Trip'.freeze
-
       def initialize(payment_id, card_id)
         @payment_id = payment_id
         @card_id = card_id
@@ -11,6 +9,7 @@ module Operations
       attr_reader :payment_id, :card_id
 
       def call
+        return if payment.type == Constants::Payments::PAYOUT
         return unless card_id && card && card.payment_system == settings.payment_system
         if payment_status_success?
           payment.update(status: Constants::Payments::SUCCESS, response: payment_status, card_id: card_id)
@@ -52,7 +51,7 @@ module Operations
       end
 
       def add_cashback
-        return unless settings.cashback && payment.type == PAYMENTS_TRIP_TYPE
+        return unless settings.cashback && payment.type == Constants::Payments::TRIP
         user.update(cashback: user.cashback + cashback_amount)
       end
 
