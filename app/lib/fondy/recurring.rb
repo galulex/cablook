@@ -11,14 +11,18 @@ module Fondy
     end
 
     def call
-      response_body( Net::HTTP.post(URL, request_body, initheader = header).body)
+      body.merge(status(body))
     end
 
     private
 
     attr_reader :user, :cost, :rec_token, :order_reference, :hold
 
-    def recuring_params 
+    def body
+      @body ||= response_body(Net::HTTP.post(URL, request_body, initheader = header).body)
+    end
+
+    def recuring_params
       {
         order_id: order_reference,
         order_desc: order_desc,
@@ -30,9 +34,9 @@ module Fondy
         sender_email: user.email
       }
     end
-  
+
     def order_desc
-      hold ? 'Hold for trip payment' : 'Payment'
+      hold ? 'Утримання коштів за поїзку' : 'Оплата'
     end
 
     def request_body

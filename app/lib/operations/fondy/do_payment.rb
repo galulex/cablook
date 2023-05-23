@@ -11,21 +11,24 @@ module Operations
 
       def call
         return if payment.status == Constants::Payments::SUCCESS
+
         types = Constants::Payments::TYPES.except(:order, :payout).values
         case payment_type
-          when types[0]
-            return if payment.status == Constants::Payments::BONUS
-            update_payment_and_total(success_response?(capture_response), capture_response)
-            return unless success_response?(capture_response)
-            update_bonus_trip_if_necessary
-            add_cashback
-            driver_pay_out
-          when types[1], types[2]
-            update_payment_and_total(success_response?(recurring_response), recurring_response)
-            driver_pay_out if success_response?(recurring_response)
-          when types[3]
-            update_payment_and_total(success_response?(capture_response), capture_response)
-            driver_pay_out if success_response?(capture_response)
+        when types[0]
+          return if payment.status == Constants::Payments::BONUS
+
+          update_payment_and_total(success_response?(capture_response), capture_response)
+          return unless success_response?(capture_response)
+
+          update_bonus_trip_if_necessary
+          add_cashback
+          driver_pay_out
+        when types[1], types[2]
+          update_payment_and_total(success_response?(recurring_response), recurring_response)
+          driver_pay_out if success_response?(recurring_response)
+        when types[3]
+          update_payment_and_total(success_response?(capture_response), capture_response)
+          driver_pay_out if success_response?(capture_response)
         end
         capture_response[:response_status]
       end
@@ -57,6 +60,7 @@ module Operations
 
       def update_bonus_trip_if_necessary
         return unless settings.bonuses
+
         frozen_bonuses = trip.user.bonus_trips.iced
         frozen_bonuses.first.fresh! if frozen_bonuses.any? && trip.user.trips.finished.count.positive?
       end
@@ -66,7 +70,7 @@ module Operations
       end
 
       def card
-       @card ||= trip.payments.find_by(type: "Payments::#{payment_type}").card
+        @card ||= trip.payments.find_by(type: "Payments::#{payment_type}").card
       end
 
       def update_payment_and_total(success, response)
@@ -76,6 +80,7 @@ module Operations
 
       def add_cashback
         return unless settings.cashback
+
         user.update(cashback: user.cashback + cashback_amount)
       end
 
@@ -108,7 +113,7 @@ module Operations
       end
 
       def success_response?(response)
-        response[:response_status] == Constants::Payments::FONDY_SUCCESS
+        response[:status]
       end
     end
   end
