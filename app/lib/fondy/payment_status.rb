@@ -7,14 +7,18 @@ module Fondy
     end
 
     def call
-      response_body(Net::HTTP.post(URI.parse("#{BASE_URL}/#{order_reference}"), request_body, initheader = header).body)
+      body.merge(status(body))
     end
 
     private
 
     attr_reader :order_reference
 
-    def params 
+    def body
+      @body ||= response_body(Net::HTTP.post(URI.parse("#{BASE_URL}/#{order_reference}"), request_body, initheader = header).body)
+    end
+
+    def params
       {
         order_id: order_reference,
         merchant_id: merchant_id

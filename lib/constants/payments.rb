@@ -10,6 +10,8 @@ module Constants
     WAYFORPAY_SUCCESS = 1100
     FONDY_SUCCESS = 'success'.freeze
     FONDY_APPROVED = 'approved'.freeze
+    FONDY_CAPTURED = 'captured'.freeze
+    FONDY_REVERSED = 'reversed'.freeze
 
     TYPES = {
       order: 'Order'.freeze,

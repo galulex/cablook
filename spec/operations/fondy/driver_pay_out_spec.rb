@@ -1,6 +1,6 @@
 describe Operations::Fondy::DriverPayOut do
   let(:instance) { described_class.new(payment.id) }
-  let!(:charge_response) { { response_status: Constants::Payments::FONDY_SUCCESS } }
+  let!(:charge_response) { { response_status: Constants::Payments::FONDY_SUCCESS, status: true } }
   let!(:user) { create(:user) }
   let!(:card) { create(:card, user_id: user.id, payment_system: :fondy) }
   let!(:trip) { create(:trip, user_id: user.id, driver_id: driver.id) }

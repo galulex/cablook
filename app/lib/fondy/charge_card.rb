@@ -9,22 +9,27 @@ module Fondy
     end
 
     def call
-      return { response_status: 'success', payout: 'Driver payout'} unless Rails.env.production?
-      response_body(Net::HTTP.post(URL, request_body, initheader = header).body)
+      return { response_status: 'success', payout: 'Driver payout', status: true } unless Rails.env.production?
+
+      body.merge(status(body))
     end
 
     private
 
     attr_reader :order_reference, :cost, :card_number, :driver
 
-    def params 
+    def body
+      @body ||= response_body(Net::HTTP.post(URL, request_body, initheader = header).body)
+    end
+
+    def params
       {
         order_id: "#{order_reference}_payout",
         currency: CURRENCY,
         amount: amount,
         merchant_id: merchant_id,
         order_desc: order_desc,
-        receiver_card_number: driver.card_number,
+        receiver_card_number: driver.card_number
       }
     end
 

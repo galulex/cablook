@@ -1,9 +1,9 @@
 describe Operations::Fondy::DoPayment do
   let(:instance) { described_class.new(trip.id, payment_type, amount) }
   let(:success) { Constants::Payments::FONDY_SUCCESS }
-  let(:payout_response) { { response_status: success, payout: 'Driver payout' } }
-  let(:capture_response) { { response_status: success } }
-  let(:recurring_response) { { response_status: success }  }
+  let(:payout_response) { { response_status: success, payout: 'Driver payout', status: true } }
+  let(:capture_response) { { response_status: success, status: true } }
+  let(:recurring_response) { { response_status: success, status: true }  }
 
   before do
     allow_any_instance_of(Operations::Fondy::DriverPayOut).to receive(:call).and_return(payout_response)
