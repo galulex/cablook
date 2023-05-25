@@ -37,7 +37,12 @@ module Operations
       end
 
       def update_payment(response)
-        payment.update(status: Constants::Payments::SUCCESS, response: response, card_id: card_id)
+        payment.update(
+          status: Constants::Payments::SUCCESS,
+          response: response,
+          card_id: card_id,
+          order_reference: response[:order_id]
+        )
       end
 
       def driver_pay_out
@@ -53,7 +58,7 @@ module Operations
       end
 
       def retry_payout_response
-        @payout_response ||= ::Fondy::ChargeCard.new(order_reference, payment.amount, payment.driver).call
+        @retry_payout_response ||= ::Fondy::ChargeCard.new(order_reference, payment.amount, payment.driver).call
       end
 
       def payment_status
