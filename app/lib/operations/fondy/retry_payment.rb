@@ -1,6 +1,8 @@
 module Operations
   module Fondy
     class RetryPayment < Base
+      RETRY_SUFIX = '_retry'.freeze
+
       def initialize(payment_id, card_id)
         @payment_id = payment_id
         @card_id = card_id
@@ -9,14 +11,13 @@ module Operations
       attr_reader :payment_id, :card_id
 
       def call
-        return if payment.type == Constants::Payments::PAYOUT
-        return unless card_id && card && card.payment_system == settings.payment_system
+        return unless card_id && card && card.fondy?
 
         if payment_status_success?
-          payment.update(status: Constants::Payments::SUCCESS, response: payment_status, card_id: card_id)
+          update_payment(payment_status)
           return payment_status
         elsif retry_response_success?
-          payment.update(status: Constants::Payments::SUCCESS, response: retry_response, card_id: card_id)
+          update_payment(retry_response)
           driver_pay_out
           add_cashback
         else
@@ -35,12 +36,24 @@ module Operations
         retry_response[:status]
       end
 
+      def update_payment(response)
+        payment.update(status: Constants::Payments::SUCCESS, response: response, card_id: card_id)
+      end
+
       def driver_pay_out
+        return if payment.type == Constants::Payments::PAYOUT
+
         Operations::Fondy::DriverPayOut.new(payment_id).call
       end
 
       def retry_response
-        @retry_response ||= ::Fondy::Recurring.new(user, payment.amount, card.token, order_reference).call
+        return retry_payout_response if payment.type == Constants::Payments::PAYOUT
+
+        @retry_response ||= ::Fondy::Recurring.new(user, payment.amount, card.token, order_reference + RETRY_SUFIX).call
+      end
+
+      def retry_payout_response
+        @payout_response ||= ::Fondy::ChargeCard.new(order_reference, payment.amount, payment.driver).call
       end
 
       def payment_status
@@ -48,7 +61,7 @@ module Operations
       end
 
       def order_reference
-        @order_reference ||= OrderReference.new(payment.trip.id, payment.type).call + '_retry'
+        @order_reference ||= OrderReference.new(payment.trip.id, payment.type).call
       end
 
       def add_cashback
