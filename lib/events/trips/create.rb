@@ -119,7 +119,7 @@ module Events
       end
 
       def hold_success?
-        hold_amount[:response_status] == Constants::Payments::FONDY_SUCCESS
+        hold_amount[:status]
       end
 
       def create_trip_job(trip_id)
