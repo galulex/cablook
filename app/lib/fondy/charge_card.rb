@@ -37,7 +37,7 @@ module Fondy
     end
 
     def order_desc
-      "Винагорода #{driver.car.number}"
+      "Винагорода #{payment.driver.car.number}"
     end
 
     def development_response
