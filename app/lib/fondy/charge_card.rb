@@ -45,7 +45,7 @@ module Fondy
     end
 
     def order_reference
-      OrderReference.new(payment.trip_id, payment.type).call.concat(PAYOUT_SUFIX)
+      @order_reference ||= OrderReference.new(payment.trip_id, payment.type).call.concat(PAYOUT_SUFIX)
     end
   end
 end
