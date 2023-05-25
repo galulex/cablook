@@ -58,7 +58,7 @@ module Operations
       end
 
       def retry_payout_response
-        @retry_payout_response ||= ::Fondy::ChargeCard.new(order_reference, payment.amount, payment.driver).call
+        @retry_payout_response ||= ::Fondy::ChargeCard.new(payment).call
       end
 
       def payment_status

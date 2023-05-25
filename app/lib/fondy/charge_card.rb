@@ -2,10 +2,9 @@ module Fondy
   class ChargeCard < Base
     URL = URI.parse('https://pay.fondy.eu/api/p2pcredit/').freeze
 
-    def initialize(order_reference, cost, driver)
-      @order_reference = order_reference
-      @cost = cost
-      @driver = driver
+    def initialize(payment)
+      @payment = payment
+      @cost = payment.amount
     end
 
     def call
@@ -16,7 +15,7 @@ module Fondy
 
     private
 
-    attr_reader :order_reference, :cost, :card_number, :driver
+    attr_reader :payment, :cost
 
     def body
       @body ||= response_body(Net::HTTP.post(URL, request_body, initheader = header).body)
@@ -29,7 +28,7 @@ module Fondy
         amount: amount,
         merchant_id: merchant_id,
         order_desc: order_desc,
-        receiver_card_number: driver.card_number
+        receiver_card_number: payment.driver.card_number
       }
     end
 
@@ -43,6 +42,10 @@ module Fondy
 
     def development_response
       { order_id: order_reference, response_status: 'success', payout: 'Driver payout', status: true }
+    end
+
+    def order_reference
+      OrderReference.new(payment.trip_id, payment.type).call.concat(PAYOUT_SUFIX)
     end
   end
 end

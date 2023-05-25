@@ -6,6 +6,7 @@ module Fondy
     CARD = 'card'.freeze
     STATUS_TRUE = { status: true }.freeze
     STATUS_FALSE = { status: false }.freeze
+    PAYOUT_SUFIX = '_payout'.freeze
 
     private
 
