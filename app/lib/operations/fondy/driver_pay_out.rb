@@ -21,7 +21,8 @@ module Operations
           type: Constants::Payments::PAYOUT,
           response: payout_response,
           status: pay_out_status,
-          amount: payment.amount
+          amount: payment.amount,
+          order_reference: payout_response[:order_id]
         )
       end
 
