@@ -9,7 +9,7 @@ module Fondy
     end
 
     def call
-      return { response_status: 'success', payout: 'Driver payout', status: true } unless Rails.env.production?
+      return development_response unless Rails.env.production?
 
       body.merge(status(body))
     end
@@ -24,7 +24,7 @@ module Fondy
 
     def params
       {
-        order_id: "#{order_reference}_payout",
+        order_id: order_reference,
         currency: CURRENCY,
         amount: amount,
         merchant_id: merchant_id,
@@ -39,6 +39,10 @@ module Fondy
 
     def order_desc
       "Винагорода #{driver.car.number}"
+    end
+
+    def development_response
+      { order_id: order_reference, response_status: 'success', payout: 'Driver payout', status: true }
     end
   end
 end
