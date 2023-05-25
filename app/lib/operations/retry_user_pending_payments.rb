@@ -43,7 +43,7 @@ module Operations
     end
 
     def fondy_success?(response)
-      response[:response_status] == Constants::Payments::FONDY_SUCCESS
+      response[:status]
     end
   end
 end
