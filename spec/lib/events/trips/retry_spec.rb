@@ -22,7 +22,10 @@ describe Events::Trips::Retry do
     context 'when payment system Fondy' do
       let!(:card) { create(:card, user_id: user.id, payment_system: :fondy) }
 
-      before { Settings.get.update(payment_system: :fondy) }
+      before do
+        Settings.get.update(payment_system: :fondy)
+        allow_any_instance_of(described_class).to receive(:hold_success?).and_return(true)
+      end
 
       it { is_expected.to change { trip.reload.status }.to(Constants::Trip::STATUS_CODES[Constants::Trip::PENDING]) }
       it { is_expected.to change { trip_payment.reload.status }.to(Constants::Payments::PENDING) }
