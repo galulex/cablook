@@ -87,7 +87,8 @@ module Events
           user_id: @trip.user_id,
           card_id: card.id,
           trip_id: @trip.id,
-          order_reference: order_reference
+          order_reference: order_reference,
+          response: hold_amount
         )
       end
 
@@ -112,6 +113,8 @@ module Events
       end
 
       def hold_amount
+        return unless settings.fondy?
+
         @hold_amount ||= Fondy::Recurring.new(user, data[:cost], card.token, order_reference, true).call
       end
 
@@ -130,6 +133,7 @@ module Events
 
       def notify
         return if @trip.user.notification_settings.include?(Constants::User::SEARCH_CAR)
+
         message = I18n.t('notification.loading')
         Jobs::Notification.perform_later(@trip, message)
       end
