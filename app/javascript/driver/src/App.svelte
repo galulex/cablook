@@ -24,6 +24,7 @@
   let location = [32.073095,49.418461]
   let watcher
   let sos
+  let settings = {}
 
   let subscription = null
   const cable = createConsumer()
@@ -84,9 +85,7 @@
   }
 
   let getTrips = (async () => {
-    let res = await axios.get('trips/all')
-    trips = res.data.trips
-    return trips
+    return { data: { trips, settings }} = await axios.get('trips/all')
   })
 
   let subscribe = () => {
@@ -213,7 +212,7 @@
       </Route>
     </main>
     <Nav speed={carSpeed} getTrips={getTrips}/>
-    <Sos sendSos={sendSos}/>
+    {#if settings.sos } <Sos sendSos={sendSos}/>{/if}
   {:else}
     <Route path="/" component={Session} login={login} />
   {/if}

@@ -4,6 +4,8 @@ class DriverMapChannel < ApplicationCable::Channel
   end
 
   def sos(data)
+    return unless Settings.get.sos
+
     data['action'] = Constants::BroadcastActions::SOS
     body = JSON.parse(data.fetch('body'))
     car = Car.find(body.fetch('car_id'))
