@@ -4,7 +4,7 @@ module Api
       def create
         driver = Events::DriversApp::Authorize.(sign_in_params)
         cookies.encrypted[:token] = driver.auth_token
-        render json: driver.as_json.merge(car: driver.car.as_json), status: 201
+        render json: Presenters::DriversApp::Driver::Single.new(driver).to_json, status: 201
       end
 
       def destroy

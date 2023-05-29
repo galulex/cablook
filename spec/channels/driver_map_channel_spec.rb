@@ -163,5 +163,18 @@ describe DriverMapChannel do
     end
 
     it { expect(Jobs::TelegramSendMessage).to receive(:perform_later) }
+
+    context 'when feature is disabled' do
+      before { Settings.get.update!(sos: false) }
+
+      after { channel.perform_action(data) }
+
+      it do
+        expect(ActionCable.server).to_not receive(:broadcast).with(
+          Constants::Channels::DRIVER_MAP,
+          data
+        )
+      end
+    end
   end
 end
