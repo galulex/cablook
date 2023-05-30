@@ -25,6 +25,7 @@
   let watcher
   let sos
   let settings = {}
+  let overSpeedWarning = settings.overspeed_notify && (carSpeed > 60)
 
   let subscription = null
   const cable = createConsumer()
@@ -191,7 +192,7 @@
   {#if isLoggedIn}
     <Sounds/>
     <Wakelock/>
-    {#if (carSpeed > 60) }
+    {#if overSpeedWarning }
       <div transition:fade><Warning speed={carSpeed}/></div>
     {/if}
     <main>
