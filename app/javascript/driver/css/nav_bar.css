@@ -29,10 +29,6 @@ nav a, nav button {
   border-radius: 5px;
 }
 
-nav button {
-  color: var(--speed-color);
-}
-
 nav a:hover, nav button:hover {
   box-shadow: 2px 1px 4px var(--shadow_color), -1px -1px 2px var(--nav_shadow_white_color), -1px -1px 2px var(--shadow_color);
 }
