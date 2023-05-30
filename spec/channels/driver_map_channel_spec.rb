@@ -64,6 +64,34 @@ describe DriverMapChannel do
       }
     end
 
+    context 'speedlimit' do
+      before { Redis.current.set("car_#{car.id}", "#{latitude},#{longitude}") }
+
+      context 'when overspeed' do
+        before { Redis.current.set("max_#{car.id}", overspeed) }
+
+        after { channel.perform_action(data) }
+
+        it { expect(Jobs::TelegramSendMessage).to receive(:perform_later) }
+      end
+
+      context 'when speed acceptable' do
+        before { Redis.current.set("max_#{car.id}", speed) }
+
+        after { channel.perform_action(data) }
+
+        it { expect(Jobs::TelegramSendMessage).to_not receive(:perform_later) }
+      end
+
+      context 'when feature disabled' do
+        before { Settings.get.update!(overspeed_notify: false) }
+
+        after { channel.perform_action(data_overspeed) }
+
+        it { expect(Jobs::TelegramSendMessage).to_not receive(:perform_later) }
+      end
+    end
+
     context 'that redis save location' do
       let(:redis_car_location) { Redis.current.get("car_#{car.id}") }
 
@@ -87,7 +115,7 @@ describe DriverMapChannel do
     context 'and have enqued job' do
       before do
         Redis.current.set("car_#{car.id}", "#{latitude},#{longitude}")
-        Redis.current.set("max_#{car.id}", speed)
+        Redis.current.set("max_#{car.id}", overspeed)
         expect(Jobs::TelegramSendMessage).to receive(:perform_later)
       end
 
