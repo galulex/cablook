@@ -120,7 +120,7 @@
             <Leaf/> {trips.length || 0}
           </div>
           <div class='statistics__container-date-select'>
-            {selectedDate}<input type='date' id='trips-date' name='trips' on:change={ (e) => getTripsStats(e.target.value)}>
+            <input type="date" id="trips-date" value={todayValue} name="trips" on:change={ (e) => getTripsStats(e.target.value)}>
           </div>
         </div>
         {#if trips.length > 0}
