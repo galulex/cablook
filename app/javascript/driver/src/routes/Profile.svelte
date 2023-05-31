@@ -1,33 +1,33 @@
 <script>
   import axios from 'axios'
-
   import i18n from '../../../pwa/i18n.js'
   import Star from '../../images/Star.svelte'
   import Tips from '../../images/Tips.svelte'
-  import Points from '../../images/Trip_price.svelte'
+  import Points from '../../images/Hryvnia.svelte'
+  import Card from '../../images/Card.svelte'
   import Leaf from '../../images/Leaf.svelte'
   import Sign_out from '../../images/Sign_out.svelte'
-  import TripDetails from "../components/TripDetails.svelte";
+  import TripDetails from '../components/TripDetails.svelte'
 
   import '../../css/profile.css'
 
   export let logout
 
   let statistics = {}
+  let driver = {}
+  let selectedDate = new Date().toDateString()
+  let todayValue = new Date().toISOString().substr(0, 10)
+  let trips = []
 
   let getStatistics = (async (period = 'today') => {
     let res = await axios.get(`statistics?period=${period}`)
     statistics = res.data.statistics || {}
+    driver = res.data.driver || {}
+
     return statistics
   })
 
-  let todayDate = new Date().toDateString()
-  let selectedDate = todayDate
-  let todayValue = new Date().toISOString().substr(0, 10)
-
-  let trips = []
-
-  let getTripsStats = (async (date = todayDate) => {
+  let getTripsStats = (async (date = selectedDate) => {
     let res = await axios.get(`trips_statistics/?date=${date}`)
     trips = res.data.trips || []
     selectedDate = new Date(date).toDateString()
@@ -35,8 +35,8 @@
     return trips
   })
 
+  getStatistics()
   getTripsStats()
-
 </script>
 
 <section class='driver-profile'>
@@ -54,7 +54,16 @@
     </div>
     <div class='tab-content__container'>
       <div class='tab-content__header'>{i18n.statistics.your_data}</div>
-      <div class='tab-content__container-items'>
+      <div class='tab-content__container-items'>        
+          <div class='tab-content__container-item'>
+            <div class='statistics__container'>
+              <Card/>
+              {i18n.statistics.card_number}
+            </div>
+            <span class='value'>
+              {(driver.card_number) || i18n.statistics.loading}
+            </span>
+          </div>
         <div class='tab-content__container-item'>
           <div class='statistics__container'>
             <Leaf/>
@@ -71,7 +80,7 @@
           </div>
           <span class='value'>
             {(statistics.amount) || 0}
-            {i18n.statistics.points_1}
+            {i18n.statistics.uah}
           </span>
         </div>
         <div class='tab-content__container-item'>
@@ -114,7 +123,6 @@
             <input type="date" id="trips-date" value={todayValue} name="trips" on:change={ (e) => getTripsStats(e.target.value)}>
           </div>
         </div>
-
         {#if trips.length > 0}
           <div class='tab-content__container-trips'>
             {#each trips as trip, index}
@@ -123,7 +131,6 @@
           </div>
         {/if}
     </div>
-
   <div>
     <button class='log-out' type='button' on:click={logout}>
       <Sign_out/>

@@ -9,7 +9,7 @@ class Trip < ApplicationRecord
   has_one :idle_payment, class_name: 'Payments::Idle'
   has_one :order_payment, class_name: 'Payments::Order'
   has_one :fake_taxi_payment, class_name: 'Payments::FakeTaxi'
-  has_many :required_payments, -> { where.not(type: 'Payments::Tip') }, class_name: 'Payment'
+  has_many :required_payments, -> { where.not(type: Constants::Payments::OPTIONAL_PAYMENTS) }, class_name: 'Payment'
 
   has_one :card, through: :payments
   has_many :feedbacks

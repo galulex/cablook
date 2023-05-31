@@ -167,6 +167,8 @@ const en = {
     header: 'Statistics',
     km: ' km',
     amount: 'Spent money',
+    card_number: 'Card',
+    loading: 'loading...',
     trips_count: 'Number of orders',
     period: 'Statistics period',
     your_data: 'Your data',
@@ -184,8 +186,7 @@ const en = {
       all: 'ALL TIME'
     },
     total_trips_cost: 'Trips cost',
-    points_1: ' points',
-    points_2: 'Points',
+    points_2: 'Amount',
     tips_count: 'Count'
   },
   profile_page: {

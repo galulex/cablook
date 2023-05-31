@@ -167,6 +167,8 @@ const uk = {
     header: 'Статистика',
     km: ' км',
     amount: 'Витрачені кошти',
+    card_number: 'Картка',
+    loading: 'завантаження...',
     trips_count: 'Кількість замовлень',
     period: 'Період статистики',
     your_data: 'Ваші дані',
@@ -184,8 +186,7 @@ const uk = {
       all: 'ВЕСЬ ЧАС'
     },
     total_trips_cost: 'Вартість поїздок',
-    points_1: ' балів',
-    points_2: 'Бали',
+    points_2: 'Сума',
     tips_count: 'Кількість'
   },
   profile_page: {
