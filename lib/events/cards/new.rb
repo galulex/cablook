@@ -22,10 +22,6 @@ module Events
         wayforpay_new_card_response
       end
 
-      def fondy_verify_url
-        Fondy::Verify.new(data[:current_user], data[:api_card_callback_url]).call[:checkout_url]
-      end
-
       def fondy_new_card_response
         payload = Fondy::Verify.new(data[:current_user], data[:api_card_callback_url]).call[:checkout_url]
         { method: :fondy, payload: payload }
