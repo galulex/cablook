@@ -69,6 +69,7 @@ export default function Buttons() {
         <button
           class='button absolute retry'
           type='button'
+          disabled={!isValid || paymentButtonDisabled}
           onClick={retry}>
           {i18n.retry_trip.retry}
         </button>
