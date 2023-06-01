@@ -190,6 +190,7 @@ export default class NewDesign extends Component {
   }
 
   clearFetchTripTimeout = () => {
+    this.setState({ paymentButtonDisabled: false })
     clearTimeout(fetchTripTimeout)
   }
 
@@ -230,6 +231,8 @@ export default class NewDesign extends Component {
   }
 
   retry = (e, callback = () => {}) => {
+    this.setState({ paymentButtonDisabled: true })
+
     axios.patch(`trips/${this.state.trip.id}/retry`).then((res) => {
       this.setState({ trip: { ...this.state.trip, status: PENDING } })
       this.setFetchTripTimeout()
