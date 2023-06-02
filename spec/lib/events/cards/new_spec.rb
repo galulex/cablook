@@ -24,7 +24,7 @@ describe Events::Cards::New do
       let(:fondy_response) { JSON.parse(File.read('spec/fixtures/fondy/card_verify_success_response.json')) }
       let(:fondy_checkout_url) { fondy_response['response']['checkout_url'] }
 
-      before { Settings.get.update!(payment_system: :fondy) }
+      before { Settings.update!(payment_system: :fondy) }
 
       it { expect(subject.call).to eq({method: :fondy, payload: fondy_checkout_url }) }
     end

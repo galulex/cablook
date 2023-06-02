@@ -32,7 +32,7 @@ describe Api::CardsController, type: :controller do
     context 'when Fondy enabled' do
       let!(:fondy_card) { create(:card, user_id: user.id, payment_system: :fondy) }
 
-      before { Settings.get.update!(payment_system: :fondy) }
+      before { Settings.update!(payment_system: :fondy) }
 
       context 'returns Wayforpay and Fondy cards' do
         before { get :index, as: :json }
@@ -67,7 +67,7 @@ describe Api::CardsController, type: :controller do
 
       before do
         allow_any_instance_of(Fondy::Verify).to receive(:call).and_return(fondy_verify_response)
-        Settings.get.update!(payment_system: :fondy)
+        Settings.update!(payment_system: :fondy)
         post :new, params: params
       end
 

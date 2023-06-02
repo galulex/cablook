@@ -80,5 +80,5 @@ def displayed_user_columns
 end
 
 def settings
-  @settings ||= Settings.get.feature
+  @settings ||= Settings
 end

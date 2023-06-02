@@ -8,33 +8,23 @@ class Settings < ApplicationRecord
   enum address_geocoder: %w[yandex open_street_map]
 
   class << self
-    def get(feature = '')
-      feature.blank? ? last : enabled?(feature)
+    def method_missing(name, *args)
+      return !disabled_features.include?(name.to_s) if FEATURES.include?(name.to_s)
+
+      last.send(name, *args)
     end
 
     def enable(feature)
-      return if enabled?(feature)
+      return unless disabled_features.include?(feature.to_s)
 
-      current_settings.disabled_features.delete(feature.to_s)
-      current_settings.update(disabled_features: current_settings.disabled_features)
+      update(disabled_features: disabled_features - [feature.to_s])
     end
 
     def disable(feature)
-      last.update(disabled_features: current_settings.disabled_features.push(feature)) if enabled?(feature)
-    end
+      return if disabled_features.include?(feature.to_s)
 
-    def enabled?(feature)
-      !current_settings.disabled_features.include?(feature.to_s)
+      update(disabled_features: disabled_features.push(feature))
     end
-
-    def current_settings
-      @current_settings ||= last
-    end
-  end
-
-  def feature
-    FEATURES.each { |f| define_singleton_method(f) { !disabled_features.include?(f.to_s) } }
-    self
   end
 
   private

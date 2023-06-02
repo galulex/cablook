@@ -108,7 +108,7 @@ describe Events::Trips::Create do
         it { is_expected.to change { BonusTrip.count }.by(+1) }
 
         context 'when cashback disabled' do
-          before { Settings.disable(:cashback) }
+          before { Settings.disable(:cashback); Settings.disable(:bonuses) }
 
           it { is_expected.to_not change { BonusTrip.count } }
         end
@@ -120,7 +120,7 @@ describe Events::Trips::Create do
           it { is_expected.to change { bonus_trip.reload.used? }.to be_truthy }
 
           context 'when bonuses disabled' do
-            before { Settings.disable(:bonuses) }
+            before { Settings.disable(:cashback); Settings.disable(:bonuses) }
 
             it { is_expected.to_not change { bonus_trip.reload.used? } }
           end
@@ -180,7 +180,7 @@ describe Events::Trips::Create do
     context 'when payment system Fondy' do
       let!(:card) { create(:card, user_id: user.id, payment_system: :fondy) }
 
-      before { Settings.get.update(payment_system: :fondy) }
+      before { Settings.update(payment_system: :fondy) }
 
       context 'when trip amount hold success' do
         before { allow_any_instance_of(described_class).to receive(:hold_success?).and_return(true) }

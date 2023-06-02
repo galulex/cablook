@@ -158,7 +158,7 @@ describe Events::Trips::Cancel do
     end
 
     context 'when payment system Fondy' do
-      before { Settings.get.update!(payment_system: :fondy) }
+      before { Settings.update!(payment_system: :fondy) }
 
       it { is_expected.to change { trip.reload.status }.to(Constants::Trip::STATUS_CODES[Constants::Trip::CANCELED]) }
       it { is_expected.to have_enqueued_job(Jobs::Notification) }

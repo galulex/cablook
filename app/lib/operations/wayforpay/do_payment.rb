@@ -99,7 +99,7 @@ module Operations
       end
 
       def settings
-        @settings ||= Settings.get.feature
+        @settings ||= Settings
       end
     end
   end

@@ -5,7 +5,7 @@ module Operations
       private
 
       def settings
-        @settings ||= Settings.get.feature
+        @settings ||= Settings
       end
     end
   end

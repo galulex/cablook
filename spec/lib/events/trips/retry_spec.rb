@@ -23,7 +23,7 @@ describe Events::Trips::Retry do
       let!(:card) { create(:card, user_id: user.id, payment_system: :fondy) }
 
       before do
-        Settings.get.update(payment_system: :fondy)
+        Settings.update(payment_system: :fondy)
         allow_any_instance_of(described_class).to receive(:hold_success?).and_return(true)
       end
 

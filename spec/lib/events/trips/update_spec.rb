@@ -181,7 +181,7 @@ describe Events::Trips::Update do
       let(:recurring_params) { [trip.user, data[:cost], card.token, order_reference, true] }
 
       before do
-         Settings.get.update(payment_system: :fondy)
+         Settings.update(payment_system: :fondy)
 
          allow_any_instance_of(described_class).to receive(:order_reference).and_return(order_reference)
 

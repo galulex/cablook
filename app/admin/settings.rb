@@ -10,7 +10,7 @@ ActiveAdmin.register Settings do
 
   member_action :switch, method: :post do
     feature = params[:feature]
-    Settings.get(feature) ? Settings.disable(feature) : Settings.enable(feature)
+    Settings.send(feature) ? Settings.disable(feature) : Settings.enable(feature)
     redirect_to admin_setting_path
   end
 

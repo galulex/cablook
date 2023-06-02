@@ -8,7 +8,7 @@ describe Operations::Fondy::RetryPayment do
   let(:recurring_response) { { response_status: success, status: true } }
 
   before do
-    Settings.get.update!(payment_system: :fondy)
+    Settings.update!(payment_system: :fondy)
     allow_any_instance_of(Operations::Fondy::DriverPayOut).to receive(:call).and_return(payout_response)
     allow_any_instance_of(Fondy::PaymentStatus).to receive(:call).and_return(status_response)
     allow_any_instance_of(Fondy::Recurring).to receive(:call).and_return(recurring_response)
