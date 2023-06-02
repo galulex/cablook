@@ -29,7 +29,6 @@ describe Api::DeliveryController, type: :controller do
       let(:payment_status) { { 'reasonCode' => Constants::Payments::WAYFORPAY_SUCCESS } }
 
       before do
-        Settings.get.update(delivery: true)
         allow_any_instance_of(Events::Orders::Create).to receive(:hold_money) { payment_status }
         allow_any_instance_of(Events::Orders::Create).to receive(:create_order_payment) { true }
         allow_any_instance_of(Events::Trips::Create).to receive(:assign_trip_to_order_payment) { true }
@@ -43,7 +42,7 @@ describe Api::DeliveryController, type: :controller do
       let(:payment_status) { { 'reasonCode' => Constants::Payments::WAYFORPAY_SUCCESS } }
 
       before do
-        Settings.get.update(delivery: false)
+        Settings.disable(:delivery)
         allow_any_instance_of(Events::Orders::Create).to receive(:hold_money) { payment_status }
         allow_any_instance_of(Events::Orders::Create).to receive(:create_order_payment) { true }
         allow_any_instance_of(Events::Trips::Create).to receive(:assign_trip_to_order_payment) { true }

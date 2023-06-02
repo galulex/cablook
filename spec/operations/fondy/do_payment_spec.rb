@@ -43,12 +43,13 @@ describe Operations::Fondy::DoPayment do
       context 'and Fondy status is ok' do
         it { is_expected.to change { payment.reload.status }.to(Constants::Payments::SUCCESS) }
         it { is_expected.to change { payment.reload.response }.from(nil) }
-        it { is_expected.to_not change { user.reload.cashback } }
+        it { is_expected.to change { user.reload.cashback }.from(cashback).to(cashback + (trip.cost * 0.05 * 100).to_i) }
 
-        context 'when cashback enabled' do
-          before { Settings.get.update(cashback: true) }
-          
-          it { is_expected.to change { user.reload.cashback }.from(cashback).to(cashback + (trip.cost * 0.05 * 100).to_i) }
+
+        context 'when cashback disbled' do
+          before { Settings.disable(:cashback) }
+
+          it { is_expected.to_not change { user.reload.cashback } }
         end
 
         context 'capture amount' do
@@ -75,12 +76,12 @@ describe Operations::Fondy::DoPayment do
       context 'and user have frozen bonuses' do
         let(:frozen_bonus) { create(:bonus_trip, user_id: user.id, status: :iced) }
 
-        it { is_expected.to_not change { frozen_bonus.reload.fresh? } }
+        it { is_expected.to change { frozen_bonus.reload.fresh? }.to be_truthy }
 
-        context 'when bonuses enabled' do
-          before { Settings.get.update(bonuses: true) }
+        context 'when bonuses disabled' do
+          before { Settings.disable(:bonuses) }
 
-          it { is_expected.to change { frozen_bonus.reload.fresh? }.to be_truthy }
+          it { is_expected.to_not change { frozen_bonus.reload.fresh? } }
         end
 
         context 'and user have not finished trips' do
@@ -90,7 +91,7 @@ describe Operations::Fondy::DoPayment do
         end
 
         context 'and Fondy status is not ok' do
-          let(:recurring_response) { { response_status: 'failed' } }
+          let(:capture_response) { { response_status: 'failed', status: false }  }
 
           it { is_expected.not_to change { frozen_bonus.reload.status } }
         end

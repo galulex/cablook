@@ -30,7 +30,13 @@ describe Operations::Fondy::RetryPayment do
     
     it { is_expected.to change { payment.reload.status }.to(Constants::Payments::SUCCESS) }
     it { is_expected.to change { payment.reload.response }.to(JSON.parse(recurring_response.to_json)) }
-    it { is_expected.to_not change { user.reload.cashback } }
+    it { is_expected.to change { user.reload.cashback } }
+
+    context 'when cashback disabled' do
+      before { Settings.disable(:cashback) }
+
+      it { is_expected.to_not change { user.reload.cashback } }
+    end
 
     context 'when Fondy already has successfull payment status' do
       let!(:status_response) { { order_status: Constants::Payments::FONDY_APPROVED, status: true } }
@@ -40,8 +46,6 @@ describe Operations::Fondy::RetryPayment do
     end
 
     context 'when cashback enabled' do
-      before { Settings.get.update(cashback: true) }
-
       it { is_expected.to change { user.reload.cashback }.to(user.cashback + payment.amount * 100 * 0.05) }
     end
 

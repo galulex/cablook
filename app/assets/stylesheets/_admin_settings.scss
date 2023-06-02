@@ -1,0 +1,23 @@
+.green {
+  background-color: #4CAF50 !important;
+  color: #fff !important;
+}
+
+.green:hover {
+  background-color: #45A049 !important;
+}
+
+table {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  font-size: large;
+}
+
+tbody tr td {
+  font-size: 0.8em;
+}
+
+.panel h3 {
+  display: none;
+}

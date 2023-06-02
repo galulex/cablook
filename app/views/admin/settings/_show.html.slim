@@ -1,0 +1,8 @@
+table
+  tbody
+    - Settings::FEATURES.each do |feature|
+      tr
+        td = feature.to_s.humanize
+        td = button_to Settings.get(feature) ? 'Disable' : 'Enable',
+                        switch_admin_setting_path({ feature: feature }),
+                        class: Settings.get(feature) ? 'green' : ''

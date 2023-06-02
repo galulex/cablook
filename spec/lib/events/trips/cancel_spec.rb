@@ -5,8 +5,6 @@ describe Events::Trips::Cancel do
     let(:trip) { create(:trip, status: Constants::Trip::PENDING) }
     let(:data) { { trip_id: trip.id } }
 
-    before { Settings.get.update(bonuses: true) }
-
     subject { -> { described_class.call(data) } }
 
     let!(:payment) { create(:payment, trip_id: trip.id, user_id: trip.user.id) }

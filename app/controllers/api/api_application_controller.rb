@@ -31,7 +31,7 @@ module Api
     private
 
     def settings
-      @settings ||= Settings.get
+      @settings ||= Settings.get.feature
     end
 
     def auth_token

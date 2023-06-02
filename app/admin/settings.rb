@@ -1,39 +1,32 @@
 ActiveAdmin.register Settings do
-  GENERAL_SETTINGS_COLUMNS = %w[payment_system address_geocoder before_create_trip_message validate_unpaid_trips].freeze
-  FEATURE_SETTINGS_COLUMNS = %w[bonuses cashback delivery sos overspeed_notify].freeze
+  GENERAL_SETTINGS_COLUMNS = %w[payment_system address_geocoder before_create_trip_message].freeze
+  SETTINGS_TITLE = 'Settings'.freeze
+  FEATURES_TITLE = 'Features'.freeze
+  GENERAL_TITLE = 'General'.freeze
 
   menu false
-  permit_params GENERAL_SETTINGS_COLUMNS + FEATURE_SETTINGS_COLUMNS
+  permit_params GENERAL_SETTINGS_COLUMNS
   actions :index, :show, :update, :edit
 
-  show title: 'Settings' do |settings|
+  member_action :switch, method: :post do
+    feature = params[:feature]
+    Settings.get(feature) ? Settings.disable(feature) : Settings.enable(feature)
+    redirect_to admin_setting_path
+  end
+
+  show title: SETTINGS_TITLE do |settings|
     tabs do
-      tab "Features" do
-        attributes_table do
-          FEATURE_SETTINGS_COLUMNS.each { |title| row title }
-        end
+      tab FEATURES_TITLE do
+        render 'show'
       end
-      tab "General" do
-        attributes_table do
-          GENERAL_SETTINGS_COLUMNS.each { |title| row title }
-        end
+      tab GENERAL_TITLE do
+        attributes_table { GENERAL_SETTINGS_COLUMNS.each { |title| row title } }
       end
     end
   end
 
   form do |f|
-    tabs do
-      tab 'Features' do
-        f.inputs do
-          FEATURE_SETTINGS_COLUMNS.each { |title| input title }
-        end
-      end
-      tab 'General' do
-        f.inputs do
-          GENERAL_SETTINGS_COLUMNS.each { |title| input title }
-        end
-      end
-    end
+    f.inputs { GENERAL_SETTINGS_COLUMNS.each { |title| input title } }
     f.actions
   end
 end

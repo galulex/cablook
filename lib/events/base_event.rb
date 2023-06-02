@@ -42,7 +42,7 @@ module Events
     end
 
     def settings
-      @settings ||= Settings.get
+      @settings ||= Settings.get.feature
     end
   end
 end

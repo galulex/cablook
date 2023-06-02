@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_05_29_160029) do
+ActiveRecord::Schema.define(version: 2023_06_01_070100) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -146,15 +146,10 @@ ActiveRecord::Schema.define(version: 2023_05_29_160029) do
   end
 
   create_table "settings", force: :cascade do |t|
-    t.boolean "bonuses", default: false
-    t.boolean "cashback", default: false
-    t.boolean "delivery", default: true
     t.integer "payment_system", default: 0
     t.integer "address_geocoder", default: 0
-    t.boolean "validate_unpaid_trips", default: true
     t.string "before_create_trip_message"
-    t.boolean "sos", default: true
-    t.boolean "overspeed_notify", default: true
+    t.text "disabled_features", default: [], array: true
   end
 
   create_table "trips", force: :cascade do |t|
