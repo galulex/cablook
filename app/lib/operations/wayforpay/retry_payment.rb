@@ -11,7 +11,7 @@ module Operations
       attr_reader :payment_id, :card_id
 
       def call
-        return unless card_id && card && card.payment_system == settings.payment_system['wayforpay']
+        return unless card_id && card && card.payment_system == Settings.payment_system['wayforpay']
         if retry_response['reasonCode'] == Constants::Payments::WAYFORPAY_SUCCESS
           payment.update(status: Constants::Payments::SUCCESS, response: retry_response)
           add_cashback if payment.type == 'Payments::Trip'
@@ -28,7 +28,7 @@ module Operations
       end
 
       def add_cashback
-        return unless settings.cashback
+        return unless Settings.cashback
         user.update(cashback: user.cashback + cashback_amount)
       end
 
@@ -50,10 +50,6 @@ module Operations
 
       def user
         @user ||= payment.user
-      end
-
-      def settings
-        @settings ||= Settings
       end
     end
   end
