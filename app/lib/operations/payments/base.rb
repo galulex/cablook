@@ -12,7 +12,7 @@ module Operations
       end
 
       def settings
-        Settings.get
+        Settings
       end
     end
   end

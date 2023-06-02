@@ -17,14 +17,14 @@ describe Operations::Payments::DoPayment do
       after { instance.call }
 
       context 'when Wayforpay selected' do
-        before { Settings.get.update!(payment_system: :wayforpay) }
+        before { Settings.update!(payment_system: :wayforpay) }
 
         it { expect(wayforpay_dopayment_class).to receive(:new).with(*params).once }
         it { expect_any_instance_of(wayforpay_dopayment_class).to receive(:call).once }
       end
 
       context 'when Fondy selected' do
-        before { Settings.get.update!(payment_system: :fondy) }
+        before { Settings.update!(payment_system: :fondy) }
 
         it { expect(fondy_dopayment_class).to receive(:new).with(*params).once }
         it { expect_any_instance_of(fondy_dopayment_class).to receive(:call).once }

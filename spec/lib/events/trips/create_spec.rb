@@ -79,12 +79,15 @@ describe Events::Trips::Create do
       before { allow_any_instance_of(Directions).to receive(:distance) { 5_000 } }
 
       it { is_expected.to change { Payment.count }.by(+1) }
-      it { is_expected.to_not change { bonus_trip.reload.used? } }
+      it { is_expected.to change { bonus_trip.reload.used? }.to be_truthy }
 
-      context 'when bonuses enabled' do
-        before { Settings.get.update(bonuses: true) }
+      context 'when bonuses and cashback disabled' do
+        before do 
+          Settings.disable(:bonuses)
+          Settings.disable(:cashback)
+        end
 
-        it { is_expected.to change { bonus_trip.reload.used? }.to be_truthy }
+        it { is_expected.to_not change { bonus_trip.reload.used? } }
       end
 
       context 'but bonus was used before' do
@@ -102,24 +105,24 @@ describe Events::Trips::Create do
       context 'and cashback param present' do
         let(:data) { trip_params.merge(bonus: true, cashback: true) }
 
-        it { is_expected.to_not change { BonusTrip.count } }
+        it { is_expected.to change { BonusTrip.count }.by(+1) }
 
-        context 'when bonuses enabled' do
-          before { Settings.get.update(bonuses: true, cashback: true) }
-  
-          it { is_expected.to change { BonusTrip.count }.by(+1) }
+        context 'when cashback disabled' do
+          before { Settings.disable(:cashback); Settings.disable(:bonuses) }
+
+          it { is_expected.to_not change { BonusTrip.count } }
         end
 
         context 'but user have fresh cashback bonus trip' do
           let!(:bonus_trip) { create(:bonus_trip, user_id: user.id, status: :fresh, type: Constants::BonusTrip::CASHBACK) }
 
-          it { is_expected.not_to change { BonusTrip.count } }
-          it { is_expected.to_not change { bonus_trip.reload.used? } }
+          it { is_expected.to_not change { BonusTrip.count } }
+          it { is_expected.to change { bonus_trip.reload.used? }.to be_truthy }
 
-          context 'when bonuses enabled' do
-            before { Settings.get.update(bonuses: true) }
-    
-            it { is_expected.to change { bonus_trip.reload.used? }.to be_truthy }
+          context 'when bonuses disabled' do
+            before { Settings.disable(:cashback); Settings.disable(:bonuses) }
+
+            it { is_expected.to_not change { bonus_trip.reload.used? } }
           end
         end
       end
@@ -177,7 +180,7 @@ describe Events::Trips::Create do
     context 'when payment system Fondy' do
       let!(:card) { create(:card, user_id: user.id, payment_system: :fondy) }
 
-      before { Settings.get.update(payment_system: :fondy) }
+      before { Settings.update(payment_system: :fondy) }
 
       context 'when trip amount hold success' do
         before { allow_any_instance_of(described_class).to receive(:hold_success?).and_return(true) }

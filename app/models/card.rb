@@ -27,6 +27,6 @@ class Card < ApplicationRecord
   end
 
   def self.payment_system
-    Settings.get.fondy? ? [:fondy] : [:wayforpay]
+    Settings.fondy? ? [:fondy] : [:wayforpay]
   end
 end

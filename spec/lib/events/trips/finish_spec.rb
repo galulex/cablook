@@ -20,11 +20,9 @@ describe Events::Trips::Finish do
       context 'with cashback type' do
         let!(:bonus_trip) { create(:bonus_trip, user: user, trip: trip, type: Constants::BonusTrip::CASHBACK) }
 
-        it { is_expected.to_not change { user.reload.cashback } }
+        it { is_expected.to change { user.reload.cashback } }
 
         context 'when cashback enabled' do
-          before {Settings.get.update(cashback: true)}
-
           it { is_expected.to change { user.reload.cashback }.to(user.cashback - trip.cost * 100) }
         end
       end
@@ -73,7 +71,7 @@ describe Events::Trips::Finish do
     end
 
     context 'when payment system Fondy' do
-      before { Settings.get.update!(payment_system: :fondy) }
+      before { Settings.update!(payment_system: :fondy) }
 
       it { is_expected.to change { trip.reload.status }.to(Constants::Trip::STATUS_CODES[Constants::Trip::FINISHED]) }
       it { is_expected.to change { car.reload.status }.to('free') }

@@ -35,7 +35,7 @@ describe Events::Cards::Complete do
       let(:data) { JSON.parse(File.read('spec/fixtures/fondy/create_callback.json')).symbolize_keys }
       let!(:user) { create(:user, id: 1) }
 
-      before { Settings.get.update!(payment_system: :fondy) }
+      before { Settings.update!(payment_system: :fondy) }
 
       it { is_expected.to change { Card.count }.by(1) }
     end

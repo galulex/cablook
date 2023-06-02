@@ -55,8 +55,6 @@ describe Events::Trips::Update do
       context 'and distance greater than MAX_BONUS_DISTANCE' do
         let(:data) { trip_params.merge(distance: Constants::Trip::MAX_BONUS_DISTANCE + 1, bonus: true) }
 
-        before { Settings.get.update!(bonuses: true) }
-
         it { is_expected.to raise_error(Events::InvalidParamsError) }
       end
 
@@ -183,7 +181,7 @@ describe Events::Trips::Update do
       let(:recurring_params) { [trip.user, data[:cost], card.token, order_reference, true] }
 
       before do
-         Settings.get.update(payment_system: :fondy)
+         Settings.update(payment_system: :fondy)
 
          allow_any_instance_of(described_class).to receive(:order_reference).and_return(order_reference)
 

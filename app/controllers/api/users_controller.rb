@@ -10,7 +10,7 @@ module Api
       response['cards'] = Card.user_cards(user.id).as_json
       response['bonus_trips'] = settings.bonuses ? user.bonus_trips.as_json : []
       response['cashback'] = settings.cashback ? user.cashback : 0
-      response['settings'] = settings.as_json(except: :id)
+      response['settings'] = settings.last.as_json(except: :id)
       render json: response, status: 200
     end
 

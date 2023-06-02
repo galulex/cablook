@@ -12,6 +12,6 @@ class ReverseGeocoding
   end
 
   def selected_geocoder
-    Settings.get.address_geocoder.camelcase
+    Settings.address_geocoder.camelcase
   end
 end

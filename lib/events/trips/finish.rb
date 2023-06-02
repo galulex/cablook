@@ -49,7 +49,7 @@ module Events
       end
 
       def update_cashback
-        return unless Settings.get.cashback
+        return unless Settings.cashback
         user.update(cashback: user.cashback - trip.cost * 100)
       end
 

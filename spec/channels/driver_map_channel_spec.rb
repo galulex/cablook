@@ -84,7 +84,7 @@ describe DriverMapChannel do
       end
 
       context 'when feature disabled' do
-        before { Settings.get.update!(overspeed_notify: false) }
+        before { Settings.disable(:overspeed_notify) }
 
         after { channel.perform_action(data_overspeed) }
 
@@ -193,7 +193,7 @@ describe DriverMapChannel do
     it { expect(Jobs::TelegramSendMessage).to receive(:perform_later) }
 
     context 'when feature is disabled' do
-      before { Settings.get.update!(sos: false) }
+      before { Settings.disable(:sos) }
 
       after { channel.perform_action(data) }
 

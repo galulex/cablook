@@ -81,16 +81,15 @@ ActiveAdmin.register Payment do
   end
 
   member_action :refund_payment, method: :post do
-    settings = Settings.get
     payment = Payment.find(params[:id])
-    if payment.type.demodulize == Constants::Payments::TYPES[:order] && settings.wayforpay?
+    if payment.type.demodulize == Constants::Payments::TYPES[:order] && Settings.wayforpay?
       Operations::Wayforpay::RefundForOrder.new(payment.id).call
     else
       Operations::Wayforpay::Refund.new(payment.id).call
     end
     notice = if payment.reload.status == Constants::Payments::REFUND
                 'Refund success'
-              elsif !settings.wayforpay?
+              elsif !Settings.wayforpay?
                 'Payment system dont have refund strategy'
               else
                 'Something went wrong. Check response'

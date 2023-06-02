@@ -15,13 +15,14 @@ describe Operations::Wayforpay::RetryPayment do
       expect(Wayforpay::Payments).to receive(:hold).once
       subject.call
     end
+
     it { is_expected.to change { payment.reload.status }.to(Constants::Payments::SUCCESS) }
-    it { is_expected.to_not change { user.reload.cashback } }
+    it { is_expected.to change { user.reload.cashback }.to(user.cashback + payment.amount * 100 * 0.05) }
 
-    context 'when cashback enabled' do
-      before { Settings.get.update(cashback: true) }
+    context 'when cashback disabled' do
+      before { Settings.disable(:cashback) }
 
-      it { is_expected.to change { user.reload.cashback }.to(user.cashback + payment.amount * 100 * 0.05) }
+      it { is_expected.to_not change { user.reload.cashback } }
     end
 
     context 'when payment type is not trip' do

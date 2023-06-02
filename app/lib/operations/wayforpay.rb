@@ -3,7 +3,7 @@ module Operations
     extend self
 
     def refund(trip_id, fake: nil)
-      return unless Settings.get.wayforpay?
+      return unless Settings.wayforpay?
       Operations::Wayforpay::Refund.new(trip_id, fake: fake).call
     end
   end

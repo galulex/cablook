@@ -4,6 +4,6 @@ class Presenters::Trips::DetailedCollection < Presenters::BaseCollection
   property :settings, exec_context: :decorator
 
   def settings
-    Presenters::Settings::SinglePublic.new(Settings.get)
+    Presenters::Settings::SinglePublic.new(Settings)
   end
 end
