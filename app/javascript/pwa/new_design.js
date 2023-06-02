@@ -92,10 +92,7 @@ export default class NewDesign extends Component {
   }
 
   fetchSettings = () => {
-    axios.get('settings').then((res) => {
-      const settings = res.data.settings
-      this.setState({settings: settings})
-    })
+    axios.get('settings').then(({data}) => this.setState({settings: data}))
   }
 
   loadTrips = () => {

@@ -258,7 +258,6 @@ export default class App extends Component {
 
   fetchUser = () => {
     return axios.get('user').then((res) => {
-      const welcome_message = this.state.settings.welcome_message
       if ((res.data.locale !== this.state.language)) { this.updateUserLocale(this.state.language) }
       let availableBonusTrips = []
       if (res.data.bonus_trips) availableBonusTrips = this.getAvailableBonusTrips(res.data.bonus_trips)
@@ -272,7 +271,7 @@ export default class App extends Component {
         currentUserID: res.data.id,
         currentTrip: res.data.current_trip,
         currentDeliveryTrip: res.data.current_delivery_trip,
-        settings: res.data.settings
+        settings: JSON.parse(res.data.settings)
       })
       if (welcome_message) { alert(welcome_message) }
     }).catch((error) => {
