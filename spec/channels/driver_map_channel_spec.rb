@@ -18,7 +18,8 @@ describe DriverMapChannel do
           'latitude': latitude,
           'longitude': longitude,
           'car_id': car.id,
-          'speed': speed
+          'speed': speed,
+          'current_trips': [trip.id]
         }.to_json
       }
     end
@@ -50,16 +51,6 @@ describe DriverMapChannel do
         location: {
           latitude: latitude,
           longitude: longitude
-        },
-        car: {
-          'deg' => 155.65681685979482,
-          'dis' => 1991.1805060912232,
-          'id' => car.id,
-          'number' => car.number,
-          'phone_number' => car.phone_number,
-          'status' => car.status,
-          'brand' => car.brand,
-          'model' => car.model
         }
       }
     end
@@ -72,7 +63,7 @@ describe DriverMapChannel do
 
         after { channel.perform_action(data) }
 
-        it { expect(Jobs::TelegramSendMessage).to receive(:perform_later) }
+        it { expect(Jobs::TelegramSendMessage).to_not receive(:perform_later) }
       end
 
       context 'when speed acceptable' do
@@ -116,7 +107,7 @@ describe DriverMapChannel do
       before do
         Redis.current.set("car_#{car.id}", "#{latitude},#{longitude}")
         Redis.current.set("max_#{car.id}", overspeed)
-        expect(Jobs::TelegramSendMessage).to receive(:perform_later)
+        expect(Jobs::TelegramSendMessage).to_not receive(:perform_later)
       end
 
       it { channel.perform_action(data) }
@@ -136,17 +127,7 @@ describe DriverMapChannel do
             action: Constants::BroadcastActions::SEND_LOCATION,
             car_id: car.id,
             location: [latitude, longitude],
-            speed: speed,
-            car: {
-              'deg' => 155.65681685979482,
-              'dis' => 1991.1805060912232,
-              'id' => car.id,
-              'number' => car.number,
-              'phone_number' => car.phone_number,
-              'status' => car.status,
-              'brand' => car.brand,
-              'model' => car.model
-            }
+            speed: speed
           ).once
 
           expect(ActionCable.server).to receive(:broadcast).with(
@@ -156,16 +137,17 @@ describe DriverMapChannel do
           ).once
         end
       end
+    end
 
-      context 'without current trip' do
-        let(:trip) { create(:trip, car_id: car.id, status: Constants::Trip::FINISHED)}
-        it do
-          expect(ActionCable.server).not_to receive(:broadcast).with(
-            "TripChannel_#{trip.id}",
-            action: Constants::BroadcastActions::DRIVER_LOCATION_UPDATED,
-            body: body
-          )
-        end
+    context 'without current trip' do
+      after { channel.perform_action(data_first) }
+
+      it do
+        expect(ActionCable.server).not_to receive(:broadcast).with(
+          "TripChannel_#{trip.id}",
+          action: Constants::BroadcastActions::DRIVER_LOCATION_UPDATED,
+          body: body
+        )
       end
     end
   end
@@ -190,7 +172,7 @@ describe DriverMapChannel do
       ).once
     end
 
-    it { expect(Jobs::TelegramSendMessage).to receive(:perform_later) }
+    it { expect(Jobs::TelegramSendMessage).to_not receive(:perform_later) }
 
     context 'when feature is disabled' do
       before { Settings.disable(:sos) }

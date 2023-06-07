@@ -592,8 +592,8 @@ export default class NewDesign extends Component {
 
   DriverLocationUpdated = (data) => {
     if ([CONFIRM_UPDATE_TRIP].includes(this.state.trip.status)) return
-    const position = this.state.car.location
-    this.setState({ car: { ...this.state.car, location: [data.body.location.longitude, data.body.location.latitude], position: position, distance: data.body.car.dis, deg: data.body.car.deg } })
+    const position = [data.body.location.longitude, data.body.location.latitude]
+    this.setState({ car: { ...this.state.car, location: position, position: position} })
   }
 
   finish_trip = () => {

@@ -26,16 +26,18 @@
   let sos
   let settings = {}
   let overSpeedWarning = settings.overspeed_notify && (carSpeed > 60)
-
   let subscription = null
   const cable = createConsumer()
   let trips = []
+  let currentTrips = []
+  const removeFromCurrentTrips = (id) => currentTrips = currentTrips.filter((trip_id) => trip_id !== id)
 
   onMount(() => {
     if (!isLoggedIn) return
     subscribe()
     setWatcher()
     loadScript()
+    getCurrentTrips()
   })
 
   onDestroy(() => {
@@ -47,13 +49,14 @@
     console.log(geo)
     let { latitude, longitude, speed } = geo.coords
     carSpeed = Math.round(speed * 3.6)
-    location = [longitude, latitude]
     if (!subscription) return
+
     let params = {
       car_id: parseInt(localStorage.carId),
       speed: carSpeed,
       latitude: latitude,
-      longitude: longitude
+      longitude: longitude,
+      current_trips: currentTrips
     }
     subscription.perform('send_location', { body: JSON.stringify(params) })
   }
@@ -85,9 +88,13 @@
     subscription.perform('sos', { body: JSON.stringify(params) })
   }
 
-  let getTrips = (async () => {
+  const getTrips = async () => {
     return { data: { trips, settings }} = await axios.get('trips/all')
-  })
+  }
+
+  const getCurrentTrips = () => {
+    axios.get('trips/currents').then(({data}) => currentTrips = data.trips.map((trip) => trip.id) )
+  }
 
   let subscribe = () => {
     if (subscription) return subscription
@@ -132,12 +139,12 @@
 
     TripPropose: (data) => {
       updateTrip(JSON.parse(data.trip))
-      console.log(data)
       window.play('proposal')
     },
 
     TripUnavailable: (data) => {
       let i = trips.findIndex(trip => trip.id === data.trip_id)
+      removeFromCurrentTrips(data.trip_id)
       if (i < 0) return
       trips.splice(i, 1)
       trips = trips
@@ -152,6 +159,7 @@
       trip.car_id = data.car_id
       trip.status = 1
       trips[i] = trip
+      currentTrips = trips.map((trip) => trip.id)
     },
 
     DriverSignOut: (data) => {
@@ -167,9 +175,14 @@
 
     TripDeclined: (data) => {
       let i = trips.findIndex(trip => trip.id === data.trip_id)
+      removeFromCurrentTrips(data.trip_id)
       trips.splice(i, 1)
       trips = trips
       window.play('decline')
+    },
+
+    TripFinished: (data) => {
+      removeFromCurrentTrips(data.trip_id)
     }
   }
 </script>

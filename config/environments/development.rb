@@ -6,6 +6,7 @@ Rails.application.configure do
     'http://app.lvh.me:3000',
     'http://driver.lvh.me:3000'
   ]
+  config.action_cable.worker_pool_size = 5
 
   config.cache_classes = false
 
