@@ -16,7 +16,6 @@
   import Nav from './Nav.svelte'
   import Spinner from './Spinner.svelte'
   import Sos from './Sos.svelte'
-  import Warning from './Warning.svelte'
   import Profile from './routes/Profile.svelte'
 
   let isLoggedIn = !!document.cookie.match(/token/)
@@ -25,8 +24,8 @@
   let watcher
   let sos
   let settings = {}
-  let overSpeedWarning = settings.overspeed_notify && (carSpeed > 60)
   let subscription = null
+
   const cable = createConsumer()
   let trips = []
   let currentTrips = []
@@ -205,9 +204,6 @@
   {#if isLoggedIn}
     <Sounds/>
     <Wakelock/>
-    {#if overSpeedWarning }
-      <div transition:fade><Warning speed={carSpeed}/></div>
-    {/if}
     <main>
       <Route path="/">
         {#await getTrips()}

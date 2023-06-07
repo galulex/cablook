@@ -10,7 +10,6 @@ describe DriverMapChannel do
     let(:latitude_first) { 42.78437439386835 }
     let(:longitude_first) { 15.2 }
     let(:speed) { 20 }
-    let(:overspeed) { 90 }
     let(:data) do
       {
         'action' => 'send_location',
@@ -34,17 +33,6 @@ describe DriverMapChannel do
         }.to_json
       }
     end
-    let(:data_overspeed) do
-      {
-        'action' => 'send_location',
-        'body' => {
-          'latitude': latitude,
-          'longitude': longitude,
-          'car_id': car.id,
-          'speed': overspeed
-        }.to_json
-      }
-    end
     let(:body) do
       {
         car_id: car.id,
@@ -53,34 +41,6 @@ describe DriverMapChannel do
           longitude: longitude
         }
       }
-    end
-
-    context 'speedlimit' do
-      before { Redis.current.set("car_#{car.id}", "#{latitude},#{longitude}") }
-
-      context 'when overspeed' do
-        before { Redis.current.set("max_#{car.id}", overspeed) }
-
-        after { channel.perform_action(data) }
-
-        it { expect(Jobs::TelegramSendMessage).to_not receive(:perform_later) }
-      end
-
-      context 'when speed acceptable' do
-        before { Redis.current.set("max_#{car.id}", speed) }
-
-        after { channel.perform_action(data) }
-
-        it { expect(Jobs::TelegramSendMessage).to_not receive(:perform_later) }
-      end
-
-      context 'when feature disabled' do
-        before { Settings.disable(:overspeed_notify) }
-
-        after { channel.perform_action(data_overspeed) }
-
-        it { expect(Jobs::TelegramSendMessage).to_not receive(:perform_later) }
-      end
     end
 
     context 'that redis save location' do
@@ -101,16 +61,6 @@ describe DriverMapChannel do
       end
 
       it { expect(Jobs::TelegramSendMessage).not_to receive(:perform_later) }
-    end
-
-    context 'and have enqued job' do
-      before do
-        Redis.current.set("car_#{car.id}", "#{latitude},#{longitude}")
-        Redis.current.set("max_#{car.id}", overspeed)
-        expect(Jobs::TelegramSendMessage).to_not receive(:perform_later)
-      end
-
-      it { channel.perform_action(data) }
     end
 
     context 'and broadcast car location to this channel' do
