@@ -19,7 +19,6 @@ class DriverMapChannel < ApplicationCable::Channel
     coords = [body.fetch('latitude').to_f, body.fetch('longitude').to_f]
     current_trips = body.fetch('current_trips', [])
     redis.set("car_#{car_id}", coords.join(','))
-
     Jobs::BroadcastDriverLocation.perform_now(car_id, coords, speed, current_trips)
   end
 
