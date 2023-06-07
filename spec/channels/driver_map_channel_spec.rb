@@ -72,7 +72,7 @@ describe DriverMapChannel do
 
         after { channel.perform_action(data) }
 
-        it { expect(Jobs::TelegramSendMessage).to receive(:perform_later) }
+        it { expect(Jobs::TelegramSendMessage).to_not receive(:perform_later) }
       end
 
       context 'when speed acceptable' do
@@ -116,7 +116,7 @@ describe DriverMapChannel do
       before do
         Redis.current.set("car_#{car.id}", "#{latitude},#{longitude}")
         Redis.current.set("max_#{car.id}", overspeed)
-        expect(Jobs::TelegramSendMessage).to receive(:perform_later)
+        expect(Jobs::TelegramSendMessage).to_not receive(:perform_later)
       end
 
       it { channel.perform_action(data) }
@@ -190,7 +190,7 @@ describe DriverMapChannel do
       ).once
     end
 
-    it { expect(Jobs::TelegramSendMessage).to receive(:perform_later) }
+    it { expect(Jobs::TelegramSendMessage).to_not receive(:perform_later) }
 
     context 'when feature is disabled' do
       before { Settings.disable(:sos) }

@@ -10,7 +10,7 @@ class DriverMapChannel < ApplicationCable::Channel
     body = JSON.parse(data.fetch('body'))
     car = Car.find(body.fetch('car_id'))
     ActionCable.server.broadcast(Constants::Channels::DRIVER_MAP, data)
-    Jobs::TelegramSendMessage.perform_later(ENV['SOS_CHAT_ID'], sos_message(car), car.location)
+    # Jobs::TelegramSendMessage.perform_later(ENV['SOS_CHAT_ID'], sos_message(car), car.location)
   end
 
   def send_location(data)
@@ -31,7 +31,7 @@ class DriverMapChannel < ApplicationCable::Channel
 
     max = redis.get("max_#{car.id}")
     if max && max.to_i > Constants::Car::MAX_SPEED && speed < Constants::Car::MAX_SPEED
-      Jobs::TelegramSendMessage.perform_later(ENV['SPEED_CHAT_ID'], overspeed_message(car, max), car.location)
+      # Jobs::TelegramSendMessage.perform_later(ENV['SPEED_CHAT_ID'], overspeed_message(car, max), car.location)
       redis.del("max_#{car.id}")
       return
     end
