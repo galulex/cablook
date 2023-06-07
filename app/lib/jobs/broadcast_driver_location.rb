@@ -1,5 +1,6 @@
 module Jobs
   class BroadcastDriverLocation < ActiveJob::Base
+    queue_as :broadcast_location
 
     def perform(car_id, coords, speed, current_trips)
       broadcast_to_map_channel(car_id, coords, speed)

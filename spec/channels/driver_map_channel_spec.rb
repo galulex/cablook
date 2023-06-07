@@ -63,41 +63,17 @@ describe DriverMapChannel do
       it { expect(Jobs::TelegramSendMessage).not_to receive(:perform_later) }
     end
 
-    context 'and broadcast car location to this channel' do
+    context 'and broadcast car location' do
       before do
         Redis.current.set("car_#{car.id}", "#{latitude},#{longitude}")
         channel.perform_action(data_first)
       end
+
       after { channel.perform_action(data) }
 
-      context 'with current trip' do
-        it do
-          expect(ActionCable.server).to receive(:broadcast).with(
-            Constants::Channels::DRIVER_MAP,
-            action: Constants::BroadcastActions::SEND_LOCATION,
-            car_id: car.id,
-            location: [latitude, longitude],
-            speed: speed
-          ).once
-
-          expect(ActionCable.server).to receive(:broadcast).with(
-            "TripChannel_#{trip.id}",
-            action: Constants::BroadcastActions::DRIVER_LOCATION_UPDATED,
-            body: body
-          ).once
-        end
-      end
-    end
-
-    context 'without current trip' do
-      after { channel.perform_action(data_first) }
-
-      it do
-        expect(ActionCable.server).not_to receive(:broadcast).with(
-          "TripChannel_#{trip.id}",
-          action: Constants::BroadcastActions::DRIVER_LOCATION_UPDATED,
-          body: body
-        )
+      it 'enqueues job in the broadcast_location queue' do
+        expect { Jobs::BroadcastDriverLocation.perform_later(car.id, [latitude, longitude], speed, [trip.id])}.
+          to have_enqueued_job(Jobs::BroadcastDriverLocation).on_queue('broadcast_location')
       end
     end
   end
