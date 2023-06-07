@@ -38,6 +38,7 @@ class DriverMapChannel < ApplicationCable::Channel
       return
     end
     return unless speed > Constants::Car::MAX_SPEED
+
     redis.set("max_#{car_id}", speed) if max.nil? || speed > max.to_i
   end
 
