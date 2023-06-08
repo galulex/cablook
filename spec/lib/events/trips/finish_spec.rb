@@ -51,13 +51,20 @@ describe Events::Trips::Finish do
     end
 
     context 'and broadcast to driver map channel' do
+      after { subject.call }
+
       it do
         expect(ActionCable.server).to receive(:broadcast).with(
           "#{Constants::Channels::TRIP}_#{trip.id}",
           action: Constants::BroadcastActions::TRIP_FINISH_ACTION,
           body: { action: Constants::BroadcastActions::TRIP_FINISHED }
         ).once
-        subject.call
+
+        expect(ActionCable.server).to receive(:broadcast).with(
+          Constants::Channels::DRIVER_MAP,
+          action: Constants::BroadcastActions::TRIP_FINISHED,
+          trip_id: trip.id
+        ).once
       end
     end
 

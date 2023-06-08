@@ -59,6 +59,11 @@ module Events
           action: Constants::BroadcastActions::TRIP_FINISH_ACTION,
           body: { action: Constants::BroadcastActions::TRIP_FINISHED }
         )
+        ActionCable.server.broadcast(
+          Constants::Channels::DRIVER_MAP,
+          action: Constants::BroadcastActions::TRIP_FINISHED,
+          trip_id: trip.id
+        )
       end
 
       def settle_payment_idle

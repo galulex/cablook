@@ -6,6 +6,7 @@ development:
 production:
   :concurrency: 5
 :queues:
+  - broadcast_location
   - default
   - payments
   - retry_payments

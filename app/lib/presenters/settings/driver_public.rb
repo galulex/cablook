@@ -1,3 +1,3 @@
 class Presenters::Settings::DriverPublic < Presenters::BaseSingle
-  properties :sos, :overspeed_notify
+  properties :sos
 end
