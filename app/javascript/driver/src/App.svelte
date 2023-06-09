@@ -18,7 +18,7 @@
   import Sos from './Sos.svelte'
   import Profile from './routes/Profile.svelte'
 
-  let isLoggedIn = !!document.cookie.match(/token/)
+  let isLoggedIn = !!document.cookie.match(/token/) && localStorage.token
   let carSpeed = 0
   let location = [32.073095,49.418461]
   let watcher
@@ -45,6 +45,7 @@
   })
 
   let sendLocation = (geo) => {
+    if (!isLoggedIn) return
     console.log(geo)
     let { latitude, longitude, speed } = geo.coords
     carSpeed = Math.round(speed * 3.6)
@@ -69,15 +70,20 @@
     subscribe()
     setWatcher()
     loadScript()
+    window.location.reload()
   }
 
   let logout = () => {
     if (!confirm('Are you sure?')) return
+    axios.delete('sessions')
+    onLogout()
+  }
+
+  const onLogout = () => {
     localStorage.clear()
     isLoggedIn = false
     if (subscription) subscription.unsubscribe()
     navigate('/', { replace: true })
-    axios.delete('sessions')
   }
 
   let sendSos = () => {
@@ -161,8 +167,8 @@
       currentTrips = trips.map((trip) => trip.id)
     },
 
-    DriverSignOut: (data) => {
-      console.log(data)
+    DriverSignIn: (data) => {
+      if (data.id === parseInt(localStorage.id)) onLogout()
     },
 
     SOS: (data) => {

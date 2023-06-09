@@ -15,7 +15,9 @@ module Events
         check_password!
         validate_driver_car!
         validate_driver_card_number!
+        broadcast_to_driver_map
         set_free_status
+        refresh_driver_token
         driver
       end
 
@@ -35,6 +37,18 @@ module Events
 
       def set_free_status
         driver.car.update(status: heve_active_trips? ? Constants::Car::DURING_TRIP : Constants::Car::FREE)
+      end
+
+      def broadcast_to_driver_map
+        ActionCable.server.broadcast(
+          Constants::Channels::DRIVER_MAP,
+          action: Constants::BroadcastActions::DRIVER_SIGN_IN,
+          id: driver.id
+        )
+      end
+
+      def refresh_driver_token
+        driver.update!(auth_token: SecureRandom.base64(24))
       end
 
       def heve_active_trips?
