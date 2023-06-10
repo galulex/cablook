@@ -147,15 +147,6 @@
       window.play('proposal')
     },
 
-    TripUnavailable: (data) => {
-      let i = trips.findIndex(trip => trip.id === data.trip_id)
-      removeFromCurrentTrips(data.trip_id)
-      if (i < 0) return
-      trips.splice(i, 1)
-      trips = trips
-      window.play('cancel')
-    },
-
     TripAccepted: (data) => {
       let i = trips.findIndex(trip => trip.id === data.trip_id)
       let trip = trips[i]
@@ -164,18 +155,16 @@
       trip.car_id = data.car_id
       trip.status = 1
       trips[i] = trip
-      currentTrips = trips.map((trip) => trip.id)
+      if (data.driver_id === parseInt(localStorage.id)) currentTrips.push(trip.id)
     },
 
-    DriverSignIn: (data) => {
-      if (data.id === parseInt(localStorage.id)) onLogout()
-    },
-
-    SOS: (data) => {
-      let parsedData = JSON.parse(data.body)
-      window.play('sos')
-      sos = parsedData.car_id
-      navigate('/map', { replace: true })
+    TripUnavailable: (data) => {
+      let i = trips.findIndex(trip => trip.id === data.trip_id)
+      removeFromCurrentTrips(data.trip_id)
+      if (i < 0) return
+      trips.splice(i, 1)
+      trips = trips
+      window.play('cancel')
     },
 
     TripDeclined: (data) => {
@@ -188,6 +177,21 @@
 
     TripFinished: (data) => {
       removeFromCurrentTrips(data.trip_id)
+    },
+
+    TripUnrelised: (data) => {
+      removeFromCurrentTrips(data.trip_id)
+    },
+
+    DriverSignIn: (data) => {
+      if (data.id === parseInt(localStorage.id)) onLogout()
+    },
+
+    SOS: (data) => {
+      let parsedData = JSON.parse(data.body)
+      window.play('sos')
+      sos = parsedData.car_id
+      navigate('/map', { replace: true })
     }
   }
 </script>
