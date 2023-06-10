@@ -1,6 +1,5 @@
 <script>
-  import { onMount, onDestroy, setContext } from 'svelte'
-  import { fade } from 'svelte/transition'
+  import { onMount, onDestroy } from 'svelte'
   import { Router, Route, navigate } from 'svelte-routing'
   import Sounds from './Sounds.svelte'
   import { createConsumer } from '@rails/actioncable'
@@ -26,29 +25,26 @@
   let settings = {}
   let subscription = null
 
-  const cable = createConsumer()
   let trips = []
   let currentTrips = []
+
+  const cable = createConsumer()
   const removeFromCurrentTrips = (id) => currentTrips = currentTrips.filter((trip_id) => trip_id !== id)
 
   onMount(() => {
-    if (!isLoggedIn) return
-    subscribe()
-    setWatcher()
-    loadScript()
-    getCurrentTrips()
+    if (isLoggedIn) onStart()
   })
 
   onDestroy(() => {
-    if (subscription) subscription.unsubscribe()
-    if (watcher) watcher.clearWatch()
+    subscription.unsubscribe()
+    watcher.clearWatch()
   })
 
   let sendLocation = (geo) => {
     if (!isLoggedIn) return
     console.log(geo)
     let { latitude, longitude, speed } = geo.coords
-    carSpeed = Math.round(speed * 3.6)
+    carSpeed = Math.round(speed * 3.6) || 0
     if (!subscription) return
 
     let params = {
@@ -67,10 +63,14 @@
     localStorage.carNumber = car.number
     localStorage.token = driver.auth_token
     isLoggedIn = true
+    onStart()
+  }
+
+  const onStart = () => {
     subscribe()
     setWatcher()
     loadScript()
-    window.location.reload()
+    getCurrentTrips()
   }
 
   let logout = () => {
@@ -82,7 +82,8 @@
   const onLogout = () => {
     localStorage.clear()
     isLoggedIn = false
-    if (subscription) subscription.unsubscribe()
+    currentTrips = []
+    subscription.unsubscribe()
     navigate('/', { replace: true })
   }
 
@@ -102,7 +103,6 @@
   }
 
   let subscribe = () => {
-    if (subscription) return subscription
     subscription = cable.subscriptions.create({ channel: 'DriverMapChannel' }, {
       received: data => { cableActions[data.action](data) }
     })
