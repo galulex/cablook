@@ -1,6 +1,5 @@
 <script>
-  import { onMount, onDestroy, setContext } from 'svelte'
-  import { fade } from 'svelte/transition'
+  import { onMount, onDestroy } from 'svelte'
   import { Router, Route, navigate } from 'svelte-routing'
   import Sounds from './Sounds.svelte'
   import { createConsumer } from '@rails/actioncable'
@@ -18,7 +17,7 @@
   import Sos from './Sos.svelte'
   import Profile from './routes/Profile.svelte'
 
-  let isLoggedIn = !!document.cookie.match(/token/)
+  let isLoggedIn = !!document.cookie.match(/token/) && localStorage.token
   let carSpeed = 0
   let location = [32.073095,49.418461]
   let watcher
@@ -26,28 +25,26 @@
   let settings = {}
   let subscription = null
 
-  const cable = createConsumer()
   let trips = []
   let currentTrips = []
+
+  const cable = createConsumer()
   const removeFromCurrentTrips = (id) => currentTrips = currentTrips.filter((trip_id) => trip_id !== id)
 
   onMount(() => {
-    if (!isLoggedIn) return
-    subscribe()
-    setWatcher()
-    loadScript()
-    getCurrentTrips()
+    if (isLoggedIn) onStart()
   })
 
   onDestroy(() => {
-    if (subscription) subscription.unsubscribe()
-    if (watcher) watcher.clearWatch()
+    subscription.unsubscribe()
+    watcher.clearWatch()
   })
 
   let sendLocation = (geo) => {
+    if (!isLoggedIn) return
     console.log(geo)
     let { latitude, longitude, speed } = geo.coords
-    carSpeed = Math.round(speed * 3.6)
+    carSpeed = Math.round(speed * 3.6) || 0
     if (!subscription) return
 
     let params = {
@@ -66,18 +63,28 @@
     localStorage.carNumber = car.number
     localStorage.token = driver.auth_token
     isLoggedIn = true
+    onStart()
+  }
+
+  const onStart = () => {
     subscribe()
     setWatcher()
     loadScript()
+    getCurrentTrips()
   }
 
   let logout = () => {
     if (!confirm('Are you sure?')) return
+    axios.delete('sessions')
+    onLogout()
+  }
+
+  const onLogout = () => {
     localStorage.clear()
     isLoggedIn = false
-    if (subscription) subscription.unsubscribe()
+    currentTrips = []
+    subscription.unsubscribe()
     navigate('/', { replace: true })
-    axios.delete('sessions')
   }
 
   let sendSos = () => {
@@ -96,7 +103,6 @@
   }
 
   let subscribe = () => {
-    if (subscription) return subscription
     subscription = cable.subscriptions.create({ channel: 'DriverMapChannel' }, {
       received: data => { cableActions[data.action](data) }
     })
@@ -141,15 +147,6 @@
       window.play('proposal')
     },
 
-    TripUnavailable: (data) => {
-      let i = trips.findIndex(trip => trip.id === data.trip_id)
-      removeFromCurrentTrips(data.trip_id)
-      if (i < 0) return
-      trips.splice(i, 1)
-      trips = trips
-      window.play('cancel')
-    },
-
     TripAccepted: (data) => {
       let i = trips.findIndex(trip => trip.id === data.trip_id)
       let trip = trips[i]
@@ -158,18 +155,16 @@
       trip.car_id = data.car_id
       trip.status = 1
       trips[i] = trip
-      currentTrips = trips.map((trip) => trip.id)
+      if (data.driver_id === parseInt(localStorage.id)) currentTrips.push(trip.id)
     },
 
-    DriverSignOut: (data) => {
-      console.log(data)
-    },
-
-    SOS: (data) => {
-      let parsedData = JSON.parse(data.body)
-      window.play('sos')
-      sos = parsedData.car_id
-      navigate('/map', { replace: true })
+    TripUnavailable: (data) => {
+      let i = trips.findIndex(trip => trip.id === data.trip_id)
+      removeFromCurrentTrips(data.trip_id)
+      if (i < 0) return
+      trips.splice(i, 1)
+      trips = trips
+      window.play('cancel')
     },
 
     TripDeclined: (data) => {
@@ -182,6 +177,21 @@
 
     TripFinished: (data) => {
       removeFromCurrentTrips(data.trip_id)
+    },
+
+    TripUnrelised: (data) => {
+      removeFromCurrentTrips(data.trip_id)
+    },
+
+    DriverSignIn: (data) => {
+      if (data.id === parseInt(localStorage.id)) onLogout()
+    },
+
+    SOS: (data) => {
+      let parsedData = JSON.parse(data.body)
+      window.play('sos')
+      sos = parsedData.car_id
+      navigate('/map', { replace: true })
     }
   }
 </script>

@@ -13,6 +13,7 @@ module Events
 
       def run
         trip.pending!
+        broadcast
         Jobs::SearchCarForTrip.perform_later(trip.id)
         @trip
       end
@@ -21,6 +22,14 @@ module Events
 
       def trip
         @trip ||= Trip.find(data[:trip_id])
+      end
+
+      def broadcast
+        ActionCable.server.broadcast(
+          Constants::Channels::DRIVER_MAP,
+          action: Constants::BroadcastActions::TRIP_FINISHED,
+          trip_id: trip.id
+        )
       end
     end
   end
