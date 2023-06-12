@@ -1,6 +1,8 @@
 module Api
   module DriversApp
     class StatisticsController < Api::DriversApp::ApplicationController
+      before_action :authorize!
+
       def index
         render json: { statistics: statistics, driver: driver }, status: 200
       end
