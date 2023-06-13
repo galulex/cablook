@@ -15,7 +15,7 @@ RSpec.describe Jobs::BroadcastDriverLocation do
           .with(Constants::Channels::DRIVER_MAP, { 
             action: Constants::BroadcastActions::SEND_LOCATION,
             car_id: car.id,
-            location: ['49.426168','32.054251'],
+            location: [49.426168,32.054251],
             speed: speed }
           )
 
@@ -26,8 +26,8 @@ RSpec.describe Jobs::BroadcastDriverLocation do
                 body: {
                   car_id: car.id,
                   location: {
-                    latitude: '49.426168',
-                    longitude: '32.054251'
+                    latitude: 49.426168,
+                    longitude: 32.054251
                   }
                 }
               ))
