@@ -3,11 +3,14 @@ module Jobs
     queue_as :broadcast_location
 
     def perform
-        Car.for_map.each do |car|
-          car_data = JSON.parse(Redis.current.get("car_data_#{car.id}")).symbolize_keys
-          broadcast_to_map_channel(car.id, car.location, car_data[:speed])
-          broadcast_to_trip_channel(car.id, car.location, car_data[:current_trips]) unless car_data[:current_trips].empty?
-        end
+      Car.for_map.each do |car|
+        car_data = Redis.current.get("car_data_#{car.id}")
+        next unless car_data
+
+        car_data = JSON.parse(car_data).symbolize_keys
+        broadcast_to_map_channel(car.id, car.location, car_data[:speed])
+        broadcast_to_trip_channel(car.id, car.location, car_data[:current_trips]) unless car_data[:current_trips].empty?
+      end
     end
 
     private
