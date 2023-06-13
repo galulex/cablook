@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "@beyonk/svelte-mapbox": "^2.2.3",
+    "@beyonk/svelte-mapbox": "9.1.0",
     "@firebase/app": "^0.5.2",
     "@firebase/auth": "^0.13.4",
     "@firebase/messaging": "^0.6.2",
@@ -19,7 +19,7 @@
     "core-js": "2",
     "css-loader": "^3.4.2",
     "history": "^4.9.0",
-    "mapbox-gl": "2.1.1",
+    "mapbox-gl": "2.15.0",
     "preact": "^10.4.8",
     "preact-compat": "^3.18.4",
     "preact-render-to-string": "^5.1.10",

@@ -1,8 +1,6 @@
 <script>
   import { onMount } from 'svelte'
-  import axios from 'axios'
   import Actions from './actions.svelte'
-
   import Pin from '../../../images/Pin.svelte'
 
   export let trip

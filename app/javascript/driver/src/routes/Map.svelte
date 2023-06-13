@@ -1,7 +1,5 @@
 <script>
   import { onDestroy } from 'svelte'
-
-  import mapboxgl from 'mapbox-gl'
   import { Map, controls } from '@beyonk/svelte-mapbox'
   import Marker from './map/marker.svelte'
   import Path from './map/path.svelte'
@@ -9,14 +7,13 @@
 
   import '../../css/map.css'
 
-  const { GeolocateControl, NavigationControl, ScalingControl } = controls
+  const { GeolocateControl, NavigationControl } = controls
 
   export let cable
   export let location
   export let trips
   export let sos
 
-  let map
   let cars = []
   let subscription
 
@@ -69,7 +66,9 @@
 <Map
   accessToken='pk.eyJ1IjoiZ2FsdWxleCIsImEiOiJjamx6ampoZjgyMnYxM3FvZ2ppNjV2M2x5In0.bPgk2WI9NT-DJwnE-OtiLA'
   style='mapbox://styles/okunieva/cjzwn3wx40yhq1cpjl3yo8p1z'
-  options={{center: location, minZoom: 8, maxZoom: 17, zoom: 12}}
+  center={location}
+  zoom={12}
+  options={{minZoom: 8, maxZoom: 17}}
   >
   {#await getCars()}
     <slot></slot>

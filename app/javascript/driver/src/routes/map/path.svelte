@@ -1,7 +1,7 @@
 <script>
   import { getContext } from 'svelte'
   import { contextKey } from '@beyonk/svelte-mapbox'
-  import { onMount, afterUpdate } from 'svelte'
+  import { onMount } from 'svelte'
 
   import '../../../css/map.css'
 
