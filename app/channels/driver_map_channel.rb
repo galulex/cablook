@@ -19,7 +19,7 @@ class DriverMapChannel < ApplicationCable::Channel
     coords = [body.fetch('latitude').to_f, body.fetch('longitude').to_f]
     current_trips = body.fetch('current_trips', [])
     redis.set("car_#{car_id}", coords.join(','))
-    Jobs::BroadcastDriverLocation.perform_later(car_id, coords, speed, current_trips)
+    redis.set("car_data_#{car_id}", { speed: speed, current_trips: current_trips }.to_json)
   end
 
   private
