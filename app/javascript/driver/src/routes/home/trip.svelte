@@ -1,15 +1,11 @@
 <script>
   import { onMount, onDestroy } from 'svelte'
   import axios from 'axios'
-
-  let showModal = false;
-
   import Leaf from '../../../images/Leaf_black.svelte'
   import Timer from '../../../images/Timer.svelte'
   import Clock from '../../../images/Clock.svelte'
   import Distance from '../../../images/Distance.svelte'
   import Pin from '../../../images/Pin.svelte'
-  import Location from '../../../images/Location_view.svelte'
   import Phone from '../../../images/Phone.svelte'
   import PhoneCrossed from '../../../images/Phone_crossed.svelte'
   import Plane from '../../../images/Plane.svelte'
@@ -21,7 +17,7 @@
   import Exclamation from '../../../images/Exclamation.svelte'
   import Check from '../../../images/Check.svelte'
   import Pencil from '../../../images/Pencil.svelte'
-  import Modal from '../../Modal.svelte';
+  import Modal from '../../Modal.svelte'
 
   export let trip
   export let updateTrip
@@ -30,7 +26,7 @@
   const TRIP_STATUS_WAITING_CLIENT = 2
   const TRIP_STATUS_DRIVING = 3
 
-  let duration = (trip.duration/60).toFixed(1)
+  let showModal = false
   let distance = (trip.distance/1000).toFixed(1)
   let disabled = false
   let cancelTripDisabled = trip.status < TRIP_STATUS_WAITING_CLIENT

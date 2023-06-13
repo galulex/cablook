@@ -16,7 +16,6 @@
   let interval
 
   let createTime = new Date(trip.created_at).getTime()
-  let current
   let time = 0
   let name = 'disabled'
   let disabledButton = false

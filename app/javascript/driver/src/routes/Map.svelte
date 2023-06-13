@@ -1,7 +1,5 @@
 <script>
   import { onDestroy } from 'svelte'
-
-  import mapboxgl from 'mapbox-gl'
   import { Map, controls } from '@beyonk/svelte-mapbox'
   import Marker from './map/marker.svelte'
   import Path from './map/path.svelte'
@@ -9,14 +7,13 @@
 
   import '../../css/map.css'
 
-  const { GeolocateControl, NavigationControl, ScalingControl } = controls
+  const { GeolocateControl, NavigationControl } = controls
 
   export let cable
   export let location
   export let trips
   export let sos
 
-  let map
   let cars = []
   let subscription
 

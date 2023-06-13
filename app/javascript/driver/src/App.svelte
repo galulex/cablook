@@ -3,11 +3,6 @@
   import { Router, Route, navigate } from 'svelte-routing'
   import Sounds from './Sounds.svelte'
   import { createConsumer } from '@rails/actioncable'
-
-  import axios from 'axios'
-  axios.defaults.baseURL = '/api/drivers_app'
-  axios.defaults.headers.common['Content-Type'] = 'application/json'
-
   import Home from './routes/Home.svelte'
   import Wakelock from './Wakelock.svelte'
   import Session from './routes/Session.svelte'
@@ -16,6 +11,10 @@
   import Spinner from './Spinner.svelte'
   import Sos from './Sos.svelte'
   import Profile from './routes/Profile.svelte'
+
+  import axios from 'axios'
+  axios.defaults.baseURL = '/api/drivers_app'
+  axios.defaults.headers.common['Content-Type'] = 'application/json'
 
   let isLoggedIn = !!document.cookie.match(/token/) && localStorage.token
   let carSpeed = 0

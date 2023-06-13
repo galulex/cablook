@@ -1,10 +1,9 @@
 <script>
-  import axios from 'axios';
+  import axios from 'axios'
 
   export let login
 
   let disabled = false
-  let token
 
   let formData = (form) => {
     return Object.fromEntries(new FormData(form))
@@ -15,7 +14,6 @@
     disabled = true
     axios.post('sessions', { driver: formData(e.target) }).then((res) => {
       disabled = false
-      token = res.data.auth_token
       login(res.data, res.data.car)
     }).catch((error) => {
       disabled = false
