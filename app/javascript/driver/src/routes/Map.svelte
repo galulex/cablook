@@ -66,7 +66,9 @@
 <Map
   accessToken='pk.eyJ1IjoiZ2FsdWxleCIsImEiOiJjamx6ampoZjgyMnYxM3FvZ2ppNjV2M2x5In0.bPgk2WI9NT-DJwnE-OtiLA'
   style='mapbox://styles/okunieva/cjzwn3wx40yhq1cpjl3yo8p1z'
-  options={{center: location, minZoom: 8, maxZoom: 17, zoom: 12}}
+  center={location}
+  zoom={12}
+  options={{minZoom: 8, maxZoom: 17}}
   >
   {#await getCars()}
     <slot></slot>

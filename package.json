@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "@beyonk/svelte-mapbox": "^2.2.3",
+    "@beyonk/svelte-mapbox": "9.1.0",
     "@firebase/app": "^0.5.2",
     "@firebase/auth": "^0.13.4",
     "@firebase/messaging": "^0.6.2",
