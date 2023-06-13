@@ -5,3 +5,7 @@ end
 every :month, at: '12:00am' do
   rake 'db:update_fav_address'
 end
+
+every 1.minute do
+    rake 'broadcast_location'
+end

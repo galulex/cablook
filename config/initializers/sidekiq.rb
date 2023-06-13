@@ -8,7 +8,6 @@ if Rails.env.production?
   Sidekiq.configure_server do |config|
     config.redis = { url: ENV['REDIS_URL'], size: 7 }
   end
-
 end
 
 Sidekiq::Web.set :session_secret, ENV['SECRET_KEY_BASE']

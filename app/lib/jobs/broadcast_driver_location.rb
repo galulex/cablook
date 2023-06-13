@@ -2,9 +2,13 @@ module Jobs
   class BroadcastDriverLocation < ActiveJob::Base
     queue_as :broadcast_location
 
-    def perform(car_id, coords, speed, current_trips)
-      broadcast_to_map_channel(car_id, coords, speed)
-      broadcast_to_trip_channel(current_trips, car_id, coords) unless current_trips.empty?
+    def perform
+        Car.for_map.ids.each do |id|
+          coords = Redis.current.get("car_#{id}").split(',')
+          car = JSON.parse(Redis.current.get("car_data_#{id}")).symbolize_keys
+          broadcast_to_map_channel(id, coords, car[:speed])
+          broadcast_to_trip_channel(id, car[:current_trips], coords) unless car[:current_trips].empty?
+        end
     end
 
     private
@@ -19,7 +23,7 @@ module Jobs
       )
     end
 
-    def broadcast_to_trip_channel(current_trips, car_id, coords)
+    def broadcast_to_trip_channel(car_id, current_trips, coords)
       current_trips.each do |trip_id|
         ActionCable.server.broadcast(
           "#{Constants::Channels::TRIP}_#{trip_id}",
