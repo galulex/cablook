@@ -4,7 +4,7 @@ RSpec.describe Jobs::BroadcastDriverLocation do
     let(:coords) { '49.426168,32.054251' }
     let(:speed) { 20 }
     let(:current_trips) { [1, 2, 3] }
-    let(:driver_map_payload) { [{id: car.id, location: car.location, speed: speed, current_trips: current_trips }] }
+    let(:driver_map_payload) { Car.for_broadcast.as_json(only: :id, methods: [:speed, :current_trips, :location]) }
 
     before { Redis.current.set("car_#{car.id}", coords) }
 

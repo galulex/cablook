@@ -7,6 +7,7 @@ class Car < ApplicationRecord
   validates :number, presence: true, uniqueness: true
 
   scope :for_map, -> { includes(:driver).where.not(status: Constants::Car::OFFLINE) }
+  scope :for_broadcast, -> { where.not(status: Constants::Car::OFFLINE) }
 
   def display_name
     number
@@ -27,7 +28,21 @@ class Car < ApplicationRecord
     @position = car_position ? car_position&.split(',').map(&:to_f) : location
   end
 
+  def speed
+    redis_car_data['speed'] || 0
+  end
+
+  def current_trips
+    redis_car_data['current_trips'] || []
+  end
+
   private
+
+  def redis_car_data
+    return {} unless redis.get("car_data_#{id}")
+
+    @redis_car_data ||= JSON.parse(redis.get("car_data_#{id}"))
+  end
 
   def redis
     @redis ||= Redis.current
