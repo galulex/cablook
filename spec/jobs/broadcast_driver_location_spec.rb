@@ -4,6 +4,7 @@ RSpec.describe Jobs::BroadcastDriverLocation do
     let(:coords) { '49.426168,32.054251' }
     let(:speed) { 20 }
     let(:current_trips) { [1, 2, 3] }
+    let(:driver_map_payload) { Car.for_broadcast.as_json(only: :id, methods: [:speed, :current_trips, :location]) }
 
     before { Redis.current.set("car_#{car.id}", coords) }
 
@@ -14,26 +15,25 @@ RSpec.describe Jobs::BroadcastDriverLocation do
         expect(ActionCable.server).to receive(:broadcast)
           .with(Constants::Channels::DRIVER_MAP, { 
             action: Constants::BroadcastActions::SEND_LOCATION,
-            car_id: car.id,
-            location: [49.426168,32.054251],
-            speed: speed }
+            payload: driver_map_payload
+            }
           )
 
-          current_trips.each do |trip_id|
-            expect(ActionCable.server).to receive(:broadcast)
-              .with("#{Constants::Channels::TRIP}_#{trip_id}", hash_including(
-                action: Constants::BroadcastActions::DRIVER_LOCATION_UPDATED,
-                body: {
-                  car_id: car.id,
-                  location: {
-                    latitude: 49.426168,
-                    longitude: 32.054251
-                  }
+        current_trips.each do |trip_id|
+          expect(ActionCable.server).to receive(:broadcast)
+            .with("#{Constants::Channels::TRIP}_#{trip_id}", hash_including(
+              action: Constants::BroadcastActions::DRIVER_LOCATION_UPDATED,
+              body: {
+                car_id: car.id,
+                location: {
+                  latitude: 49.426168,
+                  longitude: 32.054251
                 }
-              ))
-          end
+              }
+            ))
+        end
 
-      described_class.perform_now()
+        described_class.perform_now()
       end
     end
 

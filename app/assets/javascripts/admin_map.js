@@ -81,7 +81,7 @@ function init() {
 function subscribe() {
   return this.ActionCable.createConsumer().subscriptions.create({ channel: 'DriverMapChannel' }, { received: function received(data) {
       if (data.action === 'SendLocation') {
-        sendLocation(data);
+        sendLocation(data.payload);
       } else if (data.action === 'TripPropose') {
         addNewTrip(JSON.parse(data.trip));
       }
@@ -100,19 +100,21 @@ function subscribeToTripChannel(tripId) {
     } });
 }
 
-function sendLocation(car) {
-  el = markers.find(function (element, index, array) {
-    if ($(markers[index]._element).data('info').id == car.car_id) {
-      return element;
+function sendLocation(data) {
+  data.forEach((car) => {
+    el = markers.find(function (element, index, array) {
+      if ($(markers[index]._element).data('info').id == car.id) {
+        return element;
+      }
+    })
+
+    if (el) {
+      el.setLngLat([car.location[1], car.location[0]]);
+      car_speed = $('.car_' + car.id);
+      car_speed.text(car.speed + ' km/h');
+      if (car_speed.is(':hidden')) car_speed.show();
     }
   });
-
-  if (el) {
-    el.setLngLat([car.location[1], car.location[0]]);
-    car_speed = $('.car_' + car.car_id);
-    car_speed.text(car.speed + ' km/h');
-    if (car_speed.is(':hidden')) car_speed.show();
-  }
 }
 
 function drawRoute(color, trip) {
