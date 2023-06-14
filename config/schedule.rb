@@ -11,5 +11,5 @@ every :month, at: '12:00am' do
 end
 
 every 1.minute do
-    rake 'broadcast_location'
+  rake 'broadcast_location'
 end

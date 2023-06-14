@@ -24,19 +24,21 @@
   let subscribe = () => {
     subscription = cable.subscriptions.create({ channel: 'DriverMapChannel' }, {
       received: data => {
-        if (data.action === 'SendLocation') updateCar(data)
+        if (data.action === 'SendLocation') updateCar(data.payload)
       }
     })
   }
 
   let updateCar = (data) => {
-    let i = cars.findIndex(car => car.id === data.car_id)
-    let car = cars[i]
-    if (i < 0) return
-    car.position = car.location
-    car.location = data.location
-    car.speed = data.speed
-    cars[i] = car
+    data.forEach((car_data) => {
+      let i = cars.findIndex(car => car.id === car_data.id)
+      let car = cars[i]
+      if (i < 0) return
+      car.position = car.location
+      car.location = car_data.location
+      car.speed = car_data.speed
+      cars[i] = car
+    })
   }
 
   let getCars = (async () => {
