@@ -1,5 +1,6 @@
 set :output, "#{path}/log/cron.log"
 set :environment, ENV['RAILS_ENV'] || 'development'
+env :PATH, ENV['PATH']
 
 every :sunday, at: '3:00am' do
   rake 'db:retry_all_pending_payments'
