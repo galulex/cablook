@@ -31,6 +31,7 @@
   const removeFromCurrentTrips = (id) => currentTrips = currentTrips.filter((trip_id) => trip_id !== id)
 
   onMount(() => {
+    document.body.style.background = '#19a160'
     if (isLoggedIn) onStart()
   })
 
@@ -202,7 +203,7 @@
 <style>
   main {
     height: calc(100vh - 39px);
-    background: linear-gradient(to right, var(--bg_gradient_color_2), var(--bg_gradient_color_1), var(--bg_gradient_color_2));
+    background: var(--bg_gradient_color_1);
   }
 
   :global(.mapboxgl-popup.background-red>.mapboxgl-popup-content) {

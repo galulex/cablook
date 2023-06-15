@@ -106,7 +106,7 @@
     transform: translate(-50%,-50%);
     padding: 2.5em;
     border-radius: 10px;
-    background: linear-gradient(to right, var(--bg_gradient_color_2), var(--bg_gradient_color_1), var(--bg_gradient_color_2));
+    background: var(--bg_gradient_color_2);
     box-shadow: 5px 5px 5px var(--shadow_color);
   }
 

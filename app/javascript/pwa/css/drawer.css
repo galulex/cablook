@@ -95,8 +95,6 @@ aside a.nav-link:nth-child(odd) svg path {
 }
 
 aside .nav-header {
-  background: #E9EEED;
-  background: var(--input_bg_color);
   box-shadow: inset 3px 2px 8px var(--shadow_color), inset -2px -1px 4px var(--shadow_color_light);
   transition: .3s box-shadow;
   -webkit-appearance: none;
@@ -120,8 +118,8 @@ aside div.nav-wrapper {
   overflow: hidden;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
-  background: linear-gradient(to right, #f6faf8, #e6efee);
-  background: linear-gradient(to right, var(--bg_gradient_color_1), var(--bg_gradient_color_2));
+  background: linear-gradient(0deg, #f6faf8, #e6efee);
+  background: linear-gradient(0deg, var(--bg_gradient_color_1), var(--bg_gradient_color_2));
 }
 
 .nav-header svg {

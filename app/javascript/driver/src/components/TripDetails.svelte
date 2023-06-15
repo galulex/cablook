@@ -17,7 +17,7 @@
     width: 100%;
     padding: 2% 2%;
     margin: 2% 0;
-    background: linear-gradient(to right, var(--bg_gradient_color_2), var(--bg_gradient_color_1), var(--bg_gradient_color_2));
+    background: linear-gradient(0deg, var(--bg_gradient_color_2), var(--bg_gradient_color_1), 40%);
     border-radius: 15px;
     box-shadow: 0px 0px 5px var(--shadow_color);
     color: #233038;

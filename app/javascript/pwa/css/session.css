@@ -44,7 +44,7 @@ main.login input, input.number__input {
   width: 100%;
   display: block;
   border: none;
-  background: var(--input_bg_color);
+  background: linear-gradient(0deg, var(--bg_gradient_color_2), var(--bg_gradient_color_1), 40%);
   color: var(--font_color_1);
   font-size: 1.5rem;
   padding: 25px 0 25px 45px;;

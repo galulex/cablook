@@ -1,9 +1,18 @@
 <script>
+  import { onMount, onDestroy } from 'svelte'
   import axios from 'axios'
 
   export let login
 
   let disabled = false
+
+  onMount(() => {
+    document.body.style.background = '#ced5d3'
+  })
+
+  onDestroy(() => {
+    document.body.style.background = '#19a160'
+  })
 
   let formData = (form) => {
     return Object.fromEntries(new FormData(form))
@@ -25,7 +34,7 @@
 <style>
   main {
     height: 100vh;
-    background: linear-gradient(to right, var(--bg_gradient_color_2), var(--bg_gradient_color_1), var(--bg_gradient_color_2));
+    background: linear-gradient(0deg, var(--bg_gradient_color_1), var(--bg_gradient_color_2));
   }
 
   h3 {
@@ -34,7 +43,7 @@
   }
 
   button {
-    background: linear-gradient(to right, var(--bg_gradient_color_2), var(--bg_gradient_color_1), var(--bg_gradient_color_2));
+    background: linear-gradient(0deg, var(--bg_gradient_color_2), var(--bg_gradient_color_1), 40%);
     padding: 16px;
     margin: 10px 0;
     width: 100%;
