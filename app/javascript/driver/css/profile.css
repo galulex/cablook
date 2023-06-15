@@ -21,7 +21,7 @@
   margin-top: calc(var(--vh, 1vh) * 4);
   margin-bottom: calc(var(--vh, 1vh) * 4);
   padding: 6% 7%;
-  background: linear-gradient(to right, var(--bg_gradient_color_2), var(--bg_gradient_color_1), var(--bg_gradient_color_2));
+  background: linear-gradient(0deg, var(--bg_gradient_color_2), var(--bg_gradient_color_1), 40%);
   border-radius: 15px;
   box-shadow: 5px 5px 10px var(--shadow_color);
   color: #233038;
@@ -115,6 +115,13 @@
   margin: 0 5%;
   width: 90%;
   padding: 2% 7%;
+  background: linear-gradient(0deg, var(--bg_gradient_color_2), var(--bg_gradient_color_1), 40%);
+}
+
+@media only screen and (max-width: 720px) {
+  .log-out {
+    margin-bottom: 10%;
+  }
 }
 
 .log-out svg { padding-right: 7px; }
@@ -125,4 +132,8 @@
   justify-content: flex-end;
 }
 
-.statistics__container-date-select input[type="date"] { margin-left:10px; padding: 7px; }
+.statistics__container-date-select input[type="date"] { 
+  margin-left:10px; 
+  padding: 7px; 
+  background: linear-gradient(0deg, var(--bg_gradient_color_2), var(--bg_gradient_color_1), 40%); 
+}
