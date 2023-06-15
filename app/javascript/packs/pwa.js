@@ -36,7 +36,7 @@ if (window.dark) {
   document.documentElement.style.setProperty('--trip-svg', '#4d496f')
   document.documentElement.style.setProperty('--transparent', '#19A160')
   document.documentElement.style.setProperty('--line-color', '#4d496f')
-  document.documentElement.style.setProperty('--main_background', 'linear-gradient(to right, var(--bg_gradient_color_1), var(--bg_gradient_color_2), var(--bg_gradient_color_1))')
+  document.documentElement.style.setProperty('--main_background', 'linear-gradient(0deg, var(--bg_gradient_color_1), var(--bg_gradient_color_2), 40%)')
   document.documentElement.style.setProperty('--address-input-weight', 'bold')
 
   document.body.style.background = '#191730'
