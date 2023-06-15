@@ -120,8 +120,8 @@ aside div.nav-wrapper {
   overflow: hidden;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
-  background: linear-gradient(to right, #f6faf8, #e6efee);
-  background: linear-gradient(to right, var(--bg_gradient_color_1), var(--bg_gradient_color_2));
+  background: linear-gradient(0deg, #f6faf8, #e6efee);
+  background: linear-gradient(0deg, var(--bg_gradient_color_1), var(--bg_gradient_color_2));
 }
 
 .nav-header svg {

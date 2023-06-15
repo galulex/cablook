@@ -12,7 +12,9 @@ meta name='viewport' content='width=device-width, initial-scale=1.0, minimum-sca
 title= t("#{params[:controller]}.#{params[:page]}.meta_title", default: t('head.title'))
 meta name='description' content= t("#{params[:controller]}.#{params[:page]}.meta_description", default: t('head.description'))
 link rel='manifest' href='/manifest.json' crossorigin="use-credentials"
-meta name='theme-color' content='#e6efee'
+meta name='theme-color' media='(prefers-color-scheme: light)' content='#f6faf8'
+meta name='theme-color' media='(prefers-color-scheme: dark)' content='#191730'
+meta name='color-scheme' content='light dark'
 link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3)" href="/apple-launch_1242x2688.png"
 link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2)" href="/apple-launch_828x1792.png"
 link rel="apple-touch-startup-image" media="(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3)" href="/apple-launch_1125x2436.png"
