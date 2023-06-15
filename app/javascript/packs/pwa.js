@@ -39,7 +39,8 @@ if (window.dark) {
   document.documentElement.style.setProperty('--main_background', 'linear-gradient(to right, var(--bg_gradient_color_1), var(--bg_gradient_color_2), var(--bg_gradient_color_1))')
   document.documentElement.style.setProperty('--address-input-weight', 'bold')
 
-  document.body.style.background = '#191730';
+  document.body.style.background = '#191730'
+  document.querySelector('meta[name="theme-color"]').setAttribute('content', '#191730')
 }
 
 import '../pwa/android_polyfills.js';

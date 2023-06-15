@@ -95,8 +95,6 @@ aside a.nav-link:nth-child(odd) svg path {
 }
 
 aside .nav-header {
-  background: #E9EEED;
-  background: var(--input_bg_color);
   box-shadow: inset 3px 2px 8px var(--shadow_color), inset -2px -1px 4px var(--shadow_color_light);
   transition: .3s box-shadow;
   -webkit-appearance: none;
