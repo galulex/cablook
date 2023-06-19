@@ -131,7 +131,6 @@ fieldset.address:focus-within {
   transition: height, top .3s;
 }
 
-
 .button.bonus {
   color: #efcc3a;
   color: var(--orange_2);
@@ -162,6 +161,7 @@ fieldset.address:focus-within {
 .burger.back {
   z-index: 310;
 }
+
 .new_design .remove-address {
   height: 2.6vh;
   height: calc(var(--vh, 1vh) * 2.6);

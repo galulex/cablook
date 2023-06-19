@@ -9,6 +9,17 @@
   padding: 0;
 }
 
+.main_map::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 50px;
+  width: 100%;
+  background: linear-gradient(0deg, transparent, var(--bg_gradient_color_2));
+  z-index: 1;
+}
+
 div.map {
   height: 100%;
 }
