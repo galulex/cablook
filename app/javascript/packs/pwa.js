@@ -2,8 +2,8 @@
 window.dark = localStorage.getItem('dark') === 'true'
 window.ios = ['iPhone', 'iPad', 'iPod', 'MacIntel'].includes(navigator.platform)
 if (window.dark) {
-  document.documentElement.style.setProperty('--bg_gradient_color_1', '#0f0f0f')
-  document.documentElement.style.setProperty('--bg_gradient_color_2', '#191730')
+  document.documentElement.style.setProperty('--bg_gradient_color_1', '#191730')
+  document.documentElement.style.setProperty('--bg_gradient_color_2', '#15121e')
   document.documentElement.style.setProperty('--font_color_1', 'white')
   document.documentElement.style.setProperty('--font_color_2', 'white')
   document.documentElement.style.setProperty('--font_color_2_dark', 'black')
@@ -39,8 +39,8 @@ if (window.dark) {
   document.documentElement.style.setProperty('--main_background', 'linear-gradient(0deg, var(--bg_gradient_color_1), var(--bg_gradient_color_2), 40%)')
   document.documentElement.style.setProperty('--address-input-weight', 'bold')
 
-  document.body.style.background = '#191730'
-  document.querySelector('meta[name="theme-color"]').setAttribute('content', '#191730')
+  document.body.style.background = '#15121e'
+  document.querySelector('meta[name="theme-color"]').setAttribute('content', '#15121e')
 }
 
 import '../pwa/android_polyfills.js';
@@ -116,7 +116,7 @@ export default class App extends Component {
       if (!this.state.currentLocation) this.setLocation()
       this.checkOneSignalToken()
       waitForToken = setInterval(this.waitForFCMToken, 3000)
-      document.documentElement.style.setProperty('--body-bg', '#ced5d3')
+      document.documentElement.style.setProperty('--body-bg', '#eef6fb')
     }
     this.registerServiceworker()
     window.addEventListener('offline', this.offline, { passive: true })
