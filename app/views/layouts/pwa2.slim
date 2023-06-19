@@ -104,6 +104,17 @@ html lang="#{I18n.locale}"
         overflow-y: hidden;
       }
 
+      body::before {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 5px;
+        width: 100%;
+        background: linear-gradient(0deg, transparent, var(--bg_gradient_color_2) 80%);
+        z-index: 9999;
+      }
+
       main {
         padding: 0;
         margin: 0;
