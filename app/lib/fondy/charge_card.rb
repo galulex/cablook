@@ -28,8 +28,15 @@ module Fondy
         amount: amount,
         merchant_id: merchant_id,
         order_desc: order_desc,
-        receiver_card_number: payment.driver.card_number
+        receiver_card_number: payment.driver.card_number,
+        reservation_data: reservation_data
       }
+    end
+
+    def reservation_data
+      Base64.encode64({
+        receiver_pan: payment.driver.card_number.to_s
+      }.to_json)
     end
 
     def request_body
