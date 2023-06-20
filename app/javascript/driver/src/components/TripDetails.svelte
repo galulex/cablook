@@ -2,8 +2,11 @@
 
   import Clock from '../../images/Clock.svelte'
   import Distance from '../../images/Distance.svelte'
-  import Dollar from '../../images/Dollar.svelte'
+  import Hryvnia from '../../images/Hryvnia.svelte'
   import Pin from '../../images/Pin.svelte'
+  import Success from '../../images/Success.svelte'
+
+  const PAYOUT_SUCCESS = 2
 
   export let trip
 
@@ -12,7 +15,6 @@
 </script>
 
 <style>
-
   .container {
     width: 100%;
     padding: 2% 2%;
@@ -32,6 +34,10 @@
     justify-content: space-between;
   }
 
+  .info div {
+    display: flex;
+  }
+
   .address {
     display: flex;
     font-style: normal;
@@ -42,7 +48,6 @@
     width: 95%;
     display: inline-flex;
   }
-
 </style>
 
 <div class='container'>
@@ -56,8 +61,14 @@
   {/each}
 
   <div class='info'>
-    <div class='distance'><Distance style={{fill: 'var(--yellow_color)', width: '15px', height: '15px'}}/><label>{formatDistance(trip.distance)}км</label></div>
-    <div><Clock style={{fill: 'var(--yellow_color)', width: '15px', height: '15px'}}/><label>{trip.start_time}-{trip.finish_time}</label></div>
-    <div class='cost'><Dollar style={{fill: 'var(--main_green_color)', width: '15px', height: '15px'}}/><label>{trip.cost}грн</label></div>
+    <div><Distance style={{fill: 'var(--yellow_color)', width: '18px', height: '18px'}}/><label>{formatDistance(trip.distance)}км</label></div>
+    <div><Clock style={{fill: 'var(--yellow_color)', width: '18px', height: '18px'}}/><label>{trip.start_time}-{trip.finish_time}</label></div>
+    <div><Hryvnia style={{fill: 'var(--main_green_color)', width: '18px', height: '18px'}}/><label>{trip.cost} грн</label>
+
+      {#if trip.payout_status === PAYOUT_SUCCESS}
+        <Success style={{fill: 'var(--main_green_color)', width: '18px', height: '18px'}}/>
+      {/if}
+
+    </div>
   </div>
 </div>

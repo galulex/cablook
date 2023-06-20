@@ -6,7 +6,7 @@ module Api
       def index
         trips = current_driver.trips
                               .where(accepted_at: selected_day)
-                              .includes(:user, :trip_payment, :driver, :payments, :car, :bonus_trip)
+                              .includes(:user, :payments, :trip_payment, :payout_payment, :driver, :car, :bonus_trip)
                               .order('id DESC')
         render json: Presenters::Trips::StatsCollection.new(trips).to_json, status: 200
       end
