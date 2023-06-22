@@ -1,8 +1,6 @@
 module Operations
   module Fondy
     class DriverPayOut < Base
-      FONDY_FEE = 0.024
-
       def initialize(payment_id)
         @payment_id = payment_id
       end
@@ -38,10 +36,6 @@ module Operations
 
       def payment
         @payment ||= Payment.find(payment_id)
-      end
-
-      def payout_amount
-        @payout_amount ||= payment.amount - (payment.amount * FONDY_FEE)
       end
     end
   end
