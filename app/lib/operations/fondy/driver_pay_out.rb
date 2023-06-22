@@ -1,6 +1,8 @@
 module Operations
   module Fondy
     class DriverPayOut < Base
+      FONDY_FEE = 0.024
+
       def initialize(payment_id)
         @payment_id = payment_id
       end
@@ -21,7 +23,7 @@ module Operations
           type: Constants::Payments::PAYOUT,
           response: payout_response,
           status: pay_out_status,
-          amount: payment.amount,
+          amount: payout_amount,
           order_reference: payout_response[:order_id]
         )
       end
@@ -31,11 +33,15 @@ module Operations
       end
 
       def payout_response
-        @payout_response ||= ::Fondy::ChargeCard.new(payment).call
+        @payout_response ||= ::Fondy::ChargeCard.new(payment, payout_amount).call
       end
 
       def payment
         @payment ||= Payment.find(payment_id)
+      end
+
+      def payout_amount
+        @payout_amount ||= payment.amount - (payment.amount * FONDY_FEE)
       end
     end
   end

@@ -2,9 +2,9 @@ module Fondy
   class ChargeCard < Base
     URL = URI.parse('https://pay.fondy.eu/api/p2pcredit/').freeze
 
-    def initialize(payment)
+    def initialize(payment, cost)
       @payment = payment
-      @cost = payment.amount
+      @cost = cost
     end
 
     def call
