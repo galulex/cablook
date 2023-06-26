@@ -15,6 +15,7 @@ describe Events::Trips::Create do
       it { is_expected.to have_enqueued_job(Jobs::SearchCarForTrip).with(data[:id]) }
       it { is_expected.to have_enqueued_job(Jobs::DeclineTrip).with(data[:id]) }
       it { is_expected.to have_enqueued_job(Jobs::Notification).with(data[:id]) }
+      it { is_expected.to_not have_enqueued_job(Jobs::RefundHoldedAmount) }
     end
 
     context 'and user trips_count updated' do
@@ -82,7 +83,7 @@ describe Events::Trips::Create do
       it { is_expected.to change { bonus_trip.reload.used? }.to be_truthy }
 
       context 'when bonuses and cashback disabled' do
-        before do 
+        before do
           Settings.disable(:bonuses)
           Settings.disable(:cashback)
         end
@@ -142,9 +143,9 @@ describe Events::Trips::Create do
     end
 
     context 'when delivery trip' do
-      before {
+      before do
         allow_any_instance_of(described_class).to receive(:assign_trip_to_order_payment) { true }
-      }
+      end
 
       let!(:vendor) { create(:vendor) }
       let!(:order) { create(:order, user_id: user.id, vendor_id: vendor.id) }
@@ -155,9 +156,9 @@ describe Events::Trips::Create do
     end
 
     context "when delivery trip don't need vendor approval" do
-      before {
+      before do
         allow_any_instance_of(described_class).to receive(:assign_trip_to_order_payment) { true }
-      }
+      end
 
       let!(:vendor) { create(:vendor, need_approve: false) }
       let!(:order) { create(:order, user_id: user.id, vendor_id: vendor.id) }
@@ -188,6 +189,7 @@ describe Events::Trips::Create do
         it { is_expected.to have_enqueued_job(Jobs::SearchCarForTrip).with(data[:id]) }
         it { is_expected.to have_enqueued_job(Jobs::DeclineTrip).with(data[:id]) }
         it { is_expected.to have_enqueued_job(Jobs::Notification).with(data[:id]) }
+        it { is_expected.to have_enqueued_job(Jobs::RefundHoldedAmount) }
       end
 
       context 'when trip amount hold failed' do

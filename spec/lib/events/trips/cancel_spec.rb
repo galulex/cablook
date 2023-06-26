@@ -62,7 +62,7 @@ describe Events::Trips::Cancel do
     end
 
     context 'when notification param' do
-      let(:trip) { create(:trip, status: Constants::Trip::DECLINED)}
+      let(:trip) { create(:trip, status: Constants::Trip::DECLINED) }
       let(:data) { { trip_id: trip.id, notification: true } }
 
       it do
@@ -166,7 +166,7 @@ describe Events::Trips::Cancel do
       context 'and have fake taxi settle job' do
         let(:trip) { create(:trip, status: Constants::Trip::WAITING_CLIENT) }
         let(:data) { { trip_id: trip.id, by_driver: true } }
-  
+
         it { is_expected.to have_enqueued_job(Jobs::PaymentSettle).with(trip.id, Constants::Payments::TYPES[:fake], price.landing / 100) }
       end
 
@@ -175,12 +175,12 @@ describe Events::Trips::Cancel do
         let(:data) { { trip_id: trip.id, by_driver: false } }
         let(:reverse_params) { [trip.cost, trip.trip_payment.order_reference] }
         let(:reverse_stub) { double(Fondy::Reverse, call: { reverse_status: 'approved' }) }
-  
-          before do
-            allow(Fondy::Reverse).to receive(:new).with(*reverse_params).and_return(reverse_stub)
 
-            subject.call
-          end
+        before do
+          allow(Fondy::Reverse).to receive(:new).with(*reverse_params).and_return(reverse_stub)
+
+          subject.call
+        end
 
         it { (expect(Fondy::Reverse).to have_received(:new).with(*reverse_params).once) }
         it { (expect(trip.reload.status).to eq(Constants::Trip::STATUS_CODES[Constants::Trip::CANCELED])) }

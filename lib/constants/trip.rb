@@ -25,6 +25,7 @@ module Constants
     FREE_IDLE_VALUE = 5.minutes.to_i
 
     EXPIRES_IN = 70.seconds.freeze
+    REFUND_HOLD_IN = 10.minutes.freeze
 
     STATUS_CODES = {
       PENDING                    => 'pending'.freeze,

@@ -13,7 +13,6 @@ module Events
         return if !trip.pending? || trip.driver.present?
 
         trip.declined!
-        refund_holded_amount if settings.fondy?
         update_payment
         refund_bonus if settings.bonuses
         broadcast
@@ -48,13 +47,8 @@ module Events
         bonus_trip&.fresh!
       end
 
-      def refund_holded_amount
-        return {} unless settings.fondy?
-        @refund_holded_amount ||= Fondy::Reverse.new(trip.cost, trip.trip_payment.order_reference).call
-      end
-
       def update_payment
-        trip.trip_payment.update(status: Constants::Payments::DECLINE, response: {canceled_by: :timeout}.merge(refund_holded_amount) )
+        trip.trip_payment.update(status: Constants::Payments::DECLINE, response: { canceled_by: :timeout })
       end
 
       def notify
@@ -65,6 +59,10 @@ module Events
 
       def telegram_message
         TelegramOrder.new(trip.telegram).update_step(:no_car_found) if trip.telegram && telegram_trip?(trip.user)
+      end
+
+      def order_reference
+        @order_reference ||= trip.payments.find_by!(type: Constants::Payments::TRIP).order_reference
       end
     end
   end

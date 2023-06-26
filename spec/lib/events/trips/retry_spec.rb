@@ -29,12 +29,31 @@ describe Events::Trips::Retry do
 
       it { is_expected.to change { trip.reload.status }.to(Constants::Trip::STATUS_CODES[Constants::Trip::PENDING]) }
       it { is_expected.to change { trip_payment.reload.status }.to(Constants::Payments::PENDING) }
+      it { expect_any_instance_of(Fondy::Recurring).to_not receive(:call) }
       it { is_expected.to have_enqueued_job(Jobs::DeclineTrip).with(trip.id) }
+      it { is_expected.to have_enqueued_job(Jobs::RefundHoldedAmount).with(trip.id, trip.cost, trip_payment.order_reference) }
       it do
         expect(ActionCable.server).not_to receive(:broadcast).with(
           "#{Constants::Channels::TRIP}_#{trip.id}",
           action: Constants::BroadcastActions::NOTIFICATION_RETRY
         )
+      end
+
+      context 'without holded money' do
+        let(:fresh_order_reference) { 'cablook_test_1_payments_trip_biUwx3' }
+        let(:recurring_stub) { double(Fondy::Recurring, call: { order_status: 'approved', response_status: 'success', status: true }) }
+        let(:status_stub) { double(Fondy::Recurring, call: { order_status: 'declined', response_status: 'failed', status: false }) }
+        let(:recurring_params) { [user, trip.cost, card.token, fresh_order_reference, true] }
+
+        before do
+          allow_any_instance_of(described_class).to receive(:hold_success?).and_call_original
+          allow_any_instance_of(described_class).to receive(:fresh_order_reference).and_return(fresh_order_reference)
+          allow(Fondy::Recurring).to receive(:new).and_return(recurring_stub)
+          allow(Fondy::PaymentStatus).to receive(:new).and_return(status_stub)
+          described_class.call(data)
+        end
+
+        it { (expect(Fondy::Recurring).to have_received(:new).with(*recurring_params).once) }
       end
     end
 

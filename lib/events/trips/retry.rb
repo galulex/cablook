@@ -1,7 +1,6 @@
 module Events
   module Trips
     class Retry < Events::BaseEvent
-
       def schema
         Dry::Validation.Schema do
           configure { config.messages = :i18n }
@@ -24,7 +23,7 @@ module Events
       def run_methods
         validate_user_cards!
         validate_hold_amount! if settings.fondy?
-        update_trip
+        update_trip_status
         update_payment
         update_bonus_trip if bonus?
         retry_trip_job(trip.id)
@@ -34,16 +33,24 @@ module Events
       private
 
       def retry_trip_job(trip_id)
-        Jobs::SearchCarForTrip.perform_now(trip_id) #broadcast
+        Jobs::SearchCarForTrip.perform_now(trip_id) # broadcast
         Jobs::DeclineTrip.set(wait: Constants::Trip::EXPIRES_IN).perform_later(trip_id)
-      end
-
-      def hold_amount
-        @hold_amount ||= Fondy::Recurring.new(user, trip.cost, card_token, order_reference, true).call
+        Jobs::RefundHoldedAmount.set(wait: Constants::Trip::REFUND_HOLD_IN).perform_later(trip.id, trip.cost, order_reference) if settings.fondy?
       end
 
       def hold_success?
-        hold_amount[:status]
+        payment_status[:order_status] == Constants::Payments::FONDY_APPROVED || hold_amount[:status]
+      end
+
+      def payment_status
+        @payment_status ||= Fondy::PaymentStatus.new(order_reference).call
+      end
+
+      def hold_amount
+        hold_amount_response = Fondy::Recurring.new(user, trip.cost, card_token, fresh_order_reference, true).call
+        trip.trip_payment.update(order_reference: fresh_order_reference, response: hold_amount_response)
+
+        hold_amount_response
       end
 
       def validate_hold_amount!
@@ -54,14 +61,12 @@ module Events
         trip.trip_payment.card.token
       end
 
-      def update_trip
+      def update_trip_status
         trip.update(status: Constants::Trip::PENDING)
       end
 
       def update_payment
-        trip.trip_payment.update(status: bonus? ? Constants::Payments::BONUS : Constants::Payments::PENDING,
-                                  order_reference: order_reference, 
-                                  response: nil)
+        trip.trip_payment.update(status: bonus? ? Constants::Payments::BONUS : Constants::Payments::PENDING)
       end
 
       def update_bonus_trip
@@ -84,6 +89,7 @@ module Events
 
       def notify
         return if trip.user.notification_settings.include?(Constants::User::SEARCH_CAR)
+
         message = I18n.t('notification.loading')
         Jobs::Notification.perform_later(trip, message)
       end
@@ -105,7 +111,11 @@ module Events
       end
 
       def order_reference
-        @order_reference ||= OrderReference.new(trip.id).call
+        trip.payments.find_by!(type: Constants::Payments::TRIP).order_reference
+      end
+
+      def fresh_order_reference
+        @fresh_order_reference ||= OrderReference.new(trip.id).call
       end
     end
   end

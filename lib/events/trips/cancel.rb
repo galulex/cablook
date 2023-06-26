@@ -28,7 +28,7 @@ module Events
       def run_methods
         update_car if trip.car
         update_payment_status
-        is_fake_taxi? ? fake_taxi_payment : refund_holded_amount
+        fake_taxi? ? fake_taxi_payment : refund_holded_amount
         update_trip
         refund_bonus if settings.bonuses
         refund_order_payment if trip.order
@@ -39,6 +39,7 @@ module Events
 
       def update_car
         return if next_trip?
+
         trip.car.update(status: Constants::Car::FREE)
       end
 
@@ -51,6 +52,7 @@ module Events
 
       def update_trip
         return if trip.status == Constants::Trip::STATUS_CODES[Constants::Trip::DECLINED]
+
         status = data[:by_driver] ? Constants::Trip::CANCELED_BY_DRIVER : Constants::Trip::CANCELED
         trip.update(status: status)
       end
@@ -63,7 +65,7 @@ module Events
         Operations::Wayforpay::RefundForOrder.new(order_payment.id).call
       end
 
-      def is_fake_taxi?
+      def fake_taxi?
         trip.status.in?(Constants::Trip::FAKE_TAXI_TRIP_STATUSES.values) && data[:by_driver]
       end
 
@@ -73,12 +75,13 @@ module Events
       end
 
       def refund_holded_amount
-        return if trip.status == Constants::Trip::STATUS_CODES[Constants::Trip::DECLINED] || !settings.fondy?
+        return if payment.response&.fetch('reverse_status', {}) == Constants::Payments::FONDY_APPROVED || !settings.fondy?
+
         payment.update(status: Constants::Payments::DECLINE, response: cencel_by_user_response)
       end
 
       def cencel_by_user_response
-        { canceled_by: data[:by_driver]? :driver : :user }.merge(trip_refound_hold_payment || {})
+        { canceled_by: data[:by_driver] ? :driver : :user }.merge(trip_refound_hold_payment || {})
       end
 
       def trip_refound_hold_payment
