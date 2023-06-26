@@ -66,6 +66,7 @@ export default class Family extends Component {
         <span class='divider'></span>
         <label for='period' class='select'>
           <select id='period' onChange={(e) => this.setCard(e)}>
+            <option disabled selected>{i18n.family_trip.select_card_please}</option>
             {this.props.cards.map(card => <option value={card.id} selected={card.id == this.state.card?.id}>{card.pan}</option>)}
           </select>
         </label>
