@@ -348,7 +348,7 @@ export default class PreviewMap extends Component {
     if (position) {
       distance = data.distance < 0.3
     }
-    let deg = data.deg
+    let deg = (this.bearing(data.location, position) || 180) - this.map.getBearing()
     if (!this.move && distance && !this.rotate && document.visibilityState == 'visible') document.documentElement.style.setProperty('--car-transition', '3s')
     car.carAngleDeg = deg
     car.setLngLat(data.location)
@@ -358,6 +358,13 @@ export default class PreviewMap extends Component {
       }
       this.updateCarDirection(car)
     }
+  }
+
+  bearing = (start, end) => {
+    let y = Math.sin(end[0] - start[0]) * Math.cos(end[1]);
+    let x = Math.cos(start[1]) * Math.sin(end[1]) -
+      Math.sin(start[1]) * Math.cos(end[1]) * Math.cos(end[0] - start[0]);
+    return Math.atan2(y, x) * 180 / Math.PI
   }
 
   setZoom = (event) => {
