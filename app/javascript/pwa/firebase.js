@@ -1,8 +1,8 @@
-import firebase from '@firebase/app'
+import { initializeApp } from '@firebase/app'
 import '@firebase/messaging'
-import '@firebase/auth'
+import { getAuth, RecaptchaVerifier, signInWithPhoneNumber } from '@firebase/auth'
 
-firebase.initializeApp({
+const firebaseApp = initializeApp({
   apiKey: 'AIzaSyCw0swS8LhKYSdxMXdMo2BLa46uE0i7vDA',
   authDomain: 'cablook-2225665.firebaseapp.com',
   databaseURL: 'https://cablook-2225665.firebaseio.com',
@@ -12,7 +12,8 @@ firebase.initializeApp({
   appId: '1:530018467398:web:c5dd0a6d759483b95ad447'
 })
 
-const messaging = (firebase.messaging.isSupported() ? firebase.messaging() : null )
+// const messaging = (firebase.messaging.isSupported() ? firebase.messaging() : null)
+const messaging = null
 
-export { messaging }
-export const firebaseAuth = firebase.auth
+export { messaging, RecaptchaVerifier, signInWithPhoneNumber }
+export const firebaseAuth = getAuth(firebaseApp)
