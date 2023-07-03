@@ -1,5 +1,5 @@
 import { initializeApp } from '@firebase/app'
-import '@firebase/messaging'
+import { getMessaging, getToken, onMessage } from '@firebase/messaging'
 import { getAuth, RecaptchaVerifier, signInWithPhoneNumber } from '@firebase/auth'
 
 const firebaseApp = initializeApp({
@@ -12,8 +12,15 @@ const firebaseApp = initializeApp({
   appId: '1:530018467398:web:c5dd0a6d759483b95ad447'
 })
 
-// const messaging = (firebase.messaging.isSupported() ? firebase.messaging() : null)
-const messaging = null
+const initMesseges = () => {
+  try {
+    return getMessaging(firebaseApp)
+  } catch (error) {
+    console.log(error)
+  }
+}
 
-export { messaging, RecaptchaVerifier, signInWithPhoneNumber }
+const messaging = initMesseges()
+
+export { messaging, RecaptchaVerifier, signInWithPhoneNumber, getToken, onMessage }
 export const firebaseAuth = getAuth(firebaseApp)
