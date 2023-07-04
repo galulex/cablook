@@ -172,7 +172,7 @@ export default class App extends Component {
       const registration = await navigator.serviceWorker.register('/serviceworker.js')
       const messaging = getMessaging(firebaseApp)
 
-      this.requestPermission(messaging, registration)
+      await this.requestPermission(messaging, registration)
       this.handleForegroundMessages(messaging, registration)
     }
   }
