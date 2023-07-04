@@ -167,39 +167,38 @@ export default class App extends Component {
     if (token) this.sendTokenToServer(token)
   }
 
-  registerServiceworker = () => {
+  registerServiceworker = async () => {
     if (navigator.serviceWorker) {
-      navigator.serviceWorker.register('/serviceworker.js').then((registration) => {
-        if (!messaging) return
-
-        this.requestPermission(registration)
-        onMessage(messaging, (payload) => {
-          let trip = JSON.parse(payload.data.trip)
-          if (trip.action && trip.action === 'remove_notifications') { this.clearNotifications(registration); return }
-          let { title, body, icon, tag, renotify, actions } = payload.data
-          let options = { title, body, icon, tag, renotify }
-          if (actions) {
-            let actionsData = JSON.parse(actions)
-            let showActions = true
-            actionsData.actions.map((el) => {
-              if (el.action === 'reply') return showActions = false
-            })
-            if (showActions) options = { ...options, ...actionsData }
-          }
-          options = Object.assign(options, { data: payload.data.trip })
-          registration.showNotification(title, options)
-        })
-      }).catch((err) => {
-        console.log('Error: ', err)
-      })
+      const registration = await navigator.serviceWorker.register('/serviceworker.js')
+      this.requestPermission(registration)
+      this.handleForegroundMessages(registration)
     }
   }
 
-  requestPermission = async (serviceWorker) => {
+  handleForegroundMessages = (registration) => {
+    onMessage(messaging, (payload) => {
+      let trip = JSON.parse(payload.data.trip)
+      if (trip.action && trip.action === 'remove_notifications') { this.clearNotifications(registration); return }
+      let { title, body, icon, tag, renotify, actions } = payload.data
+      let options = { title, body, icon, tag, renotify }
+      if (actions) {
+        let actionsData = JSON.parse(actions)
+        let showActions = true
+        actionsData.actions.map((el) => {
+          if (el.action === 'reply') return showActions = false
+        })
+        if (showActions) options = { ...options, ...actionsData }
+      }
+      options = Object.assign(options, { data: payload.data.trip })
+      registration.showNotification(title, options)
+    })
+  }
+
+  requestPermission = async (registration) => {
     const permission = await Notification.requestPermission()
 
     if (permission === 'granted') {
-      getToken(messaging, { serviceWorkerRegistration: serviceWorker }).then((token) => {
+      getToken(messaging, { serviceWorkerRegistration: registration }).then((token) => {
         if (localStorage.getItem('fcm_token') === token) return
         localStorage.setItem('fcm_token', token)
         localStorage.setItem('device', navigator.platform)
