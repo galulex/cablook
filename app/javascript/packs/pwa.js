@@ -61,7 +61,7 @@ import Trips from '../pwa/trips.js';
 import Drawer from '../pwa/drawer.js';
 import Prompt from '../pwa/prompt.js';
 import Profile from '../pwa/profile.js';
-import { messaging, firebaseAuth, getToken, onMessage } from '../pwa/firebase.js'
+import { firebaseAuth, getToken, onMessage, firebaseApp, getMessaging } from '../pwa/firebase.js'
 
 import Burger from '../pwa/images/burger.svg';
 import Vendors from '../pwa/vendors.js';
@@ -170,12 +170,14 @@ export default class App extends Component {
   registerServiceworker = async () => {
     if (navigator.serviceWorker) {
       const registration = await navigator.serviceWorker.register('/serviceworker.js')
-      this.requestPermission(registration)
-      this.handleForegroundMessages(registration)
+      const messaging = getMessaging(firebaseApp)
+
+      this.requestPermission(messaging, registration)
+      this.handleForegroundMessages(messaging, registration)
     }
   }
 
-  handleForegroundMessages = (registration) => {
+  handleForegroundMessages = (messaging, registration) => {
     onMessage(messaging, (payload) => {
       let trip = JSON.parse(payload.data.trip)
       if (trip.action && trip.action === 'remove_notifications') { this.clearNotifications(registration); return }
@@ -194,7 +196,7 @@ export default class App extends Component {
     })
   }
 
-  requestPermission = async (registration) => {
+  requestPermission = async (messaging, registration) => {
     const permission = await Notification.requestPermission()
 
     if (permission === 'granted') {
