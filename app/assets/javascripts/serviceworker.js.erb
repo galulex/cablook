@@ -35,7 +35,7 @@ function onInstall(event) {
         req_objects.push(new Request(urls[i], {credentials: 'same-origin'}));
       };
       return cache.addAll(req_objects);
-    })
+    }).then(self.skipWaiting())
   );
 }
 
@@ -53,7 +53,7 @@ function onActivate(event) {
           return caches.delete(cacheName);
         })
       );
-    })
+    }).then(() => self.clients.claim())
   );
 }
 
