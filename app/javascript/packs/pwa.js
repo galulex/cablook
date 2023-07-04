@@ -61,7 +61,7 @@ import Trips from '../pwa/trips.js';
 import Drawer from '../pwa/drawer.js';
 import Prompt from '../pwa/prompt.js';
 import Profile from '../pwa/profile.js';
-import { messaging, firebaseAuth } from '../pwa/firebase.js'
+import { messaging, firebaseAuth, getToken, onMessage } from '../pwa/firebase.js'
 
 import Burger from '../pwa/images/burger.svg';
 import Vendors from '../pwa/vendors.js';
@@ -83,7 +83,7 @@ let waitForToken
 
 export default class App extends Component {
 
-  constructor(props){
+  constructor(props) {
     super(props)
     this.state = {
       currentLocation: null,
@@ -151,7 +151,7 @@ export default class App extends Component {
   }
 
   setNegativeScroll = (scrollValue) => {
-    this.setState({isScrollNegative: scrollValue < 0})
+    this.setState({ isScrollNegative: scrollValue < 0 })
   }
 
   onVisibilityChange = () => {
@@ -168,12 +168,12 @@ export default class App extends Component {
   }
 
   registerServiceworker = () => {
-    if ('serviceWorker' in navigator ) {
+    if (navigator.serviceWorker) {
       navigator.serviceWorker.register('/serviceworker.js').then((registration) => {
         if (!messaging) return
-        messaging.useServiceWorker(registration)
-        this.requestPermission()
-        messaging.onMessage((payload) => {
+
+        this.requestPermission(registration)
+        onMessage(messaging, (payload) => {
           let trip = JSON.parse(payload.data.trip)
           if (trip.action && trip.action === 'remove_notifications') { this.clearNotifications(registration); return }
           let { title, body, icon, tag, renotify, actions } = payload.data
@@ -195,19 +195,19 @@ export default class App extends Component {
     }
   }
 
-  requestPermission = () => {
-    messaging.requestPermission()
-    .then(() => {
-      messaging.getToken().then((token) => {
+  requestPermission = async (serviceWorker) => {
+    const permission = await Notification.requestPermission()
+
+    if (permission === 'granted') {
+      getToken(messaging, { serviceWorkerRegistration: serviceWorker }).then((token) => {
         if (localStorage.getItem('fcm_token') === token) return
         localStorage.setItem('fcm_token', token)
         localStorage.setItem('device', navigator.platform)
         if (this.state.currentUser) this.sendTokenToServer(token)
       })
-    })
-    .catch((err) => {
-      console.log('Unable to get permission to notify.', err)
-    })
+    } else {
+      console.log('Unable to get permission to notify.')
+    }
   }
 
   sendTokenToServer = (token) => {
@@ -220,7 +220,7 @@ export default class App extends Component {
   }
 
   focusOutForIos = () => {
-    document.addEventListener('focusout', function(e) {window.scrollTo(0, 0)});
+    document.addEventListener('focusout', function (e) { window.scrollTo(0, 0) });
   }
 
   handleRoute = e => {
@@ -243,14 +243,14 @@ export default class App extends Component {
 
   setCurrentTrip = (trip) => {
     if (!this.state.currentTrip || ![PENDING, ON_THE_WAY, WAITING_CLIENT, DRIVING, CONFIRM_UPDATE_TRIP].includes(this.state.currentTrip.status)) {
-      this.setState({currentTrip:trip})
+      this.setState({ currentTrip: trip })
     } else {
       return
     }
   }
 
   setBonusTrips = (data) => {
-    this.setState({parent_bonus: data.parent_bonus, bonus_trips: data.bonus_trips, availableBonusTrips: data.availableBonusTrips})
+    this.setState({ parent_bonus: data.parent_bonus, bonus_trips: data.bonus_trips, availableBonusTrips: data.availableBonusTrips })
   }
 
   getAvailableBonusTrips = (bonus_trips) => {
@@ -262,13 +262,14 @@ export default class App extends Component {
       if ((res.data.locale !== this.state.language)) { this.updateUserLocale(this.state.language) }
       let availableBonusTrips = []
       if (res.data.bonus_trips) availableBonusTrips = this.getAvailableBonusTrips(res.data.bonus_trips)
-      this.setState({cards: res.data.cards,
+      this.setState({
+        cards: res.data.cards,
         favorite_addresses: res.data.favorite_addresses,
         notification_settings: res.data.enabled_notifications,
         bonus_trips: res.data.bonus_trips,
         availableBonusTrips: availableBonusTrips,
         parent_bonus: res.data.parent_bonus || [],
-        cashbackAmount: res.data.cashback/100,
+        cashbackAmount: res.data.cashback / 100,
         currentUserID: res.data.id,
         currentTrip: res.data.current_trip,
         currentDeliveryTrip: res.data.current_delivery_trip,
@@ -282,7 +283,7 @@ export default class App extends Component {
   }
 
   logIn = (data) => {
-    this.setState({currentUser: data.auth_token})
+    this.setState({ currentUser: data.auth_token })
     localStorage.setItem('token', data.auth_token)
     localStorage.setItem('referral', data.referral_code)
     if (!!data.email) localStorage.setItem('email', data.email)
@@ -302,31 +303,31 @@ export default class App extends Component {
 
   removeData = () => {
     firebaseAuth().signOut()
-    this.setState({currentUser: null})
+    this.setState({ currentUser: null })
     localStorage.clear()
   }
 
   triggerDrawer = (open = true) => {
-    setTimeout(() => { this.main && this.main.scrollTo({left: (open) ? 0 : 300, behavior: 'smooth'}) }, 10)
+    setTimeout(() => { this.main && this.main.scrollTo({ left: (open) ? 0 : 300, behavior: 'smooth' }) }, 10)
   }
 
   updateCards = (cards) => {
-    this.setState({cards: cards})
+    this.setState({ cards: cards })
   }
 
   updateFavoriteAddresses = (favorite_addresses) => {
-    this.setState({favorite_addresses: favorite_addresses})
+    this.setState({ favorite_addresses: favorite_addresses })
   }
 
   updateNotificationSettings = (notification_settings) => {
-    this.setState({notification_settings})
+    this.setState({ notification_settings })
   }
   updateUserLocale = (locale) => {
     axios.patch('user', { locale: locale })
   }
 
   setLanguage = (e) => {
-    this.setState({language: e.target.value})
+    this.setState({ language: e.target.value })
     localStorage.setItem('language', e.target.value)
     axios.defaults.headers.common['Pwa-Language'] = e.target.value
     this.updateUserLocale(e.target.value)
@@ -343,7 +344,7 @@ export default class App extends Component {
   }
 
   clearNotifications = (registration) => {
-    registration.getNotifications().then((ns)=>ns.forEach((n)=>n.close()))
+    registration.getNotifications().then((ns) => ns.forEach((n) => n.close()))
   }
 
   closeDrawer = (e) => {
@@ -356,12 +357,12 @@ export default class App extends Component {
     window.scrollTimeout = setTimeout(() => {
       if (target.scrollLeft == 0 || target.scrollLeft == target.offsetWidth || target.scrollLeft == 300) return
       let x = (target.scrollLeft > 0 && target.scrollLeft < target.offsetWidth / 2) ? 0 : target.offsetWidth
-      if (!window.isTouching) target.scrollTo({left: x})
+      if (!window.isTouching) target.scrollTo({ left: x })
     }, 300)
   }
 
   resetCurrentTrip = () => {
-    this.setState({currentTrip: null})
+    this.setState({ currentTrip: null })
   }
 
   showFeedback = () => {
@@ -370,11 +371,11 @@ export default class App extends Component {
   }
 
   setActivateFeedback = (activateFeedback = false) => {
-    this.setState({activateFeedback})
+    this.setState({ activateFeedback })
   }
 
   showBurger = (isBurgerShowing = true) => {
-    this.setState({isBurgerShowing})
+    this.setState({ isBurgerShowing })
   }
 
   setLocation = async () => {
@@ -382,36 +383,36 @@ export default class App extends Component {
     if (!location) return
     let { coords, address } = location
     this.setState({
-        currentLocation: {
-          location: coords,
-          address: address,
-          favorite_address: true,
-          structured_formatting: {
-            main_text: address,
-            secondary_text: i18n.address_input.location
-          }
+      currentLocation: {
+        location: coords,
+        address: address,
+        favorite_address: true,
+        structured_formatting: {
+          main_text: address,
+          secondary_text: i18n.address_input.location
         }
       }
+    }
     )
   }
 
   render() {
     const { currentTrip, isGeocoding, availableBonusTrips, cards,
-            language, bonus_trips, favorite_addresses, currentDeliveryTrip } = this.state
+      language, bonus_trips, favorite_addresses, currentDeliveryTrip } = this.state
 
     if (this.state.currentUser) {
-      return(
+      return (
         <main id="app" onClick={this.closeDrawer} ref={main => this.main = main}>
-          { this.state.isBurgerShowing &&
+          {this.state.isBurgerShowing &&
             <button
               class={`button white-opacity burger ${this.state.activateFeedback ? 'hidden' : ''}`}
               ref={el => this.mainBurger = el}
               onClick={this.triggerDrawer}>
-                <Burger/>
+              <Burger />
             </button>
           }
           <Drawer triggerDrawer={this.triggerDrawer} logOut={this.logOut} settings={this.state.settings} />
-          <Router history={window.ios ? createMemoryHistory() : null} onChange={() => this.triggerDrawer(false) }>
+          <Router history={window.ios ? createMemoryHistory() : null} onChange={() => this.triggerDrawer(false)}>
             <NewDesign path='/'
               trip={currentTrip}
               cards={() => this.state.cards}
@@ -448,8 +449,8 @@ export default class App extends Component {
               updateNotificationSettings={this.updateNotificationSettings}
               favorite_addresses={() => this.state.favorite_addresses}
               updateFavoriteAddresses={this.updateFavoriteAddresses}
-              language = {this.state.language}
-              setLanguage = {this.setLanguage}
+              language={this.state.language}
+              setLanguage={this.setLanguage}
               bonus_trips={() => this.state.bonus_trips}
               parent_bonus={() => this.state.parent_bonus}
               cashbackAmount={this.state.cashbackAmount}
@@ -492,9 +493,9 @@ export default class App extends Component {
         </main>
       )
     } else {
-      return(
+      return (
         <main id='app' class='login' ref={main => this.main = main}>
-          <Session login = {this.logIn} language={this.state.language} />
+          <Session login={this.logIn} language={this.state.language} />
           <Prompt />
         </main>
       )

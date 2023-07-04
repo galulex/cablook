@@ -1,9 +1,9 @@
 {
   "dependencies": {
     "@beyonk/svelte-mapbox": "9.1.0",
-    "@firebase/app": "^0.5.2",
-    "@firebase/auth": "^0.13.4",
-    "@firebase/messaging": "^0.6.2",
+    "@firebase/app": "^0.9.13",
+    "@firebase/auth": "^0.23.2",
+    "@firebase/messaging": "^0.12.4",
     "@mapbox/mapbox-gl-language": "^0.10.0",
     "@mapbox/polyline": "^1.1.0",
     "@rails/actioncable": "^6.0.2-1",

@@ -6,7 +6,7 @@ import Phone from './images/green_phone.js';
 import Logo from './images/logo_light.js';
 import Lock from './images/lock.js';
 import './css/session.css';
-import { firebaseAuth } from './firebase.js';
+import { firebaseAuth, RecaptchaVerifier, signInWithPhoneNumber } from './firebase.js';
 
 const NUMBER_CODE = '+380'
 
@@ -127,9 +127,9 @@ export default class Session extends Component {
     this.resetCaptcha()
     this.setDisabled(true)
 
-    window.recaptchaVerifier = new firebaseAuth.RecaptchaVerifier('recaptcha_container', { size: 'invisible' })
+    window.recaptchaVerifier = new RecaptchaVerifier('recaptcha_container', { size: 'invisible' }, firebaseAuth)
 
-    firebaseAuth().signInWithPhoneNumber(number, recaptchaVerifier)
+    signInWithPhoneNumber(firebaseAuth, number, recaptchaVerifier)
       .then((confirmationResult) => {
         this.setState({isCodeSent: true, disabled: false})
         window.confirmationResult = confirmationResult
