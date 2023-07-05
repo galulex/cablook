@@ -116,8 +116,8 @@ export default class App extends Component {
       if (!this.state.currentLocation) this.setLocation()
       this.checkOneSignalToken()
       document.documentElement.style.setProperty('--body-bg', '#eef6fb')
+      this.registerServiceworker()
     }
-    this.registerServiceworker()
     window.addEventListener('offline', this.offline, { passive: true })
     window.addEventListener('online', this.online, { passive: true })
     document.addEventListener('visibilitychange', this.onVisibilityChange, false, { passive: true })
@@ -161,7 +161,7 @@ export default class App extends Component {
     if (navigator.serviceWorker) {
       const registration = await navigator.serviceWorker.register('/serviceworker.js')
 
-      await this.requestPermission(registration)
+      this.requestPermission(registration)
     }
   }
 
@@ -171,8 +171,7 @@ export default class App extends Component {
 
     if (permission === 'granted') {
       getToken(messaging, { serviceWorkerRegistration: registration }).then((token) => {
-        console.log('token -', token)
-        // if (localStorage.getItem('fcm_token') === token) return
+        if (localStorage.getItem('fcm_token') === token) return
         localStorage.setItem('fcm_token', token)
         localStorage.setItem('device', navigator.platform)
         if (this.state.currentUser) this.sendTokenToServer(token)
