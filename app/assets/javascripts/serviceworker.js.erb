@@ -159,6 +159,39 @@ function focusOnTab(event) {
   }))
 }
 
+self.addEventListener('push', function(event) {
+  const payload = JSON.parse(event.data.text())
+  const trip = JSON.parse(payload.data.trip)
+
+  if (trip.action && trip.action === 'remove_notifications') { 
+   self.registration.getNotifications().then(notifications => {
+      notifications.forEach(notification => notification.close())
+      })
+
+    return
+  } 
+
+  let { title, body, icon, tag, renotify, actions } = payload.data
+  let options = { title, body, icon, tag, renotify }
+
+  if (actions) {
+    let actionsData = JSON.parse(actions)
+    let showActions = true
+
+    actionsData.actions.map((el) => {
+      if (el.action === 'reply') return showActions = false
+    })
+
+    if (showActions) options = { ...options, ...actionsData }
+  }
+
+  options = Object.assign(options, { data: payload.data.trip })
+
+  event.waitUntil(
+    self.registration.showNotification(title, options)
+  )
+})
+
 const { initializeApp } = firebase.app
 
 const firebaseApp = firebase.initializeApp({
