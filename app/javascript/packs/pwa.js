@@ -61,7 +61,7 @@ import Trips from '../pwa/trips.js';
 import Drawer from '../pwa/drawer.js';
 import Prompt from '../pwa/prompt.js';
 import Profile from '../pwa/profile.js';
-import { firebaseAuth, getToken, onMessage, firebaseApp, getMessaging } from '../pwa/firebase.js'
+import { firebaseAuth, getToken, firebaseApp, getMessaging } from '../pwa/firebase.js'
 
 import Burger from '../pwa/images/burger.svg';
 import Vendors from '../pwa/vendors.js';
@@ -173,27 +173,7 @@ export default class App extends Component {
       const messaging = getMessaging(firebaseApp)
 
       await this.requestPermission(messaging, registration)
-      this.handleForegroundMessages(messaging, registration)
     }
-  }
-
-  handleForegroundMessages = (messaging, registration) => {
-    onMessage(messaging, (payload) => {
-      let trip = JSON.parse(payload.data.trip)
-      if (trip.action && trip.action === 'remove_notifications') { this.clearNotifications(registration); return }
-      let { title, body, icon, tag, renotify, actions } = payload.data
-      let options = { title, body, icon, tag, renotify }
-      if (actions) {
-        let actionsData = JSON.parse(actions)
-        let showActions = true
-        actionsData.actions.map((el) => {
-          if (el.action === 'reply') return showActions = false
-        })
-        if (showActions) options = { ...options, ...actionsData }
-      }
-      options = Object.assign(options, { data: payload.data.trip })
-      registration.showNotification(title, options)
-    })
   }
 
   requestPermission = async (messaging, registration) => {
