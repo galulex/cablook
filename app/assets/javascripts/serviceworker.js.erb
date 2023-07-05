@@ -1,6 +1,3 @@
-importScripts('https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js');
-importScripts('https://www.gstatic.com/firebasejs/9.23.0/firebase-messaging-compat.js');
-
 var CACHE_VERSION = 'v2';
 var CACHE_NAME = CACHE_VERSION + ':sw-cache-';
 
@@ -191,40 +188,3 @@ self.addEventListener('push', function(event) {
     self.registration.showNotification(title, options)
   )
 })
-
-const { initializeApp } = firebase.app
-
-const firebaseApp = firebase.initializeApp({
-  apiKey: 'AIzaSyCw0swS8LhKYSdxMXdMo2BLa46uE0i7vDA',
-  authDomain: 'cablook-2225665.firebaseapp.com',
-  databaseURL: 'https://cablook-2225665.firebaseio.com',
-  projectId: 'cablook-2225665',
-  storageBucket: 'cablook-2225665.appspot.com',
-  messagingSenderId: '530018467398',
-  appId: '1:530018467398:web:c5dd0a6d759483b95ad447'
-})
-
-const messaging = firebase.messaging(firebaseApp)
-
-if(messaging) {
-  messaging.onBackgroundMessage((payload) => {
-    let trip = JSON.parse(payload.data.trip)
-
-    if (trip.action && trip.action === 'remove_notifications') { self.registration.getNotifications().then((ns)=>ns.forEach((n)=>n.close())); return }
-
-    let { title, body, icon, tag, renotify, actions } = payload.data
-    let options = { title, body, icon, tag, renotify }
-
-    if (actions) {
-      let actionsData = JSON.parse(actions)
-      let showActions = true
-      actionsData.actions.map((el) => {
-        if (el.action === 'reply') return showActions = false
-      })
-      if (showActions) options = { ...options, ...actionsData }
-    }
-
-    options = Object.assign(options, { data: payload.data.trip })
-    return self.registration.showNotification(title, options)
-  })
-}
