@@ -115,7 +115,6 @@ export default class App extends Component {
       this.fetchUser()
       if (!this.state.currentLocation) this.setLocation()
       this.checkOneSignalToken()
-      waitForToken = setInterval(this.waitForFCMToken, 3000)
       document.documentElement.style.setProperty('--body-bg', '#eef6fb')
     }
     this.registerServiceworker()
@@ -135,15 +134,6 @@ export default class App extends Component {
     this.main.removeEventListener('scroll', this.scrollEnd, { passive: true })
     document.removeEventListener('touchstart', this.setTouching, { passive: true })
     document.removeEventListener('touchend', this.setTouching, { passive: true })
-  }
-
-  waitForFCMToken = () => {
-    let token = localStorage.getItem("fcm_token")
-
-    if (token) {
-      this.sendTokenToServer(token)
-      clearInterval(waitForToken)
-    }
   }
 
   setTouching = (event) => {
@@ -170,18 +160,19 @@ export default class App extends Component {
   registerServiceworker = async () => {
     if (navigator.serviceWorker) {
       const registration = await navigator.serviceWorker.register('/serviceworker.js')
-      const messaging = getMessaging(firebaseApp)
 
-      await this.requestPermission(messaging, registration)
+      await this.requestPermission(registration)
     }
   }
 
-  requestPermission = async (messaging, registration) => {
+  requestPermission = async (registration) => {
+    const messaging = getMessaging(firebaseApp)
     const permission = await Notification.requestPermission()
 
     if (permission === 'granted') {
       getToken(messaging, { serviceWorkerRegistration: registration }).then((token) => {
-        if (localStorage.getItem('fcm_token') === token) return
+        console.log('token -', token)
+        // if (localStorage.getItem('fcm_token') === token) return
         localStorage.setItem('fcm_token', token)
         localStorage.setItem('device', navigator.platform)
         if (this.state.currentUser) this.sendTokenToServer(token)
@@ -283,7 +274,7 @@ export default class App extends Component {
   }
 
   removeData = () => {
-    firebaseAuth().signOut()
+    firebaseAuth.signOut()
     this.setState({ currentUser: null })
     localStorage.clear()
   }
