@@ -165,21 +165,21 @@ export default class App extends Component {
   }
 
   requestPermission = async () => {
-    const registration = await navigator.serviceWorker.getRegistration()
     const permission = await Notification.requestPermission()
     const messaging = getMessaging(firebaseApp)
     const platform = navigator.platform
 
     if (permission !== 'granted') { console.log('Unable to get permission to notify.'); return }
 
-    const token = await getToken(messaging, { serviceWorkerRegistration: registration })
+    navigator.serviceWorker.ready.then(async registration => {
+      const token = await getToken(messaging, { serviceWorkerRegistration: registration })
 
-    if (localStorage.getItem('fcm_token') === token) { return }
+      if (localStorage.getItem('fcm_token') === token) { return }
 
-    localStorage.setItem('fcm_token', token)
-    localStorage.setItem('device', platform)
-    this.sendTokenToServer(token, platform)
-
+      localStorage.setItem('fcm_token', token)
+      localStorage.setItem('device', platform)
+      this.sendTokenToServer(token, platform)
+    })
   }
 
   sendTokenToServer = (token, platform) => {
