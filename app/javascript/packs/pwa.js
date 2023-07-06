@@ -61,7 +61,7 @@ import Trips from '../pwa/trips.js';
 import Drawer from '../pwa/drawer.js';
 import Prompt from '../pwa/prompt.js';
 import Profile from '../pwa/profile.js';
-import { firebaseAuth, getToken, firebaseApp, getMessaging } from '../pwa/firebase.js'
+import { firebaseAuth } from '../pwa/firebase.js'
 
 import Burger from '../pwa/images/burger.svg';
 import Vendors from '../pwa/vendors.js';
@@ -114,9 +114,8 @@ export default class App extends Component {
       if (!this.state.currentLocation) this.setLocation()
       this.checkOneSignalToken()
       document.documentElement.style.setProperty('--body-bg', '#eef6fb')
-      this.registerServiceworker()
-      this.requestPermission()
     }
+    this.registerServiceworker()
     window.addEventListener('offline', this.offline, { passive: true })
     window.addEventListener('online', this.online, { passive: true })
     document.addEventListener('visibilitychange', this.onVisibilityChange, false, { passive: true })
@@ -156,30 +155,10 @@ export default class App extends Component {
     if (token) this.sendTokenToServer(token)
   }
 
-  registerServiceworker = async () => {
-    if (navigator.serviceWorker) {
-      navigator.serviceWorker.register('/serviceworker.js').catch(error => {
-        console.log('Unable to register service worker,', error)
-      })
+  registerServiceworker = () => {
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/serviceworker.js').catch(error => console.log('Unable to register service worker.'))
     }
-  }
-
-  requestPermission = async () => {
-    const permission = await Notification.requestPermission()
-    const messaging = getMessaging(firebaseApp)
-    const platform = navigator.platform
-
-    if (permission !== 'granted') { console.log('Unable to get permission to notify.'); return }
-
-    navigator.serviceWorker.ready.then(async registration => {
-      const token = await getToken(messaging, { serviceWorkerRegistration: registration })
-
-      if (localStorage.getItem('fcm_token') === token) { return }
-
-      localStorage.setItem('fcm_token', token)
-      localStorage.setItem('device', platform)
-      this.sendTokenToServer(token, platform)
-    })
   }
 
   sendTokenToServer = (token, platform) => {
@@ -467,7 +446,7 @@ export default class App extends Component {
     } else {
       return (
         <main id='app' class='login' ref={main => this.main = main}>
-          <Session login={this.logIn} language={this.state.language} />
+          <Session login={this.logIn} language={this.state.language} sendTokenToServer={this.sendTokenToServer} />
           <Prompt />
         </main>
       )

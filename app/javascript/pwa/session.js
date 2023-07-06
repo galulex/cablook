@@ -6,7 +6,7 @@ import Phone from './images/green_phone.js';
 import Logo from './images/logo_light.js';
 import Lock from './images/lock.js';
 import './css/session.css';
-import { firebaseAuth, RecaptchaVerifier, signInWithPhoneNumber } from './firebase.js';
+import { firebaseAuth, RecaptchaVerifier, signInWithPhoneNumber, getToken, firebaseApp, getMessaging } from './firebase.js';
 
 const NUMBER_CODE = '+380'
 
@@ -46,16 +46,16 @@ export default class Session extends Component {
   renderNumber = () => {
     const { disabled } = this.state
 
-    return(
+    return (
       <form onSubmit={this.signInWithPhoneNumber}>
         <div class='number_input'>
-          <label for='number'><Phone class='phone'/>{NUMBER_CODE}</label>
+          <label for='number'><Phone class='phone' />{NUMBER_CODE}</label>
           <input class='number__input' id='number' title={9 + i18n.session.digits} pattern='[0-9]*'
-                 maxlength='9' minlength='9'
-                 placeholder='__  ___  __ __' type='tel'
-                 autocomplete='off' required autoFocus
-                 onInput={this.updateNumber}
-                 ref={(input) => this.numberInput = input}/>
+            maxlength='9' minlength='9'
+            placeholder='__  ___  __ __' type='tel'
+            autocomplete='off' required autoFocus
+            onInput={this.updateNumber}
+            ref={(input) => this.numberInput = input} />
         </div>
         <button class='button' disabled={disabled} type='submit' ref={submitForm => this.submitForm = submitForm}>{i18n.session.number}</button>
         <p><i>{i18n.session.policy} <a href='/privacy-policy' target='_blank'>{i18n.session.policy_link}</a></i></p>
@@ -66,16 +66,16 @@ export default class Session extends Component {
   renderCode = () => {
     const { disabled, code, number } = this.state
 
-    return(
+    return (
       <form onSubmit={this.createSession}>
         <p class='code-send'><i>{i18n.session.code_sent + number}</i></p>
         <label for='code'>{i18n.session.code}</label>
         <div>
-          <Lock class='lock'/>
+          <Lock class='lock' />
           <input id='code' title={6 + i18n.session.digits} pattern='[0-9]+' placeholder='___ ___'
-                 maxlength='6' minlength='6' required type='text' inputmode='numeric'
-                 value={code} autocomplete='one-time-code' autoFocus
-                 onInput={this.updateCode} ref={input => this.codeInput = input}/>
+            maxlength='6' minlength='6' required type='text' inputmode='numeric'
+            value={code} autocomplete='one-time-code' autoFocus
+            onInput={this.updateCode} ref={input => this.codeInput = input} />
         </div>
         <button class='button' type='submit' disabled={disabled} ref={submitForm => this.submitForm = submitForm}>{i18n.session.code_button}</button>
         <div class='buttons__container'>
@@ -87,19 +87,19 @@ export default class Session extends Component {
   }
 
   setDisabled = (bool) => {
-    this.setState({disabled: bool})
+    this.setState({ disabled: bool })
   }
 
   updateNumber = (e) => {
-    this.setState({number: NUMBER_CODE + e.target.value}, () => this.autoSubmitForm(e))
+    this.setState({ number: NUMBER_CODE + e.target.value }, () => this.autoSubmitForm(e))
   }
 
   updateCode = (e) => {
-    this.setState({code: e.target.value}, () => this.autoSubmitForm(e))
+    this.setState({ code: e.target.value }, () => this.autoSubmitForm(e))
   }
 
   resetNumber = () => {
-    this.setState({code: '', number: '', isCodeSent: false})
+    this.setState({ code: '', number: '', isCodeSent: false })
   }
 
   resetCaptcha = () => {
@@ -131,7 +131,7 @@ export default class Session extends Component {
 
     signInWithPhoneNumber(firebaseAuth, number, recaptchaVerifier)
       .then((confirmationResult) => {
-        this.setState({isCodeSent: true, disabled: false})
+        this.setState({ isCodeSent: true, disabled: false })
         window.confirmationResult = confirmationResult
       }).catch((error) => {
         this.setDisabled(false)
@@ -146,6 +146,8 @@ export default class Session extends Component {
 
   createSession = (e) => {
     e.preventDefault()
+    this.handleNotificationsPermissions()
+
     if (!e.target.checkValidity) return;
 
     const { code } = this.state
@@ -160,12 +162,30 @@ export default class Session extends Component {
     });
   }
 
+  handleNotificationsPermissions = () => {
+    Notification.requestPermission().then(permission => {
+      if (permission !== 'granted') { console.log('Unable to get permission to notify.'); return }
+      navigator.serviceWorker.ready.then(registration => {
+        const messaging = getMessaging(firebaseApp)
+        getToken(messaging, { serviceWorkerRegistration: registration }).then(token => {
+          const platform = navigator.platform
+          localStorage.setItem('fcm_token', token)
+          localStorage.setItem('device', platform)
+          this.props.sendTokenToServer(token, platform)
+        })
+      })
+        .catch(error => {
+          console.log('Unable to register service worker,', error)
+        })
+    })
+  }
+
   sendRequest = (verification_token) => {
     const { number } = this.state
 
     let params = { phone_number: number, auth_token: verification_token, locale: this.props.language }
     let platform = localStorage.getItem('device')
-    let token  = localStorage.getItem('fcm_token')
+    let token = localStorage.getItem('fcm_token')
 
     if (platform) params.device = { platform: platform, token: token }
 
@@ -181,11 +201,11 @@ export default class Session extends Component {
     return (
       <section>
         <div class='logo__container'>
-          <Logo class='logo'/>
+          <Logo class='logo' />
           <div><b>CAB</b>LOOK</div>
         </div>
         <div ref={ref => this.recaptchaWrapperRef = ref}> <div id='recaptcha_container'></div> </div>
-        { this.state.isCodeSent ? this.renderCode() : this.renderNumber() }
+        {this.state.isCodeSent ? this.renderCode() : this.renderNumber()}
       </section>
     )
   }
