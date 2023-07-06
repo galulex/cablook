@@ -79,8 +79,6 @@ axios.defaults.baseURL = '/api';
 axios.defaults.headers.common['Auth-Token'] = localStorage.token;
 axios.defaults.headers.common['Content-Type'] = 'application/json';
 
-let waitForToken
-
 export default class App extends Component {
 
   constructor(props) {
@@ -117,6 +115,7 @@ export default class App extends Component {
       this.checkOneSignalToken()
       document.documentElement.style.setProperty('--body-bg', '#eef6fb')
       this.registerServiceworker()
+      this.requestPermission()
     }
     window.addEventListener('offline', this.offline, { passive: true })
     window.addEventListener('online', this.online, { passive: true })
@@ -159,30 +158,32 @@ export default class App extends Component {
 
   registerServiceworker = async () => {
     if (navigator.serviceWorker) {
-      const registration = await navigator.serviceWorker.register('/serviceworker.js')
-
-      this.requestPermission(registration)
-    }
-  }
-
-  requestPermission = async (registration) => {
-    const messaging = getMessaging(firebaseApp)
-    const permission = await Notification.requestPermission()
-
-    if (permission === 'granted') {
-      getToken(messaging, { serviceWorkerRegistration: registration }).then((token) => {
-        if (localStorage.getItem('fcm_token') === token) return
-        localStorage.setItem('fcm_token', token)
-        localStorage.setItem('device', navigator.platform)
-        if (this.state.currentUser) this.sendTokenToServer(token)
+      navigator.serviceWorker.register('/serviceworker.js').catch(error => {
+        console.log('Unable to register service worker,', error)
       })
-    } else {
-      console.log('Unable to get permission to notify.')
     }
   }
 
-  sendTokenToServer = (token) => {
-    let device_params = { token: token, platform: navigator.platform }
+  requestPermission = async () => {
+    const registration = await navigator.serviceWorker.getRegistration()
+    const permission = await Notification.requestPermission()
+    const messaging = getMessaging(firebaseApp)
+    const platform = navigator.platform
+
+    if (permission !== 'granted') { console.log('Unable to get permission to notify.'); return }
+
+    const token = await getToken(messaging, { serviceWorkerRegistration: registration })
+
+    if (localStorage.getItem('fcm_token') === token) { return }
+
+    localStorage.setItem('fcm_token', token)
+    localStorage.setItem('device', platform)
+    this.sendTokenToServer(token, platform)
+
+  }
+
+  sendTokenToServer = (token, platform) => {
+    let device_params = { token: token, platform: platform }
 
     axios.post('device', { device: device_params })
       .catch((error) => {

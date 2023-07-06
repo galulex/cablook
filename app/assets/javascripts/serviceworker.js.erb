@@ -156,7 +156,8 @@ function focusOnTab(event) {
   }))
 }
 
-self.addEventListener('push', function(event) {
+self.addEventListener('push', event => {
+
   const payload = JSON.parse(event.data.text())
   const trip = JSON.parse(payload.data.trip)
 
@@ -166,7 +167,7 @@ self.addEventListener('push', function(event) {
       })
 
     return
-  } 
+  }
 
   let { title, body, icon, tag, renotify, actions } = payload.data
   let options = { title, body, icon, tag, renotify }
