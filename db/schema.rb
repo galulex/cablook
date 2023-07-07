@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_06_01_070100) do
+ActiveRecord::Schema.define(version: 2023_07_07_140658) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -85,6 +85,7 @@ ActiveRecord::Schema.define(version: 2023_06_01_070100) do
     t.decimal "address_location", default: [], array: true
     t.boolean "active", default: true
     t.string "card_number", limit: 16
+    t.string "device"
     t.index ["car_id"], name: "index_drivers_on_car_id"
   end
 
