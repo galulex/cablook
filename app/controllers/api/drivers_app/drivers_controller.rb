@@ -4,13 +4,13 @@ module Api
       before_action :authorize!
 
       def update
-        current_driver.update!(device: driver_params)
+        current_driver.update!(device_params)
         render json: {}, status: 200
       end
 
       private
 
-      def driver_params
+      def device_params
         params.permit(:device)
       end
     end
