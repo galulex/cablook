@@ -60,10 +60,10 @@ self.addEventListener('fetch', onFetch);
 self.addEventListener('push', event => {
   const payload = JSON.parse(event.data.text())
 
-  let { title, body, icon, tag, renotify, actions } = payload.data
+  let { title, body, icon, tag, renotify, action } = payload.data
   let options = { title, body, icon, tag, renotify }
 
-  if (trip.action && trip.action === 'remove_notifications') { 
+  if (action && action === 'remove_notifications') { 
    self.registration.getNotifications().then(notifications => {
       notifications.map(notification => {
          if (notification.tag === tag) notification.close() })

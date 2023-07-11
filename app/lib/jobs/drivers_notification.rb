@@ -23,7 +23,7 @@ module Jobs
           tag: trip.id.to_s
         }
       }
-      options[:data][:trip][:action] = 'remove_notifications' if message == 'clear'
+      options[:data][:action] = 'remove_notifications' if message == 'clear'
 
       options
     end
