@@ -8,7 +8,7 @@ describe Api::DriversApp::DriversController, type: :controller do
   describe '#update' do
     subject { response }
 
-    before { post :update, params: { device: device_token } }
+    before { post :update, params: { driver: { device: device_token } } }
 
     it { is_expected.to be_successful }
   end

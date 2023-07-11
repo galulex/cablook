@@ -1,7 +1,6 @@
 <script>
   import { onMount, onDestroy } from 'svelte'
   import { Router, Route, navigate } from 'svelte-routing'
-  import Sounds from './Sounds.svelte'
   import { createConsumer } from '@rails/actioncable'
   import Home from './routes/Home.svelte'
   import Wakelock from './Wakelock.svelte'
@@ -11,7 +10,8 @@
   import Spinner from './Spinner.svelte'
   import Sos from './Sos.svelte'
   import Profile from './routes/Profile.svelte'
-
+  import { sounds, vibrations } from './lib/sounds.js'
+  
   import axios from 'axios'
   axios.defaults.baseURL = '/api/drivers_app'
   axios.defaults.headers.common['Content-Type'] = 'application/json'
@@ -23,12 +23,19 @@
   let sos
   let settings = {}
   let subscription = null
-
   let trips = []
   let currentTrips = []
 
   const cable = createConsumer()
   const removeFromCurrentTrips = (id) => currentTrips = currentTrips.filter((trip_id) => trip_id !== id)
+
+  window.play = (type) => {
+    try {
+      sounds[type].play()
+      navigator.vibrate(vibrations[type])
+    } catch(e) {
+    }
+  }
 
   onMount(() => {
     document.body.style.background = '#19a160'
@@ -39,6 +46,11 @@
     subscription.unsubscribe()
     watcher.clearWatch()
   })
+
+  const permitSounds = () => {
+    window.play('update')
+    document.body.removeEventListener('click', permitSounds)
+  }
 
   let sendLocation = (geo) => {
     if (!isLoggedIn) return
@@ -67,6 +79,7 @@
   }
 
   const onStart = () => {
+    document.body.addEventListener('click', permitSounds)
     subscribe()
     setWatcher()
     loadScript()
@@ -216,7 +229,6 @@
 
 <Router>
   {#if isLoggedIn}
-    <Sounds axios={axios}/>
     <Wakelock/>
     <main>
       <Route path="/">
