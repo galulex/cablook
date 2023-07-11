@@ -216,7 +216,7 @@
 
 <Router>
   {#if isLoggedIn}
-    <Sounds/>
+    <Sounds axios={axios}/>
     <Wakelock/>
     <main>
       <Route path="/">

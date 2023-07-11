@@ -121,6 +121,7 @@ module Events
       def clear_notifications
         message = 'clear'
         Jobs::Notification.perform_later(trip, message)
+        Jobs::DriversNotification.perform_later(trip, message)
       end
 
       def trip
