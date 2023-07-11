@@ -11,7 +11,7 @@ module Api
       private
 
       def device_params
-        params.permit(:device)
+        params.require(:driver).permit(:device)
       end
     end
   end
