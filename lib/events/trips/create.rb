@@ -137,6 +137,7 @@ module Events
 
         message = I18n.t('notification.loading')
         Jobs::Notification.perform_later(@trip, message)
+        Jobs::DriversNotification.perform_later(@trip)
       end
 
       def send_message_to_vendor

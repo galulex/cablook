@@ -12,6 +12,7 @@ describe Events::Trips::Cancel do
 
     it { is_expected.to change { trip.reload.status }.to(Constants::Trip::STATUS_CODES[Constants::Trip::CANCELED]) }
     it { is_expected.to have_enqueued_job(Jobs::Notification) }
+    it { is_expected.to have_enqueued_job(Jobs::DriversNotification).with(trip, 'clear') }
 
     context 'and payment status is changed' do
       it { is_expected.to change { payment.reload.status }.to(Constants::Payments::DECLINE) }

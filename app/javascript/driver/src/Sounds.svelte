@@ -5,6 +5,9 @@
   import DecidedSound from '../public/sounds/decided.mp3'
   import UpdateSound from '../public/sounds/update.mp3'
   import SosSound from '../public/sounds/sos.mp3'
+  import { firebaseApp, getMessaging, getToken } from '../../pwa/firebase'
+
+  export let axios
 
   const sounds = {
     cancel: new Audio(CancelSound),
@@ -35,8 +38,24 @@
   }
 
   let click = (e) => {
+    handleNotificationsPermissions()
     klass = 'hidden'
     window.play('update')
+  }
+
+  const handleNotificationsPermissions = () => {
+    Notification.requestPermission().then(permission => {
+      if (permission !== 'granted') { console.log('Unable to get permission to notify.'); return }
+      navigator.serviceWorker.ready.then(registration => {
+        const messaging = getMessaging(firebaseApp)
+        getToken(messaging, { serviceWorkerRegistration: registration }).then(token => {
+          axios.patch('/driver', { device: token }).catch(error => console.log(error))
+        })
+      })
+        .catch(error => {
+          console.log('Service worker unavailable,', error)
+        })
+    })
   }
 </script>
 

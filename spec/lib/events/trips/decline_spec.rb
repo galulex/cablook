@@ -10,6 +10,7 @@ describe Events::Trips::Decline do
 
     it { is_expected.to change { trip.reload.status }.to(Constants::Trip::STATUS_CODES[Constants::Trip::DECLINED]) }
     it { is_expected.to change { payment.reload.status }.to(Constants::Payments::DECLINE) }
+    it { is_expected.to have_enqueued_job(Jobs::DriversNotification).with(trip, 'clear') }
 
     context 'when nothing happened' do
       let(:trip) { create(:trip, status: Constants::Trip::FINISHED) }

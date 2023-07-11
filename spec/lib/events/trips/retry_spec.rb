@@ -12,6 +12,7 @@ describe Events::Trips::Retry do
     it { is_expected.to change { trip.reload.status }.to(Constants::Trip::STATUS_CODES[Constants::Trip::PENDING]) }
     it { is_expected.to change { trip_payment.reload.status }.to(Constants::Payments::PENDING) }
     it { is_expected.to have_enqueued_job(Jobs::DeclineTrip).with(trip.id) }
+    it { is_expected.to have_enqueued_job(Jobs::DriversNotification) }
     it do
       expect(ActionCable.server).not_to receive(:broadcast).with(
         "#{Constants::Channels::TRIP}_#{trip.id}",

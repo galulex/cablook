@@ -15,10 +15,15 @@ module Events
         trip.pending!
         broadcast
         Jobs::SearchCarForTrip.perform_later(trip.id)
+        drivers_notify
         @trip
       end
 
       private
+
+      def drivers_notify
+        Jobs::DriversNotification.perform_later(trip)
+      end
 
       def trip
         @trip ||= Trip.find(data[:trip_id])

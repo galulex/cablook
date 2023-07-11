@@ -16,6 +16,7 @@ describe Events::Trips::Create do
       it { is_expected.to have_enqueued_job(Jobs::DeclineTrip).with(data[:id]) }
       it { is_expected.to have_enqueued_job(Jobs::Notification).with(data[:id]) }
       it { is_expected.to_not have_enqueued_job(Jobs::RefundHoldedAmount) }
+      it { is_expected.to have_enqueued_job(Jobs::DriversNotification) }
     end
 
     context 'and user trips_count updated' do

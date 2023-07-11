@@ -16,6 +16,7 @@ describe Events::Trips::Accept do
     it { is_expected.to change { trip.reload.car_id }.to(driver.car_id) }
     it { is_expected.to change { trip.reload.driver_id}.to(driver.id) }
     it { is_expected.to change { driver.car.reload.status }.to('during_trip') }
+    it { is_expected.to have_enqueued_job(Jobs::DriversNotification).with(trip, 'clear') }
 
     context 'when trip was accepted' do
       let(:trip) { create(:trip, status: Constants::Trip::ON_THE_WAY, user_id: user.id) }

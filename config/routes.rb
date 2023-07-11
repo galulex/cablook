@@ -42,6 +42,7 @@ Rails.application.routes.draw do
 
     post 'drivers_app/trips/new', to: 'v2/trips#new'
     namespace :drivers_app do
+      resource :driver, only: :update
       resources :cars, only: :index
       patch 'assign_car', to: 'assign_car#update'
       resources :maps, only: %i[index]
