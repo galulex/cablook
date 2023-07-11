@@ -25,7 +25,7 @@ header svg.cart {
 
 section.vendors {
   padding-bottom: 3vh;
-  padding-bottom: calc(var(--vh, 1vh) * 3);
+  padding-bottom: 3dvh;
 }
 
 @media only screen and (min-width: 1280px) {

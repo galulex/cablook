@@ -160,7 +160,7 @@ address:last-of-type svg {
   background: linear-gradient(to bottom, #e6efee, #f6faf8, #e6efee);
   background: linear-gradient(to bottom, var(--bg_gradient_color_2), var(--bg_gradient_color_1), var(--bg_gradient_color_2));
   height: 50vh;
-  height: calc(var(--vh, 1vh) * 50);
+  height: 50dvh;
   max-width: inherit;
   object-fit: cover;
   pointer-events: none;
@@ -175,7 +175,7 @@ address:last-of-type svg {
   margin-top: 0;
   position: relative;
   height: 100vh;
-  height: calc(var(--vh, 1vh) * 100);
+  height: 100dvh;
   padding: 0;
   overflow-y: overlay;
   scroll-snap-type: y proximity;
@@ -189,9 +189,10 @@ address:last-of-type svg {
 
 .trip-details__content {
   bottom: 0;
-  margin-top: calc(var(--vh, 1vh) * 50 - 10px);
-  /* height: 50vh; */
-  min-height: calc(var(--vh, 1vh) * 50 + 10px);
+  margin-top: calc(1vh * 50 - 10px);
+  margin-top: calc(1dvh * 50 - 10px);
+  min-height: calc(1vh * 50 + 10px);
+  min-height: calc(1dvh * 50 + 10px);
   padding: 12px;
   z-index: 10;
   width: 100%;
@@ -269,7 +270,8 @@ nav {
   display: flex;
   justify-content: center;
   position: fixed;
-  height: calc(var(--vh, 1vh) * 100);
+  height: 100vh;
+  height: 100dvh;
   width: 100%;
   left: 0px;
   top: 0px;
@@ -351,9 +353,9 @@ nav {
   display: flex;
   justify-content: space-between;
   margin: 1.5vh 0;
-  margin: calc(var(--vh, 1vh) * 1.5) 0;
+  margin: 1.5dvh 0;
   padding: 0 1vh;
-  padding: 0 calc(var(--vh, 1vh) * 1);
+  padding: 0 1dvh;
 }
 
 .trip-details .buttons .button {

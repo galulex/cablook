@@ -4,10 +4,10 @@
   -moz-appearance: none;
   appearance: none;
   padding: 2.6vh 0;
-  padding: calc(var(--vh, 1vh) * 2.6) 0;
+  padding: 2.6dvh 0;
   color: var(--green);
   font-size: 2.6vh;
-  font-size: calc(var(--vh, 1vh) * 2.6);
+  font-size: 2.6dvh;
   font-weight: 500;
   transition: all .1s;
   cursor: pointer;

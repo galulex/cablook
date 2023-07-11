@@ -7,7 +7,7 @@
   color: var(--green);
   font-weight: 500;
   font-size: 2.6vh;
-  font-size: calc(var(--vh, 1vh) * 2.6);
+  font-size: 2.6dvh;
   text-align-last: center;
   box-shadow: none;
 }
@@ -20,7 +20,7 @@
   transform: translateY(-50%);
   color: var(--green);
   font-size: 2.6vh;
-  font-size: calc(var(--vh, 1vh) * 2.6);
+  font-size: 2.6dvh;
 }
 
 .tab-content__container label[for='period'] {
@@ -37,9 +37,9 @@
 
 svg.statistics-icon {
   height: 3.5vh;
-  height: calc(var(--vh, 1vh) * 3.5);
+  height: 3.5dvh;
   width: 3.5vh;
-  width: calc(var(--vh, 1vh) * 3.5);
+  width: 3.5dvh;
   margin-right: 3%;
 }
 

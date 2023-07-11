@@ -4,7 +4,8 @@ input.address {
   border: none;
   background: rgba(255, 255, 255, 0);;
   padding: 14px 25px 12px 6px;
-  font-size: calc(var(--vh, 1vh) * 2.6);
+  font-size: 2.6vh;
+  font-size: 2.6dvh;
   color: #312d50;
   color: var(--address-input-text);
   font-weight: 100;
@@ -12,7 +13,7 @@ input.address {
   border-radius: 15px;
   transition: all .3s;
   height: 7.5vh;
-  height: calc(var(--vh, 1vh) * 7.5);
+  height: 7.5dvh;
 }
 
 .option fieldset.address input.address {
@@ -72,7 +73,7 @@ li.prediction {
   position: relative;
   width: 100%;
   height: 6.5vh;
-  height: calc(var(--vh, 1vh) * 6.5vh);
+  height: 6.5dvh;
 }
 
 li.prediction:after {
@@ -239,10 +240,10 @@ svg.map-pick {
   position: absolute;
   right: 10px;
   top: 3.5vh;
-  top: calc(var(--vh, 1vh) * 3.5);
+  top: 3.5dvh;
   transform: translateY(-50%);
   height: 2.6vh;
-  height: calc(var(--vh, 1vh) * 2.6);
+  height: 2.6dvh;
   width: 15px;
   cursor: pointer;
 }
@@ -260,11 +261,13 @@ li.prediction svg.map-pick {
 select#entrance, input#time, .select select, select#select_time {
   color: #312d50;
   color: var(--navy-dark);
-  font-size: calc(var(--vh, 1vh) * 2.6);
+  font-size: 2.6vh;
+  font-size: 2.6dvh;
   background: transparent;
   border: none;
   transition: box-shadow .3s;
-  min-height: calc(var(--vh, 1vh) * 4);
+  min-height: 4vh;
+  min-height: 4dvh;
   border-radius: 0;
   border: none;
   padding-left: 30px;
@@ -330,7 +333,8 @@ select#entrance:focus, input#time:focus, input.comment:focus, select#card_id:foc
 
 label[for='entrance'], label[for='time'] {
   text-align: right;
-  font-size: calc(var(--vh, 1vh) * 2.6);
+  font-size: 2.6vh;
+  font-size: 2.6dvh;
 }
 
 .option label svg, .additions label svg, label[for='comment'] svg, .select svg {
@@ -359,14 +363,16 @@ input.comment {
   background: rgba(238, 246, 251, 0.5);
   background: var(--comment-input-bg);
   border: none;
-  font-size: calc(var(--vh, 1vh) * 2.6);
+  font-size: 2.6vh;
+  font-size: 2.6dvh;
   outline: none;
   font-weight: 100;
   transition: box-shadow .3s;
   box-shadow: inset 3px 2px 8px #24293038, inset -2px -1px 4px white;
   box-shadow: inset 3px 2px 8px var(--shadow_color), inset -2px -1px 4px var(--shadow_color_light);
   border-radius: 50px;
-  height: calc(var(--vh, 1vh) * 4.5);
+  height: 4.5vh;
+  height: 4.5dvh;
   -webkit-appearance: none;
 }
 

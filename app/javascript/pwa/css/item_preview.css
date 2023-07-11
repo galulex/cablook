@@ -16,7 +16,7 @@
 .item-preview .col-6 {
   width: 60%;
   font-size: 1.8vh;
-  font-size: calc(var(--vh, 1vh) * 1.8);
+  font-size: 1.8dvh;
 }
 
 .item-preview .col-2 {
@@ -25,12 +25,12 @@
 
 .item-preview b.name {
   font-size: 2vh;
-  font-size: calc(var(--vh, 1vh) * 2);
+  font-size: 2dvh;
 }
 
 .item-preview span.description, .item-preview span.price {
   font-size: 2vh;
-  font-size: calc(var(--vh, 1vh) * 2);
+  font-size: 2dvh;
   white-space: pre-line;
   word-break: break-word;
 }

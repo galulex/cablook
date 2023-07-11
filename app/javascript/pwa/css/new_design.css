@@ -15,7 +15,8 @@ svg {
 
 section.new_design {
   max-width: 100%;
-  height: calc(var(--vh, 1vh) * 100);
+  height: 100vh;
+  height: 100dvh;
   margin-top: 0;
   position: relative;
   padding: 0;
@@ -66,7 +67,7 @@ fieldset.address:focus-within {
   flex-direction: column;
   justify-content: center;
   height: 18vh;
-  height: calc(var(--vh, 1vh) * 18);
+  height: 18dvh;
   min-height: 110px;
   margin-left: calc(15vw - 10px);
   background: rgba(255, 255, 255, 0.5);
@@ -164,12 +165,11 @@ fieldset.address:focus-within {
 
 .new_design .remove-address {
   height: 2.6vh;
-  height: calc(var(--vh, 1vh) * 2.6);
+  height: 2.6dvh;
   position: absolute;
-  top: calc(var(--vh, 1vh) * 2.6);
-  right: 10px;
   top: 3.5vh;
-  top: calc(var(--vh, 1vh) * 3.5);
+  top: 3.5dvh;
+  right: 10px;
   transform: translateY(-50%);
   margin: 0;
   padding: 0;
@@ -379,7 +379,7 @@ svg.pin-last path {
 
 .pick fieldset.address svg {
   height: 1.4vh;
-  height: calc(var(--vh, 1vh) * 1.4);
+  height: 1.4dvh;
 }
 
 .pick .trigger {
@@ -400,7 +400,8 @@ svg.pin-last path {
   outline: none;
   cursor: pointer;
   -webkit-appearance: none;
-  height: calc(var(--vh, 1vh) * 18);
+  height: 18vh;
+  height: 18dvh;
   min-height: 110px;
   width: 15vw;
   transition: width .3s;
@@ -480,8 +481,10 @@ label.nocall {
   display: flex;
   align-items: center;
   padding: 5px 0 5px 30px;
-  height: calc(var(--vh, 1vh) * 4);
-  font-size: calc(var(--vh, 1vh) * 2.6);
+  height: 4vh;
+  height: 4dvh;
+  font-size: 2.6vh;
+  font-size: 2.6dvh;
   font-weight: 100;
   min-width: 110px;
   max-width: 45%;

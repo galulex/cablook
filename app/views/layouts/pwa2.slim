@@ -91,7 +91,7 @@ html lang="#{I18n.locale}"
         font-family: Gilroy, Helvetica, Arial, sans-serif;
         font-weight: 100;
         font-size: 2.6vh;
-        font-size: calc(var(--vh, 1vh) * 2.6);
+        font-size: 2.6dvh;
         background: #eef6fb;
         background: var(--body-bg);
         background-attachment: fixed;
@@ -161,7 +161,7 @@ html lang="#{I18n.locale}"
         background: transparent;
         text-align: center;
         font-size: 2.6vh;
-        font-size: calc(var(--vh, 1vh) * 2.6);
+        font-size: 2.6dvh;
         color: #233038;
         color: var(--font_color_2);
         height: 15vw;
@@ -176,7 +176,7 @@ html lang="#{I18n.locale}"
         width: 100%;
         max-width: 600px;
         height: calc(100vh - 15vw);
-        height: calc((var(--vh, 1vh) * 100) - 15vw);
+        height: calc(100dvh - 15vw);
         padding: 0 3%;
         margin-top: 15vw;
         overflow-y: auto;
@@ -328,7 +328,7 @@ html lang="#{I18n.locale}"
 
         section {
           height: calc(100vh - 70px);
-          height: calc((var(--vh, 1vh) * 100) - 70px);
+          height: calc(100dvh - 70px);
           margin-top: 70px;
         }
       }
