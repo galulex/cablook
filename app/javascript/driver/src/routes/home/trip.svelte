@@ -224,7 +224,6 @@
     text-align: center;
     border: none;
     border-radius: 5px;
-    box-shadow: 3px 3px 6px var(--shadow_color), inset -1px -1px 2px var(--shadow_color);
   }
 
   button:hover, .button:hover {

@@ -25,7 +25,7 @@
   border-radius: 15px;
   box-shadow: 5px 5px 10px var(--shadow_color);
   color: #233038;
-  color: var(--font_color_2);
+  color: var(--text_grey_color);
 }
 
 .tab-content__header {
@@ -115,6 +115,7 @@
   margin: 0 5%;
   width: 90%;
   padding: 2% 7%;
+  color: var(--text_grey_color);
   background: linear-gradient(0deg, var(--bg_gradient_color_2), var(--bg_gradient_color_1), 40%);
 }
 

@@ -12,3 +12,30 @@ css:
     --nav_shadow_white_color: rgba(255,255,255,0.05);
     --trip_shadow_color: #dce2e1;
   }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --text_shadow_white_color: black;
+      --text_shadow_dark_color: black;
+      --main_dark_color: white;
+      --text_dark_color: white;
+      --text_grey_color: #cccccc;
+      --main_green_color: white;
+      --text_shadow_white_color: rgba(255,255,255,0.8);
+      --text_shadow_dark_color: rgba(255,255,255,0.4);
+      --trip_shadow_color: white;
+      --white: white;
+      --bg_gradient_color_1:  black;
+      --input_bg_color: black;
+      --shadow_color:  rgba(255,255,255,0.4);
+    }
+
+    nav {
+      background: black;
+    }
+
+    blockquote {
+      background: black !important;
+    }
+  }
+

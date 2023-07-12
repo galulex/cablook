@@ -17,6 +17,10 @@
   let cars = []
   let subscription
 
+  const isDarkTheme = window.matchMedia('(prefers-color-scheme: dark)').matches
+  const darkModeMapStyle = 'mapbox://styles/galulex/ckvficxop4zs514qzkozc0u1e'
+  const lightModeMapStyle = 'mapbox://styles/okunieva/cjzwn3wx40yhq1cpjl3yo8p1z'
+
   onDestroy(() => {
     if (subscription) subscription.unsubscribe()
   })
@@ -67,7 +71,7 @@
 
 <Map
   accessToken='pk.eyJ1IjoiZ2FsdWxleCIsImEiOiJjamx6ampoZjgyMnYxM3FvZ2ppNjV2M2x5In0.bPgk2WI9NT-DJwnE-OtiLA'
-  style='mapbox://styles/okunieva/cjzwn3wx40yhq1cpjl3yo8p1z'
+  style= { isDarkTheme ? darkModeMapStyle : lightModeMapStyle }
   center={location}
   zoom={12}
   options={{minZoom: 8, maxZoom: 17}}
