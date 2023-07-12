@@ -280,9 +280,7 @@ html lang="#{I18n.locale}"
       .search_logo path:nth-child(5) { animation: green_logo 4s 1.5s infinite; }
       .search_logo path:nth-child(6) { animation: purple_logo 4s 2s infinite; }
       .search_logo path:nth-child(7) { animation: yellow_logo 4s 3.5s infinite; }
-
       .search_logo path:nth-last-child(1) { animation: green_logo 4s 3s infinite; }
-
 
       @keyframes green_logo {
         10%, 25% { fill: #19A160; }
@@ -304,7 +302,6 @@ html lang="#{I18n.locale}"
         visibility: visible;
         opacity: 1;
       }
-
 
       h1.offline {
         display: none;
@@ -420,6 +417,13 @@ html lang="#{I18n.locale}"
         <path fill="#FFF" d="M316.6 639.2l116.7-46.1 36.8 79.2c1 2.2-.6 4.6-3 4.6H346.6l-30-37.7z"/>
       </svg>
     = javascript_pack_tag 'pwa', async: true
+    javascript:
+      if (navigator.serviceWorker) {
+        navigator.serviceWorker.register('/serviceworker.js')
+          .then(function(reg) {
+            console.log('[Companion]', 'Service worker registered!');
+          });
+      }
     = render 'layouts/footer'
     noscript
       h1.offline JavaScript is disabled :(

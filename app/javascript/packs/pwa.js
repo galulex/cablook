@@ -115,7 +115,6 @@ export default class App extends Component {
       this.checkOneSignalToken()
       document.documentElement.style.setProperty('--body-bg', '#eef6fb')
     }
-    this.registerServiceworker()
     window.addEventListener('offline', this.offline, { passive: true })
     window.addEventListener('online', this.online, { passive: true })
     document.addEventListener('visibilitychange', this.onVisibilityChange, false, { passive: true })
@@ -153,12 +152,6 @@ export default class App extends Component {
     const token = localStorage.getItem('one_signal_token')
 
     if (token) this.sendTokenToServer(token)
-  }
-
-  registerServiceworker = () => {
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('/serviceworker.js').catch(error => console.log('Unable to register service worker.'))
-    }
   }
 
   sendTokenToServer = (token, platform) => {
