@@ -89,18 +89,18 @@ input:-webkit-autofill:focus {
   -webkit-text-fill-color: var(--text_grey_color);
 }
 
-button {
+button, a.button, nav a {
   border: none;
   cursor: pointer;
-  box-shadow: 5px 3px 12px var(--shadow_color), inset 1px 0px 2px var(--white);
+  box-shadow: 3px 3px 3px var(--shadow_color), inset -1px -1px 2px var(--shadow_color);
   border-radius: 10px;
 }
 
-button:hover {
+button:hover, a.button:hover, nav a:hover {
   box-shadow: 2px 1px 4px var(--shadow_color), -1px -0px 2px var(--white);
 }
 
-button:active {
+button:active, a.button:active, nav a:active {
   box-shadow: inset 1px 1px 2px var(--shadow_color), inset -1px -1px 2px var(--white);
   /* remove blue background on click */
   -webkit-tap-highlight-color: transparent;

@@ -61,11 +61,9 @@
   }
 
   .slider button {
-    padding: 0;
     font-size: 5rem;
-    border: none;
-    background: none;
-    box-shadow: none;
+    color: var(--text_grey_color);
+    background: var(--bg_gradient_color_1);
   }
 </style>
 

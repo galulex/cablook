@@ -24,18 +24,8 @@ nav a, nav button {
   background: none;
   border: none;
   text-decoration: none;
-  box-shadow: 4px 3px 12px var(--shadow_color), inset 2px 2px 3px var(--nav_shadow_white_color), inset -2px -2px 3px var(--shadow_color);
   cursor: pointer;
   border-radius: 5px;
-}
-
-nav a:hover, nav button:hover {
-  box-shadow: 2px 1px 4px var(--shadow_color), -1px -1px 2px var(--nav_shadow_white_color), -1px -1px 2px var(--shadow_color);
-}
-
-nav a:active, nav button:active {
-  box-shadow: inset 2px 2px 2px var(--shadow_color), inset -2px -2px 2px var(--nav_shadow_white_color);
-  -webkit-tap-highlight-color: transparent;
 }
 
 nav svg {

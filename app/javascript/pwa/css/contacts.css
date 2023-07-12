@@ -32,5 +32,5 @@ ul.contacts li:first-child a svg path {
 
 .notice {
   font-size: 3.2vh;
-  font-size: calc(var(--vh, 1vh) * 3.2);
+  font-size: 3.2dvh;
 }

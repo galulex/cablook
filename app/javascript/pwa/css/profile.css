@@ -6,7 +6,8 @@
   position: absolute;
   top: 0;
   left: 0;
-  height: calc(var(--vh, 1vh) * 100);
+  height: 100vh;
+  height: 100dvh;
   width: 100vw;
 }
 
@@ -31,7 +32,7 @@ section.profile.map-open .tabs .tabs__content {
 
 section.profile.map-open .tabs .tabs__content .tab-content {
   height: 100vh;
-  height: calc(var(--vh, 1vh) * 100);
+  height: 100dvh;
 }
 
 section.profile fieldset.address {
@@ -99,7 +100,7 @@ ul.places li button svg {
   color: var(--font_color_2);
   padding: 6% 7%;
   margin-top: 4vh;
-  margin-top: calc(var(--vh, 1vh) * 4);
+  margin-top: 4dvh;
   border-radius: 15px;
   box-shadow: var(--main-shadow);
   background: rgba(255, 255, 255, .3);
@@ -109,7 +110,7 @@ ul.places li button svg {
 
 .profile .tab-content .tab-content__container:last-of-type.open {
   margin-bottom: 33vh;
-  margin-bottom: calc(var(--vh, 1vh) * 33);
+  margin-bottom: 33dvh;
 }
 
 .tab-content__container.inset-shadow {
@@ -126,19 +127,19 @@ ul.places li button svg {
   margin: 10px auto 0 auto;
   padding: 5% 32px 5% 5%;
   font-size: 2.6vh;
-  font-size: calc(var(--vh, 1vh) * 2.6);
+  font-size: 2.6dvh;
   border-radius: 15px;
 }
 
 .profile .tab-content .tab-content__container:last-of-type {
   margin-bottom: 7vh;
-  margin-bottom: calc(var(--vh, 1vh) * 7);
+  margin-bottom: 7dvh;
 }
 
 .profile .tab-content .tab-content__container label {
   font-weight: 100;
   font-size: 2.6vh;
-  font-size: calc(var(--vh, 1vh) * 2.6);
+  font-size: 2.6dvh;
 }
 
 
@@ -170,8 +171,10 @@ ul.places li button svg {
 }
 
 input.custom-checkbox ~ .custom-checkbox__label {
-  width: calc(var(--vh, 1vh) * 2.6);
-  height: calc(var(--vh, 1vh) * 2.6);
+  width: 2.6vh;
+  width: 2.6dvh;
+  height: 2.6vh;
+  height: 2.6dvh;
   border: 2px solid #19a160;
   border: 2px solid var(--green);
   transition: all .5s;
@@ -232,7 +235,7 @@ input.custom-checkbox ~ .custom-checkbox__label-title {
   padding: 0;
   color: var(--font_color_2);
   font-size: 2.6vh;
-  font-size: calc(var(--vh, 1vh) * 2.6);
+  font-size: 2.6dvh;
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
@@ -253,9 +256,9 @@ input.custom-checkbox ~ .custom-checkbox__label-title {
   align-items: center;
   height: 100%;
   padding-top: 5.1vh;
-  padding-top: calc(var(--vh, 1vh) * 5.1);
+  padding-top: 5.1dvh;
   font-size: 2.6vh;
-  font-size: calc(var(--vh, 1vh) * 2.6);
+  font-size: 2.6dvh;
 }
 
 .profile .tabs__holder {
@@ -264,7 +267,7 @@ input.custom-checkbox ~ .custom-checkbox__label-title {
   align-items: center;
   width: 90%;
   height: 8.7vh;
-  height: calc(var(--vh, 1vh) * 8.7);
+  height: 8.7dvh;
   font-size: 70%;
   border-radius: 15px;
   box-shadow: inset 3px 2px 8px var(--shadow_color), inset -2px -1px 4px var(--white);
@@ -368,7 +371,7 @@ input.custom-checkbox ~ .custom-checkbox__label-title {
 
 .profile .tab-content__holder.settings.open {
   height: calc(100% + 33vh);
-  height: calc(100% + calc(var(--vh, 1vh) * 33));
+  height: calc(100% + 33dvh);
 }
 
 .tab-content__items {
@@ -396,8 +399,10 @@ input.custom-checkbox ~ .custom-checkbox__label-title {
 }
 
 .tab-content__label-container:first-of-type .custom-checkbox__label-title {
-  left: calc(var(--vh, 1vh) * 2.6 + 5px);
+  left: calc(1vh * 2.6 + 5px);
+  left: calc(1dvh * 2.6 + 5px);
   top: .25vh;
+  top: .25dvh;
   padding: 0;
 }
 
@@ -444,16 +449,16 @@ input.custom-checkbox ~ .custom-checkbox__label-title {
 input.checkbox-switcher:checked ~ label.label-switcher:before {
   top: 0;
   left: calc(100% - 2.6vh);
-  left: calc(100% - (var(--vh, 1vh) * 2.6));
+  left: calc(100% - 2.6dvh);
   background: #19a160;
   background: var(--green);
 }
 
 label.label-switcher {
   width: 5.2vh;
-  width: calc(var(--vh, 1vh) * 5.2);
+  width: 5.2dvh;
   height: 2.6vh;
-  height: calc(var(--vh, 1vh) * 2.6);
+  height: 2.6dvh;
   background: rgba(209, 209, 209, .5);
   border-radius: 20px;
   box-shadow: inset 3px 2px 8px var(--shadow_color), inset -2px -1px 2px var(--white);
@@ -471,9 +476,9 @@ label.label-switcher:before {
   top: 0;
   left: 0;
   height: 2.6vh;
-  height: calc(var(--vh, 1vh) * 2.6);
+  height: 2.6dvh;
   width: 2.6vh;
-  width: calc(var(--vh, 1vh) * 2.6);
+  width: 2.6dvh;
   border-radius: 50%;
   background: white;
   background: var(--white);
@@ -501,7 +506,7 @@ label.label-header:hover {
 
 .notification__settings .tab-content__container-item {
   padding: 3% 6vh 3% 0;
-  padding: 3% calc(var(--vh, 1vh) * 6) 3% 0;
+  padding: 3% 6dvh 3% 0;
 }
 
 .notification__settings .tab-content__container-item .label-switcher {
@@ -511,7 +516,7 @@ label.label-header:hover {
 
 button.friend-code {
   margin-bottom: 7vh;
-  margin-bottom: calc(var(--vh, 1vh) * 7);
+  margin-bottom: 7dvh;
 }
 
 @media screen and (max-width: 510px) {
@@ -541,11 +546,11 @@ ul.places > li > span::-webkit-scrollbar,
 section.profile svg.map-pick {
   right: 3px;
   top: 3.5vh;
-  top: calc(var(--vh, 1vh) * 3.5);
+  top: 3.5dvh;
   transform: translateY(-50%);
   width: 15px;
   height: 3vh;
-  height: calc(var(--vh, 1vh) * 3);
+  height: 3dvh;
 }
 
 

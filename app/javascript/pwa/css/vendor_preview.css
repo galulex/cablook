@@ -29,7 +29,7 @@
 
 .vendor span.address {
   font-size: 2vh;
-  font-size: calc(var(--vh, 1vh) * 2);
+  font-size: 2dvh;
 }
 
 .vendor .vendor-logo[src='']{
@@ -128,7 +128,7 @@ li.create-order {
 
 .vendor .buttons-container .button {
   font-size: 2vh;
-  font-size: calc(var(--vh, 1vh) * 2);
+  font-size: 2dvh;
   padding: 1vh 10px;
 }
 
@@ -137,7 +137,7 @@ li.create-order {
   align-items: center;
   justify-content: space-between;
   font-size: 2.6vh;
-  font-size: calc(var(--vh, 1vh) * 2.6);
+  font-size: 2.6dvh;
 }
 
 @media screen and (min-width: 768px) {

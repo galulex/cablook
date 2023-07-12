@@ -13,7 +13,7 @@
   import Flag from '../../../images/Flag.svelte'
   import CrossX from '../../../images/Cross_X.svelte'
   import Back from '../../../images/Back.svelte'
-  import Dollar from '../../../images/Dollar.svelte'
+  import Hryvnia from '../../../images/Hryvnia.svelte'
   import Exclamation from '../../../images/Exclamation.svelte'
   import Check from '../../../images/Check.svelte'
   import Pencil from '../../../images/Pencil.svelte'
@@ -36,7 +36,7 @@
   let timer = parseInt(localStorage[`timer_${trip.id}`]) || 0
   let interval
   let paymentCheck = false
-  let paymentIcon = trip.payment_status == 2 ? Check : Dollar
+  let paymentIcon = trip.payment_status == 2 ? Check : Hryvnia
   let paymentClass = trip.payment_status == 2 ? 'success' : ''
 
   onMount(() => {
@@ -90,7 +90,7 @@
 
   let paymentVerify = () => {
     if (trip.vip) return alert('Це постійний клієнт. Кошти знімуться по закінченні поїздки')
-    paymentIcon = Dollar
+    paymentIcon = Hryvnia
     paymentCheck = true
     axios.patch(`trips/${trip.id}/payments_verify`).then(res => {
       if (res.data.payment_status == 2) {
@@ -179,6 +179,7 @@
 
 <style>
   li {
+    font-size: 1.3rem;
     scroll-snap-align: start;
     height: inherit;
     overflow-y: auto;
@@ -192,10 +193,8 @@
   }
 
   span {
-    width: 25%;
+    display: contents;
     display: inline-block;
-    text-align: center;
-    flex-grow: 1;
   }
 
   span:last-child {
@@ -225,7 +224,6 @@
     text-align: center;
     border: none;
     border-radius: 5px;
-    box-shadow: 3px 3px 6px var(--shadow_color), inset -1px -1px 2px var(--shadow_color);
   }
 
   button:hover, .button:hover {
@@ -274,9 +272,12 @@
     margin-top: 5px;
     text-align: left;
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
     flex-flow: row wrap;
-    align-items: stretch;
+  }
+
+  .info-line {
+    display: contents;
   }
 </style>
 
@@ -290,10 +291,14 @@
       {/if}
     {/each}
     <div class='info'>
-      <span><Leaf style={{width: '30px'}}/><label>{trip.trips_count}</label></span>
-      <span datatime={trip.start_at}><Clock style={{ fill: bgColor(), width: '15px', height: '15px'}}/><label>{trip.start_time}</label></span>
-      <span><Distance style={{ fill: bgColor(), width: '15px', height: '15px'}}/><label>{distance}км</label></span>
-      <span><Dollar style={{width: '15px', height: '15px', fill: 'green'}}/><label>{trip.cost}</label></span>
+      <div class='info-line'>
+        <span><Leaf style={{width: '30px'}}/><label>{trip.trips_count}</label></span>
+        <span datatime={trip.start_at}><Clock style={{ fill: bgColor(), width: '20px', height: '20px'}}/><label>{trip.start_time}</label></span>
+      </div>
+      <div class='info-line'>
+        <span><Distance style={{ fill: bgColor(), width: '20px', height: '20px'}}/><label>{distance}км</label></span>
+        <span><Hryvnia style={{width: '20px', height: '20px', fill: 'green'}}/><label>{trip.cost}</label></span>
+      </div>
     </div>
     <blockquote>{trip.comment}</blockquote>
     <div class='buttons'>

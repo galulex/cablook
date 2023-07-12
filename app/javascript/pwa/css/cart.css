@@ -9,7 +9,7 @@ section.cart.map-open {
 
 section.cart .tab-content__container {
   margin-top: 3vh;
-  margin-top: calc(var(--vh, 1vh) * 3);
+  margin-top: 3dvh;
 }
 
 section.cart > form > .additions {
@@ -25,7 +25,7 @@ section.cart > form > label[for='comment'] {
 
 section.cart > form > .button {
   margin-bottom: 3vh;
-  margin-bottom: calc(var(--vh, 1vh) * 3);
+  margin-bottom: 3dvh;
 }
 
 section.cart > form label input.comment {
@@ -79,7 +79,7 @@ section.cart  > form fieldset.address ul.predictions {
   text-align: right;
   padding: 5% 5% 0 5%;
   font-size: 2vh;
-  font-size: calc(var(--vh, 1vh) * 2);
+  font-size: 2dvh;
 }
 
 .cart .order-price b {

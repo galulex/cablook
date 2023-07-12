@@ -93,7 +93,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0,0,0,0.3);
+    background: var(--bg_gradient_color_1)
   }
 
   .modal {
@@ -106,8 +106,8 @@
     transform: translate(-50%,-50%);
     padding: 2.5em;
     border-radius: 10px;
-    background: var(--bg_gradient_color_2);
-    box-shadow: 5px 5px 5px var(--shadow_color);
+    background: var(--bg_gradient_color_1);
+    box-shadow: 2px 2px 5px var(--shadow_color);
   }
 
   button {
@@ -125,7 +125,7 @@
     width: 20px;
     font-size: 40px;
     font-weight: 400;
-    color: var(--main_green_color);
+    color: var(--text_grey_color);
   }
 
   @media (max-width: 480px) {

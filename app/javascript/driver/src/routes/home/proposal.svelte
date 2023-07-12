@@ -49,13 +49,13 @@
 
 <style>
   ol > li {
+    font-size: 1.3rem;
     padding: 25px 20px 60px 15px;
     margin: 20px 50px;
     position: relative;
     background: var(--input_bg_color);
     box-shadow: inset -2px -1px 8px var(--trip_shadow_color);
     border-radius: 10px;
-    font-size: 16px;
     color: var(--text_grey_color);
   }
 

@@ -38,7 +38,6 @@
   }
 
   onMount(() => {
-    document.body.style.background = '#19a160'
     if (isLoggedIn) onStart()
   })
 
