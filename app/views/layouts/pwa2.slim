@@ -4,6 +4,8 @@ html lang="#{I18n.locale}"
     = render 'layouts/head'
     = inline_svg 'filter_main.svg'
     = inline_svg 'filter_large.svg'
+    meta name='theme-color' media='(prefers-color-scheme: light)' content='#eef6fb'
+    meta name='theme-color' media='(prefers-color-scheme: dark)' content='#15121e'
     link rel='preload' href=asset_path('Gilroy-ExtraBold.woff2') as='font' type='font/woff2' crossorigin='anonymous'
     link rel='preload' href=asset_path('Gilroy-Bold.woff2') as='font' type='font/woff2' crossorigin='anonymous'
     link rel='preload' href=asset_path('Gilroy-Light.woff2') as='font' type='font/woff2' crossorigin='anonymous'
@@ -278,9 +280,7 @@ html lang="#{I18n.locale}"
       .search_logo path:nth-child(5) { animation: green_logo 4s 1.5s infinite; }
       .search_logo path:nth-child(6) { animation: purple_logo 4s 2s infinite; }
       .search_logo path:nth-child(7) { animation: yellow_logo 4s 3.5s infinite; }
-
       .search_logo path:nth-last-child(1) { animation: green_logo 4s 3s infinite; }
-
 
       @keyframes green_logo {
         10%, 25% { fill: #19A160; }
@@ -302,7 +302,6 @@ html lang="#{I18n.locale}"
         visibility: visible;
         opacity: 1;
       }
-
 
       h1.offline {
         display: none;
@@ -418,6 +417,13 @@ html lang="#{I18n.locale}"
         <path fill="#FFF" d="M316.6 639.2l116.7-46.1 36.8 79.2c1 2.2-.6 4.6-3 4.6H346.6l-30-37.7z"/>
       </svg>
     = javascript_pack_tag 'pwa', async: true
+    javascript:
+      if (navigator.serviceWorker) {
+        navigator.serviceWorker.register('/serviceworker.js')
+          .then(function(reg) {
+            console.log('[Companion]', 'Service worker registered!');
+          });
+      }
     = render 'layouts/footer'
     noscript
       h1.offline JavaScript is disabled :(
