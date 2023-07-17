@@ -53,6 +53,13 @@
   border-top: 2px solid rgba(119, 119, 119, .2);
 }
 
+.tab-content__container-item button {
+  width: 100%;
+  padding: 10px;
+  background: var(--bg_gradient_color_1);
+  color: var(--text_grey_color);
+}
+
 .tab-content__container-item span.value {
   margin-left: 15px;
   font-weight: 500;

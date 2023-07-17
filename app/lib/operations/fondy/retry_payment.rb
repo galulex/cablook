@@ -18,7 +18,7 @@ module Operations
           return payment_status
         elsif retry_response_success?
           update_payment(retry_response)
-          driver_pay_out
+          update_driver_balance
           add_cashback
         else
           payment.update(response: retry_response)
@@ -45,20 +45,14 @@ module Operations
         )
       end
 
-      def driver_pay_out
+      def update_driver_balance
         return if payment.type == Constants::Payments::PAYOUT
 
-        Operations::Fondy::DriverPayOut.new(payment_id).call
+        payment.trip.driver.update!(balance: payment.trip.driver.balance + payment.amount)
       end
 
       def retry_response
-        return retry_payout_response if payment.type == Constants::Payments::PAYOUT
-
         @retry_response ||= ::Fondy::Recurring.new(user, payment.amount, card.token, order_reference + RETRY_SUFIX).call
-      end
-
-      def retry_payout_response
-        @retry_payout_response ||= ::Fondy::ChargeCard.new(payment, payout_amount).call
       end
 
       def payment_status

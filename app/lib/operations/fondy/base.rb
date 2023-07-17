@@ -10,7 +10,11 @@ module Operations
       end
 
       def payout_amount
-        @payout_amount ||= payment.amount - (payment.amount * FONDY_FEE)
+        @payout_amount ||= amount - (amount * FONDY_FEE)
+      end
+
+      def amount
+        payment.amount || amount
       end
     end
   end

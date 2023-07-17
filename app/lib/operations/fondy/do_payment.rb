@@ -22,13 +22,13 @@ module Operations
 
           update_bonus_trip_if_necessary
           add_cashback
-          driver_pay_out
+          update_driver_balance
         when types[1], types[2]
           update_payment_and_total(success_response?(recurring_response), recurring_response)
-          driver_pay_out if success_response?(recurring_response)
+          update_driver_balance if success_response?(recurring_response)
         when types[3]
           update_payment_and_total(success_response?(capture_response), capture_response)
-          driver_pay_out if success_response?(capture_response)
+          update_driver_balance if success_response?(capture_response)
         end
         capture_response[:response_status]
       end
@@ -44,8 +44,8 @@ module Operations
         }
       end
 
-      def driver_pay_out
-        Operations::Fondy::DriverPayOut.new(payment.id).call
+      def update_driver_balance
+        trip.driver.update!(balance: trip.driver.balance + payment.amount)
       end
 
       def update_payment(success, response)

@@ -1,5 +1,5 @@
 class Presenters::DriversApp::Driver::Single < Presenters::BaseSingle
-  properties :id, :name, :auth_token, :car
+  properties :id, :name, :auth_token, :car, :balance
 
   property :card_number, exec_context: :decorator
 

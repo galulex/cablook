@@ -187,7 +187,11 @@ const en = {
     },
     total_trips_cost: 'Trips cost',
     points_2: 'Amount',
-    tips_count: 'Count'
+    tips_count: 'Count',
+    payouts: 'Payouts',
+    balance: 'Balance',
+    do_payout: 'Payout',
+    cancel: 'Cancel'
   },
   profile_page: {
     header: 'Profile',

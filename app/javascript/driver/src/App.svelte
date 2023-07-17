@@ -38,7 +38,7 @@
   }
 
   onMount(() => {
-    if (isLoggedIn) onStart()
+onStart()
   })
 
   onDestroy(() => {

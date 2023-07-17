@@ -187,7 +187,11 @@ const ru = {
     },
     total_trips_cost: 'Стоимость поездок',
     points_2: 'Сумма',
-    tips_count: 'Количество'
+    tips_count: 'Количество',
+    payouts: 'Выплаты',
+    balance: 'Баланс',
+    do_payout: 'Выплатить',
+    cancel: 'Отмена'
   },
   profile_page: {
     header: 'Профиль',
