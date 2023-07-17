@@ -191,7 +191,8 @@ const en = {
     payouts: 'Payouts',
     balance: 'Balance',
     do_payout: 'Payout',
-    cancel: 'Cancel'
+    cancel: 'Cancel',
+    payout_error: 'Something went wrong'
   },
   profile_page: {
     header: 'Profile',

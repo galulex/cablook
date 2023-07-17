@@ -6,7 +6,7 @@
   export let driverBalance
 
   const dispatch = createEventDispatcher()
-  const MAX_AMOUNT = 100
+  const MAX_AMOUNT = 5000
   const possiblePayoutAmount = driverBalance > MAX_AMOUNT ? MAX_AMOUNT : driverBalance
 
   let payoutErrorMessage = null
@@ -36,7 +36,7 @@
       payoutDisabled = parseInt(data.driver.balance) <= 0
     }).catch(() => {
       payoutDisabled = false
-      payoutErrorMessage = 'Something went wrong'
+      payoutErrorMessage = i18n.statistics.payout_error
     })
   }
 </script>

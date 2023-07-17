@@ -191,7 +191,8 @@ const ru = {
     payouts: 'Выплаты',
     balance: 'Баланс',
     do_payout: 'Выплатить',
-    cancel: 'Отмена'
+    cancel: 'Отмена',
+    payout_error: 'Ошибка при выплате'
   },
   profile_page: {
     header: 'Профиль',

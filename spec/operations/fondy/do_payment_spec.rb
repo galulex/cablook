@@ -1,12 +1,11 @@
 describe Operations::Fondy::DoPayment do
   let(:instance) { described_class.new(trip.id, payment_type, amount) }
   let(:success) { Constants::Payments::FONDY_SUCCESS }
-  let(:payout_response) { { response_status: success, payout: 'Driver payout', status: true } }
   let(:capture_response) { { response_status: success, status: true } }
-  let(:recurring_response) { { response_status: success, status: true }  }
+  let(:recurring_response) { { response_status: success, status: true } }
+  let(:driver) { create(:driver) }
 
   before do
-    allow_any_instance_of(Operations::Fondy::DriverPayOut).to receive(:call).and_return(payout_response)
     allow_any_instance_of(Fondy::Capture).to receive(:call).and_return(capture_response)
     allow_any_instance_of(Fondy::Recurring).to receive(:call).and_return(recurring_response)
   end
@@ -17,7 +16,7 @@ describe Operations::Fondy::DoPayment do
     let!(:payment) { create(:payment, trip_id: trip.id, user_id: user.id, card_id: card.id, type: "Payments::#{payment_type}") }
     let!(:payment_type) { 'Trip' }
     let(:amount) { payment.amount }
-    let(:trip) { create(:trip, user_id: user.id, status: Constants::Trip::FINISHED) }
+    let(:trip) { create(:trip, user_id: user.id, driver_id: driver.id, status: Constants::Trip::FINISHED) }
     let(:card) { create(:card, user_id: user.id, payment_system: :fondy) }
     let(:cashback) { 15 }
     let(:user) { create(:user, cashback: cashback) }
@@ -45,7 +44,6 @@ describe Operations::Fondy::DoPayment do
         it { is_expected.to change { payment.reload.response }.from(nil) }
         it { is_expected.to change { user.reload.cashback }.from(cashback).to(cashback + (trip.cost * 0.05 * 100).to_i) }
 
-
         context 'when cashback disbled' do
           before { Settings.disable(:cashback) }
 
@@ -58,10 +56,10 @@ describe Operations::Fondy::DoPayment do
           it { expect_any_instance_of(Fondy::Capture).to receive(:call).once }
         end
 
-        context 'driver payout' do
+        context 'driver balance update' do
           after { subject.call }
 
-          it { expect_any_instance_of(Operations::Fondy::DriverPayOut).to receive(:call).once }
+          it { is_expected.to change { driver.reload.balance }.by(amount) }
         end
       end
 
@@ -70,7 +68,7 @@ describe Operations::Fondy::DoPayment do
 
         it { is_expected.not_to change { payment.reload.status } }
         it { is_expected.to change { payment.reload.response } }
-        it { is_expected.not_to change { Payments::PayOut.count } }
+        it { is_expected.not_to change { driver.reload.balance } }
       end
 
       context 'and user have frozen bonuses' do
@@ -85,13 +83,13 @@ describe Operations::Fondy::DoPayment do
         end
 
         context 'and user have not finished trips' do
-          let(:trip) { create(:trip, user_id: user.id, status: Constants::Trip::PENDING) }
+          let(:trip) { create(:trip, user_id: user.id, driver_id: driver.id, status: Constants::Trip::PENDING) }
 
           it { is_expected.not_to change { frozen_bonus.reload.status } }
         end
 
         context 'and Fondy status is not ok' do
-          let(:capture_response) { { response_status: 'failed', status: false }  }
+          let(:capture_response) { { response_status: 'failed', status: false } }
 
           it { is_expected.not_to change { frozen_bonus.reload.status } }
         end
@@ -107,10 +105,10 @@ describe Operations::Fondy::DoPayment do
         it { expect(Payments::Tip.last.status).to eq(Constants::Payments::SUCCESS) }
       end
 
-      context 'driver payout' do
+      context 'driver balance update' do
         after { subject.call }
 
-        it { expect_any_instance_of(Operations::Fondy::DriverPayOut).to receive(:call).once }
+        it { is_expected.to change { driver.reload.balance }.by(amount) }
       end
 
       context 'and Fondy status is not ok' do
@@ -119,6 +117,7 @@ describe Operations::Fondy::DoPayment do
         before { subject.call }
 
         it { expect(Payments::Tip.last.status).to eq(Constants::Payments::PENDING) }
+        it { is_expected.not_to change { driver.reload.balance } }
       end
     end
 
@@ -126,11 +125,15 @@ describe Operations::Fondy::DoPayment do
       let!(:payment_type) { 'Idle' }
 
       context 'and Fondy status is ok' do
-        let(:idle_payment) { Payments::Idle.last }
-
         before { subject.call }
 
         it { expect(Payments::Idle.last.status).to eq(Constants::Payments::SUCCESS) }
+      end
+
+      context 'driver balance update' do
+        after { subject.call }
+
+        it { is_expected.to change { driver.reload.balance }.by(amount) }
       end
 
       context 'and Fondy status is not ok' do
@@ -139,6 +142,7 @@ describe Operations::Fondy::DoPayment do
         before { subject.call }
 
         it { expect(Payments::Idle.last.status).to eq(Constants::Payments::PENDING) }
+        it { is_expected.not_to change { driver.reload.balance } }
       end
     end
 

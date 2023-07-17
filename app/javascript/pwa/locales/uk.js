@@ -191,7 +191,8 @@ const uk = {
     payouts: 'Виплати',
     balance: 'Баланс',
     do_payout: 'Виплатити',
-    cancel: 'Відміна'
+    cancel: 'Відміна',
+    payout_error: 'Помилка при здісненні виплати'
   },
   profile_page: {
     header: 'Профіль',
