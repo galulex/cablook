@@ -1,23 +1,22 @@
 module Operations
   module Fondy
     class DriverPayOut < Base
-      def initialize(payment_id)
-        @payment_id = payment_id
+      def initialize(driver, amount)
+        @driver = driver
+        @amount = amount
       end
 
-      attr_reader :payment_id
-
       def call
+        return false unless validate_balance_result
         payout_driver
       end
 
       private
+      attr_reader :driver, :amount
 
       def payout_driver
-        Payment.create(
-          trip_id: payment.trip.id,
-          user_id: payment.user.id,
-          card_id: payment.card&.id,
+        update_driver_balance if payout_response[:status]
+        Payment.create!(
           type: Constants::Payments::PAYOUT,
           response: payout_response,
           status: pay_out_status,
@@ -31,11 +30,19 @@ module Operations
       end
 
       def payout_response
-        @payout_response ||= ::Fondy::ChargeCard.new(payment, payout_amount).call
+        @payout_response ||= ::Fondy::ChargeCard.new(driver, amount).call
       end
 
-      def payment
-        @payment ||= Payment.find(payment_id)
+      def update_driver_balance
+        driver.update!(balance: balance_result)
+      end
+
+      def validate_balance_result
+        balance_result.positive? || balance_result.zero?
+      end
+
+      def balance_result
+        driver.balance - amount
       end
     end
   end

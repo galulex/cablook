@@ -2,8 +2,8 @@ module Fondy
   class ChargeCard < Base
     URL = URI.parse('https://pay.fondy.eu/api/p2pcredit/').freeze
 
-    def initialize(payment, cost)
-      @payment = payment
+    def initialize(driver, cost)
+      @driver = driver
       @cost = cost
     end
 
@@ -15,7 +15,7 @@ module Fondy
 
     private
 
-    attr_reader :payment, :cost
+    attr_reader :driver, :cost
 
     def body
       @body ||= response_body(Net::HTTP.post(URL, request_body, initheader = header).body)
@@ -28,14 +28,14 @@ module Fondy
         amount: amount,
         merchant_id: merchant_id,
         order_desc: order_desc,
-        receiver_card_number: payment.driver.card_number,
+        receiver_card_number: driver.card_number,
         reservation_data: reservation_data
       }
     end
 
     def reservation_data
       Base64.encode64({
-        receiver_pan: payment.driver.card_number.to_s
+        receiver_pan: driver.card_number.to_s
       }.to_json)
     end
 
@@ -44,7 +44,7 @@ module Fondy
     end
 
     def order_desc
-      "Винагорода #{payment.driver.car.number}"
+      "Винагорода #{driver.car.number}"
     end
 
     def development_response
@@ -52,7 +52,7 @@ module Fondy
     end
 
     def order_reference
-      @order_reference ||= OrderReference.new(payment.trip_id, payment.type).call.concat(PAYOUT_SUFIX)
+      "payout_##{driver.id}_#{driver.car.number}_#{Time.now.strftime('%Y%m%d%H%M%S')}"
     end
   end
 end

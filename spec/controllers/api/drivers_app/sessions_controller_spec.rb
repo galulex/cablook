@@ -4,7 +4,6 @@ describe Api::DriversApp::SessionsController , type: :controller do
   subject { response }
 
   describe '#create' do
-
     let(:params) { { driver: { username: driver.username, password: '12341234' } } }
 
     before { post :create, params: params }

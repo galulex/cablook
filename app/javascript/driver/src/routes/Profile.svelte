@@ -8,11 +8,12 @@
   import Leaf from '../../images/Leaf.svelte'
   import Sign_out from '../../images/Sign_out.svelte'
   import TripDetails from '../components/TripDetails.svelte'
-
+  import Payouts from '../components/Payouts.svelte'
   import '../../css/profile.css'
 
   export let logout
 
+  let showPayoutsModal = false
   let statistics = {}
   let driver = {}
   let selectedDate = new Date().toDateString()
@@ -34,6 +35,8 @@
 
     return trips
   })
+
+  const updateDriver = (event) => { driver = event.detail }
 
   getStatistics()
   getTripsStats()
@@ -111,6 +114,15 @@
             {(statistics.tips_count) || 0}
           </span>
         </div>
+        <div class='tab-content__container-item'>
+          <div class='statistics__container'>
+            <Points/>
+            {i18n.statistics.balance}
+          </div>
+          <span class='value'>
+            <button on:click={() => showPayoutsModal = true} disabled={parseInt(driver.balance) <= 0}>{parseInt(driver.balance)} {i18n.statistics.uah}</button>
+          </span>
+        </div>
       </div>
     </div>
     <div class='tab-content__container'>
@@ -131,6 +143,13 @@
           </div>
         {/if}
     </div>
+    {#if showPayoutsModal}
+      <Payouts 
+        on:close={() => showPayoutsModal = false}
+        on:update={updateDriver}
+        driverBalance={driver.balance}
+        />
+    {/if}
   <div>
     <button class='log-out' type='button' on:click={logout}>
       <Sign_out/>

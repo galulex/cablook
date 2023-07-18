@@ -4,7 +4,7 @@ class Payment < ApplicationRecord
   belongs_to :card, required: false
   belongs_to :trip, required: false
   belongs_to :order, required: false
-  belongs_to :user
+  belongs_to :user, optional: true
   has_one :driver, through: :trip
 
   has_paper_trail

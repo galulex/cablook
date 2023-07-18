@@ -12,13 +12,11 @@
   export let distance
   export let duration
   export let updateTrip
-  export let isBusy
   let interval
 
   let createTime = new Date(trip.created_at).getTime()
   let time = 0
-  let name = 'disabled'
-  let disabledButton = false
+  let disabledButton = true
   let tripDuration = ''
   let timeDurationRange = [duration, 5, 10, 15, 20, 25]
 
@@ -35,20 +33,14 @@
     //TODO handle timer on trip retry. Require back-end updates
     let current = new Date().getTime()
     time = 70 - Math.floor((current - createTime)/1000)
-    if (!isDisabled()) name = ''
+    if (time <= 55) { disabledButton = false }
     if (time < 0) {
-      name = ''
       clearInterval(interval)
       time = 0
     }
   }
 
   let accept = () => {
-    if (isDisabled()) {
-      alert('Ах ти хрущ. Навіщо клацаєш?')
-      return
-    }
-    disabledButton = true
     axios.patch(`trips/${trip.id}/accept`, {tripDuration}).then(res => {
       updateTrip(res.data)
       window.play('accept')
@@ -56,15 +48,6 @@
       disabledButton = false
       if (error.response) alert(error.response.data.errors)
     })
-  }
-
-  let isDisabled = () => {
-    return !(
-      (distance <= 2 && !isBusy) ||
-      (distance > 2 && distance <= 4 && time <= 60 && !isBusy) ||
-      (distance > 4 && time <= 55 && !isBusy) ||
-      (time <= 50)
-    )
   }
 
   export let bgColor
@@ -118,7 +101,7 @@
     padding: 0 0 0 5px;
   }
 
-  button[name='disabled'] {
+  button:disabled {
     opacity: 0.5;
   }
 
@@ -167,4 +150,4 @@
   <time><Timer style={{fill: 'var(--red_color)', width: '15px', height: '15px'}}/><label>{time}</label></time>
 </p>
 <blockquote>{trip.comment}</blockquote>
-<button type='button' name={name}  disabled={disabledButton} on:click={accept} style="{btnStyle}">GO {time}</button>
+<button type='button' disabled={disabledButton} on:click={accept} style="{btnStyle}">GO {time}</button>

@@ -64,6 +64,7 @@ Rails.application.routes.draw do
       end
       resources :statistics, only: :index
       resources :trips_statistics, only: :index
+      resource :payouts, only: :create
     end
 
     namespace :verifications do

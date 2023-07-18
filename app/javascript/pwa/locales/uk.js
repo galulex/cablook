@@ -187,7 +187,12 @@ const uk = {
     },
     total_trips_cost: 'Вартість поїздок',
     points_2: 'Сума',
-    tips_count: 'Кількість'
+    tips_count: 'Кількість',
+    payouts: 'Виплати',
+    balance: 'Баланс',
+    do_payout: 'Виплатити',
+    cancel: 'Відміна',
+    payout_error: 'Помилка при здісненні виплати'
   },
   profile_page: {
     header: 'Профіль',
