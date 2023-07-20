@@ -30,7 +30,7 @@ module Operations
       end
 
       def payout_response
-        @payout_response ||= ::Fondy::ChargeCard.new(driver, amount).call
+        @payout_response ||= ::Fondy::ChargeCard.new(driver, payout_amount).call
       end
 
       def update_driver_balance
