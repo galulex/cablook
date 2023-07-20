@@ -25,7 +25,7 @@ module CabLook
 
     config.middleware.use Rack::Deflater
     config.active_job.queue_adapter = :sidekiq
-    config.assets.precompile += %w[fonts.css]
+    config.assets.precompile += %w(*.woff2)
 
     config.i18n.available_locales = %w[en uk ru]
     config.i18n.default_locale = :uk

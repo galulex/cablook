@@ -1,4 +1,4 @@
-var CACHE_VERSION = 'v3';
+var CACHE_VERSION = 'v4';
 var CACHE_NAME = CACHE_VERSION + ':sw-cache-';
 
 function onInstall(event) {
@@ -7,9 +7,9 @@ function onInstall(event) {
     caches.open(CACHE_NAME).then(function prefill(cache) {
       // make sure serviceworker.js is not required by application.js
       // if you want to reference application.js from here
-      var urls = ['<%= asset_path "Gilroy-Bold.woff2" %>',
-                 '<%= asset_path "Gilroy-ExtraBold.woff2" %>',
-                 '<%= asset_path "Gilroy-Light.woff2" %>',
+      var urls = ['Gilroy-Bold.woff2',
+                 'Gilroy-ExtraBold.woff2',
+                 'Gilroy-Light.woff2',
                  '<%= Webpacker.manifest.lookup 'pwa.js' %>',
                  'favicon.ico',
                  'icon_16x16.png',
@@ -29,7 +29,7 @@ function onInstall(event) {
                  '/offline.html'];
       var req_objects = [];
       for (var i = 0; i < urls.length; i++) {
-        req_objects.push(new Request(urls[i], {credentials: 'same-origin'}));
+        req_objects.push(new Request(urls[i], {credentials: 'same-origin', mode: 'no-cors'}));
       };
       return cache.addAll(req_objects);
     }).then(self.skipWaiting())

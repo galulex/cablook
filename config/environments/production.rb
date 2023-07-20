@@ -24,7 +24,7 @@ Rails.application.configure do
 
   config.read_encrypted_secrets = true
 
-  config.public_file_server.enabled = ENV['RAILS_SERVE_STATIC_FILES'].present?
+  config.public_file_server.enabled = true
 
   config.assets.js_compressor = Uglifier.new(harmony: true, compress: { unused: false })
   config.action_controller.asset_host = 'https://static.cablook.taxi'
