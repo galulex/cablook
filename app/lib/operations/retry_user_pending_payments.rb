@@ -30,7 +30,7 @@ module Operations
     end
 
     def payments
-      @payments ||= Payment.pending.by_user(user_id).payments
+      @payments ||= Payment.pending.payments.by_user(user_id).payments
     end
 
     def retry_payment(payment_id, card_id)

@@ -5,7 +5,7 @@ module Operations
     end
 
     def call
-      Payment.pending.find_each do |payment|
+      Payment.pending.payments.find_each do |payment|
         begin
           card = payment.card || payment.user.cards.last
           if card
