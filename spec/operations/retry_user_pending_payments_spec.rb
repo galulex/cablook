@@ -9,6 +9,7 @@ describe Operations::RetryUserPendingPayments do
   before do
     allow_any_instance_of(Operations::Wayforpay::RetryPayment).to receive(:call) { OpenStruct.new(body: wayforpay_body) }
     allow_any_instance_of(Operations::Fondy::RetryPayment).to receive(:call) { fondy_retry_response }
+    create(:payout_payment, user_id: user.id, card_id: card.id, trip_id: trip.id, status: Constants::Payments::PENDING)
   end
 
   describe '#call' do
@@ -41,7 +42,7 @@ describe Operations::RetryUserPendingPayments do
       context 'and no added fondy card' do
         let!(:card) { create(:card, user_id: user.id, payment_system: :wayforpay) }
         before { Settings.update!(payment_system: :fondy) }
-  
+
         it do
           expect_any_instance_of(Operations::Fondy::RetryPayment).to receive(:call).once
           subject.call
