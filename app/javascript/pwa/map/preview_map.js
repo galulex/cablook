@@ -88,7 +88,9 @@ export default class PreviewMap extends Component {
       center: [lng, lat],
       minZoom: MAP_MIN_ZOOM,
       maxZoom: MAP_MAX_ZOOM,
-      zoom
+      pitch: 60,
+      maxPitch: 69,
+      zoom,
     })
 
     const language = new MapboxLanguage({
@@ -110,28 +112,25 @@ export default class PreviewMap extends Component {
 
     this.map.on('moveend', () => {
       this.move = false
+      document.documentElement.style.setProperty('--car-transition', '1s')
     })
 
     this.map.on('rotatestart', () => {
       this.rotate = true
-      document.documentElement.style.setProperty('--car-transition', '0s')
       if (this.state.car !== null) {
-        this.state.car._element.firstChild.style.transition = 'none'
+        this.state.car._element.firstChild.style.setProperty('--steps', 1)
       }
     })
 
     this.map.on('rotate', () => {
       if (this.state.car !== null) {
+        this.state.car._element.firstChild.style.setProperty('--steps', 1)
         this.updateCarDirection(this.state.car)
-        this.state.car._element.firstChild.style.transition = 'none'
       }
     })
 
     this.map.on('rotateend', () => {
       this.rotate = false
-      if (this.state.car !== null) {
-        this.state.car._element.firstChild.style.transition = 'transform 1s'
-      }
     })
 
     this.map.on('zoom', () => {
@@ -141,6 +140,11 @@ export default class PreviewMap extends Component {
     this.map.on('zoomend', (event) => {
       this.setState({zoom: this.map.getZoom()})
     })
+
+    this.map.on('pitch', () => {
+      const y = (Math.round(this.map.getPitch() / 18) + 1)
+      this.state.car._element.firstChild.style.setProperty('--y', y)
+    });
     // controls + -
     this.map.addControl(new mapboxgl.NavigationControl({showCompass: false}), 'bottom-right')
 
@@ -161,26 +165,22 @@ export default class PreviewMap extends Component {
   }
 
   updateCarDirection = (l) => {
-    let short = Math.abs(l.prevAngleDeg) + Math.abs(l.carAngleDeg) > 180
-    if (l.prevAngleDeg > 0 && l.carAngleDeg < 0 && short || l.prevAngleDeg < 0 && l.carAngleDeg > 0 && short ) {
-      l._element.firstChild.style.transition = 'none'
-      let reversCarAngle
-      if (l.carAngleDeg > 0) {
-        reversCarAngle = ((180 - l.carAngleDeg) * -1) - 180
-      } else if (l.carAngleDeg < 0) {
-        reversCarAngle = (180 + l.carAngleDeg) + 180
-      } else {
-        reversCarAngle = 0
-      }
-      l.prevAngleDeg = reversCarAngle
-      l._element.firstChild.style.transform = "rotate(" + (reversCarAngle - this.map.getBearing()) + "deg)"
-    } else  {
-      l.prevAngleDeg = l.carAngleDeg
-      l._element.firstChild.style.transform = "rotate(" + (l.carAngleDeg - this.map.getBearing()) + "deg)"
+    let x = 120 + Math.trunc((l.carAngleDeg - this.map.getBearing()) / 3)
+    let steps = Math.abs((l.x || 120) - x)
+
+    let diff = Math.abs(Math.abs(l.x) - Math.abs(x))
+    if (diff > 69) {
+      l.x = (l.x > x) ? l.x - 120 : l.x + 120
+      l._element.firstChild.style.setProperty('--steps', 1)
+      l._element.firstChild.style.setProperty('--x', l.x + 180)
     }
-    if (document.visibilityState == 'visible') {
-      l._element.firstChild.style.transition = 'transform 4s'
-    }
+
+    setTimeout(() => {
+      steps = Math.abs(l.x - x)
+      l._element.firstChild.style.setProperty('--steps', steps)
+      l._element.firstChild.style.setProperty('--x', x + 180)
+      l.x = x
+    }, 10)
   }
 
   popupContent(car, trip, driver) {
@@ -188,21 +188,21 @@ export default class PreviewMap extends Component {
   }
 
   updatePopup(car, trip, driver) {
-    if (!this.popup) return   
+    if (!this.popup) return
     this.popup.setHTML(this.popupContent(car, trip, driver))
   }
 
   renderCar(car, trip, driver) {
     let div = document.createElement('div')
-    let img = document.createElement('img')
-    img.src = `https://res.cloudinary.com/active-bridge/image/upload/leafs/leaf${(window.dark) ? '_lights' : '' }_${car.color}.svg`
+    let img = document.createElement('figure')
+    // img.src = `https://res.cloudinary.com/active-bridge/image/upload/leafs/leaf${(window.dark) ? '_lights' : '' }_${car.color}.svg`
     div.appendChild(img)
     let marker = new mapboxgl.Marker(div)
     marker.setLngLat(car.location)
     marker._element.className += ' leaf'
-    marker._element.addEventListener('transitionend', (event) => {
-      document.documentElement.style.setProperty('--car-transition', '0s')
-    })
+    // marker._element.addEventListener('transitionend', (event) => {
+      // document.documentElement.style.setProperty('--car-transition', '0s')
+    // })
     marker.carAngleDeg = car.deg
     let popupContent = this.popupContent(car, trip, driver)
     this.popup = new mapboxgl.Popup({closeOnClick: false, closeButton: true, className: 'car-popup', anchor: 'bottom'}).setHTML(popupContent)
@@ -281,7 +281,8 @@ export default class PreviewMap extends Component {
         return bounds.extend(coord.split(',').reverse())
       }, new mapboxgl.LngLatBounds(trip.waypoints[0].split(',').reverse(), trip.waypoints[0].split(',').reverse()))
       this.map.fitBounds(bounds, {
-        padding: 100
+        padding: 100,
+        pitch: this.map.getPitch(),
       })
     } catch(error) {
     }
@@ -337,7 +338,7 @@ export default class PreviewMap extends Component {
     this.drawPath(trip)
     if (![CONFIRM_UPDATE_TRIP, undefined, null].includes(trip.status) && this.map.getSource('line')) return
     if (![CONFIRM_UPDATE_TRIP].includes(trip.status)) this.pathFocus(trip)
-    if (driver) this.updatePopup(car, trip, driver)  
+    if (driver) this.updatePopup(car, trip, driver)
   }
 
   updateCarPosition(data) {
@@ -348,16 +349,11 @@ export default class PreviewMap extends Component {
     if (position) {
       distance = data.distance < 0.3
     }
-    let deg = (this.bearing(data.location, position) || 180) - this.map.getBearing()
-    if (!this.move && distance && !this.rotate && document.visibilityState == 'visible') document.documentElement.style.setProperty('--car-transition', '3s')
+    let deg = Math.round(((this.bearing(data.location, position) || 360)) + 360)
+    if (!this.move && distance && document.visibilityState == 'visible') document.documentElement.style.setProperty('--car-transition', '2s')
     car.carAngleDeg = deg
     car.setLngLat(data.location)
-    if (deg !== 0) {
-      if (document.visibilityState !== 'visible') {
-        car._element.firstChild.style.transition = 'none'
-      }
-      this.updateCarDirection(car)
-    }
+    this.updateCarDirection(car)
   }
 
   bearing = (start, end) => {
@@ -378,8 +374,8 @@ export default class PreviewMap extends Component {
 
     if (picker !== null) clearPicker()
     window.ios ? fetchUser() : window.history.back()
-    
-    const rest = await this.props.fetchUser()   
+
+    const rest = await this.props.fetchUser()
     this.updatePopup(car, this.props.trip(), driver)
   }
 
