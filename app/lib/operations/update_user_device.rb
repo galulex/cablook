@@ -4,7 +4,7 @@ module Operations
       new(user_id, attrs).call
     end
 
-    def initialize(user_id, token:, platform:)
+    def initialize(user_id, token:, platform: '')
       @user_id = user_id
       @token = token
       @platform = platform
