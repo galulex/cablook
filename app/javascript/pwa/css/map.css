@@ -175,3 +175,17 @@ svg.picker {
 .new_design .option {
   z-index: 10;
 }
+
+figure {
+  --y: 4;
+  --x: 120;
+  --steps: 1;
+  background: url('https://i.imgur.com/hgHsphP.png') transparent;
+  width: 137px;
+  height: 137px;
+  background-position: calc(var(--x) * 137px) calc(var(--y) * 137px);
+  z-index: 100;
+  margin: 0;
+  transition: background-position-x steps(var(--steps), start) 0.3s, margin-bottom .1s;
+  margin-bottom: calc(var(--y) * 7px);
+}
