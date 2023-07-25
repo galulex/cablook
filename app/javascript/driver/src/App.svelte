@@ -53,8 +53,8 @@
   }
 
   let isFarEnough = (start, end) => {
-    let x = Math.abs(start[0] - end[0]) * 100000
-    let y = Math.abs(start[1] - end[1]) * 100000
+    let x = Math.abs(start[0] - end[0]) * 10000
+    let y = Math.abs(start[1] - end[1]) * 10000
 
     return x > 1 || y > 1
   }

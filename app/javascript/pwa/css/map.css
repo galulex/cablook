@@ -74,12 +74,8 @@ svg.picker {
 }
 
 .mapboxgl-marker.leaf, .car-popup {
-  transition: transform var(--car-transition) linear;
+  transition: transform var(--car-transition) ease-in-out;
   z-index: 10;
-}
-
-.mapboxgl-marker.leaf > img {
-  transition: transform 4s;
 }
 
 .main_map svg.nissan[fill='white'] path:not(:first-child), .main_map svg.nissan[fill='white'] ellipse {
@@ -186,6 +182,6 @@ figure {
   background-position: calc(var(--x) * 137px) calc(var(--y) * 137px);
   z-index: 100;
   margin: 0;
-  transition: background-position-x steps(var(--steps), start) 0.3s, margin-bottom .1s;
+  transition: background-position-x steps(var(--steps), start) 1s, margin-bottom .1s;
   margin-bottom: calc(var(--y) * 7px);
 }
