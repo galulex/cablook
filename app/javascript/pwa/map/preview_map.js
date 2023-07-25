@@ -142,7 +142,7 @@ export default class PreviewMap extends Component {
 
     this.map.on('pitch', () => {
       const y = (Math.round(this.map.getPitch() / 18) + 1)
-      this.state.car._element.firstChild.style.setProperty('--y', y)
+      if (this.state.car) this.state.car._element.firstChild.style.setProperty('--y', y)
     });
     // controls + -
     this.map.addControl(new mapboxgl.NavigationControl({showCompass: false}), 'bottom-right')
