@@ -18,7 +18,8 @@
 
   let isLoggedIn = !!document.cookie.match(/token/) && localStorage.token
   let carSpeed = 0
-  let location = [32.073095,49.418461]
+  let carLocation = [0,0]
+  let location = [32.073095, 49.418461]
   let watcher
   let sos
   let settings = {}
@@ -27,14 +28,14 @@
   let currentTrips = []
 
   const cable = createConsumer()
-  const removeFromCurrentTrips = (id) => currentTrips = currentTrips.filter((trip_id) => trip_id !== id)
+  const removeFromCurrentTrips = (id) =>
+    (currentTrips = currentTrips.filter((trip_id) => trip_id !== id))
 
   window.play = (type) => {
     try {
       sounds[type].play()
       navigator.vibrate(vibrations[type])
-    } catch(e) {
-    }
+    } catch (e) {}
   }
 
   onMount(() => {
@@ -51,10 +52,20 @@
     document.body.removeEventListener('click', permitSounds)
   }
 
+  let isFarEnough = (start, end) => {
+    let x = Math.abs(start[0] - end[0]) * 100000
+    let y = Math.abs(start[1] - end[1]) * 100000
+
+    return x > 1 || y > 1
+  }
+
   let sendLocation = (geo) => {
     if (!isLoggedIn) return
-    console.log(geo)
+
     let { latitude, longitude, speed } = geo.coords
+    if (!isFarEnough([latitude,longitude], carLocation)) return
+
+    carLocation = [latitude, longitude]
     carSpeed = Math.round(speed * 3.6) || 0
     if (!subscription) return
 
@@ -107,21 +118,31 @@
   }
 
   const getTrips = async () => {
-    return { data: { trips, settings }} = await axios.get('trips/all').catch(onRequestError)
+    return ({
+      data: { trips, settings },
+    } = await axios.get('trips/all').catch(onRequestError))
   }
 
   const getCurrentTrips = () => {
-    axios.get('trips/currents').then(({data}) => currentTrips = data.trips.map((trip) => trip.id)).catch(onRequestError)
+    axios
+      .get('trips/currents')
+      .then(({ data }) => (currentTrips = data.trips.map((trip) => trip.id)))
+      .catch(onRequestError)
   }
 
-  const onRequestError = ({response: {status}}) => {
+  const onRequestError = ({ response: { status } }) => {
     if (status === 401) onLogout()
   }
 
   let subscribe = () => {
-    subscription = cable.subscriptions.create({ channel: 'DriverMapChannel' }, {
-      received: data => { cableActions[data.action](data) }
-    })
+    subscription = cable.subscriptions.create(
+      { channel: 'DriverMapChannel' },
+      {
+        received: (data) => {
+          cableActions[data.action](data)
+        },
+      }
+    )
   }
 
   let geoError = (error) => {
@@ -129,20 +150,25 @@
   }
 
   let setWatcher = () => {
-   watcher = navigator.geolocation.watchPosition(sendLocation, geoError, { enableHighAccuracy: true })
+    watcher = navigator.geolocation.watchPosition(sendLocation, geoError, {
+      enableHighAccuracy: true,
+    })
   }
 
   let loadScript = () => {
     if (document.getElementById('google-script') === null) {
-      let script = document.createElement('script');
-      script.setAttribute('id', 'google-script');
-      script.setAttribute('src', `https://maps.googleapis.com/maps/api/js?key=AIzaSyDg2-aLroQJWY8LV8x1Gv5ZYDhIArWCDeU&libraries=places`);
-      document.body.appendChild(script);
+      let script = document.createElement('script')
+      script.setAttribute('id', 'google-script')
+      script.setAttribute(
+        'src',
+        `https://maps.googleapis.com/maps/api/js?key=AIzaSyDg2-aLroQJWY8LV8x1Gv5ZYDhIArWCDeU&libraries=places`
+      )
+      document.body.appendChild(script)
     }
   }
 
   let updateTrip = (attrs) => {
-    let i = trips.findIndex(trip => trip.id === attrs.id)
+    let i = trips.findIndex((trip) => trip.id === attrs.id)
     let trip = trips[i]
     if (trip && attrs.status !== 4) {
       trips[i] = attrs
@@ -151,12 +177,13 @@
     } else {
       trips.unshift(attrs)
     }
-    trips = trips.sort((a, b ) => {return (a.start_at - b.start_at)})
+    trips = trips.sort((a, b) => {
+      return a.start_at - b.start_at
+    })
   }
 
   let cableActions = {
-    SendLocation: (data) => {
-    },
+    SendLocation: (data) => {},
 
     TripPropose: (data) => {
       updateTrip(JSON.parse(data.trip))
@@ -164,18 +191,19 @@
     },
 
     TripAccepted: (data) => {
-      let i = trips.findIndex(trip => trip.id === data.trip_id)
+      let i = trips.findIndex((trip) => trip.id === data.trip_id)
       let trip = trips[i]
       if (i < 0) return
       trip.driver_id = data.driver_id
       trip.car_id = data.car_id
       trip.status = 1
       trips[i] = trip
-      if (data.driver_id === parseInt(localStorage.id)) currentTrips.push(trip.id)
+      if (data.driver_id === parseInt(localStorage.id))
+        currentTrips.push(trip.id)
     },
 
     TripUnavailable: (data) => {
-      let i = trips.findIndex(trip => trip.id === data.trip_id)
+      let i = trips.findIndex((trip) => trip.id === data.trip_id)
       removeFromCurrentTrips(data.trip_id)
       if (i < 0) return
       trips.splice(i, 1)
@@ -184,7 +212,7 @@
     },
 
     TripDeclined: (data) => {
-      let i = trips.findIndex(trip => trip.id === data.trip_id)
+      let i = trips.findIndex((trip) => trip.id === data.trip_id)
       removeFromCurrentTrips(data.trip_id)
       trips.splice(i, 1)
       trips = trips
@@ -208,9 +236,45 @@
       window.play('sos')
       sos = parsedData.car_id
       navigate('/map', { replace: true })
-    }
+    },
   }
 </script>
+
+<Router>
+  {#if isLoggedIn}
+    <Wakelock />
+    <main>
+      <Route path="/">
+        {#await getTrips()}
+          <Spinner />
+        {:then}
+          <Home {trips} {updateTrip} {location} {cable} />
+        {:catch error}
+          <h3>Сталася помилка перезайдіть в акаунт</h3>
+        {/await}
+      </Route>
+      <Route path="/map">
+        <Map
+          {cable}
+          {location}
+          {sos}
+          trips={trips.filter((trip) => {
+            return (
+              trip.driver_id === parseInt(localStorage.id) && trip.status !== 0
+            );
+          })}
+        />
+      </Route>
+      <Route path="/statistic">
+        <Profile {logout} />
+      </Route>
+    </main>
+    <Nav speed={carSpeed} {getTrips} />
+    {#if settings.sos} <Sos {sendSos} />{/if}
+  {:else}
+    <Route path="/" component={Session} {login} />
+  {/if}
+</Router>
 
 <style>
   main {
@@ -218,37 +282,10 @@
     background: var(--bg_gradient_color_1);
   }
 
-  :global(.mapboxgl-popup.background-red>.mapboxgl-popup-content) {
+  :global(.mapboxgl-popup.background-red > .mapboxgl-popup-content) {
     background-color: red;
   }
-  :global(.mapboxgl-popup.background-red>.mapboxgl-popup-tip) {
+  :global(.mapboxgl-popup.background-red > .mapboxgl-popup-tip) {
     border-top-color: red;
   }
 </style>
-
-<Router>
-  {#if isLoggedIn}
-    <Wakelock/>
-    <main>
-      <Route path="/">
-        {#await getTrips()}
-          <Spinner/>
-        {:then}
-          <Home trips={trips} updateTrip={updateTrip} location={location} cable={cable} />
-        {:catch error}
-          <h3>Сталася помилка перезайдіть в акаунт</h3>
-        {/await}
-      </Route>
-      <Route path="/map">
-        <Map cable={cable} location={location} sos={sos} trips={trips.filter(trip => { return trip.driver_id === parseInt(localStorage.id) && trip.status !== 0 })}/>
-      </Route>
-      <Route path="/statistic">
-        <Profile logout={logout}/>
-      </Route>
-    </main>
-    <Nav speed={carSpeed} getTrips={getTrips}/>
-    {#if settings.sos } <Sos sendSos={sendSos}/>{/if}
-  {:else}
-    <Route path="/" component={Session} login={login} />
-  {/if}
-</Router>
