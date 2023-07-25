@@ -112,7 +112,6 @@ export default class PreviewMap extends Component {
 
     this.map.on('moveend', () => {
       this.move = false
-      document.documentElement.style.setProperty('--car-transition', '1s')
     })
 
     this.map.on('rotatestart', () => {
@@ -200,9 +199,9 @@ export default class PreviewMap extends Component {
     let marker = new mapboxgl.Marker(div)
     marker.setLngLat(car.location)
     marker._element.className += ' leaf'
-    // marker._element.addEventListener('transitionend', (event) => {
-      // document.documentElement.style.setProperty('--car-transition', '0s')
-    // })
+    marker._element.addEventListener('transitionend', (event) => {
+      document.documentElement.style.setProperty('--car-transition', '0s')
+    })
     marker.carAngleDeg = car.deg
     let popupContent = this.popupContent(car, trip, driver)
     this.popup = new mapboxgl.Popup({closeOnClick: false, closeButton: true, className: 'car-popup', anchor: 'bottom'}).setHTML(popupContent)
@@ -344,13 +343,12 @@ export default class PreviewMap extends Component {
   updateCarPosition(data) {
     let car = this.state.car
     if (!car) return
+
     let position = [car.getLngLat().lng, car.getLngLat().lat]
-    let distance
-    if (position) {
-      distance = data.distance < 0.3
-    }
+    if (position[0] === data.location[0] && position[1] === data.location[1]) return
+
     let deg = Math.round(((this.bearing(data.location, position) || 360)) + 360)
-    if (!this.move && distance && document.visibilityState == 'visible') document.documentElement.style.setProperty('--car-transition', '2s')
+    if (!this.move && document.visibilityState == 'visible') document.documentElement.style.setProperty('--car-transition', '5s')
     car.carAngleDeg = deg
     car.setLngLat(data.location)
     this.updateCarDirection(car)
