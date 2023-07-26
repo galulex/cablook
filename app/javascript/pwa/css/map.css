@@ -66,13 +66,6 @@ svg.picker {
   fill: var(--orange_2)
 }
 
-.main_map .leaf img {
-  width: 40px;
-  width: calc(var(--zoom-level) * 3px);
-  height: 40px;
-  height: calc(var(--zoom-level) * 9px);
-}
-
 .mapboxgl-marker.leaf, .car-popup {
   transition: transform var(--car-transition) ease-in-out;
   z-index: 10;
@@ -176,6 +169,7 @@ figure {
   --y: 4;
   --x: 120;
   --steps: 1;
+  scale: calc(((1 - var(--zoom-level) * (10/15)) * 0.1) * -1);
   background: url('https://i.imgur.com/hgHsphP.png') transparent;
   width: 137px;
   height: 137px;
