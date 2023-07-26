@@ -20,11 +20,11 @@
   }
 
   let create = (e) => {
-    handleNotificationsPermissions()
     disabled = true
     axios.post('sessions', { driver: formData(e.target) }).then((res) => {
       disabled = false
       login(res.data, res.data.car)
+      handleNotificationsPermissions()
     }).catch((error) => {
       disabled = false
       if (error.response) alert(error.response.data.errors)
