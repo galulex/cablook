@@ -55,6 +55,8 @@
   border-radius: 8px 8px 0 8px !important;
   padding: 10px !important;
   box-shadow: 5px 5px 10px var(--shadow_color) !important;
+  background: var(--bg_gradient_color_1) !important;
+  color: var(--text_grey_color) !important;
 }
 
 .mapboxgl-popup-content button {
