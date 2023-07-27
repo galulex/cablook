@@ -21,7 +21,7 @@ const polyline = require('@mapbox/polyline')
 const LANGUAGES = {en: 'en', uk: 'ru', ru: 'ru'}
 const MAPSTYLE = (localStorage.getItem('dark') === 'true') ? 'mapbox://styles/okunieva/ckb1wuli60k3u1ipjrdnqtan5' : 'mapbox://styles/okunieva/cjzwn3wx40yhq1cpjl3yo8p1z'
 const PATHCOLORS = (localStorage.getItem('dark') === 'true') ? ['#ffffff', '#19a160'] : ['#312d50', '#19a160']
-let timeout
+let timeout, driveTimeout
 
 const GEOJSON = {
   "type": "FeatureCollection",
@@ -88,7 +88,7 @@ export default class PreviewMap extends Component {
       center: [lng, lat],
       minZoom: MAP_MIN_ZOOM,
       maxZoom: MAP_MAX_ZOOM,
-      pitch: 60,
+      pitch: 39,
       maxPitch: 69,
       zoom,
     })
@@ -141,8 +141,8 @@ export default class PreviewMap extends Component {
     })
 
     this.map.on('pitch', () => {
-      const y = (Math.round(this.map.getPitch() / 18) + 1)
-      if (this.state.car) this.state.car._element.firstChild.style.setProperty('--y', y)
+      const y = (Math.round(this.map.getPitch() / 19) + 1)
+      document.documentElement.style.setProperty('--y', y)
     });
     // controls + -
     this.map.addControl(new mapboxgl.NavigationControl({showCompass: false}), 'bottom-right')
@@ -182,6 +182,36 @@ export default class PreviewMap extends Component {
     }, 10)
   }
 
+  navigateTo = (newLocation) => {
+    let steps = 0
+    let numDeltas = 100
+    const { car } = this.state
+    clearTimeout(driveTimeout)
+
+    let position = [this.state.car.getLngLat().lng, this.state.car.getLngLat().lat]
+    const lng = newLocation[0] - car.getLngLat().lng
+    const lat = newLocation[1] - car.getLngLat().lat
+    const deltaLng = lng / numDeltas
+    const deltaLat = lat / numDeltas
+    const drive = () => {
+      position[0] += deltaLng
+      position[1] += deltaLat
+      this.state.car.setLngLat(position)
+      if (steps < numDeltas) {
+        steps++
+        driveTimeout = setTimeout(drive, 30);
+      } else {
+        steps = 0
+      }
+    }
+
+    if (document.visibilityState == 'visible') {
+      drive()
+    } else {
+      this.state.car.setLngLat(newLocation)
+    }
+  }
+
   popupContent(car, trip, driver) {
     return render(<CarPopup car={car} trip={trip} driver={driver}/>)
   }
@@ -198,10 +228,7 @@ export default class PreviewMap extends Component {
     div.appendChild(img)
     let marker = new mapboxgl.Marker(div)
     marker.setLngLat(car.location)
-    marker._element.className += ' leaf'
-    marker._element.addEventListener('transitionend', (event) => {
-      document.documentElement.style.setProperty('--car-transition', '0s')
-    })
+    marker._element.className += ` leaf ${car.color}`
     marker.carAngleDeg = car.deg
     let popupContent = this.popupContent(car, trip, driver)
     this.popup = new mapboxgl.Popup({closeOnClick: false, closeButton: true, className: 'car-popup', anchor: 'bottom'}).setHTML(popupContent)
@@ -348,9 +375,9 @@ export default class PreviewMap extends Component {
     if (position[0] === data.location[0] && position[1] === data.location[1]) return
 
     let deg = Math.round(((this.bearing(data.location, position) || 360)) + 360)
-    if (!this.move && document.visibilityState == 'visible') document.documentElement.style.setProperty('--car-transition', '5s')
+    if (!this.move && document.visibilityState == 'visible') document.documentElement.style.setProperty('--car-transition', '0.1s')
     car.carAngleDeg = deg
-    car.setLngLat(data.location)
+    this.navigateTo(data.location)
     this.updateCarDirection(car)
   }
 

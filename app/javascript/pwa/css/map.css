@@ -67,7 +67,7 @@ svg.picker {
 }
 
 .mapboxgl-marker.leaf, .car-popup {
-  transition: transform var(--car-transition) ease-in-out;
+  transition: transform var(--car-transition) linear;
   z-index: 10;
 }
 
@@ -166,11 +166,10 @@ svg.picker {
 }
 
 figure {
-  --y: 4;
-  --x: 120;
+  --x: 240;
   --steps: 1;
   scale: calc(((1 - var(--zoom-level) * (10/15)) * 0.1) * -1);
-  background: url('https://i.imgur.com/hgHsphP.png') transparent;
+  background-image: url('https://i.imgur.com/hgHsphP.png');
   width: 137px;
   height: 137px;
   background-position: calc(var(--x) * 137px) calc(var(--y) * 137px);
@@ -178,4 +177,16 @@ figure {
   margin: 0;
   transition: background-position-x steps(var(--steps), start) 1s, margin-bottom .1s;
   margin-bottom: calc(var(--y) * 7px);
+}
+
+.black > figure {
+  background-image: url(https://i.imgur.com/2I27NDX.png);
+}
+
+.red > figure {
+  background-image: url(https://i.imgur.com/K0gyniG.png);
+}
+
+.blue > figure {
+  background-image: url(https://i.imgur.com/wAE6bCm.png);
 }
