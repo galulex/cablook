@@ -146,7 +146,6 @@ export default class Session extends Component {
 
   createSession = (e) => {
     e.preventDefault()
-    this.handleNotificationsPermissions()
 
     if (!e.target.checkValidity) return;
 
@@ -160,6 +159,7 @@ export default class Session extends Component {
       this.setDisabled(false)
       alert(i18n.session.code_error)
     });
+    this.handleNotificationsPermissions()
   }
 
   handleNotificationsPermissions = () => {
