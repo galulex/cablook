@@ -24,7 +24,7 @@ module Api
       end
 
       def cancel
-        Events::Trips::Cancel.(trip_id: params[:trip_id].to_i, by_driver: true)
+        Events::Trips::Cancel.(trip_id: params[:trip_id].to_i, by_driver: params[:fake].present?)
         render json: Presenters::Trips::Detailed.new(trip).to_json, status: 200
       end
 
