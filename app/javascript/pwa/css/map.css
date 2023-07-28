@@ -169,7 +169,7 @@ figure {
   --x: 240;
   --steps: 1;
   scale: calc(((1 - var(--zoom-level) * (10/15)) * 0.1) * -1);
-  background-image: url('https://i.imgur.com/hgHsphP.png');
+  background-image: url(https://i.imgur.com/LQbcdFl.png);
   width: 137px;
   height: 137px;
   background-position: calc(var(--x) * 137px) calc(var(--y) * 137px);
@@ -189,4 +189,8 @@ figure {
 
 .blue > figure {
   background-image: url(https://i.imgur.com/wAE6bCm.png);
+}
+
+.silver > figure {
+  background-image: url('https://i.imgur.com/hgHsphP.png');
 }
