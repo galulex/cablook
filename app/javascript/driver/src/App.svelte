@@ -120,18 +120,13 @@
   const getTrips = async () => {
     return ({
       data: { trips, settings },
-    } = await axios.get('trips/all').catch(onRequestError))
+    } = await axios.get('trips/all'))
   }
 
   const getCurrentTrips = () => {
     axios
       .get('trips/currents')
       .then(({ data }) => (currentTrips = data.trips.map((trip) => trip.id)))
-      .catch(onRequestError)
-  }
-
-  const onRequestError = ({ response: { status } }) => {
-    if (status === 401) onLogout()
   }
 
   let subscribe = () => {
