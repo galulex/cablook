@@ -1,7 +1,6 @@
 <script>
   import { onMount, onDestroy } from 'svelte'
   import axios from 'axios'
-  import { firebaseApp, getMessaging, getToken } from '../../../pwa/firebase'
 
   export let login
 
@@ -24,25 +23,9 @@
     axios.post('sessions', { driver: formData(e.target) }).then((res) => {
       disabled = false
       login(res.data, res.data.car)
-      handleNotificationsPermissions()
     }).catch((error) => {
       disabled = false
       if (error.response) alert(error.response.data.errors)
-    })
-  }
-
-  const handleNotificationsPermissions = () => {
-    Notification.requestPermission().then(permission => {
-      if (permission !== 'granted') { console.log('Unable to get permission to notify.'); return }
-      navigator.serviceWorker.ready.then(registration => {
-        const messaging = getMessaging(firebaseApp)
-        getToken(messaging, { serviceWorkerRegistration: registration }).then(token => {
-          axios.patch('/driver', { device: token }).catch(error => console.log(error))
-        })
-      })
-        .catch(error => {
-          console.log('Service worker unavailable,', error)
-        })
     })
   }
 </script>

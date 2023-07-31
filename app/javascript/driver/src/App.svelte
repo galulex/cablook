@@ -11,6 +11,7 @@
   import Sos from './Sos.svelte'
   import Profile from './routes/Profile.svelte'
   import { sounds, vibrations } from './lib/sounds.js'
+  import { firebaseApp, getMessaging, getToken } from '../../pwa/firebase'
   
   import axios from 'axios'
   axios.defaults.baseURL = '/api/drivers_app'
@@ -88,12 +89,28 @@
     onStart()
   }
 
+  const handleNotificationsPermissions = () => {
+    Notification.requestPermission().then(permission => {
+      if (permission !== 'granted') { alert('Сповіщення вимкнуті'); return }
+      navigator.serviceWorker.ready.then(registration => {
+        const messaging = getMessaging(firebaseApp)
+        getToken(messaging, { serviceWorkerRegistration: registration }).then(token => {
+          axios.patch('/driver', { device: token }).catch(error => console.log(error))
+        }).catch(e => console.log(e))
+      })
+        .catch(error => {
+          console.log('Service worker unavailable,', error)
+        })
+    })
+  }
+
   const onStart = () => {
     document.body.addEventListener('click', permitSounds)
     subscribe()
     setWatcher()
     loadScript()
     getCurrentTrips()
+    handleNotificationsPermissions()
   }
 
   let logout = () => {
