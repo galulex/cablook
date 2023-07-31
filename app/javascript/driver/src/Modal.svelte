@@ -14,6 +14,7 @@
 
   let modal;
   let isValid = true;
+  let isDisabledSave = false;
   export let trip;
   export let subscribe;
 
@@ -23,24 +24,28 @@
   }
 
   let build = (e) => {
+    isDisabledSave = true
     if (!isValid) return
     trip.osrm = true
     axios.post('trips/new', { trip: trip }, { headers: { 'Auth-Token': localStorage.token }}).then((res) => {
       trip.path = res.data.path
       trip.cost = res.data.cost
+      isDisabledSave = false
       return trip
     }).catch((error) => {
-      if (error.response) alert(error.response.data.errors)
+      if (error.response) alert(error.response.data.errors); isDisabledSave = false
     })
   }
 
   let update = (e) => {
+    isDisabledSave = true
     e.preventDefault()
     axios.patch(`trips/${trip.id}/update`, { trip: trip }).then((res) => {
       subscribe
       close()
+      isDisabledSave = false
     }).catch((error) => {
-      if (error.response) alert(error.response.data.errors)
+      if (error.response) alert(error.response.data.errors); isDisabledSave = false
     })
   }
 
@@ -145,8 +150,8 @@
                     index={i}
                     fieldsCount={trip.stops.length}/>
     {/each}
-    <button type='button' on:click={addAddress} disabled={!isValid} class='add-address' title='Add Address'>+</button>
-    <button type='submit'>
+    <button type='button' on:click={addAddress} disabled={!isValid || isDisabledSave} class='add-address' title='Add Address'>+</button>
+    <button type='submit' disabled={isDisabledSave}>
       <Save style={{fill: 'var(--white_color)', width: '25px', height: '25px'}}/>
     </button>
   </form>

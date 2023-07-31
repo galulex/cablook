@@ -29,7 +29,6 @@
   let showModal = false
   let distance = (trip.distance/1000).toFixed(1)
   let disabled = false
-  let cancelTripDisabled = trip.status < TRIP_STATUS_WAITING_CLIENT
   let paymentVerifyDisabled = trip.status < TRIP_STATUS_DRIVING
   let item
   let subscription
@@ -79,9 +78,14 @@
   }
 
   let cancel = () => {
-    if (!confirm('Відміняти поїздки не бажано. Можна перекинути іншому водієві. Точно відмінити?')) return
+    const fakeTaxi = trip.status >= TRIP_STATUS_WAITING_CLIENT
+    const message = 'Відміняти поїздки не бажано.\nМожна перекинути іншому водієві.\nТочно відмінити?'
+    const fakeTaxiMessage = '❗️З клієнта буде знята оплата за подачу авто.\nТочно відмінити?'
+    const params = fakeTaxi? { fake: true } : {}
+
+    if (!confirm(fakeTaxi ? fakeTaxiMessage : message)) return
     disabled = true
-    axios.patch(`trips/${trip.id}/cancel`).then(res => {
+    axios.patch(`trips/${trip.id}/cancel`, params).then(res => {
       update(res)
       clearInterval(interval)
       localStorage.removeItem(`timer_${trip.id}`)
@@ -121,7 +125,6 @@
       action: () => {
         if (!isAbleToStart()) return alert('Заплановані замовлення можна почати тільки за 20 хвилин до часу початку')
         disabled = true
-        cancelTripDisabled = false
         axios.patch(`trips/${trip.id}/waiting_client`).then(update)
       },
       title: 'Arrived',
@@ -324,7 +327,7 @@
          href={`https://www.google.com/maps/dir/?api=1&waypoints=${trip.waypoints.join('|')}&destination=${trip.waypoints[trip.waypoints.length - 1]}&travelmode=driving&dir_action=navigate`} >
         <Pin style={{fill: 'var(--main_dark_color)', width: '25px', height: '25px' }}/>
       </a>
-      <button type='button' disabled={cancelTripDisabled} on:click={cancel}><CrossX style={{fill: 'var(--red_color)', width: '20px', height: '25px'}}/></button>
+      <button type='button' on:click={cancel}><CrossX style={{fill: 'var(--red_color)', width: '20px', height: '25px'}}/></button>
     </div>
     <div class='buttons'>
       <button type='button' disabled={disabled} on:click={count}><Timer style={{fill: 'var(--main_dark_color)', width: '25px', height: '25px'}}/><label>{timer}</label></button>
