@@ -1,8 +1,8 @@
 import { initializeApp } from '@firebase/app'
-import { getMessaging, getToken } from '@firebase/messaging'
+import { getMessaging, getToken, isSupported } from '@firebase/messaging'
 import { getAuth, RecaptchaVerifier, signInWithPhoneNumber } from '@firebase/auth'
 
-export { RecaptchaVerifier, signInWithPhoneNumber, getToken, getMessaging }
+export { RecaptchaVerifier, signInWithPhoneNumber, getToken, getMessaging, isSupported }
 
 export const firebaseApp = initializeApp({
   apiKey: 'AIzaSyCw0swS8LhKYSdxMXdMo2BLa46uE0i7vDA',

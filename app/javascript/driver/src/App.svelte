@@ -11,7 +11,7 @@
   import Sos from './Sos.svelte'
   import Profile from './routes/Profile.svelte'
   import { sounds, vibrations } from './lib/sounds.js'
-  import { firebaseApp, getMessaging, getToken } from '../../pwa/firebase'
+  import { firebaseApp, getMessaging, getToken, isSupported } from '../../pwa/firebase'
   
   import axios from 'axios'
   axios.defaults.baseURL = '/api/drivers_app'
@@ -40,7 +40,7 @@
   }
 
   onMount(() => {
-    if (isLoggedIn) onStart()
+    isLoggedIn ? onStart() : navigate('/', { replace: true })
   })
 
   onDestroy(() => {
@@ -48,7 +48,27 @@
     watcher.clearWatch()
   })
 
+  const handleNotificationsPermissions = () => {
+    isSupported().then(supported => {
+      if (!supported){ alert('Браузер не підтримує сповіщеннь'); return }
+
+      Notification.requestPermission().then(permission => {
+        if (permission !== 'granted') { console.log('Unable to get permission to notify.'); return }
+        navigator.serviceWorker.ready.then(registration => {
+          const messaging = getMessaging(firebaseApp)
+          getToken(messaging, { serviceWorkerRegistration: registration }).then(token => {
+            axios.patch('/driver', { device: token }).catch(error => console.log(error))
+          }).catch(e => console.log(e))
+        })
+          .catch(error => {
+            console.log('Service worker unavailable,', error)
+          })
+      })
+    })
+  }
+
   const permitSounds = () => {
+    handleNotificationsPermissions()
     window.play('update')
     document.body.removeEventListener('click', permitSounds)
   }
@@ -89,28 +109,12 @@
     onStart()
   }
 
-  const handleNotificationsPermissions = () => {
-    Notification.requestPermission().then(permission => {
-      if (permission !== 'granted') { alert('Сповіщення вимкнуті'); return }
-      navigator.serviceWorker.ready.then(registration => {
-        const messaging = getMessaging(firebaseApp)
-        getToken(messaging, { serviceWorkerRegistration: registration }).then(token => {
-          axios.patch('/driver', { device: token }).catch(error => console.log(error))
-        }).catch(e => console.log(e))
-      })
-        .catch(error => {
-          console.log('Service worker unavailable,', error)
-        })
-    })
-  }
-
   const onStart = () => {
     document.body.addEventListener('click', permitSounds)
     subscribe()
     setWatcher()
     loadScript()
     getCurrentTrips()
-    handleNotificationsPermissions()
   }
 
   let logout = () => {
