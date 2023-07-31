@@ -5,8 +5,8 @@ function onInstall(event) {
   console.log('[DriverServiceworker]', "Installing!", event);
   event.waitUntil(
     caches.open(CACHE_NAME).then(function prefill(cache) {
-      var urls = ['<%= asset_path "Gilroy-Bold.woff2" %>',
-                  '<%= asset_path "Gilroy-Regular.woff2" %>',
+      var urls = ['Gilroy-Bold.woff2',
+                  'Gilroy-Regular.woff2',
                   '<%= Webpacker.manifest.lookup 'driver.js' %>',
                   'favicon.ico',
                   '/offline.html'];
