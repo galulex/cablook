@@ -15,8 +15,9 @@
   import axios from 'axios'
   axios.defaults.baseURL = '/api/drivers_app'
   axios.defaults.headers.common['Content-Type'] = 'application/json'
+  axios.defaults.headers.common['Auth-Token'] = localStorage.getItem('token')
 
-  let isLoggedIn = !!document.cookie.match(/token/) && localStorage.token
+  let isLoggedIn = localStorage.token
   let carSpeed = 0
   let carLocation = [0,0]
   let location = [32.073095, 49.418461]
