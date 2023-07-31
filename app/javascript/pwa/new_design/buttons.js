@@ -9,16 +9,16 @@ export default function Buttons() {
   const { trip, createTrip, availableBonusTrips,
     cancelTimer, cards, cost,
     picker, isValid, retry, cancel,
-    paymentButtonDisabled, showWidgetTrue,
+    buttonDisabled, showWidgetTrue,
     cancelDeclined, updateRoute,
     confirmUpdate, showFeedback, cashbackAmount } = this.props
   const { stops, status, bonus } = trip
   if ([CANCELED, CANCELED_BY_DRIVER, undefined, null].includes(trip.status) && (picker === null)) {
     if (availableBonusTrips.length > 0) {
-      bonusButton = bonusElement(`${i18n.confirm_trip.go} 0`, isValid, paymentButtonDisabled, createTrip)
+      bonusButton = bonusElement(`${i18n.confirm_trip.go} 0`, isValid, buttonDisabled, createTrip)
     } else {
       if (cost && cashbackAmount >= cost) {
-        bonusButton = bonusElement(`${i18n.bonuses.cashback} ${cashbackAmount}`, isValid, paymentButtonDisabled, createTrip, true)
+        bonusButton = bonusElement(`${i18n.bonuses.cashback} ${cashbackAmount}`, isValid, buttonDisabled, createTrip, true)
       }
     }
   }
@@ -39,7 +39,7 @@ export default function Buttons() {
           class='button green absolute'
           type='button'
           value={bonus}
-          disabled={!isValid || paymentButtonDisabled}
+          disabled={!isValid || buttonDisabled}
           onClick={createTrip}>
           {stops.includes('') ? `${i18n.confirm_trip.go}` : `${i18n.confirm_trip.go} ${!stops.includes('') && cost}`}
           {(cost !== '' && !stops.includes('')) && <TripPrice/>}
@@ -51,7 +51,7 @@ export default function Buttons() {
           class='button absolute'
           type='button'
           value={trip.bonus}
-          disabled={!isValid}
+          disabled={!isValid || buttonDisabled}
           onClick={confirmUpdate}>
           {`${i18n.confirm_trip.go} ${cost}`}
           {(cost !== '') && <TripPrice/>}
@@ -61,6 +61,7 @@ export default function Buttons() {
         <button
           class='button absolute cancel'
           type='button'
+          disabled={!isValid || buttonDisabled}
           onClick={cancel}>
           {i18n.find_driver.cancel} {cancelTimer}
         </button>
@@ -69,7 +70,7 @@ export default function Buttons() {
         <button
           class='button absolute retry'
           type='button'
-          disabled={!isValid || paymentButtonDisabled}
+          disabled={!isValid || buttonDisabled}
           onClick={retry}>
           {i18n.retry_trip.retry}
         </button>
@@ -78,6 +79,7 @@ export default function Buttons() {
         <button
           class='button absolute cancel'
           type='button'
+          disabled={buttonDisabled}
           onClick={cancelDeclined}>
           {i18n.find_driver.cancel}
         </button>
@@ -95,13 +97,13 @@ export default function Buttons() {
   )
 }
 
-function bonusElement(title, isValid, paymentButtonDisabled, createTrip, cashback = false) {
+function bonusElement(title, isValid, buttonDisabled, createTrip, cashback = false) {
   return (
     <button
       class='button bonus'
       type='button'
       value='true'
-      disabled={!isValid || paymentButtonDisabled}
+      disabled={!isValid || buttonDisabled}
       onClick={cashback ? (e) => createTrip(e, true) : createTrip}>
       {title} <TripPrice/>
     </button>
