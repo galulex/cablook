@@ -49,7 +49,7 @@ export default class NewDesign extends Component {
       inputDisabled: false,
       activateFeedback: false,
       lastTripId: null,
-      paymentButtonDisabled: false,
+      buttonDisabled: false,
       cancelTimer: null,
       klass: '',
       settings: {},
@@ -177,7 +177,7 @@ export default class NewDesign extends Component {
 
     if (message) { if (confirm(message) === false) return }
 
-    this.setState({bonus: e.target.value, paymentButtonDisabled: true, cashback: cashback}, () => {
+    this.setState({bonus: e.target.value, buttonDisabled: true, cashback: cashback}, () => {
       this.create()
     })
   }
@@ -187,7 +187,7 @@ export default class NewDesign extends Component {
   }
 
   clearFetchTripTimeout = () => {
-    this.setState({ paymentButtonDisabled: false })
+    this.setState({ buttonDisabled: false })
     clearTimeout(fetchTripTimeout)
   }
 
@@ -204,31 +204,36 @@ export default class NewDesign extends Component {
       if (callback) callback()
       return
     }
+    this.setState({ buttonDisabled: true })
     axios.patch(`trips/${this.state.trip.id}/cancel`).then((res) => {
       this.clearTrip()
       this.clearCountdown()
     }).catch((error) => {
       if (error.response) alert(error.response.data.errors)
+      this.setState({ buttonDisabled: false })
     })
   }
 
   clearTrip = () => {
-    this.setState({ trip: this.initialTripState, cost: null, car: null, driver: null, paymentButtonDisabled: false , showLoading: false})
+    this.setState({ trip: this.initialTripState, cost: null, car: null, driver: null, buttonDisabled: false , showLoading: false})
     this.previewMapRef.cleanup()
     this.unsubscribe()
     this.clearFetchTripTimeout()
   }
 
   cancelDeclined = (e, callback = () => {}) => {
+    this.setState({ buttonDisabled: true })
     axios.patch(`trips/${this.state.trip.id}/cancel`).then((res) => {
       this.clearTrip()
+    this.setState({ buttonDisabled: false })
     }).catch((error) => {
       if (error.response) alert(error.response.data.errors)
+      this.setState({ buttonDisabled: false })
     })
   }
 
   retry = (e, callback = () => {}) => {
-    this.setState({ paymentButtonDisabled: true })
+    this.setState({ buttonDisabled: true })
 
     axios.patch(`trips/${this.state.trip.id}/retry`).then((res) => {
       this.setState({ trip: { ...this.state.trip, status: PENDING } })
@@ -241,6 +246,7 @@ export default class NewDesign extends Component {
 
   sendRequest = (params) => {
     this.setState({ showLoading: true })
+    this.setState({ buttonDisabled: true })
     axios({
       method: params.id ? 'put' : 'post',
       url: params.id ? `trips/${params.id}` : 'trips',
@@ -250,15 +256,15 @@ export default class NewDesign extends Component {
       this.updateTrip()
       if (!params.id) { this.subscribe(res.data) }
       this.setFetchTripTimeout()
+      this.setState({ buttonDisabled: false })
     }).catch((error) => {
+      this.setState({buttonDisabled: false})
       this.setState({ showLoading: false })
       if (!error.response) return
       switch(error.response.status) {
         case 418:
           if (confirm(`${error.response.data.errors} ${i18n.confirm_trip.retry_payment}`)) {
             this.retryPendingPayment()
-          } else {
-            this.setState({paymentButtonDisabled: false})
           }
           break
         case 406:
@@ -266,16 +272,12 @@ export default class NewDesign extends Component {
             this.setState({bonus: false})
             this.state.trip.bonus = false
             this.create()
-          } else {
-            this.setState({paymentButtonDisabled: false})
           }
           break
         case 402:
           alert(error.response.data.errors)
-          this.setState({paymentButtonDisabled: false})
           break
         case 422:
-          this.setState({paymentButtonDisabled: false})
         default:
           alert(error.response.data.errors)
           break
@@ -374,7 +376,7 @@ export default class NewDesign extends Component {
       stops: [address, address],
       osrm: true,
       bonus: false,
-      comment: 'Швидка поїдка. Я зміню кінцеву точку після посадки.'
+      comment: 'Швидка поїздка. Я зміню кінцеву точку після посадки.'
     }})
     this.sendCreateRequest()
   }
@@ -400,16 +402,16 @@ export default class NewDesign extends Component {
     axios.post('payments/retry_pendings', {card_id: card_id ? card_id : cards()[0].id}).then((res) => {
       if (res.data.length === 0) {
         if (unpaid_trip) {
-          this.setState({paymentButtonDisabled: false})
+          this.setState({buttonDisabled: false})
           return
         }
         this.sendCreateRequest()
       } else {
-        this.setState({paymentButtonDisabled: false})
+        this.setState({buttonDisabled: false})
         setTimeout(() => {alert(i18n.confirm_trip.payment_error)}, 500)
       }
     }).catch((error) => {
-      this.setState({paymentButtonDisabled: false})
+      this.setState({buttonDisabled: false})
       if (error.response) alert(error.response.data.errors)
     })
   }
@@ -470,6 +472,7 @@ export default class NewDesign extends Component {
       delete params.bonus
     }
     this.props.mainBurger.classList.remove('hidden')
+    this.setState({buttonDisabled: false})
     this.sendRequest(params)
   }
 
@@ -574,11 +577,12 @@ export default class NewDesign extends Component {
     this.vibrate()
     this.setState({ trip: { ...this.state.trip, status: DECLINED}, showLoading: false })
     this.clearFetchTripTimeout()
+    this.clearTrip()
   }
 
   TripUnavailable = (data) => {
     const status = data.by_driver ? CANCELED_BY_DRIVER : CANCELED
-    this.setState({ trip: { ...this.initialTripState, status }, car: null, driver: null, paymentButtonDisabled: false, inputDisabled: false, showLoading: false })
+    this.setState({ trip: { ...this.initialTripState, status }, car: null, driver: null, buttonDisabled: false, inputDisabled: false, showLoading: false })
     this.previewMapRef.cleanup()
     this.unsubscribe()
     this.clearFetchTripTimeout()
@@ -598,7 +602,7 @@ export default class NewDesign extends Component {
 
   finish_trip = () => {
     this.vibrate()
-    this.setState({ trip: { ...this.state.trip, status: FINISHED }, car: null, driver: null, paymentButtonDisabled: false, inputDisabled: false })
+    this.setState({ trip: { ...this.state.trip, status: FINISHED }, car: null, driver: null, buttonDisabled: false, inputDisabled: false })
     // this.props.fetchUser()
     this.props.resetCurrentTrip()
     this.props.setActivateFeedback(true)
@@ -727,7 +731,7 @@ export default class NewDesign extends Component {
 
   render() {
     const { lastTripId, showWidget, trip,
-            paymentButtonDisabled, car, driver,
+            buttonDisabled, car, driver,
             picker, cancelTimer } = this.state
     const { language, isGeocoding, setGeocoding,
             showFeedback, availableBonusTrips, cashbackAmount } = this.props
@@ -781,7 +785,7 @@ export default class NewDesign extends Component {
             showWidget={this.showWidget}
             showWidgetTrue={this.showWidgetTrue}
             cards={cards}
-            paymentButtonDisabled={paymentButtonDisabled}
+            buttonDisabled={buttonDisabled}
             cancelTimer={cancelTimer}
             showFeedback={showFeedback}
             cashbackAmount={cashbackAmount}
