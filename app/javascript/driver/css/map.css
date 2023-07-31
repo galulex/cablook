@@ -110,3 +110,7 @@
     fill: var(--input_bg_color);
   }
 }
+
+body.rotate figure {
+  transition: none !important;
+}

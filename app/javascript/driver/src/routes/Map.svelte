@@ -16,6 +16,33 @@
 
   let cars = []
   let subscription
+  let mapComponent
+
+  let init = () => {
+    let map = mapComponent.getMap()
+
+    map.on('rotatestart', () => {
+      document.body.classList.add('rotate')
+    })
+
+    map.on('rotate', () => {
+      document.documentElement.style.setProperty('--bearing', Math.trunc((180 + map.getBearing()) / 3))
+      document.body.style.setProperty('--steps', 1)
+    })
+
+    map.on('rotateend', () => {
+      document.body.classList.remove('rotate')
+    })
+
+    map.on('zoom', () => {
+      document.documentElement.style.setProperty('--zoom-level', map.getZoom())
+    })
+
+    map.on('pitch', () => {
+      const y = (Math.round(map.getPitch() / 19) + 1)
+      document.documentElement.style.setProperty('--y', y)
+    })
+  }
 
   const isDarkTheme = window.matchMedia('(prefers-color-scheme: dark)').matches
   const darkModeMapStyle = 'mapbox://styles/galulex/ckvficxop4zs514qzkozc0u1e'
@@ -74,7 +101,9 @@
   style= { isDarkTheme ? darkModeMapStyle : lightModeMapStyle }
   center={location}
   zoom={12}
-  options={{minZoom: 8, maxZoom: 17}}
+  bind:this={mapComponent}
+  on:ready={init}
+  options={{minZoom: 8, maxZoom: 17, pitch: 40, maxPitch: 69 }}
   >
   {#await getCars()}
     <slot></slot>
@@ -86,6 +115,6 @@
   {#each trips as trip (trip.id)}
     <Path trip={trip} />
   {/each}
-  <NavigationControl/>
+  <NavigationControl options={{ visualizePitch: true }} />
   <GeolocateControl/>
 </Map>

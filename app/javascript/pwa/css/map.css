@@ -144,6 +144,15 @@ svg.picker {
   background-image: url("data:image/svg+xml,%3C%3Fxml version='1.0' encoding='utf-8'%3F%3E%3Csvg version='1.1' id='Слой_1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' x='0px' y='0px' viewBox='0 0 200 200' enable-background='new 0 0 200 200' xml:space='preserve'%3E%3Cpath fill='%23312D50' d='M100,30c38.6,0,70,31.4,70,70s-31.4,70-70,70s-70-31.4-70-70S61.4,30,100,30 M82.1,0v15.6 c-33.2,7.1-59.4,33.3-66.5,66.5H0V118h15.5c7.1,33.2,33.4,59.4,66.6,66.5V200H118l0-15.6c33.2-7,59.4-33.2,66.5-66.5l15.6,0V82 h-15.6c-7.1-33.2-33.2-59.4-66.5-66.5V0H82.1z M100,67.8c-17.8,0-32.3,14.4-32.3,32.3s14.4,32.3,32.3,32.3s32.3-14.4,32.3-32.3 S117.8,67.8,100,67.8z'/%3E%3C/svg%3E")!important;
 }
 
+.mapboxgl-ctrl button.mapboxgl-ctrl-compass {
+  border-top: 0;
+}
+
+.mapboxgl-ctrl button.mapboxgl-ctrl-compass span {
+  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2018%2018'%3E%3Cpath%20fill='%231F3044'%20d='M5.5%2014.2c-.9.8-1.9%200-1.5-1l4-9c.2-.4.6-.8%201-.8s.8.4%201%20.8l4%209c.4%201-.6%201.8-1.5%201l-3.5-3-3.5%203z'/%3E%3C/svg%3E") !important;
+  background-size: 100%;
+}
+
 .mapboxgl-ctrl button .mapboxgl-ctrl-icon {
   background-size: 50%;
 }

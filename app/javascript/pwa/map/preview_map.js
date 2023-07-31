@@ -145,7 +145,7 @@ export default class PreviewMap extends Component {
       document.documentElement.style.setProperty('--y', y)
     });
     // controls + -
-    this.map.addControl(new mapboxgl.NavigationControl({showCompass: false}), 'bottom-right')
+    this.map.addControl(new mapboxgl.NavigationControl({ visualizePitch: true }), 'bottom-right')
 
     this.map.addControl(geolocate, 'bottom-right')
     this.map.addControl(language)
@@ -176,6 +176,7 @@ export default class PreviewMap extends Component {
 
     setTimeout(() => {
       steps = Math.abs(l.x - x)
+      if (this.rotate) steps = 1
       l._element.firstChild.style.setProperty('--steps', steps)
       l._element.firstChild.style.setProperty('--x', x + 180)
       l.x = x
