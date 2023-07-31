@@ -3,13 +3,11 @@ module Api
     class SessionsController < Api::DriversApp::ApplicationController
       def create
         driver = Events::DriversApp::Authorize.(sign_in_params)
-        cookies.encrypted[:token] = driver.auth_token
         render json: Presenters::DriversApp::Driver::Single.new(driver).to_json, status: 201
       end
 
       def destroy
         Events::DriversApp::SignOut.(driver_id: current_driver.id) if current_driver
-        cookies.clear
         render json: {}, status: 200
       end
 
