@@ -54,13 +54,14 @@
 
   .slider {
     position: absolute;
-    bottom: 70px;
+    bottom: 15dvh;
     right: 0;
     transform: translateX(48%);
     z-index: 100;
   }
 
   .slider button {
+    padding: 10px;
     font-size: 5rem;
     color: var(--text_grey_color);
     background: var(--bg_gradient_color_1);
