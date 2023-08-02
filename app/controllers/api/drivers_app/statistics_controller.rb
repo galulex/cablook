@@ -10,7 +10,7 @@ module Api
       private
 
       def statistics
-        current_driver.trips.driver_statistics.send(params[:period]).first
+        Payment.driver_statistics(current_driver.id).send(params[:period])
       end
 
       def driver

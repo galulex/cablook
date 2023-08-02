@@ -169,7 +169,9 @@ const uk = {
     amount: 'Витрачені кошти',
     card_number: 'Картка',
     loading: 'завантаження...',
-    trips_count: 'Кількість замовлень',
+    trips_count: 'Замовлення',
+    idle_trips: 'Таймер',
+    fake_trips: 'Клієнт не прийшов',
     period: 'Період статистики',
     your_data: 'Ваші дані',
     your_trips: 'Ваші замовлення',
@@ -179,9 +181,9 @@ const uk = {
     periods: {
       today: 'СЬОГОДНІ',
       last_two_days: 'ОСТАННІ 2 ДНІ',
-      last_week: 'ОСТАННІЙ ТИЖДЕНЬ',
+      last_week: 'МИНУЛИЙ ТИЖДЕНЬ',
       this_month: 'ЦЕЙ МІСЯЦЬ',
-      last_month: 'ОСТАННІЙ МІСЯЦЬ',
+      last_month: 'МИНУЛИЙ МІСЯЦЬ',
       this_year: 'ЦЕЙ РІК',
       all: 'ВЕСЬ ЧАС'
     },

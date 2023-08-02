@@ -24,9 +24,11 @@ module Constants
 
     TRIP = 'Payments::Trip'.freeze
     TIP = 'Payments::Tip'.freeze
+    IDLE = 'Payments::Idle'.freeze
     FAKE = 'Payments::FakeTaxi'.freeze
     PAYOUT = 'Payments::PayOut'.freeze
 
     OPTIONAL_PAYMENTS = [TIP, PAYOUT].freeze
+    DRIVER_STATISTIC_ENTRIES = [TRIP,TIP,IDLE,FAKE].freeze
   end
 end

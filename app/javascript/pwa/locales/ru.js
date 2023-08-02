@@ -169,7 +169,9 @@ const ru = {
     amount: 'Потраченные средства',
     card_number: 'Карта',
     loading: 'загрузка...',
-    trips_count: 'Количество заказов',
+    trips_count: 'Заказы',
+    idle_trips: 'Таймер',
+    fake_trips: 'Клиент не пришел',
     period: 'Период статистики',
     your_data: 'Ваши данные',
     your_trips: 'Ваши заказы',
@@ -179,9 +181,9 @@ const ru = {
     periods: {
       today: 'СЕГОДНЯ',
       last_two_days: 'ПОСЛЕДНИЕ 2 ДНЯ',
-      last_week: 'ПОСЛЕДНЯЯ НЕДЕЛЯ',
+      last_week: 'ПРЕДЫДУЩАЯ НЕДЕЛЯ',
       this_month: 'ЭТОТ МЕСЯЦ',
-      last_month: 'ПОСЛЕДНИЙ МЕСЯЦ',
+      last_month: 'ПРЕДЫДУЩИЙ МЕСЯЦ',
       this_year: 'ЭТОТ ГОД',
       all: 'ВСЁ ВРЕМЯ'
     },

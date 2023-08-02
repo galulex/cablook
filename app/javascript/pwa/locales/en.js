@@ -169,7 +169,9 @@ const en = {
     amount: 'Spent money',
     card_number: 'Card',
     loading: 'loading...',
-    trips_count: 'Number of orders',
+    trips_count: 'Orders',
+    idle_trips: 'By timer',
+    fake_trips: 'Fake taxi',
     period: 'Statistics period',
     your_data: 'Your data',
     your_trips: 'Your orders',
@@ -179,9 +181,9 @@ const en = {
     periods: {
       today: 'TODAY',
       last_two_days: 'LAST 2 DAYS',
-      last_week: 'LAST WEEK',
+      last_week: 'PREVIOUS WEEK',
       this_month: 'THIS MONTH',
-      last_month: 'LAST MONTH',
+      last_month: 'PREVIOUS MONTH',
       this_year: 'THIS YEAR',
       all: 'ALL TIME'
     },
