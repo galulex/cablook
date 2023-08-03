@@ -7,10 +7,8 @@ function onInstall(event) {
     caches.open(CACHE_NAME).then(function prefill(cache) {
       var urls = ["#{asset_path('Gilroy-Bold.woff2')}",
                   "#{asset_path('Gilroy-Regular.woff2')}",
-                  "#{asset_path('favicon.ico')}",
-                  "#{asset_path('favicon-16x16.png')}",
-                  "#{asset_path('favicon-32x32.png')}",
                   "#{asset_path('driver.js')}",
+                  'favicon.ico',
                   '/offline.html'];
       var req_objects = [];
       for (var i = 0; i < urls.length; i++) {
