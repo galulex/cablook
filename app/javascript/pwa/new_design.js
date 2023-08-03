@@ -577,7 +577,6 @@ export default class NewDesign extends Component {
     this.vibrate()
     this.setState({ trip: { ...this.state.trip, status: DECLINED}, showLoading: false })
     this.clearFetchTripTimeout()
-    this.clearTrip()
   }
 
   TripUnavailable = (data) => {
