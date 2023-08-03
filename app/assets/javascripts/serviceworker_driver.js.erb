@@ -5,10 +5,10 @@ function onInstall(event) {
   console.log('[DriverServiceworker]', "Installing!", event);
   event.waitUntil(
     caches.open(CACHE_NAME).then(function prefill(cache) {
-      var urls = ['Gilroy-Bold.woff2',
-                  'Gilroy-Regular.woff2',
-                  '<%= Webpacker.manifest.lookup 'driver.js' %>',
-                  'favicon.ico',
+      var urls = ["#{asset_path('Gilroy-Bold.woff2')}",
+                  "#{asset_path('Gilroy-Regular.woff2')}",
+                  "#{asset_path('favicon.ico')}",
+                  "#{asset_path('driver.js')}",
                   '/offline.html'];
       var req_objects = [];
       for (var i = 0; i < urls.length; i++) {

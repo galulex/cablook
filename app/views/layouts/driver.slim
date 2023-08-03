@@ -30,7 +30,7 @@ html lang="#{I18n.locale}"
     = javascript_pack_tag 'driver', async: true
     javascript:
       if (navigator.serviceWorker) {
-        navigator.serviceWorker.register('/serviceworker_driver.js')
+        navigator.serviceWorker.register("#{asset_path('serviceworker_driver.js')}")
           .then(function(reg) {
             console.log('[Companion]', 'Service worker registered!');
           });

@@ -399,7 +399,7 @@ html lang="#{I18n.locale}"
     = javascript_pack_tag 'pwa', async: true
     javascript:
       if (navigator.serviceWorker) {
-        navigator.serviceWorker.register('/serviceworker.js')
+        navigator.serviceWorker.register("#{asset_path('serviceworker.js')}")
           .then(function(reg) {
             console.log('[Companion]', 'Service worker registered!');
           });
