@@ -1,9 +1,9 @@
 <script>
 
-  import Clock from '../../images/Clock.svelte'
-  import Distance from '../../images/Distance.svelte'
-  import Dollar from '../../images/Dollar.svelte'
-  import Pin from '../../images/Pin.svelte'
+  import Clock from '../../../images/Clock.svelte'
+  import Distance from '../../../images/Distance.svelte'
+  import Dollar from '../../../images/Dollar.svelte'
+  import Pin from '../../../images/Pin.svelte'
 
   export let trip
 

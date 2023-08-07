@@ -1,6 +1,6 @@
 <script>
   import { createEventDispatcher } from 'svelte'
-  import i18n from '../../../pwa/i18n.js'
+  import i18n from '../../../../pwa/i18n.js'
   import axios from 'axios'
 
   export let driverBalance

@@ -169,15 +169,17 @@ const uk = {
     amount: 'Витрачені кошти',
     card_number: 'Картка',
     loading: 'завантаження...',
-    trips_count: 'Замовлення',
-    idle_trips: 'Таймер',
-    fake_trips: 'Клієнт не прийшов',
     period: 'Період статистики',
     your_data: 'Ваші дані',
     your_trips: 'Ваші замовлення',
     rate: 'Середня оцінка',
-    tips: 'Чаюха',
     uah: ' грн',
+    types: {
+      tip: 'Чаюха',
+      trip: 'Замовлення',
+      idle: 'Таймер',
+      faketaxi: 'Клієнт не прийшов'
+    },
     periods: {
       today: 'СЬОГОДНІ',
       last_two_days: 'ОСТАННІ 2 ДНІ',

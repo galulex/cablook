@@ -169,15 +169,17 @@ const ru = {
     amount: 'Потраченные средства',
     card_number: 'Карта',
     loading: 'загрузка...',
-    trips_count: 'Заказы',
-    idle_trips: 'Таймер',
-    fake_trips: 'Клиент не пришел',
     period: 'Период статистики',
     your_data: 'Ваши данные',
     your_trips: 'Ваши заказы',
     rate: 'Средняя оценка',
-    tips: 'Чаюха',
     uah: ' грн',
+    types: {
+      tip: 'Чаюха',
+      trip: 'Заказы',
+      idle: 'Таймер',
+      faketaxi: 'Клиент не пришел'
+    },
     periods: {
       today: 'СЕГОДНЯ',
       last_two_days: 'ПОСЛЕДНИЕ 2 ДНЯ',
