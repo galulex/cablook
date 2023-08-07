@@ -8,8 +8,8 @@
   export let data = [];
 
   const icons = {
-    faketaxi: Timer,
-    idle: Taxi,
+    faketaxi: Taxi,
+    idle: Timer,
     tip: Tips,
     trip: Leaf
   }
