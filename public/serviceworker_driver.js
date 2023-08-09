@@ -1,15 +1,11 @@
-var CACHE_VERSION = 'v4';
+var CACHE_VERSION = 'v5';
 var CACHE_NAME = CACHE_VERSION + ':sw-cache-';
 
 function onInstall(event) {
   console.log('[DriverServiceworker]', "Installing!", event);
   event.waitUntil(
     caches.open(CACHE_NAME).then(function prefill(cache) {
-      var urls = ["#{asset_path('Gilroy-Bold.woff2')}",
-                  "#{asset_path('Gilroy-Regular.woff2')}",
-                  "#{asset_path('driver.js')}",
-                  'favicon.ico',
-                  '/offline.html'];
+      var urls = ['/favicon.ico', '/offline.html'];
       var req_objects = [];
       for (var i = 0; i < urls.length; i++) {
         req_objects.push(new Request(urls[i], {credentials: 'same-origin'}));

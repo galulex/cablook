@@ -1,4 +1,4 @@
-var CACHE_VERSION = 'v4';
+var CACHE_VERSION = 'v5';
 var CACHE_NAME = CACHE_VERSION + ':sw-cache-';
 
 function onInstall(event) {
@@ -7,25 +7,21 @@ function onInstall(event) {
     caches.open(CACHE_NAME).then(function prefill(cache) {
       // make sure serviceworker.js is not required by application.js
       // if you want to reference application.js from here
-      var urls = ["#{asset_path('Gilroy-Bold.woff2')}",
-                 "#{asset_path('Gilroy-ExtraBold.woff2')}",
-                 "#{asset_path('Gilroy-Light.woff2')}",
-                 "#{asset_path('pwa.js')}",
-                 'favicon.ico',
-                 'icon_16x16.png',
-                 'icon_32x32.png',
-                 'icon_57x57.png',
-                 'icon_60x60.png',
-                 'icon_70x70.png',
-                 'icon_72x72.png',
-                 'icon_76x76.png',
-                 'icon_96x96.png',
-                 'icon_128x128.png',
-                 'icon_144x144.png',
-                 'icon_150x150.png',
-                 'icon_196x196.png',
-                 'icon_310x150.png',
-                 'icon_310x310.png',
+      var urls = ['/favicon.ico',
+                 '/icon_16x16.png',
+                 '/icon_32x32.png',
+                 '/icon_57x57.png',
+                 '/icon_60x60.png',
+                 '/icon_70x70.png',
+                 '/icon_72x72.png',
+                 '/icon_76x76.png',
+                 '/icon_96x96.png',
+                 '/icon_128x128.png',
+                 '/icon_144x144.png',
+                 '/icon_150x150.png',
+                 '/icon_196x196.png',
+                 '/icon_310x150.png',
+                 '/icon_310x310.png',
                  '/offline.html'];
       var req_objects = [];
       for (var i = 0; i < urls.length; i++) {
