@@ -550,7 +550,7 @@ input:checked + svg.cross path:nth-of-type(2) {
   .option .trip-params {
     height: 125px;
   }
-  
+
   .trigger {
     height: 125px;
   }
@@ -568,5 +568,56 @@ input:checked + svg.cross path:nth-of-type(2) {
     top: 26px;
     height: 20px;
     width: 15px;
+  }
+}
+
+dialog {
+  background: var(--button-background);
+  color: var(--address-input-text);
+  box-shadow: 3px 3px 6px var(--shadow_color), inset -5px -5px 6px -3px var(--shadow_color), inset 1px 1px 3px -3px var(--white);
+  border-radius: 15px;
+  border: none;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+dialog > button {
+  appearance: none;
+  background: none;
+  border: none;
+  aspect-ratio: 1;
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  cursor: pointer;
+  outline: none;
+  font-size: 1.5rem;
+  transition: transform .3s;
+}
+
+dialog > button:focus {
+  transform: scale(0.8);
+}
+
+dialog::backdrop {
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(3px);
+}
+
+dialog > abbr {
+  font-size: 3rem;
+  text-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+}
+
+dialog[open] {
+  animation: show 0.3s ease normal;
+}
+@-webkit-keyframes show{
+  from {
+    transform: translateY(110%) scale(0);
+  }
+  to {
+    transform: translateY(0%) scale(1);
   }
 }

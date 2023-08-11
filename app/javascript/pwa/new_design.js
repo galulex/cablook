@@ -76,15 +76,15 @@ export default class NewDesign extends Component {
   }
 
   componentDidUpdate() {
-    if (!this.state.currentLocation && this.props.currentLocation && this.state.trip.stops[0] === '') {    
+    if (!this.state.currentLocation && this.props.currentLocation && this.state.trip.stops[0] === '') {
       this.setAddress(this.props.currentLocation.address, this.props.currentLocation.location, 0)
       this.setState({ currentLocation: {
-        location: this.props.currentLocation.location, 
+        location: this.props.currentLocation.location,
         address: this.props.currentLocation.address,
         favorite_address: true,
-        structured_formatting: { 
+        structured_formatting: {
           main_text: this.props.currentLocation.address,
-          secondary_text: i18n.address_input.location 
+          secondary_text: i18n.address_input.location
         }
       } })
     }
@@ -631,7 +631,7 @@ export default class NewDesign extends Component {
 
   renderFields(trip, isValid, cards) {
     return(
-      <div id='fields' class='options' ref={fields => this.fields = fields} onScroll={this.props.scrollEnd}>
+      <div id='fields' class='options' ref={fields => this.fields = fields}>
         <button class='trigger' onClick={ () => this.scroll(1) }>
           <Chevron class='chevron' height='50'/>
         </button>
@@ -721,7 +721,7 @@ export default class NewDesign extends Component {
 
   clearPicker = () => {
     this.setState({picker: null, klass: ''})
-  } 
+  }
 
   resetTrip = () => {
     this.props.setActivateFeedback()
@@ -765,7 +765,7 @@ export default class NewDesign extends Component {
               { this.isShowLoading() ?
                 this.renderLoading()
                 :
-                [CONFIRM_UPDATE_TRIP, CANCELED, CANCELED_BY_DRIVER, undefined, null].includes(trip.status) && this.renderFields(trip, isValid, cards) 
+                [CONFIRM_UPDATE_TRIP, CANCELED, CANCELED_BY_DRIVER, undefined, null].includes(trip.status) && this.renderFields(trip, isValid, cards)
               }
             </div>
           }
