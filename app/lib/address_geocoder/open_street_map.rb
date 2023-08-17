@@ -8,7 +8,7 @@ module AddressGeocoder
       response = JSON.parse(Net::HTTP.get(url))
       result = response.dig('address').symbolize_keys
 
-      @address = "#{result[:road]} #{result[:house_number]}"
+      @address = [result[:road], result[:house_number]].compact.join(', ')
     end
   end
 end
