@@ -43,9 +43,18 @@ if (window.dark) {
   document.querySelector('meta[name="theme-color"]').setAttribute('content', '#15121e')
 }
 
-import '../pwa/android_polyfills.js';
-import smoothscroll from 'smoothscroll-polyfill';
-smoothscroll.polyfill();
+window.alert = (text) => {
+  const body = `
+    <abbr>⚠️</abbr>
+    <p>${text || ''}</p>
+    <button type='button' onclick='this.parentElement.close()'>❌</button>
+  `
+  const dialog = window.modalAlert || document.createElement('dialog')
+  dialog.innerHTML = body
+  dialog.id = 'modalAlert'
+  document.body.append(dialog)
+  dialog.showModal()
+}
 
 import { h, render, Component } from 'preact';
 import { Router } from 'preact-router';
@@ -118,7 +127,6 @@ export default class App extends Component {
     window.addEventListener('offline', this.offline, { passive: true })
     window.addEventListener('online', this.online, { passive: true })
     document.addEventListener('visibilitychange', this.onVisibilityChange, false, { passive: true })
-    this.main.addEventListener('scroll', this.scrollEnd, { passive: true })
     document.addEventListener('touchstart', this.setTouching, { passive: true })
     document.addEventListener('touchend', this.setTouching, { passive: true })
     if (!navigator.onLine) this.offline()
@@ -128,7 +136,6 @@ export default class App extends Component {
     window.removeEventListener('offline', this.offline, { passive: true })
     window.removeEventListener('online', this.online, { passive: true })
     document.removeEventListener('visibilitychange', this.onVisibilityChange, false, { passive: true })
-    this.main.removeEventListener('scroll', this.scrollEnd, { passive: true })
     document.removeEventListener('touchstart', this.setTouching, { passive: true })
     document.removeEventListener('touchend', this.setTouching, { passive: true })
   }
@@ -295,16 +302,6 @@ export default class App extends Component {
     if (!e.target.classList.contains('nav-wrapper') && !e.target.classList.contains('burger')) this.triggerDrawer(false)
   }
 
-  scrollEnd = (e) => {
-    let target = e.target
-    clearTimeout(window.scrollTimeout)
-    window.scrollTimeout = setTimeout(() => {
-      if (target.scrollLeft == 0 || target.scrollLeft == target.offsetWidth || target.scrollLeft == 300) return
-      let x = (target.scrollLeft > 0 && target.scrollLeft < target.offsetWidth / 2) ? 0 : target.offsetWidth
-      if (!window.isTouching) target.scrollTo({ left: x })
-    }, 300)
-  }
-
   resetCurrentTrip = () => {
     this.setState({ currentTrip: null })
   }
@@ -365,7 +362,6 @@ export default class App extends Component {
               language={language}
               favorite_addresses={() => favorite_addresses}
               fetchUser={this.fetchUser}
-              scrollEnd={this.scrollEnd}
               isYmapsLoading={this.state.isYmapsLoading}
               setBonusTrips={this.setBonusTrips}
               getAvailableBonusTrips={this.getAvailableBonusTrips}

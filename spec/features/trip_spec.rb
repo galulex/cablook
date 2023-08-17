@@ -43,8 +43,10 @@ RSpec.feature 'Trip', type: :feature, js: true do
       has_text? 'Cancel'
     end
     Events::Trips::Accept.(trip_id: trip.id, driver_id: driver.id, car_id: car.id)
-    accept_alert do
-      Events::Trips::Cancel.(trip_id: trip.id, by_driver: true)
+    sleep 1
+    Events::Trips::Cancel.(trip_id: trip.id, by_driver: true)
+    wait 3 do
+      find_button('❌').trigger(:click)
     end
     all('input')[0].trigger(:focus)
     all('input')[0].set('')
