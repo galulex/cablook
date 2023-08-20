@@ -1,4 +1,6 @@
 class Trip < ApplicationRecord
+  include Periods
+
   belongs_to :driver, required: false
   belongs_to :car, required: false
   belongs_to :user, counter_cache: true
