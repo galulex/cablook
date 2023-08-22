@@ -124,6 +124,7 @@ export default class App extends Component {
       this.checkOneSignalToken()
       document.documentElement.style.setProperty('--body-bg', '#eef6fb')
     }
+    window.addEventListener('message', this.updateDeviceToken);
     window.addEventListener('offline', this.offline, { passive: true })
     window.addEventListener('online', this.online, { passive: true })
     document.addEventListener('visibilitychange', this.onVisibilityChange, false, { passive: true })
@@ -133,11 +134,18 @@ export default class App extends Component {
   }
 
   componentWillUnmount() {
+    window.removeEventListener('message', this.updateDeviceToken);
     window.removeEventListener('offline', this.offline, { passive: true })
     window.removeEventListener('online', this.online, { passive: true })
     document.removeEventListener('visibilitychange', this.onVisibilityChange, false, { passive: true })
     document.removeEventListener('touchstart', this.setTouching, { passive: true })
     document.removeEventListener('touchend', this.setTouching, { passive: true })
+  }
+
+  updateDeviceToken = (event) =>  {
+    if (event.data && event.data.message === 'UPDATE DEVICE TOKEN') {
+      this.sendTokenToServer(event.data.token, 'Pixel 3')
+    }
   }
 
   setTouching = (event) => {
