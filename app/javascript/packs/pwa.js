@@ -143,7 +143,7 @@ export default class App extends Component {
   }
 
   updateDeviceToken = (event) =>  {
-    if (event.data && event.data.message === 'UPDATE DEVICE TOKEN') {
+    if (currentUser && event.data && event.data.message === 'UPDATE DEVICE TOKEN') {
       this.sendTokenToServer(event.data.token, 'Pixel 3')
     }
   }
