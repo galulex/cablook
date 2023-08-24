@@ -238,8 +238,10 @@ export default class NewDesign extends Component {
     axios.patch(`trips/${this.state.trip.id}/retry`).then((res) => {
       this.setState({ trip: { ...this.state.trip, status: PENDING } })
       this.setFetchTripTimeout()
+      this.setState({ buttonDisabled: false })
     }).catch((error) => {
       if (error.response) alert(error.response.data.errors)
+      this.setState({ buttonDisabled: false })
       callback()
     })
   }
@@ -562,6 +564,12 @@ export default class NewDesign extends Component {
   NotificationRetry = (data) => { this.retry() }
 
   NotificationCancel = (data) => { this.clearTrip() }
+
+  TripUnrelease = (data) => {
+    this.vibrate()
+    this.setState({ trip: { ...this.state.trip, status: PENDING}, showLoading: true })
+    this.clearFetchTripTimeout()
+  }
 
   TripAccepted = (data) => {
     this.previewMapRef.cleanup()

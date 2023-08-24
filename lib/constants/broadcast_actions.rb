@@ -17,6 +17,7 @@ module Constants
     TRIP_FINISHED     = 'TripFinished'.freeze
     TRIP_STARTED      = 'TripStarted'.freeze
     TRIP_WAITING      = 'DriverArrived'.freeze
+    TRIP_UNRELEASE      = 'TripUnrelease'.freeze
 
     TRIP_FINISH_ACTION     = 'finish_trip'.freeze
     TRIP_START_ACTION      = 'start_trip'.freeze
