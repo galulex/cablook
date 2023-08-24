@@ -567,7 +567,8 @@ export default class NewDesign extends Component {
 
   TripUnrelease = (data) => {
     this.vibrate()
-    this.setState({ trip: { ...this.state.trip, status: PENDING}, showLoading: true })
+    this.previewMapRef.cleanup()
+    this.setState({ trip: { ...this.state.trip, status: PENDING}, showLoading: true, car: null })
     this.clearFetchTripTimeout()
   }
 
@@ -583,7 +584,7 @@ export default class NewDesign extends Component {
 
   TripDeclined = (data) => {
     this.vibrate()
-    this.setState({ trip: { ...this.state.trip, status: DECLINED}, showLoading: false })
+    this.setState({ trip: { ...this.state.trip, status: DECLINED }, showLoading: false })
     this.clearFetchTripTimeout()
   }
 
