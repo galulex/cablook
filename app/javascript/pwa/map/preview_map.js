@@ -197,6 +197,8 @@ export default class PreviewMap extends Component {
     const drive = () => {
       position[0] += deltaLng
       position[1] += deltaLat
+      if (!this.state.car) return
+
       this.state.car.setLngLat(position)
       if (steps < numDeltas) {
         steps++
