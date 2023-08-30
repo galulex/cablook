@@ -4,6 +4,7 @@ window.ios = ['iPhone', 'iPad', 'iPod', 'MacIntel'].includes(navigator.platform)
 if (window.dark) {
   document.documentElement.style.setProperty('--bg_gradient_color_1', '#191730')
   document.documentElement.style.setProperty('--bg_gradient_color_2', '#15121e')
+  document.documentElement.style.setProperty('--top_gradient', 'linear-gradient(0deg, rgba(21, 18, 30, 0), rgba(21, 18, 30, 0) 0%, var(--bg_gradient_color_2) 100%, var(--bg_gradient_color_2))')
   document.documentElement.style.setProperty('--font_color_1', 'white')
   document.documentElement.style.setProperty('--font_color_2', 'white')
   document.documentElement.style.setProperty('--font_color_2_dark', 'black')
@@ -144,7 +145,7 @@ export default class App extends Component {
 
   updateDeviceToken = (event) =>  {
     if (this.state.currentUser && event.data && event.data.message === 'UPDATE DEVICE TOKEN') {
-      this.sendTokenToServer(event.data.token, 'Pixel 3')
+      this.sendTokenToServer(event.data.token, event.data.platform)
     }
   }
 

@@ -16,7 +16,7 @@
   left: 0;
   height: 50px;
   width: 100%;
-  background: linear-gradient(0deg, transparent, var(--bg_gradient_color_2));
+  background: var(--top_gradient);
   z-index: 1;
 }
 
