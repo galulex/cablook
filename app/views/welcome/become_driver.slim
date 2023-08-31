@@ -6,18 +6,25 @@ main.content.become-driver
       | LOOK
   h1
     p = t('.title')
-    label.driver for='cv_name'
-      = t('.become_driver')
-    span =< t('.cablook_taxi')
   = inline_svg 'stars.svg', class: 'svgs stars'
-  p.description = t('.description')
+  h1.description = t('.description')
+
+  h1 = t('.car_opportunities')
+  p = t('.car_opportunities_text')
+
+  h1 = t('.our_mission_title')
+  p = t('.our_mission_text')
+
+  h1 = t('.our_values_title')
+  .benefits
+      - t('.our_values_text').each do |o|
+        p= o
 
   h1 = t('.benefits_title')
   = inline_svg 'thumbs_up.svg', class: 'svgs thumbs_up'
   .benefits
-    ul
       - t('.benefits').each do |o|
-        li= o
+        p= o
   
   h1 = t('.how_it_works_title')
   = inline_svg 'gears.svg', class: 'svgs gears'
