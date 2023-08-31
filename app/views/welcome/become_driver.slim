@@ -9,6 +9,14 @@ main.content.become-driver
   = inline_svg 'stars.svg', class: 'svgs stars'
   h1.description = t('.description')
 
+  br
+
+  h1 = t('.benefits_title')
+  = inline_svg 'thumbs_up.svg', class: 'svgs thumbs_up'
+  .benefits
+      - t('.benefits').each do |o|
+        p= o
+
   h1 = t('.car_opportunities')
   p = t('.car_opportunities_text')
 
@@ -19,12 +27,6 @@ main.content.become-driver
   .benefits
       - t('.our_values_text').each do |o|
         p= o
-
-  h1 = t('.benefits_title')
-  = inline_svg 'thumbs_up.svg', class: 'svgs thumbs_up'
-  .benefits
-      - t('.benefits').each do |o|
-        p= o
   
   h1 = t('.how_it_works_title')
   = inline_svg 'gears.svg', class: 'svgs gears'
@@ -32,7 +34,7 @@ main.content.become-driver
     ol
       - t('.how_it_works').each do |o|
         li= o
-
+  br
   h1.driver = t('.form_title')
   = form_for :cv, url: driver_request_path, autocomplete: false, html: { id: 'become-driver-form', class: 'become-driver-form' } do |f|
     .col-6
@@ -64,3 +66,26 @@ main.content.become-driver
 
 
   = inline_svg 'city.svg', class: 'city violet'
+
+  javascript:
+    <!-- Meta Pixel Code -->
+      !function(f,b,e,v,n,t,s)
+      {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+      n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+      if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+      n.queue=[];t=b.createElement(e);t.async=!0;
+      t.src=v;s=b.getElementsByTagName(e)[0];
+      s.parentNode.insertBefore(t,s)}(window, document,'script',
+      'https://connect.facebook.net/en_US/fbevents.js');
+      fbq('init', '377886316489310');
+      fbq('track', 'PageView');
+    <!-- End Meta Pixel Code -->
+
+    document.addEventListener('DOMContentLoaded', function () {
+      var contactForm = document.getElementById('become-driver-form');
+      if (contactForm) {
+          contactForm.addEventListener('submit', function () {
+              fbq('track', 'Lead');
+          });
+      }
+    });
