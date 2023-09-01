@@ -144,6 +144,7 @@ export default class FavoriteAddresses extends Component {
                   setGeocoding={this.props.setGeocoding}
                   setAddress={this.props.setAddress}
                   showBurger={this.props.showBurger}
+                  removeData={this.props.removeData}
                 />
               </div>
               <div class='tab-content'>

@@ -208,6 +208,8 @@ const en = {
     placeholder: 'Type address or choose a place',
     theme: 'Dark Theme',
     language: 'Language',
+    delete_account: 'Delete account',
+    account_deleted: 'Account has been removed',
     notification_names: {
       search_car: 'Search car',
       waiting_client: 'Waiting client',

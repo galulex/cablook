@@ -171,6 +171,17 @@ export default class Settings extends Component {
     this.setState({ showing: !this.state.showing, name: '⭐' })
   }
 
+  removeAccount = () => {
+    if (!confirm(i18n.are_you_sure)) return
+
+    axios.delete(`user`).then(() => {
+      this.props.removeData()
+      alert(i18n.profile_page.account_deleted)
+    }).catch((error) => {
+      if (error.response) alert(error.response.data.errors)
+    })
+  }
+
   render() {
     const { showing, notification_settings } = this.state
 
@@ -212,6 +223,9 @@ export default class Settings extends Component {
           <div class='tab-content__header'>{i18n.profile_page.places}</div>
           { this.favoriteAddressesList() }
           { showing ? this.newForm() : <button class='button green add_fav_address' type='button' onClick={this.onAddClick}>+ {i18n.profile_page.add_address}</button> }
+        </div>
+        <div class='tab-content__container' >
+          <button class='button red' onClick={this.removeAccount}>{i18n.profile_page.delete_account}</button>
         </div>
       </div>
     )

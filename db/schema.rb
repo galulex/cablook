@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_07_12_231341) do
+ActiveRecord::Schema.define(version: 2023_09_01_083830) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -208,6 +208,7 @@ ActiveRecord::Schema.define(version: 2023_07_12_231341) do
     t.string "notification_settings", default: [], array: true
     t.string "locale", default: "uk"
     t.integer "cashback", default: 0
+    t.datetime "deleted_at"
     t.index ["phone_number"], name: "index_users_on_phone_number", unique: true
   end
 
