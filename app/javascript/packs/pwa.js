@@ -406,6 +406,7 @@ export default class App extends Component {
               isGeocoding={isGeocoding}
               setGeocoding={this.setGeocoding}
               showBurger={this.showBurger}
+              removeData={this.removeData}
             />
             <Vendors path='/delivery'
               setCurrentTrip={this.setCurrentTrip}

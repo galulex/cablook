@@ -208,6 +208,8 @@ const uk = {
     placeholder: 'Введіть адресу або виберіть місце',
     theme: 'Темна тема',
     language: 'Мова',
+    delete_account: 'Видалити акаунт',
+    account_deleted: 'Акаунт видалено',
     notification_names: {
       search_car: 'Пошук машини',
       waiting_client: 'Водій очікує',

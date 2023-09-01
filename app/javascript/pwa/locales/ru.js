@@ -208,6 +208,8 @@ const ru = {
     placeholder: 'Введите адрес или выберите место',
     theme: 'Темная тема',
     language: 'Язык',
+    delete_account: 'Удалить аккаунт',
+    account_deleted: 'Аккаунт удален',
     notification_names: {
       search_car: 'Поиск машины',
       waiting_client: 'Водитель ожидает',

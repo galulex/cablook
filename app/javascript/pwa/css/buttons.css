@@ -41,6 +41,22 @@
   box-shadow: var(--green-active-shadow);
 }
 
+.button.red {
+  color: red;
+  color: rgba(186, 0, 0, 0.5);
+  background: #cecece;
+  background: var(--button-background);
+}
+
+.button.red:hover {
+  color: rgba(186, 0, 0, 0.8);
+  box-shadow: var(--green-hover-shadow);
+}
+
+.button.red:active {
+  box-shadow: var(--green-active-shadow);
+}
+
 .button.navy {
   color: white;
   color: var(--white);

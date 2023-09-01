@@ -18,6 +18,10 @@ module Api
       Events::Users::Update.(user_id: user.id, locale: params[:locale])
     end
 
+    def destroy
+      Events::Users::Remove.(user_id: user.id)
+    end
+
     private
 
     def user
