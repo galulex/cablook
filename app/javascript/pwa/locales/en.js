@@ -43,7 +43,8 @@ const en = {
     not_supported: 'Geolocation is not supported for this browser',
     permission_denied: 'You denied the request for Geolocation',
     timeout: 'The request to get user location timed out',
-    position_unavailable: 'Location information is unavailable'
+    position_unavailable: 'Location information is unavailable',
+    picked_address_unavailable: 'Address information is unavailable, try to input by hand'
   },
   current_trip: {
     add_address: 'Add address',
