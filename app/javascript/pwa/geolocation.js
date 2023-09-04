@@ -45,8 +45,7 @@ const geocode = async(lng, lat) => {
     const res = await axios.get(`address?coords=${lng},${lat}`)
     return res.data.address
   } catch (error) {
-    if (error.response)
-      return alert(error.response.data.errors)
+    return null
   }  
 }
 

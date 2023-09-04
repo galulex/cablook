@@ -158,7 +158,7 @@ export default class AddressInput extends Component {
     window.timeout = setTimeout(() => {
       if (e.target.value === '' ||  e.target.checkValidity() || this.state.disabled || this.state.isFetching) return
       let prediction = this.state.predictions[0]
-      if (prediction && prediction.address !== this.props.currentLocation.address) this.setLocation(prediction)
+      if (prediction && prediction.address !== this.props.currentLocation?.address) this.setLocation(prediction)
     }, 500)
     if (fields) {
       window.timeout = setTimeout(() => { fields.classList.remove('noscroll') }, 300)

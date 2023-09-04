@@ -18,7 +18,7 @@ import CarPopup from '../new_design/car_popup.js'
 import FocusOnCarControl from '../../pwa/trips/custom-control.js'
 
 const polyline = require('@mapbox/polyline')
-const LANGUAGES = {en: 'en', uk: 'ru', ru: 'ru'}
+const LANGUAGES = { en: 'en', uk: 'ru', ru: 'ru' }
 const MAPSTYLE = (localStorage.getItem('dark') === 'true') ? 'mapbox://styles/okunieva/ckb1wuli60k3u1ipjrdnqtan5' : 'mapbox://styles/okunieva/cjzwn3wx40yhq1cpjl3yo8p1z'
 const PATHCOLORS = (localStorage.getItem('dark') === 'true') ? ['#ffffff', '#19a160'] : ['#312d50', '#19a160']
 let timeout, driveTimeout
@@ -107,7 +107,7 @@ export default class PreviewMap extends Component {
     this.map.on('movestart', () => {
       this.move = true
       document.documentElement.style.setProperty('--car-transition', '0s')
-      this.setState({isGeocoding: true})
+      this.setState({ isGeocoding: true })
     })
 
     this.map.on('moveend', () => {
@@ -137,7 +137,7 @@ export default class PreviewMap extends Component {
     })
 
     this.map.on('zoomend', (event) => {
-      this.setState({zoom: this.map.getZoom()})
+      this.setState({ zoom: this.map.getZoom() })
     })
 
     this.map.on('pitch', () => {
@@ -157,10 +157,12 @@ export default class PreviewMap extends Component {
   }
 
   updatePoint = (latlng) => {
-    this.setState({point: {
-      lat: latlng[0],
-      lng: latlng[1]
-    }})
+    this.setState({
+      point: {
+        lat: latlng[0],
+        lng: latlng[1]
+      }
+    })
   }
 
   updateCarDirection = (l) => {
@@ -216,7 +218,7 @@ export default class PreviewMap extends Component {
   }
 
   popupContent(car, trip, driver) {
-    return render(<CarPopup car={car} trip={trip} driver={driver}/>)
+    return render(<CarPopup car={car} trip={trip} driver={driver} />)
   }
 
   updatePopup(car, trip, driver) {
@@ -234,15 +236,15 @@ export default class PreviewMap extends Component {
     marker._element.className += ` leaf ${car.color}`
     marker.carAngleDeg = car.deg
     let popupContent = this.popupContent(car, trip, driver)
-    this.popup = new mapboxgl.Popup({closeOnClick: false, closeButton: true, className: 'car-popup', anchor: 'bottom'}).setHTML(popupContent)
+    this.popup = new mapboxgl.Popup({ closeOnClick: false, closeButton: true, className: 'car-popup', anchor: 'bottom' }).setHTML(popupContent)
 
     marker.setPopup(this.popup).addTo(this.map).togglePopup()
-    this.carFocus = new FocusOnCarControl({eventHandler: this.focusOnCar})
+    this.carFocus = new FocusOnCarControl({ eventHandler: this.focusOnCar })
     this.map.addControl(this.carFocus, 'bottom-right')
 
     this.updateCarDirection(marker)
 
-    this.setState({ car: marker}, () => {
+    this.setState({ car: marker }, () => {
       this.map.flyTo({ center: this.state.car.getLngLat(), speed: 1 })
     })
   }
@@ -252,12 +254,12 @@ export default class PreviewMap extends Component {
     if (this.map.getZoom() == this.map.getMinZoom()) {
       this.map.panTo(this.state.car.getLngLat())
     } else {
-      this.map.flyTo({center: this.state.car.getLngLat()})
+      this.map.flyTo({ center: this.state.car.getLngLat() })
     }
   }
 
   pick = (index) => {
-    this.setState({index: index})
+    this.setState({ index: index })
     if (this.map.getSource('line')) this.map.getSource('line').setData(this.state.geojson || GEOJSON)
     this.markers.map(m => m.remove())
     this.map.on('movestart', this.movestart)
@@ -274,7 +276,7 @@ export default class PreviewMap extends Component {
     timeout = null
   }
 
-  geocode = async() => {
+  geocode = async () => {
     const { lng, lat } = this.map.getCenter()
 
     if ((this.state.point.lat === lat && this.state.point.lng === lng) || this.move || ![CONFIRM_UPDATE_TRIP, undefined, null].includes(this.props.trip().status)) return
@@ -283,9 +285,17 @@ export default class PreviewMap extends Component {
 
     let address = await geocode(lng, lat)
 
+    if (!address) {
+      this.props.clearPicker()
+      let address_inputs = document.querySelectorAll('input.address')
+      address_inputs[this.state.index].focus()
+      
+      return alert(i18n.location.picked_address_unavailable)
+    }
+
     if (this.move) return
     this.props.setAddress(address, `${lat},${lng}`, this.state.index)
-    this.setState({isGeocoding: false})
+    this.setState({ isGeocoding: false })
   }
 
   cleanup = () => {
@@ -313,7 +323,7 @@ export default class PreviewMap extends Component {
         padding: 100,
         pitch: this.map.getPitch(),
       })
-    } catch(error) {
+    } catch (error) {
     }
   }
 
@@ -342,10 +352,10 @@ export default class PreviewMap extends Component {
       let klass = (i === trip.waypoints.length - 1) ? 'last' : ''
       if (i === 0) klass = 'first'
       let div = document.createElement('div')
-      div.innerHTML = render(<Pin class={`pin pin-${klass}`} width='25px'/>)
+      div.innerHTML = render(<Pin class={`pin pin-${klass}`} width='25px' />)
       let marker = new mapboxgl.Marker(div)
 
-      let popup = new mapboxgl.Popup({closeOnClick: false, closeButton: false, className: `point-${klass}`, anchor: 'left', offset: 10, opened: true}).setHTML(trip.stops[i])
+      let popup = new mapboxgl.Popup({ closeOnClick: false, closeButton: false, className: `point-${klass}`, anchor: 'left', offset: 10, opened: true }).setHTML(trip.stops[i])
       if (trip && [PENDING].includes(trip.status)) {
         marker.setLngLat(w.split(',').reverse()).setPopup(popup).addTo(this.map).togglePopup()
       } else {
@@ -392,13 +402,13 @@ export default class PreviewMap extends Component {
   }
 
   setZoom = (event) => {
-    this.map.flyTo({zoom: event.target.value, speed: 3})
-    this.setState({zoom: event.target.value})
+    this.map.flyTo({ zoom: event.target.value, speed: 3 })
+    this.setState({ zoom: event.target.value })
   }
 
   handleBackEdit = async e => {
     this.props.mainBurger.classList.remove('hidden')
-    let { driver, car, fetchUser, clearPicker, picker} = this.props
+    let { driver, car, fetchUser, clearPicker, picker } = this.props
 
     if (picker !== null) clearPicker()
     window.ios ? fetchUser() : window.history.back()
@@ -411,16 +421,16 @@ export default class PreviewMap extends Component {
     const { picker, pickAddress, trip } = this.props
     return (
       <div class='main_map'>
-        { [CONFIRM_UPDATE_TRIP].includes(trip().status) && <button type='button' class='burger button white-opacity back' onClick={this.handleBackEdit}><Back/></button> }
-        <Pin class='pin picker' width='30px' ref={pin => this.pin = pin}/>
-        <div class='map' ref={el => this.mapContainer = el}/>
-        { (picker !== null ) &&
+        {[CONFIRM_UPDATE_TRIP].includes(trip().status) && <button type='button' class='burger button white-opacity back' onClick={this.handleBackEdit}><Back /></button>}
+        <Pin class='pin picker' width='30px' ref={pin => this.pin = pin} />
+        <div class='map' ref={el => this.mapContainer = el} />
+        {(picker !== null) &&
           <button
             class='button green pick_address absolute'
             type='button'
             disabled={this.state.isGeocoding}
             onClick={pickAddress}>
-              OK
+            OK
           </button>
         }
       </div>
