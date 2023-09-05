@@ -93,8 +93,9 @@ export default class PreviewMap extends Component {
       zoom,
     })
 
+
     const language = new MapboxLanguage({
-      defaultLanguage: LANGUAGES[this.props.language]
+      defaultLanguage: 'en'
     })
 
     const geolocate = new mapboxgl.GeolocateControl({
@@ -153,7 +154,13 @@ export default class PreviewMap extends Component {
     this.map.on('load', () => {
       this.map.addSource('line', { type: 'geojson', lineMetrics: true, data: this.state.geojson || GEOJSON })
       this.map.addLayer(PATHLAYER)
+
+      let labels = ['country-label', 'settlement-major-label', 'settlement-minor-label', 'state-label', 'settlement-subdivision-label']
+
+      labels.forEach((label) => { this.map.setLayoutProperty(label, 'text-field', ['get',`name`]); })
     })
+
+
   }
 
   updatePoint = (latlng) => {
@@ -289,7 +296,7 @@ export default class PreviewMap extends Component {
       this.props.clearPicker()
       let address_inputs = document.querySelectorAll('input.address')
       address_inputs[this.state.index].focus()
-      
+
       return alert(i18n.location.picked_address_unavailable)
     }
 
