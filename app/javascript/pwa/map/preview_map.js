@@ -3,11 +3,10 @@ import { h, Component } from 'preact'
 import axios from 'axios'
 import { geocode } from '../../pwa/geolocation.js'
 import mapboxgl from 'mapbox-gl'
-import MapboxLanguage from '@mapbox/mapbox-gl-language'
 import { MAP_MIN_ZOOM, MAP_MAX_ZOOM, CHERKASY_LONG_LAT, NUM_DELTAS, TELEPORT_DISTANCE } from '../lib/constants.js'
 import { PENDING, ON_THE_WAY, WAITING_CLIENT, DRIVING, FINISHED, CANCELED, DECLINED, CANCELED_BY_DRIVER, CONFIRM_UPDATE_TRIP } from '../constants.js'
 
-mapboxgl.accessToken = 'pk.eyJ1IjoiZ2FsdWxleCIsImEiOiJjamx6ampoZjgyMnYxM3FvZ2ppNjV2M2x5In0.bPgk2WI9NT-DJwnE-OtiLA'
+mapboxgl.accessToken = 'pk.eyJ1IjoiYWxleHN0IiwiYSI6ImNsajVra2ZqNDBhdzQzZHF6N3gwZ2lzbXYifQ.t207B3n10JqQEekacf1Xhg'
 
 import i18n from '../i18n.js'
 import '../css/map.css'
@@ -18,8 +17,8 @@ import CarPopup from '../new_design/car_popup.js'
 import FocusOnCarControl from '../../pwa/trips/custom-control.js'
 
 const polyline = require('@mapbox/polyline')
-const LANGUAGES = { en: 'en', uk: 'ru', ru: 'ru' }
-const MAPSTYLE = (localStorage.getItem('dark') === 'true') ? 'mapbox://styles/okunieva/ckb1wuli60k3u1ipjrdnqtan5' : 'mapbox://styles/okunieva/cjzwn3wx40yhq1cpjl3yo8p1z'
+const mapBoxLabels = ['country-label', 'settlement-major-label', 'settlement-minor-label', 'state-label', 'settlement-subdivision-label', 'road-label', 'poi-label']
+const MAPSTYLE = (localStorage.getItem('dark') === 'true') ? 'mapbox://styles/alexst/clm68anew00x801pj3q718ltj' : 'mapbox://styles/alexst/clm60hwvh00yh01pf34d3cxbf'
 const PATHCOLORS = (localStorage.getItem('dark') === 'true') ? ['#ffffff', '#19a160'] : ['#312d50', '#19a160']
 let timeout, driveTimeout
 
@@ -93,11 +92,6 @@ export default class PreviewMap extends Component {
       zoom,
     })
 
-
-    const language = new MapboxLanguage({
-      defaultLanguage: 'en'
-    })
-
     const geolocate = new mapboxgl.GeolocateControl({
       positionOptions: {
         enableHighAccuracy: true
@@ -149,15 +143,11 @@ export default class PreviewMap extends Component {
     this.map.addControl(new mapboxgl.NavigationControl({ visualizePitch: true }), 'bottom-right')
 
     this.map.addControl(geolocate, 'bottom-right')
-    this.map.addControl(language)
 
     this.map.on('load', () => {
+      mapBoxLabels.forEach((label) => { this.map.setLayoutProperty(label, 'text-field', ['get', `name`]); })
       this.map.addSource('line', { type: 'geojson', lineMetrics: true, data: this.state.geojson || GEOJSON })
       this.map.addLayer(PATHLAYER)
-
-      let labels = ['country-label', 'settlement-major-label', 'settlement-minor-label', 'state-label', 'settlement-subdivision-label']
-
-      labels.forEach((label) => { this.map.setLayoutProperty(label, 'text-field', ['get',`name`]); })
     })
 
 
