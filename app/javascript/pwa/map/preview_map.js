@@ -17,7 +17,6 @@ import CarPopup from '../new_design/car_popup.js'
 import FocusOnCarControl from '../../pwa/trips/custom-control.js'
 
 const polyline = require('@mapbox/polyline')
-const mapBoxLabels = ['country-label', 'settlement-major-label', 'settlement-minor-label', 'state-label', 'settlement-subdivision-label', 'road-label', 'poi-label']
 const MAPSTYLE = (localStorage.getItem('dark') === 'true') ? 'mapbox://styles/alexst/clm68anew00x801pj3q718ltj' : 'mapbox://styles/alexst/clm60hwvh00yh01pf34d3cxbf'
 const PATHCOLORS = (localStorage.getItem('dark') === 'true') ? ['#ffffff', '#19a160'] : ['#312d50', '#19a160']
 let timeout, driveTimeout
@@ -145,12 +144,9 @@ export default class PreviewMap extends Component {
     this.map.addControl(geolocate, 'bottom-right')
 
     this.map.on('load', () => {
-      mapBoxLabels.forEach((label) => { this.map.setLayoutProperty(label, 'text-field', ['get', `name`]); })
       this.map.addSource('line', { type: 'geojson', lineMetrics: true, data: this.state.geojson || GEOJSON })
       this.map.addLayer(PATHLAYER)
     })
-
-
   }
 
   updatePoint = (latlng) => {
