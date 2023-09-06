@@ -40,24 +40,34 @@
   }
 
   onMount(() => {
+    window.addEventListener('message', updateDeviceToken);
     isLoggedIn ? onStart() : navigate('/', { replace: true })
   })
 
   onDestroy(() => {
     subscription.unsubscribe()
     watcher.clearWatch()
+    window.removeEventListener('message', updateDeviceToken);
   })
 
-  const handleNotificationsPermissions = () => {
-    isSupported().then(supported => {
-      if (!supported){ alert('Браузер не підтримує сповіщеннь'); return }
+  const updateDeviceToken = (event) =>  {
+    if (isLoggedIn && event.data && event.data.message === 'UPDATE DEVICE TOKEN') {
+      sendTokenToServer(event.data.token)
+    }
+  }
 
+  const sendTokenToServer = (token) => {
+    axios.patch('/driver', { device: token }).catch(error => console.log(error))
+  }
+
+  const handleNotificationsPermissions = () => {
+    isSupported().then(() => {
       Notification.requestPermission().then(permission => {
         if (permission !== 'granted') { console.log('Unable to get permission to notify.'); return }
         navigator.serviceWorker.ready.then(registration => {
           const messaging = getMessaging(firebaseApp)
           getToken(messaging, { serviceWorkerRegistration: registration }).then(token => {
-            axios.patch('/driver', { device: token }).catch(error => console.log(error))
+            sendTokenToServer(token)
           }).catch(e => console.log(e))
         })
           .catch(error => {
@@ -106,6 +116,7 @@
     localStorage.carNumber = car.number
     localStorage.token = driver.auth_token
     isLoggedIn = true
+    if (localStorage.fcm_token) { sendTokenToServer(localStorage.fcm_token) }
     onStart()
   }
 
