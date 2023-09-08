@@ -45,8 +45,8 @@
   }
 
   const isDarkTheme = window.matchMedia('(prefers-color-scheme: dark)').matches
-  const darkModeMapStyle = 'mapbox://styles/galulex/ckvficxop4zs514qzkozc0u1e'
-  const lightModeMapStyle = 'mapbox://styles/okunieva/cjzwn3wx40yhq1cpjl3yo8p1z'
+  const darkModeMapStyle = 'mapbox://styles/alexst/clm68anew00x801pj3q718ltj'
+  const lightModeMapStyle = 'mapbox://styles/alexst/clm60hwvh00yh01pf34d3cxbf'
 
   onDestroy(() => {
     if (subscription) subscription.unsubscribe()
@@ -97,7 +97,7 @@
 </style>
 
 <Map
-  accessToken='pk.eyJ1IjoiZ2FsdWxleCIsImEiOiJjamx6ampoZjgyMnYxM3FvZ2ppNjV2M2x5In0.bPgk2WI9NT-DJwnE-OtiLA'
+  accessToken='pk.eyJ1IjoiYWxleHN0IiwiYSI6ImNsajVra2ZqNDBhdzQzZHF6N3gwZ2lzbXYifQ.t207B3n10JqQEekacf1Xhg'
   style= { isDarkTheme ? darkModeMapStyle : lightModeMapStyle }
   center={location}
   zoom={12}
