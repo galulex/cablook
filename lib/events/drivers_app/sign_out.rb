@@ -25,7 +25,7 @@ module Events
       end
 
       def update_driver_device
-        driver.update!(device: nil)
+        driver.update!(device: nil, device_platform: nil)
       end
 
       def driver

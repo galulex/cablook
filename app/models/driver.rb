@@ -1,4 +1,6 @@
 class Driver < ApplicationRecord
+  DEVICE_PLATFORM_IOS = 'iOS_FCM'
+
   belongs_to :car, required: false
   has_many :trips
 
@@ -12,6 +14,10 @@ class Driver < ApplicationRecord
   validates :card_number, presence: true, numericality: true, length: { is: 16 }
 
   before_validation :set_address_location, on: %i[create update]
+
+  scope :fcm_tokens, -> { where.not(device: nil) }
+  scope :not_ios_devices, -> { fcm_tokens.where.not(device_platform: DEVICE_PLATFORM_IOS).or(where(device_platform: nil)).pluck(:device) }
+  scope :ios_devices, -> { where(device_platform: DEVICE_PLATFORM_IOS).pluck(:device) }
 
   private
 
