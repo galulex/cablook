@@ -15,9 +15,10 @@
   
   import axios from 'axios'
   axios.defaults.baseURL = '/api/drivers_app'
+  axios.defaults.headers.common['Auth-Token'] = localStorage.token
   axios.defaults.headers.common['Content-Type'] = 'application/json'
 
-  let isLoggedIn = !!document.cookie.match(/token/) && localStorage.token
+  let isLoggedIn = localStorage.token
   let carSpeed = 0
   let carLocation = [0,0]
   let location = [32.073095, 49.418461]
@@ -40,24 +41,25 @@
   }
 
   onMount(() => {
-    window.addEventListener('message', updateDeviceToken);
+    window.addEventListener('message', updateDeviceToken)
     isLoggedIn ? onStart() : navigate('/', { replace: true })
   })
 
   onDestroy(() => {
     subscription.unsubscribe()
     watcher.clearWatch()
-    window.removeEventListener('message', updateDeviceToken);
+    window.removeEventListener('message', updateDeviceToken)
   })
 
   const updateDeviceToken = (event) =>  {
     if (isLoggedIn && event.data && event.data.message === 'UPDATE DEVICE TOKEN') {
-      sendTokenToServer(event.data.token)
+      sendTokenToServer(event.data.token, event.data.platform)
     }
   }
 
-  const sendTokenToServer = (token) => {
-    axios.patch('/driver', { device: token }).catch(error => console.log(error))
+  const sendTokenToServer = (token, platform) => {
+    let device_params = { device: token, device_platform: platform || localStorage.device }
+    axios.patch('/driver', { device: device_params }).catch(error => console.log(error))
   }
 
   const handleNotificationsPermissions = () => {
@@ -69,10 +71,7 @@
           getToken(messaging, { serviceWorkerRegistration: registration }).then(token => {
             sendTokenToServer(token)
           }).catch(e => console.log(e))
-        })
-          .catch(error => {
-            console.log('Service worker unavailable,', error)
-          })
+        }).catch(error => { console.log('Service worker unavailable,', error) })
       })
     })
   }
@@ -115,6 +114,7 @@
     localStorage.carId = car.id
     localStorage.carNumber = car.number
     localStorage.token = driver.auth_token
+    axios.defaults.headers.common['Auth-Token'] = driver.auth_token
     isLoggedIn = true
     if (localStorage.fcm_token) { sendTokenToServer(localStorage.fcm_token) }
     onStart()
@@ -138,6 +138,8 @@
     localStorage.clear()
     isLoggedIn = false
     currentTrips = []
+    axios.defaults.headers.common['Auth-Token'] = null
+    document.body.removeEventListener('click', permitSounds)
     subscription.unsubscribe()
     navigate('/', { replace: true })
   }
@@ -150,15 +152,11 @@
   }
 
   const getTrips = async () => {
-    return ({
-      data: { trips, settings },
-    } = await axios.get('trips/all'))
+    return ({ data: { trips, settings } } = await axios.get('trips/all'))
   }
 
   const getCurrentTrips = () => {
-    axios
-      .get('trips/currents')
-      .then(({ data }) => (currentTrips = data.trips.map((trip) => trip.id)))
+    axios.get('trips/currents').then(({ data }) => (currentTrips = data.trips.map((trip) => trip.id)))
   }
 
   let subscribe = () => {

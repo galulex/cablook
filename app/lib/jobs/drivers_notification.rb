@@ -11,7 +11,8 @@ module Jobs
 
     def send_fcm_notifications(trip, message)
       fcm = FCM.new(ENV['FCM_SERVER_KEY'])
-      fcm.send(Driver.where.not(device: nil).pluck(:device).compact, options(trip, message))
+      fcm.send(Driver.fcm_tokens.ios_devices, ios_fcm_options(trip)) unless message == 'clear'
+      fcm.send(Driver.fcm_tokens.not_ios_devices, options(trip, message))
     end
 
     def options(trip, message)
@@ -29,17 +30,6 @@ module Jobs
           priority: 'high',
           ttl: MESSAGE_LIFETIME.to_i.to_s
         },
-        apns: {
-          headers: {
-            'apns-priority' => '10',
-            'apns-expiration' => (Time.now + MESSAGE_LIFETIME).to_i.to_s
-          },
-          payload: {
-            aps: {
-              sound: 'default'
-            }
-          }
-        },
         webpush: {
           headers: {
             Urgency: 'high',
@@ -50,6 +40,16 @@ module Jobs
       options[:data][:action] = 'remove_notifications' if message == 'clear'
 
       options
+    end
+
+    def ios_fcm_options(trip)
+      {
+        notification: {
+          title: "💰 #{trip.cost} грн - 🚕 #{trip.distance / 1000} км",
+          body: "📍 #{trip.departure_address}\n🏁 #{trip.destination_address}",
+          sound: "default"
+        }
+      }
     end
   end
 end

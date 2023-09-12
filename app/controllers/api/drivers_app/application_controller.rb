@@ -1,8 +1,6 @@
 module Api
   module DriversApp
     class ApplicationController < ActionController::API
-      include ActionController::Cookies
-
       rescue_from ::Constants::UnauthorizedError do |_errors|
         render json: { errors: ['User unauthorized'] }, status: 401
       end
@@ -26,7 +24,7 @@ module Api
       private
 
       def auth_token
-        @auth_token ||= cookies.encrypted[:token] || request.headers['Auth-Token']
+        @auth_token ||= request.headers['Auth-Token']
       end
 
       def authorize!
