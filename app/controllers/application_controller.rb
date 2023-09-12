@@ -18,4 +18,8 @@ class ApplicationController < ActionController::Base
   def set_admin_locale
     I18n.locale = :en
   end
+
+  def not_found
+    render file: Rails.public_path.join('404.html'), status: :not_found, layout: false
+  end
 end

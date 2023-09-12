@@ -7,7 +7,7 @@ class WelcomeController < ApplicationController
   def index
     render params[:page]
   rescue ActionView::MissingTemplate
-    render 'become_driver'
+    not_found
   end
 
   def driver
