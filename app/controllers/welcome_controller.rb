@@ -6,6 +6,8 @@ class WelcomeController < ApplicationController
 
   def index
     render params[:page]
+  rescue ActionView::MissingTemplate
+    render 'become_driver'
   end
 
   def driver
