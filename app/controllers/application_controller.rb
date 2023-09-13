@@ -20,6 +20,6 @@ class ApplicationController < ActionController::Base
   end
 
   def not_found
-    render file: Rails.public_path.join('404.html'), status: :not_found, layout: false
+    raise ActionController::RoutingError.new('Not Found')
   end
 end
