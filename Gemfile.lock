@@ -564,7 +564,7 @@ DEPENDENCIES
   factory_bot_rails (~> 4.0)
   faker
   fcm
-  ffi (~> 1.15, >= 1.15.5)
+  ffi
   geokit
   googleauth (~> 0.15.0)
   inline_svg
