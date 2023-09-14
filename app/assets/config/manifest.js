@@ -1,3 +1,7 @@
   //= link_tree ../images
   //= link_directory ../javascripts .js
-  //= link_directory ../stylesheets .css
+  //= link_file application.css
+  //= link_file font.css
+  //= link_file driver.css
+  //= link_file pwa.css
+  //= link_file active_admin.css
