@@ -2,8 +2,8 @@ module Events
   module Cards
     class Create < BaseEvent
       def schema
-        Dry::Validation.Schema do
-          configure { config.messages = :i18n }
+        Dry::Schema.Params do
+          # configure { config.messages = :i18n }
 
           required(:cardPan).filled(:str?)
           required(:user_id).filled(:int?)

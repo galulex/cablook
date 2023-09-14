@@ -2,8 +2,8 @@ module Events
   module Cars
     class Broadcast < BaseEvent
       def schema
-        Dry::Validation.Schema do
-          configure { config.messages = :i18n }
+        Dry::Schema.Params do
+          # configure { config.messages = :i18n }
 
           required(:trip)
         end

@@ -2,8 +2,8 @@ module Events
   module DriversApp
     class Authorize < BaseEvent
       def schema
-        Dry::Validation.Schema do
-          configure { config.messages = :i18n }
+        Dry::Schema.Params do
+          # configure { config.messages = :i18n }
 
           required(:username).filled(:str?)
           required(:password).filled(:str?)

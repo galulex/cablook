@@ -2,8 +2,8 @@ module Events
   module Users
     class Authorize < BaseEvent
       def schema
-        Dry::Validation.Schema do
-          configure { config.messages = :i18n }
+        Dry::Schema.Params do
+          # # configure { config.messages = :i18n }
 
           required(:phone_number).value(format?: Constants::Regex::PHONE_NUMBER)
         end

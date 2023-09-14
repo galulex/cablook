@@ -2,7 +2,7 @@ module Events
   module DriversApp
     class SignOut < BaseEvent
       def schema
-        Dry::Validation.Schema do
+        Dry::Schema.Params do
           required(:driver_id).filled(:int?)
         end
       end

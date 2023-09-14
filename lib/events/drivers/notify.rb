@@ -2,8 +2,8 @@ module Events
   module Drivers
     class Notify < Events::BaseEvent
       def schema
-        Dry::Validation.Schema do
-          configure { config.messages = :i18n }
+        Dry::Schema.Params do
+          # configure { config.messages = :i18n }
 
           required(:trip_id).filled(:int?)
           required(:message_type).filled(:str?)

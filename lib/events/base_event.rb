@@ -26,8 +26,8 @@ module Events
     end
 
     def validate_params!
-      validation = schema.call(data)
-      invalid!(validation.messages(full: true, locale: I18n.locale).values.flatten) if validation.failure?
+      validation = schema.call(data.to_h.symbolize_keys)
+      invalid!(validation.message_set) if validation.failure?
     end
 
     def invalid!(errors, status: 422)
@@ -37,12 +37,13 @@ module Events
     def telegram_trip?(user)
       trip_json = Redis.current.get("trip_#{user.telegram.id}")
       return false unless trip_json
+
       parsed_trip = JSON.parse(trip_json)
       parsed_trip['telegram_trip'] && parsed_trip['id'].present? && parsed_trip['id'] == trip.id
     end
 
     def settings
-      @settings ||= Settings
+      @settings ||= Settings.get
     end
   end
 end

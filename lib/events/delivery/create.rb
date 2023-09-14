@@ -4,8 +4,8 @@ module Events
       TRIP_PARAMS = %i[departure departure_address destination destination_address entrance].freeze
 
       def schema
-        Dry::Validation.Schema do
-          configure { config.messages = :i18n }
+        Dry::Schema.Params do
+          # configure { config.messages = :i18n }
 
           required(:vendor_id).filled(:int?)
           required(:trip_time).filled(:str?)

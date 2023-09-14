@@ -2,8 +2,8 @@ module Events
   module Bot
     class SendMessage < BaseEvent
       def schema
-        Dry::Validation.Schema do
-          configure { config.messages = :i18n }
+        Dry::Schema.Params do
+          # configure { config.messages = :i18n }
 
           required(:chat_id).filled(:str?)
           required(:message).filled(:str?)

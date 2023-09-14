@@ -8,8 +8,8 @@ module Events
       OSRM_FIELDS = %i[departure destination waypoints].freeze
 
       def schema
-        Dry::Validation.Schema do
-          configure { config.messages = :i18n }
+        Dry::Schema.Params do
+          # configure { config.messages = :i18n }
 
           required(:departure).filled
           required(:destination).filled

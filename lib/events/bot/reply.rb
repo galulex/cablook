@@ -15,8 +15,8 @@ module Events
       DECLINED = 'Declined'.freeze
 
       def schema
-        Dry::Validation.Schema do
-          configure { config.messages = :i18n }
+        Dry::Schema.Params do
+          # configure { config.messages = :i18n }
         end
       end
 

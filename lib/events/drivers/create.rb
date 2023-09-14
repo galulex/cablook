@@ -2,8 +2,8 @@ module Events
   module Drivers
     class Create < BaseEvent
       def schema
-        Dry::Validation.Schema do
-          configure { config.messages = :i18n }
+        Dry::Schema.Params do
+          # configure { config.messages = :i18n }
 
           required(:name).filled(:str?)
           required(:username).filled(:str?)

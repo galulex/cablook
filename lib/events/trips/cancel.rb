@@ -4,8 +4,8 @@ module Events
       TRIP_STATUSES = [Constants::Trip::PENDING, Constants::Trip::ON_THE_WAY, Constants::Trip::WAITING_CLIENT, Constants::Trip::DECLINED, Constants::Trip::WAITING_FOR_VENDOR_APPROVE].freeze
 
       def schema
-        Dry::Validation.Schema do
-          configure { config.messages = :i18n }
+        Dry::Schema.Params do
+          # configure { config.messages = :i18n }
 
           required(:trip_id).filled(:int?)
           optional(:by_driver).filled(:bool?)

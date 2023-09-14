@@ -2,8 +2,8 @@ module Events
   module NotificationSettings
     class Update < BaseEvent
       def schema
-        Dry::Validation.Schema do
-          configure { config.messages = :i18n }
+        Dry::Schema.Params do
+          # configure { config.messages = :i18n }
 
           required(:notification_settings).value(:array?, min_size?: 0) { each(:str?) }
           required(:user_id).filled(:int?)

@@ -2,8 +2,8 @@ module Events
   module Cards
     class New < BaseEvent
       def schema
-        Dry::Validation.Schema do
-          configure { config.messages = :i18n }
+        Dry::Schema.Params do
+          # configure { config.messages = :i18n }
 
           required(:current_user)
           required(:api_card_callback_url)

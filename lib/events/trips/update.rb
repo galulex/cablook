@@ -4,8 +4,8 @@ module Events
       include Validations::Update
 
       def schema
-        Dry::Validation.Schema do
-          configure { config.messages = :i18n }
+        Dry::Schema.Params do
+          # configure { config.messages = :i18n }
 
           required(:departure).filled
           required(:departure_address).filled(:str?)

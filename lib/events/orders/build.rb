@@ -2,8 +2,8 @@ module Events
   module Orders
     class Build < BaseEvent
       def schema
-        Dry::Validation.Schema do
-          configure { config.messages = :i18n }
+        Dry::Schema.Params do
+          # configure { config.messages = :i18n }
 
           required(:destination).filled
           required(:destination_address).filled(:str?)

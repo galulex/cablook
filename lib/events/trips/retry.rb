@@ -2,8 +2,8 @@ module Events
   module Trips
     class Retry < Events::BaseEvent
       def schema
-        Dry::Validation.Schema do
-          configure { config.messages = :i18n }
+        Dry::Schema.Params do
+          # configure { config.messages = :i18n }
 
           required(:trip_id).filled(:int?)
           required(:user_id).filled(:int?)

@@ -2,8 +2,8 @@ module Events
   module Feedbacks
     class Create < BaseEvent
       def schema
-        Dry::Validation.Schema do
-          configure { config.messages = :i18n }
+        Dry::Schema.Params do
+          # configure { config.messages = :i18n }
 
           required(:rate) { int? & gt?(0) & lteq?(5) }
           required(:trip_id).filled(:int?)

@@ -7,8 +7,8 @@ module Events
       FIELDS = %i[duration distance path].freeze
 
       def schema
-        Dry::Validation.Schema do
-          configure { config.messages = :i18n }
+        Dry::Schema.Params do
+          # configure { config.messages = :i18n }
 
           required(:user_id).filled(:int?)
 

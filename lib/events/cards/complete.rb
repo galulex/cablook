@@ -4,8 +4,8 @@ module Events
       CARD_VERIFY_AMOUNT = 1
 
       def schema
-        Dry::Validation.Schema do
-          configure { config.messages = :i18n }
+        Dry::Schema.Params do
+          # configure { config.messages = :i18n }
 
           required(:params)
         end
