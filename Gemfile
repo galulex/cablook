@@ -20,7 +20,7 @@ gem 'bcrypt', '~> 3.1.12', platforms: %i[ruby x64_mingw mingw]
 gem 'bcrypt_pbkdf', '1.0'
 gem 'bugno', github: 'activebridge/bugno-ruby'
 gem 'dry-validation'
-gem 'ed25519'
+gem 'ed25519', '1.2.4'
 gem 'execjs', '2.7.0'
 gem 'fcm'
 gem 'ffi', '1.12.1'
