@@ -18,4 +18,8 @@ class ApplicationController < ActionController::Base
   def set_admin_locale
     I18n.locale = :en
   end
+
+  def not_found
+    raise ActionController::RoutingError, 'Not Found'
+  end
 end
