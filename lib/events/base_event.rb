@@ -43,7 +43,7 @@ module Events
     end
 
     def settings
-      @settings ||= Settings.get
+      @settings ||= Settings
     end
   end
 end
