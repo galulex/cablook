@@ -97,7 +97,7 @@ GEM
     babel-transpiler (0.7.0)
       babel-source (>= 4.0, < 6)
       execjs (~> 2.0)
-    bcrypt (3.1.16)
+    bcrypt (3.1.19)
     bcrypt_pbkdf (1.1.0)
     builder (3.2.4)
     capistrano (3.17.2)
