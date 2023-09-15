@@ -1,7 +1,7 @@
 FactoryBot.define do
   factory :car do
-    number { Faker::Number.number(4).to_s }
-    status 0
+    number { Faker::Number.number(digits: 4).to_s }
+    status { 0 }
     color { Faker::Color.hex_color }
     brand { 'Tesla' }
     model { 'Model S' }

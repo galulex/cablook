@@ -1,12 +1,12 @@
 FactoryBot.define do
   factory :trip do
-    status 0
+    status { 0 }
     path { Faker::Internet.password }
-    cost { Faker::Number.decimal(2).to_f }
-    distance { Faker::Number.number(4).to_i }
-    duration { Faker::Number.number(3).to_i }
+    cost { Faker::Number.decimal(l_digits: 2).to_f }
+    distance { Faker::Number.number(digits: 4).to_i }
+    duration { Faker::Number.number(digits: 3).to_i }
 
-    estimated_end_time { Faker::Time.between(Time.now, Date.today) }
+    estimated_end_time { Faker::Time.between(from: Time.now, to: Date.today) }
 
     departure { [Faker::Address.latitude, Faker::Address.longitude] }
     destination { [Faker::Address.latitude, Faker::Address.longitude] }

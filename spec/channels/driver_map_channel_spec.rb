@@ -3,8 +3,8 @@ describe DriverMapChannel do
   let(:connection) { TestConnection.new }
 
   context '#send_location' do
-    let(:trip) {create(:trip, car_id: car.id, status: Constants::Trip::DRIVING)}
-    let(:car) {create(:car)}
+    let(:trip) { create(:trip, car_id: car.id, status: Constants::Trip::DRIVING) }
+    let(:car) { create(:car) }
     let(:latitude) { 49.426168 }
     let(:longitude) { 32.054251 }
     let(:latitude_first) { 42.78437439386835 }

@@ -1,25 +1,22 @@
 ENV['RAILS_ENV'] ||= 'test'
 require 'simplecov'
 SimpleCov.start 'rails'
-require File.expand_path('../../config/environment', __FILE__)
+require File.expand_path('../config/environment', __dir__)
 require 'rspec/rails'
 
 require 'bcrypt'
 require 'capybara'
 require 'sidekiq/testing'
-require 'simplecov'
 require 'webmock/rspec'
 require 'rspec/retry'
 require 'support/factory_bot'
 require 'capybara/cuprite'
 
-
 Dir[
-  Rails.root.join('spec/support/**/*.rb'),
   Rails.root.join('lib/constants.rb'),
-  Rails.root.join('lib/constants/**/*.rb')
+  Rails.root.join('lib/constants/**/*.rb'),
+  Rails.root.join('spec/support/**/*.rb')
 ].each { |f| require f }
-
 
 Capybara.register_driver :cuprite do |app|
   Capybara::Cuprite::Driver.new(app, browser_options: { 'no-sandbox': nil, 'enable-auto-reload': nil }, process_timeout: 30, timeout: 15)
@@ -87,7 +84,7 @@ RSpec.configure do |config|
 
   # Dir[Rails.root.join('spec/factories/**/*.rb')].each { |f| require f }
   ActiveJob::Base.queue_adapter = :test
-  Capybara.default_host = "http://app.lvh.me"
+  Capybara.default_host = 'http://app.lvh.me'
   Capybara.server_port = 9887
   Capybara.app_host = "http://app.lvh.me:#{Capybara.server_port}"
 end

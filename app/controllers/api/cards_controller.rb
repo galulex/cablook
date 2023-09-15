@@ -13,7 +13,7 @@ module Api
     # https://wiki.wayforpay.com/pages/viewpage.action?pageId=852102
     # params: spec/fixtures/card_callback.json
     def create
-      card = Events::Cards::Create.(params.merge(user_id: current_user.id, recToken: params[:recToken] || params[:orderReference]))
+      card = Events::Cards::Create.(params.permit!.merge(user_id: current_user.id, recToken: params[:recToken] || params[:orderReference]))
       card ? (render json: cards.to_json, status: 200) : (head :unprocessable_entity)
     end
 
