@@ -11,9 +11,9 @@ describe Events::Users::Authorize do
     it { expect(result.locale).to eq(user.locale) }
 
     context 'when phone_number is invalid' do
-      let(:data) { { phone_number: Faker::Number.number(12) } }
+      let(:data) { { phone_number: Faker::Number.number(digits: 12).to_s } }
 
-      it { is_expected.to raise_error(Events::InvalidParamsError) }
+      it { is_expected.to raise_error(::Events::InvalidParamsError) }
     end
 
     context 'when user will create' do

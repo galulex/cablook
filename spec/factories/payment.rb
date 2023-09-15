@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :payment do
-    amount { Faker::Number.number(2) }
+    amount { Faker::Number.number(digits: 2) }
     status { 0 }
     association :trip
 
