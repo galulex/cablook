@@ -548,7 +548,7 @@ DEPENDENCIES
   geokit
   googleauth (= 1.8.0)
   inline_svg
-  jquery-rails (= 4.4)
+  jquery-rails
   letter_opener
   listen (= 3.5)
   multi_json
