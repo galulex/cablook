@@ -7,7 +7,7 @@ end
 
 ruby '> 2.4.1'
 
-gem 'rails', '5.2.8'
+gem 'rails', '5.2.8.1'
 
 gem 'actionpack-action_caching'
 gem 'activeadmin', '2.9.0'
@@ -30,12 +30,12 @@ gem 'inline_svg'
 gem 'jquery-rails'
 gem 'multi_json'
 gem 'newrelic_rpm'
-gem 'nio4r', '2.0'
+gem 'nio4r', '2.5.9'
 gem 'one_signal'
 gem 'paper_trail'
 gem 'pg'
 gem 'pry'
-gem 'puma', '6.2.2'
+gem 'puma', '6.3.1'
 gem 'rack'
 gem 'rack-cors'
 gem 'react-rails'
