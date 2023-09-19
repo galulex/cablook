@@ -1,7 +1,7 @@
 module Api
   class BusinessesController < ApiApplicationController
     def create
-      business.update_attributes!(business_params)
+      business.update!(business_params)
       render json: business.to_json(include: %i[users card])
     end
     alias update create

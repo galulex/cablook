@@ -90,16 +90,18 @@ module Events
           status: Constants::Payments::PENDING,
           amount: trip.cost,
           card_id: card.id,
-          order_reference: order_reference
+          order_reference:
         )
       end
 
       def broadcast_unavailable_to_trip
         ActionCable.server.broadcast(
           "#{Constants::Channels::TRIP}_#{trip.id}",
-          action: Constants::BroadcastActions::TRIP_UPDATED,
-          data: Presenters::Trips::Detailed.new(trip).to_json,
-          by_driver: updated_by_driver?
+          {
+            action: Constants::BroadcastActions::TRIP_UPDATED,
+            data: Presenters::Trips::Detailed.new(trip).to_json,
+            by_driver: updated_by_driver?
+          }
         )
       end
 

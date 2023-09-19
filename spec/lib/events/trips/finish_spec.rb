@@ -13,14 +13,14 @@ describe Events::Trips::Finish do
     it { is_expected.to change { car.reload.status }.to('free') }
 
     context 'when trip has bonus trip' do
-      let!(:bonus_trip) { create(:bonus_trip, user: user, trip: trip, type: Constants::BonusTrip::GIFT) }
+      let!(:bonus_trip) { create(:bonus_trip, user:, trip:, type: Constants::BonusTrip::GIFT) }
 
       it { is_expected.not_to have_enqueued_job(Jobs::PaymentSettle) }
 
       context 'with cashback type' do
-        let!(:bonus_trip) { create(:bonus_trip, user: user, trip: trip, type: Constants::BonusTrip::CASHBACK) }
+        let!(:bonus_trip) { create(:bonus_trip, user:, trip:, type: Constants::BonusTrip::CASHBACK) }
 
-        it { is_expected.to change { user.reload.cashback } }
+        it { is_expected.to(change { user.reload.cashback }) }
 
         context 'when cashback enabled' do
           it { is_expected.to change { user.reload.cashback }.to(user.cashback - trip.cost * 100) }
@@ -35,7 +35,7 @@ describe Events::Trips::Finish do
     end
 
     context 'when idle is bigger than 10' do
-      let(:data) { { trip_id: trip.id, idle: idle} }
+      let(:data) { { trip_id: trip.id, idle: } }
       let(:price) { Price.create }
       let(:idle) { 800 }
       let(:card) { create(:card, user_id: user.id) }
@@ -45,9 +45,9 @@ describe Events::Trips::Finish do
     end
 
     context 'when idle is lower than 10' do
-      let(:data) { { trip_id: trip.id, idle: 8} }
+      let(:data) { { trip_id: trip.id, idle: 8 } }
 
-      it { is_expected.not_to have_enqueued_job(Jobs::PaymentSettle).with(trip.id, Constants::Payments::TYPES[:idle],  8) }
+      it { is_expected.not_to have_enqueued_job(Jobs::PaymentSettle).with(trip.id, Constants::Payments::TYPES[:idle], 8) }
     end
 
     context 'and broadcast to driver map channel' do
@@ -56,14 +56,18 @@ describe Events::Trips::Finish do
       it do
         expect(ActionCable.server).to receive(:broadcast).with(
           "#{Constants::Channels::TRIP}_#{trip.id}",
-          action: Constants::BroadcastActions::TRIP_FINISH_ACTION,
-          body: { action: Constants::BroadcastActions::TRIP_FINISHED }
+          {
+            action: Constants::BroadcastActions::TRIP_FINISH_ACTION,
+            body: { action: Constants::BroadcastActions::TRIP_FINISHED }
+          }
         ).once
 
         expect(ActionCable.server).to receive(:broadcast).with(
           Constants::Channels::DRIVER_MAP,
-          action: Constants::BroadcastActions::TRIP_FINISHED,
-          trip_id: trip.id
+          {
+            action: Constants::BroadcastActions::TRIP_FINISHED,
+            trip_id: trip.id
+          }
         ).once
       end
     end

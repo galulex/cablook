@@ -33,7 +33,7 @@ module Events
 
       def validate!
         @card = Card.new(card_params)
-        invalid!(@card.errors.values.flatten) if @card.invalid?
+        invalid!(@card.errors.full_messages.flatten) if @card.invalid?
       end
 
       def create_card

@@ -30,15 +30,19 @@ module Events
       def broadcast
         ActionCable.server.broadcast(
           Constants::Channels::DRIVER_MAP,
-          action: Constants::BroadcastActions::TRIP_DECLINED,
-          trip_id: trip.id
+          {
+            action: Constants::BroadcastActions::TRIP_DECLINED,
+            trip_id: trip.id
+          }
         )
       end
 
       def broadcast_to_trip_channel
         ActionCable.server.broadcast(
           "#{Constants::Channels::TRIP}_#{data[:trip_id]}",
-          action: Constants::BroadcastActions::TRIP_DECLINED
+          {
+            action: Constants::BroadcastActions::TRIP_DECLINED
+          }
         )
       end
 
@@ -53,6 +57,7 @@ module Events
 
       def notify
         return if trip.user.notification_settings.include?(Constants::User::DECLINE_TRIP)
+
         message = I18n.t('notification.car_not_found')
         Jobs::Notification.perform_later(trip, message)
         Jobs::DriversNotification.perform_later(trip, 'clear')

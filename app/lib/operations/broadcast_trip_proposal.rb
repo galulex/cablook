@@ -1,10 +1,10 @@
 module Operations
   class BroadcastTripProposal
     def self.call(attr = {})
-      new(attr).call
+      new(attr[:trip_id], attr[:cars]).call
     end
 
-    def initialize(cars: [], trip_id:)
+    def initialize(trip_id, cars = [])
       @cars = cars
       @trip_id = trip_id
     end
@@ -20,9 +20,11 @@ module Operations
     def propose_trip_to_driver
       ActionCable.server.broadcast(
         Constants::Channels::DRIVER_MAP,
-        action: Constants::BroadcastActions::TRIP_PROPOSE,
-        cars: cars,
-        trip: Presenters::Trips::Detailed.new(trip).to_json
+        {
+          action: Constants::BroadcastActions::TRIP_PROPOSE,
+          cars:,
+          trip: Presenters::Trips::Detailed.new(trip).to_json
+        }
       )
     end
 

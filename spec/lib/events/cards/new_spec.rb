@@ -7,16 +7,16 @@ describe Events::Cards::New do
 
     context 'when Wayforpay' do
       let(:wfp_params) { { data: 'data' } }
-      let(:wfp_double) { double(WFP, params: wfp_params, sign: 'SimpleSignature') }
+      let(:wfp_double) { double(Wfp, params: wfp_params, sign: 'SimpleSignature') }
 
       before do
         allow(Wayforpay).to receive(:encrypt_secret_key).and_return('key')
-        allow(WFP).to receive(:new).with(current_user, api_card_callback_url).and_return(wfp_double)
+        allow(Wfp).to receive(:new).with(current_user, api_card_callback_url).and_return(wfp_double)
 
         subject.call
       end
 
-      it { expect(WFP).to have_received(:new).with(current_user, api_card_callback_url) }
+      it { expect(Wfp).to have_received(:new).with(current_user, api_card_callback_url) }
       it { expect(subject.call).to eq({ method: :wayforpay, payload: wfp_params }) }
     end
 

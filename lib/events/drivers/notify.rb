@@ -21,12 +21,14 @@ module Events
         message = set_message
         ActionCable.server.broadcast(
           "#{Constants::Channels::TRIP}_#{trip.id}",
-          action: Constants::BroadcastActions::NOTIFY_DRIVER,
-          data: {
-            phone_number: trip.user.phone_number,
-            message: message
-          }.to_json
-        ) 
+          {
+            action: Constants::BroadcastActions::NOTIFY_DRIVER,
+            data: {
+              phone_number: trip.user.phone_number,
+              message:
+            }.to_json
+          }
+        )
       end
 
       def set_message

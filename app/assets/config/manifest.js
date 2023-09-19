@@ -5,6 +5,6 @@
   //= link_file driver.css
   //= link_file pwa.css
   //= link_file active_admin.css
-  //= link active_admin.js
-  //= link admin_ios.js
-  //= link admin_map.js
+  //= link_file active_admin.js
+  //= link_file admin_ios.js
+  //= link_file admin_map.js

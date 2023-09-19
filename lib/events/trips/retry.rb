@@ -76,9 +76,11 @@ module Events
       def broadcast
         ActionCable.server.broadcast(
           "#{Constants::Channels::TRIP}_#{trip.id}",
-          action: Constants::BroadcastActions::NOTIFICATION_RETRY,
-          data: {
-            delivered: true
+          {
+            action: Constants::BroadcastActions::NOTIFICATION_RETRY,
+            data: {
+              delivered: true
+            }
           }
         )
       end

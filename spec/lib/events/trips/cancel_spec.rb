@@ -47,7 +47,7 @@ describe Events::Trips::Cancel do
       let(:payment) { create(:payment, trip_id: first_trip.id, user_id: first_trip.user.id) }
       let(:data) { { trip_id: first_trip.id } }
 
-      it { is_expected.not_to change { trip.car.reload.status } }
+      it { is_expected.not_to(change { trip.car.reload.status }) }
     end
 
     context 'when trip is on the way' do
@@ -69,9 +69,11 @@ describe Events::Trips::Cancel do
       it do
         expect(ActionCable.server).to receive(:broadcast).with(
           "#{Constants::Channels::TRIP}_#{trip.id}",
-          action: Constants::BroadcastActions::NOTIFICATION_CANCEL,
-          data: {
-            delivered: true
+          {
+            action: Constants::BroadcastActions::NOTIFICATION_CANCEL,
+            data: {
+              delivered: true
+            }
           }
         ).once
         subject.call
@@ -86,7 +88,7 @@ describe Events::Trips::Cancel do
     context 'when trip is declined' do
       let(:trip) { create(:trip, status: Constants::Trip::DECLINED) }
 
-      it { is_expected.not_to change { trip.reload.status } }
+      it { is_expected.not_to(change { trip.reload.status }) }
     end
 
     context 'when payment by bonus' do

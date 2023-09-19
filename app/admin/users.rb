@@ -19,7 +19,7 @@ ActiveAdmin.register User do
     end
 
     def redis
-      @redis ||= Redis.current
+      @redis ||= Redis.new
     end
 
     def index

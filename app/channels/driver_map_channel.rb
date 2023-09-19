@@ -29,7 +29,7 @@ class DriverMapChannel < ApplicationCable::Channel
   end
 
   def redis
-    @redis ||= Redis.current
+    @redis ||= Redis.new
   end
 
   def sos_message(car)

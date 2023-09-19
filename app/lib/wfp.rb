@@ -1,5 +1,5 @@
 # class to generate Wayforpay request for adding new card
-class WFP
+class Wfp
   DEFAULTS = {
     straightWidget: true,
     merchantDomainName: ENV['WAYFORPAY_DOMAIN'],

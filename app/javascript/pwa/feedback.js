@@ -14,7 +14,7 @@ export default class Feedback extends Component {
     this.state = {
       feedback: {
         rate: 5,
-        tips: 0
+        tip: 0
       },
       submitDisabled: false
     }
@@ -43,7 +43,7 @@ export default class Feedback extends Component {
     let params = {...this.state.feedback}
     this.submitDisabled(true)
     params.trip_id = this.props.trip.id == undefined ? this.props.lastTripId : this.props.trip.id
-    axios.post(`trips/${params.trip_id}/feedbacks`, {feedback: params, tip: params.tips}).then((res) => {
+    axios.post(`trips/${params.trip_id}/feedbacks`, {feedback: params}).then((res) => {
       if (this.props.isFeedbackVisible) {
         this.returnRate()
       } else {
@@ -69,7 +69,7 @@ export default class Feedback extends Component {
 
   setTips = (e) => {
     this.setState({
-      feedback: {...this.state.feedback, tips: parseInt(e.target.value)}
+      feedback: {...this.state.feedback, tip: parseInt(e.target.value)}
     })
   }
 

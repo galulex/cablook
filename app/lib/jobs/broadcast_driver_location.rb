@@ -12,8 +12,10 @@ module Jobs
     def broadcast_to_map_channel
       ActionCable.server.broadcast(
         Constants::Channels::DRIVER_MAP,
-        action: Constants::BroadcastActions::SEND_LOCATION,
-        payload: cars
+        {
+          action: Constants::BroadcastActions::SEND_LOCATION,
+          payload: cars
+        }
       )
     end
 
@@ -24,12 +26,14 @@ module Jobs
         car['current_trips'].each do |trip_id|
           ActionCable.server.broadcast(
             "#{Constants::Channels::TRIP}_#{trip_id}",
-            action: Constants::BroadcastActions::DRIVER_LOCATION_UPDATED,
-            body: {
-              car_id: car['id'],
-              location: {
-                latitude: car['location'][0],
-                longitude: car['location'][1]
+            {
+              action: Constants::BroadcastActions::DRIVER_LOCATION_UPDATED,
+              body: {
+                car_id: car['id'],
+                location: {
+                  latitude: car['location'][0],
+                  longitude: car['location'][1]
+                }
               }
             }
           )
@@ -38,11 +42,11 @@ module Jobs
     end
 
     def cars
-      @cars ||= Car.for_broadcast.as_json(only: :id, methods: [:speed, :current_trips, :location])
+      @cars ||= Car.for_broadcast.as_json(only: :id, methods: %i[speed current_trips location])
     end
 
     def redis
-      @redis ||= Redis.current
+      @redis ||= Redis.new
     end
   end
 end

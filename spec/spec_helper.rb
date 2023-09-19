@@ -3,14 +3,14 @@ require 'simplecov'
 SimpleCov.start 'rails'
 require File.expand_path('../config/environment', __dir__)
 require 'rspec/rails'
-
 require 'bcrypt'
-require 'capybara'
+require 'capybara/rails'
+require 'capybara/cuprite'
+require 'capybara/rspec'
 require 'sidekiq/testing'
 require 'webmock/rspec'
 require 'rspec/retry'
 require 'support/factory_bot'
-require 'capybara/cuprite'
 
 Dir[
   Rails.root.join('lib/constants.rb'),

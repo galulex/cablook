@@ -18,7 +18,7 @@ module Events
       private
 
       def validate!
-        invalid!(user.errors.values.flatten) if user.invalid?
+        invalid!(user.errors.full_messages.flatten) if user.invalid?
       end
 
       def validate_unpaid_trips!

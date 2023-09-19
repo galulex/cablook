@@ -37,6 +37,7 @@ module Events
 
       def update_car
         return if next_trip?
+
         Car.find(trip.car_id).update(status: Constants::Car::FREE)
       end
 
@@ -50,29 +51,35 @@ module Events
 
       def update_cashback
         return unless Settings.cashback
+
         user.update(cashback: user.cashback - trip.cost * 100)
       end
 
       def broadcast
         ActionCable.server.broadcast(
           trip_channel,
-          action: Constants::BroadcastActions::TRIP_FINISH_ACTION,
-          body: { action: Constants::BroadcastActions::TRIP_FINISHED }
+          {
+            action: Constants::BroadcastActions::TRIP_FINISH_ACTION,
+            body: { action: Constants::BroadcastActions::TRIP_FINISHED }
+          }
         )
         ActionCable.server.broadcast(
           Constants::Channels::DRIVER_MAP,
-          action: Constants::BroadcastActions::TRIP_FINISHED,
-          trip_id: trip.id
+          {
+            action: Constants::BroadcastActions::TRIP_FINISHED,
+            trip_id: trip.id
+          }
         )
       end
 
       def settle_payment_idle
         return if data[:idle] < Constants::Trip::FREE_IDLE_VALUE
+
         Payments::Idle.create(
           status: Constants::Payments::PENDING,
           amount: idle,
           user_id: user.id,
-          card_id: card_id,
+          card_id:,
           trip_id: data[:trip_id]
         )
         Jobs::PaymentSettle.perform_later(data[:trip_id], Constants::Payments::TYPES[:idle], idle)
@@ -89,7 +96,7 @@ module Events
                  else
                    Constants::Payments::DECLINE
                  end
-        @trip.order_payment.update(status: status, response: @response)
+        @trip.order_payment.update(status:, response: @response)
       end
 
       def next_trip?

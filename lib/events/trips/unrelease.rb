@@ -33,15 +33,17 @@ module Events
       def broadcast
         ActionCable.server.broadcast(
           Constants::Channels::DRIVER_MAP,
-          action: Constants::BroadcastActions::TRIP_FINISHED,
-          trip_id: trip.id
+          {
+            action: Constants::BroadcastActions::TRIP_FINISHED,
+            trip_id: trip.id
+          }
         )
       end
 
       def broadcast_to_trip_channel
         ActionCable.server.broadcast(
           "#{Constants::Channels::TRIP}_#{trip.id}",
-          action: Constants::BroadcastActions::TRIP_UNRELEASE
+          { action: Constants::BroadcastActions::TRIP_UNRELEASE }
         )
       end
     end

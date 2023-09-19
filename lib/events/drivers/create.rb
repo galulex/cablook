@@ -21,7 +21,7 @@ module Events
 
       def validate!
         @driver = Driver.new(data.merge(auth_token: SecureRandom.base58(24)))
-        invalid!(@driver.errors.values.flatten) if @driver.invalid?
+        invalid!(@driver.errors.full_messages.flatten) if @driver.invalid?
       end
 
       def create_driver

@@ -46,29 +46,35 @@ module Events
       def broadcast_accepted_trip
         ActionCable.server.broadcast(
           Constants::Channels::DRIVER_MAP,
-          action: Constants::BroadcastActions::TRIP_ACCEPTED,
-          trip_id: trip.id,
-          driver_id: trip.driver_id,
-          car_id: trip.car_id
+          {
+            action: Constants::BroadcastActions::TRIP_ACCEPTED,
+            trip_id: trip.id,
+            driver_id: trip.driver_id,
+            car_id: trip.car_id
+          }
         )
       end
 
       def broadcast_accepted_trip_to_trip_channel
         ActionCable.server.broadcast(
           "#{Constants::Channels::TRIP}_#{data[:trip_id]}",
-          action: Constants::BroadcastActions::TRIP_ACCEPTED,
-          driver: driver.attributes.merge('car' => car.attributes),
-          trip: Presenters::Trips::Detailed.new(trip).as_json
+          {
+            action: Constants::BroadcastActions::TRIP_ACCEPTED,
+            driver: driver.attributes.merge('car' => car.attributes),
+            trip: Presenters::Trips::Detailed.new(trip).as_json
+          }
         )
       end
 
       def broadcast_with_error
         ActionCable.server.broadcast(
           Constants::Channels::DRIVER_MAP,
-          action: Constants::BroadcastActions::TRIP_UNAVAILABLE,
-          errors: [I18n.t('trips.assigned_or_canceled')],
-          driver_id: data[:driver_id],
-          trip_id: data[:trip_id]
+          {
+            action: Constants::BroadcastActions::TRIP_UNAVAILABLE,
+            errors: [I18n.t('trips.assigned_or_canceled')],
+            driver_id: data[:driver_id],
+            trip_id: data[:trip_id]
+          }
         )
       end
 
@@ -92,7 +98,7 @@ module Events
       end
 
       def start_point
-        car_trip ? car_trip.destination : Redis.current.get("car_#{data[:car_id]}")&.split(',')
+        car_trip ? car_trip.destination : Redis.new.get("car_#{data[:car_id]}")&.split(',')
       end
 
       def car_trip
@@ -106,6 +112,7 @@ module Events
 
       def notify
         return if trip.user.notification_settings.include?(Constants::User::ACCEPT_TRIP)
+
         car_info = [car.number, car.brand, car.model].reject(&:blank?).join(' ')
         message = I18n.t('notification.will_arrive', name: driver.name, car: car_info, time: start_time.strftime('%H:%M'))
         Jobs::Notification.perform_later(trip, message)

@@ -5,17 +5,19 @@ describe Events::Drivers::Notify do
     let(:user) { create(:user) }
     let(:message) { 'Some test message' }
     let(:trip) { create(:trip, user_id: user.id) }
-    let(:data) { { trip_id: trip.id, message: message, message_type: 'reply' } }
+    let(:data) { { trip_id: trip.id, message:, message_type: 'reply' } }
 
     context 'when message_type is reply' do
       it do
         expect(ActionCable.server).to receive(:broadcast).with(
           "#{Constants::Channels::TRIP}_#{trip.id}",
-          action: Constants::BroadcastActions::NOTIFY_DRIVER,
-          data: {
-            phone_number: trip.user.phone_number,
-            message: message
-          }.to_json
+          {
+            action: Constants::BroadcastActions::NOTIFY_DRIVER,
+            data: {
+              phone_number: trip.user.phone_number,
+              message:
+            }.to_json
+          }
         ).once
         subject.call
       end
@@ -25,11 +27,13 @@ describe Events::Drivers::Notify do
       it do
         expect(ActionCable.server).to receive(:broadcast).with(
           "#{Constants::Channels::TRIP}_#{trip.id}",
-          action: Constants::BroadcastActions::NOTIFY_DRIVER,
-          data: {
-            phone_number: trip.user.phone_number,
-            message: message
-          }.to_json
+          {
+            action: Constants::BroadcastActions::NOTIFY_DRIVER,
+            data: {
+              phone_number: trip.user.phone_number,
+              message:
+            }.to_json
+          }
         ).once
         subject.call
       end

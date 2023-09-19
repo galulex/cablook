@@ -28,7 +28,7 @@ module Events
       end
 
       def wayforpay_new_card_response
-        payload = WFP.new(data[:current_user], data[:api_card_callback_url]).params
+        payload = Wfp.new(data[:current_user], data[:api_card_callback_url]).params
         { method: :wayforpay, payload: payload }
       end
 

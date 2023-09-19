@@ -27,6 +27,7 @@ module Events
 
       def notify
         return if trip.user.notification_settings.include?(Constants::User::WAITING_CLIENT)
+
         message = I18n.t('notification.waiting')
         Jobs::Notification.perform_later(trip, message)
       end
@@ -38,8 +39,10 @@ module Events
       def broadcast
         ActionCable.server.broadcast(
           trip_channel,
-          action: Constants::BroadcastActions::TRIP_START_ACTION,
-          body: { action: Constants::BroadcastActions::TRIP_STARTED }
+          {
+            action: Constants::BroadcastActions::TRIP_START_ACTION,
+            body: { action: Constants::BroadcastActions::TRIP_STARTED }
+          }
         )
       end
 

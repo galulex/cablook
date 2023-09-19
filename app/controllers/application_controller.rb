@@ -1,7 +1,12 @@
 class ApplicationController < ActionController::Base
   before_action :set_locale
+  http_basic_authenticate_with name: ENV['ADMIN_USERNAME'] || 'admin', password: ENV['ADMIN_PASSWORD'] || 'admin', if: :admin_controller?
 
   private
+
+  def admin_controller?
+    self.class < ActiveAdmin::BaseController
+  end
 
   def set_locale
     I18n.locale = match_check&.to_sym

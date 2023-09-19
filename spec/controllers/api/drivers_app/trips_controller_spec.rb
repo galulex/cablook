@@ -54,7 +54,7 @@ describe Api::DriversApp::TripsController, type: :controller do
     let!(:payment) { create(:payment, trip_id: trip.id, user_id: trip.user_id) }
 
     before do
-      Redis.current.set("car_#{driver.car_id}", '49.461655,32.165358')
+      Redis.new.set("car_#{driver.car_id}", '49.461655,32.165358')
       patch :accept, params: params, as: :json
     end
 

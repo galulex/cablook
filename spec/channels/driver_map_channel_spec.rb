@@ -44,10 +44,10 @@ describe DriverMapChannel do
     end
 
     context 'that redis save location' do
-      let(:redis_car_location) { Redis.current.get("car_#{car.id}") }
+      let(:redis_car_location) { Redis.new.get("car_#{car.id}") }
 
       before do
-        Redis.current.set("car_#{car.id}", "#{latitude},#{longitude}")
+        Redis.new.set("car_#{car.id}", "#{latitude},#{longitude}")
         channel.perform_action(data)
       end
 
@@ -56,7 +56,7 @@ describe DriverMapChannel do
 
     context 'and not have enqued job' do
       before do
-        Redis.current.set("car_#{car.id}", "#{latitude},#{longitude}")
+        Redis.new.set("car_#{car.id}", "#{latitude},#{longitude}")
         channel.perform_action(data)
       end
 
@@ -65,7 +65,7 @@ describe DriverMapChannel do
 
     context 'and broadcast car location' do
       before do
-        Redis.current.set("car_#{car.id}", "#{latitude},#{longitude}")
+        Redis.new.set("car_#{car.id}", "#{latitude},#{longitude}")
         channel.perform_action(data_first)
       end
 

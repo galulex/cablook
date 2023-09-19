@@ -19,7 +19,7 @@ describe Api::TripsController, type: :controller do
     let(:params) { { trip: trip_params } }
     let(:trip_params) { attributes_for(:trip) }
 
-    before { post :create, params: params, as: :json }
+    before { post :create, params:, as: :json }
 
     it { is_expected.to be_successful }
 
@@ -42,7 +42,7 @@ describe Api::TripsController, type: :controller do
         context 'bonus trip is present' do
           before do
             create(:bonus_trip, user_id: user.id, status: :fresh, type: Constants::BonusTrip::GIFT)
-            post :create, params: params, as: :json
+            post :create, params:, as: :json
           end
 
           it { is_expected.to be_successful }
@@ -62,9 +62,9 @@ describe Api::TripsController, type: :controller do
 
     context 'when user have pending payments' do
       let(:trip) { create(:trip, user_id: user.id, status: Constants::Trip::FINISHED) }
-      let!(:payment) { create(:payment, user_id: user.id, status: Constants::Payments::PENDING, trip: trip) }
+      let!(:payment) { create(:payment, user_id: user.id, status: Constants::Payments::PENDING, trip:) }
 
-      before { post :create, params: params, as: :json }
+      before { post :create, params:, as: :json }
 
       it { is_expected.to have_http_status(418) }
     end
@@ -78,7 +78,7 @@ describe Api::TripsController, type: :controller do
     before do
       trip = create(:trip, user_id: user.id)
       create(:feedback, trip_id: trip.id, user_id: trip.user_id)
-      get :index, as: :json, params: params
+      get :index, as: :json, params:
     end
 
     it { is_expected.to be_successful }
@@ -97,7 +97,7 @@ describe Api::TripsController, type: :controller do
     let(:trip) { create(:trip, user_id: user.id) }
     let!(:payment) { create(:payment, trip_id: trip.id, user_id: trip.user_id) }
 
-    before { get :show, params: params, as: :json }
+    before { get :show, params:, as: :json }
 
     it { is_expected.to be_successful }
   end
@@ -109,7 +109,7 @@ describe Api::TripsController, type: :controller do
     let(:trip) { create(:trip_with_driver) }
     let!(:payment) { create(:payment, trip_id: trip.id, user_id: trip.user_id) }
 
-    before { patch :cancel, params: params, as: :json }
+    before { patch :cancel, params:, as: :json }
 
     it { is_expected.to be_successful }
 
@@ -127,8 +127,8 @@ describe Api::TripsController, type: :controller do
     let(:trip) { create(:trip) }
 
     before do
-      create(:trip_payment, trip: trip, user: user, card: card)
-      patch :retry, params: params, as: :json
+      create(:trip_payment, trip:, user:, card:)
+      patch :retry, params:, as: :json
     end
 
     it { is_expected.to be_successful }
@@ -139,13 +139,13 @@ describe Api::TripsController, type: :controller do
 
     it_behaves_like 'authorization_required'
 
-    let(:trip) { create(:trip, user: user) }
+    let(:trip) { create(:trip, user:) }
     let(:params) { { trip: trip_params.merge(id: trip.id), id: trip.id } }
     let(:trip_params) { attributes_for(:trip, bonus: false) }
 
     before do
-      create(:trip_payment, trip: trip, user: user, card: card)
-      patch :update, params: params, as: :json
+      create(:trip_payment, trip:, user:, card:)
+      patch :update, params:, as: :json
     end
 
     it { is_expected.to be_successful }
@@ -157,11 +157,11 @@ describe Api::TripsController, type: :controller do
     end
 
     context 'when pay by bonus' do
-      let(:trip_params) { super().merge(bonus: true, distance: distance) }
+      let(:trip_params) { super().merge(bonus: true, distance:) }
 
       before do
         create(:bonus_trip, user_id: user.id, status: Constants::BonusTrip::USED, trip_id: trip.id)
-        patch :update, params: params, as: :json
+        patch :update, params:, as: :json
       end
 
       context 'and distance less than MAX_BONUS_DISTANCE' do
@@ -178,9 +178,9 @@ describe Api::TripsController, type: :controller do
     end
 
     context 'when pay by card' do
-      let(:trip_params) { super().merge(bonus: false, distance: distance) }
+      let(:trip_params) { super().merge(bonus: false, distance:) }
 
-      before { patch :update, params: params, as: :json }
+      before { patch :update, params:, as: :json }
 
       context 'and distance less than MAX_DISTANCE' do
         let(:distance) { Constants::Trip::MAX_DISTANCE - 1 }

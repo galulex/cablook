@@ -18,9 +18,11 @@ module Events
       def broadcast_to_driver_map
         ActionCable.server.broadcast(
           Constants::Channels::DRIVER_MAP,
-          action: Constants::BroadcastActions::DRIVER_SIGN_OUT,
-          driver_id: driver.id,
-          car_id: car&.id
+          {
+            action: Constants::BroadcastActions::DRIVER_SIGN_OUT,
+            driver_id: driver.id,
+            car_id: car&.id
+          }
         )
       end
 

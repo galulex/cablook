@@ -34,11 +34,13 @@ module Events
       def broadcast_to_trip
         ActionCable.server.broadcast(
           "#{Constants::Channels::TRIP}_#{trip.id}",
-          action: Constants::BroadcastActions::DRIVER_LOCATION_UPDATED,
-          body: {
-            car_id: trip.car_id,
-            location: { latitude: location[0], longitude: location[1] },
-            car: Presenters::Cars::Single.new(trip.car).as_json
+          {
+            action: Constants::BroadcastActions::DRIVER_LOCATION_UPDATED,
+            body: {
+              car_id: trip.car_id,
+              location: { latitude: location[0], longitude: location[1] },
+              car: Presenters::Cars::Single.new(trip.car).as_json
+            }
           }
         )
       end
@@ -46,11 +48,13 @@ module Events
       def broadcast_to_map
         ActionCable.server.broadcast(
           Constants::Channels::DRIVER_MAP,
-          action: Constants::BroadcastActions::SEND_LOCATION,
-          car_id: trip.car_id,
-          location: location,
-          speed: 0,
-          car: Presenters::Cars::Single.new(trip.car).as_json
+          {
+            action: Constants::BroadcastActions::SEND_LOCATION,
+            car_id: trip.car_id,
+            location:,
+            speed: 0,
+            car: Presenters::Cars::Single.new(trip.car).as_json
+          }
         )
       end
 

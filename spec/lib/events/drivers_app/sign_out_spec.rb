@@ -13,9 +13,11 @@ describe Events::DriversApp::SignOut do
       it do
         expect(ActionCable.server).to receive(:broadcast).with(
           Constants::Channels::DRIVER_MAP,
-          action: Constants::BroadcastActions::DRIVER_SIGN_OUT,
-          driver_id: driver.id,
-          car_id: car.id
+          {
+            action: Constants::BroadcastActions::DRIVER_SIGN_OUT,
+            driver_id: driver.id,
+            car_id: car.id
+          }
         ).once
         subject.call
       end

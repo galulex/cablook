@@ -12,7 +12,7 @@ module Jobs
         offset += batch_size
         sleep(1.hour)
       end
-      Redis.current.set("button_state", false)
+      Redis.new.set("button_state", false)
     end
   end
 end

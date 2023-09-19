@@ -35,7 +35,7 @@ module Events
     end
 
     def telegram_trip?(user)
-      trip_json = Redis.current.get("trip_#{user.telegram.id}")
+      trip_json = Redis.new.get("trip_#{user.telegram.id}")
       return false unless trip_json
 
       parsed_trip = JSON.parse(trip_json)

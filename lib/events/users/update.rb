@@ -19,7 +19,7 @@ module Events
 
       def validate!
         user.assign_attributes(locale: data[:locale])
-        invalid!(user.errors.values.flatten) if user.invalid?
+        invalid!(user.errors.full_messages.flatten) if user.invalid?
       end
 
       def user

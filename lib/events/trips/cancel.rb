@@ -54,7 +54,7 @@ module Events
         return if trip.status == Constants::Trip::STATUS_CODES[Constants::Trip::DECLINED]
 
         status = data[:by_driver] ? Constants::Trip::CANCELED_BY_DRIVER : Constants::Trip::CANCELED
-        trip.update(status: status)
+        trip.update(status:)
       end
 
       def update_payment_status
@@ -91,9 +91,11 @@ module Events
       def broadcast_notification_cancel
         ActionCable.server.broadcast(
           "#{Constants::Channels::TRIP}_#{trip.id}",
-          action: Constants::BroadcastActions::NOTIFICATION_CANCEL,
-          data: {
-            delivered: true
+          {
+            action: Constants::BroadcastActions::NOTIFICATION_CANCEL,
+            data: {
+              delivered: true
+            }
           }
         )
       end
@@ -101,20 +103,24 @@ module Events
       def broadcast_unavailable_to_map
         ActionCable.server.broadcast(
           Constants::Channels::DRIVER_MAP,
-          action: Constants::BroadcastActions::TRIP_UNAVAILABLE,
-          errors: [I18n.t('trips.assigned_or_canceled')],
-          driver_id: data[:driver_id],
-          trip_id: data[:trip_id],
-          by_driver: data[:by_driver]
+          {
+            action: Constants::BroadcastActions::TRIP_UNAVAILABLE,
+            errors: [I18n.t('trips.assigned_or_canceled')],
+            driver_id: data[:driver_id],
+            trip_id: data[:trip_id],
+            by_driver: data[:by_driver]
+          }
         )
       end
 
       def broadcast_unavailable_to_trip
         ActionCable.server.broadcast(
           "#{Constants::Channels::TRIP}_#{trip.id}",
-          action: Constants::BroadcastActions::TRIP_UNAVAILABLE,
-          trip_id: data[:trip_id],
-          by_driver: data[:by_driver]
+          {
+            action: Constants::BroadcastActions::TRIP_UNAVAILABLE,
+            trip_id: data[:trip_id],
+            by_driver: data[:by_driver]
+          }
         )
       end
 

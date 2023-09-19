@@ -85,10 +85,14 @@ class Presenters::Trips::Detailed < Presenters::BaseSingle
   end
 
   def car_location
-    Redis.current.get("car_#{represented.car&.id}")&.split(",")&.reverse || [0, 0]
+    redis.get("car_#{represented.car&.id}")&.split(",")&.reverse || [0, 0]
   end
 
   def car_position
-    Redis.current.get("position_#{represented.car&.id}")&.split(",")&.reverse || [0, 0]
+    redis.get("position_#{represented.car&.id}")&.split(",")&.reverse || [0, 0]
+  end
+
+  def redis
+    @redis ||= Redis.new
   end
 end

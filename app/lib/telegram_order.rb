@@ -113,19 +113,19 @@ class TelegramOrder
   end
 
   def trip
-    JSON.parse(Redis.current.get("trip_#{@user.id}") || '{}', symbolize_names: true)
+    JSON.parse(redis.get("trip_#{@user.id}") || '{}', symbolize_names: true)
   end
 
   def trip=(attrs)
-    Redis.current.set("trip_#{@user.id}", attrs.to_json)
+    redis.set("trip_#{@user.id}", attrs.to_json)
   end
 
   def feedback
-    JSON.parse(Redis.current.get("feedback_#{@user.id}") || '{}', symbolize_names: true)
+    JSON.parse(redis.get("feedback_#{@user.id}") || '{}', symbolize_names: true)
   end
 
   def feedback=(attrs)
-    Redis.current.set("feedback_#{@user.id}", attrs.to_json)
+    redis.set("feedback_#{@user.id}", attrs.to_json)
   end
 
   def update_feedback(args)
@@ -150,11 +150,11 @@ class TelegramOrder
   end
 
   def step=(val)
-    Redis.current.set("user_#{@user.id}_step", val)
+    redis.set("user_#{@user.id}_step", val)
   end
 
   def step
-    @user.persisted? ? Redis.current.get("user_#{@user.id}_step") : 'start'
+    @user.persisted? ? redis.get("user_#{@user.id}_step") : 'start'
   end
 
   def driver_found(action, name, phone)
@@ -202,5 +202,9 @@ class TelegramOrder
   def self.send_message_to_vendor_for_accept(chat_id, order_id, driver_phone)
     text = "🚕 Замовлення ##{order_id} прийнято водієм. 📞 Номер телефону водія: [#{driver_phone}](tel:#{driver_phone})"
     Telegram.bot.send_message(chat_id: chat_id, text: text, parse_mode: 'Markdown')
+  end
+
+  def redis
+    @redis ||= Redis.new
   end
 end

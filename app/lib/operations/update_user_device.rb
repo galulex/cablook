@@ -4,10 +4,10 @@ module Operations
       new(user_id, attrs).call
     end
 
-    def initialize(user_id, token:, platform: '')
+    def initialize(user_id, attrs = {})
       @user_id = user_id
-      @token = token
-      @platform = platform
+      @token = attrs.fetch(:token, '')
+      @platform = attrs.fetch(:platform, '')
     end
 
     attr_reader :user_id, :token, :platform
@@ -20,11 +20,11 @@ module Operations
     private
 
     def find_or_create_device
-      @device = Device.find_by(user_id: user_id, platform: platform) || Device.create(user_id: user_id, token: token, platform: platform)
+      @device = Device.find_by(user_id:, platform:) || Device.create(user_id:, token:, platform:)
     end
 
     def update_device
-      @device.update(token: token, platform: platform)
+      @device.update(token:, platform:)
     end
   end
 end

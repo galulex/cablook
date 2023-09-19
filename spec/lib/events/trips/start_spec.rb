@@ -12,8 +12,10 @@ describe Events::Trips::Start do
       it do
         expect(ActionCable.server).to receive(:broadcast).with(
           "#{Constants::Channels::TRIP}_#{trip.id}",
-          action: Constants::BroadcastActions::TRIP_START_ACTION,
-          body: { action: Constants::BroadcastActions::TRIP_STARTED }
+          {
+            action: Constants::BroadcastActions::TRIP_START_ACTION,
+            body: { action: Constants::BroadcastActions::TRIP_STARTED }
+          }
         ).once
         subject.call
       end
@@ -21,7 +23,7 @@ describe Events::Trips::Start do
 
     context 'if trip with order (delivery)' do
       let(:order) { create(:order) }
-      let(:trip) { create(:trip, order: order, status: Constants::Trip::WAITING_CLIENT) }
+      let(:trip) { create(:trip, order:, status: Constants::Trip::WAITING_CLIENT) }
 
       it {
         is_expected.to have_enqueued_job(Jobs::Notification)

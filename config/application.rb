@@ -15,18 +15,19 @@ Bundler.require(*Rails.groups)
 
 module CabLook
   class Application < Rails::Application
-    config.load_defaults 5.1
+    config.load_defaults 7.0
     config.time_zone = 'Kyiv'
-
+    config.hosts << 'app.lvh.me:3000'
+    config.hosts << 'lvh.me:3000'
+    config.hosts << 'driver.lvh.me:3000'
+    config.hosts << 'app.lvh.me:9887'
     config.autoload_paths << "#{config.root}/lib"
     config.autoload_paths << "#{config.root}/app/models"
     config.autoload_paths << "#{config.root}/app/channels"
     config.eager_load_paths << "#{Rails.root}/lib"
-
     config.middleware.use Rack::Deflater
     config.active_job.queue_adapter = :sidekiq
-    config.assets.precompile += %w(*.woff2)
-
+    config.assets.precompile += %w[*.woff2]
     config.i18n.available_locales = %w[en uk ru]
     config.i18n.default_locale = :uk
     config.i18n.fallbacks = [:en]

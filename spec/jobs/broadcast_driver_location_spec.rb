@@ -6,10 +6,10 @@ RSpec.describe Jobs::BroadcastDriverLocation do
     let(:current_trips) { [1, 2, 3] }
     let(:driver_map_payload) { Car.for_broadcast.as_json(only: :id, methods: [:speed, :current_trips, :location]) }
 
-    before { Redis.current.set("car_#{car.id}", coords) }
+    before { Redis.new.set("car_#{car.id}", coords) }
 
     context 'broadcasts driver location' do
-      before { Redis.current.set("car_data_#{car.id}", { speed: speed, current_trips: current_trips }.to_json) }
+      before { Redis.new.set("car_data_#{car.id}", { speed: speed, current_trips: current_trips }.to_json) }
 
       it do
         expect(ActionCable.server).to receive(:broadcast)
@@ -38,7 +38,7 @@ RSpec.describe Jobs::BroadcastDriverLocation do
     end
 
     context 'does not broadcast to trip channels if current_trips is empty' do
-      before { Redis.current.set("car_data_#{car.id}", { speed: speed, current_trips: [] }.to_json) }
+      before { Redis.new.set("car_data_#{car.id}", { speed: speed, current_trips: [] }.to_json) }
 
       it do
          expect(ActionCable.server).to receive(:broadcast).once 

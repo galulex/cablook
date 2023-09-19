@@ -45,6 +45,6 @@ class Car < ApplicationRecord
   end
 
   def redis
-    @redis ||= Redis.current
+    @redis ||= Redis.new
   end
 end
