@@ -1,4 +1,3 @@
-//= require active_admin/base
 //= require action_cable
 //= require turbolinks
 //= require arctic_admin/base
