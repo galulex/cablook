@@ -10,10 +10,10 @@ ruby '> 2.4.1'
 gem 'rails', '5.2.8.1'
 
 gem 'actionpack-action_caching'
-gem 'activeadmin', '2.8'
+gem 'activeadmin', '1.4.3'
 gem 'activeadmin_addons', '1.10.1'
 gem 'activeadmin_json_editor', '0.0.10'
-gem 'arctic_admin', '4.2.5'
+gem 'arctic_admin', '2.1.0'
 gem 'autoprefixer-rails'
 gem 'awesome_print'
 gem 'bcrypt', '~> 3.1.12', platforms: %i[ruby x64_mingw mingw]
