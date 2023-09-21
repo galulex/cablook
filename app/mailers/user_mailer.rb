@@ -11,4 +11,10 @@ class UserMailer < ApplicationMailer
          subject: "Нова картка #{pan}",
          body: pan
   end
+
+  def announce(email)
+    mail from: 'contact@cablook.taxi',
+         to: email,
+         subject: 'Cablook Taxi | Перший сервіс еко таксі в Черкасах'
+  end
 end
