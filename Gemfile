@@ -16,7 +16,7 @@ gem 'activeadmin_json_editor', '0.0.10'
 gem 'arctic_admin', '2.1.0'
 gem 'autoprefixer-rails'
 gem 'awesome_print'
-gem 'bcrypt', '~> 3.1.12', platforms: %i[ruby x64_mingw mingw]
+gem 'bcrypt', '3.1.19', platforms: %i[ruby x64_mingw mingw]
 gem 'bcrypt_pbkdf', '1.0'
 gem 'bugno', github: 'activebridge/bugno-ruby'
 gem 'dry-validation', '1.10'
