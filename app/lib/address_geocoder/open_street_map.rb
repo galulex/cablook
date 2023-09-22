@@ -9,7 +9,7 @@ module AddressGeocoder
       request['User-Agent'] = 'Mozilla'
       response = Net::HTTP.start(uri.hostname, uri.port, use_ssl: uri.scheme == 'https') { |http| http.request(request) }
       response_body = JSON.parse(response.body)
-      result = response_body.dig('address').symbolize_keys
+      result = response_body.fetch('address', {}).symbolize_keys
 
       @address = [result[:road], result[:house_number]].compact.join(', ')
     rescue JSON::ParserError
