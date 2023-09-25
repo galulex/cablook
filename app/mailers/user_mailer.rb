@@ -15,6 +15,7 @@ class UserMailer < ApplicationMailer
   def announce(email)
     mail from: 'contact@cablook.taxi',
          to: email,
+         content_type: "text/html",
          subject: 'Cablook Taxi | Перший сервіс еко таксі в Черкасах'
   end
 end
