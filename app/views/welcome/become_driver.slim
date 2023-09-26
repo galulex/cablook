@@ -34,8 +34,15 @@ main.content.become-driver
     ol
       - t('.how_it_works').each do |o|
         li= o
-  br
   h1.driver = t('.form_title')
+  .contacts
+    a href='https://t.me/cablookk' target=:_blank
+      = inline_svg 'telegram', class: :icon
+      | Написати в Telegram
+    a href='tel:+380633014011' target=:_blank
+      = inline_svg 'phone', class: :icon
+      | Зателефонувати
+  br
   = form_for :cv, url: driver_request_path, autocomplete: false, html: { id: 'become-driver-form', class: 'become-driver-form' } do |f|
     .col-6
       b = f.label :name

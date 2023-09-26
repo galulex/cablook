@@ -1,6 +1,6 @@
   //= link_tree ../images
   //= link_directory ../javascripts .js
-  //= link_file application.css
+  //= link application.css
   //= link_file font.css
   //= link_file driver.css
   //= link_file pwa.css
@@ -8,3 +8,4 @@
   //= link_file active_admin.js
   //= link_file admin_ios.js
   //= link_file admin_map.js
+  
