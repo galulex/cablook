@@ -114,4 +114,18 @@
       }
     }
   }
+  .contacts{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    a {
+      font-weight: 400;
+      color: $black;
+      padding: 5px;
+      font-size: 1.7rem;
+      width: 100%;
+      text-decoration: none;
+      display: block;
+    }
+  }
 }
