@@ -15,13 +15,13 @@ describe Events::Bot::Reply do
     context 'start' do
       let(:data) { default_data.merge(text: '/start') }
 
-      it { expect_any_instance_of(TelegramOrder).to receive(:perform).with(:start) }
+      it { expect_any_instance_of(TelegramOrder).to receive(:perform).with('start') }
     end
 
     context 'book' do
       let(:data) { default_data.merge(text: '/book') }
 
-      it { expect_any_instance_of(TelegramOrder).to receive(:perform).with(:book) }
+      it { expect_any_instance_of(TelegramOrder).to receive(:perform).with('book') }
     end
 
     context 'departure address' do
