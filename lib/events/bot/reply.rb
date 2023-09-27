@@ -118,14 +118,14 @@ module Events
       end
 
       def step
-        telegram_order.step
+        telegram_order.step || :start
       end
 
       def parse_command(text)
         return unless text
 
-        key = text.eql?('/start') ? 'start' : text[0].to_yaml.gsub!(/[^0-9A-Za-z]/, '')
-        COMMANDS[key.to_sym] if COMMANDS.keys.include?(key.to_sym)
+        key = text.eql?('/start') ? 'start' : text.to_s.gsub('/', '')
+        key.to_sym if COMMANDS.values.include?(key)
       end
 
       def register(_cards_url)

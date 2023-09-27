@@ -15,17 +15,17 @@ describe Events::Bot::Reply do
     context 'start' do
       let(:data) { default_data.merge(text: '/start') }
 
-      it { expect_any_instance_of(TelegramOrder).to receive(:perform).with('start') }
+      it { expect_any_instance_of(TelegramOrder).to receive(:perform).with(:start) }
     end
 
     context 'book' do
-      let(:data) { default_data.merge(text: '🚖 BOOK') }
+      let(:data) { default_data.merge(text: '/book') }
 
-      it { expect_any_instance_of(TelegramOrder).to receive(:perform).with('book') }
+      it { expect_any_instance_of(TelegramOrder).to receive(:perform).with(:book) }
     end
 
     context 'departure address' do
-      before { allow_any_instance_of(TelegramOrder).to receive(:step).and_return('request_departure_address') }
+      before { allow_any_instance_of(TelegramOrder).to receive(:step).and_return(:request_departure_address) }
 
       context 'attached location' do
         let(:data) { default_data.merge(text: '', location: { latitude: 1, longitude: 1 }) }
