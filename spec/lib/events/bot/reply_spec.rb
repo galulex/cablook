@@ -148,7 +148,7 @@ describe Events::Bot::Reply do
       let(:user) { create(:user) }
       let(:trip) { create(:trip, user_id: user.id, status: Constants::Trip::WAITING_FOR_VENDOR_APPROVE) }
       let(:order) { create(:order, user_id: user.id, trip_id: trip.id) }
-      let(:order_data) {
+      let(:order_data) do
         {
           'message' =>
             {
@@ -160,9 +160,9 @@ describe Events::Bot::Reply do
               'id' => Random.rand(999..99_999).to_s
             },
           'id' => '5427',
-          'data' => { action: Constants::Order::APPROVE, order_id: order.id }.to_json
+          'data' => { 'action' => Constants::Order::APPROVE, 'order_id' => order.id }
         }
-      }
+      end
 
       context 'order operations' do
         let(:data) { order_data }

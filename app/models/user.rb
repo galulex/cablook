@@ -22,7 +22,7 @@ class User < ApplicationRecord
 
   accepts_nested_attributes_for :telegram
 
-  scope :fetch_user, ->(auth_token) {
+  scope :fetch_user, lambda { |auth_token|
     eager_load(:favorite_addresses, :bonus_trips, :parent_bonus).where(auth_token: auth_token)
   }
 
@@ -32,7 +32,7 @@ class User < ApplicationRecord
 
   def self.from_telegram(number, username, chat_id)
     user = User.find_or_initialize_by(phone_number: "+#{sanitize_phone(number)}")
-    user.update(telegram_attributes: { username: username, chat_id: chat_id })
+    user.telegram.update!(username: username, chat_id: chat_id)
   end
 
   def enabled_notifications
