@@ -22,12 +22,15 @@ module Events
 
       def run
         return order_operations if !data[:text] && order
+
         set_locale
         return register(data[:cards_url]) if data['contact']
         return request_card(data[:cards_url]) if telegram_order.user.user_id && telegram_order.user.cards.empty?
+
         @text = data[:text]
         @command ||= parse_command(@text)
         return telegram_order.perform(@command) if correct_command
+
         send(step) if respond_to?(step, true)
       end
 
@@ -71,6 +74,7 @@ module Events
           location = Places.new(address).location
         end
         return telegram_order.send_message(:incorrect_address) unless location
+
         field == 'waypoint' ? update_waypoint(address, location, initial) : update_address(address, location, field)
       end
 
@@ -119,11 +123,12 @@ module Events
 
       def parse_command(text)
         return unless text
-        key = text.eql?("/start") ? "start" : text[0].to_yaml.gsub!(/[^0-9A-Za-z]/, '')
+
+        key = text.eql?('/start') ? 'start' : text[0].to_yaml.gsub!(/[^0-9A-Za-z]/, '')
         COMMANDS[key.to_sym] if COMMANDS.keys.include?(key.to_sym)
       end
 
-      def register(cards_url)
+      def register(_cards_url)
         User.from_telegram(data.dig(:contact, :phone_number), data.dig(:from, :username), chat)
         telegram_order.send_message(:start)
       end
@@ -138,7 +143,7 @@ module Events
       end
 
       def current_user
-        @current_user ||= UserTelegram.find_or_initialize_by(username: @data[:from][:username], chat_id: chat)
+        @current_user ||= UserTelegram.find_or_initialize_by(username: @data.dig('from', 'username'), chat_id: chat)
       end
 
       def telegram_order
@@ -154,7 +159,7 @@ module Events
       end
 
       def set_locale
-        I18n.locale = @data.dig(:from, :language_code)&.to_sym || @data[:locale]
+        I18n.locale = @data.dig(:from, :language_code)&.to_sym || :uk
       end
 
       def correct_command
@@ -164,12 +169,14 @@ module Events
       def trips_payment
         trip_id = Trip.unpaid.where(user_id: current_user.user_id).first&.id
         return telegram_order.perform(@command) unless trip_id
+
         response = Operations::Wayforpay::DoPayment.new(trip_id, Constants::Payments::TYPES[:trip], nil).call
         response == DECLINED ? telegram_order.payment_declined : telegram_order.successful_payment
       end
 
       def order_operations
-        return approve_trip if parsed_data['action'] == Constants::Order::APPROVE
+        return approve_trip if parsed_data['data']['action'] == Constants::Order::APPROVE
+
         decline_trip
       end
 
@@ -193,19 +200,18 @@ module Events
       end
 
       def order
-        @order ||= Order.find_by(id: parsed_data['order_id'])
+        @order ||= Order.find_by(id: parsed_data.dig('data','order_id'))
       end
 
       def parsed_data
-        @parsed_data ||= JSON.parse(data['data'])
-                             .merge(message_id: query_message['message_id'],
+        @parsed_data ||= data.merge(message_id: query_message['message_id'],
                                     chat_id: data['from']['id'],
                                     query_id: data['id'],
                                     message_text: query_message['text'])
       end
 
       def query_message
-        @query_message ||= data['message']
+        @query_message ||= data['message'] || {}
       end
     end
   end
