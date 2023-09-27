@@ -32,7 +32,7 @@ class User < ApplicationRecord
 
   def self.from_telegram(number, username, chat_id)
     user = User.find_or_initialize_by(phone_number: "+#{sanitize_phone(number)}")
-    user.telegram.update!(username: username, chat_id: chat_id)
+    UserTelegram.find_or_create_by(user_id: user.id).update!(username: username, chat_id: chat_id)
   end
 
   def enabled_notifications
