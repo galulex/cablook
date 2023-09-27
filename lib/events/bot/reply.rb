@@ -2,6 +2,7 @@ module Events
   module Bot
     class Reply < BaseEvent
       COMMANDS =  { start: 'start',
+                    book: 'book',
                     U0001F696: 'book',
                     U0001F44C: 'correct',
                     U0001F6AB: 'cancel',
@@ -124,8 +125,8 @@ module Events
       def parse_command(text)
         return unless text
 
-        key = text.eql?('/start') ? 'start' : text.to_s.gsub('/', '')
-        key.to_sym if COMMANDS.values.include?(key)
+        key = text.eql?('/start') ? 'start' : text.to_yaml.gsub!(/[^0-9A-Za-z]/, '')
+        COMMANDS[key.to_sym] if COMMANDS.keys.include?(key.to_sym)
       end
 
       def register(_cards_url)
