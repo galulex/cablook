@@ -22,7 +22,7 @@ module Constants
     FEE = 0.025
     MAX_DISTANCE = 60_000
     MAX_BONUS_DISTANCE = 10_000
-    FREE_IDLE_VALUE = 5.minutes.to_i
+    FREE_IDLE_VALUE = 3.minutes.to_i
 
     EXPIRES_IN = 70.seconds.freeze
     REFUND_HOLD_IN = 10.minutes.freeze
