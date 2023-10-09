@@ -11,7 +11,11 @@ module Jobs
 
     def send_fcm_notification(user, message)
       fcm = FCM.new(ENV['FCM_SERVER_KEY'])
-      fcm.send(user.devices.fcm.pluck(:token), fcm_data_options(message))
+      devices = user.devices
+      registration_ids = devices.fcm.pluck(:token)
+      ios_fcm_ids = devices.ios_fcm.pluck(:token)
+      fcm.send(ios_fcm_ids, fcm_data_options(message))
+      fcm.send(registration_ids, fcm_data_options(message))
     end
 
     def fcm_data_options(message)
