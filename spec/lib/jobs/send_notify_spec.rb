@@ -1,5 +1,6 @@
 RSpec.describe Jobs::SendNotify do
   describe '#perform' do
+    let(:perform_now) { described_class.perform_now(options) }
     let(:notification_title) { 'CabLook' }
     let(:defaults_notification_params) { { sound: 'default' } }
     let(:ios_token) { 'ios_token' }
@@ -13,38 +14,37 @@ RSpec.describe Jobs::SendNotify do
     before { allow(FCM).to receive(:new).and_return(fcm_double) }
 
     context 'when user dont have any device' do
-      after { described_class.perform_now(options) }
-
-      it { expect(fcm_double).not_to receive(:send) }
+      it { expect(fcm_double).not_to have_received(:send) }
     end
 
     context 'when user have ios device' do
-      before { user.devices.create(token: ios_token, platform: Constants::Device::IOS_FCM) }
+      before do
+        user.devices.create(token: ios_token, platform: Constants::Device::IOS_FCM)
+        perform_now
+      end
 
-      after { described_class.perform_now(options) }
-
-      it { expect(fcm_double).to receive(:send).with([ios_token], expected_params).once }
+      it { expect(fcm_double).to have_received(:send).with([ios_token], expected_params).once }
     end
 
     context 'when user have not ios device' do
-      before { user.devices.create(token: device_token, platform: 'any platform') }
+      before do
+        user.devices.create(token: device_token, platform: 'any platform')
+        perform_now
+      end
 
-      after { described_class.perform_now(options) }
-
-      it { expect(fcm_double).to receive(:send).with([device_token], expected_params).once }
+      it { expect(fcm_double).to have_received(:send).with([device_token], expected_params).once }
     end
 
     context 'when user have ios and other device' do
       before do
         user.devices.create(token: ios_token, platform: Constants::Device::IOS_FCM)
         user.devices.create(token: device_token, platform: 'any platform')
+        perform_now
       end
 
-      after { described_class.perform_now(options) }
-
       it do
-        expect(fcm_double).to receive(:send).with([device_token], expected_params).once
-        expect(fcm_double).to receive(:send).with([ios_token], expected_params).once
+        expect(fcm_double).to have_received(:send).with([device_token], expected_params).once
+        expect(fcm_double).to have_received(:send).with([ios_token], expected_params).once
       end
     end
   end
