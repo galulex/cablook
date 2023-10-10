@@ -39,6 +39,21 @@ fieldset.address {
   scroll-snap-align: start;
 }
 
+fieldset svg.draggable-dots {
+  display: inline;
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translate(0%, -50%);
+  height: 30px;
+  width: 30px;
+  transition: all 0.3s;
+}
+
+.draggable {
+  transition: all 0.4s;
+}
+
 fieldset.address:focus-within {
   box-shadow: inset 1px 1px 2px #24293038, inset -1px -1px 2px white;
   box-shadow: inset 1px 1px 2px var(--shadow_color), inset -1px -1px 2px var(--white);
@@ -97,7 +112,7 @@ fieldset.address:focus-within {
 
 .wrapper .option fieldset.address input.address {
   margin: 0;
-  padding: 15px 30px 15px 15px;
+  padding: 15px 35px 15px 30px;
 }
 
 .new_design .wrapper .driverSearch {
@@ -167,8 +182,8 @@ fieldset.address:focus-within {
   height: 2.6vh;
   height: 2.6dvh;
   position: absolute;
-  top: 3.5vh;
-  top: 3.5dvh;
+  top: 3.8vh;
+  top: 3.8dvh;
   right: 10px;
   transform: translateY(-50%);
   margin: 0;
@@ -181,7 +196,7 @@ fieldset.address:focus-within {
 
 .new_design .remove-address svg {
   height: 100%;
-  width: 15px;
+  width: 20px;
 }
 
 .header {
@@ -237,7 +252,7 @@ fieldset.address:focus-within {
 
 svg[class*="pin-"] path {
   fill: #efcc3a;
-  fill: var(--orange_2);
+  fill: var(--orange);
 }
 
 svg.pin-first path {

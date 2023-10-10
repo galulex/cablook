@@ -54,7 +54,6 @@ const PATHLAYER = {
   }
 }
 
-
 export default class PreviewMap extends Component {
   constructor(props) {
     super(props)
@@ -97,6 +96,11 @@ export default class PreviewMap extends Component {
       },
       trackUserLocation: false
     })
+
+    this.map.on('mousedown', this.pinMoveStart)
+    this.map.on('mouseup', this.pinMoveEnd)
+    this.map.on('touchstart', this.pinMoveStart)
+    this.map.on('touchend', this.pinMoveEnd)
 
     this.map.on('movestart', () => {
       this.move = true
@@ -147,6 +151,19 @@ export default class PreviewMap extends Component {
       this.map.addSource('line', { type: 'geojson', lineMetrics: true, data: this.state.geojson || GEOJSON })
       this.map.addLayer(PATHLAYER)
     })
+  }
+
+  pinMoveStart = () => {
+    const pin = document.getElementsByClassName('pin picker')[0]
+    pin.style.transition = 'all 0.01s ease'
+    pin.style.transform = 'translateY(-10px)'
+    pin.style.boxShadow = '0px 30px 3px -12px green'
+  }
+
+  pinMoveEnd = () => {
+    const pin = document.getElementsByClassName('pin picker')[0]
+    pin.style.transform = 'translateY(0px)'
+    pin.style.boxShadow = 'none'
   }
 
   updatePoint = (latlng) => {
