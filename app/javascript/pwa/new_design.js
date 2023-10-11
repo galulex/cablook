@@ -22,11 +22,10 @@ import './css/new_design.css'
 import './lib/dndpoly.js'
 import { isAllowedFeature } from './lib/featureFlag.js'
 
-
 import { PENDING, ON_THE_WAY, WAITING_CLIENT, DRIVING, FINISHED, CANCELED, DECLINED, CANCELED_BY_DRIVER, CONFIRM_UPDATE_TRIP, MAP_MIN_ZOOM, MAP_MAX_ZOOM, CHERKASY_LONG_LAT } from './lib/constants.js'
 
 const cable = createConsumer()
-const ENTRANCES = Array.from({ length: 15 }, (v, k) => (k + 1))
+const ENTRANCES = Array.from({length: 15}, (v, k) => (k+1))
 const TRIP_FIELDS = ['departure', 'departure_address', 'destination', 'destination_address', 'path', 'status', 'id', 'stops', 'waypoints', 'cost', 'distance', 'duration', 'start_time', 'card_id', 'bonus', 'osrm', 'accepted_at', 'with_cashback']
 
 const Shake = require('shake.js')
@@ -56,12 +55,8 @@ export default class NewDesign extends Component {
       cancelTimer: null,
       klass: '',
       settings: {},
-      showLoading: false,
-      draggableItems: null
+      showLoading: false
     }
-    this.draggedPrevValue = null
-    this.draggedValue = null
-    this.draggedInput = null
   }
 
   get initialTripState() {
@@ -79,25 +74,24 @@ export default class NewDesign extends Component {
     this.addShakeListener()
 
     setTimeout(this.sendRequestForUnpaidPayments, 3000)
-    if (this.props.showFeedback()) { this.props.showBurger(false) }
+    if(this.props.showFeedback()) { this.props.showBurger(false) }
   }
 
   componentDidUpdate() {
     if (!this.state.currentLocation && this.props.currentLocation && this.state.trip.stops[0] === '') {
       this.setAddress(this.props.currentLocation.address, this.props.currentLocation.location, 0)
-      this.setState({
-        currentLocation: {
-          location: this.props.currentLocation.location,
-          address: this.props.currentLocation.address,
-          favorite_address: true,
-          structured_formatting: {
-            main_text: this.props.currentLocation.address,
-            secondary_text: i18n.address_input.location
-          }
+      this.setState({ currentLocation: {
+        location: this.props.currentLocation.location,
+        address: this.props.currentLocation.address,
+        favorite_address: true,
+        structured_formatting: {
+          main_text: this.props.currentLocation.address,
+          secondary_text: i18n.address_input.location
         }
-      })
+      } })
     }
     this.addShakeListener()
+
     if (!isAllowedFeature) return
 
     this.state.draggableItems = document.getElementsByClassName('draggable')
@@ -113,7 +107,7 @@ export default class NewDesign extends Component {
   }
 
   fetchSettings = () => {
-    axios.get('settings').then(({ data }) => this.setState({ settings: data }))
+    axios.get('settings').then(({data}) => this.setState({settings: data}))
   }
 
   loadTrips = () => {
@@ -141,11 +135,7 @@ export default class NewDesign extends Component {
     this.setState(state => {
       state.trip.stops.push('')
       return state
-    }, () => {
-        const draggables = document.querySelectorAll('div.draggable')
-        const lastDraggable = document.querySelectorAll('div.draggable')[draggables.length - 1]
-        lastDraggable.querySelector('input.address').focus()
-      })
+    }, () => { document.querySelector('fieldset:last-of-type input').focus() })
   }
 
   updateTrip = () => {
@@ -186,9 +176,9 @@ export default class NewDesign extends Component {
   }
 
   build = (e) => {
-    let params = { ...this.state.trip, osrm: true }
+    let params = {...this.state.trip, osrm: true}
     if (!this.isValid) return
-    axios.post('trips/new', { trip: params }).then((res) => {
+    axios.post('trips/new', {trip: params}).then((res) => {
       this.setState(state => {
         state.trip.path = res.data.path
         state.trip.cost = res.data.cost
@@ -204,7 +194,7 @@ export default class NewDesign extends Component {
 
     if (message) { if (confirm(message) === false) return }
 
-    this.setState({ bonus: e.target.value, buttonDisabled: true, cashback: cashback }, () => {
+    this.setState({bonus: e.target.value, buttonDisabled: true, cashback: cashback}, () => {
       this.create()
     })
   }
@@ -242,24 +232,24 @@ export default class NewDesign extends Component {
   }
 
   clearTrip = () => {
-    this.setState({ trip: this.initialTripState, cost: null, car: null, driver: null, buttonDisabled: false, showLoading: false })
+    this.setState({ trip: this.initialTripState, cost: null, car: null, driver: null, buttonDisabled: false , showLoading: false})
     this.previewMapRef.cleanup()
     this.unsubscribe()
     this.clearFetchTripTimeout()
   }
 
-  cancelDeclined = (e, callback = () => { }) => {
+  cancelDeclined = (e, callback = () => {}) => {
     this.setState({ buttonDisabled: true })
     axios.patch(`trips/${this.state.trip.id}/cancel`).then((res) => {
       this.clearTrip()
-      this.setState({ buttonDisabled: false })
+    this.setState({ buttonDisabled: false })
     }).catch((error) => {
       if (error.response) alert(error.response.data.errors)
       this.setState({ buttonDisabled: false })
     })
   }
 
-  retry = (e, callback = () => { }) => {
+  retry = (e, callback = () => {}) => {
     this.setState({ buttonDisabled: true })
 
     axios.patch(`trips/${this.state.trip.id}/retry`).then((res) => {
@@ -281,16 +271,16 @@ export default class NewDesign extends Component {
       url: params.id ? `trips/${params.id}` : 'trips',
       data: { trip: params }
     }).then((res) => {
-      this.setState({ trip: res.data })
+      this.setState({trip: res.data})
       this.updateTrip()
       if (!params.id) { this.subscribe(res.data) }
       this.setFetchTripTimeout()
       this.setState({ buttonDisabled: false })
     }).catch((error) => {
-      this.setState({ buttonDisabled: false })
+      this.setState({buttonDisabled: false})
       this.setState({ showLoading: false })
       if (!error.response) return
-      switch (error.response.status) {
+      switch(error.response.status) {
         case 418:
           if (confirm(`${error.response.data.errors} ${i18n.confirm_trip.retry_payment}`)) {
             this.retryPendingPayment()
@@ -298,7 +288,7 @@ export default class NewDesign extends Component {
           break
         case 406:
           if (confirm(`${error.response.data.errors} ${i18n.confirm_trip.trip_payment}`)) {
-            this.setState({ bonus: false })
+            this.setState({bonus: false})
             this.state.trip.bonus = false
             this.create()
           }
@@ -327,18 +317,18 @@ export default class NewDesign extends Component {
   }
 
   pickAddress = (i) => {
-    if (this.state.picker !== null) return this.setState({ picker: null, klass: '' })
-    this.setState({ picker: i, klass: 'pick' })
+    if (this.state.picker !== null) return this.setState({picker: null, klass: ''})
+    this.setState({picker: i, klass: 'pick'})
   }
 
   addShakeListener = () => {
     let listenerEnable = !this.props.trip || ![ON_THE_WAY, WAITING_CLIENT, DRIVING].includes(this.props.trip.status)
 
     if (listenerEnable && !myShakeEvent) {
-      myShakeEvent = new Shake({ threshold: 20, timeout: 2000 })
+      myShakeEvent = new Shake({threshold: 20, timeout: 2000})
       myShakeEvent.start()
     }
-    window.addEventListener('shake', this.shakeEvent, { once: true })
+    window.addEventListener('shake', this.shakeEvent, {once: true})
   }
 
   componentWillUnmount() {
@@ -347,6 +337,7 @@ export default class NewDesign extends Component {
 
     this.unsubscribe()
     if (!isAllowedFeature) return
+
     for (const item of this.state.draggableItems) {
       item.removeEventListener('dragstart', this.dragStart)
       item.removeEventListener("dragleave", this.dragleave)
@@ -365,12 +356,12 @@ export default class NewDesign extends Component {
 
     if (trip && trip.id) {
       return (alert(i18n.trips.pending_trip_exists))
-    } else if (cards().length < 1) {
+    } else if (cards().length < 1 ) {
       if (confirm(`${i18n.cards.no_cards}. ${i18n.cards.please_add}`)) return (route('/cards', true))
     } else { this.createShakeTrip() }
   }
 
-  createShakeTrip = async () => {
+  createShakeTrip = async() => {
     if (navigator.geolocation) {
       try {
         const res = await new Promise(function (resolve, reject) {
@@ -402,26 +393,24 @@ export default class NewDesign extends Component {
 
   setTripParams = (coords, address) => {
     this.setAddress(address, coords, 0)
-    this.setState({
-      trip: {
-        ...this.state.trip,
-        departure: coords,
-        destination: coords,
-        departure_address: address,
-        destination_address: address,
-        waypoints: [coords, coords],
-        stops: [address, address],
-        osrm: true,
-        bonus: false,
-        comment: 'Швидка поїздка. Я зміню кінцеву точку після посадки.'
-      }
-    })
+    this.setState({trip : {
+      ...this.state.trip,
+      departure: coords,
+      destination: coords,
+      departure_address: address,
+      destination_address: address,
+      waypoints: [coords, coords],
+      stops: [address, address],
+      osrm: true,
+      bonus: false,
+      comment: 'Швидка поїздка. Я зміню кінцеву точку після посадки.'
+    }})
     this.sendCreateRequest()
   }
 
   sendCreateRequest = () => {
-    axios.post('trips', { trip: this.state.trip }).then((res) => {
-      this.setState({ trip: res.data })
+    axios.post('trips', {trip: this.state.trip}).then((res) => {
+      this.setState({trip: res.data})
       this.subscribe(res.data)
     }).catch((error) => {
       if (!error.response) return
@@ -437,19 +426,19 @@ export default class NewDesign extends Component {
     const { cards } = this.props
     const { card_id } = this.state.trip
 
-    axios.post('payments/retry_pendings', { card_id: card_id ? card_id : cards()[0].id }).then((res) => {
+    axios.post('payments/retry_pendings', {card_id: card_id ? card_id : cards()[0].id}).then((res) => {
       if (res.data.length === 0) {
         if (unpaid_trip) {
-          this.setState({ buttonDisabled: false })
+          this.setState({buttonDisabled: false})
           return
         }
         this.sendCreateRequest()
       } else {
-        this.setState({ buttonDisabled: false })
-        setTimeout(() => { alert(i18n.confirm_trip.payment_error) }, 500)
+        this.setState({buttonDisabled: false})
+        setTimeout(() => {alert(i18n.confirm_trip.payment_error)}, 500)
       }
     }).catch((error) => {
-      this.setState({ buttonDisabled: false })
+      this.setState({buttonDisabled: false})
       if (error.response) alert(error.response.data.errors)
     })
   }
@@ -458,7 +447,7 @@ export default class NewDesign extends Component {
     const { cards } = this.props
     const { card_id } = this.state.trip
 
-    axios.post('payments/retry_pendings', { card_id: card_id ? card_id : cards()[0].id }).then((res) => {
+    axios.post('payments/retry_pendings', {card_id: card_id ? card_id : cards()[0].id}).then((res) => {
       if (res.data.length === 0) {
         alert(i18n.retry_payment.success)
       } else {
@@ -474,10 +463,10 @@ export default class NewDesign extends Component {
     if (!propsTrip) {
       trip = this.state.trip
       if (trip.status !== PENDING) return
-      this.setState({ trip: { ...trip, status: DECLINED } })
+      this.setState({ trip: { ...trip, status: DECLINED} })
       return
     }
-    TRIP_FIELDS.map(f => trip[f] = propsTrip[f])
+    TRIP_FIELDS.map(f => trip[f] = propsTrip[f] )
     if (propsTrip.car_location && trip.status !== PENDING) {
       const car = { location: propsTrip.car_location, color: propsTrip.car_color, number: propsTrip.car_number, position: propsTrip.car_position, deg: propsTrip.car.deg, brand: propsTrip.car.brand, model: propsTrip.car.model }
       const driver = { name: propsTrip.driver_name, phone_number: propsTrip.car_phone_number }
@@ -499,18 +488,18 @@ export default class NewDesign extends Component {
   }
 
   scroll = val => {
-    this.fields.scrollTo({ left: this.fields.scrollWidth / val, behavior: 'smooth' })
+    this.fields.scrollTo({left: this.fields.scrollWidth/val, behavior: 'smooth'})
   }
 
   confirmUpdate = (e) => {
     const { trip } = this.state
     let params = { ...trip, osrm: true }
     if (trip.bonus && trip.with_cashback && (trip.cost > this.props.cashbackAmount)) {
-      if (!confirm(i18n.confirm_trip.insufficient_cashback)) return
+      if(!confirm(i18n.confirm_trip.insufficient_cashback)) return
       delete params.bonus
     }
     this.props.mainBurger.classList.remove('hidden')
-    this.setState({ buttonDisabled: false })
+    this.setState({buttonDisabled: false})
     this.sendRequest(params)
   }
 
@@ -518,7 +507,7 @@ export default class NewDesign extends Component {
     this.props.mainBurger.classList.add('hidden')
     this.setState({ trip: { ...this.state.trip, status: CONFIRM_UPDATE_TRIP }, inputDisabled: true })
     if (window.ios) return
-    history.pushState(null, null, '/')
+    history.pushState(null, null,'/')
     window.addEventListener('popstate', this.cancelConfirmUpdate, { once: true, passive: true })
   }
 
@@ -536,7 +525,7 @@ export default class NewDesign extends Component {
 
   clearCountdown = () => {
     clearInterval(interval)
-    this.setState({ cancelTimer: null })
+    this.setState({cancelTimer: null})
   }
 
   checkAcceptionTime = (cancelTimer) => {
@@ -554,9 +543,9 @@ export default class NewDesign extends Component {
     if (!trip.accepted_at) return
     let current = new Date().getTime()
     let accepted_at = new Date(trip.accepted_at).getTime()
-    let cancelTimer = 120 - Math.floor((current - accepted_at) / 1000)
+    let cancelTimer = 120 - Math.floor((current - accepted_at)/1000)
     if (!this.checkAcceptionTime(cancelTimer)) return
-    this.setState({ cancelTimer }, () => {
+    this.setState({cancelTimer}, () => {
       if (cancelTimer < 1) this.clearCountdown()
     })
   }
@@ -565,7 +554,7 @@ export default class NewDesign extends Component {
     if (e.target.value === '') return this.setField(e)
     let now = new Date
     let time = new Date(`${now.toDateString()} ${e.target.value}`)
-    let range = (time.getTime() - now.getTime()) / 60000
+    let range = (time.getTime() - now.getTime())/60000
 
     if (range <= -1) alert(i18n.current_trip.tomorrow)
     if (range <= 30 && range > -1) {
@@ -580,16 +569,14 @@ export default class NewDesign extends Component {
     if ([FINISHED, CANCELED, DECLINED, CANCELED_BY_DRIVER, undefined].includes(trip.status)) return
     if (this.state.subscription) return this.state.subscription
     let component = this
-    this.setState({
-      subscription: cable.subscriptions.create(
-        { channel: 'TripChannel', trip_id: trip.id },
-        {
-          received: data => {
-            component[data['action'] || data['body']['action']](data)
-          }
+    this.setState({subscription: cable.subscriptions.create(
+      { channel: 'TripChannel', trip_id: trip.id },
+      {
+        received: data => {
+          component[data['action'] || data['body']['action']](data)
         }
-      )
-    })
+      }
+    )})
   }
 
   unsubscribe = () => {
@@ -597,7 +584,7 @@ export default class NewDesign extends Component {
     this.setState({ subscription: null })
   }
 
-  NotifyDriver = (data) => { }
+  NotifyDriver = (data) => {}
 
   NotificationRetry = (data) => { this.retry() }
 
@@ -606,19 +593,17 @@ export default class NewDesign extends Component {
   TripUnrelease = (data) => {
     this.vibrate()
     this.previewMapRef.cleanup()
-    this.setState({ trip: { ...this.state.trip, status: PENDING }, showLoading: true, car: null })
+    this.setState({ trip: { ...this.state.trip, status: PENDING}, showLoading: true, car: null })
     this.clearFetchTripTimeout()
   }
 
   TripAccepted = (data) => {
     this.previewMapRef.cleanup()
     this.vibrate()
-    this.setState({
-      trip: { ...this.state.trip, status: ON_THE_WAY, start_time: data.trip.start_time, accepted_at: data.trip.accepted_at, with_cashback: data.trip.with_cashback },
-      car: { location: data.trip.car_location, color: data.trip.car_color, number: data.trip.car_number, deg: data.trip.car.deg, brand: data.trip.car.brand, model: data.trip.car.model },
-      driver: { name: data.trip.driver_name, phone_number: data.trip.car_phone_number },
-      showLoading: false
-    }, () => this.startCountdown())
+    this.setState({ trip: { ...this.state.trip, status: ON_THE_WAY, start_time: data.trip.start_time, accepted_at: data.trip.accepted_at, with_cashback: data.trip.with_cashback },
+                    car: { location: data.trip.car_location ,color: data.trip.car_color, number: data.trip.car_number, deg: data.trip.car.deg, brand: data.trip.car.brand, model: data.trip.car.model },
+                    driver: { name: data.trip.driver_name, phone_number: data.trip.car_phone_number },
+                    showLoading: false }, () => this.startCountdown())
     this.clearFetchTripTimeout()
   }
 
@@ -645,7 +630,7 @@ export default class NewDesign extends Component {
   DriverLocationUpdated = (data) => {
     if ([CONFIRM_UPDATE_TRIP].includes(this.state.trip.status)) return
     const position = [data.body.location.longitude, data.body.location.latitude]
-    this.setState({ car: { ...this.state.car, location: position, position: position } })
+    this.setState({ car: { ...this.state.car, location: position, position: position} })
   }
 
   finish_trip = () => {
@@ -661,13 +646,13 @@ export default class NewDesign extends Component {
 
   waiting_client = () => {
     this.vibrate()
-    this.setState({ trip: { ...this.state.trip, status: WAITING_CLIENT } })
+    this.setState({ trip: { ...this.state.trip, status: WAITING_CLIENT }})
     this.clearCountdown()
   }
 
   start_trip = () => {
     this.vibrate()
-    this.setState({ trip: { ...this.state.trip, status: DRIVING } })
+    this.setState({ trip: { ...this.state.trip, status: DRIVING }})
   }
 
   vibrate = () => {
@@ -723,37 +708,36 @@ export default class NewDesign extends Component {
   }
 
   renderFields(trip, isValid, cards) {
-    return (
+    return(
       <div id='fields' class='options' ref={fields => this.fields = fields}>
-        <button class='trigger' onClick={() => this.scroll(1)}>
-          <Chevron class='chevron' height='50' />
+        <button class='trigger' onClick={ () => this.scroll(1) }>
+          <Chevron class='chevron' height='50'/>
         </button>
-        <button class='trigger back' onClick={() => this.scroll(1000)}>
-          <Chevron class='chevron' height='50' />
+        <button class='trigger back' onClick={ () => this.scroll(1000) }>
+          <Chevron class='chevron' height='50'/>
         </button>
         <div class='option'>
           {trip.stops.map((e, i) => {
             return (<div className='draggable'>
               <AddressInput setAddress={this.setAddress}
-                eraseAddress={this.eraseAddress}
-                favorite_addresses={() => this.props.favorite_addresses()}
-                language={this.props.language}
-                coords={trip.waypoints[i]}
-                readonly={![CONFIRM_UPDATE_TRIP, CANCELED, CANCELED_BY_DRIVER, undefined].includes(trip.status) && i == 0}
-                address={e}
-                index={i}
-                fieldsCount={trip.stops.length}
-                pickAddress={this.pickAddress}
-                currentLocation={this.state.currentLocation}
-                inputDisabled={this.state.inputDisabled}
-                isGeocoding={this.props.isGeocoding}
-                setGeocoding={this.props.setGeocoding} />
-            </div>
+                            eraseAddress={this.eraseAddress}
+                            favorite_addresses={() => this.props.favorite_addresses()}
+                            language={this.props.language}
+                            coords={trip.waypoints[i]}
+                            readonly={ ![CONFIRM_UPDATE_TRIP, CANCELED, CANCELED_BY_DRIVER, undefined].includes(trip.status) && i == 0 }
+                            address={e}
+                            index={i}
+                            fieldsCount={trip.stops.length}
+                            pickAddress={this.pickAddress}
+                            currentLocation={this.state.currentLocation}
+                            inputDisabled={this.state.inputDisabled}
+                            isGeocoding={this.props.isGeocoding}
+                            setGeocoding={this.props.setGeocoding}/>
             )
           })}
           <div class="button-line-wrapper">
-            <button type='button' onClick={this.addAddress} class='button add-address' disabled={isValid} title={i18n.current_trip.add_address}>
-              <Add height='15' />
+            <button type='button' onClick={this.addAddress} class='button add-address' disabled={isValid} title={ i18n.current_trip.add_address }>
+              <Add height='15'/>
             </button>
           </div>
         </div>
@@ -761,12 +745,12 @@ export default class NewDesign extends Component {
           <div className='trip-params'>
             <div className='additions'>
               <label htmlFor='no_call' className='nocall'>
-                <input id='no_call' type='checkbox' checked={trip.no_call} onChange={this.setField} />
-                <Phone width='24' class='cross' />
+                <input id='no_call' type='checkbox' checked={trip.no_call} onChange={this.setField}/>
+                <Phone width='24' class='cross'/>
                 {i18n.current_trip.no_call}
               </label>
               <label htmlFor='entrance'>
-                <Entrance height='15' />
+                <Entrance height='15'/>
                 <select id='entrance' value={trip.entrance} onChange={this.setField}>
                   <option value=''>{i18n.current_trip.select_entrance}</option>
                   {ENTRANCES.map((el) => {
@@ -775,13 +759,13 @@ export default class NewDesign extends Component {
                 </select>
               </label>
               <label htmlFor='time' data-placeholder={!trip.time}>
-                <Clock width='24' fill='#312d50' />
+                <Clock width='24' fill='#312d50'/>
                 <input id='time' type='time' step='60' title='HH:MM' pattern='([01]?[0-9]|2[0-3]):[0-5][0-9]'
-                  value={trip.time} placeholder='Now' onBlur={this.setTime} />
+                       value={trip.time} placeholder='Now' onBlur={this.setTime}/>
                 <span className='time-placeholder'>{i18n.current_trip.now}</span>
               </label>{' '}
               <label className='select' htmlFor='card'>
-                <Card width='24' />
+                <Card width='24'/>
                 <select id='card_id' onChange={this.setField}>
                   {cards.map(card => <option selected={trip.card_id == card.id} value={card.id}>{card.pan}</option>)}
                 </select>
@@ -790,7 +774,7 @@ export default class NewDesign extends Component {
             <label htmlFor='comment'>
               {/*<Comment width='24'/>*/}
               <input id='comment' type='text' className='comment' value={trip.comment}
-                placeholder={i18n.current_trip.comment} onChange={this.setField} />
+                     placeholder={i18n.current_trip.comment} onChange={this.setField}/>
             </label>
           </div>
         </div>
@@ -814,7 +798,7 @@ export default class NewDesign extends Component {
   isShowLoading = () => [PENDING].includes(this.state.trip.status) || this.state.showLoading
 
   clearPicker = () => {
-    this.setState({ picker: null, klass: '' })
+    this.setState({picker: null, klass: ''})
   }
 
   resetTrip = () => {
@@ -824,10 +808,10 @@ export default class NewDesign extends Component {
 
   render() {
     const { lastTripId, showWidget, trip,
-      buttonDisabled, car, driver,
-      picker, cancelTimer } = this.state
+            buttonDisabled, car, driver,
+            picker, cancelTimer } = this.state
     const { language, isGeocoding, setGeocoding,
-      showFeedback, availableBonusTrips, cashbackAmount } = this.props
+            showFeedback, availableBonusTrips, cashbackAmount } = this.props
     const cards = this.props.cards()
     let isValid = trip.stops.includes('')
     let cost = (trip.cost) ? `${trip.cost}` : ''
@@ -836,7 +820,7 @@ export default class NewDesign extends Component {
       <div class='general__holder'>
         <header></header>
         <section class={`new_design ${this.state.klass} ${this.isShowLoading() ? 'background' : ''}`}>
-          {this.props.showFeedback() && <Feedback trip={trip} updateTrip={this.resetTrip} handleBack={this.resetTrip} lastTripId={lastTripId} />}
+          { this.props.showFeedback() && <Feedback trip={trip} updateTrip={this.resetTrip} handleBack={this.resetTrip} lastTripId={lastTripId} /> }
           <style>{`fieldset.address:nth-child(${this.state.picker + 1}) { opacity: 1;}`}</style>
           <PreviewMap
             trip={() => trip}
@@ -854,9 +838,9 @@ export default class NewDesign extends Component {
             fetchUser={this.props.fetchUser}
             ref={(el) => this.previewMapRef = el}
           />
-          {!this.props.showFeedback() &&
+          { !this.props.showFeedback() &&
             <div class='wrapper'>
-              {this.isShowLoading() ?
+              { this.isShowLoading() ?
                 this.renderLoading()
                 :
                 [CONFIRM_UPDATE_TRIP, CANCELED, CANCELED_BY_DRIVER, undefined, null].includes(trip.status) && this.renderFields(trip, isValid, cards)
@@ -882,8 +866,8 @@ export default class NewDesign extends Component {
             cancelTimer={cancelTimer}
             showFeedback={showFeedback}
             cashbackAmount={cashbackAmount}
-            availableBonusTrips={availableBonusTrips} />
-          {showWidget && <Widget paymentSystem={this.props.paymentSystem} updateCards={this.props.updateCards} showWidget={() => this.setState({ showWidget: false })} />}
+            availableBonusTrips={availableBonusTrips}/>
+          { showWidget && <Widget paymentSystem={this.props.paymentSystem} updateCards={this.props.updateCards} showWidget={() => this.setState({showWidget: false})  }/> }
         </section>
       </div>
     )
