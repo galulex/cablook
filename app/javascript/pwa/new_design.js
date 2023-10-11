@@ -96,10 +96,11 @@ export default class NewDesign extends Component {
       })
     }
     this.addShakeListener()
-    this.state.items = document.getElementsByClassName('draggable')
+    this.state.draggableItems = document.getElementsByClassName('draggable')
 
-    for (const item of this.state.items) {
+    for (const item of this.state.draggableItems) {
       if (item.children[0].getElementsByTagName('input')[0].value === '') return
+      item.setAttribute('draggable', true)
       item.addEventListener('dragstart', this.dragStart)
       item.addEventListener("dragleave", this.dragleave)
       item.addEventListener("dragend", this.dragend)
@@ -122,6 +123,7 @@ export default class NewDesign extends Component {
   }
 
   setAddress = (text, coords, index) => {
+    this.state.draggableItems[index].setAttribute('draggable', true)
     this.setState(state => {
       state.trip.waypoints[index] = coords;
       state.trip.stops[index] = text;
@@ -164,6 +166,7 @@ export default class NewDesign extends Component {
 
   eraseAddress = (index) => {
     if (this.state.trip.stops[index] === '') return this.removeAddress(index)
+    this.state.draggableItems[index].setAttribute('draggable', false)
     this.setState(state => {
       state.trip.stops[index] = '';
       state.trip.waypoints[index] = '';
@@ -339,7 +342,7 @@ export default class NewDesign extends Component {
     window.removeEventListener('shake', this.shakeEvent)
 
     this.unsubscribe()
-    for (const item of this.state.items) {
+    for (const item of this.state.draggableItems) {
       item.removeEventListener('dragstart', this.dragStart)
       item.removeEventListener("dragleave", this.dragleave)
       item.removeEventListener("dragend", this.dragend)
@@ -694,24 +697,24 @@ export default class NewDesign extends Component {
 
   dragend = (e) => {
     e.preventDefault()
-    const tripState = this.state.trip
-    const prevIndex = tripState.stops.indexOf(this.draggedPrevValue)
-    const curIndex = tripState.stops.indexOf(this.draggedValue)
-    const waypoint = tripState.waypoints[curIndex]
-    const lastEl = tripState.waypoints.length - 1
+    this.setState((state) => {
+      const prevIndex = state.trip.stops.indexOf(this.draggedPrevValue)
+      const curIndex = state.trip.stops.indexOf(this.draggedValue)
+      const waypoint = state.trip.waypoints[curIndex]
 
-    tripState.stops.splice(curIndex, 1, this.draggedPrevValue)
-    tripState.stops.splice(prevIndex, 1, this.draggedValue)
-    tripState.waypoints.splice(curIndex, 1, tripState.waypoints[prevIndex])
-    tripState.waypoints.splice(prevIndex, 1, waypoint)
+      state.draggableItems[curIndex].setAttribute('draggable', true)
+      state.trip.stops.splice(curIndex, 1, this.draggedPrevValue)
+      state.trip.stops.splice(prevIndex, 1, this.draggedValue)
+      state.trip.waypoints.splice(curIndex, 1, state.trip.waypoints[prevIndex])
+      state.trip.waypoints.splice(prevIndex, 1, waypoint)
+      return state
+    })
 
-    if (curIndex == 0) tripState.departure = tripState.waypoints[0]
-    if (curIndex == lastEl) tripState.destination = tripState.waypoints[lastEl]
-    for (const item of this.state.items) { item.style = '' }
+    for (const item of this.state.draggableItems) { item.style = '' }
 
     this.previewMapRef.cleanup()
-    this.build()
     this.updateTrip()
+    this.build()
   }
 
   renderFields(trip, isValid, cards) {
@@ -725,7 +728,7 @@ export default class NewDesign extends Component {
         </button>
         <div class='option'>
           {trip.stops.map((e, i) => {
-            return (<div draggable className='draggable'>
+            return (<div className='draggable'>
               <AddressInput setAddress={this.setAddress}
                 eraseAddress={this.eraseAddress}
                 favorite_addresses={() => this.props.favorite_addresses()}
