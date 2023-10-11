@@ -20,6 +20,8 @@ import Chevron from './images/chevron.js'
 import SearchLogo from './images/search_logo.svg'
 import './css/new_design.css'
 import './lib/dndpoly.js'
+import { isAllowedFeature } from './lib/featureFlag.js'
+
 
 import { PENDING, ON_THE_WAY, WAITING_CLIENT, DRIVING, FINISHED, CANCELED, DECLINED, CANCELED_BY_DRIVER, CONFIRM_UPDATE_TRIP, MAP_MIN_ZOOM, MAP_MAX_ZOOM, CHERKASY_LONG_LAT } from './lib/constants.js'
 
@@ -96,6 +98,8 @@ export default class NewDesign extends Component {
       })
     }
     this.addShakeListener()
+    if (!isAllowedFeature) return
+
     this.state.draggableItems = document.getElementsByClassName('draggable')
 
     for (const item of this.state.draggableItems) {
@@ -123,7 +127,7 @@ export default class NewDesign extends Component {
   }
 
   setAddress = (text, coords, index) => {
-    this.state.draggableItems[index].setAttribute('draggable', true)
+    if (isAllowedFeature) this.state.draggableItems[index].setAttribute('draggable', true)
     this.setState(state => {
       state.trip.waypoints[index] = coords;
       state.trip.stops[index] = text;
@@ -166,7 +170,7 @@ export default class NewDesign extends Component {
 
   eraseAddress = (index) => {
     if (this.state.trip.stops[index] === '') return this.removeAddress(index)
-    this.state.draggableItems[index].setAttribute('draggable', false)
+    if (isAllowedFeature) this.state.draggableItems[index].setAttribute('draggable', false)
     this.setState(state => {
       state.trip.stops[index] = '';
       state.trip.waypoints[index] = '';
@@ -342,6 +346,7 @@ export default class NewDesign extends Component {
     window.removeEventListener('shake', this.shakeEvent)
 
     this.unsubscribe()
+    if (!isAllowedFeature) return
     for (const item of this.state.draggableItems) {
       item.removeEventListener('dragstart', this.dragStart)
       item.removeEventListener("dragleave", this.dragleave)

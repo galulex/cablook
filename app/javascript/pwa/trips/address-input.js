@@ -9,6 +9,7 @@ import Cablook from '../images/cablook.svg'
 import Target from '../images/target.svg'
 import Cross from '../images/cross.js'
 import Draggable from '../images/draggable.svg'
+import { isAllowedFeature } from '../lib/featureFlag.js'
 
 const locationPick = {
   location: '', address: '', favorite_address: true,
@@ -202,7 +203,7 @@ export default class AddressInput extends Component {
     const { fieldsCount, address, index, readonly, language, hideRemove, inputDisabled } = this.props
     return (
       <fieldset class='address' >
-        {(this.state.address) ? <Draggable class='draggable-dots' /> : ''}
+        {(this.state.address && isAllowedFeature) ? <Draggable class='draggable-dots' /> : ''}
         {(fieldsCount > 2 || address !== '') && !hideRemove && !readonly && (<button disabled={index === 0 ? inputDisabled : false} class='remove-address' type='button' onClick={() => this.eraseAddress(index)}> <Cross /> </button>)}
         {this.state.isShowMap && <MapPicker
           onCloseMap={this.closeMap}
