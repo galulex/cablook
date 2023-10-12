@@ -4,14 +4,18 @@ module Jobs
 
     def perform(options)
       users = options[:user_id] ? User.where(id: options[:user_id]) : User.all
-      users.each { |user| send_fcm_notification(user, options[user.locale]) }
+      users.each { |user| send_fcm_notification(user, options[user.locale.to_sym]) }
     end
 
     private
 
     def send_fcm_notification(user, message)
       fcm = FCM.new(ENV['FCM_SERVER_KEY'])
-      fcm.send(user.devices.fcm.pluck(:token), fcm_data_options(message))
+      devices = user.devices
+      registration_ids = devices.fcm.pluck(:token)
+      ios_fcm_ids = devices.ios_fcm.pluck(:token)
+      fcm.send(ios_fcm_ids, fcm_data_options(message)) unless ios_fcm_ids.empty?
+      fcm.send(registration_ids, fcm_data_options(message)) unless registration_ids.empty?
     end
 
     def fcm_data_options(message)
