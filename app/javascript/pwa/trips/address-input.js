@@ -1,19 +1,21 @@
 import { h, render, Component } from 'preact'
 import mapboxgl from 'mapbox-gl'
-import axios from 'axios'
 
 import { streets } from '../streets.js'
 import Pin from '../images/pin.svg'
 import MapPicker from '../mapPicker'
 import i18n from '../i18n.js'
-import Cablook  from '../images/cablook.svg'
+import Cablook from '../images/cablook.svg'
 import Target from '../images/target.svg'
-import Location  from '../images/target.svg'
-import Cross  from '../images/cross.js'
+import Cross from '../images/cross.js'
+import Draggable from '../images/draggable.svg'
+import { isAllowedFeature } from '../lib/featureFlag.js'
 
-const locationPick = { location: '', address: '', favorite_address: true,
-                       structured_formatting: { main_text: i18n.address_input.pick_location, secondary_text: i18n.address_input.move_map },
-                       pick_address: true }
+const locationPick = {
+  location: '', address: '', favorite_address: true,
+  structured_formatting: { main_text: i18n.address_input.pick_location, secondary_text: i18n.address_input.move_map },
+  pick_address: true
+}
 
 export default class AddressInput extends Component {
   constructor(props) {
@@ -33,7 +35,7 @@ export default class AddressInput extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if ((nextProps.address || nextProps.address === '') && this.state.address === this.props.address) this.setState({address: nextProps.address})
+    if ((nextProps.address || nextProps.address === '') && this.state.address === this.props.address) this.setState({ address: nextProps.address })
   }
 
   componentWillUnmount() {
@@ -48,27 +50,30 @@ export default class AddressInput extends Component {
     if (mapboxgl.supported() && this.input.value === '') {
       fav.push(locationPick)
     }
-    {this.props.favorite_addresses().map((el) => {
-      fav.push({location: el.location,
-                address: el.address,
-                favorite_address: true,
-                structured_formatting: { main_text: el.address, secondary_text: el.name }})
+    {
+      this.props.favorite_addresses().map((el) => {
+        fav.push({
+          location: el.location,
+          address: el.address,
+          favorite_address: true,
+          structured_formatting: { main_text: el.address, secondary_text: el.name }
+        })
       })
     }
-    this.setState({predictions: fav})
+    this.setState({ predictions: fav })
   }
 
   renderPrediction = (prediction) => {
-    return(
+    return (
       <li
         tabIndex='0'
         disabled={this.state.disabled}
-        onFocus={prediction.pick_address ? this.openMap : () => this.setLocation(prediction) }
+        onFocus={prediction.pick_address ? this.openMap : () => this.setLocation(prediction)}
         class={prediction === this.props.currentLocation ? 'prediction current_location' : 'prediction'}
       >
-        {prediction === this.props.currentLocation ? <Target/> : prediction.pick_address ? <Pin class='pin map-pick' /> : <Cablook width='32px'/>}
+        {prediction === this.props.currentLocation ? <Target /> : prediction.pick_address ? <Pin class='pin map-pick' /> : <Cablook width='32px' />}
         <b>{(prediction.structured_formatting) ? prediction.structured_formatting.main_text : prediction}</b>
-        <br/>
+        <br />
         <sub>{(prediction.structured_formatting) ? prediction.structured_formatting.secondary_text : i18n.address_input.cherkasy}</sub>
       </li>
     )
@@ -89,24 +94,24 @@ export default class AddressInput extends Component {
       return
     }
 
-    this.setState({isFetching: true})
+    this.setState({ isFetching: true })
     let placeService = new google.maps.places.PlacesService(document.createElement('div'))
-    placeService.getDetails({placeId: place.place_id, fields: ['geometry']}, (result) => {
+    placeService.getDetails({ placeId: place.place_id, fields: ['geometry'] }, (result) => {
       this.setState({ address: place.structured_formatting.main_text, predictions: [], isValid: true })
       this.props.setAddress(place.structured_formatting.main_text, `${result.geometry.location.lat()},${result.geometry.location.lng()}`, this.props.index)
-      this.setState({isFetching: false})
+      this.setState({ isFetching: false })
       this.input.setCustomValidity('')
     })
   }
 
   autocomplete = e => {
     if (e.target.value === '') {
-      this.setState({ predictions: [], address: e.target.value})
+      this.setState({ predictions: [], address: e.target.value })
       this.favoriteAddressesPredictions()
       return false
     }
     this.input.setCustomValidity(i18n.choose_address)
-    let hits = streets.filter(function(s) { return s.toLowerCase().indexOf(e.target.value.toLowerCase()) != -1 }).slice(0, 5)
+    let hits = streets.filter(function (s) { return s.toLowerCase().indexOf(e.target.value.toLowerCase()) != -1 }).slice(0, 5)
 
     if (hits.length > 0) {
       this.setState({ predictions: hits, address: e.target.value, disabled: false })
@@ -117,7 +122,7 @@ export default class AddressInput extends Component {
     }
     let autocomplete = new google.maps.places.AutocompleteService()
     this.setState({ predictions: [i18n.address_input.loading], address: e.target.value, disabled: true })
-    autocomplete.getPlacePredictions({input: `${e.target.value} ${i18n.address_input.google_auto_complete_cherkasy}`, componentRestrictions: {country: 'ua'}, location: new google.maps.LatLng(49.4311119, 31.9791903), radius: 100000, strictbounds: true, offset: 2}, data => {
+    autocomplete.getPlacePredictions({ input: `${e.target.value} ${i18n.address_input.google_auto_complete_cherkasy}`, componentRestrictions: { country: 'ua' }, location: new google.maps.LatLng(49.4311119, 31.9791903), radius: 100000, strictbounds: true, offset: 2 }, data => {
       if (!data) return this.setState({ predictions: [i18n.address_input.no_result], address: e.target.value, disabled: true })
       this.setState({ predictions: data, address: e.target.value, disabled: false })
     })
@@ -129,9 +134,9 @@ export default class AddressInput extends Component {
       this.props.pickAddress(this.props.index)
       return
     }
-    this.setState({isShowMap: true}, () => { if (this.props.showBurger) this.props.showBurger(false) })
+    this.setState({ isShowMap: true }, () => { if (this.props.showBurger) this.props.showBurger(false) })
     if (window.ios) return
-    history.pushState(null, null,'/')
+    history.pushState(null, null, '/')
     window.addEventListener('popstate', this.handleBack, { once: true, passive: true })
   }
 
@@ -146,7 +151,11 @@ export default class AddressInput extends Component {
     if (this.props.contentContainer) this.props.contentContainer.classList.add('open')
     const fields = document.getElementById('fields')
     this.input.classList.add('focus')
-    if (this.state.address == '') this.favoriteAddressesPredictions()
+    if (this.state.address == '') { 
+      this.favoriteAddressesPredictions()
+    } else { 
+      return this.setState({ predictions: [] })
+    }
     if (window.timeout) clearTimeout(window.timeout)
     if (fields) fields.classList.add('noscroll')
   }
@@ -155,19 +164,19 @@ export default class AddressInput extends Component {
     if (this.props.contentContainer) this.props.contentContainer.classList.remove('open')
     const fields = document.getElementById('fields')
     this.input.classList.remove('focus')
+    if (e.target.value !== '') return
     window.timeout = setTimeout(() => {
-      if (e.target.value === '' ||  e.target.checkValidity() || this.state.disabled || this.state.isFetching) return
+      if (e.target.value === '' || e.target.checkValidity() || this.state.disabled || this.state.isFetching) return
       let prediction = this.state.predictions[0]
       if (prediction && prediction.address !== this.props.currentLocation?.address) this.setLocation(prediction)
     }, 500)
     if (fields) {
       window.timeout = setTimeout(() => { fields.classList.remove('noscroll') }, 300)
     }
-
   }
 
   handleBack = (event) => {
-    this.setState({isShowMap: false})
+    this.setState({ isShowMap: false })
     if (this.props.showBurger) this.props.showBurger()
     if (event) { event.stopPropagation() }
   }
@@ -184,26 +193,26 @@ export default class AddressInput extends Component {
     return (this.props.index !== 0) ? i18n.address_input.where : i18n.address_input.from
   }
 
-  eraseAddress =  () => {
+  eraseAddress = () => {
     if (this.state.address !== '') setTimeout(() => { this.input.focus() }, 300)
     this.props.eraseAddress(this.props.index)
   }
 
   render() {
     let placeholder = this.setPlaceholder()
-
-    const { fieldsCount, address, index, readonly, language, hideRemove, inputDisabled} = this.props
+    const { fieldsCount, address, index, readonly, language, hideRemove, inputDisabled } = this.props
     return (
-      <fieldset class='address'>
-        {(fieldsCount > 2 || address !== '') && !hideRemove && !readonly && (<button disabled={index === 0 ? inputDisabled : false} class='remove-address' type='button' onClick={() => this.eraseAddress(index)}> <Cross/> </button>)}
+      <fieldset class='address' >
+        {(this.state.address && isAllowedFeature) ? <Draggable class='draggable-dots' /> : ''}
+        {(fieldsCount > 2 || address !== '') && !hideRemove && !readonly && (<button disabled={index === 0 ? inputDisabled : false} class='remove-address' type='button' onClick={() => this.eraseAddress(index)}> <Cross /> </button>)}
         {this.state.isShowMap && <MapPicker
-                                    onCloseMap={this.closeMap}
-                                    handleBack={this.handleBack}
-                                    language={language}
-                                    isGeocoding={this.props.isGeocoding}
-                                    setGeocoding={this.props.setGeocoding}
-                                    showBurger={this.props.showBurger}
-                                  /> }
+          onCloseMap={this.closeMap}
+          handleBack={this.handleBack}
+          language={language}
+          isGeocoding={this.props.isGeocoding}
+          setGeocoding={this.props.setGeocoding}
+          showBurger={this.props.showBurger}
+        />}
 
         <input required class='address' placeholder={placeholder} type='text' disabled={index === 0 ? inputDisabled : false}
           onClick={this.focus} onFocus={this.focus} onKeyDown={this.keydown} onBlur={this.blur} onInput={this.autocomplete}
@@ -211,7 +220,7 @@ export default class AddressInput extends Component {
         />
 
         <ul class='predictions' ref={el => this.predictions = el}>
-          { this.state.predictions.map(this.renderPrediction) }
+          {this.state.predictions.map(this.renderPrediction)}
         </ul>
       </fieldset>
     )
