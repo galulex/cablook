@@ -8,96 +8,112 @@ RSpec.feature 'Trip', type: :feature, js: true do
   let!(:price) { Price.delete_all && Price.create }
   let!(:prev_trip) { user.trips.create(status: 'finished') }
 
-  before do
+  def setup_user_session(user, phone_number)
     Redis.current.set("car_#{car.id}", '49.4412378,32.0650127')
     Capybara.default_host = 'http://app.lvh.me'
     visit('http://app.lvh.me:9887')
     Capybara.evaluate_script "localStorage.setItem('token', '#{user.auth_token}');"
     Capybara.evaluate_script "localStorage.setItem('referral', '#{user.referral_code}');"
     Capybara.evaluate_script "localStorage.setItem('email', '#{user.email}');"
-    Capybara.evaluate_script "localStorage.setItem('phone', '#{user.phone_number}');"
+    Capybara.evaluate_script "localStorage.setItem('phone', '#{phone_number}');"
     visit('http://app.lvh.me:9887')
   end
 
-  it 'orders taxi' do
-    wait 3 do
-      has_text? 'Rate trip'
-    end
-    first('textarea').set('Nice!')
-    find_button('OK').trigger(:click)
-    wait 3 do
-      has_text? 'GO'
-    end
-    all('input')[0].trigger(:focus)
-    all('input')[0].set('')
-    wait 3 do
-      all('li.prediction', visible: false)[1].trigger(:focus)
-    end
-    all('input')[1].trigger(:focus)
-    all('input')[1].set('')
-    all('li.prediction', visible: false)[2].trigger(:focus)
-    wait 3 do
-      find_button('GO 56').trigger(:click)
-    end
-    wait 3 do
-      has_text? 'Cancel'
-    end
-    Events::Trips::Accept.(trip_id: trip.id, driver_id: driver.id, car_id: car.id)
-    sleep 1
-    Events::Trips::Cancel.(trip_id: trip.id, by_driver: true)
-    wait 3 do
-      find_button('❌').trigger(:click)
-    end
-    all('input')[0].trigger(:focus)
-    all('input')[0].set('')
-    wait 3 do
-      all('li.prediction', visible: false)[1].trigger(:focus)
-    end
-    all('input')[1].trigger(:focus)
-    all('input')[1].set('')
+  shared_examples 'order taxi' do
+    it 'order taxi' do
+      wait 3 do
+        has_text? 'Rate trip'
+      end
+      first('textarea').set('Nice!')
+      find_button('OK').trigger(:click)
+      wait 3 do
+        has_text? 'GO'
+      end
+      all('input')[0].trigger(:focus)
+      all('input')[0].set('')
+      wait 3 do
+        all('li.prediction', visible: false)[1].trigger(:focus)
+      end
+      all('input')[1].trigger(:focus)
+      all('input')[1].set('')
       all('li.prediction', visible: false)[2].trigger(:focus)
-    wait 3 do
-      find_button('GO 56').trigger(:click)
+      wait 3 do
+        find_button('GO 56').trigger(:click)
+      end
+      wait 3 do
+        has_text? 'Cancel'
+      end
+      Events::Trips::Accept.(trip_id: trip.id, driver_id: driver.id, car_id: car.id)
+      sleep 1
+      Events::Trips::Cancel.(trip_id: trip.id, by_driver: true)
+      wait 3 do
+        find_button('❌').trigger(:click)
+      end
+      all('input')[0].trigger(:focus)
+      all('input')[0].set('')
+      wait 3 do
+        all('li.prediction', visible: false)[1].trigger(:focus)
+      end
+      all('input')[1].trigger(:focus)
+      all('input')[1].set('')
+      all('li.prediction', visible: false)[2].trigger(:focus)
+      wait 3 do
+        find_button('GO 56').trigger(:click)
+      end
+      wait 3 do
+        has_text? 'Cancel'
+      end
+      Events::Trips::Accept.(trip_id: trip.id, driver_id: driver.id, car_id: car.id)
+      wait 3 do
+        has_no_text? 'Edit'
+      end
+      Events::Trips::WaitingClient.(trip_id: trip.id)
+      wait 3 do
+        has_text? 'Edit'
+      end
+      expect(page).to have_content('56')
+      Events::Trips::Start.(trip_id: trip.id)
+      wait 3 do
+        has_text? 'Edit'
+      end
+      find_button('Edit').trigger(:click)
+      wait 3 do
+        find('button.add-address').trigger(:click)
+      end
+      all('input')[3].trigger(:focus)
+      all('input')[3].set('')
+      all('li.prediction', visible: false)[1].trigger(:focus)
+      wait 3 do
+        find_button('GO 56').trigger(:click)
+      end
+      wait 3 do
+        has_text? 'Edit'
+      end
+      expect(page).to have_content(trip.cost)
+      Events::Trips::Finish.(trip_id: trip.id)
+      wait 3 do
+        has_text? 'Rate trip'
+      end
+      first('textarea').set('Nice!')
+      find_button('OK').trigger(:click)
+      wait 3 do
+        has_text? 'GO'
+      end
     end
-    wait 3 do
-      has_text? 'Cancel'
-    end
-    Events::Trips::Accept.(trip_id: trip.id, driver_id: driver.id, car_id: car.id)
-    wait 3 do
-      has_no_text? 'Edit'
-    end
-    Events::Trips::WaitingClient.(trip_id: trip.id)
-    wait 3 do
-      has_text? 'Edit'
-    end
-    expect(page).to have_content('56')
-    Events::Trips::Start.(trip_id: trip.id)
-    wait 3 do
-      has_text? 'Edit'
-    end
-    find_button('Edit').trigger(:click)
-    wait 3 do
-      find('button.add-address').trigger(:click)
-    end
-    all('input')[3].trigger(:focus)
-    all('input')[3].set('')
-    all('li.prediction', visible: false)[1].trigger(:focus)
-    wait 3 do
-      find_button('GO 56').trigger(:click)
-    end
-    wait 3 do
-      has_text? 'Edit'
-    end
-    expect(page).to have_content(trip.cost)
-    Events::Trips::Finish.(trip_id: trip.id)
-    wait 3 do
-      has_text? 'Rate trip'
-    end
-    first('textarea').set('Nice!')
-    find_button('OK').trigger(:click)
-    wait 3 do
-      has_text? 'GO'
-    end
+  end
+
+  context "common user" do
+    before { setup_user_session(user, user.phone_number) }
+
+    include_examples "order taxi"
+  end
+
+  context "user with access to new features testing" do
+    let(:test_user_phone) { '+380733456677' }
+
+    before { setup_user_session(user, test_user_phone) }
+
+    include_examples "order taxi"
   end
 
   def trip
