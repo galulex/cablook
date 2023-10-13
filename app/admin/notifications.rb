@@ -9,7 +9,7 @@ ActiveAdmin.register_page 'Notifications' do
 
   controller do
     def notification_params
-      params.permit(:en, :ru, :ua, :user_id)
+      params.permit(:en, :ru, :uk, :user_id)
     end
   end
 
