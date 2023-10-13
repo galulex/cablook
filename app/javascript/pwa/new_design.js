@@ -56,8 +56,7 @@ export default class NewDesign extends Component {
       cancelTimer: null,
       klass: '',
       settings: {},
-      showLoading: false,
-      draggableItems: null
+      showLoading: false
     }
     this.draggedPrevValue = null
     this.draggedValue = null
@@ -98,18 +97,6 @@ export default class NewDesign extends Component {
       })
     }
     this.addShakeListener()
-    if (!isAllowedFeature) return
-
-    this.state.draggableItems = document.getElementsByClassName('draggable')
-
-    for (const item of this.state.draggableItems) {
-      if (item.children[0].getElementsByTagName('input')[0].value === '') return
-      item.setAttribute('draggable', true)
-      item.addEventListener('dragstart', this.dragStart)
-      item.addEventListener("dragleave", this.dragleave)
-      item.addEventListener("dragend", this.dragend)
-      item.addEventListener("dragenter", this.dragenter)
-    }
   }
 
   fetchSettings = () => {
@@ -127,7 +114,6 @@ export default class NewDesign extends Component {
   }
 
   setAddress = (text, coords, index) => {
-    if (isAllowedFeature) this.state.draggableItems[index].setAttribute('draggable', true)
     this.setState(state => {
       state.trip.waypoints[index] = coords;
       state.trip.stops[index] = text;
@@ -142,10 +128,10 @@ export default class NewDesign extends Component {
       state.trip.stops.push('')
       return state
     }, () => {
-        const draggables = document.querySelectorAll('div.draggable')
-        const lastDraggable = document.querySelectorAll('div.draggable')[draggables.length - 1]
-        lastDraggable.querySelector('input.address').focus()
-      })
+      const draggables = document.querySelectorAll('div.draggable')
+      const lastDraggable = document.querySelectorAll('div.draggable')[draggables.length - 1]
+      lastDraggable.querySelector('input.address').focus()
+    })
   }
 
   updateTrip = () => {
@@ -170,7 +156,6 @@ export default class NewDesign extends Component {
 
   eraseAddress = (index) => {
     if (this.state.trip.stops[index] === '') return this.removeAddress(index)
-    if (isAllowedFeature) this.state.draggableItems[index].setAttribute('draggable', false)
     this.setState(state => {
       state.trip.stops[index] = '';
       state.trip.waypoints[index] = '';
@@ -346,13 +331,6 @@ export default class NewDesign extends Component {
     window.removeEventListener('shake', this.shakeEvent)
 
     this.unsubscribe()
-    if (!isAllowedFeature) return
-    for (const item of this.state.draggableItems) {
-      item.removeEventListener('dragstart', this.dragStart)
-      item.removeEventListener("dragleave", this.dragleave)
-      item.removeEventListener("dragend", this.dragend)
-      item.removeEventListener("dragenter", this.dragenter)
-    }
   }
 
   componentWillReceiveProps(props) {
@@ -679,43 +657,44 @@ export default class NewDesign extends Component {
   }
 
   dragStart = (e) => {
-    this.draggedPrevValue = e.target.getElementsByTagName('input')[0].value
     this.draggedInput = e.target.getElementsByTagName('input')[0]
+    if (this.draggedInput) this.draggedPrevValue = this.draggedInput.value
+    if (!this.draggedPrevValue || this.state.trip.stops.indexOf(this.draggedPrevValue) < 0) return e.preventDefault()
   }
 
-  dragenter = (e) => {
+  dragOver = (e) => {
     e.preventDefault()
-    if (e.target.tagName !== 'INPUT') return
-    this.draggedInput.value = e.target.value
-    const item = e.target.parentNode.parentNode
-    item.style.padding = '0.5vh 0'
-    item.style.opacity = '0.1'
-    this.draggedValue = e.target.value
+    if (e.target.tagName !== 'INPUT' || !e.target.value) return
+
+    if (e.target.value && this.draggedInput) {
+      this.draggedInput.value = e.target.value
+      const item = e.target.parentNode.parentNode
+      item.style.padding = '0.5vh 0'
+      item.style.opacity = '0.1'
+      setTimeout(() => item.style = '', 500)
+      this.draggedValue = e.target.value
+    }
   }
 
-  dragleave = (e) => {
+  dragLeave = (e) => {
     e.preventDefault()
-    const item = e.target.parentNode.parentNode
-    item.style = ''
-    this.draggedInput.value = this.draggedPrevValue 
+    e.target.parentNode.parentNode.style = ''
+    if (this.draggedPrevValue && this.draggedInput) this.draggedInput.value = this.draggedPrevValue
   }
 
-  dragend = (e) => {
+  dragEnd = (e) => {
     e.preventDefault()
     this.setState((state) => {
       const prevIndex = state.trip.stops.indexOf(this.draggedPrevValue)
       const curIndex = state.trip.stops.indexOf(this.draggedValue)
       const waypoint = state.trip.waypoints[curIndex]
 
-      state.draggableItems[curIndex].setAttribute('draggable', true)
       state.trip.stops.splice(curIndex, 1, this.draggedPrevValue)
       state.trip.stops.splice(prevIndex, 1, this.draggedValue)
       state.trip.waypoints.splice(curIndex, 1, state.trip.waypoints[prevIndex])
       state.trip.waypoints.splice(prevIndex, 1, waypoint)
       return state
     })
-
-    for (const item of this.state.draggableItems) { item.style = '' }
 
     this.previewMapRef.cleanup()
     this.updateTrip()
@@ -733,22 +712,29 @@ export default class NewDesign extends Component {
         </button>
         <div class='option'>
           {trip.stops.map((e, i) => {
-            return (<div className='draggable'>
-              <AddressInput setAddress={this.setAddress}
-                eraseAddress={this.eraseAddress}
-                favorite_addresses={() => this.props.favorite_addresses()}
-                language={this.props.language}
-                coords={trip.waypoints[i]}
-                readonly={![CONFIRM_UPDATE_TRIP, CANCELED, CANCELED_BY_DRIVER, undefined].includes(trip.status) && i == 0}
-                address={e}
-                index={i}
-                fieldsCount={trip.stops.length}
-                pickAddress={this.pickAddress}
-                currentLocation={this.state.currentLocation}
-                inputDisabled={this.state.inputDisabled}
-                isGeocoding={this.props.isGeocoding}
-                setGeocoding={this.props.setGeocoding} />
-            </div>
+            return (
+              <div className='draggable'
+                draggable={isAllowedFeature}
+                onDragStart={this.dragStart}
+                onDragOver={this.dragOver}
+                onDragLeave={this.dragLeave}
+                onDragEnd={this.dragEnd}
+              >
+                <AddressInput setAddress={this.setAddress}
+                  eraseAddress={this.eraseAddress}
+                  favorite_addresses={() => this.props.favorite_addresses()}
+                  language={this.props.language}
+                  coords={trip.waypoints[i]}
+                  readonly={![CONFIRM_UPDATE_TRIP, CANCELED, CANCELED_BY_DRIVER, undefined].includes(trip.status) && i == 0}
+                  address={e}
+                  index={i}
+                  fieldsCount={trip.stops.length}
+                  pickAddress={this.pickAddress}
+                  currentLocation={this.state.currentLocation}
+                  inputDisabled={this.state.inputDisabled}
+                  isGeocoding={this.props.isGeocoding}
+                  setGeocoding={this.props.setGeocoding} />
+              </div>
             )
           })}
           <div class="button-line-wrapper">

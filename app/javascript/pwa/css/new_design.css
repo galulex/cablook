@@ -50,6 +50,10 @@ fieldset svg.draggable-dots {
   transition: all 0.3s;
 }
 
+fieldset svg.draggable-dots:hover {
+  cursor: grab;
+}
+
 .draggable {
   transition: all 0.4s;
 }
