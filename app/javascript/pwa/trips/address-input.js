@@ -194,7 +194,7 @@ export default class AddressInput extends Component {
   }
 
   eraseAddress = () => {
-    if (this.state.address !== '') setTimeout(() => { this.input.focus() }, 300)
+    if (this.input) setTimeout(() => { this.input.focus() }, 300)
     this.props.eraseAddress(this.props.index)
   }
 
