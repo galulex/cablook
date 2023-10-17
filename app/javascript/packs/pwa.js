@@ -58,7 +58,7 @@ window.alert = (text) => {
 }
 
 import { h, render, Component } from 'preact';
-import { Router, route } from 'preact-router';
+import { Router } from 'preact-router';
 import { createMemoryHistory } from 'history';
 
 import i18n from '../pwa/i18n.js'

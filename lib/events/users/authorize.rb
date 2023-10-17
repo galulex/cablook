@@ -3,19 +3,22 @@ module Events
     class Authorize < BaseEvent
       def schema
         Dry::Schema.Params do
-          # # configure { config.messages = :i18n }
-
           optional(:phone_number).value(format?: Constants::Regex::PHONE_NUMBER)
           optional(:email).filled(:str?)
         end
       end
 
       def run
+        validate_params
         update_user
         user || create_user
       end
 
       private
+
+      def validate_params
+        invalid!('One of email or phone number required') if data[:phone_number].blank? && data[:email].blank?
+      end
 
       def update_user
         user.update(auth_token: data[:auth_token], locale: data[:locale]) if user && data[:auth_token].present?

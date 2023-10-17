@@ -83,6 +83,7 @@ main.login input.email__input {
   margin: 60px 0 20px 0;
   text-align: center;
 }
+
 main.login form button.switch {
   margin-top: 20px;
 }
