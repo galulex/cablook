@@ -601,7 +601,7 @@ dialog {
   box-shadow: 3px 3px 6px var(--shadow_color), inset -5px -5px 6px -3px var(--shadow_color), inset 1px 1px 3px -3px var(--white);
   border-radius: 15px;
   border: none;
-  display: flex;
+  display: none;
   align-items: center;
   gap: 10px;
 }
@@ -636,6 +636,7 @@ dialog > abbr {
 
 dialog[open] {
   animation: show 0.3s ease normal;
+  display: flex;
 }
 @-webkit-keyframes show{
   from {
