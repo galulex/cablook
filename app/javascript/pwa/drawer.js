@@ -21,8 +21,8 @@ export default function Drawer(props) {
         <Link class='nav-header' href='/profile'>
           <Profile/>
           <div>
-            <span>{ localStorage.email }</span>
-            <b>{ localStorage.phone }</b>
+            <span>{ localStorage.email === 'null' ? '' : localStorage.email }</span>
+            <b>{ localStorage.phone === 'null' ? '' : localStorage.phone }</b>
           </div>
         </Link>
         <Link activeClassName='active' href='/' class='nav-link'><Home class="home-icon"/>{i18n.drawer.home}</Link>

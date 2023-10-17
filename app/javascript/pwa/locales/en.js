@@ -134,7 +134,13 @@ const en = {
     resend_code: 'Resend code',
     digits: ' digits',
     code_sent: 'A verification code has been sent to ',
-    confirm_resend_code: 'Resend Verification code?'
+    confirm_resend_code: 'Resend Verification code?',
+    enter_email: 'Enter Your e-mail',
+    login_by_email: 'With e-mail',
+    login_by_phone: 'With phone number',
+    email_sent: 'E-mail sent!',
+    email_error: 'Something went wrong. Try again',
+    back_to_login: 'To login page'
   },
   map_picker: {
     header: 'Pick Location'

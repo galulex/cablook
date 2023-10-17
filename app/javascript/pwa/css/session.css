@@ -78,6 +78,15 @@ main.login input.number__input, input.number__input {
   margin: 60px 0 20px 0;
 }
 
+main.login input.email__input {
+  padding: 25px 0 25px 0;
+  margin: 60px 0 20px 0;
+  text-align: center;
+}
+main.login form button.switch {
+  margin-top: 20px;
+}
+
 main.login button.resend {
   background: transparent;
   box-shadow: none;
@@ -96,12 +105,12 @@ main.login .buttons__container {
   margin-top: 25px;
 }
 
-main.login button.button[type='submit'] {
+/* main.login button.button[type='submit'] {
   background: rgba(255, 255, 255, 0);
   background: var(--transparent);
   color: #19a120;
   color: var(--green_3);
-}
+} */
 
 main.login svg.logo {
   max-height: 150px;

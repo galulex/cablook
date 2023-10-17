@@ -134,7 +134,13 @@ const uk = {
     resend_code: 'Повторно надіслати код',
     digits: ' цифр',
     code_sent: 'Код підтвердження надіслано на ',
-    confirm_resend_code: 'Відправити код підтвердження повторно?'
+    confirm_resend_code: 'Відправити код підтвердження повторно?',
+    enter_email: 'Ваш e-mail',
+    login_by_email: 'За допомогою електронної пошти',
+    login_by_phone: 'За номером телефону',
+    email_sent: 'Лист відправлено!',
+    email_error: 'Щось пішло не так. Cпробуйте знову',
+    back_to_login: 'На головну!'
   },
   map_picker: {
     header: 'Оберіть місцe'

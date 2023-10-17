@@ -5,7 +5,8 @@ module Events
         Dry::Schema.Params do
           # # configure { config.messages = :i18n }
 
-          required(:phone_number).value(format?: Constants::Regex::PHONE_NUMBER)
+          optional(:phone_number).value(format?: Constants::Regex::PHONE_NUMBER)
+          optional(:email).filled(:str?)
         end
       end
 
@@ -21,11 +22,23 @@ module Events
       end
 
       def user
-        @user ||= User.find_by(phone_number: data[:phone_number])
+        @user ||= user_by_phone_number || user_by_email
+      end
+
+      def user_by_phone_number
+        return unless data[:phone_number].present?
+
+        @user_by_phone_number ||= User.find_by(phone_number: data[:phone_number])
+      end
+
+      def user_by_email
+        return unless data[:email].present?
+
+        @user_by_email ||= User.find_by(email: data[:email])
       end
 
       def create_user
-        @user ||= User.create(data)
+        @create_user ||= User.create(data)
       end
     end
   end

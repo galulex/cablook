@@ -58,7 +58,7 @@ window.alert = (text) => {
 }
 
 import { h, render, Component } from 'preact';
-import { Router } from 'preact-router';
+import { Router, route } from 'preact-router';
 import { createMemoryHistory } from 'history';
 
 import i18n from '../pwa/i18n.js'
@@ -248,8 +248,8 @@ export default class App extends Component {
     localStorage.setItem('referral', data.referral_code)
     if (!!data.email) localStorage.setItem('email', data.email)
     localStorage.setItem('phone', data.phone_number)
-    axios.defaults.headers.common['Auth-Token'] = data.auth_token;
-    let fcmToken = localStorage.getItem("fcm_token");
+    axios.defaults.headers.common['Auth-Token'] = data.auth_token
+    let fcmToken = localStorage.getItem("fcm_token")
     if (fcmToken) this.sendTokenToServer(fcmToken)
     this.checkOneSignalToken()
     this.fetchUser()
