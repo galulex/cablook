@@ -17,16 +17,8 @@ export const firebaseApp = !getApps().length ? initializeApp(firebaseConfig) : g
 export const firebaseAuth = getAuth()
 
 const actionCodeSettings = {
-  url: 'http://app.lvh.me:3000/',
-  handleCodeInApp: true,
-  iOS: {
-    bundleId: 'com.example.ios'
-  },
-  android: {
-    packageName: 'com.example.android',
-    installApp: true,
-    minimumVersion: '12'
-  }
+  url: 'http://app.cablook.taxi/',
+  handleCodeInApp: true
 }
 
 initializeAppCheck(firebaseApp, {
