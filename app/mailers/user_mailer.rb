@@ -15,7 +15,16 @@ class UserMailer < ApplicationMailer
   def announce(email)
     mail from: 'contact@cablook.taxi',
          to: email,
-         content_type: "text/html",
+         content_type: 'text/html',
          subject: 'Cablook Taxi | Перший сервіс еко таксі в Черкасах'
+  end
+
+  def verification_code_email(email, code)
+    @verification_code = code
+
+    mail from: 'contact@cablook.taxi',
+         to: email,
+         content_type: 'text/html',
+         subject: 'Код підтвердження | Cablook Taxi'
   end
 end

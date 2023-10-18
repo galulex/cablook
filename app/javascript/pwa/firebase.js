@@ -1,6 +1,6 @@
 import { initializeApp, getApp, getApps } from '@firebase/app'
 import { getMessaging, getToken, isSupported } from '@firebase/messaging'
-import { getAuth, RecaptchaVerifier, signInWithPhoneNumber, sendSignInLinkToEmail, isSignInWithEmailLink, signInWithEmailLink } from '@firebase/auth'
+import { getAuth, RecaptchaVerifier, signInWithPhoneNumber } from '@firebase/auth'
 import { initializeAppCheck, ReCaptchaV3Provider } from "@firebase/app-check"
 
 export const firebaseConfig = initializeApp({
@@ -16,14 +16,9 @@ export const firebaseConfig = initializeApp({
 export const firebaseApp = !getApps().length ? initializeApp(firebaseConfig) : getApp()
 export const firebaseAuth = getAuth()
 
-const actionCodeSettings = {
-  url: 'http://app.cablook.taxi/',
-  handleCodeInApp: true
-}
-
 initializeAppCheck(firebaseApp, {
   provider: new ReCaptchaV3Provider('6LcDJqcoAAAAAInevjR2DhmuKRWM70DVneiyGiHT'),
   isTokenAutoRefreshEnabled: true
 })
 
-export { RecaptchaVerifier, signInWithPhoneNumber, getToken, getMessaging, isSupported, actionCodeSettings, sendSignInLinkToEmail, isSignInWithEmailLink, signInWithEmailLink }
+export { RecaptchaVerifier, signInWithPhoneNumber, getToken, getMessaging, isSupported }
