@@ -18,7 +18,8 @@ class User < ApplicationRecord
   before_create :generate_referral
 
   validates :locale, inclusion: { in: I18n.config.available_locales.map(&:to_s) }
-  validates :phone_number, format: { with: Constants::Regex::PHONE_NUMBER }, uniqueness: true
+  validates :phone_number, format: { with: Constants::Regex::PHONE_NUMBER }, uniqueness: true, allow_blank: true
+  validates :email, uniqueness: true, allow_blank: true
 
   accepts_nested_attributes_for :telegram
 

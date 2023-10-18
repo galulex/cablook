@@ -134,7 +134,13 @@ const ru = {
     resend_code: 'Отправить код еще раз',
     digits: ' цифр',
     code_sent: 'Код подтверждения был отправлен на ',
-    confirm_resend_code: 'Отправить код подтверждения еще раз?'
+    confirm_resend_code: 'Отправить код подтверждения еще раз?',
+    enter_email: 'Ваш e-mail',
+    login_by_email: 'С помощю e-mail',
+    login_by_phone: 'По номеру телефона',
+    email_sent: 'Письмо отправлено!',
+    email_error: 'Что-то пошло не так. Попробуйте снова',
+    back_to_login: 'На главную!'
   },
   map_picker: {
     header: 'Выберите местоположение'

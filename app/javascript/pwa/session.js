@@ -5,8 +5,10 @@ import i18n from './i18n.js';
 import Phone from './images/green_phone.js';
 import Logo from './images/logo_light.js';
 import Lock from './images/lock.js';
+import SearchLogo from './images/search_logo.svg'
+
 import './css/session.css';
-import { firebaseAuth, RecaptchaVerifier, signInWithPhoneNumber, getToken, firebaseApp, getMessaging } from './firebase.js';
+import { firebaseApp, RecaptchaVerifier, signInWithPhoneNumber, getToken, getMessaging, actionCodeSettings, sendSignInLinkToEmail, isSignInWithEmailLink, signInWithEmailLink, firebaseAuth } from './firebase.js';
 
 const NUMBER_CODE = '+380'
 
@@ -14,14 +16,20 @@ export default class Session extends Component {
   constructor(props) {
     super(props)
     this.state = {
+      email: '',
       number: '',
       code: '',
       isCodeSent: false,
-      disabled: false
+      disabled: false,
+      isEmailLogin: false,
+      emailSent: false,
+      emailLinkLoginning: false,
+      inProggress: false
     }
   }
 
   componentDidMount() {
+    this.authenticateUserByEmailLink()
     this.focusOnInput()
     window.addEventListener('click', this.handleClickRecaptcha, { passive: true })
   }
@@ -35,7 +43,9 @@ export default class Session extends Component {
   }
 
   focusOnInput = () => {
-    this.numberInput ? this.numberInput.focus() : this.codeInput.focus()
+    if (this.emailInput) return this.emailInput.focus()
+
+    this.numberInput ? this.numberInput.focus() : this.codeInput?.focus()
   }
 
   handleClickRecaptcha = (e) => {
@@ -43,9 +53,19 @@ export default class Session extends Component {
     if (recaptcha && recaptcha.parentElement.previousSibling == e.target) this.setDisabled(false)
   }
 
-  renderNumber = () => {
+  renderButtons = () => {
     const { disabled } = this.state
 
+    return (
+      <div>
+        <button class='button green' disabled={disabled} type='submit' ref={submitForm => this.submitForm = submitForm}>{i18n.session.number}</button>
+        <button class='button switch' onClick={() => this.setState({ isEmailLogin: !this.state.isEmailLogin })}>{this.state.isEmailLogin ? i18n.session.login_by_phone : i18n.session.login_by_email}</button>
+        <p><i>{i18n.session.policy} <a href='/privacy-policy' target='_blank'>{i18n.session.policy_link}</a></i></p>
+      </div>
+    )
+  }
+
+  renderNumber = () => {
     return (
       <form onSubmit={this.signInWithPhoneNumber}>
         <div class='number_input'>
@@ -57,8 +77,26 @@ export default class Session extends Component {
             onInput={this.updateNumber}
             ref={(input) => this.numberInput = input} />
         </div>
-        <button class='button' disabled={disabled} type='submit' ref={submitForm => this.submitForm = submitForm}>{i18n.session.number}</button>
-        <p><i>{i18n.session.policy} <a href='/privacy-policy' target='_blank'>{i18n.session.policy_link}</a></i></p>
+        {this.renderButtons()}
+      </form>
+    )
+  }
+
+  renderEmailAuth = () => {
+    return (
+      <form onSubmit={this.signInWithEmail}>
+        <div class='email_input'>
+          {this.state.emailSent ? i18n.session.email_sent :
+            <div>
+              <input class='email__input' id='email'
+                placeholder={i18n.session.enter_email} type='email' autocomplete='email' required autoFocus
+                pattern="[^@]+@[^@]+\.[a-zA-Z]{2,6}"
+                onInput={this.updateEmail}
+                ref={(input) => this.emailInput = input} />
+              {this.renderButtons()}
+            </div>
+          }
+        </div>
       </form>
     )
   }
@@ -92,6 +130,10 @@ export default class Session extends Component {
 
   updateNumber = (e) => {
     this.setState({ number: NUMBER_CODE + e.target.value }, () => this.autoSubmitForm(e))
+  }
+
+  updateEmail = (e) => {
+    this.setState({ email: e.target.value })
   }
 
   updateCode = (e) => {
@@ -197,15 +239,84 @@ export default class Session extends Component {
     })
   }
 
+  signInWithEmail = (e) => {
+    e.preventDefault()
+
+    if (!this.emailInput.checkValidity()) return
+    this.setState({ disabled: true })
+
+    const { email } = this.state
+
+    sendSignInLinkToEmail(firebaseAuth, email, actionCodeSettings)
+      .then(() => {
+        this.setState({ disabled: false, email: '', emailSent: true })
+        window.localStorage.setItem('emailForSignIn', email)
+      })
+      .catch((error) => {
+        this.setState({ disabled: false, inProggress: false })
+        console.log(error)
+      })
+  }
+
+  authenticateUserByEmailLink = () => {
+    if (isSignInWithEmailLink(firebaseAuth, window.location.href)) {
+      this.setState({ emailLinkLoginning: true, inProggress: true })
+      let email = window.localStorage.getItem('emailForSignIn')
+
+      signInWithEmailLink(firebaseAuth, email, window.location.href)
+        .then(({ user }) => {
+          window.localStorage.removeItem('emailForSignIn')
+          axios.post('session', { email: user.email })
+            .then(({ data }) => {
+              this.props.login(data)
+              window.history.pushState(null, null, '/')
+              this.handleNotificationsPermissions()
+            })
+            .catch((e) => {
+              this.setState({ inProggress: false })
+              console.log(e)
+            })
+        })
+        .catch((error) => {
+          this.setState({ inProggress: false })
+          console.log(error)
+        })
+    }
+  }
+
+  backToLogin = () => {
+    this.setState({ emailLinkLoginning: false })
+    window.history.pushState(null, null, '/')
+  }
+
   render() {
     return (
       <section>
-        <div class='logo__container'>
-          <Logo class='logo' />
-          <div><b>CAB</b>LOOK</div>
-        </div>
-        <div ref={ref => this.recaptchaWrapperRef = ref}> <div id='recaptcha_container'></div> </div>
-        {this.state.isCodeSent ? this.renderCode() : this.renderNumber()}
+        {this.state.inProggress ?
+          <div className="loaderWrapper">
+            <SearchLogo className="search_logo" />
+          </div>
+          :
+          <div class='logo__container'>
+            <Logo class='logo' />
+            <div><b>CAB</b>LOOK</div>
+          </div>
+        }
+        {this.state.emailLinkLoginning ?
+          <div>
+            {!this.state.inProggress &&
+              <div class='email__sent'>
+                {i18n.session.email_error}
+                <button class='button' onClick={this.backToLogin}>{i18n.session.back_to_login}</button>
+              </div>
+            }
+          </div>
+          :
+          <div>
+            <div ref={ref => this.recaptchaWrapperRef = ref}> <div id='recaptcha_container'></div> </div>
+            {(this.state.isEmailLogin) ? this.renderEmailAuth() : this.state.isCodeSent ? this.renderCode() : this.renderNumber()}
+          </div>
+        }
       </section>
     )
   }
