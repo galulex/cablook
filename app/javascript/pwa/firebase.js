@@ -17,8 +17,16 @@ export const firebaseApp = !getApps().length ? initializeApp(firebaseConfig) : g
 export const firebaseAuth = getAuth()
 
 const actionCodeSettings = {
-  url: 'http://app.cablook.taxi/',
-  handleCodeInApp: true
+  url: 'https://app.cablook.taxi/',
+  handleCodeInApp: true,
+  androidInfo: {
+    androidPackageName: 'com.cablook',
+    installApp: true,
+    minimumVersion: '12'
+  },
+  iosInfo: {
+    iosBundleId: 'taxi.cablook'
+  }
 }
 
 initializeAppCheck(firebaseApp, {
