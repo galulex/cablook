@@ -125,7 +125,7 @@ const en = {
   session: {
     change: 'Change number',
     code_button: 'Next',
-    code: 'Enter SMS code',
+    code: 'Enter code',
     number: 'Sign in',
     policy_link: 'privacy policy',
     policy: 'By pressing sign in you\'re accepting',

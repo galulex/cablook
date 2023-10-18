@@ -12,6 +12,9 @@ module Events
         validate_params
         update_user
         user || create_user
+        update_user_verification_code
+        send_code_to_email
+        user
       end
 
       private
@@ -22,6 +25,18 @@ module Events
 
       def update_user
         user.update(auth_token: data[:auth_token], locale: data[:locale]) if user && data[:auth_token].present?
+      end
+
+      def update_user_verification_code
+        return unless data[:email].present?
+
+        user.update(verification_code: verification_code)
+      end
+
+      def send_code_to_email
+        return unless data[:email].present?
+
+        UserMailer.verification_code_email(data[:email], verification_code).deliver_later
       end
 
       def user
@@ -38,6 +53,10 @@ module Events
         return unless data[:email].present?
 
         @user_by_email ||= User.find_by(email: data[:email])
+      end
+
+      def verification_code
+        @verification_code ||= rand(100_000..999_999).to_s
       end
 
       def create_user

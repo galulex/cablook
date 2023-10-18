@@ -5,10 +5,9 @@ import i18n from './i18n.js';
 import Phone from './images/green_phone.js';
 import Logo from './images/logo_light.js';
 import Lock from './images/lock.js';
-import SearchLogo from './images/search_logo.svg'
 
 import './css/session.css';
-import { firebaseApp, RecaptchaVerifier, signInWithPhoneNumber, getToken, getMessaging, actionCodeSettings, sendSignInLinkToEmail, isSignInWithEmailLink, signInWithEmailLink, firebaseAuth } from './firebase.js';
+import { firebaseApp, RecaptchaVerifier, signInWithPhoneNumber, getToken, getMessaging, firebaseAuth } from './firebase.js';
 
 const NUMBER_CODE = '+380'
 
@@ -22,14 +21,12 @@ export default class Session extends Component {
       isCodeSent: false,
       disabled: false,
       isEmailLogin: false,
-      emailSent: false,
-      emailLinkLoginning: false,
-      inProggress: false
+      isEmaiAuth: false,
+      isEmailErrors: false
     }
   }
 
   componentDidMount() {
-    this.authenticateUserByEmailLink()
     this.focusOnInput()
     window.addEventListener('click', this.handleClickRecaptcha, { passive: true })
   }
@@ -86,27 +83,25 @@ export default class Session extends Component {
     return (
       <form onSubmit={this.signInWithEmail}>
         <div class='email_input'>
-          {this.state.emailSent ? i18n.session.email_sent :
-            <div>
-              <input class='email__input' id='email'
-                placeholder={i18n.session.enter_email} type='email' autocomplete='email' required autoFocus
-                pattern="[^@]+@[^@]+\.[a-zA-Z]{2,6}"
-                onInput={this.updateEmail}
-                ref={(input) => this.emailInput = input} />
-              {this.renderButtons()}
-            </div>
-          }
+          <div>
+            <input class='email__input' id='email'
+              placeholder={i18n.session.enter_email} type='email' autocomplete='email' required autoFocus
+              pattern="[^@]+@[^@]+\.[a-zA-Z]{2,6}"
+              onInput={this.updateEmail}
+              ref={(input) => this.emailInput = input} />
+            {this.renderButtons()}
+          </div>
         </div>
       </form>
     )
   }
 
   renderCode = () => {
-    const { disabled, code, number } = this.state
+    const { disabled, code, number, email } = this.state
 
     return (
       <form onSubmit={this.createSession}>
-        <p class='code-send'><i>{i18n.session.code_sent + number}</i></p>
+        <p class='code-send'><i>{i18n.session.code_sent}{number || email}</i></p>
         <label for='code'>{i18n.session.code}</label>
         <div>
           <Lock class='lock' />
@@ -118,7 +113,7 @@ export default class Session extends Component {
         <button class='button' type='submit' disabled={disabled} ref={submitForm => this.submitForm = submitForm}>{i18n.session.code_button}</button>
         <div class='buttons__container'>
           <button class='button resend' disabled={disabled} onClick={this.resendCode} type='button'>{i18n.session.resend_code}</button>
-          <button class='button resend' disabled={disabled} type='button' onClick={this.resetNumber}>{i18n.session.change}</button>
+          {!this.state.isEmailLogin && <button class='button resend' disabled={disabled} type='button' onClick={this.resetNumber}>{i18n.session.change}</button>}
         </div>
       </form>
     )
@@ -164,7 +159,9 @@ export default class Session extends Component {
   }
 
   sendCode = () => {
-    const { number } = this.state
+    const { number, email, isEmailLogin } = this.state
+
+    if (isEmailLogin) return this.sendEmailWithCode(email)
 
     this.resetCaptcha()
     this.setDisabled(true)
@@ -188,10 +185,11 @@ export default class Session extends Component {
 
   createSession = (e) => {
     e.preventDefault()
+    const { code, email } = this.state
 
-    if (!e.target.checkValidity) return;
+    if (!e.target.checkValidity) return
 
-    const { code } = this.state
+    if (this.state.isEmailLogin) return this.authenticateUserByEmai(email, code)
 
     this.setDisabled(true)
 
@@ -240,76 +238,51 @@ export default class Session extends Component {
   }
 
   signInWithEmail = (e) => {
-    e.preventDefault()
+    if (e) e.preventDefault()
 
     if (!this.emailInput.checkValidity()) return
-    this.setState({ disabled: true })
 
     const { email } = this.state
+    if (email === '') return
 
-    sendSignInLinkToEmail(firebaseAuth, email, actionCodeSettings)
-      .then(() => {
-        this.setState({ disabled: false, email: '', emailSent: true })
-        window.localStorage.setItem('emailForSignIn', email)
-      })
-      .catch((error) => {
-        this.setState({ disabled: false, inProggress: false })
-        console.log(error)
-      })
+    this.sendEmailWithCode(email)
   }
 
-  authenticateUserByEmailLink = () => {
-    if (isSignInWithEmailLink(firebaseAuth, window.location.href)) {
-      this.setState({ emailLinkLoginning: true, inProggress: true })
-      let email = window.localStorage.getItem('emailForSignIn')
+  sendEmailWithCode = (email) => {
+    this.setState({ disabled: true, isEmaiAuth: true })
 
-      signInWithEmailLink(firebaseAuth, email, window.location.href)
-        .then(({ user }) => {
-          window.localStorage.removeItem('emailForSignIn')
-          axios.post('session', { email: user.email })
-            .then(({ data }) => {
-              this.props.login(data)
-              window.history.pushState(null, null, '/')
-              this.handleNotificationsPermissions()
-            })
-            .catch((e) => {
-              this.setState({ inProggress: false })
-              console.log(e)
-            })
-        })
-        .catch((error) => {
-          this.setState({ inProggress: false })
-          console.log(error)
-        })
-    }
+    axios.post('session', { email: email })
+      .then(() => this.setState({ disabled: false }))
+      .catch(() => this.setState({ disabled: false }))
+  }
+
+  authenticateUserByEmai = (email, code) => {
+    this.setState({ disabled: true })
+
+    axios.post('session/verify_code', { code: code, email: email })
+      .then(({ data }) => {
+        this.props.login(data)
+        this.setState({ isEmailErrors: false, disabled: false })
+      })
+      .catch(() => this.setState({ isEmailErrors: true, disabled: false }))
   }
 
   backToLogin = () => {
-    this.setState({ emailLinkLoginning: false })
+    this.setState({ isEmaiAuth: false })
     window.history.pushState(null, null, '/')
   }
 
   render() {
     return (
       <section>
-        {this.state.inProggress ?
-          <div className="loaderWrapper">
-            <SearchLogo className="search_logo" />
-          </div>
-          :
-          <div class='logo__container'>
-            <Logo class='logo' />
-            <div><b>CAB</b>LOOK</div>
-          </div>
-        }
-        {this.state.emailLinkLoginning ?
-          <div>
-            {!this.state.inProggress &&
-              <div class='email__sent'>
-                {i18n.session.email_error}
-                <button class='button' onClick={this.backToLogin}>{i18n.session.back_to_login}</button>
-              </div>
-            }
+        <div class='logo__container'>
+          <Logo class='logo' />
+          <div><b>CAB</b>LOOK</div>
+        </div>
+        {this.state.isEmaiAuth ?
+          <div class='email__sent'>
+            {this.state.isEmailErrors && i18n.session.email_error}
+            {this.renderCode()}
           </div>
           :
           <div>

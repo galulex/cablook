@@ -7,7 +7,9 @@ Rails.application.routes.draw do
 
   namespace :api do
     resource :business, only: %i[create update show destroy]
-    resource :session, only: %i[create update]
+    resource :session, only: %i[create update] do
+      post 'verify_code', to: 'sessions#verify_code'
+    end
     resources :bonus_trips, only: %i[index]
     resources :cards, only: %i[index new create update destroy]
     resources :orders, only: %i[create destroy]
