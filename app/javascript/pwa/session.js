@@ -161,7 +161,7 @@ export default class Session extends Component {
   sendCode = () => {
     const { number, email, isEmailLogin } = this.state
 
-    if (isEmailLogin) return this.sendEmailWithCode(email)
+    if (isEmailLogin) return this.sendEmailWithCode(email, number)
 
     this.resetCaptcha()
     this.setDisabled(true)
@@ -176,6 +176,7 @@ export default class Session extends Component {
         this.setDisabled(false)
         this.resetCaptcha()
         alert(i18n.session.phone_number_error)
+        this.setState({ isEmailLogin: true, isCodeSent: false })
       });
   }
 
@@ -242,16 +243,18 @@ export default class Session extends Component {
 
     if (!this.emailInput.checkValidity()) return
 
-    const { email } = this.state
+    const { email, number } = this.state
     if (email === '') return
 
-    this.sendEmailWithCode(email)
+    this.sendEmailWithCode(email, number)
   }
 
-  sendEmailWithCode = (email) => {
+  sendEmailWithCode = (email, number) => {
     this.setState({ disabled: true, isEmaiAuth: true })
 
-    axios.post('session', { email: email })
+    const params = number.length === 13 ? { email: email, phone_number: number } : { email: email }
+console.log(number.length)
+    axios.post('session', params)
       .then(() => this.setState({ disabled: false }))
       .catch(() => this.setState({ disabled: false }))
   }

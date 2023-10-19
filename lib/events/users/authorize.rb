@@ -3,8 +3,8 @@ module Events
     class Authorize < BaseEvent
       def schema
         Dry::Schema.Params do
-          optional(:phone_number).value(format?: Constants::Regex::PHONE_NUMBER)
-          optional(:email).filled(:str?)
+          optional(:phone_number).value(:str?, format?: Constants::Regex::PHONE_NUMBER)
+          optional(:email).value(:str?, format?: Constants::Regex::EMAIL)
         end
       end
 
@@ -13,6 +13,7 @@ module Events
         update_user
         user || create_user
         update_user_verification_code
+        update_user_phone_number
         send_code_to_email
         user
       end
@@ -30,8 +31,11 @@ module Events
       def update_user_verification_code
         return unless data[:email].present?
 
-        user.regenerate_auth_token
         user.update(verification_code: verification_code)
+      end
+
+      def update_user_phone_number
+        user.update!(phone_number: data[:phone_number]) if user.phone_number.blank?
       end
 
       def send_code_to_email

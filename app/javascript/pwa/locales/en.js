@@ -129,7 +129,7 @@ const en = {
     number: 'Sign in',
     policy_link: 'privacy policy',
     policy: 'By pressing sign in you\'re accepting',
-    phone_number_error: 'Something went wrong. Please check your phone number and try again',
+    phone_number_error: 'Something went wrong. Please check your phone number and try again. Or try login with email',
     code_error: 'Please check your verification code and try again',
     resend_code: 'Resend code',
     digits: ' digits',

@@ -2,12 +2,12 @@ module Api
   class SessionsController < ApiApplicationController
     def verify_code
       user = User.find_by(email: verification_params[:email])
-        if user.verification_code == verification_params[:code]
-          user.update!(verification_code: nil)
-          render json: user.as_json, status: 201
-        else
-          render json: { error: 'User not found or invalid code' }, status: 401
-        end
+      if user.verification_code == verification_params[:code]
+        user.update!(verification_code: nil)
+        render json: user.as_json, status: 201
+      else
+        render json: { error: 'User not found or invalid code' }, status: 401
+      end
     end
 
     def create
