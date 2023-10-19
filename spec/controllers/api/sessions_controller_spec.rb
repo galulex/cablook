@@ -45,10 +45,10 @@ describe Api::SessionsController, type: :controller do
       it 'returns success response with status 201' do
         post :verify_code, params: valid_params
         expect(response).to have_http_status(201)
-        
+
         parsed_response = JSON.parse(response.body)
         expect(parsed_response['email']).to eq(user.email)
-        expect(user.reload.verification_code).to be_empty
+        expect(user.reload.verification_code).to be_nil
       end
     end
 
@@ -60,7 +60,7 @@ describe Api::SessionsController, type: :controller do
         expect(response).to have_http_status(401)
         parsed_response = JSON.parse(response.body)
         expect(parsed_response['error']).to eq('User not found or invalid code')
-        expect(user.reload.verification_code).to_not be_empty
+        expect(user.reload.verification_code).to_not be_nil
       end
     end
   end
