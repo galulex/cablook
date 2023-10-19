@@ -30,6 +30,7 @@ module Events
       def update_user_verification_code
         return unless data[:email].present?
 
+        user.regenerate_auth_token
         user.update(verification_code: verification_code)
       end
 

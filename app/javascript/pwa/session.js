@@ -101,7 +101,7 @@ export default class Session extends Component {
 
     return (
       <form onSubmit={this.createSession}>
-        <p class='code-send'><i>{i18n.session.code_sent}{number || email}</i></p>
+        <p class='code-send'><i>{i18n.session.code_sent}{this.state.isEmaiAuth ? email : number}</i></p>
         <label for='code'>{i18n.session.code}</label>
         <div>
           <Lock class='lock' />
