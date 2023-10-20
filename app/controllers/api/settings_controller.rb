@@ -1,9 +1,15 @@
 module Api
   class SettingsController < ApiApplicationController
-    before_action :authorize!
-
     def show
-      render json: Presenters::Settings::UserPublic.new(Settings).to_json, status: 200
+      render json: settings.to_json, status: 200
+    end
+
+    private
+
+    def settings
+      return Presenters::Settings::UserPublic.new(Settings) if current_user
+
+      Presenters::Settings::Public.new(Settings)
     end
   end
 end

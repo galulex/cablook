@@ -28,6 +28,7 @@ export default class Session extends Component {
 
   componentDidMount() {
     this.focusOnInput()
+    axios.get('/settings').then(({ data }) => { if (data.email_auth) this.setState({ isEmailLogin: data.email_auth }) })
     window.addEventListener('click', this.handleClickRecaptcha, { passive: true })
   }
 
@@ -56,7 +57,12 @@ export default class Session extends Component {
     return (
       <div>
         <button class='button green' disabled={disabled} type='submit' ref={submitForm => this.submitForm = submitForm}>{i18n.session.number}</button>
-        <button class='button switch' onClick={() => this.setState({ isEmailLogin: !this.state.isEmailLogin })}>{this.state.isEmailLogin ? i18n.session.login_by_phone : i18n.session.login_by_email}</button>
+        {this.state.isEmailLogin &&
+          <button class='button switch'
+            onClick={() => this.setState({ isEmailLogin: !this.state.isEmailLogin })}>
+            {this.state.isEmailLogin ? i18n.session.login_by_phone : i18n.session.login_by_email}
+          </button>
+        }
         <p><i>{i18n.session.policy} <a href='/privacy-policy' target='_blank'>{i18n.session.policy_link}</a></i></p>
       </div>
     )
@@ -161,7 +167,7 @@ export default class Session extends Component {
   sendCode = () => {
     const { number, email, isEmailLogin } = this.state
 
-    if (isEmailLogin) return this.sendEmailWithCode(email)
+    if (isEmailLogin) return this.sendEmailWithCode(email, number)
 
     this.resetCaptcha()
     this.setDisabled(true)
@@ -176,6 +182,7 @@ export default class Session extends Component {
         this.setDisabled(false)
         this.resetCaptcha()
         alert(i18n.session.phone_number_error)
+        this.setState({ isEmailLogin: true, isCodeSent: false })
       });
   }
 
@@ -242,16 +249,18 @@ export default class Session extends Component {
 
     if (!this.emailInput.checkValidity()) return
 
-    const { email } = this.state
+    const { email, number } = this.state
     if (email === '') return
 
-    this.sendEmailWithCode(email)
+    this.sendEmailWithCode(email, number)
   }
 
-  sendEmailWithCode = (email) => {
+  sendEmailWithCode = (email, number) => {
     this.setState({ disabled: true, isEmaiAuth: true })
 
-    axios.post('session', { email: email })
+    const params = number.length === 13 ? { email: email, phone_number: number } : { email: email }
+
+    axios.post('session', params)
       .then(() => this.setState({ disabled: false }))
       .catch(() => this.setState({ disabled: false }))
   }
