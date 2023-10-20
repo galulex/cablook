@@ -29,7 +29,8 @@ module Fondy
         merchant_id: merchant_id,
         order_desc: order_desc,
         receiver_card_number: driver.card_number,
-        reservation_data: reservation_data
+        reservation_data: reservation_data,
+        receiver_inn: 
       }
     end
 
@@ -53,6 +54,10 @@ module Fondy
 
     def order_reference
       "payout_##{driver.id}_#{driver.car.number}_#{Time.now.strftime('%Y%m%d%H%M%S')}"
+    end
+
+    def receiver_inn
+      driver.tin || ''
     end
   end
 end
