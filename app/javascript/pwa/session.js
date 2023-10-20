@@ -253,7 +253,7 @@ export default class Session extends Component {
     this.setState({ disabled: true, isEmaiAuth: true })
 
     const params = number.length === 13 ? { email: email, phone_number: number } : { email: email }
-console.log(number.length)
+
     axios.post('session', params)
       .then(() => this.setState({ disabled: false }))
       .catch(() => this.setState({ disabled: false }))
