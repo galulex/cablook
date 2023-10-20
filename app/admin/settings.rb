@@ -14,7 +14,7 @@ ActiveAdmin.register Settings do
     redirect_to admin_setting_path
   end
 
-  show title: SETTINGS_TITLE do |settings|
+  show title: SETTINGS_TITLE do |_settings|
     tabs do
       tab FEATURES_TITLE do
         render 'show'

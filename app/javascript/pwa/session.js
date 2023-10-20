@@ -28,6 +28,7 @@ export default class Session extends Component {
 
   componentDidMount() {
     this.focusOnInput()
+    axios.get('/settings').then(({ data }) => { if (data.email_auth) this.setState({ isEmailLogin: data.email_auth }) })
     window.addEventListener('click', this.handleClickRecaptcha, { passive: true })
   }
 
@@ -56,7 +57,12 @@ export default class Session extends Component {
     return (
       <div>
         <button class='button green' disabled={disabled} type='submit' ref={submitForm => this.submitForm = submitForm}>{i18n.session.number}</button>
-        <button class='button switch' onClick={() => this.setState({ isEmailLogin: !this.state.isEmailLogin })}>{this.state.isEmailLogin ? i18n.session.login_by_phone : i18n.session.login_by_email}</button>
+        {this.state.isEmailLogin &&
+          <button class='button switch'
+            onClick={() => this.setState({ isEmailLogin: !this.state.isEmailLogin })}>
+            {this.state.isEmailLogin ? i18n.session.login_by_phone : i18n.session.login_by_email}
+          </button>
+        }
         <p><i>{i18n.session.policy} <a href='/privacy-policy' target='_blank'>{i18n.session.policy_link}</a></i></p>
       </div>
     )
