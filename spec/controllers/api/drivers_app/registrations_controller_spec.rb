@@ -7,7 +7,8 @@ describe Api::DriversApp::RegistrationsController, type: :controller do
         name: Faker::Lorem.word,
         username: Faker::Name.name,
         password: Faker::Internet.password,
-        card_number: '4444555566661111'
+        card_number: '4444555566661111',
+        inn: '2222222222'
       } }
     end
 
@@ -20,7 +21,8 @@ describe Api::DriversApp::RegistrationsController, type: :controller do
         { driver: {
           name: Faker::Name.name,
           username: '',
-          password: Faker::Internet.password
+          password: Faker::Internet.password,
+          inn: '4444444444'
         } }
       end
 

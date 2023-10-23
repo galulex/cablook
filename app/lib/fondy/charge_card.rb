@@ -30,7 +30,7 @@ module Fondy
         order_desc: order_desc,
         receiver_card_number: driver.card_number,
         reservation_data: reservation_data,
-        receiver_inn: 
+        receiver_inn: receiver_inn
       }
     end
 
@@ -57,7 +57,7 @@ module Fondy
     end
 
     def receiver_inn
-      driver.tin || ''
+      driver.inn || ''
     end
   end
 end

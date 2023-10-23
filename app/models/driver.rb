@@ -12,7 +12,7 @@ class Driver < ApplicationRecord
   validates :username, presence: true, uniqueness: true
   validates :name, :encrypted_password, presence: true
   validates :card_number, presence: true, numericality: true, length: { is: 16 }
-  validates :tin, presence: true, numericality: true, length: { is: 10 }
+  validates :inn, presence: true, numericality: true, uniqueness: true, length: { is: 10 }
 
   before_validation :set_address_location, on: %i[create update]
 
