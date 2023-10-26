@@ -26,6 +26,7 @@ module Events
         end
 
         def validate_card!
+          return if cash_trip
           invalid!([I18n.t('cards.add_card')]) if user_cards.empty?
         end
 
@@ -35,7 +36,7 @@ module Events
         end
 
         def validate_hold_amount!
-          unless hold_success?
+          unless hold_success? || cash_trip
             @trip.destroy
             invalid!([I18n.t('trips.cant_hold_amount')], status: 402) 
           end

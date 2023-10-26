@@ -7,6 +7,7 @@ class Presenters::Trips::Single < Presenters::BaseSingle
   property :vip, if: ->(user_options:, **) { !user_options[:without_vip] }
 
   property :bonus, exec_context: :decorator
+  property :card_id, exec_context: :decorator
   property :status, exec_context: :decorator
   property :formatted_date, exec_context: :decorator
 
@@ -14,6 +15,10 @@ class Presenters::Trips::Single < Presenters::BaseSingle
 
   def bonus
     represented.bonus_trip.present?
+  end
+
+  def card_id
+    represented.trip_payment&.card_id
   end
 
   def status

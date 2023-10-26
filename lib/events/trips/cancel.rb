@@ -5,8 +5,6 @@ module Events
 
       def schema
         Dry::Schema.Params do
-          # configure { config.messages = :i18n }
-
           required(:trip_id).filled(:int?)
           optional(:by_driver).filled(:bool?)
           optional(:notification)
@@ -66,7 +64,7 @@ module Events
       end
 
       def fake_taxi?
-        trip.status.in?(Constants::Trip::FAKE_TAXI_TRIP_STATUSES.values) && data[:by_driver]
+        trip.status.in?(Constants::Trip::FAKE_TAXI_TRIP_STATUSES.values) && data[:by_driver] && !cash_trip?
       end
 
       def fake_taxi_payment
@@ -85,6 +83,8 @@ module Events
       end
 
       def trip_refound_hold_payment
+        return if cash_trip?
+
         @trip_refound_hold_payment ||= Fondy::Reverse.new(trip.cost, payment.order_reference).call
       end
 
@@ -129,7 +129,7 @@ module Events
       end
 
       def payment
-        @payment ||= trip.trip_payment
+        @payment ||= trip.trip_payment || trip.cash_payment
       end
 
       def order_payment
@@ -147,6 +147,10 @@ module Events
 
       def fake_amount
         @fake_amount ||= price.landing / 100
+      end
+
+      def cash_trip?
+        payment.card_id.present?
       end
     end
   end

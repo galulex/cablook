@@ -1,6 +1,6 @@
 class Settings < ApplicationRecord
   MESSAGE_SETTINGS_ALREADY_CREATED = 'Settings already created'.freeze
-  FEATURES = %w[bonuses cashback delivery sos validate_unpaid_trips email_auth].freeze
+  FEATURES = %w[bonuses cashback delivery sos validate_unpaid_trips email_auth cash].freeze
 
   validate :only_one, on: :create
 

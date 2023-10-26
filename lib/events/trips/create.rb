@@ -8,17 +8,15 @@ module Events
 
       def schema
         Dry::Schema.Params do
-          # configure { config.messages = :i18n }
-
           required(:user_id).filled(:int?)
-
           required(:departure).filled
           required(:destination).filled
           required(:departure_address).filled(:str?)
           required(:destination_address).filled(:str?)
+
+          optional(:cash)
           optional(:waypoints) { none? | array? }
           optional(:stops) { none? | array? }
-
           optional(:time) { str? }
           optional(:no_call)
           optional(:osrm)
@@ -81,14 +79,15 @@ module Events
       end
 
       def create_payment
-        Payments::Trip.create(
+        payment_type = cash_trip ? 'Cash' : 'Trip'
+        "Payments::#{payment_type}".constantize.create(
           status: Constants::Payments::PENDING,
           amount: @trip.cost,
           user_id: @trip.user_id,
-          card_id: card.id,
+          card_id: cash_trip ? nil : card.id,
           trip_id: @trip.id,
           order_reference: order_reference,
-          response: hold_amount
+          response: cash_trip ? { cash_trip: true } : hold_amount
         )
       end
 
@@ -108,7 +107,7 @@ module Events
       end
 
       def create_trip
-        @trip = Trip.create(data.to_h.except(:bonus, :cashback, :card_id, :id, :status, :created_at, :idle, :car_id, :driver_id, :finished_at, :arrived_at, :started_at, :feedbacks, :delivery, :order_id))
+        @trip = Trip.create(data.to_h.except(:bonus, :cashback, :card_id, :id, :status, :created_at, :idle, :car_id, :driver_id, :finished_at, :arrived_at, :started_at, :feedbacks, :delivery, :order_id, :cash))
         validate_hold_amount! if settings.fondy?
       end
 
@@ -125,7 +124,7 @@ module Events
       def create_trip_job(trip_id)
         Jobs::DeclineTrip.set(wait: Constants::Trip::EXPIRES_IN).perform_later(trip_id)
         Jobs::SearchCarForTrip.perform_later(trip_id)
-        Jobs::RefundHoldedAmount.set(wait: Constants::Trip::REFUND_HOLD_IN).perform_later(trip_id, data[:cost], order_reference) if settings.fondy?
+        Jobs::RefundHoldedAmount.set(wait: Constants::Trip::REFUND_HOLD_IN).perform_later(trip_id, data[:cost], order_reference) if settings.fondy? && !cash_trip
       end
 
       def approve_by_vendor
@@ -201,6 +200,10 @@ module Events
 
       def order_reference
         @order_reference ||= OrderReference.new(@trip.id).call
+      end
+
+      def cash_trip
+        data[:cash]
       end
     end
   end

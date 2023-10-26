@@ -9,6 +9,7 @@ RSpec.feature 'Trip', type: :feature, js: true do
   let!(:prev_trip) { user.trips.create(status: 'finished') }
 
   before do
+    Settings.disable(:cash)
     Redis.current.set("car_#{car.id}", '49.4412378,32.0650127')
     Capybara.default_host = 'http://app.lvh.me'
     visit('http://app.lvh.me:9887')

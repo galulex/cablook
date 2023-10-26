@@ -68,8 +68,8 @@ describe Events::Trips::Update do
           create(:trip_payment, status: Constants::Payments::BONUS, amount: 0, trip: trip, user: user)
         end
 
-        it { is_expected.to change { trip.reload.cost } }
-        it { is_expected.to change { trip.reload.path } }
+        it { is_expected.to(change { trip.reload.cost }) }
+        it { is_expected.to(change { trip.reload.path }) }
         it { is_expected.to change { trip.reload.departure }.to(data[:departure].map(&:to_s)) }
         it { is_expected.to change { trip.reload.destination }.to(data[:destination].map(&:to_s)) }
         it { is_expected.to change { trip.reload.departure_address }.to(data[:departure_address]) }
@@ -112,9 +112,9 @@ describe Events::Trips::Update do
             end
           end
 
-          it { is_expected.to change { trip_payment.reload.amount } }
-          it { is_expected.to change { trip.reload.cost } }
-          it { is_expected.to change { trip.reload.path } }
+          it { is_expected.to(change { trip_payment.reload.amount }) }
+          it { is_expected.to(change { trip.reload.cost }) }
+          it { is_expected.to(change { trip.reload.path }) }
           it { is_expected.to change { trip.reload.departure }.to(data[:departure].map(&:to_s)) }
           it { is_expected.to change { trip.reload.destination }.to(data[:destination].map(&:to_s)) }
           it { is_expected.to change { trip.reload.departure_address }.to(data[:departure_address]) }
@@ -152,7 +152,7 @@ describe Events::Trips::Update do
 
           before { allow_any_instance_of(described_class).to receive(:order_reference).and_return(order_reference) }
 
-          it { is_expected.to change { trip_payment.reload.amount } }
+          it { is_expected.to(change { trip_payment.reload.amount }) }
           it { is_expected.to change { trip_payment.reload.status }.to(Constants::Payments::PENDING) }
           it { is_expected.to change { trip_payment.reload.card_id }.to(card.id) }
           it { is_expected.to change { trip_payment.reload.order_reference }.to(order_reference) }
@@ -160,8 +160,8 @@ describe Events::Trips::Update do
           it { is_expected.to change { bonus_trip.reload.fresh? }.to be_truthy }
           it { is_expected.to change { bonus_trip.reload.trip_id }.to(nil) }
 
-          it { is_expected.to change { trip.reload.cost } }
-          it { is_expected.to change { trip.reload.path } }
+          it { is_expected.to(change { trip.reload.cost }) }
+          it { is_expected.to(change { trip.reload.path }) }
           it { is_expected.to change { trip.reload.departure }.to(data[:departure].map(&:to_s)) }
           it { is_expected.to change { trip.reload.destination }.to(data[:destination].map(&:to_s)) }
           it { is_expected.to change { trip.reload.departure_address }.to(data[:departure_address]) }
@@ -172,7 +172,7 @@ describe Events::Trips::Update do
 
     context 'when payment system Fondy' do
       let(:reverse_stub) { double(Fondy::Reverse, call: { reverse_status: 'approved', response_status: 'success', status: true }) }
-      let(:recurring_stub) { double(Fondy::Recurring, call: { order_status: 'approved', response_status: 'success', status: true } ) }
+      let(:recurring_stub) { double(Fondy::Recurring, call: { order_status: 'approved', response_status: 'success', status: true }) }
       let(:order_reference) { 'test_order_reference' }
       let(:trip) { create(:trip, user_id: user.id) }
       let!(:trip_payment) { create(:trip_payment, trip_id: trip.id, user_id: user.id, order_reference: order_reference) }
@@ -181,17 +181,17 @@ describe Events::Trips::Update do
       let(:recurring_params) { [trip.user, data[:cost], card.token, order_reference, true] }
 
       before do
-         Settings.update(payment_system: :fondy)
+        Settings.update(payment_system: :fondy)
 
-         allow_any_instance_of(described_class).to receive(:order_reference).and_return(order_reference)
+        allow_any_instance_of(described_class).to receive(:order_reference).and_return(order_reference)
 
-         allow(Fondy::Reverse).to receive(:new).with(*reverse_params).and_return(reverse_stub)
-         allow(Fondy::Recurring).to receive(:new).with(*recurring_params).and_return(recurring_stub)
+        allow(Fondy::Reverse).to receive(:new).with(*reverse_params).and_return(reverse_stub)
+        allow(Fondy::Recurring).to receive(:new).with(*recurring_params).and_return(recurring_stub)
       end
 
-      it { is_expected.to change { trip_payment.reload.amount } }
-      it { is_expected.to change { trip.reload.cost } }
-      it { is_expected.to change { trip.reload.path } }
+      it { is_expected.to(change { trip_payment.reload.amount }) }
+      it { is_expected.to(change { trip.reload.cost }) }
+      it { is_expected.to(change { trip.reload.path }) }
       it { is_expected.to change { trip.reload.departure }.to(data[:departure].map(&:to_s)) }
       it { is_expected.to change { trip.reload.destination }.to(data[:destination].map(&:to_s)) }
       it { is_expected.to change { trip.reload.departure_address }.to(data[:departure_address]) }

@@ -13,6 +13,7 @@ import Widget from './widget.js'
 import Entrance from './images/entrance.svg'
 import Clock from './images/clock.svg'
 import Card from './images/credit-cards-payment.js'
+import Hrivna from './images/ukraine-hryvna.js'
 import { geocode } from '../pwa/geolocation.js'
 import Phone from './images/phone_crossed.js'
 import Comment from './images/contacts.svg'
@@ -22,8 +23,7 @@ import './css/new_design.css'
 import './lib/dndpoly.js'
 import { isAllowedFeature } from './lib/featureFlag.js'
 
-
-import { PENDING, ON_THE_WAY, WAITING_CLIENT, DRIVING, FINISHED, CANCELED, DECLINED, CANCELED_BY_DRIVER, CONFIRM_UPDATE_TRIP, MAP_MIN_ZOOM, MAP_MAX_ZOOM, CHERKASY_LONG_LAT } from './lib/constants.js'
+import { PENDING, ON_THE_WAY, WAITING_CLIENT, DRIVING, FINISHED, CANCELED, DECLINED, CANCELED_BY_DRIVER, CONFIRM_UPDATE_TRIP, PAY_TYPE } from './lib/constants.js'
 
 const cable = createConsumer()
 const ENTRANCES = Array.from({ length: 15 }, (v, k) => (k + 1))
@@ -204,9 +204,9 @@ export default class NewDesign extends Component {
   }
 
   create = (e) => {
-    const { trip, comment, entrance } = this.state
-    let params = { ...trip, status: PENDING }
-    if (this.state.bonus === 'true') params.bonus = this.state.bonus
+    const { trip, comment, entrance, settings } = this.state
+    let params = { ...trip, status: PENDING, cash: settings.cash && !localStorage.getItem(PAY_TYPE) }
+    if (this.state.bonus === 'true') params.bonus = bonus
     if (this.state.cashback) params.cashback = this.state.cashback
     this.sendRequest(params)
   }
@@ -701,6 +701,33 @@ export default class NewDesign extends Component {
     this.build()
   }
 
+  onCardSelect = (e) => {
+    if (e.target.value < 0) return this.setState({ showWidget: true, inputDisabled: true })
+    this.setState({ trip: { ...this.state.trip, card_id: e.target.value } })
+    localStorage.setItem(PAY_TYPE, e.target.value)
+  }
+
+  renderCardSelect = (cards, trip) => {
+    let lastCardId = null
+    if (!this.state.settings.cash && cards.length > 0) {
+      lastCardId = cards[cards.length - 1].id
+      localStorage.setItem(PAY_TYPE, lastCardId)
+    }
+    const value = this.state.settings.cash ? localStorage.getItem(PAY_TYPE) : lastCardId
+    const cashOption = <option selected={false}>{i18n.trip.cash}</option>
+    const cardsItems = cards.map(card => <option selected={value == card.id} value={card.id}>{card.pan}</option>)
+    const addCardOption = cardsItems.length == 0 ? <option value={-1}>{i18n.cards.add}</option> : null
+
+    return (
+      <label className='select' htmlFor='card_id'>
+        {value ? <Card width='24' /> : <Hrivna width='44' />}
+        <select id='card_id' disabled={this.state.inputDisabled} onChange={this.onCardSelect} value={value}>
+          {this.state.settings.cash ? [cashOption, addCardOption].concat(cardsItems) : cardsItems}
+        </select>
+      </label>
+    )
+  }
+
   renderFields(trip, isValid, cards) {
     return (
       <div id='fields' class='options' ref={fields => this.fields = fields}>
@@ -766,12 +793,7 @@ export default class NewDesign extends Component {
                   value={trip.time} placeholder='Now' onBlur={this.setTime} />
                 <span className='time-placeholder'>{i18n.current_trip.now}</span>
               </label>{' '}
-              <label className='select' htmlFor='card'>
-                <Card width='24' />
-                <select id='card_id' onChange={this.setField}>
-                  {cards.map(card => <option selected={trip.card_id == card.id} value={card.id}>{card.pan}</option>)}
-                </select>
-              </label>
+              {this.renderCardSelect(cards, trip)}
             </div>
             <label htmlFor='comment'>
               {/*<Comment width='24'/>*/}
@@ -868,7 +890,8 @@ export default class NewDesign extends Component {
             cancelTimer={cancelTimer}
             showFeedback={showFeedback}
             cashbackAmount={cashbackAmount}
-            availableBonusTrips={availableBonusTrips} />
+            availableBonusTrips={availableBonusTrips}
+            cash={this.state.settings.cash} />
           {showWidget && <Widget paymentSystem={this.props.paymentSystem} updateCards={this.props.updateCards} showWidget={() => this.setState({ showWidget: false })} />}
         </section>
       </div>

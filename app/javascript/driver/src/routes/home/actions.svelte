@@ -2,6 +2,7 @@
   import { onMount, onDestroy } from 'svelte'
   import axios from 'axios'
 
+  import i18n from '../../../../pwa/i18n.js'
   import Leaf from '../../../images/Leaf_black.svelte'
   import Timer from '../../../images/Timer.svelte'
   import Clock from '../../../images/Clock.svelte'
@@ -161,4 +162,4 @@
   <time><Timer style={{fill: 'var(--red_color)', width: '15px', height: '15px'}}/><label>{time}</label></time>
 </p>
 <blockquote>{trip.comment}</blockquote>
-<button type='button' disabled={disabledButton || disabled} on:click={accept} style="{btnStyle}">GO {time}</button>
+<button type='button' disabled={disabledButton || disabled} on:click={accept} style="{btnStyle}">{trip.card_id ? '' : `${i18n.trip.cash}, `}GO {time}</button>

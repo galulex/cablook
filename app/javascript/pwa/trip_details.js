@@ -23,7 +23,7 @@ export default class TripCard extends Component {
     this.setRate()
     this.props.main.classList.add('noscroll')
     if (window.ios) return
-    history.pushState(null, 'Trip Details',`/trips/${this.props.trip.id}`)
+    history.pushState(null, 'Trip Details', `/trips/${this.props.trip.id}`)
     window.addEventListener('popstate', this.props.handleBack, { once: true, passive: true })
   }
 
@@ -51,21 +51,21 @@ export default class TripCard extends Component {
           <div class='trip-details__content'>
             <div class='trip-details__holder'>
               <div class="buttons">
-                <button type='button' class= 'button white-opacity' onClick={this.repeatTrip}>{i18n.trips.repeat}</button>
-                <button type='button' class= 'button white-opacity' onClick={this.reverseTrip}>{i18n.trips.reverse}</button>
+                <button type='button' class='button white-opacity' onClick={this.repeatTrip}>{i18n.trips.repeat}</button>
+                <button type='button' class='button white-opacity' onClick={this.reverseTrip}>{i18n.trips.reverse}</button>
               </div>
-              <div class='trip-details-content'><TripPrice class='details-icon'/>{`${trip.cost} ${i18n.trip.currency}`}</div>
-              <div class='trip-details-content'><TripStatus class='details-icon'/>{`${i18n.trips.status} - ${i18n.trips.statuses[trip.status]}`}</div>
+              <div class='trip-details-content'><TripPrice class='details-icon' />{`${trip.cost} ${i18n.trip.currency}`}</div>
+              <div class='trip-details-content'><TripStatus class='details-icon' />{`${i18n.trips.status} - ${i18n.trips.statuses[trip.status]}`}</div>
               <div class='trip-details-content'>
-                <address><Pin class='pin address-pin details-icon'/>{trip.departure_address}</address>
-                <address><Pin class='pin address-pin details-icon'/>{trip.destination_address}</address>
+                <address><Pin class='pin address-pin details-icon' />{trip.departure_address}</address>
+                <address><Pin class='pin address-pin details-icon' />{trip.destination_address}</address>
               </div>
-              <div class='trip-details-content'><Clock class='details-icon'/>{trip.formatted_date}</div>
+              <div class='trip-details-content'><Clock class='details-icon' />{trip.formatted_date}</div>
               {this.renderRate()}
             </div>
           </div>
         </section>
-        {this.props.showFeedback() && <Feedback trip={this.props.trip} handleBack={this.handleFeedbackBack} isFeedbackVisible={this.state.isFeedbackVisible} getRate={this.getRate}/>}
+        {this.props.showFeedback() && <Feedback trip={this.props.trip} handleBack={this.handleFeedbackBack} isFeedbackVisible={this.state.isFeedbackVisible} getRate={this.getRate} />}
       </div>
     )
   }
@@ -88,7 +88,7 @@ export default class TripCard extends Component {
     let start_address = this.props.trip.departure_address
     let finish = this.props.trip.destination
     let finish_address = this.props.trip.destination_address
-    let waypoints = this.props.trip.waypoints.reverse()	
+    let waypoints = this.props.trip.waypoints.reverse()
     let stops = this.props.trip.stops.reverse()
 
     const trip = {
@@ -107,7 +107,7 @@ export default class TripCard extends Component {
 
   buildTrip = (trip) => {
     route('/', true)
-    axios.post('trips/new', {trip: trip}).then((res) => {
+    axios.post('trips/new', { trip: trip }).then((res) => {
       trip.path = res.data.path
       trip.cost = res.data.cost
       this.props.setCurrentTrip(trip)
@@ -117,21 +117,21 @@ export default class TripCard extends Component {
   }
 
   getRate = (value) => {
-    this.setState({rate: value})
+    this.setState({ rate: value })
   }
 
   setRate = () => {
     if (this.props.trip.feedbacks.length >= 1) {
-      this.setState({rate: this.props.trip.feedbacks[0].rate})
+      this.setState({ rate: this.props.trip.feedbacks[0].rate })
     }
   }
 
   renderRate = () => {
     if (this.props.trip.status !== 4) return
     if (this.state.rate) {
-      return(<div class='trip-details-content'>{getRate(this.state.rate)}</div>)
+      return (<div class='trip-details-content'>{getRate(this.state.rate)}</div>)
     } else {
-      return(<div class='trip-details-content'><button class='button green' onClick={this.toggleFeedback}>{i18n.trips.rate}</button></div>)
+      return (<div class='trip-details-content'><button class='button green' onClick={this.toggleFeedback}>{i18n.trips.rate}</button></div>)
     }
   }
 }

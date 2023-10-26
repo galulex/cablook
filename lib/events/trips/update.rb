@@ -5,8 +5,6 @@ module Events
 
       def schema
         Dry::Schema.Params do
-          # configure { config.messages = :i18n }
-
           required(:departure).filled
           required(:departure_address).filled(:str?)
           required(:destination).filled
@@ -30,7 +28,7 @@ module Events
 
       def run
         validate!
-        if settings.fondy?
+        if settings.fondy? && !trip.cash_payment
           cancel_previous_hold
           validate_canceling_previous_hold!
           hold_updated_amount
@@ -77,7 +75,7 @@ module Events
           bonus_trip.update(status: :fresh, trip_id: nil)
           update_trip_payment
         else
-          trip.trip_payment.update(payment_params)
+          trip_payment.update(payment_params)
         end
       end
 
@@ -86,7 +84,7 @@ module Events
       end
 
       def update_trip_payment
-        trip.trip_payment.update(
+        trip_payment.update(
           status: Constants::Payments::PENDING,
           amount: trip.cost,
           card_id: card.id,
@@ -138,6 +136,10 @@ module Events
         params[:card_id] = data[:card_id] if data[:card_id]
         params[:order_reference] = order_reference
         params
+      end
+
+      def trip_payment
+        @trip_payment ||= trip.trip_payment || trip.cash_payment
       end
     end
   end

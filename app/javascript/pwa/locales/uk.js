@@ -16,7 +16,8 @@ const uk = {
     on: 'на',
     will_arrive: 'приїде в',
     waiting_notice: 'Водій вже чекає вас',
-    header: 'Поїздка'
+    header: 'Поїздка',
+    cash: 'Готівкою'
   },
   trips: {
     header: 'Поїздки',
