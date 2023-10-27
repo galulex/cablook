@@ -7,7 +7,6 @@ import './css/cards.css'
 import CardsIcon from './images/credit-cards-payment.js'
 import Card from './images/card.js'
 import Close from './images/close.js'
-import {PAY_TYPE} from './lib/constants.js'
 
 export default class Cards extends Component {
   constructor(props) {
@@ -75,7 +74,6 @@ export default class Cards extends Component {
 
     axios.delete(`cards/${id}`).then((res) => {
       this.props.updateCards(res.data.cards)
-      localStorage.removeItem(PAY_TYPE)
     }).catch((error) => {
       if (error.response) alert(error.response.data.errors)
     })

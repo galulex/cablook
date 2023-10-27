@@ -85,7 +85,7 @@ module Events
       def driver_broadcast_cash_trip_data
         {
           cash_trip: cash_trip?,
-          cash: trip.cash_payment ? trip.cost.to_s : '',
+          cash: trip.cost.to_s,
           idle: data[:idle] < Constants::Trip::FREE_IDLE_VALUE ? nil : idle.to_s
         }
       end

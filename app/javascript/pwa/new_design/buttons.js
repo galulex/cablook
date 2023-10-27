@@ -1,6 +1,6 @@
 import { h } from 'preact'
 
-import { PENDING, ON_THE_WAY, WAITING_CLIENT, DRIVING, FINISHED, CANCELED, DECLINED, CANCELED_BY_DRIVER, CONFIRM_UPDATE_TRIP, MAP_MIN_ZOOM, MAP_MAX_ZOOM, CHERKASY_LONG_LAT, PAY_TYPE } from '../lib/constants.js'
+import { PENDING, ON_THE_WAY, WAITING_CLIENT, DRIVING, FINISHED, CANCELED, DECLINED, CANCELED_BY_DRIVER, CONFIRM_UPDATE_TRIP, MAP_MIN_ZOOM, MAP_MAX_ZOOM, CHERKASY_LONG_LAT } from '../lib/constants.js'
 import i18n from '../i18n.js'
 import TripPrice from '../images/ukraine-hryvna.svg'
 
@@ -41,7 +41,7 @@ export default function Buttons() {
           value={bonus}
           disabled={!isValid || buttonDisabled}
           onClick={createTrip}>
-          {this.props.cash && !localStorage.getItem(PAY_TYPE) && `${i18n.trip.cash}, `}{stops.includes('') ? `${i18n.confirm_trip.go}` : `${i18n.confirm_trip.go} ${!stops.includes('') && cost}`}
+          {this.props.cash && trip.card_id === 'cash' && `${i18n.trip.cash}, `}{stops.includes('') ? `${i18n.confirm_trip.go}` : `${i18n.confirm_trip.go} ${!stops.includes('') && cost}`}
           {(cost !== '' && !stops.includes('')) && <TripPrice />}
         </button>
       }

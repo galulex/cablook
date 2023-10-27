@@ -23,7 +23,7 @@ import './css/new_design.css'
 import './lib/dndpoly.js'
 import { isAllowedFeature } from './lib/featureFlag.js'
 
-import { PENDING, ON_THE_WAY, WAITING_CLIENT, DRIVING, FINISHED, CANCELED, DECLINED, CANCELED_BY_DRIVER, CONFIRM_UPDATE_TRIP, PAY_TYPE } from './lib/constants.js'
+import { PENDING, ON_THE_WAY, WAITING_CLIENT, DRIVING, FINISHED, CANCELED, DECLINED, CANCELED_BY_DRIVER, CONFIRM_UPDATE_TRIP } from './lib/constants.js'
 
 const cable = createConsumer()
 const ENTRANCES = Array.from({ length: 15 }, (v, k) => (k + 1))
@@ -56,7 +56,8 @@ export default class NewDesign extends Component {
       cancelTimer: null,
       klass: '',
       settings: {},
-      showLoading: false
+      showLoading: false,
+      payTypeSelected: false
     }
     this.draggedPrevValue = null
     this.draggedValue = null
@@ -205,7 +206,7 @@ export default class NewDesign extends Component {
 
   create = (e) => {
     const { trip, comment, entrance, settings } = this.state
-    let params = { ...trip, status: PENDING, cash: settings.cash && !localStorage.getItem(PAY_TYPE) }
+    let params = { ...trip, status: PENDING, cash: settings.cash && trip.card_id === 'cash' }
     if (this.state.bonus === 'true') params.bonus = bonus
     if (this.state.cashback) params.cashback = this.state.cashback
     this.sendRequest(params)
@@ -703,24 +704,28 @@ export default class NewDesign extends Component {
 
   onCardSelect = (e) => {
     if (e.target.value < 0) return this.setState({ showWidget: true, inputDisabled: true })
-    this.setState({ trip: { ...this.state.trip, card_id: e.target.value } })
-    localStorage.setItem(PAY_TYPE, e.target.value)
+
+    this.setState({ trip: { ...this.state.trip, card_id: e.target.value }, payTypeSelected: true })
+  }
+
+  getDefaultCardId = (cards) => {
+    if (cards.length === 0) return 'cash'
+
+    const defaultCard = cards.find(card => card.default === true)
+    return defaultCard ? defaultCard.id : cards[cards.length - 1].id
   }
 
   renderCardSelect = (cards, trip) => {
-    let lastCardId = null
-    if (!this.state.settings.cash && cards.length > 0) {
-      lastCardId = cards[cards.length - 1].id
-      localStorage.setItem(PAY_TYPE, lastCardId)
-    }
-    const value = this.state.settings.cash ? localStorage.getItem(PAY_TYPE) : lastCardId
-    const cashOption = <option selected={false}>{i18n.trip.cash}</option>
+    if (cards.length >= 0 && (!this.state.payTypeSelected || !trip.card_id)) this.state.trip.card_id = this.getDefaultCardId(cards)
+
+    const value = trip.card_id
+    const cashOption = <option selected={value == 'cash'} value='cash'>{i18n.trip.cash}</option>
     const cardsItems = cards.map(card => <option selected={value == card.id} value={card.id}>{card.pan}</option>)
     const addCardOption = cardsItems.length == 0 ? <option value={-1}>{i18n.cards.add}</option> : null
 
     return (
       <label className='select' htmlFor='card_id'>
-        {value ? <Card width='24' /> : <Hrivna width='44' />}
+        {value === 'cash' ? <Hrivna width='44' /> : <Card width='24' />}
         <select id='card_id' disabled={this.state.inputDisabled} onChange={this.onCardSelect} value={value}>
           {this.state.settings.cash ? [cashOption, addCardOption].concat(cardsItems) : cardsItems}
         </select>

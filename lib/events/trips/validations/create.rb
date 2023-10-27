@@ -36,9 +36,9 @@ module Events
         end
 
         def validate_hold_amount!
-          unless hold_success? || cash_trip
+          unless cash_trip || hold_success?
             @trip.destroy
-            invalid!([I18n.t('trips.cant_hold_amount')], status: 402) 
+            invalid!([I18n.t('trips.cant_hold_amount')], status: 402)
           end
         end
       end
