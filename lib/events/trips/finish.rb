@@ -40,10 +40,10 @@ module Events
       end
 
       def pay_for_trip
+        return trip.cash_payment.update!(status: Constants::Payments::SUCCESS) if cash_trip?
+
         if trip.bonus_trip
           update_cashback if trip.bonus_trip.type == Constants::BonusTrip::CASHBACK
-        elsif cash_trip?
-          trip.cash_payment.update!(status: 2)
         else
           Jobs::PaymentSettle.perform_later(data[:trip_id], Constants::Payments::TYPES[:trip])
         end

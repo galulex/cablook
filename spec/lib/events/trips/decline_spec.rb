@@ -30,5 +30,13 @@ describe Events::Trips::Decline do
 
       it { expect(ActionCable.server).to receive(:broadcast).twice }
     end
+
+    context 'when cash trip' do
+      let!(:payment) { create(:cash_payment, trip_id: trip.id, user_id: trip.user.id) }
+
+      it { is_expected.to change { trip.reload.status }.to(Constants::Trip::STATUS_CODES[Constants::Trip::DECLINED]) }
+      it { is_expected.to change { payment.reload.status }.to(Constants::Payments::DECLINE) }
+      it { is_expected.to have_enqueued_job(Jobs::DriversNotification).with(trip, 'clear') }
+    end
   end
 end

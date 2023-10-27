@@ -199,5 +199,21 @@ describe Events::Trips::Create do
         it { is_expected.to raise_error Events::InvalidParamsError }
       end
     end
+
+    context 'when cash trip' do
+      let(:trip_params) { attributes_for(:trip, user_id: user.id, cash: true) }
+      let(:data) { trip_params }
+      let(:user) { create(:user) }
+
+      before { Settings.enable(:cash) }
+
+      it { is_expected.to have_enqueued_job(Jobs::SearchCarForTrip).with(data[:id]) }
+      it { is_expected.to have_enqueued_job(Jobs::DeclineTrip).with(data[:id]) }
+      it { is_expected.to have_enqueued_job(Jobs::Notification).with(data[:id]) }
+      it { is_expected.to have_enqueued_job(Jobs::DriversNotification) }
+      it { is_expected.to_not have_enqueued_job(Jobs::RefundHoldedAmount) }
+      it { is_expected.to change { Payments::Cash.count }.by(1) }
+      it { is_expected.to change { user.reload.trips_count }.from(0).to(1) }
+    end
   end
 end

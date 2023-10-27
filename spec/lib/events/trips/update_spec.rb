@@ -216,5 +216,17 @@ describe Events::Trips::Update do
         it { is_expected.to raise_error Events::InvalidParamsError }
       end
     end
+
+    context 'when cash trip' do
+      let!(:trip_payment) { create(:cash_payment, trip_id: trip.id, user_id: user.id) }
+
+      it { is_expected.to(change { trip_payment.reload.amount }) }
+      it { is_expected.to(change { trip.reload.cost }) }
+      it { is_expected.to(change { trip.reload.path }) }
+      it { is_expected.to change { trip.reload.departure }.to(data[:departure].map(&:to_s)) }
+      it { is_expected.to change { trip.reload.destination }.to(data[:destination].map(&:to_s)) }
+      it { is_expected.to change { trip.reload.departure_address }.to(data[:departure_address]) }
+      it { is_expected.to change { trip.reload.destination_address }.to(data[:destination_address]) }
+    end
   end
 end

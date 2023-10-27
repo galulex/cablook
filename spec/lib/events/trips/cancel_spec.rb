@@ -47,7 +47,7 @@ describe Events::Trips::Cancel do
       let(:payment) { create(:payment, trip_id: first_trip.id, user_id: first_trip.user.id) }
       let(:data) { { trip_id: first_trip.id } }
 
-      it { is_expected.not_to change { trip.car.reload.status } }
+      it { is_expected.not_to(change { trip.car.reload.status }) }
     end
 
     context 'when trip is on the way' do
@@ -86,7 +86,7 @@ describe Events::Trips::Cancel do
     context 'when trip is declined' do
       let(:trip) { create(:trip, status: Constants::Trip::DECLINED) }
 
-      it { is_expected.not_to change { trip.reload.status } }
+      it { is_expected.not_to(change { trip.reload.status }) }
     end
 
     context 'when payment by bonus' do
@@ -185,6 +185,34 @@ describe Events::Trips::Cancel do
 
         it { (expect(Fondy::Reverse).to have_received(:new).with(*reverse_params).once) }
         it { (expect(trip.reload.status).to eq(Constants::Trip::STATUS_CODES[Constants::Trip::CANCELED])) }
+      end
+    end
+
+    context 'when cash trip' do
+      let!(:payment) { create(:cash_payment, trip_id: trip.id, user_id: trip.user.id) }
+
+      context 'and not to starts refund money' do
+        before do
+          allow(Fondy::Reverse).to receive(:new).and_return(true)
+
+          subject.call
+        end
+
+        it { (expect(Fondy::Reverse).to_not have_received(:new)) }
+      end
+
+      context 'and canceled by driver' do
+        let(:data) { { trip_id: trip.id, by_driver: true } }
+
+        it { is_expected.to change { trip.reload.status }.to(Constants::Trip::STATUS_CODES[Constants::Trip::CANCELED_BY_DRIVER]) }
+        it { is_expected.to change { payment.reload.status }.to(Constants::Payments::DECLINE) }
+      end
+
+      context 'and canceled by user' do
+        let(:data) { { trip_id: trip.id, by_driver: false } }
+
+        it { is_expected.to change { trip.reload.status }.to(Constants::Trip::STATUS_CODES[Constants::Trip::CANCELED]) }
+        it { is_expected.to change { payment.reload.status }.to(Constants::Payments::DECLINE) }
       end
     end
   end
