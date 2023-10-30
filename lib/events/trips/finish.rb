@@ -62,32 +62,11 @@ module Events
           body: { action: Constants::BroadcastActions::TRIP_FINISHED }
         )
 
-        if cash_trip?
-          ActionCable.server.broadcast(
-            Constants::Channels::DRIVER_MAP,
-            driver_broadcast_common_data.merge(driver_broadcast_cash_trip_data)
-          )
-        else
-          ActionCable.server.broadcast(
-            Constants::Channels::DRIVER_MAP,
-            driver_broadcast_common_data
-          )
-        end
-      end
-
-      def driver_broadcast_common_data
-        {
+        ActionCable.server.broadcast(
+          Constants::Channels::DRIVER_MAP,
           action: Constants::BroadcastActions::TRIP_FINISHED,
           trip_id: trip.id
-        }
-      end
-
-      def driver_broadcast_cash_trip_data
-        {
-          cash_trip: cash_trip?,
-          cash: trip.cost.to_s,
-          idle: data[:idle] < Constants::Trip::FREE_IDLE_VALUE ? nil : idle.to_s
-        }
+        )
       end
 
       def settle_payment_idle

@@ -282,6 +282,7 @@ export default class App extends Component {
   updateNotificationSettings = (notification_settings) => {
     this.setState({ notification_settings })
   }
+
   updateUserLocale = (locale) => {
     axios.patch('user', { locale: locale })
   }

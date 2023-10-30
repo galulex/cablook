@@ -630,7 +630,6 @@ export default class NewDesign extends Component {
   finish_trip = () => {
     this.vibrate()
     this.setState({ trip: { ...this.state.trip, status: FINISHED }, car: null, driver: null, buttonDisabled: false, inputDisabled: false })
-    // this.props.fetchUser()
     this.props.resetCurrentTrip()
     this.props.setActivateFeedback(true)
     this.unsubscribe()
