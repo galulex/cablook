@@ -36,11 +36,11 @@ puts "=============================\n"
 puts 'Creating drivers...'
 
 driver_data = [
-  { username: 'driver_1', password: password, auth_token: token, name: 'Driver 1', car_id: 1, card_number: '4444555566661111' },
-  { username: 'driver_2', password: password, auth_token: token, name: 'Driver 2', car_id: 2, card_number: '4444555566661112' },
-  { username: 'driver_3', password: password, auth_token: token, name: 'Driver 3', car_id: 3, card_number: '4444555566661113' },
-  { username: 'driver_4', password: password, auth_token: token, name: 'Driver 4', car_id: 4, card_number: '4444555566661114' },
-  { username: 'driver_5', password: password, auth_token: token, name: 'Driver 5', car_id: 5, card_number: '4444555566661115' },
+  { username: 'driver_1', password: password, auth_token: token, name: 'Driver 1', car_id: 1, card_number: '4444555566661111', inn: '1234567890' },
+  { username: 'driver_2', password: password, auth_token: token, name: 'Driver 2', car_id: 2, card_number: '4444555566661112', inn: '1234567891' },
+  { username: 'driver_3', password: password, auth_token: token, name: 'Driver 3', car_id: 3, card_number: '4444555566661113', inn: '1234567892' },
+  { username: 'driver_4', password: password, auth_token: token, name: 'Driver 4', car_id: 4, card_number: '4444555566661114', inn: '1234567893' },
+  { username: 'driver_5', password: password, auth_token: token, name: 'Driver 5', car_id: 5, card_number: '4444555566661115', inn: '1234567894' },
 ]
 driver_data.each { |data| Driver.create(data) }
 

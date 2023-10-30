@@ -6,6 +6,7 @@ FactoryBot.define do
     auth_token { Faker::Internet.password }
     card_number { '4444555566661111' }
     balance { 0 }
+    inn { '1111111111' }
 
     factory :driver_with_car do
       association :car

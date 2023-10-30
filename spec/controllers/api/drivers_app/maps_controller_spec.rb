@@ -9,7 +9,7 @@ describe Api::DriversApp::MapsController, type: :controller do
 
     before do
       car = create(:car)
-      create(:driver, car_id: car.id, card_number: '4444555566661112')
+      create(:driver, car_id: car.id, card_number: '4444555566661112', inn: '2222222222')
       get :index, as: :json
     end
 
