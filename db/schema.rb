@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_10_20_105712) do
+ActiveRecord::Schema.define(version: 2023_10_30_105859) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -90,7 +90,6 @@ ActiveRecord::Schema.define(version: 2023_10_20_105712) do
     t.string "device_platform"
     t.string "inn"
     t.index ["car_id"], name: "index_drivers_on_car_id"
-    t.index ["inn"], name: "index_drivers_on_inn", unique: true
   end
 
   create_table "favorite_addresses", force: :cascade do |t|
