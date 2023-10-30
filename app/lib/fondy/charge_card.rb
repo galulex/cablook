@@ -29,13 +29,13 @@ module Fondy
         merchant_id: merchant_id,
         order_desc: order_desc,
         receiver_card_number: driver.card_number,
-        reservation_data: reservation_data,
-        receiver_inn: receiver_inn
+        reservation_data: reservation_data
       }
     end
 
     def reservation_data
       Base64.encode64({
+        receiver_inn: receiver_inn,
         receiver_pan: driver.card_number.to_s
       }.to_json)
     end
