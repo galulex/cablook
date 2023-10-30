@@ -245,6 +245,7 @@
     },
 
     TripFinished: (data) => {
+      if (data.cash_trip) { alert(`Оплата готівкою : ${data.cash} грн ${data.idle ? `, Таймер : ${data.idle} грн` : '!'}`) }
       removeFromCurrentTrips(data.trip_id)
     },
 

@@ -3,8 +3,6 @@ module Events
     class Decline < Events::BaseEvent
       def schema
         Dry::Schema.Params do
-          # configure { config.messages = :i18n }
-
           required(:trip_id).filled(:int?)
         end
       end
@@ -48,7 +46,7 @@ module Events
       end
 
       def update_payment
-        trip.trip_payment.update(status: Constants::Payments::DECLINE, response: { canceled_by: :timeout })
+        trip_payment.update(status: Constants::Payments::DECLINE, response: { canceled_by: :timeout })
       end
 
       def notify
@@ -64,6 +62,10 @@ module Events
 
       def order_reference
         @order_reference ||= trip.payments.find_by!(type: Constants::Payments::TRIP).order_reference
+      end
+
+      def trip_payment
+        @trip_payment ||= trip.trip_payment || trip.cash_payment
       end
     end
   end

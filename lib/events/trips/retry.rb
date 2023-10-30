@@ -3,8 +3,6 @@ module Events
     class Retry < Events::BaseEvent
       def schema
         Dry::Schema.Params do
-          # configure { config.messages = :i18n }
-
           required(:trip_id).filled(:int?)
           required(:user_id).filled(:int?)
           optional(:notification)
@@ -35,7 +33,7 @@ module Events
       def retry_trip_job(trip_id)
         Jobs::SearchCarForTrip.perform_now(trip_id) # broadcast
         Jobs::DeclineTrip.set(wait: Constants::Trip::EXPIRES_IN).perform_later(trip_id)
-        Jobs::RefundHoldedAmount.set(wait: Constants::Trip::REFUND_HOLD_IN).perform_later(trip.id, trip.cost, order_reference) if settings.fondy?
+        Jobs::RefundHoldedAmount.set(wait: Constants::Trip::REFUND_HOLD_IN).perform_later(trip.id, trip.cost, order_reference) if settings.fondy? && !cash_trip?
       end
 
       def hold_success?
@@ -48,17 +46,19 @@ module Events
 
       def hold_amount
         hold_amount_response = Fondy::Recurring.new(user, trip.cost, card_token, fresh_order_reference, true).call
-        trip.trip_payment.update(order_reference: fresh_order_reference, response: hold_amount_response)
+        trip_payment.update(order_reference: fresh_order_reference, response: hold_amount_response)
 
         hold_amount_response
       end
 
       def validate_hold_amount!
+        return if cash_trip?
+
         invalid!([I18n.t('trips.cant_hold_amount')], status: 402) unless hold_success?
       end
 
       def card_token
-        trip.trip_payment.card.token
+        trip_payment.card.token
       end
 
       def update_trip_status
@@ -66,7 +66,7 @@ module Events
       end
 
       def update_payment
-        trip.trip_payment.update(status: bonus? ? Constants::Payments::BONUS : Constants::Payments::PENDING)
+        trip_payment.update(status: bonus? ? Constants::Payments::BONUS : Constants::Payments::PENDING)
       end
 
       def update_bonus_trip
@@ -108,6 +108,8 @@ module Events
       end
 
       def validate_user_cards!
+        return if cash_trip?
+
         invalid!([I18n.t('trips.cant_retry')]) unless cards.any?
       end
 
@@ -117,6 +119,14 @@ module Events
 
       def fresh_order_reference
         @fresh_order_reference ||= OrderReference.new(trip.id).call
+      end
+
+      def trip_payment
+        @trip_payment ||= trip.trip_payment || trip.cash_payment
+      end
+
+      def cash_trip?
+        trip.cash_payment.present?
       end
     end
   end

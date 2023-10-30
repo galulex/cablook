@@ -16,7 +16,8 @@ const en = {
     on: 'on',
     will_arrive: 'will arrive at',
     waiting_notice: 'Driver is already waiting for you',
-    header: 'Your trip'
+    header: 'Your trip',
+    cash: 'Cash'
   },
   trips: {
     header: 'Trips',

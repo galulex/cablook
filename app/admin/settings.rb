@@ -1,5 +1,5 @@
 ActiveAdmin.register Settings do
-  GENERAL_SETTINGS_COLUMNS = %w[payment_system address_geocoder before_create_trip_message].freeze
+  GENERAL_SETTINGS_COLUMNS = %w[payment_system address_geocoder before_create_trip_message cash].freeze
   SETTINGS_TITLE = 'Settings'.freeze
   FEATURES_TITLE = 'Features'.freeze
   GENERAL_TITLE = 'General'.freeze

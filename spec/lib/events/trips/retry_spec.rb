@@ -98,5 +98,22 @@ describe Events::Trips::Retry do
 
       it { is_expected.to raise_error(Events::InvalidParamsError) }
     end
+
+    context 'when cash trip' do
+      let!(:trip_payment) { create(:cash_payment, trip: trip, user: user, card: nil, status: Constants::Payments::PENDING) }
+
+      it { is_expected.to change { trip.reload.status }.to(Constants::Trip::STATUS_CODES[Constants::Trip::PENDING]) }
+      it { is_expected.to_not change { trip_payment.reload.status } }
+      it { is_expected.to have_enqueued_job(Jobs::DeclineTrip).with(trip.id) }
+      it { is_expected.to have_enqueued_job(Jobs::DriversNotification) }
+      it { is_expected.to_not have_enqueued_job(Jobs::RefundHoldedAmount) }
+
+      it do
+        expect(ActionCable.server).not_to receive(:broadcast).with(
+          "#{Constants::Channels::TRIP}_#{trip.id}",
+          action: Constants::BroadcastActions::NOTIFICATION_RETRY
+        )
+      end
+    end
   end
 end

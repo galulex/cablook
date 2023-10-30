@@ -3,8 +3,6 @@ module Events
     class Finish < Events::BaseEvent
       def schema
         Dry::Schema.Params do
-          # configure { config.messages = :i18n }
-
           required(:trip_id).filled(:int?)
           optional(:idle).filled(:int?)
         end
@@ -37,10 +35,13 @@ module Events
 
       def update_car
         return if next_trip?
+
         Car.find(trip.car_id).update(status: Constants::Car::FREE)
       end
 
       def pay_for_trip
+        return trip.cash_payment.update!(status: Constants::Payments::SUCCESS) if cash_trip?
+
         if trip.bonus_trip
           update_cashback if trip.bonus_trip.type == Constants::BonusTrip::CASHBACK
         else
@@ -50,6 +51,7 @@ module Events
 
       def update_cashback
         return unless Settings.cashback
+
         user.update(cashback: user.cashback - trip.cost * 100)
       end
 
@@ -59,15 +61,38 @@ module Events
           action: Constants::BroadcastActions::TRIP_FINISH_ACTION,
           body: { action: Constants::BroadcastActions::TRIP_FINISHED }
         )
-        ActionCable.server.broadcast(
-          Constants::Channels::DRIVER_MAP,
+
+        if cash_trip?
+          ActionCable.server.broadcast(
+            Constants::Channels::DRIVER_MAP,
+            driver_broadcast_common_data.merge(driver_broadcast_cash_trip_data)
+          )
+        else
+          ActionCable.server.broadcast(
+            Constants::Channels::DRIVER_MAP,
+            driver_broadcast_common_data
+          )
+        end
+      end
+
+      def driver_broadcast_common_data
+        {
           action: Constants::BroadcastActions::TRIP_FINISHED,
           trip_id: trip.id
-        )
+        }
+      end
+
+      def driver_broadcast_cash_trip_data
+        {
+          cash_trip: cash_trip?,
+          cash: trip.cost.to_s,
+          idle: data[:idle] < Constants::Trip::FREE_IDLE_VALUE ? nil : idle.to_s
+        }
       end
 
       def settle_payment_idle
-        return if data[:idle] < Constants::Trip::FREE_IDLE_VALUE
+        return if cash_trip? || data[:idle] < Constants::Trip::FREE_IDLE_VALUE
+
         Payments::Idle.create(
           status: Constants::Payments::PENDING,
           amount: idle,
@@ -125,6 +150,10 @@ module Events
 
       def telegram_message
         TelegramOrder.new(trip.telegram).update_step(:rate_trip) if trip.telegram && telegram_trip?(user)
+      end
+
+      def cash_trip?
+        trip.cash_payment.present?
       end
     end
   end

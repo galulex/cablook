@@ -331,7 +331,9 @@
     </div>
     <div class='buttons'>
       <button type='button' disabled={disabled} on:click={count}><Timer style={{fill: 'var(--main_dark_color)', width: '25px', height: '25px'}}/><label>{timer}</label></button>
-      <button type='button' disabled={trip.payment_status == 2 || paymentCheck || paymentVerifyDisabled} on:click={paymentVerify} class={paymentClass}><svelte:component this={paymentIcon} style={{fill: 'var(--main_dark_color)', width: '25px', height: '25px' }}/></button>
+      {#if trip.no_call}
+        <button type='button' disabled={trip.payment_status == 2 || paymentCheck || paymentVerifyDisabled} on:click={paymentVerify} class={paymentClass}><svelte:component this={paymentIcon} style={{fill: 'var(--main_dark_color)', width: '25px', height: '25px' }}/></button>
+      {/if}
       <button type='button' on:click={unrelease} disabled={disabled}><Back style={{fill: 'var(--main_dark_color)', width: '25px', height: '25px'}}/></button>
     </div>
   </div>

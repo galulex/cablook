@@ -16,7 +16,8 @@ const ru = {
     on: 'на',
     will_arrive: 'приедет в',
     waiting_notice: 'Водитель уже ожидает вас',
-    header: 'Поездка'
+    header: 'Поездка',
+    cash: 'Наличными'
   },
   trips: {
     header: 'Поездки',

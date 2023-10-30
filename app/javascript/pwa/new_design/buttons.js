@@ -25,28 +25,28 @@ export default function Buttons() {
 
   return (
     <div className="buttons">
-      { (cards.length < 1) && [CANCELED, CANCELED_BY_DRIVER, undefined, null].includes(status) &&
-      <button
-        class='button green trip_add_card absolute'
-        type='button'
-        value={bonus}
-        onClick={showWidgetTrue}>
-        {(cost === '') ? `${i18n.confirm_trip.add_card}` : stops.includes('') ? `${i18n.confirm_trip.go}` : `${i18n.confirm_trip.go} ${cost}`}
-        {(cost !== '' && !stops.includes('')) && <TripPrice/>}
-      </button> }
-      { [CANCELED, CANCELED_BY_DRIVER, undefined, null].includes(status) && picker === null && !showFeedback() && (cards.length >= 1) &&
+      {(cards.length < 1) && [CANCELED, CANCELED_BY_DRIVER, undefined, null].includes(status) && !this.props.cash &&
+        <button
+          class='button green trip_add_card absolute'
+          type='button'
+          value={bonus}
+          onClick={showWidgetTrue}>
+          {(cost === '') ? `${i18n.confirm_trip.add_card}` : stops.includes('') ? `${i18n.confirm_trip.go}` : `${i18n.confirm_trip.go} ${cost}`}
+          {(cost !== '' && !stops.includes('')) && <TripPrice />}
+        </button>}
+      {[CANCELED, CANCELED_BY_DRIVER, undefined, null].includes(status) && picker === null && !showFeedback() &&
         <button
           class='button green absolute'
           type='button'
           value={bonus}
           disabled={!isValid || buttonDisabled}
           onClick={createTrip}>
-          {stops.includes('') ? `${i18n.confirm_trip.go}` : `${i18n.confirm_trip.go} ${!stops.includes('') && cost}`}
-          {(cost !== '' && !stops.includes('')) && <TripPrice/>}
+          {this.props.cash && trip.card_id === 'cash' && `${i18n.trip.cash}, `}{stops.includes('') ? `${i18n.confirm_trip.go}` : `${i18n.confirm_trip.go} ${!stops.includes('') && cost}`}
+          {(cost !== '' && !stops.includes('')) && <TripPrice />}
         </button>
       }
-      { bonusButton }
-      { [CONFIRM_UPDATE_TRIP].includes(status) &&
+      {bonusButton}
+      {[CONFIRM_UPDATE_TRIP].includes(status) &&
         <button
           class='button absolute'
           type='button'
@@ -54,10 +54,10 @@ export default function Buttons() {
           disabled={!isValid || buttonDisabled}
           onClick={confirmUpdate}>
           {`${i18n.confirm_trip.go} ${cost}`}
-          {(cost !== '') && <TripPrice/>}
+          {(cost !== '') && <TripPrice />}
         </button>
       }
-      { ([PENDING].includes(status) || (cancelTimer > 0 && [ON_THE_WAY].includes(status))) &&
+      {([PENDING].includes(status) || (cancelTimer > 0 && [ON_THE_WAY].includes(status))) &&
         <button
           class='button absolute cancel'
           type='button'
@@ -66,7 +66,7 @@ export default function Buttons() {
           {i18n.find_driver.cancel} {cancelTimer}
         </button>
       }
-      { [DECLINED].includes(status) &&
+      {[DECLINED].includes(status) &&
         <button
           class='button absolute retry'
           type='button'
@@ -75,7 +75,7 @@ export default function Buttons() {
           {i18n.retry_trip.retry}
         </button>
       }
-      { [DECLINED].includes(status) &&
+      {[DECLINED].includes(status) &&
         <button
           class='button absolute cancel'
           type='button'
@@ -84,7 +84,7 @@ export default function Buttons() {
           {i18n.find_driver.cancel}
         </button>
       }
-      { ([WAITING_CLIENT, DRIVING].includes(status) || (!cancelTimer && status === ON_THE_WAY)) &&
+      {([WAITING_CLIENT, DRIVING].includes(status) || (!cancelTimer && status === ON_THE_WAY)) &&
         <button
           class='button absolute edit'
           type='button'
@@ -105,7 +105,7 @@ function bonusElement(title, isValid, buttonDisabled, createTrip, cashback = fal
       value='true'
       disabled={!isValid || buttonDisabled}
       onClick={cashback ? (e) => createTrip(e, true) : createTrip}>
-      {title} <TripPrice/>
+      {title} <TripPrice />
     </button>
   )
 }
