@@ -93,7 +93,7 @@ export default class Feedback extends Component {
   }
 
   render() {
-    const cardPayment= this.props.trip.card_id
+    const cardPayment = this.props.trip.card_id > 0 && this.props.trip.card_id !== 'cash'
 
     return (
       <div class='feedback__holder'>
