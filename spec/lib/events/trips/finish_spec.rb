@@ -6,7 +6,7 @@ describe Events::Trips::Finish do
     let(:user) { create(:user) }
     let(:driver) { create(:driver) }
     let(:car) { create(:car, status: Constants::Car::OFFLINE) }
-
+    let!(:trip_payment) { create(:trip_payment, trip_id: trip.id) }
     let(:data) { { trip_id: trip.id, idle: 0 } }
 
     it { is_expected.to change { trip.reload.status }.to(Constants::Trip::STATUS_CODES[Constants::Trip::FINISHED]) }
@@ -20,7 +20,7 @@ describe Events::Trips::Finish do
       context 'with cashback type' do
         let!(:bonus_trip) { create(:bonus_trip, user: user, trip: trip, type: Constants::BonusTrip::CASHBACK) }
 
-        it { is_expected.to change { user.reload.cashback } }
+        it { is_expected.to(change { user.reload.cashback }) }
 
         context 'when cashback enabled' do
           it { is_expected.to change { user.reload.cashback }.to(user.cashback - trip.cost * 100) }
@@ -35,7 +35,7 @@ describe Events::Trips::Finish do
     end
 
     context 'when idle is bigger than 10' do
-      let(:data) { { trip_id: trip.id, idle: idle} }
+      let(:data) { { trip_id: trip.id, idle: idle } }
       let(:price) { Price.create }
       let(:idle) { 800 }
       let(:card) { create(:card, user_id: user.id) }
@@ -45,9 +45,9 @@ describe Events::Trips::Finish do
     end
 
     context 'when idle is lower than 10' do
-      let(:data) { { trip_id: trip.id, idle: 8} }
+      let(:data) { { trip_id: trip.id, idle: 8 } }
 
-      it { is_expected.not_to have_enqueued_job(Jobs::PaymentSettle).with(trip.id, Constants::Payments::TYPES[:idle],  8) }
+      it { is_expected.not_to have_enqueued_job(Jobs::PaymentSettle).with(trip.id, Constants::Payments::TYPES[:idle], 8) }
     end
 
     context 'and broadcast to driver map channel' do

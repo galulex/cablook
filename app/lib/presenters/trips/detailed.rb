@@ -21,6 +21,7 @@ class Presenters::Trips::Detailed < Presenters::BaseSingle
   property :car_position, exec_context: :decorator
   property :card_id, exec_context: :decorator
   property :car, decorator: Presenters::Cars::Single
+  property :payment_method, exec_context: :decorator
 
   def card_id
     represented.payments.last&.card_id
@@ -44,6 +45,10 @@ class Presenters::Trips::Detailed < Presenters::BaseSingle
 
   def payment_status
     represented.try(:payment_status) || represented.trip_payment&.status
+  end
+
+  def payment_method
+    represented.trip_payment&.payment_method
   end
 
   def bonus

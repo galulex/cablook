@@ -27,8 +27,16 @@ module Constants
     IDLE = 'Payments::Idle'.freeze
     FAKE = 'Payments::FakeTaxi'.freeze
     PAYOUT = 'Payments::PayOut'.freeze
+    CASH = 'Payments::Cash'.freeze
+    MOBILE = 'Payments::Mobile'.freeze
+
+    METHOD_CARD = 'card'.freeze
+    METHOD_MOBILE = 'mobile'.freeze
+    METHOD_CASH = 'cash'.freeze
+    PAYMENT_METHODS = [METHOD_CARD, METHOD_MOBILE, METHOD_CASH].freeze
+
 
     OPTIONAL_PAYMENTS = [TIP, PAYOUT].freeze
-    DRIVER_STATISTIC_ENTRIES = [TRIP,TIP,IDLE,FAKE].freeze
+    DRIVER_STATISTIC_ENTRIES = [TRIP, TIP, IDLE, FAKE].freeze
   end
 end

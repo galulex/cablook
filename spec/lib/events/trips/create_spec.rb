@@ -212,7 +212,6 @@ describe Events::Trips::Create do
       it { is_expected.to have_enqueued_job(Jobs::Notification).with(data[:id]) }
       it { is_expected.to have_enqueued_job(Jobs::DriversNotification) }
       it { is_expected.to_not have_enqueued_job(Jobs::RefundHoldedAmount) }
-      it { is_expected.to change { Payments::Cash.count }.by(1) }
       it { is_expected.to change { user.reload.trips_count }.from(0).to(1) }
     end
   end

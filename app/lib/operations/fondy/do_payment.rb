@@ -10,7 +10,7 @@ module Operations
       attr_reader :trip_id, :payment_type, :amount
 
       def call
-        return if payment.status == Constants::Payments::SUCCESS
+        return if payment.payment_method == Constants::Payments::METHOD_MOBILE || payment.status == Constants::Payments::SUCCESS
 
         types = Constants::Payments::TYPES.except(:order, :payout).values
         case payment_type

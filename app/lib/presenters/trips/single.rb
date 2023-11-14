@@ -10,11 +10,16 @@ class Presenters::Trips::Single < Presenters::BaseSingle
   property :card_id, exec_context: :decorator
   property :status, exec_context: :decorator
   property :formatted_date, exec_context: :decorator
+  property :payment_method, exec_context: :decorator
 
   collection :feedbacks, extend: Presenters::Feedbacks::Single, if: ->(options) { options[:user_options][:with_feedbacks] }
 
   def bonus
     represented.bonus_trip.present?
+  end
+
+  def payment_method
+    represented.trip_payment&.payment_method
   end
 
   def card_id

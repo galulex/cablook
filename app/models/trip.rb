@@ -8,7 +8,6 @@ class Trip < ApplicationRecord
   has_one :order
   has_one :tip_payment, class_name: 'Payments::Tip'
   has_one :trip_payment, class_name: 'Payments::Trip'
-  has_one :cash_payment, class_name: 'Payments::Cash'
   has_one :idle_payment, class_name: 'Payments::Idle'
   has_one :order_payment, class_name: 'Payments::Order'
   has_one :fake_taxi_payment, class_name: 'Payments::FakeTaxi'

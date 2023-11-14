@@ -3,8 +3,6 @@ module Events
     class Create < BaseEvent
       def schema
         Dry::Schema.Params do
-          # configure { config.messages = :i18n }
-
           required(:rate) { int? & gt?(0) & lteq?(5) }
           required(:trip_id).filled(:int?)
           required(:user_id).filled(:int?)
@@ -25,8 +23,24 @@ module Events
       end
 
       def send_and_create_tip_for_driver
+        return create_tip_mobile_payment if mobile_pay?
+
         Payment.find_or_create_by(payment_attributes)
         Jobs::PaymentSettle.perform_later(data[:trip_id], Constants::Payments::TYPES[:tip], data[:tip])
+      end
+
+      def create_tip_mobile_payment
+        response = Fondy::Recurring.new(trip.user, data[:tip], trip.trip_payment['response']['rectoken'], trip.trip_payment.order_reference + '_tip', false).call
+        trip.driver.update!(balance: trip.driver.balance + data[:tip]) if response[:status]
+
+        Payment.find_or_create_by(payment_attributes.merge({ payment_method: Constants::Payments::METHOD_MOBILE,
+                                                             amount: data[:tip],
+                                                             response: response,
+                                                             status: response[:status] ? Constants::Payments::SUCCESS : Constants::Payments::PENDING }))
+      end
+
+      def mobile_pay?
+        trip.trip_payment.payment_method == Constants::Payments::METHOD_MOBILE
       end
 
       def card
@@ -41,7 +55,7 @@ module Events
         {
           trip_id: data[:trip_id],
           user_id: data[:user_id],
-          card_id: card.id, 
+          card_id: mobile_pay? ? nil : card.id,
           type: Constants::Payments::TIP
         }
       end

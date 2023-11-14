@@ -1,6 +1,8 @@
 module Events
   module Trips
     class Decline < Events::BaseEvent
+      include Concerns::PaymentsTypes
+
       def schema
         Dry::Schema.Params do
           required(:trip_id).filled(:int?)
@@ -46,11 +48,16 @@ module Events
       end
 
       def update_payment
-        trip_payment.update(status: Constants::Payments::DECLINE, response: { canceled_by: :timeout })
+        trip_payment.update(status: Constants::Payments::DECLINE, response: declined_response)
+      end
+
+      def declined_response
+        trip_payment.response.present? ? trip_payment.response.merge({ canceled_by: :timeout }) : { canceled_by: :timeout }
       end
 
       def notify
         return if trip.user.notification_settings.include?(Constants::User::DECLINE_TRIP)
+
         message = I18n.t('notification.car_not_found')
         Jobs::Notification.perform_later(trip, message)
         Jobs::DriversNotification.perform_later(trip, 'clear')
@@ -62,10 +69,6 @@ module Events
 
       def order_reference
         @order_reference ||= trip.payments.find_by!(type: Constants::Payments::TRIP).order_reference
-      end
-
-      def trip_payment
-        @trip_payment ||= trip.trip_payment || trip.cash_payment
       end
     end
   end

@@ -4,6 +4,6 @@ module Constants
     # https://wiki.wayforpay.com/pages/viewpage.action?pageId=852131
 
     APPROVED = 'Approved'.freeze
-    PAYMENT_SYSTEM = [:wayforpay, :fondy]
+    PAYMENT_SYSTEM = %i[wayforpay fondy].freeze
   end
 end

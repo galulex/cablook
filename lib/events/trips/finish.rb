@@ -1,6 +1,8 @@
 module Events
   module Trips
     class Finish < Events::BaseEvent
+      include Concerns::PaymentsTypes
+
       def schema
         Dry::Schema.Params do
           required(:trip_id).filled(:int?)
@@ -40,7 +42,9 @@ module Events
       end
 
       def pay_for_trip
-        return trip.cash_payment.update!(status: Constants::Payments::SUCCESS) if cash_trip?
+        return update_driver_balance if mobile_pay?
+
+        return trip_payment.update!(status: Constants::Payments::SUCCESS) if cash_trip?
 
         if trip.bonus_trip
           update_cashback if trip.bonus_trip.type == Constants::BonusTrip::CASHBACK
@@ -93,6 +97,8 @@ module Events
       def settle_payment_idle
         return if cash_trip? || data[:idle] < Constants::Trip::FREE_IDLE_VALUE
 
+        return settle_payment_idle_mobile if mobile_pay?
+
         Payments::Idle.create(
           status: Constants::Payments::PENDING,
           amount: idle,
@@ -101,6 +107,20 @@ module Events
           trip_id: data[:trip_id]
         )
         Jobs::PaymentSettle.perform_later(data[:trip_id], Constants::Payments::TYPES[:idle], idle)
+      end
+
+      def settle_payment_idle_mobile
+        response = Fondy::Recurring.new(trip.user, idle, trip_payment['response']['rectoken'], trip_payment.order_reference + '_idle', false).call
+        trip.driver.update!(balance: trip.driver.balance + idle) if response[:status]
+
+        Payments::Idle.create(
+          status: response[:status] ? Constants::Payments::SUCCESS : Constants::Payments::PENDING,
+          amount: idle,
+          user_id: user.id,
+          card_id: nil,
+          trip_id: data[:trip_id],
+          response: response
+        )
       end
 
       def card_id
@@ -152,8 +172,8 @@ module Events
         TelegramOrder.new(trip.telegram).update_step(:rate_trip) if trip.telegram && telegram_trip?(user)
       end
 
-      def cash_trip?
-        trip.cash_payment.present?
+      def update_driver_balance
+        trip.driver.update!(balance: trip.driver.balance + trip_payment.amount)
       end
     end
   end

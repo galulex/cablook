@@ -100,7 +100,7 @@ describe Events::Trips::Retry do
     end
 
     context 'when cash trip' do
-      let!(:trip_payment) { create(:cash_payment, trip: trip, user: user, card: nil, status: Constants::Payments::PENDING) }
+      let!(:trip_payment) { create(:trip_payment, trip: trip, user: user, card: nil, status: Constants::Payments::PENDING, payment_method: Constants::Payments::METHOD_CASH) }
 
       it { is_expected.to change { trip.reload.status }.to(Constants::Trip::STATUS_CODES[Constants::Trip::PENDING]) }
       it { is_expected.to_not change { trip_payment.reload.status } }

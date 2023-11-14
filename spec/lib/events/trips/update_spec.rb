@@ -218,7 +218,7 @@ describe Events::Trips::Update do
     end
 
     context 'when cash trip' do
-      let!(:trip_payment) { create(:cash_payment, trip_id: trip.id, user_id: user.id) }
+      let!(:trip_payment) { create(:trip_payment, trip_id: trip.id, user_id: user.id, payment_method: Constants::Payments::METHOD_CASH) }
 
       it { is_expected.to(change { trip_payment.reload.amount }) }
       it { is_expected.to(change { trip.reload.cost }) }

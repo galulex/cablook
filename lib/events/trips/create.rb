@@ -14,6 +14,7 @@ module Events
           required(:departure_address).filled(:str?)
           required(:destination_address).filled(:str?)
 
+          optional(:order_data)
           optional(:cash)
           optional(:waypoints) { none? | array? }
           optional(:stops) { none? | array? }
@@ -79,15 +80,15 @@ module Events
       end
 
       def create_payment
-        payment_type = cash_trip ? 'Cash' : 'Trip'
-        "Payments::#{payment_type}".constantize.create(
-          status: Constants::Payments::PENDING,
+        Payments::Trip.create(
+          status: mobile_pay? ? Constants::Payments::SUCCESS : Constants::Payments::PENDING,
           amount: @trip.cost,
           user_id: @trip.user_id,
-          card_id: cash_trip ? nil : card.id,
+          card_id: mobile_pay? || cash_trip? ? nil : card.id,
+          payment_method: payment_method,
           trip_id: @trip.id,
           order_reference: order_reference,
-          response: cash_trip ? { cash_trip: true } : hold_amount
+          response: cash_trip? ? { cash_trip: true } : hold_amount
         )
       end
 
@@ -107,11 +108,13 @@ module Events
       end
 
       def create_trip
-        @trip = Trip.create(data.to_h.except(:bonus, :cashback, :card_id, :id, :status, :created_at, :idle, :car_id, :driver_id, :finished_at, :arrived_at, :started_at, :feedbacks, :delivery, :order_id, :cash))
+        @trip = Trip.create(data.to_h.except(:bonus, :cashback, :card_id, :id, :status, :created_at, :idle, :car_id, :driver_id, :finished_at, :arrived_at, :started_at, :feedbacks, :delivery, :order_id, :cash, :order_data))
         validate_hold_amount! if settings.fondy?
       end
 
       def hold_amount
+        return mobile_payment_response if mobile_pay?
+
         return unless settings.fondy?
 
         @hold_amount ||= Fondy::Recurring.new(user, data[:cost], card.token, order_reference, true).call
@@ -124,7 +127,9 @@ module Events
       def create_trip_job(trip_id)
         Jobs::DeclineTrip.set(wait: Constants::Trip::EXPIRES_IN).perform_later(trip_id)
         Jobs::SearchCarForTrip.perform_later(trip_id)
-        Jobs::RefundHoldedAmount.set(wait: Constants::Trip::REFUND_HOLD_IN).perform_later(trip_id, data[:cost], order_reference) if settings.fondy? && !cash_trip
+        return if !settings.fondy? || cash_trip?
+
+        Jobs::RefundHoldedAmount.set(wait: Constants::Trip::REFUND_HOLD_IN).perform_later(trip_id, data[:cost], order_reference)
       end
 
       def approve_by_vendor
@@ -199,11 +204,35 @@ module Events
       end
 
       def order_reference
-        @order_reference ||= OrderReference.new(@trip.id).call
+        @order_reference ||= mobile_pay? ? order_data[:order_id] : OrderReference.new(@trip.id).call
       end
 
-      def cash_trip
-        data[:cash]
+      def payment_method
+        return Constants::Payments::METHOD_MOBILE if mobile_pay?
+
+        return Constants::Payments::METHOD_CASH if cash_trip?
+
+        Constants::Payments::METHOD_CARD
+      end
+
+      def cash_trip?
+        data[:cash] && !mobile_pay?
+      end
+
+      def mobile_pay?
+        order_data.present? && mobile_payment_response_status
+      end
+
+      def order_data
+        data[:order_data]
+      end
+
+      def mobile_payment_response
+        { status: mobile_payment_response_status }.merge(order_data)
+      end
+
+      def mobile_payment_response_status
+        order_data[:response_status] == Constants::Payments::FONDY_SUCCESS && order_data[:order_status] == Constants::Payments::FONDY_APPROVED
       end
     end
   end

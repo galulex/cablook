@@ -1,6 +1,8 @@
 module Events
   module Trips
     class Retry < Events::BaseEvent
+      include Concerns::PaymentsTypes
+
       def schema
         Dry::Schema.Params do
           required(:trip_id).filled(:int?)
@@ -58,7 +60,7 @@ module Events
       end
 
       def card_token
-        trip_payment.card.token
+        mobile_pay? ? trip_payment['response']['rectoken'] : trip_payment.card.token
       end
 
       def update_trip_status
@@ -108,7 +110,7 @@ module Events
       end
 
       def validate_user_cards!
-        return if cash_trip?
+        return if cash_trip? || mobile_pay?
 
         invalid!([I18n.t('trips.cant_retry')]) unless cards.any?
       end
@@ -119,14 +121,6 @@ module Events
 
       def fresh_order_reference
         @fresh_order_reference ||= OrderReference.new(trip.id).call
-      end
-
-      def trip_payment
-        @trip_payment ||= trip.trip_payment || trip.cash_payment
-      end
-
-      def cash_trip?
-        trip.cash_payment.present?
       end
     end
   end

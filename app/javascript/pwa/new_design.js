@@ -185,13 +185,13 @@ export default class NewDesign extends Component {
     })
   }
 
-  createTrip = (e, cashback = false) => {
+  createTrip = (e, cashback = false, data = null) => {
     const message = this.state.settings.before_create_trip_message
 
     if (message) { if (confirm(message) === false) return }
 
-    this.setState({ bonus: e.target.value, buttonDisabled: true, cashback: cashback }, () => {
-      this.create()
+    this.setState({ bonus: e.target.value, buttonDisabled: true, cashback: cashback }, (e) => {
+      this.create(e, data)
     })
   }
 
@@ -204,11 +204,15 @@ export default class NewDesign extends Component {
     clearTimeout(fetchTripTimeout)
   }
 
-  create = (e) => {
+  create = (e, data) => {
     const { trip, comment, entrance, settings } = this.state
     let params = { ...trip, status: PENDING, cash: settings.cash && trip.card_id === 'cash' }
     if (this.state.bonus === 'true') params.bonus = bonus
     if (this.state.cashback) params.cashback = this.state.cashback
+    if (data && data.order_data) { 
+      params.order_data = data.order_data 
+      params.card_id = null
+    }
     this.sendRequest(params)
   }
 
@@ -260,8 +264,7 @@ export default class NewDesign extends Component {
   }
 
   sendRequest = (params) => {
-    this.setState({ showLoading: true })
-    this.setState({ buttonDisabled: true })
+    this.setState({ showLoading: true, buttonDisabled: true })
     axios({
       method: params.id ? 'put' : 'post',
       url: params.id ? `trips/${params.id}` : 'trips',

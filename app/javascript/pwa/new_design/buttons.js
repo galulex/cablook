@@ -3,6 +3,7 @@ import { h } from 'preact'
 import { PENDING, ON_THE_WAY, WAITING_CLIENT, DRIVING, FINISHED, CANCELED, DECLINED, CANCELED_BY_DRIVER, CONFIRM_UPDATE_TRIP, MAP_MIN_ZOOM, MAP_MAX_ZOOM, CHERKASY_LONG_LAT } from '../lib/constants.js'
 import i18n from '../i18n.js'
 import TripPrice from '../images/ukraine-hryvna.svg'
+import { isAllowedFeature } from '.././lib/featureFlag.js'
 
 export default function Buttons() {
   let bonusButton
@@ -93,6 +94,11 @@ export default function Buttons() {
           {i18n.trip.edit}
         </button>
       }
+      {[CANCELED, CANCELED_BY_DRIVER, undefined, null].includes(status) && isAllowedFeature &&
+        <div id='fondy-container'>
+          {trip.cost > 0 && !buttonDisabled && picker === null && !showFeedback() && googlePayButton(trip, createTrip)}
+        </div>
+      }
     </div>
   )
 }
@@ -108,4 +114,37 @@ function bonusElement(title, isValid, buttonDisabled, createTrip, cashback = fal
       {title} <TripPrice />
     </button>
   )
+}
+
+function googlePayButton(trip, createTrip) {
+  if (!isAllowedFeature) return
+
+  const options = {
+    options: {
+      methods: ['wallets'],
+      button: false,
+      tooltip: false,
+      fields: false,
+      full_screen: false,
+    },
+    params: {
+      merchant_id: 1523866,
+      required_rectoken: 'y',
+      currency: 'UAH',
+      amount: trip.cost * 100,
+      order_desc: `Cablook Trip, ${new Date()}`,
+      email: '',
+      lang: 'uk'
+    }
+  }
+
+  fondy('#fondy-container', options).$on('success', function (model) {
+    let order = model.attr('order')
+    let approved = order.order_data.order_status == 'approved' && order.order_data.response_status == 'success'
+
+    if (approved) createTrip({ target: { value: false } }, false, order)
+
+  }).$on('error', function (model) {
+    console.log('Order is declined: ' + model.attr('error.code') + ', description: ' + model.attr('error.message'))
+  })
 }
