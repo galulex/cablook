@@ -1,5 +1,4 @@
 ActiveAdmin.register Driver do
-  DRIVER_COLUMNS = %w[name username balance password auth_token address active car card_number inn].freeze
   preserve_default_filters!
   remove_filter :car, :trips, :address, :address_location
 
@@ -11,20 +10,20 @@ ActiveAdmin.register Driver do
 
   index do
     selectable_column
-    DRIVER_COLUMNS.each { |title| column title }
+    Constants::Admin::DRIVER_COLUMNS.each { |title| column title }
     actions
   end
 
   show do
     attributes_table do
-      DRIVER_COLUMNS.each { |title| row title }
+      Constants::Admin::DRIVER_COLUMNS.each { |title| row title }
     end
   end
 
   form do |f|
     semantic_errors
     inputs do
-      (DRIVER_COLUMNS - ['balance']).each { |title| input title }
+      (Constants::Admin::DRIVER_COLUMNS - ['balance']).each { |title| input title }
     end
     actions
   end

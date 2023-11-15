@@ -1,8 +1,6 @@
 module Events
   module Trips
     class Cancel < Events::BaseEvent
-      include Concerns::PaymentsTypes
-
       TRIP_STATUSES = [Constants::Trip::PENDING, Constants::Trip::ON_THE_WAY, Constants::Trip::WAITING_CLIENT, Constants::Trip::DECLINED, Constants::Trip::WAITING_FOR_VENDOR_APPROVE].freeze
 
       def schema
@@ -66,13 +64,13 @@ module Events
       end
 
       def fake_taxi?
-        trip.status.in?(Constants::Trip::FAKE_TAXI_TRIP_STATUSES.values) && data[:by_driver] && !cash_trip?
+        trip.status.in?(Constants::Trip::FAKE_TAXI_TRIP_STATUSES.values) && data[:by_driver] && !trip_payment.cash?
       end
 
       def fake_taxi_payment
         trip_payment.update!(type: Constants::Payments::FAKE)
 
-        return mobile_pay_fake_taxi if mobile_pay?
+        return mobile_pay_fake_taxi if trip_payment.mobile?
 
         Jobs::PaymentSettle.perform_later(data[:trip_id], Constants::Payments::TYPES[:fake], fake_amount)
       end
@@ -80,9 +78,10 @@ module Events
       def mobile_pay_fake_taxi
         response = Fondy::Reverse.new(trip.cost - fake_amount, trip_payment.order_reference).call
         is_success = response[:reverse_status] == Constants::Payments::FONDY_APPROVED
+        status = is_success ? Constants::Payments::SUCCESS : Constants::Payments::PENDING
 
         trip.driver.update(balance: trip.driver.balance + fake_amount) if is_success
-        trip_payment.update(amount: fake_amount, response: response, status: is_success ? 2 : 0)
+        trip_payment.update(amount: fake_amount, response: response, status: status)
       end
 
       def refund_holded_amount
@@ -96,7 +95,7 @@ module Events
       end
 
       def trip_refound_hold_payment
-        return if cash_trip?
+        return if trip_payment.cash?
 
         @trip_refound_hold_payment ||= Fondy::Reverse.new(trip.cost, trip_payment.order_reference).call
       end
@@ -156,6 +155,10 @@ module Events
 
       def fake_amount
         @fake_amount ||= price.landing / 100
+      end
+
+      def trip_payment
+        @trip_payment ||= trip.trip_payment
       end
     end
   end

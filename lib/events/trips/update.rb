@@ -2,7 +2,6 @@ module Events
   module Trips
     class Update < BaseEvent
       include Validations::Update
-      include Concerns::PaymentsTypes
 
       def schema
         Dry::Schema.Params do
@@ -29,7 +28,7 @@ module Events
 
       def run
         validate!
-        if settings.fondy? && !cash_trip?
+        if settings.fondy? && !trip_payment.cash?
           cancel_previous_hold
           validate_canceling_previous_hold!
           hold_updated_amount
@@ -48,11 +47,11 @@ module Events
       end
 
       def hold_updated_amount
-        @hold_updated_amount ||= Fondy::Recurring.new(trip.user, data[:cost], card_token, order_reference, !mobile_pay?).call
+        @hold_updated_amount ||= Fondy::Recurring.new(trip.user, data[:cost], card_token, order_reference, !trip_payment.mobile?).call
       end
 
       def card_token
-        mobile_pay? ? trip_payment['response']['rectoken'] : card.token
+        trip_payment.mobile? ? trip_payment['response']['rectoken'] : card.token
       end
 
       def hold_success?
@@ -141,6 +140,10 @@ module Events
         params[:card_id] = data[:card_id] if data[:card_id]
         params[:order_reference] = order_reference
         params
+      end
+
+      def trip_payment
+        @trip_payment ||= trip.trip_payment
       end
     end
   end

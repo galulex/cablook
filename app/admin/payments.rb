@@ -41,9 +41,6 @@ ActiveAdmin.register Payment do
     column 'driver_id' do |payment|
       payment&.trip&.driver_id
     end
-    column 'driver_id' do |payment|
-      payment&.trip&.driver_id
-    end
     column 'car_id' do |payment|
       payment&.trip&.car_id
     end

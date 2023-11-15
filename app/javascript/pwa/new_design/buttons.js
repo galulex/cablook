@@ -119,32 +119,54 @@ function bonusElement(title, isValid, buttonDisabled, createTrip, cashback = fal
 function googlePayButton(trip, createTrip) {
   if (!isAllowedFeature) return
 
-  const options = {
-    options: {
-      methods: ['wallets'],
-      button: false,
-      tooltip: false,
-      fields: false,
-      full_screen: false,
-    },
-    params: {
-      merchant_id: 1523866,
-      required_rectoken: 'y',
-      currency: 'UAH',
-      amount: trip.cost * 100,
-      order_desc: `Cablook Trip, ${new Date()}`,
-      email: '',
-      lang: 'uk'
-    }
+  const loadScript = (src, onLoad) => {
+    const script = document.createElement('script')
+    script.src = src
+    script.async = true
+    script.onload = onLoad
+    document.head.appendChild(script)
   }
 
-  fondy('#fondy-container', options).$on('success', function (model) {
-    let order = model.attr('order')
-    let approved = order.order_data.order_status == 'approved' && order.order_data.response_status == 'success'
+  const loadStylesheet = (href, onLoad) => {
+    const link = document.createElement('link')
+    link.rel = 'stylesheet'
+    link.href = href
+    link.onload = onLoad
+    document.head.appendChild(link)
+  }
 
-    if (approved) createTrip({ target: { value: false } }, false, order)
+  const options = {
+    methods: ['wallets'],
+    button: false,
+    tooltip: false,
+    fields: false,
+    full_screen: false
+  }
 
-  }).$on('error', function (model) {
-    console.log('Order is declined: ' + model.attr('error.code') + ', description: ' + model.attr('error.message'))
+  const params = {
+    merchant_id: 1523866,
+    required_rectoken: 'y',
+    currency: 'UAH',
+    amount: trip.cost * 100,
+    order_desc: `Cablook Trip, ${new Date()}`,
+    email: '',
+    lang: 'uk'
+  }
+
+  loadStylesheet('https://pay.fondy.eu/latest/checkout.css', () => {
+    loadScript('https://pay.fondy.eu/latest/checkout.js', () => {
+      loadScript('https://pay.fondy.eu/latest/i18n/uk.js', () => {
+        fondy('#fondy-container', { options, params })
+          .$on('success', (model) => {
+            document.getElementById('fondy-container').style.display = 'none'
+            const order = model.attr('order')
+            const approved = order.order_data.order_status == 'approved' && order.order_data.response_status == 'success'
+            if (approved) createTrip({ target: { value: false } }, false, order)
+          })
+          .$on('error', (model) => {
+            console.log('Order is declined: ' + model.attr('error.code') + ', description: ' + model.attr('error.message'))
+          })
+      })
+    })
   })
 }

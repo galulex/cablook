@@ -1,8 +1,6 @@
 module Events
   module Trips
     class Finish < Events::BaseEvent
-      include Concerns::PaymentsTypes
-
       def schema
         Dry::Schema.Params do
           required(:trip_id).filled(:int?)
@@ -42,9 +40,9 @@ module Events
       end
 
       def pay_for_trip
-        return update_driver_balance if mobile_pay?
+        return update_driver_balance if trip_payment.mobile?
 
-        return trip_payment.update!(status: Constants::Payments::SUCCESS) if cash_trip?
+        return trip_payment.update!(status: Constants::Payments::SUCCESS) if trip_payment.cash?
 
         if trip.bonus_trip
           update_cashback if trip.bonus_trip.type == Constants::BonusTrip::CASHBACK
@@ -66,7 +64,7 @@ module Events
           body: { action: Constants::BroadcastActions::TRIP_FINISHED }
         )
 
-        if cash_trip?
+        if trip_payment.cash?
           ActionCable.server.broadcast(
             Constants::Channels::DRIVER_MAP,
             driver_broadcast_common_data.merge(driver_broadcast_cash_trip_data)
@@ -88,16 +86,16 @@ module Events
 
       def driver_broadcast_cash_trip_data
         {
-          cash_trip: cash_trip?,
+          cash_trip: trip_payment.cash?,
           cash: trip.cost.to_s,
           idle: data[:idle] < Constants::Trip::FREE_IDLE_VALUE ? nil : idle.to_s
         }
       end
 
       def settle_payment_idle
-        return if cash_trip? || data[:idle] < Constants::Trip::FREE_IDLE_VALUE
+        return if trip_payment.cash? || data[:idle] < Constants::Trip::FREE_IDLE_VALUE
 
-        return settle_payment_idle_mobile if mobile_pay?
+        return settle_payment_idle_mobile if trip_payment.mobile?
 
         Payments::Idle.create(
           status: Constants::Payments::PENDING,
@@ -110,7 +108,7 @@ module Events
       end
 
       def settle_payment_idle_mobile
-        response = Fondy::Recurring.new(trip.user, idle, trip_payment['response']['rectoken'], trip_payment.order_reference + '_idle', false).call
+        response = Fondy::Recurring.new(trip.user, idle, trip_payment['response']['rectoken'], "#{trip_payment.order_reference}_idle", false).call
         trip.driver.update!(balance: trip.driver.balance + idle) if response[:status]
 
         Payments::Idle.create(
@@ -174,6 +172,10 @@ module Events
 
       def update_driver_balance
         trip.driver.update!(balance: trip.driver.balance + trip_payment.amount)
+      end
+
+      def trip_payment
+        @trip_payment ||= trip.trip_payment
       end
     end
   end
