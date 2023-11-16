@@ -40,7 +40,9 @@ module Events
       end
 
       def pay_for_trip
-        return trip.cash_payment.update!(status: Constants::Payments::SUCCESS) if cash_trip?
+        return update_driver_balance if trip_payment.mobile?
+
+        return trip_payment.update!(status: Constants::Payments::SUCCESS) if trip_payment.cash?
 
         if trip.bonus_trip
           update_cashback if trip.bonus_trip.type == Constants::BonusTrip::CASHBACK
@@ -62,7 +64,7 @@ module Events
           body: { action: Constants::BroadcastActions::TRIP_FINISHED }
         )
 
-        if cash_trip?
+        if trip_payment.cash?
           ActionCable.server.broadcast(
             Constants::Channels::DRIVER_MAP,
             driver_broadcast_common_data.merge(driver_broadcast_cash_trip_data)
@@ -84,14 +86,16 @@ module Events
 
       def driver_broadcast_cash_trip_data
         {
-          cash_trip: cash_trip?,
+          cash_trip: trip_payment.cash?,
           cash: trip.cost.to_s,
           idle: data[:idle] < Constants::Trip::FREE_IDLE_VALUE ? nil : idle.to_s
         }
       end
 
       def settle_payment_idle
-        return if cash_trip? || data[:idle] < Constants::Trip::FREE_IDLE_VALUE
+        return if trip_payment.cash? || data[:idle] < Constants::Trip::FREE_IDLE_VALUE
+
+        return settle_payment_idle_mobile if trip_payment.mobile?
 
         Payments::Idle.create(
           status: Constants::Payments::PENDING,
@@ -101,6 +105,20 @@ module Events
           trip_id: data[:trip_id]
         )
         Jobs::PaymentSettle.perform_later(data[:trip_id], Constants::Payments::TYPES[:idle], idle)
+      end
+
+      def settle_payment_idle_mobile
+        response = Fondy::Recurring.new(trip.user, idle, trip_payment['response']['rectoken'], "#{trip_payment.order_reference}_idle", false).call
+        trip.driver.update!(balance: trip.driver.balance + idle) if response[:status]
+
+        Payments::Idle.create(
+          status: response[:status] ? Constants::Payments::SUCCESS : Constants::Payments::PENDING,
+          amount: idle,
+          user_id: user.id,
+          card_id: nil,
+          trip_id: data[:trip_id],
+          response: response
+        )
       end
 
       def card_id
@@ -152,8 +170,12 @@ module Events
         TelegramOrder.new(trip.telegram).update_step(:rate_trip) if trip.telegram && telegram_trip?(user)
       end
 
-      def cash_trip?
-        trip.cash_payment.present?
+      def update_driver_balance
+        trip.driver.update!(balance: trip.driver.balance + trip_payment.amount)
+      end
+
+      def trip_payment
+        @trip_payment ||= trip.trip_payment
       end
     end
   end

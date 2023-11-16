@@ -6,6 +6,7 @@ module Events
 
         def validate_distance!
           return if data[:distance] < Constants::Trip::MAX_DISTANCE
+
           invalid!([I18n.t('trips.to_far')])
         end
 

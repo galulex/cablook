@@ -1,5 +1,11 @@
 describe Events::Trips::Decline do
   describe '.call' do
+    shared_examples 'decline a trip' do
+      it { is_expected.to change { trip.reload.status }.to(Constants::Trip::STATUS_CODES[Constants::Trip::DECLINED]) }
+      it { is_expected.to change { payment.reload.status }.to(Constants::Payments::DECLINE) }
+      it { is_expected.to have_enqueued_job(Jobs::DriversNotification).with(trip, 'clear') }
+    end
+
     let(:trip) { create(:trip, status: Constants::Trip::PENDING) }
 
     let(:data) { { trip_id: trip.id } }
@@ -8,9 +14,7 @@ describe Events::Trips::Decline do
 
     let!(:payment) { create(:payment, trip_id: trip.id, user_id: trip.user.id) }
 
-    it { is_expected.to change { trip.reload.status }.to(Constants::Trip::STATUS_CODES[Constants::Trip::DECLINED]) }
-    it { is_expected.to change { payment.reload.status }.to(Constants::Payments::DECLINE) }
-    it { is_expected.to have_enqueued_job(Jobs::DriversNotification).with(trip, 'clear') }
+    it_behaves_like 'decline a trip'
 
     context 'when nothing happened' do
       let(:trip) { create(:trip, status: Constants::Trip::FINISHED) }
@@ -32,11 +36,15 @@ describe Events::Trips::Decline do
     end
 
     context 'when cash trip' do
-      let!(:payment) { create(:cash_payment, trip_id: trip.id, user_id: trip.user.id) }
+      let!(:payment) { create(:trip_payment, trip_id: trip.id, user_id: trip.user.id, payment_method: Constants::Payments::METHOD_CASH) }
+      
+      it_behaves_like 'decline a trip'
+    end
 
-      it { is_expected.to change { trip.reload.status }.to(Constants::Trip::STATUS_CODES[Constants::Trip::DECLINED]) }
-      it { is_expected.to change { payment.reload.status }.to(Constants::Payments::DECLINE) }
-      it { is_expected.to have_enqueued_job(Jobs::DriversNotification).with(trip, 'clear') }
+    context 'when payment method mobile' do
+      let!(:payment) { create(:trip_payment, trip_id: trip.id, user_id: trip.user.id, payment_method: Constants::Payments::METHOD_MOBILE) }
+      
+      it_behaves_like 'decline a trip'
     end
   end
 end

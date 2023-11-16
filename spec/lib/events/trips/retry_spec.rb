@@ -1,5 +1,17 @@
 describe Events::Trips::Retry do
   describe '.call' do
+    shared_examples 'retry trip' do
+      it { is_expected.to change { trip.reload.status }.to(Constants::Trip::STATUS_CODES[Constants::Trip::PENDING]) }
+      it { is_expected.to have_enqueued_job(Jobs::DeclineTrip).with(trip.id) }
+      it { is_expected.to have_enqueued_job(Jobs::DriversNotification) }
+      it do
+        expect(ActionCable.server).not_to receive(:broadcast).with(
+          "#{Constants::Channels::TRIP}_#{trip.id}",
+          action: Constants::BroadcastActions::NOTIFICATION_RETRY
+        )
+      end
+    end
+
     let(:trip) { create(:trip, status: Constants::Trip::DECLINED) }
     let(:user) { create(:user) }
     let!(:card) { create(:card, user_id: user.id) }
@@ -9,16 +21,7 @@ describe Events::Trips::Retry do
 
     subject { -> { described_class.call(data) } }
 
-    it { is_expected.to change { trip.reload.status }.to(Constants::Trip::STATUS_CODES[Constants::Trip::PENDING]) }
-    it { is_expected.to change { trip_payment.reload.status }.to(Constants::Payments::PENDING) }
-    it { is_expected.to have_enqueued_job(Jobs::DeclineTrip).with(trip.id) }
-    it { is_expected.to have_enqueued_job(Jobs::DriversNotification) }
-    it do
-      expect(ActionCable.server).not_to receive(:broadcast).with(
-        "#{Constants::Channels::TRIP}_#{trip.id}",
-        action: Constants::BroadcastActions::NOTIFICATION_RETRY
-      )
-    end
+    it_behaves_like 'retry trip'
 
     context 'when payment system Fondy' do
       let!(:card) { create(:card, user_id: user.id, payment_system: :fondy) }
@@ -28,17 +31,10 @@ describe Events::Trips::Retry do
         allow_any_instance_of(described_class).to receive(:hold_success?).and_return(true)
       end
 
-      it { is_expected.to change { trip.reload.status }.to(Constants::Trip::STATUS_CODES[Constants::Trip::PENDING]) }
+      it_behaves_like 'retry trip'
       it { is_expected.to change { trip_payment.reload.status }.to(Constants::Payments::PENDING) }
       it { expect_any_instance_of(Fondy::Recurring).to_not receive(:call) }
-      it { is_expected.to have_enqueued_job(Jobs::DeclineTrip).with(trip.id) }
       it { is_expected.to have_enqueued_job(Jobs::RefundHoldedAmount).with(trip.id, trip.cost, trip_payment.order_reference) }
-      it do
-        expect(ActionCable.server).not_to receive(:broadcast).with(
-          "#{Constants::Channels::TRIP}_#{trip.id}",
-          action: Constants::BroadcastActions::NOTIFICATION_RETRY
-        )
-      end
 
       context 'without holded money' do
         let(:fresh_order_reference) { 'cablook_test_1_payments_trip_biUwx3' }
@@ -55,6 +51,15 @@ describe Events::Trips::Retry do
         end
 
         it { (expect(Fondy::Recurring).to have_received(:new).with(*recurring_params).once) }
+      end
+
+      context 'when payment method mobile' do
+        let!(:trip_payment) { create(:trip_payment, trip: trip, user: user, payment_method: Constants::Payments::METHOD_MOBILE, status: Constants::Payments::DECLINE) }
+
+        it_behaves_like 'retry trip'
+        it { is_expected.to change { trip_payment.reload.status }.to(Constants::Payments::PENDING) }
+        it { expect_any_instance_of(Fondy::Recurring).to_not receive(:call) }
+        it { is_expected.to have_enqueued_job(Jobs::RefundHoldedAmount).with(trip.id, trip.cost, trip_payment.order_reference) }
       end
     end
 
@@ -100,20 +105,12 @@ describe Events::Trips::Retry do
     end
 
     context 'when cash trip' do
-      let!(:trip_payment) { create(:cash_payment, trip: trip, user: user, card: nil, status: Constants::Payments::PENDING) }
+      let!(:trip_payment) { create(:trip_payment, trip: trip, user: user, card: nil, status: Constants::Payments::PENDING, payment_method: Constants::Payments::METHOD_CASH) }
 
-      it { is_expected.to change { trip.reload.status }.to(Constants::Trip::STATUS_CODES[Constants::Trip::PENDING]) }
+      it_behaves_like 'retry trip'
+
       it { is_expected.to_not change { trip_payment.reload.status } }
-      it { is_expected.to have_enqueued_job(Jobs::DeclineTrip).with(trip.id) }
-      it { is_expected.to have_enqueued_job(Jobs::DriversNotification) }
       it { is_expected.to_not have_enqueued_job(Jobs::RefundHoldedAmount) }
-
-      it do
-        expect(ActionCable.server).not_to receive(:broadcast).with(
-          "#{Constants::Channels::TRIP}_#{trip.id}",
-          action: Constants::BroadcastActions::NOTIFICATION_RETRY
-        )
-      end
     end
   end
 end

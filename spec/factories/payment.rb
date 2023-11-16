@@ -9,6 +9,5 @@ FactoryBot.define do
     factory :tip_payment, class: Payments::Tip
     factory :trip_payment, class: Payments::Trip
     factory :payout_payment, class: Payments::PayOut
-    factory :cash_payment, class: Payments::Cash
   end
 end

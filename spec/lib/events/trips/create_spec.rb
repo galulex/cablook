@@ -2,6 +2,13 @@ describe Events::Trips::Create do
   describe '.call' do
     subject { -> { described_class.call(data) } }
 
+    shared_examples 'create trip' do
+      it { is_expected.to have_enqueued_job(Jobs::SearchCarForTrip).with(data[:id]) }
+      it { is_expected.to have_enqueued_job(Jobs::DeclineTrip).with(data[:id]) }
+      it { is_expected.to have_enqueued_job(Jobs::Notification).with(data[:id]) }
+      it { is_expected.to have_enqueued_job(Jobs::DriversNotification) }
+    end
+
     let(:trip_params) { attributes_for(:trip, user_id: user.id, cash: false) }
     let(:data) { trip_params }
     let(:user) { create(:user) }
@@ -12,11 +19,8 @@ describe Events::Trips::Create do
     it { is_expected.to change { Trip.count }.by(+1) }
 
     context 'and active job is created' do
-      it { is_expected.to have_enqueued_job(Jobs::SearchCarForTrip).with(data[:id]) }
-      it { is_expected.to have_enqueued_job(Jobs::DeclineTrip).with(data[:id]) }
-      it { is_expected.to have_enqueued_job(Jobs::Notification).with(data[:id]) }
+      it_behaves_like 'create trip'
       it { is_expected.to_not have_enqueued_job(Jobs::RefundHoldedAmount) }
-      it { is_expected.to have_enqueued_job(Jobs::DriversNotification) }
     end
 
     context 'and user trips_count updated' do
@@ -89,7 +93,7 @@ describe Events::Trips::Create do
           Settings.disable(:cashback)
         end
 
-        it { is_expected.to_not change { bonus_trip.reload.used? } }
+        it { is_expected.to_not(change { bonus_trip.reload.used? }) }
       end
 
       context 'but bonus was used before' do
@@ -110,21 +114,27 @@ describe Events::Trips::Create do
         it { is_expected.to change { BonusTrip.count }.by(+1) }
 
         context 'when cashback disabled' do
-          before { Settings.disable(:cashback); Settings.disable(:bonuses) }
+          before do
+            Settings.disable(:cashback)
+            Settings.disable(:bonuses)
+          end
 
-          it { is_expected.to_not change { BonusTrip.count } }
+          it { is_expected.to_not(change { BonusTrip.count }) }
         end
 
         context 'but user have fresh cashback bonus trip' do
           let!(:bonus_trip) { create(:bonus_trip, user_id: user.id, status: :fresh, type: Constants::BonusTrip::CASHBACK) }
 
-          it { is_expected.to_not change { BonusTrip.count } }
+          it { is_expected.to_not(change { BonusTrip.count }) }
           it { is_expected.to change { bonus_trip.reload.used? }.to be_truthy }
 
           context 'when bonuses disabled' do
-            before { Settings.disable(:cashback); Settings.disable(:bonuses) }
+            before do
+              Settings.disable(:cashback)
+              Settings.disable(:bonuses)
+            end
 
-            it { is_expected.to_not change { bonus_trip.reload.used? } }
+            it { is_expected.to_not(change { bonus_trip.reload.used? }) }
           end
         end
       end
@@ -186,10 +196,8 @@ describe Events::Trips::Create do
 
       context 'when trip amount hold success' do
         before { allow_any_instance_of(described_class).to receive(:hold_success?).and_return(true) }
-
-        it { is_expected.to have_enqueued_job(Jobs::SearchCarForTrip).with(data[:id]) }
-        it { is_expected.to have_enqueued_job(Jobs::DeclineTrip).with(data[:id]) }
-        it { is_expected.to have_enqueued_job(Jobs::Notification).with(data[:id]) }
+        
+        it_behaves_like 'create trip'
         it { is_expected.to have_enqueued_job(Jobs::RefundHoldedAmount) }
       end
 
@@ -197,6 +205,21 @@ describe Events::Trips::Create do
         before { allow_any_instance_of(described_class).to receive(:hold_success?).and_return(false) }
 
         it { is_expected.to raise_error Events::InvalidParamsError }
+      end
+
+      context 'when payment method mobile' do
+        let(:order_data) do
+          {
+            response_status: Constants::Payments::FONDY_SUCCESS,
+            order_status: Constants::Payments::FONDY_APPROVED
+          }
+        end
+        let(:trip_params) { attributes_for(:trip, user_id: user.id, order_data: order_data) }
+
+        it_behaves_like 'create trip'
+        it { is_expected.to have_enqueued_job(Jobs::RefundHoldedAmount) }
+        it { is_expected.to change { user.reload.trips_count }.from(0).to(1) }
+        it { expect(subject.call.trip_payment.mobile?).to be_truthy }
       end
     end
 
@@ -207,13 +230,10 @@ describe Events::Trips::Create do
 
       before { Settings.enable(:cash) }
 
-      it { is_expected.to have_enqueued_job(Jobs::SearchCarForTrip).with(data[:id]) }
-      it { is_expected.to have_enqueued_job(Jobs::DeclineTrip).with(data[:id]) }
-      it { is_expected.to have_enqueued_job(Jobs::Notification).with(data[:id]) }
-      it { is_expected.to have_enqueued_job(Jobs::DriversNotification) }
+      it_behaves_like 'create trip'
       it { is_expected.to_not have_enqueued_job(Jobs::RefundHoldedAmount) }
-      it { is_expected.to change { Payments::Cash.count }.by(1) }
       it { is_expected.to change { user.reload.trips_count }.from(0).to(1) }
+      it { expect(subject.call.trip_payment.cash?).to be_truthy }
     end
   end
 end

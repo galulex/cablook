@@ -2,15 +2,19 @@ describe Events::Trips::Finish do
   describe '.call' do
     subject { -> { described_class.call(data) } }
 
+    shared_examples 'finishing a trip' do
+      it { is_expected.to change { trip.reload.status }.to(Constants::Trip::STATUS_CODES[Constants::Trip::FINISHED]) }
+      it { is_expected.to change { car.reload.status }.to('free') }
+    end
+
     let(:trip) { create(:trip, status: Constants::Trip::PENDING, car_id: car.id, driver_id: driver.id, user_id: user.id) }
     let(:user) { create(:user) }
     let(:driver) { create(:driver) }
     let(:car) { create(:car, status: Constants::Car::OFFLINE) }
-
+    let!(:trip_payment) { create(:trip_payment, trip_id: trip.id) }
     let(:data) { { trip_id: trip.id, idle: 0 } }
 
-    it { is_expected.to change { trip.reload.status }.to(Constants::Trip::STATUS_CODES[Constants::Trip::FINISHED]) }
-    it { is_expected.to change { car.reload.status }.to('free') }
+    it_behaves_like 'finishing a trip'
 
     context 'when trip has bonus trip' do
       let!(:bonus_trip) { create(:bonus_trip, user: user, trip: trip, type: Constants::BonusTrip::GIFT) }
@@ -20,7 +24,7 @@ describe Events::Trips::Finish do
       context 'with cashback type' do
         let!(:bonus_trip) { create(:bonus_trip, user: user, trip: trip, type: Constants::BonusTrip::CASHBACK) }
 
-        it { is_expected.to change { user.reload.cashback } }
+        it { is_expected.to(change { user.reload.cashback }) }
 
         context 'when cashback enabled' do
           it { is_expected.to change { user.reload.cashback }.to(user.cashback - trip.cost * 100) }
@@ -35,7 +39,7 @@ describe Events::Trips::Finish do
     end
 
     context 'when idle is bigger than 10' do
-      let(:data) { { trip_id: trip.id, idle: idle} }
+      let(:data) { { trip_id: trip.id, idle: idle } }
       let(:price) { Price.create }
       let(:idle) { 800 }
       let(:card) { create(:card, user_id: user.id) }
@@ -45,9 +49,9 @@ describe Events::Trips::Finish do
     end
 
     context 'when idle is lower than 10' do
-      let(:data) { { trip_id: trip.id, idle: 8} }
+      let(:data) { { trip_id: trip.id, idle: 8 } }
 
-      it { is_expected.not_to have_enqueued_job(Jobs::PaymentSettle).with(trip.id, Constants::Payments::TYPES[:idle],  8) }
+      it { is_expected.not_to have_enqueued_job(Jobs::PaymentSettle).with(trip.id, Constants::Payments::TYPES[:idle], 8) }
     end
 
     context 'and broadcast to driver map channel' do
@@ -80,9 +84,22 @@ describe Events::Trips::Finish do
     context 'when payment system Fondy' do
       before { Settings.update!(payment_system: :fondy) }
 
-      it { is_expected.to change { trip.reload.status }.to(Constants::Trip::STATUS_CODES[Constants::Trip::FINISHED]) }
-      it { is_expected.to change { car.reload.status }.to('free') }
+      it_behaves_like 'finishing a trip'
       it { is_expected.to have_enqueued_job(Jobs::PaymentSettle) }
+
+      context 'when mobile payment method' do
+        let!(:trip_payment) { create(:trip_payment, trip_id: trip.id, payment_method: :mobile) }
+
+        it_behaves_like 'finishing a trip'
+        it { is_expected.to_not have_enqueued_job(Jobs::PaymentSettle) }
+      end
+    end
+
+    context 'when payment cash' do
+      let!(:trip_payment) { create(:trip_payment, trip_id: trip.id, payment_method: :cash) }
+
+      it_behaves_like 'finishing a trip'
+      it { is_expected.to_not have_enqueued_job(Jobs::PaymentSettle) }
     end
   end
 end

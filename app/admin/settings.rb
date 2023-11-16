@@ -1,11 +1,6 @@
 ActiveAdmin.register Settings do
-  GENERAL_SETTINGS_COLUMNS = %w[payment_system address_geocoder before_create_trip_message cash].freeze
-  SETTINGS_TITLE = 'Settings'.freeze
-  FEATURES_TITLE = 'Features'.freeze
-  GENERAL_TITLE = 'General'.freeze
-
   menu false
-  permit_params GENERAL_SETTINGS_COLUMNS
+  permit_params Constants::Admin::GENERAL_SETTINGS_COLUMNS
   actions :index, :show, :update, :edit
 
   member_action :switch, method: :post do
@@ -14,19 +9,19 @@ ActiveAdmin.register Settings do
     redirect_to admin_setting_path
   end
 
-  show title: SETTINGS_TITLE do |_settings|
+  show title: Constants::Admin::SETTINGS_TITLE do |_settings|
     tabs do
-      tab FEATURES_TITLE do
+      tab Constants::Admin::FEATURES_TITLE do
         render 'show'
       end
-      tab GENERAL_TITLE do
-        attributes_table { GENERAL_SETTINGS_COLUMNS.each { |title| row title } }
+      tab Constants::Admin::GENERAL_TITLE do
+        attributes_table { Constants::Admin::GENERAL_SETTINGS_COLUMNS.each { |title| row title } }
       end
     end
   end
 
   form do |f|
-    f.inputs { GENERAL_SETTINGS_COLUMNS.each { |title| input title } }
+    f.inputs { Constants::Admin::GENERAL_SETTINGS_COLUMNS.each { |title| input title } }
     f.actions
   end
 end

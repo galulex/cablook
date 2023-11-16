@@ -5,6 +5,7 @@ describe Events::Feedbacks::Create do
     let(:data) { attributes_for(:feedback, user_id: user.id, trip_id: trip.id) }
     let(:user) { create(:user) }
     let(:trip) { create(:trip, user_id: user.id) }
+    let!(:trip_payment) { create(:trip_payment, trip_id: trip.id) }
 
     it { is_expected.to change { Feedback.count }.by(+1) }
     it { is_expected.not_to have_enqueued_job(Jobs::PaymentSettle) }

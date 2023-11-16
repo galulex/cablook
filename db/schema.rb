@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_10_30_105859) do
+ActiveRecord::Schema.define(version: 2023_11_13_084843) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -134,6 +134,7 @@ ActiveRecord::Schema.define(version: 2023_10_30_105859) do
     t.jsonb "response"
     t.string "type", default: "Payments::Trip"
     t.bigint "order_id"
+    t.integer "payment_method", default: 0
     t.index ["card_id"], name: "index_payments_on_card_id"
     t.index ["order_id"], name: "index_payments_on_order_id"
     t.index ["trip_id"], name: "index_payments_on_trip_id"

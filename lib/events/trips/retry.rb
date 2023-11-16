@@ -33,7 +33,7 @@ module Events
       def retry_trip_job(trip_id)
         Jobs::SearchCarForTrip.perform_now(trip_id) # broadcast
         Jobs::DeclineTrip.set(wait: Constants::Trip::EXPIRES_IN).perform_later(trip_id)
-        Jobs::RefundHoldedAmount.set(wait: Constants::Trip::REFUND_HOLD_IN).perform_later(trip.id, trip.cost, order_reference) if settings.fondy? && !cash_trip?
+        Jobs::RefundHoldedAmount.set(wait: Constants::Trip::REFUND_HOLD_IN).perform_later(trip.id, trip.cost, order_reference) if settings.fondy? && !trip_payment.cash?
       end
 
       def hold_success?
@@ -52,13 +52,13 @@ module Events
       end
 
       def validate_hold_amount!
-        return if cash_trip?
+        return if trip_payment.cash?
 
         invalid!([I18n.t('trips.cant_hold_amount')], status: 402) unless hold_success?
       end
 
       def card_token
-        trip_payment.card.token
+        trip_payment.mobile? ? trip_payment['response']['rectoken'] : trip_payment.card.token
       end
 
       def update_trip_status
@@ -108,7 +108,7 @@ module Events
       end
 
       def validate_user_cards!
-        return if cash_trip?
+        return unless trip_payment.card?
 
         invalid!([I18n.t('trips.cant_retry')]) unless cards.any?
       end
@@ -122,11 +122,7 @@ module Events
       end
 
       def trip_payment
-        @trip_payment ||= trip.trip_payment || trip.cash_payment
-      end
-
-      def cash_trip?
-        trip.cash_payment.present?
+        @trip_payment ||= trip.trip_payment
       end
     end
   end

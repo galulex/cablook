@@ -105,12 +105,11 @@ export default class NewDesign extends Component {
   }
 
   loadTrips = () => {
-    axios.get(`trips?page=0&per=1`).then((res) => {
-      const { trips } = res.data
-      this.setState({ lastTripId: trips[0].id })
-      this.props.setActivateFeedback(trips[0].feedbacks[0] == undefined && [FINISHED].includes(trips[0].status))
-    }).catch((error) => {
-      if (error.response) alert(error.response.data.errors)
+    axios.get(`trips?page=0&per=1`).then(({ data: { trips: [{ id, feedbacks, status }] } }) => {
+      this.setState({ lastTripId: id })
+      this.props.setActivateFeedback(feedbacks[0] == undefined && [FINISHED].includes(status))
+    }).catch(({ response }) => {
+      if (response) alert(response.data.errors)
     })
   }
 
@@ -174,24 +173,25 @@ export default class NewDesign extends Component {
   build = (e) => {
     let params = { ...this.state.trip, osrm: true }
     if (!this.isValid) return
-    axios.post('trips/new', { trip: params }).then((res) => {
+
+    axios.post('trips/new', { trip: params }).then(({ data: { path, cost } }) => {
       this.setState(state => {
-        state.trip.path = res.data.path
-        state.trip.cost = res.data.cost
+        state.trip.path = path
+        state.trip.cost = cost
         return state
       })
-    }).catch((error) => {
-      if (error.response) alert(error.response.data.errors)
+    }).catch(({ response }) => {
+      if (response) alert(response.data.errors)
     })
   }
 
-  createTrip = (e, cashback = false) => {
+  createTrip = (e, cashback = false, data = {}) => {
     const message = this.state.settings.before_create_trip_message
 
     if (message) { if (confirm(message) === false) return }
 
-    this.setState({ bonus: e.target.value, buttonDisabled: true, cashback: cashback }, () => {
-      this.create()
+    this.setState({ bonus: e.target.value, buttonDisabled: true, cashback: cashback }, (e) => {
+      this.create(e, data)
     })
   }
 
@@ -204,11 +204,15 @@ export default class NewDesign extends Component {
     clearTimeout(fetchTripTimeout)
   }
 
-  create = (e) => {
-    const { trip, comment, entrance, settings } = this.state
+  create = (e, { order_data }) => {
+    const { trip, settings } = this.state
     let params = { ...trip, status: PENDING, cash: settings.cash && trip.card_id === 'cash' }
     if (this.state.bonus === 'true') params.bonus = bonus
     if (this.state.cashback) params.cashback = this.state.cashback
+    if (order_data) {
+      params.order_data = order_data
+      params.card_id = null
+    }
     this.sendRequest(params)
   }
 
@@ -218,11 +222,11 @@ export default class NewDesign extends Component {
       return
     }
     this.setState({ buttonDisabled: true })
-    axios.patch(`trips/${this.state.trip.id}/cancel`).then((res) => {
+    axios.patch(`trips/${this.state.trip.id}/cancel`).then(() => {
       this.clearTrip()
       this.clearCountdown()
-    }).catch((error) => {
-      if (error.response) alert(error.response.data.errors)
+    }).catch(({ response }) => {
+      if (response) alert(response.data.errors)
       this.setState({ buttonDisabled: false })
     })
   }
@@ -260,42 +264,42 @@ export default class NewDesign extends Component {
   }
 
   sendRequest = (params) => {
-    this.setState({ showLoading: true })
-    this.setState({ buttonDisabled: true })
+    this.setState({ showLoading: true, buttonDisabled: true })
     axios({
       method: params.id ? 'put' : 'post',
       url: params.id ? `trips/${params.id}` : 'trips',
       data: { trip: params }
-    }).then((res) => {
-      this.setState({ trip: res.data })
+    }).then(({ data }) => {
+      this.setState({ trip: data })
       this.updateTrip()
-      if (!params.id) { this.subscribe(res.data) }
+      if (!params.id) { this.subscribe(data) }
       this.setFetchTripTimeout()
       this.setState({ buttonDisabled: false })
-    }).catch((error) => {
+    }).catch(({ response }) => {
       this.setState({ buttonDisabled: false })
       this.setState({ showLoading: false })
-      if (!error.response) return
-      switch (error.response.status) {
+      if (!response) return
+      switch (response.status) {
         case 418:
-          if (confirm(`${error.response.data.errors} ${i18n.confirm_trip.retry_payment}`)) {
+          if (confirm(`${response.data.errors} ${i18n.confirm_trip.retry_payment}`)) {
             this.retryPendingPayment()
           }
           break
         case 406:
-          if (confirm(`${error.response.data.errors} ${i18n.confirm_trip.trip_payment}`)) {
+          if (confirm(`${response.data.errors} ${i18n.confirm_trip.trip_payment}`)) {
             this.setState({ bonus: false })
             this.state.trip.bonus = false
             this.create()
           }
           break
         case 402:
-          alert(error.response.data.errors)
+          alert(response.data.errors)
           break
         case 422:
-        default:
-          alert(error.response.data.errors)
+          alert(response.data.errors)
           break
+        default:
+          alert('something went wrong')
       }
     })
   }
@@ -303,12 +307,12 @@ export default class NewDesign extends Component {
   sendRequestForUnpaidPayments = () => {
     if (this.state.settings.validate_unpaid_trips === false) return
 
-    axios.get('payments/pending').then((res) => {
-      if (res.data.length === 0) return
+    axios.get('payments/pending').then(({ data }) => {
+      if (data.length === 0) return
       let result = confirm(i18n.retry_payment.unpaid_payments)
       if (result) this.retryPayment()
-    }).catch((error) => {
-      if (error.response) alert(error.response.data.errors)
+    }).catch(({ response }) => {
+      if (response) alert(response.data.errors)
     })
   }
 
@@ -353,27 +357,27 @@ export default class NewDesign extends Component {
     if (navigator.geolocation) {
       try {
         const res = await new Promise(function (resolve, reject) {
-          navigator.geolocation.getCurrentPosition(resolve, reject);
-        });
+          navigator.geolocation.getCurrentPosition(resolve, reject)
+        })
 
-        let lat = res.coords.latitude;
-        let lng = res.coords.longitude;
+        let lat = res.coords.latitude
+        let lng = res.coords.longitude
         let address = await geocode(`${lng},${lat}`)
         this.setTripParams(`${lat},${lng}`, address)
       } catch (error) {
         switch (error.code) {
           case error.PERMISSION_DENIED:
-            console.log(i18n.location.permission_denied);
-            break;
+            console.log(i18n.location.permission_denied)
+            break
           case error.TIMEOUT:
-            alert(i18n.location.timeout);
-            break;
+            alert(i18n.location.timeout)
+            break
           case error.POSITION_UNAVAILABLE:
-            console.log(i18n.location.position_unavailable);
-            break;
+            console.log(i18n.location.position_unavailable)
+            break
           default:
-            alert(error.message);
-            break;
+            alert(error.message)
+            break
         }
       }
     } else alert(i18n.location.not_supported)
@@ -399,16 +403,16 @@ export default class NewDesign extends Component {
   }
 
   sendCreateRequest = () => {
-    axios.post('trips', { trip: this.state.trip }).then((res) => {
-      this.setState({ trip: res.data })
-      this.subscribe(res.data)
-    }).catch((error) => {
-      if (!error.response) return
-      if (error.response.status == 418) {
-        if (confirm(`${error.response.data.errors} ${i18n.confirm_trip.retry_payment}`)) {
+    axios.post('trips', { trip: this.state.trip }).then(({ data }) => {
+      this.setState({ trip: data })
+      this.subscribe(data)
+    }).catch(({ response }) => {
+      if (!response) return
+      if (response.status == 418) {
+        if (confirm(`${response.data.errors} ${i18n.confirm_trip.retry_payment}`)) {
           this.retryPendingPayment(false)
         }
-      } else alert(error.response.data.errors)
+      } else alert(response.data.errors)
     })
   }
 
@@ -416,8 +420,8 @@ export default class NewDesign extends Component {
     const { cards } = this.props
     const { card_id } = this.state.trip
 
-    axios.post('payments/retry_pendings', { card_id: card_id ? card_id : cards()[0].id }).then((res) => {
-      if (res.data.length === 0) {
+    axios.post('payments/retry_pendings', { card_id: card_id ? card_id : cards()[0].id }).then(({ data }) => {
+      if (data.length === 0) {
         if (unpaid_trip) {
           this.setState({ buttonDisabled: false })
           return
@@ -427,9 +431,9 @@ export default class NewDesign extends Component {
         this.setState({ buttonDisabled: false })
         setTimeout(() => { alert(i18n.confirm_trip.payment_error) }, 500)
       }
-    }).catch((error) => {
+    }).catch(({ response }) => {
       this.setState({ buttonDisabled: false })
-      if (error.response) alert(error.response.data.errors)
+      if (response) alert(response.data.errors)
     })
   }
 
@@ -437,14 +441,14 @@ export default class NewDesign extends Component {
     const { cards } = this.props
     const { card_id } = this.state.trip
 
-    axios.post('payments/retry_pendings', { card_id: card_id ? card_id : cards()[0].id }).then((res) => {
-      if (res.data.length === 0) {
+    axios.post('payments/retry_pendings', { card_id: card_id ? card_id : cards()[0].id }).then(({ data }) => {
+      if (data.length === 0) {
         alert(i18n.retry_payment.success)
       } else {
         alert(i18n.confirm_trip.payment_error)
       }
-    }).catch((error) => {
-      if (error.response) alert(error.response.data.errors)
+    }).catch(({ response }) => {
+      if (response) alert(response.data.errors)
     })
   }
 
@@ -470,8 +474,7 @@ export default class NewDesign extends Component {
   }
 
   fetchBonusTrips = () => {
-    axios.get('/referrals').then((res) => {
-      let data = res.data
+    axios.get('/referrals').then(({ data }) => {
       data.availableBonusTrips = this.props.getAvailableBonusTrips(data.bonus_trips)
       this.props.setBonusTrips(data)
     })
@@ -507,7 +510,6 @@ export default class NewDesign extends Component {
     this.props.fetchUser()
   }
 
-
   setField = (e) => {
     this.state.trip[e.target.id] = (e.target.id !== 'no_call') ? e.target.value : e.target.checked
     this.setState(this.state)
@@ -524,6 +526,7 @@ export default class NewDesign extends Component {
 
   startCountdown = () => {
     if (this.state.trip.status !== ON_THE_WAY) return
+
     this.countdown()
     interval = setInterval(this.countdown, 1000)
   }
@@ -531,10 +534,12 @@ export default class NewDesign extends Component {
   countdown = () => {
     const { trip } = this.state
     if (!trip.accepted_at) return
+
     let current = new Date().getTime()
     let accepted_at = new Date(trip.accepted_at).getTime()
     let cancelTimer = 120 - Math.floor((current - accepted_at) / 1000)
     if (!this.checkAcceptionTime(cancelTimer)) return
+
     this.setState({ cancelTimer }, () => {
       if (cancelTimer < 1) this.clearCountdown()
     })
@@ -557,7 +562,9 @@ export default class NewDesign extends Component {
 
   subscribe = (trip = this.state.trip) => {
     if ([FINISHED, CANCELED, DECLINED, CANCELED_BY_DRIVER, undefined].includes(trip.status)) return
+
     if (this.state.subscription) return this.state.subscription
+
     let component = this
     this.setState({
       subscription: cable.subscriptions.create(
@@ -607,23 +614,25 @@ export default class NewDesign extends Component {
     this.clearFetchTripTimeout()
   }
 
-  TripUnavailable = (data) => {
-    const status = data.by_driver ? CANCELED_BY_DRIVER : CANCELED
+  TripUnavailable = ({ by_driver }) => {
+    const status = by_driver ? CANCELED_BY_DRIVER : CANCELED
     this.setState({ trip: { ...this.initialTripState, status }, car: null, driver: null, buttonDisabled: false, inputDisabled: false, showLoading: false })
     this.previewMapRef.cleanup()
     this.unsubscribe()
     this.clearFetchTripTimeout()
     this.clearCountdown()
-    if (data.by_driver) alert(i18n.trip.canceled)
+    if (by_driver) alert(i18n.trip.canceled)
   }
 
-  TripUpdated = (data) => {
-    this.setState({ trip: JSON.parse(data.data), showLoading: false })
+  TripUpdated = ({ data }) => {
+    this.setState({ trip: JSON.parse(data), showLoading: false })
   }
 
-  DriverLocationUpdated = (data) => {
+  DriverLocationUpdated = ({ body }) => {
+    const { longitude, latitude } = body.location
     if ([CONFIRM_UPDATE_TRIP].includes(this.state.trip.status)) return
-    const position = [data.body.location.longitude, data.body.location.latitude]
+
+    const position = [longitude, latitude]
     this.setState({ car: { ...this.state.car, location: position, position: position } })
   }
 

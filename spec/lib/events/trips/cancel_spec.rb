@@ -4,10 +4,11 @@ describe Events::Trips::Cancel do
     let(:driver) { create(:driver, car_id: car.id) }
     let(:trip) { create(:trip, status: Constants::Trip::PENDING) }
     let(:data) { { trip_id: trip.id } }
+    let(:card) { create(:card, user_id: trip.user.id) }
 
     subject { -> { described_class.call(data) } }
 
-    let!(:payment) { create(:payment, trip_id: trip.id, user_id: trip.user.id) }
+    let!(:payment) { create(:payment, trip_id: trip.id, user_id: trip.user.id, card_id: card.id) }
     let!(:price) { Price.create }
 
     it { is_expected.to change { trip.reload.status }.to(Constants::Trip::STATUS_CODES[Constants::Trip::CANCELED]) }
@@ -189,7 +190,7 @@ describe Events::Trips::Cancel do
     end
 
     context 'when cash trip' do
-      let!(:payment) { create(:cash_payment, trip_id: trip.id, user_id: trip.user.id) }
+      let!(:payment) { create(:trip_payment, trip_id: trip.id, user_id: trip.user.id, payment_method: Constants::Payments::METHOD_CASH) }
 
       context 'and not to starts refund money' do
         before do

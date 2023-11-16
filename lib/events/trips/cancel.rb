@@ -56,7 +56,7 @@ module Events
       end
 
       def update_payment_status
-        payment.update(status: Constants::Payments::DECLINE)
+        trip_payment.update(status: Constants::Payments::DECLINE)
       end
 
       def refund_order_payment
@@ -64,18 +64,30 @@ module Events
       end
 
       def fake_taxi?
-        trip.status.in?(Constants::Trip::FAKE_TAXI_TRIP_STATUSES.values) && data[:by_driver] && !cash_trip?
+        trip.status.in?(Constants::Trip::FAKE_TAXI_TRIP_STATUSES.values) && data[:by_driver] && !trip_payment.cash?
       end
 
       def fake_taxi_payment
-        payment.update!(type: Constants::Payments::FAKE)
+        trip_payment.update!(type: Constants::Payments::FAKE)
+
+        return mobile_pay_fake_taxi if trip_payment.mobile?
+
         Jobs::PaymentSettle.perform_later(data[:trip_id], Constants::Payments::TYPES[:fake], fake_amount)
       end
 
-      def refund_holded_amount
-        return if payment.response&.fetch('reverse_status', {}) == Constants::Payments::FONDY_APPROVED || !settings.fondy?
+      def mobile_pay_fake_taxi
+        response = Fondy::Reverse.new(trip.cost - fake_amount, trip_payment.order_reference).call
+        is_success = response[:reverse_status] == Constants::Payments::FONDY_APPROVED
+        status = is_success ? Constants::Payments::SUCCESS : Constants::Payments::PENDING
 
-        payment.update(status: Constants::Payments::DECLINE, response: cencel_by_user_response)
+        trip.driver.update(balance: trip.driver.balance + fake_amount) if is_success
+        trip_payment.update(amount: fake_amount, response: response, status: status)
+      end
+
+      def refund_holded_amount
+        return if trip_payment.response&.fetch('reverse_status', {}) == Constants::Payments::FONDY_APPROVED || !settings.fondy?
+
+        trip_payment.update(status: Constants::Payments::DECLINE, response: cencel_by_user_response)
       end
 
       def cencel_by_user_response
@@ -83,9 +95,9 @@ module Events
       end
 
       def trip_refound_hold_payment
-        return if cash_trip?
+        return if trip_payment.cash?
 
-        @trip_refound_hold_payment ||= Fondy::Reverse.new(trip.cost, payment.order_reference).call
+        @trip_refound_hold_payment ||= Fondy::Reverse.new(trip.cost, trip_payment.order_reference).call
       end
 
       def broadcast_notification_cancel
@@ -128,10 +140,6 @@ module Events
         @trip ||= Trip.find(data[:trip_id])
       end
 
-      def payment
-        @payment ||= trip.trip_payment || trip.cash_payment
-      end
-
       def order_payment
         @order_payment ||= trip.order.payment
       end
@@ -149,8 +157,8 @@ module Events
         @fake_amount ||= price.landing / 100
       end
 
-      def cash_trip?
-        payment.card_id.present?
+      def trip_payment
+        @trip_payment ||= trip.trip_payment
       end
     end
   end

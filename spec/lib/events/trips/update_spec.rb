@@ -2,6 +2,15 @@ describe Events::Trips::Update do
   describe '.call' do
     subject { -> { described_class.call(data) } }
 
+    shared_examples 'updated trip' do
+      it { is_expected.to(change { trip.reload.cost }) }
+      it { is_expected.to(change { trip.reload.path }) }
+      it { is_expected.to change { trip.reload.departure }.to(data[:departure].map(&:to_s)) }
+      it { is_expected.to change { trip.reload.destination }.to(data[:destination].map(&:to_s)) }
+      it { is_expected.to change { trip.reload.departure_address }.to(data[:departure_address]) }
+      it { is_expected.to change { trip.reload.destination_address }.to(data[:destination_address]) }
+    end
+
     let(:trip) { create(:trip, user_id: user.id) }
     let(:trip_params) { attributes_for(:trip, user_id: user.id, id: trip.id) }
     let(:data) { trip_params }
@@ -68,12 +77,7 @@ describe Events::Trips::Update do
           create(:trip_payment, status: Constants::Payments::BONUS, amount: 0, trip: trip, user: user)
         end
 
-        it { is_expected.to(change { trip.reload.cost }) }
-        it { is_expected.to(change { trip.reload.path }) }
-        it { is_expected.to change { trip.reload.departure }.to(data[:departure].map(&:to_s)) }
-        it { is_expected.to change { trip.reload.destination }.to(data[:destination].map(&:to_s)) }
-        it { is_expected.to change { trip.reload.departure_address }.to(data[:departure_address]) }
-        it { is_expected.to change { trip.reload.destination_address }.to(data[:destination_address]) }
+        it_behaves_like 'updated trip'
 
         context 'and broadcast to channel' do
           it do
@@ -112,13 +116,7 @@ describe Events::Trips::Update do
             end
           end
 
-          it { is_expected.to(change { trip_payment.reload.amount }) }
-          it { is_expected.to(change { trip.reload.cost }) }
-          it { is_expected.to(change { trip.reload.path }) }
-          it { is_expected.to change { trip.reload.departure }.to(data[:departure].map(&:to_s)) }
-          it { is_expected.to change { trip.reload.destination }.to(data[:destination].map(&:to_s)) }
-          it { is_expected.to change { trip.reload.departure_address }.to(data[:departure_address]) }
-          it { is_expected.to change { trip.reload.destination_address }.to(data[:destination_address]) }
+          it_behaves_like 'updated trip'
         end
       end
 
@@ -160,12 +158,7 @@ describe Events::Trips::Update do
           it { is_expected.to change { bonus_trip.reload.fresh? }.to be_truthy }
           it { is_expected.to change { bonus_trip.reload.trip_id }.to(nil) }
 
-          it { is_expected.to(change { trip.reload.cost }) }
-          it { is_expected.to(change { trip.reload.path }) }
-          it { is_expected.to change { trip.reload.departure }.to(data[:departure].map(&:to_s)) }
-          it { is_expected.to change { trip.reload.destination }.to(data[:destination].map(&:to_s)) }
-          it { is_expected.to change { trip.reload.departure_address }.to(data[:departure_address]) }
-          it { is_expected.to change { trip.reload.destination_address }.to(data[:destination_address]) }
+          it_behaves_like 'updated trip'
         end
       end
     end
@@ -190,12 +183,7 @@ describe Events::Trips::Update do
       end
 
       it { is_expected.to(change { trip_payment.reload.amount }) }
-      it { is_expected.to(change { trip.reload.cost }) }
-      it { is_expected.to(change { trip.reload.path }) }
-      it { is_expected.to change { trip.reload.departure }.to(data[:departure].map(&:to_s)) }
-      it { is_expected.to change { trip.reload.destination }.to(data[:destination].map(&:to_s)) }
-      it { is_expected.to change { trip.reload.departure_address }.to(data[:departure_address]) }
-      it { is_expected.to change { trip.reload.destination_address }.to(data[:destination_address]) }
+      it_behaves_like 'updated trip'
 
       context 'cancel previous hold amount and hold updated trip cost' do
         before { subject.call }
@@ -215,18 +203,30 @@ describe Events::Trips::Update do
 
         it { is_expected.to raise_error Events::InvalidParamsError }
       end
+
+      context 'and payment method mobile' do
+        let!(:trip_payment) do
+          create(:trip_payment, trip_id: trip.id, user_id: user.id, response: { rectoken: 'rectoken' },
+                                order_reference: order_reference, payment_method: Constants::Payments::METHOD_MOBILE)
+        end
+        let(:reverse_params) { [trip.cost, trip.trip_payment.order_reference] }
+        let(:recurring_params) { [trip.user, data[:cost], 'rectoken', order_reference, false] }
+
+        before do
+          allow(Fondy::Reverse).to receive(:new).with(*reverse_params).and_return(reverse_stub)
+          allow(Fondy::Recurring).to receive(:new).with(*recurring_params).and_return(recurring_stub)
+        end
+
+        it { is_expected.to(change { trip_payment.reload.amount }) }
+        it_behaves_like 'updated trip'
+      end
     end
 
     context 'when cash trip' do
-      let!(:trip_payment) { create(:cash_payment, trip_id: trip.id, user_id: user.id) }
+      let!(:trip_payment) { create(:trip_payment, trip_id: trip.id, user_id: user.id, payment_method: Constants::Payments::METHOD_CASH) }
 
       it { is_expected.to(change { trip_payment.reload.amount }) }
-      it { is_expected.to(change { trip.reload.cost }) }
-      it { is_expected.to(change { trip.reload.path }) }
-      it { is_expected.to change { trip.reload.departure }.to(data[:departure].map(&:to_s)) }
-      it { is_expected.to change { trip.reload.destination }.to(data[:destination].map(&:to_s)) }
-      it { is_expected.to change { trip.reload.departure_address }.to(data[:departure_address]) }
-      it { is_expected.to change { trip.reload.destination_address }.to(data[:destination_address]) }
+      it_behaves_like 'updated trip'
     end
   end
 end

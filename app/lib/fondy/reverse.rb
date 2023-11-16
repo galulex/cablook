@@ -8,14 +8,14 @@ module Fondy
     end
 
     def call
-      { reverse_status: response_body((Net::HTTP.post(URL, request_body, initheader = header).body))[:reverse_status] }
+      { reverse_status: response_body(Net::HTTP.post(URL, request_body, initheader = header).body)[:reverse_status] }
     end
 
     private
 
     attr_reader :cost, :rec_token, :order_reference
 
-    def reverse_params 
+    def reverse_params
       {
         order_id: order_reference,
         currency: CURRENCY,

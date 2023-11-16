@@ -28,7 +28,7 @@ module Events
 
       def run
         validate!
-        if settings.fondy? && !trip.cash_payment
+        if settings.fondy? && !trip_payment.cash?
           cancel_previous_hold
           validate_canceling_previous_hold!
           hold_updated_amount
@@ -43,11 +43,15 @@ module Events
       private
 
       def cancel_previous_hold
-        @cancel_previous_hold ||= Fondy::Reverse.new(trip.cost, trip.trip_payment.order_reference).call
+        @cancel_previous_hold ||= Fondy::Reverse.new(trip.cost, trip_payment.order_reference).call
       end
 
       def hold_updated_amount
-        @hold_updated_amount ||= Fondy::Recurring.new(trip.user, data[:cost], card.token, order_reference, true).call
+        @hold_updated_amount ||= Fondy::Recurring.new(trip.user, data[:cost], card_token, order_reference, !trip_payment.mobile?).call
+      end
+
+      def card_token
+        trip_payment.mobile? ? trip_payment['response']['rectoken'] : card.token
       end
 
       def hold_success?
@@ -139,7 +143,7 @@ module Events
       end
 
       def trip_payment
-        @trip_payment ||= trip.trip_payment || trip.cash_payment
+        @trip_payment ||= trip.trip_payment
       end
     end
   end

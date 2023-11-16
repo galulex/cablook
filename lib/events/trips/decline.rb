@@ -46,11 +46,16 @@ module Events
       end
 
       def update_payment
-        trip_payment.update(status: Constants::Payments::DECLINE, response: { canceled_by: :timeout })
+        trip_payment.update(status: Constants::Payments::DECLINE, response: declined_response)
+      end
+
+      def declined_response
+        trip_payment.response.present? ? trip_payment.response.merge({ canceled_by: :timeout }) : { canceled_by: :timeout }
       end
 
       def notify
         return if trip.user.notification_settings.include?(Constants::User::DECLINE_TRIP)
+
         message = I18n.t('notification.car_not_found')
         Jobs::Notification.perform_later(trip, message)
         Jobs::DriversNotification.perform_later(trip, 'clear')
@@ -65,7 +70,7 @@ module Events
       end
 
       def trip_payment
-        @trip_payment ||= trip.trip_payment || trip.cash_payment
+        @trip_payment ||= trip.trip_payment
       end
     end
   end

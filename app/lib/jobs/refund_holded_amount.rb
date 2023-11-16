@@ -6,7 +6,7 @@ module Jobs
       return if trip.status != Constants::Trip::STATUS_CODES[Constants::Trip::DECLINED] || payment.response['reverse_status'] == Constants::Payments::FONDY_APPROVED
 
       reverse_response = Fondy::Reverse.new(amount, order_reference).call
-      payment.update!(response: payment.response.merge(reverse_response))
+      payment.update!(status: Constants::Payments::DECLINE, response: payment.response.merge(reverse_response))
     end
   end
 end

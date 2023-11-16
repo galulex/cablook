@@ -185,3 +185,36 @@
 .button.add_fav_address {
   margin-top: 20px;
 }
+
+#fondy-container {
+  position: absolute;
+  display: block;
+  bottom: 90px;
+  left: 0;
+  right: 0;
+  width: 100%;
+  margin: 0 auto;
+  width: calc(100% - 130px);
+  max-width: 540px;
+}
+
+#f {
+  background-color: transparent !important;
+  min-width: auto !important;
+}
+
+#f .f-info,
+.f-header,
+.f-methods,
+.f-i-security {
+  display: none !important;
+}
+
+#f .f-wrapper {
+  background-color: transparent !important;
+}
+
+#f .f-center {
+  padding: 0 !important;
+  background: transparent !important;
+}

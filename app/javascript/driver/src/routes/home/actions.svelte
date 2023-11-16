@@ -162,4 +162,4 @@
   <time><Timer style={{fill: 'var(--red_color)', width: '15px', height: '15px'}}/><label>{time}</label></time>
 </p>
 <blockquote>{trip.comment}</blockquote>
-<button type='button' disabled={disabledButton || disabled} on:click={accept} style="{btnStyle}">{trip.card_id ? '' : `${i18n.trip.cash}, `}GO {time}</button>
+<button type='button' disabled={disabledButton || disabled} on:click={accept} style="{btnStyle}">{trip.payment_method !== 'cash' ? '' : `${i18n.trip.cash}, `}GO {time}</button>
