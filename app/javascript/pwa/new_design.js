@@ -105,9 +105,9 @@ export default class NewDesign extends Component {
   }
 
   loadTrips = () => {
-    axios.get(`trips?page=0&per=1`).then(({ data: { trips } }) => {
-      this.setState({ lastTripId: trips[0].id })
-      this.props.setActivateFeedback(trips[0].feedbacks[0] == undefined && [FINISHED].includes(trips[0].status))
+    axios.get(`trips?page=0&per=1`).then(({ data: { trips: [{ id, feedbacks, status }] } }) => {
+      this.setState({ lastTripId: id })
+      this.props.setActivateFeedback(feedbacks[0] == undefined && [FINISHED].includes(status))
     }).catch(({ response }) => {
       if (response) alert(response.data.errors)
     })
