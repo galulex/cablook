@@ -143,7 +143,7 @@ export default class App extends Component {
     document.removeEventListener('touchend', this.setTouching, { passive: true })
   }
 
-  updateDeviceToken = (event) =>  {
+  updateDeviceToken = (event) => {
     if (this.state.currentUser && event.data && event.data.message === 'UPDATE DEVICE TOKEN') {
       this.sendTokenToServer(event.data.token, event.data.platform)
     }

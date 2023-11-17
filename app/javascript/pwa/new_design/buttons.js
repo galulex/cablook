@@ -7,13 +7,17 @@ import { isAllowedFeature } from '.././lib/featureFlag.js'
 
 export default function Buttons() {
   let bonusButton
-  const { trip, createTrip, availableBonusTrips,
-    cancelTimer, cards, cost,
-    picker, isValid, retry, cancel,
-    buttonDisabled, showWidgetTrue,
-    cancelDeclined, updateRoute,
-    confirmUpdate, showFeedback, cashbackAmount } = this.props
-  const { stops, status, bonus } = trip
+
+  const { trip, createTrip, availableBonusTrips, cancelTimer, cards, cost,
+    picker, isValid, retry, cancel, buttonDisabled, showWidgetTrue, cash,
+    cancelDeclined, updateRoute, confirmUpdate, showFeedback, cashbackAmount } = this.props
+  const { stops, status, bonus, card_id } = trip
+
+  const createMobilePayment = () => {
+    const payButton = document.querySelector('.f-wallet-pay-button-28 a')
+    payButton ? payButton.click() : alert('Something went wrong')
+  }
+
   if ([CANCELED, CANCELED_BY_DRIVER, undefined, null].includes(trip.status) && (picker === null)) {
     if (availableBonusTrips.length > 0) {
       bonusButton = bonusElement(`${i18n.confirm_trip.go} 0`, isValid, buttonDisabled, createTrip)
@@ -41,8 +45,9 @@ export default function Buttons() {
           type='button'
           value={bonus}
           disabled={!isValid || buttonDisabled}
-          onClick={createTrip}>
-          {this.props.cash && trip.card_id === 'cash' && `${i18n.trip.cash}, `}{stops.includes('') ? `${i18n.confirm_trip.go}` : `${i18n.confirm_trip.go} ${!stops.includes('') && cost}`}
+          onClick={card_id === 'mobile' ? createMobilePayment : createTrip}>
+          {cash && card_id === 'cash' && `${i18n.trip.cash}, `}
+          {stops.includes('') ? `${i18n.confirm_trip.go}` : `${i18n.confirm_trip.go} ${!stops.includes('') && cost}`}
           {(cost !== '' && !stops.includes('')) && <TripPrice />}
         </button>
       }
@@ -94,9 +99,9 @@ export default function Buttons() {
           {i18n.trip.edit}
         </button>
       }
-      {[CANCELED, CANCELED_BY_DRIVER, undefined, null].includes(status) && isAllowedFeature &&
+      {isAllowedFeature && card_id === 'mobile' && trip.cost > 0 && picker === null &&
         <div id='fondy-container'>
-          {trip.cost > 0 && !buttonDisabled && picker === null && !showFeedback() && googlePayButton(trip, createTrip)}
+          {googlePayButton(trip, createTrip)}
         </div>
       }
     </div>

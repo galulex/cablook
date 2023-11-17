@@ -12,6 +12,8 @@ import Add from './images/plus.js'
 import Widget from './widget.js'
 import Entrance from './images/entrance.svg'
 import Clock from './images/clock.svg'
+import Apay from './images/apple-logo.svg'
+import Gpay from './images/google-logo.svg'
 import Card from './images/credit-cards-payment.js'
 import Hrivna from './images/ukraine-hryvna.js'
 import { geocode } from '../pwa/geolocation.js'
@@ -57,7 +59,8 @@ export default class NewDesign extends Component {
       klass: '',
       settings: {},
       showLoading: false,
-      payTypeSelected: false
+      payTypeSelected: false,
+      mobilePaymentSystem: /apple/.test(navigator?.vendor?.toLowerCase()) ? 'ApplePay' : 'GooglePay'
     }
     this.draggedPrevValue = null
     this.draggedValue = null
@@ -491,6 +494,7 @@ export default class NewDesign extends Component {
       if (!confirm(i18n.confirm_trip.insufficient_cashback)) return
       delete params.bonus
     }
+    if (trip.payment_method !== 'card') { params.card_id = null }
     this.props.mainBurger.classList.remove('hidden')
     this.setState({ buttonDisabled: false })
     this.sendRequest(params)
@@ -710,14 +714,14 @@ export default class NewDesign extends Component {
     this.build()
   }
 
-  onCardSelect = (e) => {
-    if (e.target.value < 0) return this.setState({ showWidget: true, inputDisabled: true })
+  onCardSelect = ({ target: { value } }) => {
+    if (value < 0) return this.setState({ showWidget: true, inputDisabled: true })
 
-    this.setState({ trip: { ...this.state.trip, card_id: e.target.value }, payTypeSelected: true })
+    this.setState({ trip: { ...this.state.trip, card_id: value }, payTypeSelected: true })
   }
 
   getDefaultCardId = (cards) => {
-    if (cards.length === 0) return 'cash'
+    if (cards.length === 0) return this.state.trip.payment_method || 'cash'
 
     const defaultCard = cards.find(card => card.default === true)
     return defaultCard ? defaultCard.id : cards[cards.length - 1].id
@@ -728,14 +732,23 @@ export default class NewDesign extends Component {
 
     const value = trip.card_id
     const cashOption = <option selected={value == 'cash'} value='cash'>{i18n.trip.cash}</option>
+    const mobilePayOption = () => {
+      if (!isAllowedFeature) return null
+
+      return <option selected={value == 'mobile'} value='mobile'>{this.state.mobilePaymentSystem}</option>
+    }
     const cardsItems = cards.map(card => <option selected={value == card.id} value={card.id}>{card.pan}</option>)
     const addCardOption = cardsItems.length == 0 ? <option value={-1}>{i18n.cards.add}</option> : null
 
     return (
       <label className='select' htmlFor='card_id'>
-        {value === 'cash' ? <Hrivna width='44' /> : <Card width='24' />}
+        {value === 'mobile' ?
+          this.state.mobilePaymentSystem === 'GooglePay' ? <Gpay /> : <Apay />
+          :
+          value === 'cash' ? <Hrivna /> : <Card />
+        }
         <select id='card_id' disabled={this.state.inputDisabled} onChange={this.onCardSelect} value={value}>
-          {this.state.settings.cash ? [cashOption, addCardOption].concat(cardsItems) : cardsItems}
+          {this.state.settings.cash ? [mobilePayOption(), cashOption, addCardOption].concat(cardsItems) : [mobilePayOption()].concat(cardsItems)}
         </select>
       </label>
     )
@@ -846,7 +859,7 @@ export default class NewDesign extends Component {
   render() {
     const { lastTripId, showWidget, trip,
       buttonDisabled, car, driver,
-      picker, cancelTimer } = this.state
+      picker, cancelTimer, settings } = this.state
     const { language, isGeocoding, setGeocoding,
       showFeedback, availableBonusTrips, cashbackAmount } = this.props
     const cards = this.props.cards()
@@ -904,7 +917,7 @@ export default class NewDesign extends Component {
             showFeedback={showFeedback}
             cashbackAmount={cashbackAmount}
             availableBonusTrips={availableBonusTrips}
-            cash={this.state.settings.cash} />
+            cash={settings.cash} />
           {showWidget && <Widget paymentSystem={this.props.paymentSystem} updateCards={this.props.updateCards} showWidget={() => this.setState({ showWidget: false })} />}
         </section>
       </div>
