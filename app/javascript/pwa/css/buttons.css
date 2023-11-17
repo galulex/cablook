@@ -189,11 +189,12 @@
 #fondy-container {
   position: absolute;
   display: block;
-  bottom: 90px;
+  bottom: 20px;
   left: 0;
   right: 0;
   width: 100%;
   margin: 0 auto;
+  z-index: -1;
   width: calc(100% - 130px);
   max-width: 540px;
 }
