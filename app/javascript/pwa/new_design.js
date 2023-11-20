@@ -871,7 +871,7 @@ export default class NewDesign extends Component {
         <header></header>
         <section class={`new_design ${this.state.klass} ${this.isShowLoading() ? 'background' : ''}`}>
           {this.props.showFeedback() && <Feedback trip={trip} updateTrip={this.resetTrip} handleBack={this.resetTrip} lastTripId={lastTripId} />}
-          <style>{`fieldset.address:nth-child(${this.state.picker + 1}) { opacity: 1;}`}</style>
+          <style>{`div:nth-child(${this.state.picker + 1}) > fieldset.address {opacity: 1;}`}</style>
           <PreviewMap
             trip={() => trip}
             car={car}
