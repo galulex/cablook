@@ -39,6 +39,7 @@ module Events
         order_operations if delivery?
         create_trip_job(@trip.id) unless delivery?
         notify
+        create_user_card if mobile_pay?
         @trip
       end
 
@@ -181,6 +182,16 @@ module Events
 
       def user_cards
         @user_cards ||= Card.user_cards(data[:user_id])
+      end
+
+      def create_user_card
+        return if user.cards.exists?(token: order_data[:rectoken])
+
+        Events::Cards::Create.(user_id: user.id,
+                               cardPan: order_data[:masked_card][0, 2] + '*' * 4 + order_data[:masked_card][-4, 4],
+                               recToken: order_data[:rectoken],
+                               cardType: order_data[:card_type],
+                               email: order_data[:sender_email])
       end
 
       def user
