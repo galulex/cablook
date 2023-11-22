@@ -3,8 +3,6 @@ module Events
     class Create < BaseEvent
       def schema
         Dry::Schema.Params do
-          # configure { config.messages = :i18n }
-
           required(:cardPan).filled(:str?)
           required(:user_id).filled(:int?)
           required(:recToken).maybe(:str?)
@@ -19,6 +17,7 @@ module Events
         validate!
         update_user_email
         return if data[:transactionStatus] == 'Declined'
+
         create_card
         telegram_message
         #UserMailer.new_card(data[:email], data[:cardPan]).deliver_later
@@ -65,6 +64,7 @@ module Events
 
       def telegram_message
         return if user.telegram.blank?
+
         TelegramOrder.new(user.telegram).confirm_card
       end
     end

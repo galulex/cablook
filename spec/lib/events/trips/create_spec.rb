@@ -196,7 +196,7 @@ describe Events::Trips::Create do
 
       context 'when trip amount hold success' do
         before { allow_any_instance_of(described_class).to receive(:hold_success?).and_return(true) }
-        
+
         it_behaves_like 'create trip'
         it { is_expected.to have_enqueued_job(Jobs::RefundHoldedAmount) }
       end
@@ -207,11 +207,16 @@ describe Events::Trips::Create do
         it { is_expected.to raise_error Events::InvalidParamsError }
       end
 
-      context 'when payment method mobile' do
+      context 'and payment method mobile' do
+        let(:rectoken) { '2854cc4fa431dc152d452d1f0c978eab11868j' }
         let(:order_data) do
           {
             response_status: Constants::Payments::FONDY_SUCCESS,
-            order_status: Constants::Payments::FONDY_APPROVED
+            order_status: Constants::Payments::FONDY_APPROVED,
+            masked_card: '4242XXXXXX4242',
+            rectoken: rectoken,
+            card_type: 'visa',
+            sender_email: user.email
           }
         end
         let(:trip_params) { attributes_for(:trip, user_id: user.id, order_data: order_data) }
@@ -220,6 +225,31 @@ describe Events::Trips::Create do
         it { is_expected.to have_enqueued_job(Jobs::RefundHoldedAmount) }
         it { is_expected.to change { user.reload.trips_count }.from(0).to(1) }
         it { expect(subject.call.trip_payment.mobile?).to be_truthy }
+
+        context 'and save payment card' do
+          it do
+            expect(Events::Cards::Create).to receive(:call).with(
+              user_id: user.id,
+              cardPan: '42****4242',
+              cardType: 'visa',
+              recToken: rectoken,
+              email: user.email
+            )
+            subject.call
+          end
+          it { is_expected.to change { user.cards.reload.count }.by(1) }
+        end
+
+        context 'and save payment card what also exist' do
+          let(:rectoken) { user.cards.last.token }
+
+          it do
+            expect(Events::Cards::Create).not_to receive(:call)
+            subject.call
+          end
+
+          it { is_expected.not_to(change { user.cards.reload.count }) }
+        end
       end
     end
 
