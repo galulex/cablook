@@ -24,6 +24,7 @@ import SearchLogo from './images/search_logo.svg'
 import './css/new_design.css'
 import './lib/dndpoly.js'
 import { isAllowedFeature } from './lib/featureFlag.js'
+import MobilePayments from './new_design/mobilePayments.js'
 
 import { PENDING, ON_THE_WAY, WAITING_CLIENT, DRIVING, FINISHED, CANCELED, DECLINED, CANCELED_BY_DRIVER, CONFIRM_UPDATE_TRIP } from './lib/constants.js'
 
@@ -856,6 +857,13 @@ export default class NewDesign extends Component {
     this.setState({ trip: this.initialTripState, car: null, driver: null })
   }
 
+  createMobilePayment = () => {
+    this.setState({ buttonDisabled: true })
+
+    const payButton = document.querySelector('.f-wallet-pay-button-28 a')
+    payButton ? payButton.click() : alert('Something went wrong')
+  }
+
   render() {
     const { lastTripId, showWidget, trip,
       buttonDisabled, car, driver,
@@ -863,6 +871,7 @@ export default class NewDesign extends Component {
     const { language, isGeocoding, setGeocoding,
       showFeedback, availableBonusTrips, cashbackAmount } = this.props
     const cards = this.props.cards()
+
     let isValid = trip.stops.includes('')
     let cost = (trip.cost) ? `${trip.cost}` : ''
 
@@ -917,7 +926,17 @@ export default class NewDesign extends Component {
             showFeedback={showFeedback}
             cashbackAmount={cashbackAmount}
             availableBonusTrips={availableBonusTrips}
-            cash={settings.cash} />
+            cash={settings.cash}
+            createMobilePayment={this.createMobilePayment}
+          />
+          {isAllowedFeature && trip.card_id === 'mobile' && trip.cost > 0 &&
+            <MobilePayments
+              cost={trip.cost}
+              createTrip={this.createTrip}
+              buttonDisabled={buttonDisabled}
+              setButtonDisabled={(v) => this.setState({ buttonDisabled: v })}
+            />
+          }
           {showWidget && <Widget paymentSystem={this.props.paymentSystem} updateCards={this.props.updateCards} showWidget={() => this.setState({ showWidget: false })} />}
         </section>
       </div>
