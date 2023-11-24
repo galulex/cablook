@@ -859,9 +859,16 @@ export default class NewDesign extends Component {
 
   createMobilePayment = () => {
     this.setState({ buttonDisabled: true })
-
     const payButton = document.querySelector('.f-wallet-pay-button-28 a')
-    payButton ? payButton.click() : alert('Something went wrong')
+
+    const onPaymentButtonClick = () => payButton.click()
+
+    const onFailure = () => {
+      alert(i18n.trip.mobile_payment_error)
+      this.setState({ buttonDisabled: false })
+    }
+
+    payButton ? onPaymentButtonClick() : onFailure()
   }
 
   render() {
@@ -929,7 +936,7 @@ export default class NewDesign extends Component {
             cash={settings.cash}
             createMobilePayment={this.createMobilePayment}
           />
-          {isAllowedFeature && trip.card_id === 'mobile' && trip.cost > 0 &&
+          {isAllowedFeature && trip.card_id === 'mobile' && trip.cost > 0 && !picker &&
             <MobilePayments
               cost={trip.cost}
               createTrip={this.createTrip}

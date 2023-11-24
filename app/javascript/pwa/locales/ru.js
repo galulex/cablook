@@ -17,7 +17,8 @@ const ru = {
     will_arrive: 'приедет в',
     waiting_notice: 'Водитель уже ожидает вас',
     header: 'Поездка',
-    cash: 'Наличными'
+    cash: 'Наличными',
+    mobile_payment_error: 'Оплата не прошла, попробуйте еще раз или другим способом оплаты'
   },
   trips: {
     header: 'Поездки',
