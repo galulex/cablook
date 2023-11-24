@@ -4,7 +4,31 @@ import SearchLogo from '../images/search_logo.svg'
 
 export default function MobilePayments({ cost, createTrip, setButtonDisabled, buttonDisabled }) {
 
+  const options = {
+    methods: ['wallets'],
+    button: false,
+    tooltip: false,
+    fields: false,
+    full_screen: false
+  }
+
+  const params = {
+    merchant_id: 1523866,
+    required_rectoken: 'y',
+    currency: 'UAH',
+    amount: cost * 100,
+    order_desc: `Cablook Trip, ${new Date()}`,
+    email: '',
+    lang: 'uk'
+  }
+
   const mobilePaymentScript = () => {
+    const iframes = document.getElementsByTagName('iframe')
+    const specialSrc = 'https://api.fondy.eu/checkout/v2/index.html'
+    for (var i = iframes.length - 1; i >= 0; i--) {
+      if (iframes[i].src === specialSrc) iframes[i].parentNode.removeChild(iframes[i])
+    }
+
     const loadScript = (src, onLoad) => {
       const script = document.createElement('script')
       script.src = src
@@ -21,24 +45,6 @@ export default function MobilePayments({ cost, createTrip, setButtonDisabled, bu
       document.head.appendChild(link)
     }
 
-    const options = {
-      methods: ['wallets'],
-      button: false,
-      tooltip: false,
-      fields: false,
-      full_screen: false
-    }
-
-    const params = {
-      merchant_id: 1523866,
-      required_rectoken: 'y',
-      currency: 'UAH',
-      amount: cost * 100,
-      order_desc: `Cablook Trip, ${new Date()}`,
-      email: '',
-      lang: 'uk'
-    }
-
     loadStylesheet('https://pay.fondy.eu/latest/checkout.css', () => {
       loadScript('https://pay.fondy.eu/latest/checkout.js', () => {
         loadScript('https://pay.fondy.eu/latest/i18n/uk.js', () => {
@@ -53,14 +59,20 @@ export default function MobilePayments({ cost, createTrip, setButtonDisabled, bu
               setButtonDisabled(false)
               console.log('Order is declined: ' + model.attr('error.code') + ', description: ' + model.attr('error.message'))
             })
+            .$on('ready', () => {
+              setButtonDisabled(false)
+            })
+            .$on('show-pay', () => {
+              setButtonDisabled(false)
+            })
         })
       })
     })
   }
 
   useEffect(() => {
+    setButtonDisabled(true)
     mobilePaymentScript()
-    return () => { }
   }, [cost])
 
   return (
@@ -72,6 +84,5 @@ export default function MobilePayments({ cost, createTrip, setButtonDisabled, bu
         </div>
       }
     </div>
-
   )
 }

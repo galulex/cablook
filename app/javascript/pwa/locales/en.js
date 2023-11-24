@@ -17,7 +17,8 @@ const en = {
     will_arrive: 'will arrive at',
     waiting_notice: 'Driver is already waiting for you',
     header: 'Your trip',
-    cash: 'Cash'
+    cash: 'Cash',
+    mobile_payment_error: 'Payment failed, try again or other payment method'
   },
   trips: {
     header: 'Trips',

@@ -17,7 +17,8 @@ const uk = {
     will_arrive: 'приїде в',
     waiting_notice: 'Водій вже чекає вас',
     header: 'Поїздка',
-    cash: 'Готівкою'
+    cash: 'Готівкою',
+    mobile_payment_error: 'Оплата не пройшла, спробуйте ще раз або оберіть інший спосіб оплати'
   },
   trips: {
     header: 'Поїздки',
