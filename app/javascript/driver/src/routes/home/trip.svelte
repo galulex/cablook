@@ -178,6 +178,8 @@
 
     return 'var(--yellow_color)'
   }
+
+  const isCashTrip = () => `background: ${(trip.payment_method === 'cash') ? 'var(--yellow_color)' : 'var(--blue_color)'}` 
 </script>
 
 <style>
@@ -299,7 +301,7 @@
         <span datatime={trip.start_at}><Clock style={{ fill: bgColor(), width: '20px', height: '20px'}}/><label>{trip.start_time}</label></span>
       </div>
       <div class='info-line'>
-        <span><Distance style={{ fill: bgColor(), width: '20px', height: '20px'}}/><label>{distance}км</label></span>
+        <span><Distance style={{fill: bgColor(), width: '20px', height: '20px'}}/><label>{distance}км</label></span>
         <span><Hryvnia style={{width: '20px', height: '20px', fill: 'green'}}/><label>{trip.cost}</label></span>
       </div>
     </div>
@@ -309,7 +311,7 @@
               title={actions[trip.status - 1].title}
               disabled={disabled}
               on:click={actions[trip.status - 1].action}
-              style="background: #89d5d4;">
+              style={isCashTrip()}>
         <svelte:component this={actions[trip.status - 1].icon} style={{fill: 'var(--white)', width: '25px', height: '25px' }}/>
       </button>
       <button on:click="{() => showModal = true}"><Pencil style={{fill: 'var(--main_dark_color)', width: '25px', height: '25px'}}/></button>
