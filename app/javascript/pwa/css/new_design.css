@@ -593,7 +593,7 @@ input:checked + svg.cross path:nth-of-type(2) {
     width: 15px;
   }
 
-  fieldset svg.draggable-dots {
+  fieldset .draggable-dots {
     top: 26px;
   }
 }
@@ -641,6 +641,7 @@ dialog[open] {
   animation: show 0.3s ease normal;
   display: flex;
 }
+
 @-webkit-keyframes show{
   from {
     transform: translateY(110%) scale(0);
