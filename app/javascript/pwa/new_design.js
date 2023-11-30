@@ -671,7 +671,10 @@ export default class NewDesign extends Component {
   }
 
   dragStart = (e) => {
-    this.draggedInput = e.target.getElementsByTagName('input')[0]
+    this.draggedInput = e.target.parentElement.querySelector('input')
+    this.draggedInput.focus()
+    e.dataTransfer.setDragImage(e.target.closest('fieldset'), 0, 0)
+    e.dataTransfer.effectAllowed = 'move'
     if (this.draggedInput) this.draggedPrevValue = this.draggedInput.value
     if (!this.draggedPrevValue || this.state.trip.stops.indexOf(this.draggedPrevValue) < 0) return e.preventDefault()
   }
@@ -768,8 +771,6 @@ export default class NewDesign extends Component {
           {trip.stops.map((e, i) => {
             return (
               <div className='draggable'
-                draggable={isAllowedFeature}
-                onDragStart={this.dragStart}
                 onDragOver={this.dragOver}
                 onDragLeave={this.dragLeave}
                 onDragEnd={this.dragEnd}
@@ -787,7 +788,8 @@ export default class NewDesign extends Component {
                   currentLocation={this.state.currentLocation}
                   inputDisabled={this.state.inputDisabled}
                   isGeocoding={this.props.isGeocoding}
-                  setGeocoding={this.props.setGeocoding} />
+                  setGeocoding={this.props.setGeocoding}
+                  dragStart={this.dragStart} />
               </div>
             )
           })}

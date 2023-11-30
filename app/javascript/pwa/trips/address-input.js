@@ -151,9 +151,9 @@ export default class AddressInput extends Component {
     if (this.props.contentContainer) this.props.contentContainer.classList.add('open')
     const fields = document.getElementById('fields')
     this.input.classList.add('focus')
-    if (this.state.address == '') { 
+    if (this.state.address == '') {
       this.favoriteAddressesPredictions()
-    } else { 
+    } else {
       return this.setState({ predictions: [] })
     }
     if (window.timeout) clearTimeout(window.timeout)
@@ -200,10 +200,10 @@ export default class AddressInput extends Component {
 
   render() {
     let placeholder = this.setPlaceholder()
-    const { fieldsCount, address, index, readonly, language, hideRemove, inputDisabled } = this.props
+    const { fieldsCount, address, index, readonly, language, hideRemove, inputDisabled, dragStart } = this.props
     return (
       <fieldset class='address' >
-        {(this.state.address && isAllowedFeature) ? <Draggable class='draggable-dots' /> : ''}
+        {(this.state.address && isAllowedFeature) ? <div class='draggable-dots' draggable onDragStart={dragStart}><Draggable /></div> : ''}
         {(fieldsCount > 2 || address !== '') && !hideRemove && !readonly && (<button disabled={index === 0 ? inputDisabled : false} class='remove-address' type='button' onClick={() => this.eraseAddress(index)}> <Cross /> </button>)}
         {this.state.isShowMap && <MapPicker
           onCloseMap={this.closeMap}
