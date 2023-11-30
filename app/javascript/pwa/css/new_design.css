@@ -39,19 +39,22 @@ fieldset.address {
   scroll-snap-align: start;
 }
 
-fieldset svg.draggable-dots {
+fieldset .draggable-dots {
   display: inline;
   position: absolute;
   left: 0;
   top: 3.8vh;
   top: 3.8dvh;
   transform: translate(0%, -50%);
-  height: 30px;
-  width: 30px;
   transition: all 0.3s;
 }
 
-fieldset svg.draggable-dots:hover {
+fieldset .draggable-dots svg {
+  height: 30px;
+  width: 30px;
+}
+
+fieldset .draggable-dots svg:hover {
   cursor: grab;
 }
 
