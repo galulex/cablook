@@ -672,7 +672,8 @@ export default class NewDesign extends Component {
 
   dragStart = (e) => {
     this.draggedInput = e.target.parentElement.querySelector('input')
-    this.draggedInput.focus()
+    this.draggedInput.click()
+    this.draggedInput.classList.remove('focus')
     e.dataTransfer.setDragImage(e.target.closest('fieldset'), 0, 0)
     e.dataTransfer.effectAllowed = 'move'
     if (this.draggedInput) this.draggedPrevValue = this.draggedInput.value
