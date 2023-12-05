@@ -44,7 +44,7 @@
     driver = event.detail
   }
 
-  const cashAmount = (stats) => stats.reduce((sum, stat) => sum + parseInt(stat.cash_amount), 0)
+  const cashAmount = (stats) => stats.reduce((sum, stat) => sum + Number(stat.cash_amount), 0)
 
   getStatistics()
   getTripsStats()
@@ -107,8 +107,8 @@
             {i18n.statistics.balance}
           </div>
           <span class="value">
-            <button on:click={() => (showPayoutsModal = true)} disabled={parseInt(driver.balance) <= 0}>
-                {parseInt(driver.balance) || 0} {i18n.statistics.uah}
+            <button on:click={() => (showPayoutsModal = true)} disabled={Number(driver.balance) <= 0}>
+                {Number(driver.balance) || 0} {i18n.statistics.uah}
             </button>
           </span>
         </div>

@@ -38,10 +38,9 @@ class Trip < ApplicationRecord
   end)
 
   # Time for pre-order trip
-  attr_accessor :vip
   attr_reader :time
   attr_writer :pre_order
-  attr_accessor :osrm, :formatted_date, :entrance, :image
+  attr_accessor :osrm, :formatted_date, :entrance, :image, :vip
 
   scope :sum_cost, (lambda do
     joins(:driver)
