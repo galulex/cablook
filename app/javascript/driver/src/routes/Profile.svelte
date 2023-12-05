@@ -5,6 +5,7 @@
   import Card from '../../images/Card.svelte'
   import Star from '../../images/Star.svelte'
   import Leaf from '../../images/Leaf.svelte'
+  import Cash from '../../images/Cash.svelte'
   import Sign_out from '../../images/Sign_out.svelte'
   import TripDetails from '../components/profile/TripDetails.svelte'
   import Payouts from '../components/profile/Payouts.svelte'
@@ -42,6 +43,8 @@
   const updateDriver = (event) => {
     driver = event.detail
   }
+
+  const cashAmount = (stats) => stats.reduce((sum, stat) => sum + parseInt(stat.cash_amount), 0)
 
   getStatistics()
   getTripsStats()
@@ -86,17 +89,27 @@
             {driver.card_number || i18n.statistics.loading}
           </span>
         </div>
+        {#if statsistics.length > 0} 
+          <div class="tab-content__container-item">
+            <div class="statistics__container">
+              <Cash />
+              {i18n.trip.cash}
+            </div>
+            <span class="value">
+              {cashAmount(statsistics) || 0}
+              {i18n.statistics.uah}
+            </span>
+          </div>
+        {/if}
         <div class="tab-content__container-item">
           <div class="statistics__container">
             <Points />
             {i18n.statistics.balance}
           </div>
           <span class="value">
-            <button
-              on:click={() => (showPayoutsModal = true)}
-              disabled={parseInt(driver.balance) <= 0}
-              >{parseInt(driver.balance)} {i18n.statistics.uah}</button
-            >
+            <button on:click={() => (showPayoutsModal = true)} disabled={parseInt(driver.balance) <= 0}>
+                {parseInt(driver.balance) || 0} {i18n.statistics.uah}
+            </button>
           </span>
         </div>
       </div>

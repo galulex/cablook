@@ -25,11 +25,13 @@ class Payment < ApplicationRecord
   scope :payments, -> { where.not(type: PAYOUT_TYPE) }
   scope :payouts, -> { where(type: PAYOUT_TYPE) }
 
-  scope :driver_statistics, lambda { |driver_id|
+  scope :driver_statistics, (lambda do |driver_id|
     joins(:trip)
       .where(type: Constants::Payments::DRIVER_STATISTIC_ENTRIES, status: Constants::Payments::SUCCESS)
       .where(trips: { driver_id: driver_id })
-      .select('payments.type as payments_type, SUM(amount) as amount, COUNT(trips.id) as count')
+      .select("payments.type as payments_type, COUNT(trips.id) as count,
+               SUM(CASE WHEN payments.payment_method <> 2 THEN amount ELSE 0 END) as amount,
+               SUM(CASE WHEN payments.payment_method = 2 THEN amount ELSE 0 END) as cash_amount")
       .group('payments.type')
-  }
+  end)
 end

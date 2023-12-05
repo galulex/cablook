@@ -35,7 +35,6 @@ module Constants
     METHOD_CASH = 'cash'.freeze
     PAYMENT_METHODS = [METHOD_CARD, METHOD_MOBILE, METHOD_CASH].freeze
 
-
     OPTIONAL_PAYMENTS = [TIP, PAYOUT].freeze
     DRIVER_STATISTIC_ENTRIES = [TRIP, TIP, IDLE, FAKE].freeze
   end
