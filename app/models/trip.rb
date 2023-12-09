@@ -38,15 +38,17 @@ class Trip < ApplicationRecord
   end)
 
   # Time for pre-order trip
-  attr_reader :time, :vip
-  attr_writer :pre_order, :vip
-  attr_accessor :osrm, :formatted_date, :entrance, :image
+  attr_reader :time
+  attr_writer :pre_order
+  attr_accessor :osrm, :formatted_date, :entrance, :image, :vip
 
   scope :sum_cost, (lambda do
     joins(:driver)
-      .joins("LEFT JOIN payments ON trips.id = payments.trip_id AND payments.type = 'Payments::Tip'")
-      .select('COUNT(trips.id) AS trips_count, SUM(trips.cost) AS trips_sum, MIN(drivers.username) AS username')
-      .select('SUM(payments.amount) AS tips_sum')
+      .joins('LEFT JOIN payments ON trips.id = payments.trip_id')
+      .select("COUNT(trips.id) AS trips_count, MIN(drivers.username) AS username,
+               SUM(CASE WHEN payments.payment_method <> 2 THEN payments.amount ELSE 0 END) AS trips_sum,
+               SUM(CASE WHEN payments.payment_method = 2 THEN payments.amount ELSE 0 END) AS cash_sum,
+               SUM(CASE WHEN payments.type = 'Payments::Tip' THEN payments.amount ELSE 0 END) AS tips_sum")
       .group(:driver_id)
       .order(:driver_id)
   end)
@@ -77,6 +79,7 @@ class Trip < ApplicationRecord
 
   def vip
     return true if trip_payment&.card&.business.present?
+
     user&.vip || false
   end
 
@@ -92,6 +95,7 @@ class Trip < ApplicationRecord
 
   def time=(val)
     return if val.blank?
+
     date = val.in_time_zone
     self.preorder_time = Time.now.in_time_zone < date ? date : (date + 1.day)
     @time = val

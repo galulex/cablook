@@ -10,11 +10,11 @@ h1 Calculations
           = text_field_tag :to, params[:to] || Time.now.to_date, type: :date, class: "datepicker hasDatepicker"
         = submit_tag "Send"
 
-
 table
   thead
     th Driver
     th Cost
+    th Cash
     th Count
     th Tips
   tbody
@@ -22,5 +22,6 @@ table
       tr
         td= item.username
         td= item.trips_sum
+        td= item.cash_sum
         td= item.trips_count
         td= item.tips_sum
