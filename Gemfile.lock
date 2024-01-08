@@ -321,7 +321,7 @@ GEM
       coderay (~> 1.1)
       method_source (~> 1.0)
     public_suffix (5.0.3)
-    puma (6.3.1)
+    puma (6.4.2)
       nio4r (~> 2.0)
     racc (1.7.1)
     rack (2.2.8)
@@ -573,7 +573,7 @@ DEPENDENCIES
   paper_trail (= 13.0)
   pg
   pry
-  puma (= 6.3.1)
+  puma (= 6.4.2)
   rack
   rack-cors
   rails (= 5.2.8.1)
