@@ -6,7 +6,7 @@ module Constants
       auth_token
     ].freeze
 
-    GENERAL_SETTINGS_COLUMNS = %w[payment_system address_geocoder before_create_trip_message cash].freeze
+    GENERAL_SETTINGS_COLUMNS = %w[payment_system address_geocoder before_create_trip_message on_app_start_message].freeze
     SETTINGS_TITLE = 'Settings'.freeze
     FEATURES_TITLE = 'Features'.freeze
     GENERAL_TITLE = 'General'.freeze

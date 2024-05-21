@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_11_13_084843) do
+ActiveRecord::Schema.define(version: 2024_05_21_073151) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -155,6 +155,7 @@ ActiveRecord::Schema.define(version: 2023_11_13_084843) do
     t.integer "address_geocoder", default: 0
     t.string "before_create_trip_message"
     t.text "disabled_features", default: [], array: true
+    t.string "on_app_start_message"
   end
 
   create_table "trips", force: :cascade do |t|

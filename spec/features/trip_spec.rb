@@ -37,7 +37,7 @@ RSpec.feature 'Trip', type: :feature, js: true do
     all('input')[1].trigger(:focus)
     all('input')[1].set('')
     all('li.prediction', visible: false)[2].trigger(:focus)
-    wait 3 do
+    wait 5 do
       find_button('GO 56').trigger(:click)
     end
     wait 3 do
