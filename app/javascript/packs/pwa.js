@@ -235,7 +235,7 @@ export default class App extends Component {
         currentDeliveryTrip: res.data.current_delivery_trip,
         settings: JSON.parse(res.data.settings)
       })
-      if (welcome_message) { alert(welcome_message) }
+      if (!this.state.currentTrip && this.state.settings.on_app_start_message) alert(this.state.settings.on_app_start_message)
     }).catch((error) => {
       if (error.response) alert(error.response.data.errors)
       // this.removeData()
